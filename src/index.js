@@ -12,6 +12,7 @@ import MathUtilities from '/utilities/MathUtilities';
 import NormalRender from '/render_mode/NormalRender';
 import PerspectiveCamera from '/PerspectiveCamera';
 import RenderLoop from '/RenderLoop';
+import ResourceBatch from '/resource_loader/ResourceBatch';
 import ResourceContainer from '/ResourceContainer';
 import SceneManager from '/SceneManager';
 import Screen from '/Screen';
@@ -33,6 +34,7 @@ module.exports = {
   NormalRender: NormalRender,
   PerspectiveCamera: PerspectiveCamera,
   RenderLoop: RenderLoop,
+  ResourceBatch: ResourceBatch,
   ResourceContainer: ResourceContainer,
   SceneManager: SceneManager,
   Screen: Screen,
