@@ -1,0 +1,23 @@
+{
+  "name": "ohzi-core",
+  "version": "1.0.0",
+  "description": "OHZI Core Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ohzinteractive/core.git"
+  },
+  "keywords": [
+    "ohzi",
+    "core"
+  ],
+  "author": "OHZI Interactive",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ohzinteractive/core/issues"
+  },
+  "homepage": "https://github.com/ohzinteractive/core#readme"
+}
