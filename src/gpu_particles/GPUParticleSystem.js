@@ -1,4 +1,4 @@
-import ParticlePositionAttribute from './ParticlePositionAttribute';
+import ParticlePositionAttribute from '/ParticlePositionAttribute';
 
 export default class GPUParticleSystem extends THREE.Object3D
 {
@@ -22,7 +22,7 @@ export default class GPUParticleSystem extends THREE.Object3D
 		// position.init_from_geometry(geometry);
 		// this.attributes.push(position);
 
-		
+
 		// material.uniforms._Position.value = position.read.texture;
 
 		let points = new THREE.Points( geometry, material);

@@ -15,7 +15,7 @@ class Graphics {
   constructor() {
     this._renderer = undefined;
     this.blitter = undefined;
-    this.dom = undefined;
+    this.canvas = undefined;
     this.no_render = undefined;
     this.current_render_mode = undefined;
     this.generateDepthNormalTexture = false;
@@ -42,7 +42,7 @@ class Graphics {
 
     this.blitter = new Blitter(this._renderer);
 
-    this.dom = this._renderer.domElement;
+    this.canvas = this._renderer.domElement;
 
     this.no_render = new BaseRender();
 
@@ -60,14 +60,6 @@ class Graphics {
     // let ctx_2D = canvas.getContext("2d");
     // this.canvas = canvas;
     // this.ctx_2D = ctx_2D;
-  }
-
-  append_canvas(container)
-  {
-    this.dom.id = container.id+"-canvas";
-    // container.appendChild(this.dom);
-    this.container = container;
-    this.on_resize();
   }
 
   get dom_element()
@@ -159,8 +151,8 @@ class Graphics {
 
   on_resize() {
 
-    let width  = this.container.offsetWidth;
-    let height = this.container.offsetHeight;
+    let width  = this.canvas.offsetWidth;
+    let height = this.canvas.offsetHeight;
     Screen.update_size(width, height);
     Screen.update_native_size()
 

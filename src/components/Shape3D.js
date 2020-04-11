@@ -1,4 +1,4 @@
-import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
+import GeometryEdgeVisualizer from '/GeometryEdgeVisualizer';
 
 export default class Shape3D extends THREE.Mesh
 {
@@ -15,7 +15,7 @@ export default class Shape3D extends THREE.Mesh
 			bevelSize: 1,
 			bevelSegments: 1
 		};
-		
+
     let geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 		geometry.rotateX(3.14/2);
 		geometry.translate(0,height,0);

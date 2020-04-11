@@ -1,4 +1,4 @@
-import ManipulatorHandle from './ManipulatorHandle';
+import ManipulatorHandle from '/ManipulatorHandle';
 import Input from '/Input';
 import EventManager from '/EventManager';
 

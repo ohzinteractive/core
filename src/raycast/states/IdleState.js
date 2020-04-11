@@ -1,5 +1,5 @@
-import OnRaycastEnter from './OnRaycastEnter';
-import BaseState from './BaseState';
+import OnRaycastEnter from '/OnRaycastEnter';
+import BaseState from '/BaseState';
 export default class IdleState extends BaseState
 {
 	constructor()

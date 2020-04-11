@@ -1,7 +1,7 @@
 import CameraManager from '/CameraManager';
 import Input from '/Input';
-import ObjectManipulator from './ObjectManipulator';
-import ObjectPicker from './ObjectPicker';
+import ObjectManipulator from '/ObjectManipulator';
+import ObjectPicker from '/ObjectPicker';
 
 export default class ObjectEditor
 {

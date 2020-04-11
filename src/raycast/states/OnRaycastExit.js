@@ -1,5 +1,5 @@
-import BaseState from './BaseState';
-import IdleState from './IdleState';
+import BaseState from '/BaseState';
+import IdleState from '/IdleState';
 
 export default class OnRaycastExit extends BaseState
 {

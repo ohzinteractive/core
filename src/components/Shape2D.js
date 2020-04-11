@@ -1,4 +1,4 @@
-import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
+import GeometryEdgeVisualizer from '/GeometryEdgeVisualizer';
 
 export default class Shape2D extends THREE.Mesh
 {

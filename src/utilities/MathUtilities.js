@@ -52,4 +52,8 @@ export default class MathUtilities
       target.elements[i] = THREE.Math.lerp(from.elements[i], to.elements[i], t);
     }
   }
+
+  static equals(x1, x2) {
+    return Math.abs(x1 - x2) < 0.000001
+  }
 }

@@ -4,7 +4,7 @@ import SceneManager from '/SceneManager';
 import CameraManager from '/CameraManager';
 import ReflectionPlaneContext from '/ReflectionPlaneContext';
 import Screen from '/Screen';
-import BaseRender from '/BaseRender';
+import BaseRender from '/render_mode/BaseRender';
 
 
 export default class PlanarReflectionsRender extends BaseRender

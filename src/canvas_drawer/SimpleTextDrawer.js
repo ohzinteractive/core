@@ -1,14 +1,14 @@
-import CanvasDrawer from './CanvasDrawer';
+import CanvasDrawer from '/CanvasDrawer';
 
 export default class SimpleTextDrawer extends CanvasDrawer{
 
-  constructor () 
+  constructor ()
   {
     super();
     this.text_margin = new THREE.Vector2(2,0);
   }
 
-  __draw (text, ctxOptions, canvas, ctx) 
+  __draw (text, ctxOptions, canvas, ctx)
   {
     ctx.font = ctxOptions.font;
 
@@ -18,13 +18,13 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     canvas.width = Math.ceil(text_size.x+this.text_margin.x*2);
     canvas.height = Math.ceil(text_size.y+ this.text_margin.y*2);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
 
     // ctx.globalAlpha = 0.2;
     // ctx.fillStyle = "#FF0000";
     // ctx.fillRect(0,0, canvas.width, canvas.height);
 
-    
+
 
     ctx.globalAlpha = 1;
 
