@@ -1,8 +1,8 @@
-import BlitMaterial from '../materials/BlitMaterial';
-import frag from '../shaders/ssao/ssao_frag';
-import vert from '../shaders/ssao/ssao_vert';
-import Sphere from '../primitives/Sphere';
-import SceneManager from '../SceneManager';
+import BlitMaterial from '/materials/BlitMaterial';
+import frag from '/shaders/ssao/ssao_frag';
+import vert from '/shaders/ssao/ssao_vert';
+import Sphere from '/primitives/Sphere';
+import SceneManager from '/SceneManager';
 
 export default class SSAOMaterial extends BlitMaterial
 {

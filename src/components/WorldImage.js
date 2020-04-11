@@ -1,5 +1,5 @@
-import basic_texture_vert from '../shaders/basic_texture/basic_texture_vert';
-import basic_texture_frag from '../shaders/basic_texture/basic_texture_frag';
+import basic_texture_vert from '/shaders/basic_texture/basic_texture_vert';
+import basic_texture_frag from '/shaders/basic_texture/basic_texture_frag';
 
 export default class WorldImage extends THREE.Mesh
 {

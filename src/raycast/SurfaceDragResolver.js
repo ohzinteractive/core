@@ -1,6 +1,6 @@
-import RaycastResolver from './RaycastResolver';
-import GroupRaycaster from './GroupRaycaster';
-import Input from '../Input';
+import RaycastResolver from '/RaycastResolver';
+import GroupRaycaster from '/GroupRaycaster';
+import Input from '/Input';
 
 export default class SurfaceDragResolver extends RaycastResolver
 {

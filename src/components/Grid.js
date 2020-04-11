@@ -1,6 +1,6 @@
-import grid_frag from '../shaders/grid/grid_frag';
-import grid_vert from '../shaders/grid/grid_vert';
-import GeometryUtilities from '../utilities/GeometryUtilities';
+import grid_frag from '/shaders/grid/grid_frag';
+import grid_vert from '/shaders/grid/grid_vert';
+import GeometryUtilities from '/utilities/GeometryUtilities';
 
 export default class Grid extends THREE.Mesh {
 	constructor()

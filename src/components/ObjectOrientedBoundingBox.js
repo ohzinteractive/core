@@ -1,4 +1,4 @@
-import Debug from '../Debug'
+import Debug from '/Debug'
 
 
 export default class ObjectOrientedBoundingBox

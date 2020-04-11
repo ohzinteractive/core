@@ -1,4 +1,4 @@
-import GeometryBatch from './GeometryBatch'
+import GeometryBatch from '/static_batcher/GeometryBatch'
 
 class GeometryBatcher
 {
@@ -25,7 +25,7 @@ class GeometryBatcher
 	    let x = i - texture_width*y;
 	    for(let count = 0; count < vertex_count; count++)
 	    {
-	          
+
 	      attr_accessor_uvs[uv_index] = (x/texture_width) + 0.5/texture_width;
 	      attr_accessor_uvs[uv_index+1] = (y/texture_width) + 0.5/texture_width;
 	      uv_index+=2;

@@ -1,11 +1,11 @@
-import Screen from '../Screen';
-import RenderLayers from '../RenderLayers';
+import Screen from '/Screen';
+import RenderLayers from '/RenderLayers';
 
-import transparent_mix_vert from '../shaders/transparent_mix/transparent_mix_vert';
-import transparent_mix_frag from '../shaders/transparent_mix/transparent_mix_frag';
-import copy_frag from '../shaders/transparent_mix/copy_frag';
-import fxaa from '../shaders/anti_aliasing/fxaa';
-import Configuration from '../Configuration';
+import transparent_mix_vert from '/shaders/transparent_mix/transparent_mix_vert';
+import transparent_mix_frag from '/shaders/transparent_mix/transparent_mix_frag';
+import copy_frag from '/shaders/transparent_mix/copy_frag';
+import fxaa from '/shaders/anti_aliasing/fxaa';
+import Configuration from '/Configuration';
 
 export default class TransparencyMixRender
 {

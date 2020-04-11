@@ -1,5 +1,5 @@
 import ParticleAttribute from './ParticleAttribute';
-import PositionStorageMaterial from '../materials/gpu_particles/PositionStorageMaterial';
+import PositionStorageMaterial from '/materials/gpu_particles/PositionStorageMaterial';
 
 export default class ParticlePositionAttribute extends ParticleAttribute
 {

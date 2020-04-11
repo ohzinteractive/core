@@ -1,10 +1,10 @@
-import CameraManager from '../CameraManager';
-import Input from '../Input';
-import Sphere from '../primitives/Sphere';
-import Arrow from '../primitives/Arrow';
-import SceneManager from '../SceneManager';
-import MathUtilities from '../utilities/MathUtilities';
-import Screen from '../Screen';
+import CameraManager from '/CameraManager';
+import Input from '/Input';
+import Sphere from '/primitives/Sphere';
+import Arrow from '/primitives/Arrow';
+import SceneManager from '/SceneManager';
+import MathUtilities from '/utilities/MathUtilities';
+import Screen from '/Screen';
 
 class CameraUtilities
 {

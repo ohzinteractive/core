@@ -1,7 +1,7 @@
 import RaycastResolver from './RaycastResolver';
 import PlaneRaycaster from './PlaneRaycaster';
 import PlaneRaycastResolver from './PlaneRaycastResolver';
-import Input from '../Input';
+import Input from '/Input';
 
 export default class PlaneDragResolver extends PlaneRaycastResolver
 {

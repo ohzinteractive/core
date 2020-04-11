@@ -1,10 +1,10 @@
-import AxisHelper from './components/AxisHelper';
-import basic_color_vert from './shaders/basic_color/basic_color_vert';
-import basic_color_frag from './shaders/basic_color/basic_color_frag';
-import SceneManager from './SceneManager';
-import Graphics from './Graphics';
-import Cube from './primitives/Cube';
-import Sphere from './primitives/Sphere';
+import AxisHelper from '/components/AxisHelper';
+import basic_color_vert from '/shaders/basic_color/basic_color_vert';
+import basic_color_frag from '/shaders/basic_color/basic_color_frag';
+import SceneManager from '/SceneManager';
+import Graphics from '/Graphics';
+import Cube from '/primitives/Cube';
+import Sphere from '/primitives/Sphere';
 
 class Debug {
   constructor() {

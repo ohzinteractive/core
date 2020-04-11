@@ -1,6 +1,6 @@
-import RenderLayers from '../RenderLayers';
-import Screen from '../Screen';
-import Input from '../Input';
+import RenderLayers from '/RenderLayers';
+import Screen from '/Screen';
+import Input from '/Input';
 export default class ObjectPicker
 {
 	constructor(renderer, scene, camera)

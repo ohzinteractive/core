@@ -1,5 +1,5 @@
-import BlitMaterial from '../materials/BlitMaterial';
-import frag from '../shaders/unreal_blur/unreal_compose_frag';
+import BlitMaterial from '/materials/BlitMaterial';
+import frag from '/shaders/unreal_blur/unreal_compose_frag';
 
 export default class UnrealComposeMaterial extends BlitMaterial
 {

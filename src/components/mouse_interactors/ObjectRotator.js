@@ -1,6 +1,6 @@
-import RaycastResolver from '../../raycast/RaycastResolver';
-import GroupRaycaster from '../../raycast/GroupRaycaster';
-import Input from '../../Input';
+import RaycastResolver from '/raycast/RaycastResolver';
+import GroupRaycaster from '/raycast/GroupRaycaster';
+import Input from '/Input';
 
 export default class ObjectRotator extends RaycastResolver
 {

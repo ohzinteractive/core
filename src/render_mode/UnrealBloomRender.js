@@ -1,12 +1,12 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import Screen from '../Screen';
+import CameraManager from '/CameraManager';
+import SceneManager from '/SceneManager';
+import Screen from '/Screen';
 import BaseRender from './BaseRender';
-import Configuration from '../Configuration';
-import SSAOMaterial from '../materials/SSAOMaterial';
-import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
-import Blurrer from '../render_utilities/Blurrer';
-import Graphics from '../Graphics';
+import Configuration from '/Configuration';
+import SSAOMaterial from '/materials/SSAOMaterial';
+import UnrealComposeMaterial from '/materials/UnrealComposeMaterial';
+import Blurrer from '/render_utilities/Blurrer';
+import Graphics from '/Graphics';
 
 
 export default class UnrealBloomRender extends BaseRender

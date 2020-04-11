@@ -1,17 +1,17 @@
-import UI from '../UI';
-import CameraManager from '../CameraManager';
-import Screen from '../Screen';
+import UI from '/UI';
+import CameraManager from '/CameraManager';
+import Screen from '/Screen';
 
-import screen_space_text_frag from '../shaders/ui/ss_texture_frag';
-import screen_space_text_vert from '../shaders/ui/ss_texture_vert';
+import screen_space_text_frag from '/shaders/ui/ss_texture_frag';
+import screen_space_text_vert from '/shaders/ui/ss_texture_vert';
 
-import ScreenSpacePosition from '../ui/ui_element_position/ScreenSpacePosition';
-import WorldSpacePosition from '../ui/ui_element_position/WorldSpacePosition';
+import ScreenSpacePosition from '/ui/ui_element_position/ScreenSpacePosition';
+import WorldSpacePosition from '/ui/ui_element_position/WorldSpacePosition';
 
-import OnIdle from '../ui/ui_element_state/OnIdle';
-import OnMouseEnter from '../ui/ui_element_state/OnMouseEnter';
-import OnMouseExit from '../ui/ui_element_state/OnMouseExit';
-import OnMouseHover from '../ui/ui_element_state/OnMouseHover';
+import OnIdle from '/ui/ui_element_state/OnIdle';
+import OnMouseEnter from '/ui/ui_element_state/OnMouseEnter';
+import OnMouseExit from '/ui/ui_element_state/OnMouseExit';
+import OnMouseHover from '/ui/ui_element_state/OnMouseHover';
 
 
 export default class UIElement

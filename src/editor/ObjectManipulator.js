@@ -1,6 +1,6 @@
 import ManipulatorHandle from './ManipulatorHandle';
-import Input from '../Input';
-import EventManager from '../EventManager';
+import Input from '/Input';
+import EventManager from '/EventManager';
 
 export default class ObjectManipulator extends THREE.Object3D
 {

@@ -1,4 +1,4 @@
-import CameraManager from '../../CameraManager';
+import CameraManager from '/CameraManager';
 
 export default class WorldSpacePosition
 {

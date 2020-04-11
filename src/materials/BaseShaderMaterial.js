@@ -1,5 +1,5 @@
-import basic_vert from '../shaders/basic_color/basic_color_vert';
-import basic_frag from '../shaders/basic_color/basic_color_frag';
+import basic_vert from '/shaders/basic_color/basic_color_vert';
+import basic_frag from '/shaders/basic_color/basic_color_frag';
 
 export default class BaseShaderMaterial extends THREE.ShaderMaterial
 {

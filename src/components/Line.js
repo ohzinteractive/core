@@ -1,5 +1,5 @@
-import line_vs from '../shaders/basic_line/basic_line_vert'
-import line_fs from '../shaders/basic_line/basic_line_frag'
+import line_vs from '/shaders/basic_line/basic_line_vert'
+import line_fs from '/shaders/basic_line/basic_line_frag'
 
 export default class Line extends THREE.Mesh {
 

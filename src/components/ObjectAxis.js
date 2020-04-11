@@ -1,4 +1,4 @@
-import Arrow from '../primitives/Arrow';
+import Arrow from '/primitives/Arrow';
 
 export default class ObjectAxis extends THREE.Object3D
 {

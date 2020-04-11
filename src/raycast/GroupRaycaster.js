@@ -1,7 +1,7 @@
-import CameraManager from '../CameraManager';
-import Input from '../Input';
-import RaycastResolver from '../raycast/RaycastResolver';
-import IdleState from './states/IdleState';
+import CameraManager from '/CameraManager';
+import Input from '/Input';
+import RaycastResolver from '/raycast/RaycastResolver';
+import IdleState from '/states/IdleState';
 
 export default class GroupRaycaster
 {

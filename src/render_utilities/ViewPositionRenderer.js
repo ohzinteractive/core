@@ -1,7 +1,7 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import Screen from '../Screen';
-import ViewPositionMaterial from '../materials/ViewPositionMaterial';
+import CameraManager from '/CameraManager';
+import SceneManager from '/SceneManager';
+import Screen from '/Screen';
+import ViewPositionMaterial from '/materials/ViewPositionMaterial';
 
 export default class ViewPositionRenderer
 {

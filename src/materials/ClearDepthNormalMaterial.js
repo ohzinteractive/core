@@ -1,5 +1,5 @@
-import BlitMaterial from '../materials/BlitMaterial';
-import frag from '../shaders/clear/clear_depth_normal_frag';
+import BlitMaterial from '/materials/BlitMaterial';
+import frag from '/shaders/clear/clear_depth_normal_frag';
 
 export default class ClearDepthNormalMaterial extends BlitMaterial
 {

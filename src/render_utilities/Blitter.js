@@ -1,4 +1,4 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import BlitMaterial from '/materials/BlitMaterial';
 
 export default class Blitter
 {

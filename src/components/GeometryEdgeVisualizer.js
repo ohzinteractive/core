@@ -1,6 +1,6 @@
-import edge_visualizer_frag from '../shaders/edge_visualizer/edge_visualizer_frag';
-import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer_vert';
-import GeometryUtilities from '../utilities/GeometryUtilities';
+import edge_visualizer_frag from '/shaders/edge_visualizer/edge_visualizer_frag';
+import edge_visualizer_vert from '/shaders/edge_visualizer/edge_visualizer_vert';
+import GeometryUtilities from '/utilities/GeometryUtilities';
 
 export default class GeometryEdgeVisualizer extends THREE.Mesh {
 	constructor(geometry, line_color)

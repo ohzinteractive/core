@@ -72,5 +72,4 @@ class Screen {
 
 }
 
-const SCREEN = new Screen();
-module.exports = SCREEN;
+export default new Screen();

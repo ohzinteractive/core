@@ -1,13 +1,13 @@
-import Configuration from           './Configuration';
-import BaseRender from   './render_mode/BaseRender';
-import OutlineRender from           './render_mode/OutlineRender';
-import Screen from './Screen';
-import CameraManager from './CameraManager';
-import SceneManager from './SceneManager';
-import UI from './UI';
-import Capabilities from './Capabilities';
-import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
-import Blitter from './render_utilities/Blitter';
+import Configuration from           '/Configuration';
+import BaseRender from   '/render_mode/BaseRender';
+import OutlineRender from           '/render_mode/OutlineRender';
+import Screen from '/Screen';
+import CameraManager from '/CameraManager';
+import SceneManager from '/SceneManager';
+import UI from '/UI';
+import Capabilities from '/Capabilities';
+import DepthAndNormalsRenderer from '/render_utilities/DepthAndNormalsRenderer';
+import Blitter from '/render_utilities/Blitter';
 
 class Graphics {
 

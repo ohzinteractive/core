@@ -1,12 +1,10 @@
-import edge_line_vert from '../shaders/edges/edges_vert';
-import edge_line_frag from '../shaders/edges/edges_frag';
-import corners_vert from '../shaders/edges/corners_vert';
-import corners_frag from '../shaders/edges/corners_frag';
+import edge_line_vert from '/shaders/edges/edges_vert';
+import edge_line_frag from '/shaders/edges/edges_frag';
+import corners_vert from '/shaders/edges/corners_vert';
+import corners_frag from '/shaders/edges/corners_frag';
 
-
-import SCREEN from '../Screen';
-import Configuration from '../Configuration';
-import Debug from '../Debug';
+import Configuration from '/Configuration';
+import Debug from '/Debug';
 
 
 export default class EdgeMesh extends THREE.Object3D {

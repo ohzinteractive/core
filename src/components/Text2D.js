@@ -1,7 +1,7 @@
-import WorldImage from '../components/WorldImage';
-import SimpleTextDrawer from '../canvas_drawer/SimpleTextDrawer';
-import Capabilities from '../Capabilities';
-import Debug from '../Debug';
+import WorldImage from '/components/WorldImage';
+import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
+import Capabilities from '/Capabilities';
+import Debug from '/Debug';
 export default class Text2D extends WorldImage
 {
 	constructor(text, font, color, pivot, is_static)

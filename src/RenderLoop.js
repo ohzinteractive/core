@@ -1,9 +1,9 @@
-import Time from './Time';
-import Input from './Input';
-import UI from './UI';
-import Debug from './Debug';
-import GeometryBatcher from './static_batcher/GeometryBatcher';
-import BaseApplication from './BaseApplication';
+import Time from '/Time';
+import Input from '/Input';
+import UI from '/UI';
+import Debug from '/Debug';
+import GeometryBatcher from '/static_batcher/GeometryBatcher';
+import BaseApplication from '/BaseApplication';
 
 export default class RenderLoop {
 

@@ -1,5 +1,5 @@
-import vert from '../shaders/copy/copy_vert';
-import frag from '../shaders/copy/copy_frag';
+import vert from '/shaders/copy/copy_vert';
+import frag from '/shaders/copy/copy_frag';
 
 export default class BlitMaterial extends THREE.ShaderMaterial
 {

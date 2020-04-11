@@ -1,5 +1,5 @@
-import vert from './editor/shaders/object_picker_vert';
-import frag from './editor/shaders/object_picker_frag';
+import vert from '/editor/shaders/object_picker_vert';
+import frag from '/editor/shaders/object_picker_frag';
 export default class Mesh extends THREE.Mesh
 {
 	constructor(geometry, material)

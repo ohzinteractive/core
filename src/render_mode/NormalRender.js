@@ -1,8 +1,8 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import Screen from '../Screen';
+import CameraManager from '/CameraManager';
+import SceneManager from '/SceneManager';
+import Screen from '/Screen';
 import BaseRender from './BaseRender';
-import Graphics from '../Graphics';
+import Graphics from '/Graphics';
 
 export default class NormalRender extends BaseRender
 {

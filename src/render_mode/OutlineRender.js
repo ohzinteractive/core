@@ -1,11 +1,11 @@
-import Screen from '../Screen';
-import RenderLayers from '../RenderLayers';
+import Screen from '/Screen';
+import RenderLayers from '/RenderLayers';
 
-import compose_frag from '../shaders/box_blur/compose_frag';
-import box_blur_frag from '../shaders/box_blur/box_blur_frag';
-import copy_frag from '../shaders/copy/copy_frag';
-import copy_vert from '../shaders/copy/copy_vert';
-import background_frag from '../shaders/basic_color/basic_color_frag';
+import compose_frag from '/shaders/box_blur/compose_frag';
+import box_blur_frag from '/shaders/box_blur/box_blur_frag';
+import copy_frag from '/shaders/copy/copy_frag';
+import copy_vert from '/shaders/copy/copy_vert';
+import background_frag from '/shaders/basic_color/basic_color_frag';
 
 export default class OutlineRender
 {

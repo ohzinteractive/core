@@ -1,10 +1,10 @@
-import basic_color_frag from '../shaders/basic_color/basic_color_frag';
-import basic_color_vert from '../shaders/basic_color/basic_color_vert';
-import SceneManager from '../SceneManager';
-import CameraManager from '../CameraManager';
-import ReflectionPlaneContext from '../ReflectionPlaneContext';
-import Screen from '../Screen';
-import BaseRender from './BaseRender';
+import basic_color_frag from '/shaders/basic_color/basic_color_frag';
+import basic_color_vert from '/shaders/basic_color/basic_color_vert';
+import SceneManager from '/SceneManager';
+import CameraManager from '/CameraManager';
+import ReflectionPlaneContext from '/ReflectionPlaneContext';
+import Screen from '/Screen';
+import BaseRender from '/BaseRender';
 
 
 export default class PlanarReflectionsRender extends BaseRender
