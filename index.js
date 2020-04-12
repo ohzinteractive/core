@@ -301,6 +301,7 @@ var Configuration = /*#__PURE__*/function () {
     this.dpr = window.devicePixelRatio ? window.devicePixelRatio : 1;
     this.is_mobile = false;
     this.is_ios = false;
+    this.is_ipad = false;
     this.vertex_image_unit_supported = true;
     this.min_zoom_distance = 3000;
     this.max_zoom_distance = 40000;
@@ -3045,7 +3046,77 @@ var NormalRender = /*#__PURE__*/function (_BaseRender) {
 }(_BaseRender2.default);
 
 exports.default = NormalRender;
-},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"iUFL":[function(require,module,exports) {
+},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"rJQo":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ObjectUtilities = /*#__PURE__*/function () {
+  function ObjectUtilities() {
+    _classCallCheck(this, ObjectUtilities);
+  } // Changes XML to JSON
+
+
+  _createClass(ObjectUtilities, null, [{
+    key: "xml_to_json",
+    value: function xml_to_json(xml) {
+      // Create the return object
+      var obj = {};
+
+      if (xml.nodeType == 1) {
+        // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+          obj["@attributes"] = {};
+
+          for (var j = 0; j < xml.attributes.length; j++) {
+            var attribute = xml.attributes.item(j);
+            obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+          }
+        }
+      } else if (xml.nodeType == 3) {
+        // text
+        obj = xml.nodeValue;
+      } // do children
+
+
+      if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+          var item = xml.childNodes.item(i);
+          var nodeName = item.nodeName;
+
+          if (typeof obj[nodeName] == "undefined") {
+            obj[nodeName] = this.xml_to_json(item);
+          } else {
+            if (typeof obj[nodeName].push == "undefined") {
+              var old = obj[nodeName];
+              obj[nodeName] = [];
+              obj[nodeName].push(old);
+            }
+
+            obj[nodeName].push(this.xml_to_json(item));
+          }
+        }
+      }
+
+      return obj;
+    }
+  }]);
+
+  return ObjectUtilities;
+}();
+
+exports.default = ObjectUtilities;
+},{}],"iUFL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4390,6 +4461,8 @@ var _MathUtilities = _interopRequireDefault(require("/utilities/MathUtilities"))
 
 var _NormalRender = _interopRequireDefault(require("/render_mode/NormalRender"));
 
+var _ObjectUtilities = _interopRequireDefault(require("/utilities/ObjectUtilities"));
+
 var _PerspectiveCamera = _interopRequireDefault(require("/PerspectiveCamera"));
 
 var _RenderLoop = _interopRequireDefault(require("/RenderLoop"));
@@ -4421,6 +4494,7 @@ module.exports = {
   Input: _Input.default,
   MathUtilities: _MathUtilities.default,
   NormalRender: _NormalRender.default,
+  ObjectUtilities: _ObjectUtilities.default,
   PerspectiveCamera: _PerspectiveCamera.default,
   RenderLoop: _RenderLoop.default,
   ResourceBatch: _ResourceBatch.default,
@@ -4430,5 +4504,5 @@ module.exports = {
   Time: _Time.default,
   TimeUtilities: _TimeUtilities.default
 };
-},{"/BaseApplication":"v0GF","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn"}]},{},["Focm"], null)
+},{"/BaseApplication":"v0GF","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

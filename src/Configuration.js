@@ -10,6 +10,7 @@ class Configuration {
     this.dpr = window.devicePixelRatio ? window.devicePixelRatio : 1;
     this.is_mobile = false;
     this.is_ios = false;
+    this.is_ipad = false;
 
     this.vertex_image_unit_supported = true;
 
