@@ -4434,6 +4434,41 @@ var TimeUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = TimeUtilities;
+},{}],"bOug":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Validation = /*#__PURE__*/function () {
+  function Validation() {
+    _classCallCheck(this, Validation);
+  }
+
+  _createClass(Validation, null, [{
+    key: "is_int",
+    value: function is_int(n) {
+      return Number(n) === n && n % 1 === 0;
+    }
+  }, {
+    key: "is_float",
+    value: function is_float(n) {
+      return Number(n) === n && n % 1 !== 0;
+    }
+  }]);
+
+  return Validation;
+}();
+
+exports.default = Validation;
 },{}],"Focm":[function(require,module,exports) {
 "use strict";
 
@@ -4479,6 +4514,8 @@ var _Time = _interopRequireDefault(require("/Time"));
 
 var _TimeUtilities = _interopRequireDefault(require("/utilities/TimeUtilities"));
 
+var _Validation = _interopRequireDefault(require("/utilities/Validation"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
@@ -4502,7 +4539,8 @@ module.exports = {
   SceneManager: _SceneManager.default,
   Screen: _Screen.default,
   Time: _Time.default,
-  TimeUtilities: _TimeUtilities.default
+  TimeUtilities: _TimeUtilities.default,
+  Validation: _Validation.default
 };
-},{"/BaseApplication":"v0GF","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn"}]},{},["Focm"], null)
+},{"/BaseApplication":"v0GF","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/utilities/Validation":"bOug"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

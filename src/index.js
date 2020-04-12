@@ -19,6 +19,7 @@ import SceneManager from '/SceneManager';
 import Screen from '/Screen';
 import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
+import Validation from '/utilities/Validation';
 
 module.exports = {
   BaseApplication: BaseApplication,
@@ -42,4 +43,5 @@ module.exports = {
   Screen: Screen,
   Time: Time,
   TimeUtilities: TimeUtilities,
+  Validation: Validation
 }
