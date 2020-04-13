@@ -25,7 +25,6 @@ export default class Grid extends THREE.Mesh {
 		super(non_indexed_geometry, material);
 
 		this.rotation.x = -3.14/2;
-		// this.position.y +=0.1;
 	}
 
 }

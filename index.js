@@ -674,9 +674,11 @@ var Input = /*#__PURE__*/function () {
       };
 
       region.register('shortTap', gesture);
-      region.bind(container, 'shortTap', function (e) {}); // $(container).mousewheel(this.on_mouse_wheel.bind(this));
-
+      region.bind(container, 'shortTap', function (e) {});
       window.addEventListener('wheel', this.on_mouse_wheel.bind(this));
+      container.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+      }, false);
       container.addEventListener("mousemove", function (event) {
         _this.mouse_pos.x = event.clientX;
         _this.mouse_pos.y = event.clientY;
@@ -2478,18 +2480,14 @@ var Graphics = /*#__PURE__*/function () {
     key: "init",
     value: function init(canvas) {
       this._renderer = new THREE.WebGLRenderer({
-        antialias: false,
+        antialias: true,
         preserveDrawingBuffer: true,
         alpha: true,
         canvas: canvas
       });
       this._renderer.autoClear = false;
 
-      if (_Configuration.default.is_mobile) {
-        this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      } else {
-        this._renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio, 1.5), 2));
-      }
+      this._renderer.setPixelRatio(window.devicePixelRatio);
 
       this._renderer.extensions.get('ANGLE_instanced_arrays');
 
@@ -2501,10 +2499,7 @@ var Graphics = /*#__PURE__*/function () {
       _Capabilities.default.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
       _Capabilities.default.fp_textures_available = this._renderer.capabilities.floatVertexTextures;
       this.generateDepthNormalTexture = false;
-      this.depth_and_normals_renderer = new _DepthAndNormalsRenderer.default(); // let canvas = document.getElementById("tiled_canvas");
-      // let ctx_2D = canvas.getContext("2d");
-      // this.canvas = canvas;
-      // this.ctx_2D = ctx_2D;
+      this.depth_and_normals_renderer = new _DepthAndNormalsRenderer.default();
     }
   }, {
     key: "set_state",
@@ -2600,15 +2595,6 @@ var Graphics = /*#__PURE__*/function () {
   }, {
     key: "take_screenshot",
     value: function take_screenshot(blob_callback) {
-      // let img    = this.dom.toDataURL("image/png;base64;");
-      // let link = document.createElement('a');
-      // // link.download = "Snapshot.png";
-      // // link.href = img;
-      // // link.click();
-      // window.open(img,'_blank');
-      // por algun motivo esto fallaba al pedir el contexto 2D, asiq lo termine poniendo en el constructor
-      // let canvas = document.getElementById("tiled_canvas");
-      // let ctx_2D = canvas.getContext("2d");
       var ctx = this;
       var old_width = _Screen.default.width;
       var old_height = _Screen.default.height;
@@ -4227,6 +4213,11 @@ var ResourceContainer = /*#__PURE__*/function () {
     value: function get_resource(name) {
       return this.resources[name];
     }
+  }, {
+    key: "get",
+    value: function get(name) {
+      return this.resources[name];
+    }
   }]);
 
   return ResourceContainer;
@@ -4471,7 +4462,181 @@ var Validation = /*#__PURE__*/function () {
 }();
 
 exports.default = Validation;
-},{}],"index.js":[function(require,module,exports) {
+},{}],"shaders/grid/grid_frag.glsl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform vec3 _Color;\n\nvarying vec3 vBarycentric;\n\nfloat edgeFactor(vec3 baryc ){\n    vec3 d = fwidth(baryc);\n    vec3 a3 = smoothstep(vec3(0.0), d*1.5, baryc);\n    return min(min(a3.x, a3.y), a3.z);\n}\n\nvoid main()\n{\t\n\tfloat alpha = edgeFactor(vBarycentric + vec3(1. , 1., 0.));\n\tgl_FragColor.rgb = mix(_Color, vec3(0.), alpha);\n\tgl_FragColor.a = 1.0 - alpha;\n\tgl_FragColor.a *= 0.2;\n}";
+},{}],"shaders/grid/grid_vert.glsl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nattribute vec3 barycentric;\nvarying vec3 vBarycentric;\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n  vec3 pos = (modelMatrix * vec4(position, 1.0)).xyz;\n  gl_Position = VP * vec4(pos, 1.0);\n  vBarycentric = barycentric;\n}";
+},{}],"utilities/GeometryUtilities.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var GeometryUtilities = /*#__PURE__*/function () {
+  function GeometryUtilities() {
+    _classCallCheck(this, GeometryUtilities);
+  }
+
+  _createClass(GeometryUtilities, null, [{
+    key: "convert_to_non_indexed_geometry",
+    value: function convert_to_non_indexed_geometry(geometry_buffer) {
+      var indices = geometry_buffer.index;
+      var positions = geometry_buffer.getAttribute("position");
+      var bar_coordinates = [];
+      var vertices = [];
+
+      for (var i = 0; i < indices.count; i += 3) {
+        // VERTEX 1
+        vertices.push(positions.getX(indices.array[i + 0]));
+        vertices.push(positions.getY(indices.array[i + 0]));
+        vertices.push(positions.getZ(indices.array[i + 0]));
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0); // VERTEX 2
+
+        vertices.push(positions.getX(indices.array[i + 1]));
+        vertices.push(positions.getY(indices.array[i + 1]));
+        vertices.push(positions.getZ(indices.array[i + 1]));
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+        bar_coordinates.push(0); // VERTEX 3
+
+        vertices.push(positions.getX(indices.array[i + 2]));
+        vertices.push(positions.getY(indices.array[i + 2]));
+        vertices.push(positions.getZ(indices.array[i + 2]));
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+      }
+
+      var geometry = new THREE.BufferGeometry(); // geometry.addAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
+
+      geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+      GeometryUtilities.add_barycentric_attribute(geometry);
+      return geometry;
+    }
+  }, {
+    key: "add_barycentric_attribute",
+    value: function add_barycentric_attribute(non_indexed_geometry_buffer) {
+      var bar_coordinates = [];
+      var positions = non_indexed_geometry_buffer.getAttribute("position");
+
+      for (var i = 0; i < positions.count; i += 3) {
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+      }
+
+      non_indexed_geometry_buffer.addAttribute('barycentric', new THREE.BufferAttribute(new Float32Array(bar_coordinates), 3));
+    }
+  }]);
+
+  return GeometryUtilities;
+}();
+
+exports.default = GeometryUtilities;
+},{}],"components/Grid.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _grid_frag = _interopRequireDefault(require("/shaders/grid/grid_frag"));
+
+var _grid_vert = _interopRequireDefault(require("/shaders/grid/grid_vert"));
+
+var _GeometryUtilities = _interopRequireDefault(require("/utilities/GeometryUtilities"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Grid = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Grid, _THREE$Mesh);
+
+  var _super = _createSuper(Grid);
+
+  function Grid() {
+    var _this;
+
+    _classCallCheck(this, Grid);
+
+    var material = new THREE.ShaderMaterial({
+      uniforms: {
+        _Color: {
+          value: new THREE.Color("#919191")
+        }
+      },
+      vertexShader: _grid_vert.default,
+      fragmentShader: _grid_frag.default,
+      extensions: {
+        derivatives: true
+      },
+      transparent: true,
+      depthWrite: false
+    });
+    var plane_geometry = new THREE.PlaneBufferGeometry(100, 100, 100, 100);
+
+    var non_indexed_geometry = _GeometryUtilities.default.convert_to_non_indexed_geometry(plane_geometry);
+
+    _this = _super.call(this, non_indexed_geometry, material);
+    _this.rotation.x = -3.14 / 2;
+    return _this;
+  }
+
+  return Grid;
+}(THREE.Mesh);
+
+exports.default = Grid;
+},{"/shaders/grid/grid_frag":"shaders/grid/grid_frag.glsl","/shaders/grid/grid_vert":"shaders/grid/grid_vert.glsl","/utilities/GeometryUtilities":"utilities/GeometryUtilities.js"}],"Components.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Grid = _interopRequireDefault(require("/components/Grid"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = {
+  Grid: _Grid.default
+};
+exports.default = _default;
+},{"/components/Grid":"components/Grid.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _BaseApplication = _interopRequireDefault(require("/BaseApplication"));
@@ -4518,6 +4683,8 @@ var _TimeUtilities = _interopRequireDefault(require("/utilities/TimeUtilities"))
 
 var _Validation = _interopRequireDefault(require("/utilities/Validation"));
 
+var _Components = _interopRequireDefault(require("/Components"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
@@ -4542,9 +4709,10 @@ module.exports = {
   Screen: _Screen.default,
   Time: _Time.default,
   TimeUtilities: _TimeUtilities.default,
-  Validation: _Validation.default
+  Validation: _Validation.default,
+  Components: _Components.default
 };
-},{"/BaseApplication":"BaseApplication.js","/CameraManager":"CameraManager.js","/utilities/CameraUtilities":"utilities/CameraUtilities.js","/Capabilities":"Capabilities.js","/Configuration":"Configuration.js","/utilities/EasingFunctions":"utilities/EasingFunctions.js","/EventManager":"EventManager.js","/Debug":"Debug.js","/Graphics":"Graphics.js","/Input":"Input.js","/utilities/MathUtilities":"utilities/MathUtilities.js","/render_mode/NormalRender":"render_mode/NormalRender.js","/utilities/ObjectUtilities":"utilities/ObjectUtilities.js","/PerspectiveCamera":"PerspectiveCamera.js","/RenderLoop":"RenderLoop.js","/resource_loader/ResourceBatch":"resource_loader/ResourceBatch.js","/ResourceContainer":"ResourceContainer.js","/SceneManager":"SceneManager.js","/Screen":"Screen.js","/Time":"Time.js","/utilities/TimeUtilities":"utilities/TimeUtilities.js","/utilities/Validation":"utilities/Validation.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"/BaseApplication":"BaseApplication.js","/CameraManager":"CameraManager.js","/utilities/CameraUtilities":"utilities/CameraUtilities.js","/Capabilities":"Capabilities.js","/Configuration":"Configuration.js","/utilities/EasingFunctions":"utilities/EasingFunctions.js","/EventManager":"EventManager.js","/Debug":"Debug.js","/Graphics":"Graphics.js","/Input":"Input.js","/utilities/MathUtilities":"utilities/MathUtilities.js","/render_mode/NormalRender":"render_mode/NormalRender.js","/utilities/ObjectUtilities":"utilities/ObjectUtilities.js","/PerspectiveCamera":"PerspectiveCamera.js","/RenderLoop":"RenderLoop.js","/resource_loader/ResourceBatch":"resource_loader/ResourceBatch.js","/ResourceContainer":"ResourceContainer.js","/SceneManager":"SceneManager.js","/Screen":"Screen.js","/Time":"Time.js","/utilities/TimeUtilities":"utilities/TimeUtilities.js","/utilities/Validation":"utilities/Validation.js","/Components":"Components.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -4572,7 +4740,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50471" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58447" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

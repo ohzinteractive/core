@@ -148,8 +148,8 @@ class Input {
 		region.bind(container, 'shortTap', function (e) {
 		});
 
-		// $(container).mousewheel(this.on_mouse_wheel.bind(this));
 		window.addEventListener('wheel', this.on_mouse_wheel.bind(this))
+    container.addEventListener( 'contextmenu', (event)=>{event.preventDefault()}, false );
 
 		container.addEventListener("mousemove", (event) => {
 			this.mouse_pos.x = event.clientX;

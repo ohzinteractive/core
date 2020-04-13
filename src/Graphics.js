@@ -24,7 +24,7 @@ class Graphics {
 
   init(canvas) {
     this._renderer = new THREE.WebGLRenderer({
-      antialias: false,
+      antialias: true,
       preserveDrawingBuffer: true,
       alpha: true,
       canvas: canvas
@@ -32,11 +32,7 @@ class Graphics {
 
     this._renderer.autoClear = false;
 
-    if (Configuration.is_mobile) {
-      this._renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    } else {
-      this._renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio, 1.5), 2));
-    }
+    this._renderer.setPixelRatio(window.devicePixelRatio);
 
 		this._renderer.extensions.get( 'ANGLE_instanced_arrays' )
 
@@ -56,10 +52,6 @@ class Graphics {
 
     this.depth_and_normals_renderer = new DepthAndNormalsRenderer();
 
-    // let canvas = document.getElementById("tiled_canvas");
-    // let ctx_2D = canvas.getContext("2d");
-    // this.canvas = canvas;
-    // this.ctx_2D = ctx_2D;
   }
 
   get dom_element()
@@ -180,16 +172,6 @@ class Graphics {
 
   take_screenshot(blob_callback)
   {
-    // let img    = this.dom.toDataURL("image/png;base64;");
-    // let link = document.createElement('a');
-    // // link.download = "Snapshot.png";
-    // // link.href = img;
-    // // link.click();
-    // window.open(img,'_blank');
-
-    // por algun motivo esto fallaba al pedir el contexto 2D, asiq lo termine poniendo en el constructor
-    // let canvas = document.getElementById("tiled_canvas");
-    // let ctx_2D = canvas.getContext("2d");
 
     const ctx = this;
 

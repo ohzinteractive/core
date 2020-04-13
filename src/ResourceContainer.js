@@ -17,6 +17,10 @@ class ResourceContainer
 	{
 		return this.resources[name];
 	}
+	get(name)
+	{
+		return this.resources[name];
+	}
 
 }
 

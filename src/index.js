@@ -20,7 +20,7 @@ import Screen from '/Screen';
 import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
 import Validation from '/utilities/Validation';
-
+import Components from '/Components';
 module.exports = {
   BaseApplication: BaseApplication,
   CameraManager: CameraManager,
@@ -43,5 +43,6 @@ module.exports = {
   Screen: Screen,
   Time: Time,
   TimeUtilities: TimeUtilities,
-  Validation: Validation
+  Validation: Validation,
+  Components: Components
 }
