@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel ./src/index.js --out-dir . --port 4444",
     "build": "parcel build ./src/index.js --no-minify --out-dir .",
     "prod": "parcel build ./src/index.js --out-dir ."
   },

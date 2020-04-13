@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"v0GF":[function(require,module,exports) {
+})({"BaseApplication.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -160,7 +160,7 @@ var BaseApplication = /*#__PURE__*/function () {
 }();
 
 exports.default = BaseApplication;
-},{}],"XMgG":[function(require,module,exports) {
+},{}],"CameraManager.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -189,7 +189,7 @@ var CameraManager = /*#__PURE__*/function () {
 
 var camera_manager = new CameraManager();
 module.exports = camera_manager;
-},{}],"JIgx":[function(require,module,exports) {
+},{}],"Screen.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -280,7 +280,7 @@ var Screen = /*#__PURE__*/function () {
 var _default = new Screen();
 
 exports.default = _default;
-},{}],"RyjO":[function(require,module,exports) {
+},{}],"Configuration.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -343,7 +343,7 @@ var Configuration = /*#__PURE__*/function () {
 
 var configuration = new Configuration();
 module.exports = configuration;
-},{}],"wewU":[function(require,module,exports) {
+},{}],"Time.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -390,7 +390,7 @@ var Time = /*#__PURE__*/function () {
 
 var time = new Time();
 module.exports = time;
-},{}],"Oo8n":[function(require,module,exports) {
+},{}],"KeyboardInput.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -526,7 +526,7 @@ var KeyboardInput = /*#__PURE__*/function () {
 exports.KeyboardInput = KeyboardInput;
 var keyboard_input = new KeyboardInput();
 module.exports = keyboard_input;
-},{}],"k3P6":[function(require,module,exports) {
+},{}],"Input.js":[function(require,module,exports) {
 "use strict";
 
 var _Screen = _interopRequireDefault(require("/Screen"));
@@ -918,7 +918,7 @@ var Input = /*#__PURE__*/function () {
 
 var INPUT = new Input();
 module.exports = INPUT;
-},{"/Screen":"JIgx","/Configuration":"RyjO","/Time":"wewU","/KeyboardInput":"Oo8n"}],"sPjl":[function(require,module,exports) {
+},{"/Screen":"Screen.js","/Configuration":"Configuration.js","/Time":"Time.js","/KeyboardInput":"KeyboardInput.js"}],"primitives/Sphere.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -965,11 +965,11 @@ var Sphere = /*#__PURE__*/function (_THREE$Mesh) {
 }(THREE.Mesh);
 
 exports.default = Sphere;
-},{}],"iaBK":[function(require,module,exports) {
+},{}],"editor/shaders/object_picker_vert.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  //gl_Position.zw -= 0.1;\n}";
-},{}],"bHqx":[function(require,module,exports) {
+},{}],"editor/shaders/object_picker_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform vec3 _Color;\n\nvoid main()\n{\n    gl_FragColor = vec4(_Color, 1.0);\n}";
-},{}],"ezmQ":[function(require,module,exports) {
+},{}],"Mesh.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1061,7 +1061,7 @@ var Mesh = /*#__PURE__*/function (_THREE$Mesh) {
 }(THREE.Mesh);
 
 exports.default = Mesh;
-},{"/editor/shaders/object_picker_vert":"iaBK","/editor/shaders/object_picker_frag":"bHqx"}],"E21w":[function(require,module,exports) {
+},{"/editor/shaders/object_picker_vert":"editor/shaders/object_picker_vert.glsl","/editor/shaders/object_picker_frag":"editor/shaders/object_picker_frag.glsl"}],"primitives/Arrow.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1139,7 +1139,7 @@ var Arrow = /*#__PURE__*/function (_Mesh) {
 }(_Mesh2.default);
 
 exports.default = Arrow;
-},{"/Mesh":"ezmQ"}],"qvMM":[function(require,module,exports) {
+},{"/Mesh":"Mesh.js"}],"SceneManager.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1172,7 +1172,7 @@ var SceneManager = /*#__PURE__*/function () {
 
 var scene_manager = new SceneManager();
 module.exports = scene_manager;
-},{}],"ayC1":[function(require,module,exports) {
+},{}],"utilities/MathUtilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1243,7 +1243,7 @@ var MathUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = MathUtilities;
-},{}],"ugwp":[function(require,module,exports) {
+},{}],"utilities/CameraUtilities.js":[function(require,module,exports) {
 "use strict";
 
 var _CameraManager = _interopRequireDefault(require("/CameraManager"));
@@ -1423,7 +1423,7 @@ var CameraUtilities = /*#__PURE__*/function () {
 
 var camera_utilities = new CameraUtilities();
 module.exports = camera_utilities;
-},{"/CameraManager":"XMgG","/Input":"k3P6","/primitives/Sphere":"sPjl","/primitives/Arrow":"E21w","/SceneManager":"qvMM","/utilities/MathUtilities":"ayC1","/Screen":"JIgx"}],"hZlU":[function(require,module,exports) {
+},{"/CameraManager":"CameraManager.js","/Input":"Input.js","/primitives/Sphere":"primitives/Sphere.js","/primitives/Arrow":"primitives/Arrow.js","/SceneManager":"SceneManager.js","/utilities/MathUtilities":"utilities/MathUtilities.js","/Screen":"Screen.js"}],"Capabilities.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Capabilities = function Capabilities() {
@@ -1436,7 +1436,7 @@ var Capabilities = function Capabilities() {
 
 var capabilities = new Capabilities();
 module.exports = capabilities;
-},{}],"ZeWG":[function(require,module,exports) {
+},{}],"utilities/EasingFunctions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1496,7 +1496,7 @@ var EasingFunctions = /*#__PURE__*/function () {
 }();
 
 exports.default = EasingFunctions;
-},{}],"pJqg":[function(require,module,exports) {
+},{}],"EventManager.js":[function(require,module,exports) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1649,7 +1649,7 @@ var EventManager = /*#__PURE__*/function () {
 
 var event_manager = new EventManager();
 module.exports = event_manager;
-},{}],"xAef":[function(require,module,exports) {
+},{}],"components/AxisHelper.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1746,9 +1746,11 @@ var AxisHelper = /*#__PURE__*/function (_THREE$Object3D) {
 }(THREE.Object3D);
 
 exports.default = AxisHelper;
-},{}],"QfnR":[function(require,module,exports) {
+},{}],"shaders/basic_color/basic_color_vert.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  vUv = uv;\n}";
-},{}],"gDca":[function(require,module,exports) {
+},{}],"shaders/basic_color/basic_color_frag.glsl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform vec3 _Color;\n\nvoid main()\n{\n    gl_FragColor = vec4(_Color, 1.0);\n}";
+},{}],"render_mode/BaseRender.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1785,7 +1787,7 @@ var BaseRender = /*#__PURE__*/function () {
 }();
 
 exports.default = BaseRender;
-},{}],"bFlA":[function(require,module,exports) {
+},{}],"RenderLayers.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1830,15 +1832,15 @@ var RenderLayers = /*#__PURE__*/function () {
 }();
 
 exports.default = RenderLayers;
-},{}],"aRZG":[function(require,module,exports) {
+},{}],"shaders/box_blur/compose_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform sampler2D _Blur;\nuniform vec2 _Screen;\nvarying vec2 vUv;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\tvec2 pixel_size = 1.0/_Screen;\n\n\tvec4 color = texture2D( _MainTex, vUv);\n\tfloat mask = 1.0 - color.a;\n\n\tfloat blur = texture2D( _Blur, vUv).a;\n\n  // gl_FragColor = vec4(mask,mask,mask,0.0);\n  // gl_FragColor = color;\n\n\tgl_FragColor = vec4(mix(color.rgb, mix(color.rgb, vec3(1.,0.,0.),aastep(0.076, blur)), mask), 1.0);\n}\n\n";
-},{}],"GnKT":[function(require,module,exports) {
+},{}],"shaders/box_blur/box_blur_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _Resolution;\nuniform vec2 _SampleDir;\nvarying vec2 vUv;\n\nvoid main()\n{\n\n\tvec3 sum = vec3(0.,0.,0.);\n\tvec2 dir = (0.5/_Resolution) * _SampleDir;\n\tfloat _Distance = 2.0;\n\tsum += texture2D( _MainTex, vUv + dir * -4. * _Distance ).rgb * 0.0525;\n\tsum += texture2D( _MainTex, vUv + dir * -3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir * -2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir * -1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  0. * _Distance ).rgb * 0.225;\n\tsum += texture2D( _MainTex, vUv + dir *  1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir *  3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir *  4. * _Distance ).rgb * 0.0525;\n\tgl_FragColor = vec4(sum, 1.0);\n\n}\n";
-},{}],"s876":[function(require,module,exports) {
+},{}],"shaders/copy/copy_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\n\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv);\n}";
-},{}],"i1za":[function(require,module,exports) {
+},{}],"shaders/copy/copy_vert.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}";
-},{}],"F9Xn":[function(require,module,exports) {
+},{}],"render_mode/OutlineRender.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2033,7 +2035,7 @@ var OutlineRender = /*#__PURE__*/function () {
 }();
 
 exports.default = OutlineRender;
-},{"/Screen":"JIgx","/RenderLayers":"bFlA","/shaders/box_blur/compose_frag":"aRZG","/shaders/box_blur/box_blur_frag":"GnKT","/shaders/copy/copy_frag":"s876","/shaders/copy/copy_vert":"i1za","/shaders/basic_color/basic_color_frag":"bHqx"}],"yntx":[function(require,module,exports) {
+},{"/Screen":"Screen.js","/RenderLayers":"RenderLayers.js","/shaders/box_blur/compose_frag":"shaders/box_blur/compose_frag.glsl","/shaders/box_blur/box_blur_frag":"shaders/box_blur/box_blur_frag.glsl","/shaders/copy/copy_frag":"shaders/copy/copy_frag.glsl","/shaders/copy/copy_vert":"shaders/copy/copy_vert.glsl","/shaders/basic_color/basic_color_frag":"shaders/basic_color/basic_color_frag.glsl"}],"UI.js":[function(require,module,exports) {
 "use strict";
 
 var _Input = _interopRequireDefault(require("/Input"));
@@ -2107,7 +2109,7 @@ var UI = /*#__PURE__*/function () {
 
 var ui = new UI();
 module.exports = ui;
-},{"/Input":"k3P6"}],"Ftca":[function(require,module,exports) {
+},{"/Input":"Input.js"}],"materials/BlitMaterial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2173,9 +2175,9 @@ var BlitMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
 }(THREE.ShaderMaterial);
 
 exports.default = BlitMaterial;
-},{"/shaders/copy/copy_vert":"i1za","/shaders/copy/copy_frag":"s876"}],"qoY1":[function(require,module,exports) {
+},{"/shaders/copy/copy_vert":"shaders/copy/copy_vert.glsl","/shaders/copy/copy_frag":"shaders/copy/copy_frag.glsl"}],"shaders/clear/clear_depth_normal_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform vec4 _DepthNormal;\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n    gl_FragColor = vec4(EncodeFloatRG(_DepthNormal.x), EncodeNormal(normalize(_DepthNormal.yzw)));  \n}";
-},{}],"bGMu":[function(require,module,exports) {
+},{}],"materials/ClearDepthNormalMaterial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2228,11 +2230,11 @@ var ClearDepthNormalMaterial = /*#__PURE__*/function (_BlitMaterial) {
 }(_BlitMaterial2.default);
 
 exports.default = ClearDepthNormalMaterial;
-},{"/materials/BlitMaterial":"Ftca","/shaders/clear/clear_depth_normal_frag":"qoY1"}],"DRHE":[function(require,module,exports) {
+},{"/materials/BlitMaterial":"materials/BlitMaterial.js","/shaders/clear/clear_depth_normal_frag":"shaders/clear/clear_depth_normal_frag.glsl"}],"shaders/depth_normals/depth_normals_vert.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  v_normal \t= (modelViewMatrix * vec4(normal, 0.0)).xyz;\n  v_pos \t\t= (modelViewMatrix * vec4( pos, 1.0 )).xyz;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n}";
-},{}],"a4Wy":[function(require,module,exports) {
+},{}],"shaders/depth_normals/depth_normals_frag.glsl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nuniform float _FarPlane;\n\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n\tgl_FragColor = vec4(EncodeFloatRG(length(v_pos.z)/_FarPlane), EncodeNormal(normalize(v_normal)));\t\n}\n\n";
-},{}],"VcOC":[function(require,module,exports) {
+},{}],"materials/DepthNormalMaterial.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2298,7 +2300,7 @@ var DepthNormalMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
 }(THREE.ShaderMaterial);
 
 exports.default = DepthNormalMaterial;
-},{"/shaders/depth_normals/depth_normals_vert":"DRHE","/shaders/depth_normals/depth_normals_frag":"a4Wy"}],"pWL9":[function(require,module,exports) {
+},{"/shaders/depth_normals/depth_normals_vert":"shaders/depth_normals/depth_normals_vert.glsl","/shaders/depth_normals/depth_normals_frag":"shaders/depth_normals/depth_normals_frag.glsl"}],"render_utilities/DepthAndNormalsRenderer.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2361,7 +2363,7 @@ var DepthAndNormalsRenderer = /*#__PURE__*/function () {
 }();
 
 exports.default = DepthAndNormalsRenderer;
-},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/materials/ClearDepthNormalMaterial":"bGMu","/materials/DepthNormalMaterial":"VcOC"}],"IerZ":[function(require,module,exports) {
+},{"/CameraManager":"CameraManager.js","/SceneManager":"SceneManager.js","/Screen":"Screen.js","/materials/ClearDepthNormalMaterial":"materials/ClearDepthNormalMaterial.js","/materials/DepthNormalMaterial":"materials/DepthNormalMaterial.js"}],"render_utilities/Blitter.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2428,7 +2430,7 @@ var Blitter = /*#__PURE__*/function () {
 }();
 
 exports.default = Blitter;
-},{"/materials/BlitMaterial":"Ftca"}],"xMH9":[function(require,module,exports) {
+},{"/materials/BlitMaterial":"materials/BlitMaterial.js"}],"Graphics.js":[function(require,module,exports) {
 "use strict";
 
 var _Configuration = _interopRequireDefault(require("/Configuration"));
@@ -2691,7 +2693,7 @@ var Graphics = /*#__PURE__*/function () {
 
 var graphics = new Graphics();
 module.exports = graphics;
-},{"/Configuration":"RyjO","/render_mode/BaseRender":"gDca","/render_mode/OutlineRender":"F9Xn","/Screen":"JIgx","/CameraManager":"XMgG","/SceneManager":"qvMM","/UI":"yntx","/Capabilities":"hZlU","/render_utilities/DepthAndNormalsRenderer":"pWL9","/render_utilities/Blitter":"IerZ"}],"wyL4":[function(require,module,exports) {
+},{"/Configuration":"Configuration.js","/render_mode/BaseRender":"render_mode/BaseRender.js","/render_mode/OutlineRender":"render_mode/OutlineRender.js","/Screen":"Screen.js","/CameraManager":"CameraManager.js","/SceneManager":"SceneManager.js","/UI":"UI.js","/Capabilities":"Capabilities.js","/render_utilities/DepthAndNormalsRenderer":"render_utilities/DepthAndNormalsRenderer.js","/render_utilities/Blitter":"render_utilities/Blitter.js"}],"primitives/Cube.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2743,7 +2745,7 @@ var Cube = /*#__PURE__*/function (_Mesh) {
 }(_Mesh2.default);
 
 exports.default = Cube;
-},{"/Mesh":"ezmQ"}],"J9UP":[function(require,module,exports) {
+},{"/Mesh":"Mesh.js"}],"Debug.js":[function(require,module,exports) {
 "use strict";
 
 var _AxisHelper = _interopRequireDefault(require("/components/AxisHelper"));
@@ -2980,7 +2982,7 @@ var Debug = /*#__PURE__*/function () {
 
 var DEBUG = new Debug();
 module.exports = DEBUG;
-},{"/components/AxisHelper":"xAef","/shaders/basic_color/basic_color_vert":"QfnR","/shaders/basic_color/basic_color_frag":"bHqx","/SceneManager":"qvMM","/Graphics":"xMH9","/primitives/Cube":"wyL4","/primitives/Sphere":"sPjl"}],"Zz8J":[function(require,module,exports) {
+},{"/components/AxisHelper":"components/AxisHelper.js","/shaders/basic_color/basic_color_vert":"shaders/basic_color/basic_color_vert.glsl","/shaders/basic_color/basic_color_frag":"shaders/basic_color/basic_color_frag.glsl","/SceneManager":"SceneManager.js","/Graphics":"Graphics.js","/primitives/Cube":"primitives/Cube.js","/primitives/Sphere":"primitives/Sphere.js"}],"render_mode/NormalRender.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3046,7 +3048,7 @@ var NormalRender = /*#__PURE__*/function (_BaseRender) {
 }(_BaseRender2.default);
 
 exports.default = NormalRender;
-},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"rJQo":[function(require,module,exports) {
+},{"/CameraManager":"CameraManager.js","/SceneManager":"SceneManager.js","/Screen":"Screen.js","/render_mode/BaseRender":"render_mode/BaseRender.js","/Graphics":"Graphics.js"}],"utilities/ObjectUtilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3116,7 +3118,7 @@ var ObjectUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = ObjectUtilities;
-},{}],"iUFL":[function(require,module,exports) {
+},{}],"PerspectiveCamera.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3162,7 +3164,7 @@ var PerspectiveCamera = /*#__PURE__*/function (_THREE$PerspectiveCam) {
 }(THREE.PerspectiveCamera);
 
 exports.default = PerspectiveCamera;
-},{}],"WHWR":[function(require,module,exports) {
+},{}],"static_batcher/GeometryBatch.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3430,7 +3432,7 @@ var GeometryBatch = /*#__PURE__*/function () {
 }();
 
 exports.default = GeometryBatch;
-},{}],"VduU":[function(require,module,exports) {
+},{}],"static_batcher/GeometryBatcher.js":[function(require,module,exports) {
 "use strict";
 
 var _GeometryBatch = _interopRequireDefault(require("/static_batcher/GeometryBatch"));
@@ -3499,7 +3501,7 @@ var GeometryBatcher = /*#__PURE__*/function () {
 
 var geometry_batcher = new GeometryBatcher();
 module.exports = geometry_batcher;
-},{"/static_batcher/GeometryBatch":"WHWR"}],"QYq1":[function(require,module,exports) {
+},{"/static_batcher/GeometryBatch":"static_batcher/GeometryBatch.js"}],"RenderLoop.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3588,7 +3590,7 @@ var RenderLoop = /*#__PURE__*/function () {
 }();
 
 exports.default = RenderLoop;
-},{"/Time":"wewU","/Input":"k3P6","/UI":"yntx","/Debug":"J9UP","/static_batcher/GeometryBatcher":"VduU","/BaseApplication":"v0GF"}],"mqLz":[function(require,module,exports) {
+},{"/Time":"Time.js","/Input":"Input.js","/UI":"UI.js","/Debug":"Debug.js","/static_batcher/GeometryBatcher":"static_batcher/GeometryBatcher.js","/BaseApplication":"BaseApplication.js"}],"resource_loader/AbstractLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3644,7 +3646,7 @@ var AbstractLoader = /*#__PURE__*/function () {
 }();
 
 exports.default = AbstractLoader;
-},{}],"ged4":[function(require,module,exports) {
+},{}],"resource_loader/TextureLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3715,7 +3717,7 @@ var TextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = TextureLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"DPLo":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/GLTFLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3788,7 +3790,7 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = GLTFLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"k6LD":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/DAELoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3861,7 +3863,7 @@ var DAELoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = DAELoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"X88z":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/TextLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3934,7 +3936,7 @@ var TextLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = TextLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"jYGB":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/CubemapLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4019,7 +4021,7 @@ var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = CubemapLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"w983":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/AudioLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4103,7 +4105,7 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = AudioLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"NvAk":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"resource_loader/JSONLoader.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4190,7 +4192,7 @@ var JSONLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = JSONLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"HJ6F":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"resource_loader/AbstractLoader.js"}],"ResourceContainer.js":[function(require,module,exports) {
 "use strict";
 
 var _EventManager = _interopRequireDefault(require("/EventManager"));
@@ -4232,7 +4234,7 @@ var ResourceContainer = /*#__PURE__*/function () {
 
 var resource_container = new ResourceContainer();
 module.exports = resource_container;
-},{"/EventManager":"pJqg"}],"gkjv":[function(require,module,exports) {
+},{"/EventManager":"EventManager.js"}],"resource_loader/ResourceBatch.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4362,7 +4364,7 @@ var ResourceBatch = /*#__PURE__*/function () {
 }();
 
 exports.default = ResourceBatch;
-},{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/ResourceContainer":"HJ6F"}],"wwEn":[function(require,module,exports) {
+},{"/resource_loader/TextureLoader":"resource_loader/TextureLoader.js","/resource_loader/GLTFLoader":"resource_loader/GLTFLoader.js","/resource_loader/DAELoader":"resource_loader/DAELoader.js","/resource_loader/TextLoader":"resource_loader/TextLoader.js","/resource_loader/CubemapLoader":"resource_loader/CubemapLoader.js","/resource_loader/AudioLoader":"resource_loader/AudioLoader.js","/resource_loader/JSONLoader":"resource_loader/JSONLoader.js","/ResourceContainer":"ResourceContainer.js"}],"utilities/TimeUtilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4434,7 +4436,7 @@ var TimeUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = TimeUtilities;
-},{}],"bOug":[function(require,module,exports) {
+},{}],"utilities/Validation.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -4469,7 +4471,7 @@ var Validation = /*#__PURE__*/function () {
 }();
 
 exports.default = Validation;
-},{}],"Focm":[function(require,module,exports) {
+},{}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _BaseApplication = _interopRequireDefault(require("/BaseApplication"));
@@ -4542,5 +4544,209 @@ module.exports = {
   TimeUtilities: _TimeUtilities.default,
   Validation: _Validation.default
 };
-},{"/BaseApplication":"v0GF","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/utilities/Validation":"bOug"}]},{},["Focm"], null)
+},{"/BaseApplication":"BaseApplication.js","/CameraManager":"CameraManager.js","/utilities/CameraUtilities":"utilities/CameraUtilities.js","/Capabilities":"Capabilities.js","/Configuration":"Configuration.js","/utilities/EasingFunctions":"utilities/EasingFunctions.js","/EventManager":"EventManager.js","/Debug":"Debug.js","/Graphics":"Graphics.js","/Input":"Input.js","/utilities/MathUtilities":"utilities/MathUtilities.js","/render_mode/NormalRender":"render_mode/NormalRender.js","/utilities/ObjectUtilities":"utilities/ObjectUtilities.js","/PerspectiveCamera":"PerspectiveCamera.js","/RenderLoop":"RenderLoop.js","/resource_loader/ResourceBatch":"resource_loader/ResourceBatch.js","/ResourceContainer":"ResourceContainer.js","/SceneManager":"SceneManager.js","/Screen":"Screen.js","/Time":"Time.js","/utilities/TimeUtilities":"utilities/TimeUtilities.js","/utilities/Validation":"utilities/Validation.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var global = arguments[3];
+var OVERLAY_ID = '__parcel__error__overlay__';
+var OldModule = module.bundle.Module;
+
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    data: module.bundle.hotData,
+    _acceptCallbacks: [],
+    _disposeCallbacks: [],
+    accept: function (fn) {
+      this._acceptCallbacks.push(fn || function () {});
+    },
+    dispose: function (fn) {
+      this._disposeCallbacks.push(fn);
+    }
+  };
+  module.bundle.hotData = null;
+}
+
+module.bundle.Module = Module;
+var checkedAssets, assetsToAccept;
+var parent = module.bundle.parent;
+
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = "" || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50471" + '/');
+
+  ws.onmessage = function (event) {
+    checkedAssets = {};
+    assetsToAccept = [];
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      var handled = false;
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
+
+          if (didAccept) {
+            handled = true;
+          }
+        }
+      }); // Enable HMR for CSS by default.
+
+      handled = handled || data.assets.every(function (asset) {
+        return asset.type === 'css' && asset.generated.js;
+      });
+
+      if (handled) {
+        console.clear();
+        data.assets.forEach(function (asset) {
+          hmrApply(global.parcelRequire, asset);
+        });
+        assetsToAccept.forEach(function (v) {
+          hmrAcceptRun(v[0], v[1]);
+        });
+      } else if (location.reload) {
+        // `location` global exists in a web worker context but lacks `.reload()` function.
+        location.reload();
+      }
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+      removeErrorOverlay();
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+      removeErrorOverlay();
+      var overlay = createErrorOverlay(data);
+      document.body.appendChild(overlay);
+    }
+  };
+}
+
+function removeErrorOverlay() {
+  var overlay = document.getElementById(OVERLAY_ID);
+
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function createErrorOverlay(data) {
+  var overlay = document.createElement('div');
+  overlay.id = OVERLAY_ID; // html encode message and stack trace
+
+  var message = document.createElement('div');
+  var stackTrace = document.createElement('pre');
+  message.innerText = data.error.message;
+  stackTrace.innerText = data.error.stack;
+  overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+  return overlay;
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAcceptCheck(bundle, id) {
+  var modules = bundle.modules;
+
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAcceptCheck(bundle.parent, id);
+  }
+
+  if (checkedAssets[id]) {
+    return;
+  }
+
+  checkedAssets[id] = true;
+  var cached = bundle.cache[id];
+  assetsToAccept.push([bundle, id]);
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    return true;
+  }
+
+  return getParents(global.parcelRequire, id).some(function (id) {
+    return hmrAcceptCheck(global.parcelRequire, id);
+  });
+}
+
+function hmrAcceptRun(bundle, id) {
+  var cached = bundle.cache[id];
+  bundle.hotData = {};
+
+  if (cached) {
+    cached.hot.data = bundle.hotData;
+  }
+
+  if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+    cached.hot._disposeCallbacks.forEach(function (cb) {
+      cb(bundle.hotData);
+    });
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+  cached = bundle.cache[id];
+
+  if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+    cached.hot._acceptCallbacks.forEach(function (cb) {
+      cb();
+    });
+
+    return true;
+  }
+}
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/index.js.map
