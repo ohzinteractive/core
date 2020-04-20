@@ -9,4 +9,15 @@ export default class Validation
   static is_float(n) {
     return Number(n) === n && n % 1 !== 0;
   }
+
+  static is_json(str)
+  {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
+  }
 }

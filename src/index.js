@@ -21,6 +21,8 @@ import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
 import Validation from '/utilities/Validation';
 import Components from '/Components';
+import BaseShaderMaterial from '/materials/BaseShaderMaterial';
+
 module.exports = {
   BaseApplication: BaseApplication,
   CameraManager: CameraManager,
@@ -44,5 +46,6 @@ module.exports = {
   Time: Time,
   TimeUtilities: TimeUtilities,
   Validation: Validation,
-  Components: Components
+  Components: Components,
+  BaseShaderMaterial: BaseShaderMaterial
 }
