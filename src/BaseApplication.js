@@ -1,6 +1,7 @@
 export default class BaseApplication
 {
 	start() {}
+	post_start() {}
 	end() {}
 	update() {}
 	on_post_render() {}
