@@ -188,6 +188,9 @@ var BaseApplication = /*#__PURE__*/function () {
     key: "start",
     value: function start() {}
   }, {
+    key: "post_start",
+    value: function post_start() {}
+  }, {
     key: "end",
     value: function end() {}
   }, {
