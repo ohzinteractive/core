@@ -17,6 +17,7 @@ export default class RenderLoop {
     this.renderer = renderer;
 
     this.is_running = true;
+    this.frames_passed = 0;
 
   }
 
@@ -29,6 +30,9 @@ export default class RenderLoop {
     Debug.clear();
 
     //###### START CYCLE ######
+    if (this.frames_passed === 5) {
+      this.target_application.post_start();
+    }
 
     this.target_application.update();
 
@@ -49,6 +53,7 @@ export default class RenderLoop {
     //   GeometryBatcher.upload_texture_data(this.renderer);
 
     this._frame_id = requestAnimationFrame(this.update.bind(this));
+    this.frames_passed++;
   }
 
   start() {

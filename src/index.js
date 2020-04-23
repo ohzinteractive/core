@@ -1,4 +1,6 @@
+import ArrayUtilities from '/ArrayUtilities';
 import BaseApplication from '/BaseApplication';
+import BaseShaderMaterial from '/materials/BaseShaderMaterial';
 import CameraManager from '/CameraManager';
 import CameraUtilities from '/utilities/CameraUtilities';
 import Capabilities from '/Capabilities';
@@ -21,10 +23,11 @@ import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
 import Validation from '/utilities/Validation';
 import Components from '/Components';
-import BaseShaderMaterial from '/materials/BaseShaderMaterial';
 
 module.exports = {
+  ArrayUtilities: ArrayUtilities,
   BaseApplication: BaseApplication,
+  BaseShaderMaterial: BaseShaderMaterial,
   CameraManager: CameraManager,
   CameraUtilities: CameraUtilities,
   Capabilities: Capabilities,
@@ -46,6 +49,5 @@ module.exports = {
   Time: Time,
   TimeUtilities: TimeUtilities,
   Validation: Validation,
-  Components: Components,
-  BaseShaderMaterial: BaseShaderMaterial
+  Components: Components
 }
