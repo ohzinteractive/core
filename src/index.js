@@ -1,4 +1,4 @@
-import ArrayUtilities from '/ArrayUtilities';
+import ArrayUtilities from '/utilities/ArrayUtilities.js';
 import BaseApplication from '/BaseApplication';
 import BaseShaderMaterial from '/materials/BaseShaderMaterial';
 import CameraManager from '/CameraManager';
