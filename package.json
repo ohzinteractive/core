@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "description": "OHZI Core Library",
   "main": "index.js",
   "scripts": {
