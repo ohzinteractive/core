@@ -17,7 +17,7 @@ export default class GPUParticleSystem extends THREE.Object3D
 		if(init_attribute_uvs && geometry.getAttribute('storage_uv') === undefined)
 		{
 			let uv_storage_attr = this.build_uv_storage_attribute(geometry.getAttribute('position').count);
-			geometry.addAttribute( 'storage_uv', uv_storage_attr);
+			geometry.setAttribute( 'storage_uv', uv_storage_attr);
 		}
 		// position.init_from_geometry(geometry);
 		// this.attributes.push(position);

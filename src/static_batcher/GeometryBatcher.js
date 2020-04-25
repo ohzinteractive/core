@@ -34,7 +34,7 @@ class GeometryBatcher
 
 	  let buffer_attribute = new THREE.BufferAttribute( new Float32Array( attr_accessor_uvs ), 2);
 	  let buffer_geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(buffer_geometries);
-	  buffer_geometry.addAttribute( 'attr_accessor_uv', buffer_attribute);
+	  buffer_geometry.setAttribute( 'attr_accessor_uv', buffer_attribute);
 
 	  this.batches.push(new GeometryBatch(buffer_geometry, texture_width));
 	  return this.batches[this.batches.length-1];

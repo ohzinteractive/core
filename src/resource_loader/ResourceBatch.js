@@ -5,6 +5,7 @@ import TextLoader from '/resource_loader/TextLoader';
 import CubemapLoader from '/resource_loader/CubemapLoader';
 import AudioLoader from '/resource_loader/AudioLoader';
 import JSONLoader from '/resource_loader/JSONLoader';
+import OBJLoader from '/resource_loader/OBJLoader';
 import ResourceContainer from '/ResourceContainer';
 
 export default class ResourceBatch
@@ -27,6 +28,10 @@ export default class ResourceBatch
 	add_dae(resource_id, url)
 	{
 		this.resource_loaders.push(new DAELoader(resource_id, url));
+	}
+	add_obj(resource_id, url)
+	{
+		this.resource_loaders.push(new OBJLoader(resource_id, url));
 	}
 	add_text(resource_id, url)
 	{

@@ -45,8 +45,8 @@ export default class GeometryUtilities
 		}
 
 		let geometry = new THREE.BufferGeometry();
-		// geometry.addAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
-		geometry.addAttribute('position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
+		// geometry.setAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
+		geometry.setAttribute('position', new THREE.BufferAttribute( new Float32Array(vertices), 3 ) );
 		GeometryUtilities.add_barycentric_attribute(geometry);
 		return geometry;
 	}
@@ -71,6 +71,6 @@ export default class GeometryUtilities
 			bar_coordinates.push(1);
 
 		}
-		non_indexed_geometry_buffer.addAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
+		non_indexed_geometry_buffer.setAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
 	}
 }

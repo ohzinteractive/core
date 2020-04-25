@@ -7,11 +7,11 @@ export default class Line extends THREE.Mesh {
 
 
     let geometry = new THREE.BufferGeometry();
-    geometry.addAttribute('position',           new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.addAttribute('next_position',      new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.addAttribute('previous_position',  new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.addAttribute('orientation',        new THREE.BufferAttribute(new Float32Array([]), 1));
-    geometry.addAttribute('coverage',           new THREE.BufferAttribute(new Float32Array([]), 1));
+    geometry.setAttribute('position',           new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('next_position',      new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('previous_position',  new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('orientation',        new THREE.BufferAttribute(new Float32Array([]), 1));
+    geometry.setAttribute('coverage',           new THREE.BufferAttribute(new Float32Array([]), 1));
 
     let material = new THREE.ShaderMaterial({
       uniforms: {

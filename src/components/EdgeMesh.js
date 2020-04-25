@@ -103,7 +103,7 @@ export default class EdgeMesh extends THREE.Object3D {
         dirs.push(dir.z);
       }
       let dir_array = new Float32Array(dirs);
-      geometry.addAttribute("tangent", new THREE.BufferAttribute( dir_array, 3 ));
+      geometry.setAttribute("tangent", new THREE.BufferAttribute( dir_array, 3 ));
       buffer_geometries.push(geometry);
     }
 
@@ -125,7 +125,7 @@ export default class EdgeMesh extends THREE.Object3D {
         w_pos.push(geometry_vertices.array[i*3+2]);
       }
       let pos_array = new Float32Array(w_pos);
-      plane_geometry.addAttribute("w_pos", new THREE.BufferAttribute( pos_array, 3 ));
+      plane_geometry.setAttribute("w_pos", new THREE.BufferAttribute( pos_array, 3 ));
       circle_buffer_geometries.push(plane_geometry);
     }
     return THREE.BufferGeometryUtils.mergeBufferGeometries(circle_buffer_geometries);
