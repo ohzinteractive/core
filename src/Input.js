@@ -61,8 +61,8 @@ class Input {
 		this.canvas = undefined;
 	}
 
-	mouse_is_within_bounds() {
-		let rect = this.canvas.getBoundingClientRect();
+	mouse_is_within_bounds(rect) {
+		rect = rect || this.canvas.getBoundingClientRect();
 
 		return this.mouse_pos.x > rect.left &&
 			this.mouse_pos.x < rect.left + rect.width &&
