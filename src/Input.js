@@ -230,7 +230,11 @@ class Input {
 			this.scrolling_with_trackpad = false;
 			this.scrolling_with_mouse = true;
 
-			this.wheel_delta = event.deltaY / Math.abs(event.deltaY);
+			if (Math.abs(event.deltaY) < 0.0001)
+				this.wheel_delta = 0;
+			else
+				this.wheel_delta = event.deltaY / Math.abs(event.deltaY);
+
 		}
 	}
 
