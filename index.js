@@ -721,7 +721,8 @@ var Input = /*#__PURE__*/function () {
         scope.set_mouse_pos(e);
       });
       window.addEventListener('dblclick', this.on_double_click.bind(this));
-      container.addEventListener('mouseleave', this.on_focus_lost.bind(this)); // region.bind(container, 'pan', function(e){
+      container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
+      container.addEventListener('mouseup', this.on_mouse_up.bind(this)); // region.bind(container, 'pan', function(e){
       // 	scope.on_mouse_move(e);
       // 	console.log("PAN");
       // });
@@ -776,7 +777,7 @@ var Input = /*#__PURE__*/function () {
       var gesture = new ZingTouch.Gesture();
 
       gesture.end = function (inputs, state, element) {
-        scope.on_mouse_up(inputs);
+        scope.on_gesture_end(inputs);
       };
 
       gesture.start = function (inputs, state, element) {
@@ -901,8 +902,16 @@ var Input = /*#__PURE__*/function () {
     }
   }, {
     key: "on_mouse_up",
-    value: function on_mouse_up(inputs) {
-      // this.left_mouse_button_released = true;
+    value: function on_mouse_up(e) {
+      this.on_gesture_end([{
+        current: {
+          originalEvent: e
+        }
+      }]);
+    }
+  }, {
+    key: "on_gesture_end",
+    value: function on_gesture_end(inputs) {
       this.multitouch_active = inputs ? inputs.length > 1 : false;
       this.is_mouse_up = true;
       this.zoom_started = false;
@@ -943,7 +952,7 @@ var Input = /*#__PURE__*/function () {
   }, {
     key: "on_focus_lost",
     value: function on_focus_lost() {
-      this.on_mouse_up();
+      this.on_gesture_end();
       this.left_mouse_button_released = true;
       this.middle_mouse_button_released = true;
       this.right_mouse_button_released = true;
@@ -1808,7 +1817,7 @@ var AxisHelper = /*#__PURE__*/function (_THREE$Object3D) {
     });
     var blueAxisGeo = new THREE.Geometry();
     blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
-    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 1000));
+    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, -1000));
     var blueAxisLine = new THREE.Line(blueAxisGeo, blueAxisMat);
     blueAxisLine.renderOrder = 50000;
     var greenAxisMat = new THREE.LineBasicMaterial({

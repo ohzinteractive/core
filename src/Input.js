@@ -87,6 +87,7 @@ class Input {
 		window.addEventListener('dblclick', this.on_double_click.bind(this));
 
 		container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
+		container.addEventListener('mouseup', this.on_mouse_up.bind(this));
 
 		// region.bind(container, 'pan', function(e){
 		// 	scope.on_mouse_move(e);
@@ -141,7 +142,7 @@ class Input {
 		}, false);
 
 		let gesture = new ZingTouch.Gesture();
-		gesture.end = (inputs, state, element) => { scope.on_mouse_up(inputs) }
+		gesture.end = (inputs, state, element) => { scope.on_gesture_end(inputs) }
 		gesture.start = (inputs, state, element) => { scope.on_mouse_down(inputs) }
 		region.register('shortTap', gesture);
 
@@ -277,8 +278,11 @@ class Input {
 		return this.tapped;
 	}
 
-	on_mouse_up(inputs) {
-		// this.left_mouse_button_released = true;
+	on_mouse_up(e) {
+		this.on_gesture_end([ { current: { originalEvent: e } } ])
+	}
+
+	on_gesture_end(inputs) {
 		this.multitouch_active = inputs ? (inputs.length > 1) : false;
 		this.is_mouse_up = true;
 		this.zoom_started = false;
@@ -316,7 +320,7 @@ class Input {
 
 
 	on_focus_lost() {
-		this.on_mouse_up();
+		this.on_gesture_end();
 		this.left_mouse_button_released = true;
 		this.middle_mouse_button_released = true;
 		this.right_mouse_button_released = true;
