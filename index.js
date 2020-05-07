@@ -696,7 +696,10 @@ var Input = /*#__PURE__*/function () {
     this.scrolling_with_trackpad = false;
     this.scrolling_with_mouse = false;
     this.double_click = false;
-    this.canvas = undefined;
+    this.canvas = undefined; // Input 2.0
+
+    this.previous_pos_x = 0;
+    this.previous_pos_y = 0;
   }
 
   _createClass(Input, [{
@@ -722,7 +725,10 @@ var Input = /*#__PURE__*/function () {
       });
       window.addEventListener('dblclick', this.on_double_click.bind(this));
       container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
-      container.addEventListener('mouseup', this.on_mouse_up.bind(this)); // region.bind(container, 'pan', function(e){
+      container.addEventListener('mouseup', this.on_mouse_up.bind(this));
+      container.addEventListener('mousemove', this.on_mouse_move.bind(this));
+      container.addEventListener('touchmove', this.on_touch_move.bind(this), false);
+      container.addEventListener('touchend', this.on_touch_end.bind(this), false); // region.bind(container, 'pan', function(e){
       // 	scope.on_mouse_move(e);
       // 	console.log("PAN");
       // });
@@ -732,10 +738,9 @@ var Input = /*#__PURE__*/function () {
       });
       region.register("one_finger_pan", one_finger_pan);
       region.bind(container, "one_finger_pan", function (event) {
-        if (event.detail.data.length > 0) {
-          // scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
+        if (event.detail.data.length > 0) {// scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
           // scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
-          scope.on_mouse_move(event);
+          // scope.on_mouse_move_zingtouch(event);
         }
       });
       var two_fingers_pan = new ZingTouch.Pan({
@@ -901,6 +906,23 @@ var Input = /*#__PURE__*/function () {
       return this.tapped;
     }
   }, {
+    key: "on_touch_move",
+    value: function on_touch_move(e) {
+      this.on_mouse_move({
+        clientX: e.changedTouches[0].clientX,
+        clientY: e.changedTouches[0].clientY
+      });
+    }
+  }, {
+    key: "on_touch_end",
+    value: function on_touch_end(e) {
+      this.on_gesture_end([{
+        current: {
+          originalEvent: e
+        }
+      }]);
+    }
+  }, {
     key: "on_mouse_up",
     value: function on_mouse_up(e) {
       this.on_gesture_end([{
@@ -966,6 +988,16 @@ var Input = /*#__PURE__*/function () {
   }, {
     key: "on_mouse_move",
     value: function on_mouse_move(event) {
+      this.mouse_pos.x = event.clientX;
+      this.mouse_pos.y = event.clientY;
+      this.mouse_dir.set(this.mouse_pos.x - this.previous_pos_x, this.mouse_pos.x - this.previous_pos_y);
+      this.mouse_dir.normalize();
+      this.previous_pos_x = this.mouse_pos.x;
+      this.previous_pos_y = this.mouse_pos.x;
+    }
+  }, {
+    key: "on_mouse_move_zingtouch",
+    value: function on_mouse_move_zingtouch(event) {
       if (event.detail.data.length > 0) {
         this.set_mouse_pos(event);
         this.mouse_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y); // this.mouse_dir.x *=  Screen.height / Screen.width;
