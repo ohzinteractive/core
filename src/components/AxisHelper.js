@@ -19,7 +19,6 @@ export default class AxisHelper extends THREE.Object3D {
 
     const redAxisMat = new THREE.LineBasicMaterial({ linewidth: 100, color: 0xff4444, depthFunc: THREE.AlwaysDepth });
     const redAxisGeo = new THREE.Geometry();
-    redAxisGeo.computeLineDistances();
     redAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
     redAxisGeo.vertices.push(new THREE.Vector3(1000, 0, 0));
     const redAxisLine = new THREE.Line(redAxisGeo, redAxisMat);

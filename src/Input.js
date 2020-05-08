@@ -59,6 +59,10 @@ class Input {
 		this.double_click = false;
 
 		this.canvas = undefined;
+
+		// Input 2.0
+		this.previous_pos_x = 0;
+		this.previous_pos_y = 0;
 	}
 
 	mouse_is_within_bounds(rect) {
@@ -88,6 +92,12 @@ class Input {
 
 		container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
 
+		container.addEventListener('mouseup', this.on_mouse_up.bind(this));
+		container.addEventListener('mousemove', this.on_mouse_move.bind(this));
+
+		container.addEventListener('touchmove', this.on_touch_move.bind(this), false);
+		container.addEventListener('touchend', this.on_touch_end.bind(this), false);
+
 		// region.bind(container, 'pan', function(e){
 		// 	scope.on_mouse_move(e);
 		// 	console.log("PAN");
@@ -98,7 +108,7 @@ class Input {
 			if (event.detail.data.length > 0) {
 				// scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
 				// scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
-				scope.on_mouse_move(event);
+				// scope.on_mouse_move_zingtouch(event);
 			}
 
 		})
@@ -141,7 +151,7 @@ class Input {
 		}, false);
 
 		let gesture = new ZingTouch.Gesture();
-		gesture.end = (inputs, state, element) => { scope.on_mouse_up(inputs) }
+		gesture.end = (inputs, state, element) => { scope.on_gesture_end(inputs) }
 		gesture.start = (inputs, state, element) => { scope.on_mouse_down(inputs) }
 		region.register('shortTap', gesture);
 
@@ -277,8 +287,19 @@ class Input {
 		return this.tapped;
 	}
 
-	on_mouse_up(inputs) {
-		// this.left_mouse_button_released = true;
+	on_touch_move(e) {
+		this.on_mouse_move({ clientX: e.changedTouches[0].clientX, clientY: e.changedTouches[0].clientY})
+	}
+
+	on_touch_end(e) {
+		this.on_gesture_end([{ current: { originalEvent: e } }])
+	}
+
+	on_mouse_up(e) {
+		this.on_gesture_end([ { current: { originalEvent: e } } ])
+	}
+
+	on_gesture_end(inputs) {
 		this.multitouch_active = inputs ? (inputs.length > 1) : false;
 		this.is_mouse_up = true;
 		this.zoom_started = false;
@@ -292,6 +313,7 @@ class Input {
 		this.left_mouse_button_down = false;
 		this.middle_mouse_button_down = false;
 		this.right_mouse_button_down = false;
+
 		if (inputs) {
 			switch (inputs[0].current.originalEvent.which) {
 				case 1:
@@ -316,7 +338,7 @@ class Input {
 
 
 	on_focus_lost() {
-		this.on_mouse_up();
+		this.on_gesture_end();
 		this.left_mouse_button_released = true;
 		this.middle_mouse_button_released = true;
 		this.right_mouse_button_released = true;
@@ -329,6 +351,19 @@ class Input {
 	}
 
 	on_mouse_move(event) {
+		this.mouse_pos.x = event.clientX;
+		this.mouse_pos.y = event.clientY;
+
+		this.mouse_dir.set(this.mouse_pos.x - this.previous_pos_x,
+											 this.mouse_pos.x - this.previous_pos_y);
+
+		this.mouse_dir.normalize();
+
+		this.previous_pos_x = this.mouse_pos.x;
+		this.previous_pos_y = this.mouse_pos.x;
+	}
+
+	on_mouse_move_zingtouch(event) {
 		if (event.detail.data.length > 0) {
 			this.set_mouse_pos(event);
 			this.mouse_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
