@@ -6,14 +6,15 @@ export default class CubemapLoader extends AbstractLoader
 	{
 		super(resource_id, url);
 		this.loader = new THREE.CubeTextureLoader();
-
-		this.urls = [];
-		this.urls.push(url);
-		this.urls.push(url);
-		this.urls.push(url);
-		this.urls.push(url);
-		this.urls.push(url);
-		this.urls.push(url);
+		this.loader.setPath(url + "/");
+		this.urls = [
+			'px.png',
+			'nx.png',
+			'py.png',
+			'ny.png',
+			'pz.png',
+			'nz.png'
+		]
 	}
 
 	load(resource_container)
