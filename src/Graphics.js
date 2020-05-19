@@ -22,9 +22,9 @@ class Graphics {
     this.depth_and_normals_renderer = undefined;
   }
 
-  init(canvas) {
+  init(canvas, msaa = true) {
     this._renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias: msaa,
       preserveDrawingBuffer: true,
       alpha: true,
       canvas: canvas
@@ -75,6 +75,8 @@ class Graphics {
   }
 
   update() {
+    this.check_for_resize();
+
     if(this.generateDepthNormalTexture)
     {
       this.depth_and_normals_renderer.render(this);
@@ -139,20 +141,26 @@ class Graphics {
     this._renderer.render(scene, CameraManager.current)
   }
 
+  check_for_resize()
+  {
+    let current_width = this.canvas.clientWidth;
+    let current_height = this.canvas.clientHeight;
 
+    if (this.canvas.width !== current_width ||
+        this.canvas.height !== current_height)
+    {
+      Screen.update_size(current_width, current_height);
+      Screen.update_native_size()
+
+      this._renderer.setSize(current_width, current_height, false);
+
+      UI.resize();
+      this.current_render_mode.resize(current_width, current_height);
+    }
+  }
 
   on_resize() {
-
-    let width  = this.canvas.offsetWidth;
-    let height = this.canvas.offsetHeight;
-    Screen.update_size(width, height);
-    Screen.update_native_size()
-
-    this._renderer.setSize(width,height, false);
-
-    UI.resize();
-    this.current_render_mode.resize(width,height);
-
+    console.error("Graphics.on_resize call no longer needed.")
   }
 
 

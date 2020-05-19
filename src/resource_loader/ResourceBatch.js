@@ -6,6 +6,7 @@ import CubemapLoader from '/resource_loader/CubemapLoader';
 import AudioLoader from '/resource_loader/AudioLoader';
 import JSONLoader from '/resource_loader/JSONLoader';
 import OBJLoader from '/resource_loader/OBJLoader';
+import PointArrayLoader from '/resource_loader/PointArrayLoader';
 import ResourceContainer from '/ResourceContainer';
 
 export default class ResourceBatch
@@ -46,6 +47,10 @@ export default class ResourceBatch
 	}
 	add_json(resource_id, url, username, password) {
 		this.resource_loaders.push(new JSONLoader(resource_id, url, username, password));
+	}
+	add_point_array(resource_id, url)
+	{
+		this.resource_loaders.push(new PointArrayLoader(resource_id, url));
 	}
 
 	load(resource_container)

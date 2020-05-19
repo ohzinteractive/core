@@ -2623,8 +2623,9 @@ var Graphics = /*#__PURE__*/function () {
   _createClass(Graphics, [{
     key: "init",
     value: function init(canvas) {
+      var msaa = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       this._renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: msaa,
         preserveDrawingBuffer: true,
         alpha: true,
         canvas: canvas
@@ -2656,6 +2657,8 @@ var Graphics = /*#__PURE__*/function () {
   }, {
     key: "update",
     value: function update() {
+      this.check_for_resize();
+
       if (this.generateDepthNormalTexture) {
         this.depth_and_normals_renderer.render(this);
       }
@@ -2711,20 +2714,27 @@ var Graphics = /*#__PURE__*/function () {
       this._renderer.render(scene, _CameraManager.default.current);
     }
   }, {
+    key: "check_for_resize",
+    value: function check_for_resize() {
+      var current_width = this.canvas.clientWidth;
+      var current_height = this.canvas.clientHeight;
+
+      if (this.canvas.width !== current_width || this.canvas.height !== current_height) {
+        _Screen.default.update_size(current_width, current_height);
+
+        _Screen.default.update_native_size();
+
+        this._renderer.setSize(current_width, current_height, false);
+
+        _UI.default.resize();
+
+        this.current_render_mode.resize(current_width, current_height);
+      }
+    }
+  }, {
     key: "on_resize",
     value: function on_resize() {
-      var width = this.canvas.offsetWidth;
-      var height = this.canvas.offsetHeight;
-
-      _Screen.default.update_size(width, height);
-
-      _Screen.default.update_native_size();
-
-      this._renderer.setSize(width, height, false);
-
-      _UI.default.resize();
-
-      this.current_render_mode.resize(width, height);
+      console.error("Graphics.on_resize call no longer needed.");
     }
   }, {
     key: "blit",
@@ -3178,7 +3188,331 @@ var NormalRender = /*#__PURE__*/function (_BaseRender) {
 }(_BaseRender2.default);
 
 exports.default = NormalRender;
-},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"oP7G":[function(require,module,exports) {
+},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"aVPl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex; //albedo\nuniform sampler2D _NormalDepthRT;\nuniform mat4 _InverseProjMatrix;\nuniform vec2 _Resolution;\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthRT, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv)\n{\n  vec2 depth = texture2D(_NormalDepthRT, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (vRay.xyz/vRay.w);\n}\n\nvoid main()\n{\n\n    vec3 fragPos   = DecodeViewPos(vUv);\n    vec3 normal    = DecodeNormal(vUv);\n\n    vec3 dir_to_light = normalize(fragPos) * -1.0;\n\n    float diffuse = dot(normal, dir_to_light);\n\n    gl_FragColor = vec4(diffuse, diffuse, diffuse, 1.0);\n}\n";
+},{}],"mld6":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nuniform mat4 _InverseProjMatrix;\n\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvRay = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}\n";
+},{}],"ITsm":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _deferred_compose = _interopRequireDefault(require("/shaders/deferred/deferred_compose.frag"));
+
+var _blit_copy = _interopRequireDefault(require("/shaders/deferred/blit_copy.vert"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredRendererComposeMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(DeferredRendererComposeMaterial, _BlitMaterial);
+
+  var _super = _createSuper(DeferredRendererComposeMaterial);
+
+  function DeferredRendererComposeMaterial() {
+    var _this;
+
+    _classCallCheck(this, DeferredRendererComposeMaterial);
+
+    _this = _super.call(this, _deferred_compose.default, _blit_copy.default);
+    _this.uniforms._NormalDepthRT = {
+      value: undefined
+    };
+    _this.uniforms._AlbedoRT = {
+      value: undefined
+    };
+    _this.uniforms._InverseProjMatrix = {
+      value: new THREE.Matrix4()
+    };
+    return _this;
+  }
+
+  _createClass(DeferredRendererComposeMaterial, [{
+    key: "set_normal_depth_rt",
+    value: function set_normal_depth_rt(rt) {
+      this.uniforms._NormalDepthRT.value = rt.texture;
+    }
+  }, {
+    key: "set_albedo_rt",
+    value: function set_albedo_rt(tex) {
+      this.uniforms._AlbedoRT.value = tex;
+    }
+  }, {
+    key: "set_proj_matrix",
+    value: function set_proj_matrix(mat4) {
+      this.uniforms._InverseProjMatrix.value.getInverse(mat4);
+    }
+  }]);
+
+  return DeferredRendererComposeMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = DeferredRendererComposeMaterial;
+},{"/materials/BlitMaterial":"Ftca","/shaders/deferred/deferred_compose.frag":"aVPl","/shaders/deferred/blit_copy.vert":"mld6"}],"s8VP":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nvoid main()\n{\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\n    vProjPos = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\tvUv = uv;\n    vCenter = vec3(modelMatrix[3][0],modelMatrix[3][1],modelMatrix[3][2]);\n    vCenter = (viewMatrix * vec4(vCenter, 1.0)).xyz;\n}\n";
+},{}],"Whr1":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _AlbedoTex; //albedo\nuniform sampler2D _NormalDepthTex;\nuniform mat4 _InverseProjMatrix;\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nuniform float _Intensity;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthTex, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv, vec4 ray)\n{\n  vec2 depth = texture2D(_NormalDepthTex, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (ray.xyz/ray.w);\n}\n\nfloat saturate(float x)\n{\n    return clamp(x, 0.0, 1.0);\n}\n\nvoid main()\n{\n    vec2 uv = (vProjPos.xy/vProjPos.w)*0.5+vec2(0.5);\n\tvec4 ray = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\n    vec3 fragPos   = DecodeViewPos(uv, ray);\n    vec3 normal    = DecodeNormal(uv);\n    vec3 albedo    = texture2D(_AlbedoTex, uv).rgb;\n\n    vec3 dir_to_light = normalize(vCenter - fragPos);\n    float diffuse = saturate(dot(normal, dir_to_light));\n    float attenuation = _Intensity/pow(length(vCenter - fragPos), 2.0);\n    gl_FragColor = vec4(albedo * diffuse * attenuation, 1.0);\n}\n";
+},{}],"dxxC":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _point_light = _interopRequireDefault(require("/shaders/deferred/point_light.vert"));
+
+var _point_light2 = _interopRequireDefault(require("/shaders/deferred/point_light.frag"));
+
+var _BaseShaderMaterial2 = _interopRequireDefault(require("/materials/BaseShaderMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredPointLightMaterial = /*#__PURE__*/function (_BaseShaderMaterial) {
+  _inherits(DeferredPointLightMaterial, _BaseShaderMaterial);
+
+  var _super = _createSuper(DeferredPointLightMaterial);
+
+  function DeferredPointLightMaterial() {
+    var _this;
+
+    var intensity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+    _classCallCheck(this, DeferredPointLightMaterial);
+
+    _this = _super.call(this, _point_light.default, _point_light2.default, {
+      _Intensity: {
+        value: intensity
+      },
+      _AlbedoTex: {
+        value: undefined
+      },
+      _NormalDepthTex: {
+        value: undefined
+      },
+      _InverseProjMatrix: {
+        value: new THREE.Matrix4()
+      }
+    });
+    _this.blending = THREE.AdditiveBlending;
+    _this.depthWrite = false;
+    _this.side = THREE.BackSide;
+    return _this;
+  }
+
+  _createClass(DeferredPointLightMaterial, [{
+    key: "set_inverse_proj_matrix",
+    value: function set_inverse_proj_matrix(mat4) {
+      this.uniforms._InverseProjMatrix.value.copy(mat4);
+    }
+  }, {
+    key: "set_normal_depth_rt",
+    value: function set_normal_depth_rt(rt) {
+      this.uniforms._NormalDepthTex.value = rt.texture;
+    }
+  }, {
+    key: "set_albedo_rt",
+    value: function set_albedo_rt(rt) {
+      this.uniforms._AlbedoTex.value = rt.texture;
+    }
+  }]);
+
+  return DeferredPointLightMaterial;
+}(_BaseShaderMaterial2.default);
+
+exports.default = DeferredPointLightMaterial;
+},{"/shaders/deferred/point_light.vert":"s8VP","/shaders/deferred/point_light.frag":"Whr1","/materials/BaseShaderMaterial":"Ej2H"}],"VyPa":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _BaseRender2 = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _DeferredRendererComposeMaterial = _interopRequireDefault(require("/materials/DeferredRendererComposeMaterial"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _DeferredPointLightMaterial = _interopRequireDefault(require("/materials/deferred/DeferredPointLightMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredRender = /*#__PURE__*/function (_BaseRender) {
+  _inherits(DeferredRender, _BaseRender);
+
+  var _super = _createSuper(DeferredRender);
+
+  function DeferredRender() {
+    var _this;
+
+    _classCallCheck(this, DeferredRender);
+
+    _this = _super.call(this);
+    _this.compose_mat = new _DeferredRendererComposeMaterial.default();
+    _this.main_rt = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height, {// magFilter: THREE.NearestFilter,
+      // minFilter: THREE.NearestFilter
+    });
+    _this.scene_lights = new THREE.Scene();
+    var light_intensity = 1;
+    var light_brightest_component = 1;
+    var radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
+    var sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius_needed_for_intensity), new _DeferredPointLightMaterial.default(light_intensity)); // sphere.position.y = 2;
+    // this.scene_lights.add(sphere);
+    // let sphere2 = sphere.clone();
+    // sphere2.position.x = 2;
+    // this.scene_lights.add(sphere2);
+    // let sphere3 = sphere.clone();
+    // sphere3.position.x = -2;
+    // this.scene_lights.add(sphere3);
+    // let sphere4 = sphere.clone();
+    // sphere4.position.z = -2;
+    // this.scene_lights.add(sphere4);
+    // let sphere5 = sphere.clone();
+    // sphere5.position.z = 2;
+    // this.scene_lights.add(sphere5);
+
+    var light_row = 2;
+    var light_col = 2;
+
+    for (var x = 0; x < light_row; x++) {
+      for (var y = 0; y < light_col; y++) {
+        var clone = sphere.clone();
+        clone.position.set(x * 2 - light_row / 2, 1, y * 2 - light_col / 2);
+
+        _this.scene_lights.add(clone);
+      }
+    }
+
+    _this.camera_inverse_proj_mat = new THREE.Matrix4();
+    return _this;
+  }
+
+  _createClass(DeferredRender, [{
+    key: "on_enter",
+    value: function on_enter() {
+      _Graphics.default.generateDepthNormalTexture = true;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      this.__check_RT_size();
+
+      _Graphics.default.clear(this.main_rt, _CameraManager.default.current, true, false);
+
+      _Graphics.default.render(_SceneManager.default.current, _CameraManager.default.current, this.main_rt); // this.compose_mat.set_normal_depth_rt(Graphics.depth_normals_RT);
+      // this.compose_mat.set_proj_matrix(CameraManager.current.projectionMatrix);
+      // Graphics.blit(this.main_rt, undefined, this.compose_mat);
+
+
+      this.camera_inverse_proj_mat.getInverse(_CameraManager.default.current.projectionMatrix);
+      var inverse_proj = this.camera_inverse_proj_mat;
+      var albedo_rt = this.main_rt;
+      var depth_normals_rt = _Graphics.default.depth_normals_RT;
+      this.scene_lights.traverse(function (child) {
+        if (child.material) {
+          child.material.set_inverse_proj_matrix(inverse_proj);
+          child.material.set_normal_depth_rt(depth_normals_rt);
+          child.material.set_albedo_rt(albedo_rt);
+        }
+      }); // Graphics.clear(undefined, CameraManager.current, true, true);
+      // Graphics.render(SceneManager.current, CameraManager.current);
+
+      _Graphics.default.clear(undefined, _CameraManager.default.current, true, true);
+
+      _Graphics.default.render(this.scene_lights, _CameraManager.default.current);
+    }
+  }, {
+    key: "__check_RT_size",
+    value: function __check_RT_size() {
+      if (this.main_rt.width !== _Screen.default.width || this.main_rt.height !== _Screen.default.height) {
+        this.main_rt.setSize(_Screen.default.width, _Screen.default.height);
+      }
+    }
+  }]);
+
+  return DeferredRender;
+}(_BaseRender2.default);
+
+exports.default = DeferredRender;
+},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/materials/DeferredRendererComposeMaterial":"ITsm","/Graphics":"xMH9","/materials/deferred/DeferredPointLightMaterial":"dxxC"}],"oP7G":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\n\nvoid main()\n{\n    gl_FragColor = vec4(v_normal * 0.5 + vec3(0.5), 1.0);\n}\n";
 },{}],"OGPa":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvoid main()\n{\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n    v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;\n}\n";
@@ -4514,6 +4848,100 @@ var OBJLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = OBJLoader;
+},{"/resource_loader/AbstractLoader":"mqLz"}],"cNL4":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(PointArrayLoader, _AbstractLoader);
+
+  var _super = _createSuper(PointArrayLoader);
+
+  function PointArrayLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, PointArrayLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.FileLoader();
+    return _this;
+  }
+
+  _createClass(PointArrayLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (text) {
+        resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg);
+
+        ctx.__loading_ended();
+      });
+    }
+  }, {
+    key: "parse_path",
+    value: function parse_path(raw_data) {
+      var string_array = raw_data.split('\n');
+
+      if (string_array[string_array.length - 1] === "") {
+        string_array.pop();
+      }
+
+      var positions = [];
+
+      for (var i = 0; i < string_array.length; i += 3) {
+        var x = parseFloat(string_array[i + 0]);
+        var y = parseFloat(string_array[i + 1]);
+        var z = parseFloat(string_array[i + 2]);
+        positions.push(new THREE.Vector3(x, y, z));
+      }
+
+      return positions; // let curve = new THREE.CatmullRomCurve3(positions);
+      // return curve.getPoints(100);
+    }
+  }]);
+
+  return PointArrayLoader;
+}(_AbstractLoader2.default);
+
+exports.default = PointArrayLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"HJ6F":[function(require,module,exports) {
 "use strict";
 
@@ -4585,6 +5013,8 @@ var _JSONLoader = _interopRequireDefault(require("/resource_loader/JSONLoader"))
 
 var _OBJLoader = _interopRequireDefault(require("/resource_loader/OBJLoader"));
 
+var _PointArrayLoader = _interopRequireDefault(require("/resource_loader/PointArrayLoader"));
+
 var _ResourceContainer = _interopRequireDefault(require("/ResourceContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4644,6 +5074,11 @@ var ResourceBatch = /*#__PURE__*/function () {
       this.resource_loaders.push(new _JSONLoader.default(resource_id, url, username, password));
     }
   }, {
+    key: "add_point_array",
+    value: function add_point_array(resource_id, url) {
+      this.resource_loaders.push(new _PointArrayLoader.default(resource_id, url));
+    }
+  }, {
     key: "load",
     value: function load(resource_container) {
       for (var i = 0; i < this.resource_loaders.length; i++) {
@@ -4698,7 +5133,7 @@ var ResourceBatch = /*#__PURE__*/function () {
 }();
 
 exports.default = ResourceBatch;
-},{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/resource_loader/OBJLoader":"tM6y","/ResourceContainer":"HJ6F"}],"wwEn":[function(require,module,exports) {
+},{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/resource_loader/OBJLoader":"tM6y","/resource_loader/PointArrayLoader":"cNL4","/ResourceContainer":"HJ6F"}],"wwEn":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5021,6 +5456,8 @@ var _MathUtilities = _interopRequireDefault(require("/utilities/MathUtilities"))
 
 var _NormalRender = _interopRequireDefault(require("/render_mode/NormalRender"));
 
+var _DeferredRender = _interopRequireDefault(require("/render_mode/DeferredRender"));
+
 var _DebugNormalsRender = _interopRequireDefault(require("/render_mode/DebugNormalsRender"));
 
 var _ObjectUtilities = _interopRequireDefault(require("/utilities/ObjectUtilities"));
@@ -5062,6 +5499,7 @@ module.exports = {
   Input: _Input.default,
   MathUtilities: _MathUtilities.default,
   NormalRender: _NormalRender.default,
+  DeferredRender: _DeferredRender.default,
   DebugNormalsRender: _DebugNormalsRender.default,
   ObjectUtilities: _ObjectUtilities.default,
   PerspectiveCamera: _PerspectiveCamera.default,
@@ -5075,5 +5513,5 @@ module.exports = {
   Validation: _Validation.default,
   Components: _Components.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map
