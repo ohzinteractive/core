@@ -9,10 +9,7 @@ export default class OnMouseEnter extends UIElementState
 
 	on_enter(ui_element)
 	{
-		if(ui_element.on_enter)
-		{
-			ui_element.on_enter();
-		}
+		ui_element.on_mouse_enter();
 	}
 
 	update(ui_element, normalized_mouse_position)

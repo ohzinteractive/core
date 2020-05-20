@@ -22,7 +22,9 @@ import ResourceContainer from '/ResourceContainer';
 import SceneManager from '/SceneManager';
 import Screen from '/Screen';
 import Time from '/Time';
+import UI from '/UI';
 import TimeUtilities from '/utilities/TimeUtilities';
+import ImageUtilities from '/utilities/ImageUtilities';
 import Validation from '/utilities/Validation';
 import Components from '/Components';
 
@@ -52,6 +54,8 @@ module.exports = {
   Screen: Screen,
   Time: Time,
   TimeUtilities: TimeUtilities,
+  ImageUtilities: ImageUtilities,
   Validation: Validation,
-  Components: Components
+  Components: Components,
+  UI: UI
 }

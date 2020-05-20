@@ -4,7 +4,6 @@ import OutlineRender from           '/render_mode/OutlineRender';
 import Screen from '/Screen';
 import CameraManager from '/CameraManager';
 import SceneManager from '/SceneManager';
-import UI from '/UI';
 import Capabilities from '/Capabilities';
 import DepthAndNormalsRenderer from '/render_utilities/DepthAndNormalsRenderer';
 import Blitter from '/render_utilities/Blitter';
@@ -32,7 +31,7 @@ class Graphics {
 
     this._renderer.autoClear = false;
 
-    this._renderer.setPixelRatio(window.devicePixelRatio);
+    this._renderer.setPixelRatio(1);
 
 		this._renderer.extensions.get( 'ANGLE_instanced_arrays' )
 
@@ -136,11 +135,6 @@ class Graphics {
                           clear_stencil?  true : false);
   }
 
-  render_ui(scene)
-  {
-    this._renderer.render(scene, CameraManager.current)
-  }
-
   check_for_resize()
   {
     let current_width = this.canvas.clientWidth;
@@ -149,12 +143,11 @@ class Graphics {
     if (this.canvas.width !== current_width ||
         this.canvas.height !== current_height)
     {
+
       Screen.update_size(current_width, current_height);
       Screen.update_native_size()
 
       this._renderer.setSize(current_width, current_height, false);
-
-      UI.resize();
       this.current_render_mode.resize(current_width, current_height);
     }
   }

@@ -26,9 +26,6 @@ export default class OnMouseHover extends UIElementState
 
 	__trigger_on_hover(ui_element)
 	{
-		if(ui_element.on_hover)
-		{
-			ui_element.on_hover();
-		}
+		ui_element.on_mouse_hover();
 	}
 }

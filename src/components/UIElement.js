@@ -43,38 +43,12 @@ export default class UIElement extends THREE.Mesh
     this.screen_pos_tmp = new THREE.Vector2();
 
 
+    this.texture_size = new THREE.Vector2(1,1);
 
 
-    this.width = 0;
-    this.height = 0;
-
-
-    // this.material = new THREE.ShaderMaterial({
-    // uniforms:  {
-    //   _MainTex: { value: undefined},
-    //   _ScreenSize: { value: new THREE.Vector2(Screen.width, Screen.height) },
-    //   _TextureSize: {value: new THREE.Vector2()},
-    //   _PixelOffset: {value: new THREE.Vector2(0,0)},
-    //   _NDC: {value: new THREE.Vector3()},
-    //   _PivotPoint: {value: new THREE.Vector2()},
-    //   _DepthOffset: {value: 0}
-    // },
-    //   vertexShader: vert? vert : screen_space_text_vert,
-    //   fragmentShader: frag? frag: screen_space_text_frag,
-    //   transparent: true,
-    //   depthWrite: false,
-    //   depthTest: false
-    // });
-
-
-    // let geometry = new THREE.PlaneGeometry(1, 1, 1);
-    // this.mesh = new THREE.Mesh(geometry, this.material);
     this.frustumCulled = false;
     this.matrixAutoUpdate = false;
     this.renderOrder = 0;
-
-    UI.add_clickable_element(this);
-
   }
 
   set_render_order(value)
@@ -115,6 +89,14 @@ export default class UIElement extends THREE.Mesh
   }
 
 
+  set_world_space_coordinate_system()
+  {
+    this.position_strategy = new WorldSpacePosition();
+  }
+  set_screen_space_coordinate_system()
+  {
+    this.position_strategy = new ScreenSpacePosition();
+  }
 
   set_texture(texture)
   {
@@ -122,23 +104,21 @@ export default class UIElement extends THREE.Mesh
     texture.magFilter = THREE.NearestFilter;
     texture.needsUpdate = true;
 
-    this.width = Screen.apply_pixel_density(texture.image.width);
-    this.height = Screen.apply_pixel_density(texture.image.height);
+    this.texture_size.set(texture.image.width, texture.image.height);
 
-
-    let texture_size = new THREE.Vector2(texture.image.width , texture.image.height);
-    Screen.apply_pixel_density_v2(texture_size);
     this.material.uniforms._MainTex.value = texture;
-    this.material.uniforms._TextureSize.value.copy(texture_size);
+    this.get_size(this.material.uniforms._TextureSize.value);
     this.visible = true;
   }
 
-  update(normalized_mouse_pos)
+  update_state(normalized_mouse_pos)
   {
+    this.material.uniforms._ScreenSize.value.set(Screen.width, Screen.height);
+    this.get_size(this.material.uniforms._TextureSize.value);
+
     this.cached_NDC_position.copy(this.position_strategy.get_pos_NDC(this.position));
     this.material.uniforms._NDC.value.copy(this.position);
     this.current_state.update(this, normalized_mouse_pos);
-
   }
 
   is_mouse_over(normalized_mouse_pos)
@@ -147,22 +127,13 @@ export default class UIElement extends THREE.Mesh
     this.screen_pos_tmp.copy(this.cached_NDC_position)
     this.to_screen_position(this.screen_pos_tmp);
 
-    let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, new THREE.Vector2(this.width, this.height));
+    let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
 
 
     this.mouse_pos_tmp.copy(normalized_mouse_pos);
     this.to_screen_position(this.mouse_pos_tmp);
 
     return rect.containsPoint(this.mouse_pos_tmp);
-    // if(this.mouse_pos_tmp.x > (this.screen_pos_tmp.x - this.width/2)  &&
-    //    this.mouse_pos_tmp.x < (this.screen_pos_tmp.x + this.width/2)  &&
-    //    this.mouse_pos_tmp.y > (this.screen_pos_tmp.y - this.height/2) &&
-    //    this.mouse_pos_tmp.y < (this.screen_pos_tmp.y + this.height/2))
-    //   return true;
-    // else
-    // {
-    //   return false;
-    // }
   }
 
   to_screen_position(projected_pos)
@@ -171,9 +142,16 @@ export default class UIElement extends THREE.Mesh
     projected_pos.y = (projected_pos.y * 0.5 + 0.5) * Screen.height;
   }
 
-  resize()
+  get_screen_space_position()
   {
-    this.material.uniforms._ScreenSize.value.set(Screen.width, Screen.height);
+    let pos = this.cached_NDC_position.clone()
+    this.to_screen_position(pos);
+    return pos;
+  }
+  set_screen_space_position(screen_pos)
+  {
+    this.position.x = (screen_pos.x / Screen.width) * 2 - 1;
+    this.position.y = (screen_pos.y / Screen.height) * 2 - 1;
   }
 
   dispose()
@@ -185,29 +163,23 @@ export default class UIElement extends THREE.Mesh
     Screen.remove_screen_material(this.material);
     this.geometry.dispose();
     this.material.dispose();
-    this.parent.remove(this);
-    UI.remove_clickable_element(this);
   }
 
   get_size(vector2)
   {
     if (vector2)
     {
-      return vector2.set(this.width, this.height)
+      return vector2.copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
     }
     else
     {
-      return new THREE.Vector3(this.width, this.height, 0);
+      return new THREE.Vector2().copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
     }
   }
 
-  // on_enter()
-  // {
-  //   console.log("on_enter");
-  // }
-  // on_hover()
-  // {
-  //   console.log("on hover");
-  // }
+  on_mouse_enter(){}
+  on_mouse_exit(){}
+  on_mouse_hover(){}
+
 }
 

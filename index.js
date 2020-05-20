@@ -2181,81 +2181,7 @@ var OutlineRender = /*#__PURE__*/function () {
 }();
 
 exports.default = OutlineRender;
-},{"/Screen":"JIgx","/RenderLayers":"bFlA","/shaders/box_blur/compose_frag":"aRZG","/shaders/box_blur/box_blur_frag":"GnKT","/shaders/copy/copy_frag":"s876","/shaders/copy/copy_vert":"i1za","/shaders/basic_color/basic_color_frag":"LSxb"}],"yntx":[function(require,module,exports) {
-"use strict";
-
-var _Input = _interopRequireDefault(require("/Input"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var UI = /*#__PURE__*/function () {
-  function UI() {
-    _classCallCheck(this, UI);
-
-    this.ui_elements = [];
-    this._tmp_normalized_pos = new THREE.Vector2();
-    this.scene = new THREE.Scene();
-    this.scene.autoUpdate = false;
-    this.scene.frustumCulled = false;
-  }
-
-  _createClass(UI, [{
-    key: "add_clickable_element",
-    value: function add_clickable_element(elem) {
-      this.ui_elements.push(elem);
-      this.scene.add(elem);
-    }
-  }, {
-    key: "remove_clickable_element",
-    value: function remove_clickable_element(elem) {
-      var index = this.ui_elements.indexOf(elem);
-
-      if (index > -1) {
-        this.ui_elements.splice(index, 1);
-      }
-
-      this.scene.remove(elem);
-    }
-  }, {
-    key: "update",
-    value: function update() {
-      this._tmp_normalized_pos.copy(_Input.default.normalized_mouse_pos);
-
-      for (var i = 0; i < this.ui_elements.length; i++) {
-        this.ui_elements[i].update(this._tmp_normalized_pos);
-      }
-    }
-  }, {
-    key: "render",
-    value: function render(renderer) {
-      renderer.render_ui(this.scene);
-    }
-  }, {
-    key: "clear",
-    value: function clear() {
-      this.current_clicked_element = undefined;
-    }
-  }, {
-    key: "resize",
-    value: function resize() {
-      for (var i = 0; i < this.ui_elements.length; i++) {
-        this.ui_elements[i].resize();
-      }
-    }
-  }]);
-
-  return UI;
-}();
-
-var ui = new UI();
-module.exports = ui;
-},{"/Input":"k3P6"}],"Ftca":[function(require,module,exports) {
+},{"/Screen":"JIgx","/RenderLayers":"bFlA","/shaders/box_blur/compose_frag":"aRZG","/shaders/box_blur/box_blur_frag":"GnKT","/shaders/copy/copy_frag":"s876","/shaders/copy/copy_vert":"i1za","/shaders/basic_color/basic_color_frag":"LSxb"}],"Ftca":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2591,8 +2517,6 @@ var _CameraManager = _interopRequireDefault(require("/CameraManager"));
 
 var _SceneManager = _interopRequireDefault(require("/SceneManager"));
 
-var _UI = _interopRequireDefault(require("/UI"));
-
 var _Capabilities = _interopRequireDefault(require("/Capabilities"));
 
 var _DepthAndNormalsRenderer = _interopRequireDefault(require("/render_utilities/DepthAndNormalsRenderer"));
@@ -2632,7 +2556,7 @@ var Graphics = /*#__PURE__*/function () {
       });
       this._renderer.autoClear = false;
 
-      this._renderer.setPixelRatio(window.devicePixelRatio);
+      this._renderer.setPixelRatio(1);
 
       this._renderer.extensions.get('ANGLE_instanced_arrays');
 
@@ -2709,11 +2633,6 @@ var Graphics = /*#__PURE__*/function () {
       clear_depth ? true : false, clear_stencil ? true : false);
     }
   }, {
-    key: "render_ui",
-    value: function render_ui(scene) {
-      this._renderer.render(scene, _CameraManager.default.current);
-    }
-  }, {
     key: "check_for_resize",
     value: function check_for_resize() {
       var current_width = this.canvas.clientWidth;
@@ -2725,8 +2644,6 @@ var Graphics = /*#__PURE__*/function () {
         _Screen.default.update_native_size();
 
         this._renderer.setSize(current_width, current_height, false);
-
-        _UI.default.resize();
 
         this.current_render_mode.resize(current_width, current_height);
       }
@@ -2833,7 +2750,7 @@ var Graphics = /*#__PURE__*/function () {
 
 var graphics = new Graphics();
 module.exports = graphics;
-},{"/Configuration":"RyjO","/render_mode/BaseRender":"gDca","/render_mode/OutlineRender":"F9Xn","/Screen":"JIgx","/CameraManager":"XMgG","/SceneManager":"qvMM","/UI":"yntx","/Capabilities":"hZlU","/render_utilities/DepthAndNormalsRenderer":"pWL9","/render_utilities/Blitter":"IerZ"}],"wyL4":[function(require,module,exports) {
+},{"/Configuration":"RyjO","/render_mode/BaseRender":"gDca","/render_mode/OutlineRender":"F9Xn","/Screen":"JIgx","/CameraManager":"XMgG","/SceneManager":"qvMM","/Capabilities":"hZlU","/render_utilities/DepthAndNormalsRenderer":"pWL9","/render_utilities/Blitter":"IerZ"}],"wyL4":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3751,7 +3668,101 @@ var PerspectiveCamera = /*#__PURE__*/function (_THREE$PerspectiveCam) {
 }(THREE.PerspectiveCamera);
 
 exports.default = PerspectiveCamera;
-},{}],"WHWR":[function(require,module,exports) {
+},{}],"yntx":[function(require,module,exports) {
+"use strict";
+
+var _Input = _interopRequireDefault(require("/Input"));
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var UI = /*#__PURE__*/function () {
+  function UI() {
+    _classCallCheck(this, UI);
+
+    this.ui_elements = [];
+    this._tmp_normalized_pos = new THREE.Vector2();
+    this.ss_scene = new THREE.Scene();
+    this.ss_scene.autoUpdate = false;
+    this.ss_scene.frustumCulled = false;
+    this.ws_scene = new THREE.Scene();
+    this.ws_scene.autoUpdate = false;
+    this.ws_scene.frustumCulled = false;
+    this.ss_camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -100, 100);
+  }
+
+  _createClass(UI, [{
+    key: "delete_element",
+    value: function delete_element(elem) {
+      var index = this.ui_elements.indexOf(elem);
+
+      if (index > -1) {
+        this.ui_elements.splice(index, 1);
+      }
+
+      this.ss_scene.remove(elem);
+      this.ws_scene.remove(elem);
+      elem.dispose();
+    }
+  }, {
+    key: "add_screen_space_element",
+    value: function add_screen_space_element(elem) {
+      this.ui_elements.push(elem);
+      this.ss_scene.add(elem);
+      elem.set_screen_space_coordinate_system();
+    }
+  }, {
+    key: "add_world_space_element",
+    value: function add_world_space_element(elem) {
+      this.ui_elements.push(elem);
+      this.ws_scene.add(elem);
+      elem.set_world_space_coordinate_system();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      // this.ss_camera.left     = -Screen.width / 2;
+      // this.ss_camera.right    = Screen.width / 2;
+      // this.ss_camera.top      = Screen.top / 2;
+      // this.ss_camera.right    = -Screen.bottom / 2;
+      this.ss_camera.updateProjectionMatrix();
+
+      this._tmp_normalized_pos.copy(_Input.default.normalized_mouse_pos);
+
+      for (var i = 0; i < this.ui_elements.length; i++) {
+        this.ui_elements[i].update_state(this._tmp_normalized_pos);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render(renderer) {
+      // renderer.render_ui(this.scene);
+      _Graphics.default.render(this.ss_scene, this.ss_camera);
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.current_clicked_element = undefined;
+    }
+  }]);
+
+  return UI;
+}();
+
+var ui = new UI();
+module.exports = ui;
+},{"/Input":"k3P6","/CameraManager":"XMgG","/Graphics":"xMH9","/Screen":"JIgx"}],"WHWR":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5288,6 +5299,48 @@ var TimeUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = TimeUtilities;
+},{}],"XAIA":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ImageUtilities = /*#__PURE__*/function () {
+  function ImageUtilities() {
+    _classCallCheck(this, ImageUtilities);
+  }
+
+  _createClass(ImageUtilities, null, [{
+    key: "get_image_data",
+    value: function get_image_data(image) {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      var context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+      return context.getImageData(0, 0, image.width, image.height);
+    }
+  }, {
+    key: "get_pixel",
+    value: function get_pixel(imagedata, x, y) {
+      var position = (x + imagedata.width * y) * 4;
+      var data = imagedata.data;
+      return new THREE.Vector4(data[position + 0], data[position + 1], data[position + 2], data[position + 3]);
+    }
+  }]);
+
+  return ImageUtilities;
+}();
+
+exports.default = ImageUtilities;
 },{}],"bOug":[function(require,module,exports) {
 "use strict";
 
@@ -5790,9 +5843,7 @@ var OnMouseEnter = /*#__PURE__*/function (_UIElementState) {
   _createClass(OnMouseEnter, [{
     key: "on_enter",
     value: function on_enter(ui_element) {
-      if (ui_element.on_enter) {
-        ui_element.on_enter();
-      }
+      ui_element.on_mouse_enter();
     }
   }, {
     key: "update",
@@ -5857,10 +5908,7 @@ var OnMouseExit = /*#__PURE__*/function (_UIElementState) {
   _createClass(OnMouseExit, [{
     key: "on_enter",
     value: function on_enter(ui_element) {
-      if (ui_element.on_exit) {
-        ui_element.on_exit();
-      }
-
+      ui_element.on_mouse_exit();
       ui_element.set_state(ui_element._on_idle_state);
     }
   }]);
@@ -5931,9 +5979,7 @@ var OnMouseHover = /*#__PURE__*/function (_UIElementState) {
   }, {
     key: "__trigger_on_hover",
     value: function __trigger_on_hover(ui_element) {
-      if (ui_element.on_hover) {
-        ui_element.on_hover();
-      }
+      ui_element.on_mouse_hover();
     }
   }]);
 
@@ -6022,32 +6068,10 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
     _this.mouse_pos_tmp = new THREE.Vector2();
     _this.cached_NDC_position = new THREE.Vector2();
     _this.screen_pos_tmp = new THREE.Vector2();
-    _this.width = 0;
-    _this.height = 0; // this.material = new THREE.ShaderMaterial({
-    // uniforms:  {
-    //   _MainTex: { value: undefined},
-    //   _ScreenSize: { value: new THREE.Vector2(Screen.width, Screen.height) },
-    //   _TextureSize: {value: new THREE.Vector2()},
-    //   _PixelOffset: {value: new THREE.Vector2(0,0)},
-    //   _NDC: {value: new THREE.Vector3()},
-    //   _PivotPoint: {value: new THREE.Vector2()},
-    //   _DepthOffset: {value: 0}
-    // },
-    //   vertexShader: vert? vert : screen_space_text_vert,
-    //   fragmentShader: frag? frag: screen_space_text_frag,
-    //   transparent: true,
-    //   depthWrite: false,
-    //   depthTest: false
-    // });
-    // let geometry = new THREE.PlaneGeometry(1, 1, 1);
-    // this.mesh = new THREE.Mesh(geometry, this.material);
-
+    _this.texture_size = new THREE.Vector2(1, 1);
     _this.frustumCulled = false;
     _this.matrixAutoUpdate = false;
     _this.renderOrder = 0;
-
-    _UI.default.add_clickable_element(_assertThisInitialized(_this));
-
     return _this;
   }
 
@@ -6069,26 +6093,32 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
       this.visible = false;
     }
   }, {
+    key: "set_world_space_coordinate_system",
+    value: function set_world_space_coordinate_system() {
+      this.position_strategy = new _WorldSpacePosition.default();
+    }
+  }, {
+    key: "set_screen_space_coordinate_system",
+    value: function set_screen_space_coordinate_system() {
+      this.position_strategy = new _ScreenSpacePosition.default();
+    }
+  }, {
     key: "set_texture",
     value: function set_texture(texture) {
       texture.minFilter = THREE.NearestFilter;
       texture.magFilter = THREE.NearestFilter;
       texture.needsUpdate = true;
-      this.width = _Screen.default.apply_pixel_density(texture.image.width);
-      this.height = _Screen.default.apply_pixel_density(texture.image.height);
-      var texture_size = new THREE.Vector2(texture.image.width, texture.image.height);
-
-      _Screen.default.apply_pixel_density_v2(texture_size);
-
+      this.texture_size.set(texture.image.width, texture.image.height);
       this.material.uniforms._MainTex.value = texture;
-
-      this.material.uniforms._TextureSize.value.copy(texture_size);
-
+      this.get_size(this.material.uniforms._TextureSize.value);
       this.visible = true;
     }
   }, {
-    key: "update",
-    value: function update(normalized_mouse_pos) {
+    key: "update_state",
+    value: function update_state(normalized_mouse_pos) {
+      this.material.uniforms._ScreenSize.value.set(_Screen.default.width, _Screen.default.height);
+
+      this.get_size(this.material.uniforms._TextureSize.value);
       this.cached_NDC_position.copy(this.position_strategy.get_pos_NDC(this.position));
 
       this.material.uniforms._NDC.value.copy(this.position);
@@ -6100,18 +6130,10 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
     value: function is_mouse_over(normalized_mouse_pos) {
       this.screen_pos_tmp.copy(this.cached_NDC_position);
       this.to_screen_position(this.screen_pos_tmp);
-      var rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, new THREE.Vector2(this.width, this.height));
+      var rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
       this.mouse_pos_tmp.copy(normalized_mouse_pos);
       this.to_screen_position(this.mouse_pos_tmp);
-      return rect.containsPoint(this.mouse_pos_tmp); // if(this.mouse_pos_tmp.x > (this.screen_pos_tmp.x - this.width/2)  &&
-      //    this.mouse_pos_tmp.x < (this.screen_pos_tmp.x + this.width/2)  &&
-      //    this.mouse_pos_tmp.y > (this.screen_pos_tmp.y - this.height/2) &&
-      //    this.mouse_pos_tmp.y < (this.screen_pos_tmp.y + this.height/2))
-      //   return true;
-      // else
-      // {
-      //   return false;
-      // }
+      return rect.containsPoint(this.mouse_pos_tmp);
     }
   }, {
     key: "to_screen_position",
@@ -6120,9 +6142,17 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
       projected_pos.y = (projected_pos.y * 0.5 + 0.5) * _Screen.default.height;
     }
   }, {
-    key: "resize",
-    value: function resize() {
-      this.material.uniforms._ScreenSize.value.set(_Screen.default.width, _Screen.default.height);
+    key: "get_screen_space_position",
+    value: function get_screen_space_position() {
+      var pos = this.cached_NDC_position.clone();
+      this.to_screen_position(pos);
+      return pos;
+    }
+  }, {
+    key: "set_screen_space_position",
+    value: function set_screen_space_position(screen_pos) {
+      this.position.x = screen_pos.x / _Screen.default.width * 2 - 1;
+      this.position.y = screen_pos.y / _Screen.default.height * 2 - 1;
     }
   }, {
     key: "dispose",
@@ -6135,27 +6165,25 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
 
       this.geometry.dispose();
       this.material.dispose();
-      this.parent.remove(this);
-
-      _UI.default.remove_clickable_element(this);
     }
   }, {
     key: "get_size",
     value: function get_size(vector2) {
       if (vector2) {
-        return vector2.set(this.width, this.height);
+        return vector2.copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
       } else {
-        return new THREE.Vector3(this.width, this.height, 0);
+        return new THREE.Vector2().copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
       }
-    } // on_enter()
-    // {
-    //   console.log("on_enter");
-    // }
-    // on_hover()
-    // {
-    //   console.log("on hover");
-    // }
-
+    }
+  }, {
+    key: "on_mouse_enter",
+    value: function on_mouse_enter() {}
+  }, {
+    key: "on_mouse_exit",
+    value: function on_mouse_exit() {}
+  }, {
+    key: "on_mouse_hover",
+    value: function on_mouse_hover() {}
   }, {
     key: "pivot_point",
     get: function get() {
@@ -6252,7 +6280,11 @@ var _Screen = _interopRequireDefault(require("/Screen"));
 
 var _Time = _interopRequireDefault(require("/Time"));
 
+var _UI = _interopRequireDefault(require("/UI"));
+
 var _TimeUtilities = _interopRequireDefault(require("/utilities/TimeUtilities"));
+
+var _ImageUtilities = _interopRequireDefault(require("/utilities/ImageUtilities"));
 
 var _Validation = _interopRequireDefault(require("/utilities/Validation"));
 
@@ -6286,8 +6318,10 @@ module.exports = {
   Screen: _Screen.default,
   Time: _Time.default,
   TimeUtilities: _TimeUtilities.default,
+  ImageUtilities: _ImageUtilities.default,
   Validation: _Validation.default,
-  Components: _Components.default
+  Components: _Components.default,
+  UI: _UI.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map
