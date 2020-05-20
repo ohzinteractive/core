@@ -15,7 +15,7 @@ class UI
     add_clickable_element(elem)
     {
         this.ui_elements.push(elem);
-        this.scene.add(elem.mesh);
+        this.scene.add(elem);
     }
     remove_clickable_element(elem)
     {
@@ -24,7 +24,7 @@ class UI
           this.ui_elements.splice(index, 1);
         }
 
-        this.scene.remove(elem.mesh);
+        this.scene.remove(elem);
     }
 
     update()

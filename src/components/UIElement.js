@@ -2,6 +2,7 @@ import UI from '/UI';
 import CameraManager from '/CameraManager';
 import Screen from '/Screen';
 
+import UIElementMaterial from '/materials/UIElementMaterial';
 import screen_space_text_frag from '/shaders/ui/ss_texture_frag';
 import screen_space_text_vert from '/shaders/ui/ss_texture_vert';
 
@@ -14,10 +15,13 @@ import OnMouseExit from '/ui/ui_element_state/OnMouseExit';
 import OnMouseHover from '/ui/ui_element_state/OnMouseHover';
 
 
-export default class UIElement
+export default class UIElement extends THREE.Mesh
 {
   constructor(vert, frag)
   {
+    super(new THREE.PlaneGeometry(1, 1), new UIElementMaterial());
+
+
     this.is_clickable = false;
 
     this.position_strategy = new WorldSpacePosition();
@@ -45,29 +49,29 @@ export default class UIElement
     this.height = 0;
 
 
-    this.material = new THREE.ShaderMaterial({
-    uniforms:  {
-      _MainTex: { value: undefined},
-      _ScreenSize: { value: new THREE.Vector2(Screen.width, Screen.height) },
-      _TextureSize: {value: new THREE.Vector2()},
-      _PixelOffset: {value: new THREE.Vector2(0,0)},
-      _NDC: {value: new THREE.Vector3()},
-      _PivotPoint: {value: new THREE.Vector2()},
-      _DepthOffset: {value: 0}
-    },
-      vertexShader: vert? vert : screen_space_text_vert,
-      fragmentShader: frag? frag: screen_space_text_frag,
-      transparent: true,
-      depthWrite: false,
-      depthTest: false
-    });
+    // this.material = new THREE.ShaderMaterial({
+    // uniforms:  {
+    //   _MainTex: { value: undefined},
+    //   _ScreenSize: { value: new THREE.Vector2(Screen.width, Screen.height) },
+    //   _TextureSize: {value: new THREE.Vector2()},
+    //   _PixelOffset: {value: new THREE.Vector2(0,0)},
+    //   _NDC: {value: new THREE.Vector3()},
+    //   _PivotPoint: {value: new THREE.Vector2()},
+    //   _DepthOffset: {value: 0}
+    // },
+    //   vertexShader: vert? vert : screen_space_text_vert,
+    //   fragmentShader: frag? frag: screen_space_text_frag,
+    //   transparent: true,
+    //   depthWrite: false,
+    //   depthTest: false
+    // });
 
 
-    let geometry = new THREE.PlaneGeometry(1, 1, 1);
-    this.mesh = new THREE.Mesh(geometry, this.material);
-    this.mesh.frustumCulled = false;
-    this.mesh.matrixAutoUpdate = false;
-    this.mesh.renderOrder = 0;
+    // let geometry = new THREE.PlaneGeometry(1, 1, 1);
+    // this.mesh = new THREE.Mesh(geometry, this.material);
+    this.frustumCulled = false;
+    this.matrixAutoUpdate = false;
+    this.renderOrder = 0;
 
     UI.add_clickable_element(this);
 
@@ -75,7 +79,7 @@ export default class UIElement
 
   set_render_order(value)
   {
-    this.mesh.renderOrder = value;
+    this.renderOrder = value;
   }
 
   get pivot_point()
@@ -88,11 +92,6 @@ export default class UIElement
     this.current_state.on_exit(this);
     this.current_state = new_state;
     this.current_state.on_enter(this);
-  }
-
-  set visible(value)
-  {
-    this.mesh.visible = value;
   }
 
   get position()
@@ -131,7 +130,7 @@ export default class UIElement
     Screen.apply_pixel_density_v2(texture_size);
     this.material.uniforms._MainTex.value = texture;
     this.material.uniforms._TextureSize.value.copy(texture_size);
-    this.mesh.visible = true;
+    this.visible = true;
   }
 
   update(normalized_mouse_pos)
@@ -148,18 +147,22 @@ export default class UIElement
     this.screen_pos_tmp.copy(this.cached_NDC_position)
     this.to_screen_position(this.screen_pos_tmp);
 
+    let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, new THREE.Vector2(this.width, this.height));
+
+
     this.mouse_pos_tmp.copy(normalized_mouse_pos);
     this.to_screen_position(this.mouse_pos_tmp);
 
-    if(this.mouse_pos_tmp.x > (this.screen_pos_tmp.x - this.width/2)  &&
-       this.mouse_pos_tmp.x < (this.screen_pos_tmp.x + this.width/2)  &&
-       this.mouse_pos_tmp.y > (this.screen_pos_tmp.y - this.height/2) &&
-       this.mouse_pos_tmp.y < (this.screen_pos_tmp.y + this.height/2))
-      return true;
-    else
-    {
-      return false;
-    }
+    return rect.containsPoint(this.mouse_pos_tmp);
+    // if(this.mouse_pos_tmp.x > (this.screen_pos_tmp.x - this.width/2)  &&
+    //    this.mouse_pos_tmp.x < (this.screen_pos_tmp.x + this.width/2)  &&
+    //    this.mouse_pos_tmp.y > (this.screen_pos_tmp.y - this.height/2) &&
+    //    this.mouse_pos_tmp.y < (this.screen_pos_tmp.y + this.height/2))
+    //   return true;
+    // else
+    // {
+    //   return false;
+    // }
   }
 
   to_screen_position(projected_pos)
@@ -180,9 +183,8 @@ export default class UIElement
       this.material.uniforms._MainTex.value.dispose();
     }
     Screen.remove_screen_material(this.material);
-    this.mesh.geometry.dispose();
-    this.mesh.material.dispose();
-    this.remove(this.mesh);
+    this.geometry.dispose();
+    this.material.dispose();
     this.parent.remove(this);
     UI.remove_clickable_element(this);
   }
@@ -195,8 +197,17 @@ export default class UIElement
     }
     else
     {
-      return new THREE.Vector3(this.width, this.height)
+      return new THREE.Vector3(this.width, this.height, 0);
     }
   }
+
+  // on_enter()
+  // {
+  //   console.log("on_enter");
+  // }
+  // on_hover()
+  // {
+  //   console.log("on hover");
+  // }
 }
 

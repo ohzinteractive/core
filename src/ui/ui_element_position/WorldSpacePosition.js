@@ -11,7 +11,7 @@ export default class WorldSpacePosition
 	get_pos_NDC(position)
 	{
 		this.tmp_vec3.copy(position);
-    this.tmp_vec3.project(CameraManager.current);
+    	this.tmp_vec3.project(CameraManager.current);
 
 		return this.tmp_vec2.set(this.tmp_vec3.x, this.tmp_vec3.y);
 	}

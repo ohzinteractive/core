@@ -6,6 +6,7 @@ import CubemapLoader from '/resource_loader/CubemapLoader';
 import AudioLoader from '/resource_loader/AudioLoader';
 import JSONLoader from '/resource_loader/JSONLoader';
 import OBJLoader from '/resource_loader/OBJLoader';
+import RGBETextureLoader from '/resource_loader/RGBETextureLoader';
 import PointArrayLoader from '/resource_loader/PointArrayLoader';
 import ResourceContainer from '/ResourceContainer';
 
@@ -52,6 +53,10 @@ export default class ResourceBatch
 	{
 		this.resource_loaders.push(new PointArrayLoader(resource_id, url));
 	}
+  add_hdr(resource_id, url)
+  {
+    this.resource_loaders.push(new RGBETextureLoader(resource_id, url));
+  }
 
 	load(resource_container)
 	{

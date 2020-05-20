@@ -1,4 +1,4 @@
-import UIElementState from '/UIElementState'
+import UIElementState from '/ui/ui_element_state/UIElementState'
 
 export default class OnMouseExit extends UIElementState
 {
