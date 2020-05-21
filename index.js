@@ -319,10 +319,10 @@ var Screen = /*#__PURE__*/function () {
 
     this.width = 1;
     this.height = 1;
+    this.render_width = 1;
+    this.render_height = 1;
     this.width_height = new THREE.Vector2(this.width, this.height);
-    this.screen_materials = [];
-    this.native_width = this.width;
-    this.native_height = this.height;
+    this.dpr = 1;
     this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
   }
 
@@ -334,11 +334,8 @@ var Screen = /*#__PURE__*/function () {
       this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
       this.width_height.x = width;
       this.width_height.y = height;
-      var i = this.screen_materials.length;
-
-      while (i--) {
-        this.screen_materials[i].uniforms._ScreenSize.value = this.width_height;
-      }
+      this.render_width = width * this.dpr;
+      this.render_height = height * this.dpr;
     }
   }, {
     key: "apply_pixel_density_v2",
@@ -350,27 +347,6 @@ var Screen = /*#__PURE__*/function () {
     key: "apply_pixel_density",
     value: function apply_pixel_density(value) {
       return value * (1 / window.devicePixelRatio);
-    }
-  }, {
-    key: "update_native_size",
-    value: function update_native_size() {
-      this.native_width = window.innerWidth;
-      this.native_height = window.innerHeight;
-    }
-  }, {
-    key: "add_screen_material",
-    value: function add_screen_material(mat) {
-      this.screen_materials.push(mat);
-      mat.uniforms._ScreenSize.value = this.width_height;
-    }
-  }, {
-    key: "remove_screen_material",
-    value: function remove_screen_material(mat) {
-      var index = this.screen_materials.indexOf(mat);
-
-      if (index > -1) {
-        this.screen_materials.splice(index, 1);
-      }
     }
   }, {
     key: "get_pixel_size",
@@ -2558,6 +2534,8 @@ var Graphics = /*#__PURE__*/function () {
 
       this._renderer.setPixelRatio(1);
 
+      _Screen.default.dpr = window.devicePixelRatio;
+
       this._renderer.extensions.get('ANGLE_instanced_arrays');
 
       this.blitter = new _Blitter.default(this._renderer);
@@ -2638,14 +2616,14 @@ var Graphics = /*#__PURE__*/function () {
       var current_width = this.canvas.clientWidth;
       var current_height = this.canvas.clientHeight;
 
-      if (this.canvas.width !== current_width || this.canvas.height !== current_height) {
+      if (this.canvas.width !== _Screen.default.render_width || this.canvas.height !== _Screen.default.render_height || current_width !== _Screen.default.width || current_height !== _Screen.default.height) {
+        console.log("render size", this.canvas.width, current_width);
+
         _Screen.default.update_size(current_width, current_height);
 
-        _Screen.default.update_native_size();
+        this._renderer.setSize(_Screen.default.render_width, _Screen.default.render_height, false);
 
-        this._renderer.setSize(current_width, current_height, false);
-
-        this.current_render_mode.resize(current_width, current_height);
+        this.current_render_mode.resize(_Screen.default.render_width, _Screen.default.render_height);
       }
     }
   }, {
@@ -6072,6 +6050,7 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
     _this.frustumCulled = false;
     _this.matrixAutoUpdate = false;
     _this.renderOrder = 0;
+    _this.size = 1;
     return _this;
   }
 
@@ -6170,9 +6149,9 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
     key: "get_size",
     value: function get_size(vector2) {
       if (vector2) {
-        return vector2.copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
+        return vector2.copy(this.texture_size).multiplyScalar(this.size / _Screen.default.dpr);
       } else {
-        return new THREE.Vector2().copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
+        return new THREE.Vector2().copy(this.texture_size).multiplyScalar(this.size / _Screen.default.dpr);
       }
     }
   }, {

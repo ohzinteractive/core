@@ -49,6 +49,8 @@ export default class UIElement extends THREE.Mesh
     this.frustumCulled = false;
     this.matrixAutoUpdate = false;
     this.renderOrder = 0;
+
+    this.size = 1;
   }
 
   set_render_order(value)
@@ -169,11 +171,11 @@ export default class UIElement extends THREE.Mesh
   {
     if (vector2)
     {
-      return vector2.copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
+      return vector2.copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
     }
     else
     {
-      return new THREE.Vector2().copy(this.texture_size).multiplyScalar(1 / window.devicePixelRatio);
+      return new THREE.Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
     }
   }
 

@@ -33,6 +33,8 @@ class Graphics {
 
     this._renderer.setPixelRatio(1);
 
+    Screen.dpr = window.devicePixelRatio;
+
 		this._renderer.extensions.get( 'ANGLE_instanced_arrays' )
 
     this.blitter = new Blitter(this._renderer);
@@ -140,15 +142,18 @@ class Graphics {
     let current_width = this.canvas.clientWidth;
     let current_height = this.canvas.clientHeight;
 
-    if (this.canvas.width !== current_width ||
-        this.canvas.height !== current_height)
+    if (this.canvas.width !== Screen.render_width ||
+        this.canvas.height !== Screen.render_height ||
+
+        current_width !== Screen.width ||
+        current_height !== Screen.height)
     {
+      console.log("render size", this.canvas.width, current_width)
 
       Screen.update_size(current_width, current_height);
-      Screen.update_native_size()
 
-      this._renderer.setSize(current_width, current_height, false);
-      this.current_render_mode.resize(current_width, current_height);
+      this._renderer.setSize(Screen.render_width, Screen.render_height, false);
+      this.current_render_mode.resize(Screen.render_width, Screen.render_height);
     }
   }
 

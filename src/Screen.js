@@ -3,13 +3,13 @@ class Screen {
 	{
 		this.width = 1;
 		this.height = 1;
+
+		this.render_width = 1;
+		this.render_height = 1;
 		this.width_height = new THREE.Vector2(this.width, this.height);
 
-		this.screen_materials = [];
 
-		this.native_width = this.width;
-		this.native_height = this.height;
-
+		this.dpr = 1;
 		this.pixel_size = new THREE.Vector2(1/this.width, 1/this.height);
 	}
 
@@ -23,11 +23,10 @@ class Screen {
 		this.width_height.x = width  ;
 		this.width_height.y = height ;
 
-		let i = this.screen_materials.length;
-		while(i--)
-		{
-			this.screen_materials[i].uniforms._ScreenSize.value = this.width_height;
-		}
+		this.render_width = width * this.dpr;
+		this.render_height = height * this.dpr;
+
+
 	}
 
 	apply_pixel_density_v2(vector2)
@@ -40,24 +39,7 @@ class Screen {
 	{
 		return value * (1/window.devicePixelRatio);
 	}
-	update_native_size()
-	{
-		this.native_width = window.innerWidth;
-		this.native_height = window.innerHeight;
-	}
 
-	add_screen_material(mat)
-	{
-		this.screen_materials.push(mat);
-		mat.uniforms._ScreenSize.value = this.width_height;
-	}
-	remove_screen_material(mat)
-	{
-    let index = this.screen_materials.indexOf(mat);
-    if (index > -1) {
-      this.screen_materials.splice(index, 1);
-    }
-	}
 
 	get_pixel_size()
 	{
