@@ -148,8 +148,6 @@ class Graphics {
         current_width !== Screen.width ||
         current_height !== Screen.height)
     {
-      console.log("render size", this.canvas.width, current_width)
-
       Screen.update_size(current_width, current_height);
 
       this._renderer.setSize(Screen.render_width, Screen.render_height, false);

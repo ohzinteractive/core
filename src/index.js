@@ -25,6 +25,7 @@ import Time from '/Time';
 import UI from '/UI';
 import TimeUtilities from '/utilities/TimeUtilities';
 import ImageUtilities from '/utilities/ImageUtilities';
+import ModelUtilities from '/utilities/ModelUtilities';
 import Validation from '/utilities/Validation';
 import Components from '/Components';
 
@@ -55,6 +56,7 @@ module.exports = {
   Time: Time,
   TimeUtilities: TimeUtilities,
   ImageUtilities: ImageUtilities,
+  ModelUtilities: ModelUtilities,
   Validation: Validation,
   Components: Components,
   UI: UI

@@ -2617,8 +2617,6 @@ var Graphics = /*#__PURE__*/function () {
       var current_height = this.canvas.clientHeight;
 
       if (this.canvas.width !== _Screen.default.render_width || this.canvas.height !== _Screen.default.render_height || current_width !== _Screen.default.width || current_height !== _Screen.default.height) {
-        console.log("render size", this.canvas.width, current_width);
-
         _Screen.default.update_size(current_width, current_height);
 
         this._renderer.setSize(_Screen.default.render_width, _Screen.default.render_height, false);
@@ -5229,7 +5227,7 @@ var TimeUtilities = /*#__PURE__*/function () {
   _createClass(TimeUtilities, null, [{
     key: "get_days_between",
     value: function get_days_between(start_date, end_date) {
-      // 	let startDate = moment.parseZone("2020-03-15T18:31:23.623794-04:00");
+      // let startDate = moment.parseZone("2020-03-15T18:31:23.623794-04:00");
       // let endDate 	= moment.parseZone("2020-03-23T12:17:06.815451-04:00");
       var startDate = moment.parseZone(start_date);
       var endDate = moment.parseZone(end_date);
@@ -5319,6 +5317,146 @@ var ImageUtilities = /*#__PURE__*/function () {
 }();
 
 exports.default = ImageUtilities;
+},{}],"c2tY":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ModelUtilities = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ModelUtilities = /*#__PURE__*/function () {
+  function ModelUtilities() {
+    _classCallCheck(this, ModelUtilities);
+  }
+
+  _createClass(ModelUtilities, [{
+    key: "get_mesh",
+    value: function get_mesh(scene, result_callback) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          if (child.geometry instanceof THREE.Geometry) {
+            child.geometry = new THREE.BufferGeometry().fromGeometry(child.geometry);
+          }
+
+          result_callback(child);
+        }
+      });
+    }
+  }, {
+    key: "get_geometries",
+    value: function get_geometries(scene) {
+      var geometries = [];
+      this.get_mesh(scene, function (child) {
+        geometries.push(child.geometry);
+      });
+      return geometries;
+    }
+  }, {
+    key: "assign_material",
+    value: function assign_material(scene, material, name) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          // assign to all if no name is given
+          if (name === undefined) child.material = material;else {
+            // if name is given, assign only to that
+            if (child.name === name) {
+              child.material = material;
+            }
+          }
+        }
+      });
+    }
+  }, {
+    key: "clone_animated_gltf",
+    value: function clone_animated_gltf(gltf) {
+      var clone = {
+        animations: gltf.animations,
+        scene: gltf.scene.clone(true)
+      };
+      var skinnedMeshes = {};
+      gltf.scene.traverse(function (node) {
+        if (node.isSkinnedMesh) {
+          skinnedMeshes[node.name] = node;
+        }
+      });
+      var cloneBones = {};
+      var cloneSkinnedMeshes = {};
+      clone.scene.traverse(function (node) {
+        if (node.isBone) {
+          cloneBones[node.name] = node;
+        }
+
+        if (node.isSkinnedMesh) {
+          cloneSkinnedMeshes[node.name] = node;
+        }
+      });
+
+      for (var name in skinnedMeshes) {
+        var skinnedMesh = skinnedMeshes[name];
+        var skeleton = skinnedMesh.skeleton;
+        var cloneSkinnedMesh = cloneSkinnedMeshes[name];
+        var orderedCloneBones = [];
+
+        for (var i = 0; i < skeleton.bones.length; ++i) {
+          var cloneBone = cloneBones[skeleton.bones[i].name];
+          orderedCloneBones.push(cloneBone);
+        }
+
+        cloneSkinnedMesh.bind(new THREE.Skeleton(orderedCloneBones, skeleton.boneInverses), cloneSkinnedMesh.matrixWorld);
+      }
+
+      return clone;
+    }
+  }, {
+    key: "set_shadow_config",
+    value: function set_shadow_config(scene, cast, receive) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = cast;
+          child.receiveShadow = receive;
+        }
+      });
+    }
+  }, {
+    key: "__find_object",
+    value: function __find_object(scene, object_name, result_callback) {
+      scene.traverse(function (obj) {
+        if (obj.name === object_name) result_callback(obj);
+      });
+    }
+  }, {
+    key: "get_object",
+    value: function get_object(scene, object_name) {
+      var object = undefined;
+      scene.traverse(function (obj) {
+        if (obj.name === object_name) object = obj;
+      });
+      return object;
+    }
+  }, {
+    key: "get_object_by_type",
+    value: function get_object_by_type(scene, object_type) {
+      var object = undefined;
+      scene.traverse(function (obj) {
+        if (obj.constructor.name === object_type) object = obj;
+      });
+      return object;
+    }
+  }]);
+
+  return ModelUtilities;
+}();
+
+exports.ModelUtilities = ModelUtilities;
+var model_utilities = new ModelUtilities();
+module.exports = model_utilities;
 },{}],"bOug":[function(require,module,exports) {
 "use strict";
 
@@ -6189,7 +6327,223 @@ var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
 }(THREE.Mesh);
 
 exports.default = UIElement;
-},{"/UI":"yntx","/CameraManager":"XMgG","/Screen":"JIgx","/materials/UIElementMaterial":"F8cc","/shaders/ui/ss_texture_frag":"HZsS","/shaders/ui/ss_texture_vert":"Spsq","/ui/ui_element_position/ScreenSpacePosition":"GMfh","/ui/ui_element_position/WorldSpacePosition":"zIq8","/ui/ui_element_state/OnIdle":"XKzP","/ui/ui_element_state/OnMouseEnter":"Ow46","/ui/ui_element_state/OnMouseExit":"Eg4K","/ui/ui_element_state/OnMouseHover":"SPP6"}],"m3BF":[function(require,module,exports) {
+},{"/UI":"yntx","/CameraManager":"XMgG","/Screen":"JIgx","/materials/UIElementMaterial":"F8cc","/shaders/ui/ss_texture_frag":"HZsS","/shaders/ui/ss_texture_vert":"Spsq","/ui/ui_element_position/ScreenSpacePosition":"GMfh","/ui/ui_element_position/WorldSpacePosition":"zIq8","/ui/ui_element_state/OnIdle":"XKzP","/ui/ui_element_state/OnMouseEnter":"Ow46","/ui/ui_element_state/OnMouseExit":"Eg4K","/ui/ui_element_state/OnMouseHover":"SPP6"}],"uwzL":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform float _Thickness;\n\nattribute vec3 next_position;\nattribute vec3 previous_position;\nattribute float orientation;\nattribute float coverage;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nvec3 w_space_normal(vec3 from, vec3 to)\n{\n  vec3 w_from = (modelMatrix * vec4(from, 1.0)).xyz;\n  vec3 w_to   = (modelMatrix * vec4(to, 1.0)).xyz;\n\n  vec3 z = normalize(w_to - w_from);\n  return normalize(cross(z , normalize(cameraPosition - w_from)));\n\n}\n\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n\n  vec3 pos = position;\n  vec3 normal = w_space_normal(next_position ,previous_position);\n  pos = (modelMatrix * vec4(pos, 1.0)).xyz;\n  pos += normal * (_Thickness * 0.5) * orientation;\n\n  gl_Position = VP * vec4(pos, 1.0);\n\n  line_coverage = coverage;\n  uv_u = orientation * 0.5 + 0.5;\n\n}";
+},{}],"f148":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform float _Length;\nuniform float _ElapsedTime;\nuniform float _Thickness;\nuniform vec3  _Color;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\n    // float y = fract(line_coverage /_Thickness - _TrueElapsedTime) ;\n\n    // vec2 uv = vec2(uv_u, y);\n\n   \n    // vec4 col = texture2D(_ArrowsTex,uv);\n    // col.rgb *= _ForwardColor;\n    // col.a = aastep(0.5, col.a);\n    // gl_FragColor = col;\n    float u = (1.0 - abs(uv_u * 2.0 - 1.0));\n    float diffuse = dot(vec2(u, u), vec2(0.0, 1.0)) * 0.5+0.5;\n    gl_FragColor = vec4(_Color * diffuse, 1.0);\n\n}";
+},{}],"BhSJ":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _basic_line_vert = _interopRequireDefault(require("/shaders/basic_line/basic_line_vert"));
+
+var _basic_line_frag = _interopRequireDefault(require("/shaders/basic_line/basic_line_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Line = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Line, _THREE$Mesh);
+
+  var _super = _createSuper(Line);
+
+  function Line(points) {
+    var _this;
+
+    _classCallCheck(this, Line);
+
+    var geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('next_position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('previous_position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('orientation', new THREE.BufferAttribute(new Float32Array([]), 1));
+    geometry.setAttribute('coverage', new THREE.BufferAttribute(new Float32Array([]), 1));
+    var material = new THREE.ShaderMaterial({
+      uniforms: {
+        _Thickness: {
+          value: 0.2
+        },
+        _Length: {
+          value: 0
+        },
+        _ElapsedTime: {
+          value: 0
+        },
+        _Color: {
+          value: new THREE.Color("#FF0000")
+        }
+      },
+      vertexShader: _basic_line_vert.default,
+      fragmentShader: _basic_line_frag.default,
+      transparent: true,
+      depthWrite: false,
+      extensions: {
+        derivatives: true
+      }
+    });
+    _this = _super.call(this, geometry, material);
+    if (points) _this.setup(points);
+    return _this;
+  }
+
+  _createClass(Line, [{
+    key: "setup",
+    value: function setup(points) {
+      var vertices = [];
+      var next_position = [];
+      var previous_position = [];
+      var orientation = [];
+      var coverage = [];
+      var accumulated_length = 0;
+
+      for (var i = 0; i < points.length; i++) {
+        vertices.push(points[i].x);
+        vertices.push(points[i].y);
+        vertices.push(points[i].z);
+        orientation.push(1);
+        vertices.push(points[i].x);
+        vertices.push(points[i].y);
+        vertices.push(points[i].z);
+        orientation.push(-1);
+
+        var next_point = this.__get_next_position(points, i);
+
+        next_position.push(next_point.x);
+        next_position.push(next_point.y);
+        next_position.push(next_point.z);
+        next_position.push(next_point.x);
+        next_position.push(next_point.y);
+        next_position.push(next_point.z);
+
+        var previous_point = this.__get_previous_position(points, i);
+
+        previous_position.push(previous_point.x);
+        previous_position.push(previous_point.y);
+        previous_position.push(previous_point.z);
+        previous_position.push(previous_point.x);
+        previous_position.push(previous_point.y);
+        previous_position.push(previous_point.z);
+        if (i < points.length - 1) accumulated_length += points[i].distanceTo(next_point);
+        coverage.push(accumulated_length);
+        coverage.push(accumulated_length);
+      }
+
+      var vertexList = new Float32Array(vertices);
+      var nextPositionList = new Float32Array(next_position);
+      var previousPositionList = new Float32Array(previous_position);
+      var orientationList = new Float32Array(orientation);
+      var coverageList = new Float32Array(coverage);
+      var indices = [];
+
+      for (var _i = 0; _i < (vertexList.length / 3 - 2) / 2; _i++) {
+        var index = _i * 2 + 1;
+        indices.push(index);
+        indices.push(index + 1);
+        indices.push(index - 1);
+        indices.push(index);
+        indices.push(index + 2);
+        indices.push(index + 1);
+      }
+
+      this.geometry.setIndex(indices);
+      this.geometry.getAttribute('position').copy(new THREE.BufferAttribute(vertexList, 3));
+      this.geometry.getAttribute('next_position').copy(new THREE.BufferAttribute(nextPositionList, 3));
+      this.geometry.getAttribute('previous_position').copy(new THREE.BufferAttribute(previousPositionList, 3));
+      this.geometry.getAttribute('orientation').copy(new THREE.BufferAttribute(orientationList, 1));
+      this.geometry.getAttribute('coverage').copy(new THREE.BufferAttribute(coverageList, 1));
+      this.geometry.getAttribute('position').needsUpdate = true;
+      this.geometry.getAttribute('next_position').needsUpdate = true;
+      this.geometry.getAttribute('previous_position').needsUpdate = true;
+      this.geometry.getAttribute('orientation').needsUpdate = true;
+      this.geometry.getAttribute('coverage').needsUpdate = true;
+      this.material.uniforms._Length.value = accumulated_length;
+      this._length = accumulated_length;
+    }
+  }, {
+    key: "__get_previous_position",
+    value: function __get_previous_position(points, i) {
+      if (i === 0) {
+        return points[1].clone().sub(points[0]).multiplyScalar(-1).add(points[0]);
+      } else {
+        return points[i - 1];
+      }
+    }
+  }, {
+    key: "__get_next_position",
+    value: function __get_next_position(points, i) {
+      if (i === points.length - 1) {
+        return points[points.length - 2].clone().sub(points[points.length - 1]).multiplyScalar(-1).add(points[points.length - 1]);
+      } else {
+        return points[i + 1];
+      }
+    }
+  }, {
+    key: "update",
+    value: function update() {}
+  }, {
+    key: "distance",
+    value: function distance() {
+      return this.accumulated_length;
+    }
+  }, {
+    key: "total_length",
+    value: function total_length() {
+      return this.accumulated_length;
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.geometry.dispose();
+      this.material.dispose();
+      if (this.parent) this.parent.remove(this);
+    }
+  }, {
+    key: "copy_color",
+    value: function copy_color(col) {
+      this.material.uniforms._Color.value.copy(col);
+    }
+  }, {
+    key: "thickness",
+    set: function set(value) {
+      this.material.uniforms._Thickness.value = value;
+    }
+  }, {
+    key: "color",
+    set: function set(col) {
+      this.material.uniforms._Color.value.set(col);
+    }
+  }]);
+
+  return Line;
+}(THREE.Mesh);
+
+exports.default = Line;
+},{"/shaders/basic_line/basic_line_vert":"uwzL","/shaders/basic_line/basic_line_frag":"f148"}],"m3BF":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6201,14 +6555,17 @@ var _Grid = _interopRequireDefault(require("/components/Grid"));
 
 var _UIElement = _interopRequireDefault(require("/components/UIElement"));
 
+var _Line = _interopRequireDefault(require("/components/Line"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = {
   Grid: _Grid.default,
+  Line: _Line.default,
   UIElement: _UIElement.default
 };
 exports.default = _default;
-},{"/components/Grid":"rXwc","/components/UIElement":"IBEu"}],"Focm":[function(require,module,exports) {
+},{"/components/Grid":"rXwc","/components/UIElement":"IBEu","/components/Line":"BhSJ"}],"Focm":[function(require,module,exports) {
 "use strict";
 
 var _ArrayUtilities = _interopRequireDefault(require("/utilities/ArrayUtilities.js"));
@@ -6265,6 +6622,8 @@ var _TimeUtilities = _interopRequireDefault(require("/utilities/TimeUtilities"))
 
 var _ImageUtilities = _interopRequireDefault(require("/utilities/ImageUtilities"));
 
+var _ModelUtilities = _interopRequireDefault(require("/utilities/ModelUtilities"));
+
 var _Validation = _interopRequireDefault(require("/utilities/Validation"));
 
 var _Components = _interopRequireDefault(require("/Components"));
@@ -6298,9 +6657,10 @@ module.exports = {
   Time: _Time.default,
   TimeUtilities: _TimeUtilities.default,
   ImageUtilities: _ImageUtilities.default,
+  ModelUtilities: _ModelUtilities.default,
   Validation: _Validation.default,
   Components: _Components.default,
   UI: _UI.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/ModelUtilities":"c2tY","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map
