@@ -2964,12 +2964,14 @@ var Debug = /*#__PURE__*/function () {
       color = color || 0xff0000;
       var geometry = new THREE.SphereGeometry(sphere.radius, 32, 32);
       var material = new THREE.MeshBasicMaterial({
-        color: color,
-        side: THREE.DoubleSide
+        color: color
       });
-      var sphere = new THREE.Mesh(geometry, material);
+      var sphere_mesh = new THREE.Mesh(geometry, material);
+      sphere_mesh.position.copy(sphere.center);
 
-      _SceneManager.default.current.add(sphere);
+      _SceneManager.default.current.add(sphere_mesh);
+
+      return sphere_mesh;
     }
   }, {
     key: "draw_math_sphere",
@@ -3724,7 +3726,8 @@ var UI = /*#__PURE__*/function () {
     key: "render",
     value: function render(renderer) {
       // renderer.render_ui(this.scene);
-      _Graphics.default.render(this.ss_scene, this.ss_camera);
+      if (this.ss_scene.children.length > 0) _Graphics.default.render(this.ss_scene, this.ss_camera);
+      if (this.ws_scene.children.length > 0) _Graphics.default.render(this.ws_scene, _CameraManager.default.current);
     }
   }, {
     key: "clear",
@@ -5213,66 +5216,11 @@ exports.default = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 // This class helps with parsing an entire recording that spans several days, into one-day recordings
 // that start at 0:00:00 and ends at 23:59:59, except for the first and last day of a recording range
-var TimeUtilities = /*#__PURE__*/function () {
-  function TimeUtilities() {
-    _classCallCheck(this, TimeUtilities);
-  }
-
-  _createClass(TimeUtilities, null, [{
-    key: "get_days_between",
-    value: function get_days_between(start_date, end_date) {
-      // let startDate = moment.parseZone("2020-03-15T18:31:23.623794-04:00");
-      // let endDate 	= moment.parseZone("2020-03-23T12:17:06.815451-04:00");
-      var startDate = moment.parseZone(start_date);
-      var endDate = moment.parseZone(end_date);
-      var duration = moment.duration(endDate.diff(startDate));
-      var days = Math.ceil(duration.asDays());
-      var start, end;
-      var days_array = [];
-
-      for (var i = 0; i <= days; i++) {
-        if (startDate.date() === endDate.date()) {
-          start = startDate;
-          end = endDate;
-        } else {
-          if (i == 0) {
-            start = startDate;
-            end = moment(startDate).endOf("day");
-          } else if (i == days) {
-            start = moment(endDate).startOf('day');
-            end = endDate;
-          } else {
-            start = moment(startDate).add('days', i).startOf('day');
-            end = moment(startDate).add('days', i).endOf('day');
-          }
-        }
-
-        days_array.push({
-          start: moment(start),
-          end: moment(end),
-          duration_in_seconds: moment.duration(moment(end).diff(moment(start))).asSeconds(),
-          absolute_start_date: start_date,
-          absolute_end_date: end_date
-        });
-      }
-
-      return days_array;
-    }
-  }, {
-    key: "full_day_ms",
-    get: function get() {
-      return 86400000;
-    }
-  }]);
-
-  return TimeUtilities;
-}();
+var TimeUtilities = function TimeUtilities() {
+  _classCallCheck(this, TimeUtilities);
+};
 
 exports.default = TimeUtilities;
 },{}],"XAIA":[function(require,module,exports) {
@@ -6565,7 +6513,214 @@ var _default = {
   UIElement: _UIElement.default
 };
 exports.default = _default;
-},{"/components/Grid":"rXwc","/components/UIElement":"IBEu","/components/Line":"BhSJ"}],"Focm":[function(require,module,exports) {
+},{"/components/Grid":"rXwc","/components/UIElement":"IBEu","/components/Line":"BhSJ"}],"LsO8":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var CanvasDrawer = /*#__PURE__*/function () {
+  function CanvasDrawer(uses_dynamic_font) {
+    _classCallCheck(this, CanvasDrawer);
+
+    this.uses_dynamic_font = uses_dynamic_font;
+    this.__textHeight = null;
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
+  }
+
+  _createClass(CanvasDrawer, [{
+    key: "getFontHeight",
+    value: function getFontHeight() {
+      var fontStyle = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "Arial";
+
+      if (this.__textHeight == null || this.uses_dynamic_font) {
+        var body = document.getElementsByTagName('body')[0];
+        var dummy = document.createElement('div');
+        var dummyText = document.createTextNode('MÉqgOLAKTAL');
+        dummy.appendChild(dummyText);
+        dummy.setAttribute('style', "font:".concat(fontStyle, ";position:absolute;top:0;left:0"));
+        body.appendChild(dummy);
+        this.__textHeight = dummy.offsetHeight;
+        body.removeChild(dummy);
+      }
+
+      return this.__textHeight;
+    }
+  }, {
+    key: "get_text_size",
+    value: function get_text_size(text) {
+      var font = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "24px Arial";
+      var size = new THREE.Vector2();
+      this.ctx.font = font;
+      size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
+      size.y = Math.ceil(this.getFontHeight(font)) * window.devicePixelRatio;
+      return size;
+    }
+  }, {
+    key: "draw_canvas",
+    value: function draw_canvas(text) {
+      var ctxOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      ctxOptions.font = ctxOptions.font || '24px Arial';
+      ctxOptions.font_color = ctxOptions.font_color || '#000000';
+
+      this.__draw(text, ctxOptions, this.canvas, this.ctx);
+
+      return this.canvas;
+    }
+  }, {
+    key: "draw_on_texture",
+    value: function draw_on_texture(text, ctxOptions) {
+      var canvas = this.draw_canvas(text, ctxOptions);
+      var canvas_texture = new THREE.CanvasTexture(canvas, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.NearestFilter, THREE.NearestFilter);
+      canvas_texture.generateMipMaps = false;
+      canvas_texture.needsUpdate = true;
+      return canvas_texture;
+    }
+  }, {
+    key: "__draw",
+    value: function __draw(text, ctxOptions) {}
+  }, {
+    key: "roundRect",
+    value: function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      if (typeof stroke == 'undefined') {
+        stroke = true;
+      }
+
+      if (typeof radius === 'undefined') {
+        radius = 5;
+      }
+
+      if (typeof radius === 'number') {
+        radius = {
+          tl: radius,
+          tr: radius,
+          br: radius,
+          bl: radius
+        };
+      } else {
+        var defaultRadius = {
+          tl: 0,
+          tr: 0,
+          br: 0,
+          bl: 0
+        };
+
+        for (var side in defaultRadius) {
+          radius[side] = radius[side] || defaultRadius[side];
+        }
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(x + radius.tl, y);
+      ctx.lineTo(x + width - radius.tr, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+      ctx.lineTo(x + width, y + height - radius.br);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+      ctx.lineTo(x + radius.bl, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+      ctx.lineTo(x, y + radius.tl);
+      ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+      ctx.closePath();
+
+      if (fill) {
+        ctx.fill();
+      }
+
+      if (stroke) {
+        ctx.stroke();
+      }
+    }
+  }]);
+
+  return CanvasDrawer;
+}();
+
+exports.default = CanvasDrawer;
+},{}],"hKPB":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CanvasDrawer2 = _interopRequireDefault(require("/canvas_drawer/CanvasDrawer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var SimpleTextDrawer = /*#__PURE__*/function (_CanvasDrawer) {
+  _inherits(SimpleTextDrawer, _CanvasDrawer);
+
+  var _super = _createSuper(SimpleTextDrawer);
+
+  function SimpleTextDrawer() {
+    var _this;
+
+    _classCallCheck(this, SimpleTextDrawer);
+
+    _this = _super.call(this);
+    _this.text_margin = new THREE.Vector2(2, 0);
+    return _this;
+  }
+
+  _createClass(SimpleTextDrawer, [{
+    key: "__draw",
+    value: function __draw(text, ctxOptions, canvas, ctx) {
+      ctx.font = ctxOptions.font;
+      var text_size = this.get_text_size(text, ctxOptions.font); // canvas.width = THREE.Math.ceilPowerOfTwo(text_size.x+this.text_margin.x*2);
+      // canvas.height = THREE.Math.ceilPowerOfTwo(text_size.y+ this.text_margin.y*2);
+
+      canvas.width = Math.ceil(text_size.x + this.text_margin.x * 2);
+      canvas.height = Math.ceil(text_size.y + this.text_margin.y * 2);
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // ctx.globalAlpha = 0.2;
+      // ctx.fillStyle = "#FF0000";
+      // ctx.fillRect(0,0, canvas.width, canvas.height);
+
+      ctx.globalAlpha = 1;
+      ctx.font = ctxOptions.font;
+      ctx.fillStyle = ctxOptions.font_color || "#000000";
+      ctx.textBaseline = "middle";
+      ctx.textAlignment = "left";
+      ctx.fillText(text, 0, canvas.height / 2);
+    }
+  }]);
+
+  return SimpleTextDrawer;
+}(_CanvasDrawer2.default);
+
+exports.default = SimpleTextDrawer;
+},{"/canvas_drawer/CanvasDrawer":"LsO8"}],"Focm":[function(require,module,exports) {
 "use strict";
 
 var _ArrayUtilities = _interopRequireDefault(require("/utilities/ArrayUtilities.js"));
@@ -6628,6 +6783,10 @@ var _Validation = _interopRequireDefault(require("/utilities/Validation"));
 
 var _Components = _interopRequireDefault(require("/Components"));
 
+var _CanvasDrawer = _interopRequireDefault(require("/canvas_drawer/CanvasDrawer"));
+
+var _SimpleTextDrawer = _interopRequireDefault(require("/canvas_drawer/SimpleTextDrawer"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
@@ -6660,7 +6819,9 @@ module.exports = {
   ModelUtilities: _ModelUtilities.default,
   Validation: _Validation.default,
   Components: _Components.default,
-  UI: _UI.default
+  UI: _UI.default,
+  CanvasDrawer: _CanvasDrawer.default,
+  SimpleTextDrawer: _SimpleTextDrawer.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/ModelUtilities":"c2tY","/utilities/Validation":"bOug","/Components":"m3BF"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/ModelUtilities":"c2tY","/utilities/Validation":"bOug","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/canvas_drawer/SimpleTextDrawer":"hKPB"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

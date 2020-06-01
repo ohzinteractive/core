@@ -71,7 +71,10 @@ class UI
     render(renderer)
     {
         // renderer.render_ui(this.scene);
-        Graphics.render(this.ss_scene, this.ss_camera);
+        if(this.ss_scene.children.length > 0)
+            Graphics.render(this.ss_scene, this.ss_camera);
+        if (this.ws_scene.children.length > 0)
+            Graphics.render(this.ws_scene, CameraManager.current);
     }
 
     clear()

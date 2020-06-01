@@ -1,4 +1,4 @@
-import CanvasDrawer from '/CanvasDrawer';
+import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
 
 export default class SimpleTextDrawer extends CanvasDrawer{
 
@@ -19,7 +19,6 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     canvas.height = Math.ceil(text_size.y+ this.text_margin.y*2);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
     // ctx.globalAlpha = 0.2;
     // ctx.fillStyle = "#FF0000";
     // ctx.fillRect(0,0, canvas.width, canvas.height);
@@ -29,7 +28,7 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     ctx.globalAlpha = 1;
 
     ctx.font = ctxOptions.font;
-    ctx.fillStyle = ctxOptions.font_color;
+    ctx.fillStyle = ctxOptions.font_color || "#000000";
     ctx.textBaseline = "middle";
     ctx.textAlignment = "left";
     ctx.fillText(text, 0, canvas.height/2);

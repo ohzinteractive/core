@@ -157,9 +157,11 @@ class Debug {
   {
     color = color || 0xff0000;
     var geometry = new THREE.SphereGeometry( sphere.radius, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: color, side: THREE.DoubleSide} );
-    var sphere = new THREE.Mesh( geometry, material );
-    SceneManager.current.add(sphere);
+    var material = new THREE.MeshBasicMaterial( {color: color} );
+    var sphere_mesh = new THREE.Mesh( geometry, material );
+    sphere_mesh.position.copy(sphere.center);
+    SceneManager.current.add(sphere_mesh);
+    return sphere_mesh;
   }
 
   draw_math_sphere(sphere)

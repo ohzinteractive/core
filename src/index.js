@@ -28,6 +28,8 @@ import ImageUtilities from '/utilities/ImageUtilities';
 import ModelUtilities from '/utilities/ModelUtilities';
 import Validation from '/utilities/Validation';
 import Components from '/Components';
+import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
+import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
 
 module.exports = {
   ArrayUtilities: ArrayUtilities,
@@ -59,5 +61,7 @@ module.exports = {
   ModelUtilities: ModelUtilities,
   Validation: Validation,
   Components: Components,
-  UI: UI
+  UI: UI,
+  CanvasDrawer: CanvasDrawer,
+  SimpleTextDrawer: SimpleTextDrawer
 }

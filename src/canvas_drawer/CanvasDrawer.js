@@ -1,6 +1,6 @@
 export default class CanvasDrawer
 {
-	constructor (uses_dynamic_font) 
+	constructor (uses_dynamic_font)
   {
     this.uses_dynamic_font = uses_dynamic_font;
     this.__textHeight = null;
@@ -9,7 +9,7 @@ export default class CanvasDrawer
     this.ctx = this.canvas.getContext('2d');
   }
 
-  getFontHeight (fontStyle) {
+  getFontHeight (fontStyle = "Arial") {
 
     if(this.__textHeight == null || this.uses_dynamic_font)
     {
@@ -23,13 +23,15 @@ export default class CanvasDrawer
       body.removeChild(dummy);
     }
     return this.__textHeight;
-      
+
   }
 
 
 
-  get_text_size(text, font)
+  get_text_size(text, font = "24px Arial")
   {
+
+
   	let size = new THREE.Vector2();
   	this.ctx.font = font;
 		size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
@@ -37,8 +39,11 @@ export default class CanvasDrawer
     return size;
   }
 
-  draw_canvas (text, ctxOptions) 
+  draw_canvas (text, ctxOptions = {})
   {
+    ctxOptions.font = ctxOptions.font || '24px Arial';
+    ctxOptions.font_color = ctxOptions.font_color || '#000000';
+
   	this.__draw(text, ctxOptions, this.canvas, this.ctx);
   	return this.canvas;
   }
@@ -47,13 +52,13 @@ export default class CanvasDrawer
   {
     let canvas = this.draw_canvas(text, ctxOptions);
     let canvas_texture = new THREE.CanvasTexture(canvas, THREE.UVMapping,
-                                          THREE.ClampToEdgeWrapping,  
+                                          THREE.ClampToEdgeWrapping,
                                           THREE.ClampToEdgeWrapping,
                                           THREE.NearestFilter,
                                           THREE.NearestFilter);
     canvas_texture.generateMipMaps = false;
     canvas_texture.needsUpdate = true;
-    
+
     return canvas_texture;
   }
 
