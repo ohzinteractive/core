@@ -51,6 +51,7 @@ export default class UIElement extends THREE.Mesh
     this.renderOrder = 0;
 
     this.size = 1;
+    this.pixel_offset = new THREE.Vector2();
   }
 
   set_render_order(value)
@@ -61,6 +62,12 @@ export default class UIElement extends THREE.Mesh
   get pivot_point()
   {
     return this.material.uniforms._PivotPoint.value;
+  }
+
+  set_pixel_offset(offset)
+  {
+    this.pixel_offset.copy(offset);
+    this.material.uniforms._PixelOffset.value.copy(offset);
   }
 
   set_state(new_state)
@@ -128,6 +135,8 @@ export default class UIElement extends THREE.Mesh
 
     this.screen_pos_tmp.copy(this.cached_NDC_position)
     this.to_screen_position(this.screen_pos_tmp);
+    this.screen_pos_tmp.x += this.pixel_offset.x;
+    this.screen_pos_tmp.y += this.pixel_offset.y;
 
     let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
 
@@ -140,8 +149,8 @@ export default class UIElement extends THREE.Mesh
 
   to_screen_position(projected_pos)
   {
-    projected_pos.x = (projected_pos.x * 0.5 + 0.5) * Screen.width;
-    projected_pos.y = (projected_pos.y * 0.5 + 0.5) * Screen.height;
+    projected_pos.x = (projected_pos.x * 0.5 + 0.5) * Screen.width  + this.pixel_offset.x;
+    projected_pos.y = (projected_pos.y * 0.5 + 0.5) * Screen.height + this.pixel_offset.y;
   }
 
   get_screen_space_position()

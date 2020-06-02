@@ -7,11 +7,11 @@ uniform float _DepthOffset;
 varying vec2 vUv;
 
 
-vec2 round_to_ceil(vec2 pos)
+vec2 add_pixel_offset(vec2 pos)
 {
 	pos = pos * 0.5 + 0.5;
 	pos *= _ScreenSize;
-	pos = ceil(pos)+0.5;
+	pos = ceil(pos+_PixelOffset)+0.5;
 	pos /= _ScreenSize;
 	return pos * 2.0 - 1.0;
 }
@@ -25,8 +25,8 @@ void main()
   vec2 normalized_size = _TextureSize/_ScreenSize;
   vec2 dir = uv * 2.0 - 1.0;
   dir -= _PivotPoint;
-  vec2 pos = projected_pos.xy+ dir * normalized_size;
-  gl_Position = vec4(round_to_ceil(pos), projected_pos.z, 1.0);
+  vec2 pos = projected_pos.xy+dir * normalized_size;
+  gl_Position = vec4(add_pixel_offset(pos), projected_pos.z, 1.0);
   vUv = uv;
 
 }

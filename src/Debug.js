@@ -70,14 +70,15 @@ class Debug {
     this.ctx.stroke();
   }
 
-  draw_line(from, to, color)
+  draw_line(points, color)
   {
-    color = color || 0xff0000;
-    let mat = new THREE.LineBasicMaterial({ color: color });
-    let geo = new THREE.Geometry();
-    geo.vertices.push(from);
-    geo.vertices.push(to);
-    let line = new THREE.Line(geo, mat);
+    var material = new THREE.LineBasicMaterial({
+      color: color
+    });
+
+    var geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+    var line = new THREE.Line(geometry, material);
     SceneManager.current.add(line);
     return line;
   }
@@ -152,6 +153,16 @@ class Debug {
     sphere.position.copy(pos);
     SceneManager.current.add( sphere );
     return sphere;
+  }
+
+  draw_point_array(input_points, open = false, color = 0xff0000 )
+  {
+    let catmull = new THREE.CatmullRomCurve3(input_points, open)
+    catmull.updateArcLengths();
+    let points = catmull.getSpacedPoints(200);
+    let line_helper = this.draw_line(points, 0x00ff00);
+    // line_helper.position.y = 1.5;
+    return line_helper;
   }
   draw_sphere_helper(sphere, color)
   {
