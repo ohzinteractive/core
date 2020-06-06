@@ -5184,7 +5184,7 @@ var ResourceBatch = /*#__PURE__*/function () {
         progress += this.resource_loaders[i].progress;
       }
 
-      if (progress === 0) {
+      if (this.resource_loaders.length === 0) {
         console.error("Batch " + this.name + " does not contain any loaders");
         return 0;
       }
