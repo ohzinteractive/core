@@ -1,200 +1,6850 @@
-parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcelRequire,u="function"==typeof require&&require;function f(t,n){if(!r[t]){if(!e[t]){var i="function"==typeof parcelRequire&&parcelRequire;if(!n&&i)return i(t,!0);if(o)return o(t,!0);if(u&&"string"==typeof t)return u(t);var c=new Error("Cannot find module '"+t+"'");throw c.code="MODULE_NOT_FOUND",c}p.resolve=function(r){return e[t][1][r]||r},p.cache={};var l=r[t]=new f.Module(t);e[t][0].call(l.exports,p,l,l.exports,this)}return r[t].exports;function p(e){return f(p.resolve(e))}}f.isParcelRequire=!0,f.Module=function(e){this.id=e,this.bundle=f,this.exports={}},f.modules=e,f.cache=r,f.parent=o,f.register=function(r,t){e[r]=[function(e,r){r.exports=t},{}]};for(var c=0;c<t.length;c++)try{f(t[c])}catch(e){i||(i=e)}if(t.length){var l=f(t[t.length-1]);"object"==typeof exports&&"undefined"!=typeof module?module.exports=l:"function"==typeof define&&define.amd?define(function(){return l}):n&&(this[n]=l)}if(parcelRequire=f,i)throw i;return f}({"INHd":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var r=0;r<n.length;r++){var t=n[r];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}function r(e,r,t){return r&&n(e.prototype,r),t&&n(e,t),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=function(){function n(){e(this,n)}return r(n,null,[{key:"merge_from_to",value:function(e,n){n.push.apply(n,e)}},{key:"expand_vec3_array",value:function(e,n){for(var r=n-e.length,t=0;t<r;t++)e.push(e[t].clone())}},{key:"remove_elem",value:function(e,n){var r=e.indexOf(n);r>-1&&e.splice(r,1)}}]),n}();exports.default=t;
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
+  };
+
+  var error;
+  for (var i = 0; i < entry.length; i++) {
+    try {
+      newRequire(entry[i]);
+    } catch (e) {
+      // Save first error but execute all entries
+      if (!error) {
+        error = e;
+      }
+    }
+  }
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
+  // Override the current require with this new one
+  parcelRequire = newRequire;
+
+  if (error) {
+    // throw error from earlier, _after updating parcelRequire_
+    throw error;
+  }
+
+  return newRequire;
+})({"INHd":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ArrayUtilities = /*#__PURE__*/function () {
+  function ArrayUtilities() {
+    _classCallCheck(this, ArrayUtilities);
+  }
+
+  _createClass(ArrayUtilities, null, [{
+    key: "merge_from_to",
+    value: function merge_from_to(source, target) {
+      target.push.apply(target, source);
+    }
+  }, {
+    key: "expand_vec3_array",
+    value: function expand_vec3_array(array, size) {
+      var items_left_count = size - array.length;
+
+      for (var i = 0; i < items_left_count; i++) {
+        array.push(array[i].clone());
+      }
+    }
+  }, {
+    key: "remove_elem",
+    value: function remove_elem(array, elem) {
+      var index = array.indexOf(elem);
+
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+    }
+  }]);
+
+  return ArrayUtilities;
+}();
+
+exports.default = ArrayUtilities;
 },{}],"v0GF":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var o=n[t];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function t(e,t,o){return t&&n(e.prototype,t),o&&n(e,o),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var o=function(){function n(){e(this,n)}return t(n,[{key:"start",value:function(){}},{key:"post_start",value:function(){}},{key:"end",value:function(){}},{key:"update",value:function(){}},{key:"on_post_render",value:function(){}},{key:"on_pre_render",value:function(){}},{key:"resources_fully_loaded",value:function(){}}]),n}();exports.default=o;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var BaseApplication = /*#__PURE__*/function () {
+  function BaseApplication() {
+    _classCallCheck(this, BaseApplication);
+  }
+
+  _createClass(BaseApplication, [{
+    key: "start",
+    value: function start() {}
+  }, {
+    key: "post_start",
+    value: function post_start() {}
+  }, {
+    key: "end",
+    value: function end() {}
+  }, {
+    key: "update",
+    value: function update() {}
+  }, {
+    key: "on_post_render",
+    value: function on_post_render() {}
+  }, {
+    key: "on_pre_render",
+    value: function on_pre_render() {}
+  }, {
+    key: "resources_fully_loaded",
+    value: function resources_fully_loaded() {}
+  }]);
+
+  return BaseApplication;
+}();
+
+exports.default = BaseApplication;
 },{}],"QfnR":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec2 vUv;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  vUv = uv;\n}";
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  vUv = uv;\n}";
 },{}],"LSxb":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform vec3 _Color;\n\nvoid main()\n{\n    gl_FragColor = vec4(_Color, 1.0);\n}";
+module.exports = "#define GLSLIFY 1\nuniform vec3 _Color;\n\nvoid main()\n{\n    gl_FragColor = vec4(_Color, 1.0);\n}";
 },{}],"Ej2H":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/shaders/basic_color/basic_color_vert")),e=r(require("/shaders/basic_color/basic_color_frag"));function r(t){return t&&t.__esModule?t:{default:t}}function o(t){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=s(t);if(l()){var o=s(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return i(this,e)}}function i(t,e){return!e||"object"!==o(e)&&"function"!=typeof e?a(t):e}function a(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function s(t){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var p=function(r){u(c,THREE.ShaderMaterial);var o=f(c);function c(r,u,f){return n(this,c),o.call(this,{vertexShader:r||t.default,fragmentShader:u||e.default,uniforms:f||{_Color:{value:new THREE.Color("#FF0000")}}})}return c}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _basic_color_vert = _interopRequireDefault(require("/shaders/basic_color/basic_color_vert"));
+
+var _basic_color_frag = _interopRequireDefault(require("/shaders/basic_color/basic_color_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var BaseShaderMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
+  _inherits(BaseShaderMaterial, _THREE$ShaderMaterial);
+
+  var _super = _createSuper(BaseShaderMaterial);
+
+  function BaseShaderMaterial(vert, frag, uniforms) {
+    _classCallCheck(this, BaseShaderMaterial);
+
+    return _super.call(this, {
+      vertexShader: vert || _basic_color_vert.default,
+      fragmentShader: frag || _basic_color_frag.default,
+      uniforms: uniforms || {
+        _Color: {
+          value: new THREE.Color("#FF0000")
+        }
+      }
+    });
+  }
+
+  return BaseShaderMaterial;
+}(THREE.ShaderMaterial);
+
+exports.default = BaseShaderMaterial;
 },{"/shaders/basic_color/basic_color_vert":"QfnR","/shaders/basic_color/basic_color_frag":"LSxb"}],"XMgG":[function(require,module,exports) {
-function n(n,e){if(!(n instanceof e))throw new TypeError("Cannot call a class as a function")}function e(n,e){for(var t=0;t<e.length;t++){var r=e[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(n,r.key,r)}}function t(n,t,r){return t&&e(n.prototype,t),r&&e(n,r),n}var r=function(){function e(){n(this,e),this._current=void 0}return t(e,[{key:"current",set:function(n){this._current=n},get:function(){return this._current}}]),e}(),o=new r;module.exports=o;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var CameraManager = /*#__PURE__*/function () {
+  function CameraManager() {
+    _classCallCheck(this, CameraManager);
+
+    this._current = undefined;
+  }
+
+  _createClass(CameraManager, [{
+    key: "current",
+    set: function set(camera) {
+      this._current = camera;
+    },
+    get: function get() {
+      return this._current;
+    }
+  }]);
+
+  return CameraManager;
+}();
+
+var camera_manager = new CameraManager();
+module.exports = camera_manager;
 },{}],"JIgx":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var i=0;i<t.length;i++){var h=t[i];h.enumerable=h.enumerable||!1,h.configurable=!0,"value"in h&&(h.writable=!0),Object.defineProperty(e,h.key,h)}}function i(e,i,h){return i&&t(e.prototype,i),h&&t(e,h),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var h=function(){function t(){e(this,t),this.width=1,this.height=1,this.render_width=1,this.render_height=1,this.width_height=new THREE.Vector2(this.width,this.height),this.dpr=1,this.pixel_size=new THREE.Vector2(1/this.width,1/this.height)}return i(t,[{key:"update_size",value:function(e,t){this.width=e,this.height=t,this.pixel_size=new THREE.Vector2(1/this.width,1/this.height),this.width_height.x=e,this.width_height.y=t,this.render_width=e*this.dpr,this.render_height=t*this.dpr}},{key:"apply_pixel_density_v2",value:function(e){return e.multiplyScalar(1/window.devicePixelRatio),e}},{key:"apply_pixel_density",value:function(e){return e*(1/window.devicePixelRatio)}},{key:"get_pixel_size",value:function(){return this.pixel_size}},{key:"aspect_ratio",get:function(){return this.width/this.height}}]),t}(),n=new h;exports.default=n;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Screen = /*#__PURE__*/function () {
+  function Screen() {
+    _classCallCheck(this, Screen);
+
+    this.width = 1;
+    this.height = 1;
+    this.render_width = 1;
+    this.render_height = 1;
+    this.width_height = new THREE.Vector2(this.width, this.height);
+    this.dpr = 1;
+    this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
+  }
+
+  _createClass(Screen, [{
+    key: "update_size",
+    value: function update_size(width, height) {
+      this.width = width;
+      this.height = height;
+      this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
+      this.width_height.x = width;
+      this.width_height.y = height;
+      this.render_width = width * this.dpr;
+      this.render_height = height * this.dpr;
+    }
+  }, {
+    key: "apply_pixel_density_v2",
+    value: function apply_pixel_density_v2(vector2) {
+      vector2.multiplyScalar(1 / window.devicePixelRatio);
+      return vector2;
+    }
+  }, {
+    key: "apply_pixel_density",
+    value: function apply_pixel_density(value) {
+      return value * (1 / window.devicePixelRatio);
+    }
+  }, {
+    key: "get_pixel_size",
+    value: function get_pixel_size() {
+      return this.pixel_size;
+    }
+  }, {
+    key: "aspect_ratio",
+    get: function get() {
+      return this.width / this.height;
+    }
+  }]);
+
+  return Screen;
+}();
+
+var _default = new Screen();
+
+exports.default = _default;
 },{}],"RyjO":[function(require,module,exports) {
-function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var i=0;i<t.length;i++){var o=t[i];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function i(e,i,o){return i&&t(e.prototype,i),o&&t(e,o),e}var o=function(){function t(){arguments.length>0&&void 0!==arguments[0]&&arguments[0];e(this,t),this.dpr=window.devicePixelRatio?window.devicePixelRatio:1,this.is_mobile=!1,this.is_ios=!1,this.is_ipad=!1,this.vertex_image_unit_supported=!0,this.min_zoom_distance=3e3,this.max_zoom_distance=4e4,this.max_zoom_distance_scale=1.1,this.zoom_speed=.1,this.use_fxaa=!1,this.use_ssaa=!0,this.background_color=new THREE.Color(.768,.768,.768),this.touch_sensitivity=1.5,this.zoom_sensitivity=.7,this.spin_sensitivity=2,this.three_finger_rotation_speed=3,this.three_finger_allowed_x_rotation_offset=30,this.three_finger_allowed_y_rotation_offset=20,this.use_touch_gestures=!1,this.texture_float_supported=!1,this.use_ortographic=!0,this.hover_enabled=!1,this.rotation_enabled=!1,this.transparency_amount=.2,this.show_debug_sphere_on_floor_selection=!1,this.show_debug_sphere_on_steps_in_floor=!1,this.display_cleanup_log=!1,this.navigation_speed_damping=.74,this.navigation_speed=200,this.out_of_bounds_force=1.5,this.mouse_zoom_speed=.05,this.touch_zoom_speed=.5}return i(t,[{key:"from_json",value:function(e){}}]),t}(),s=new o;module.exports=s;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*
+
+  A configuration class used as a singleton
+
+*/
+var Configuration = /*#__PURE__*/function () {
+  function Configuration() {
+    var parameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Configuration);
+
+    this.dpr = window.devicePixelRatio ? window.devicePixelRatio : 1;
+    this.is_mobile = false;
+    this.is_ios = false;
+    this.is_ipad = false;
+    this.vertex_image_unit_supported = true;
+    this.min_zoom_distance = 3000;
+    this.max_zoom_distance = 40000;
+    this.max_zoom_distance_scale = 1.1;
+    this.zoom_speed = 0.1;
+    this.use_fxaa = false;
+    this.use_ssaa = true;
+    this.background_color = new THREE.Color(0.768, 0.768, 0.768); //TOUCH
+
+    this.touch_sensitivity = 1.5;
+    this.zoom_sensitivity = 0.7;
+    this.spin_sensitivity = 2;
+    this.three_finger_rotation_speed = 3;
+    this.three_finger_allowed_x_rotation_offset = 30;
+    this.three_finger_allowed_y_rotation_offset = 20;
+    this.use_touch_gestures = false;
+    this.texture_float_supported = false;
+    this.use_ortographic = true;
+    this.hover_enabled = false;
+    this.rotation_enabled = false;
+    this.transparency_amount = 0.2;
+    this.show_debug_sphere_on_floor_selection = false;
+    this.show_debug_sphere_on_steps_in_floor = false;
+    this.display_cleanup_log = false;
+    this.navigation_speed_damping = 0.74;
+    this.navigation_speed = 200;
+    this.out_of_bounds_force = 1.5;
+    this.mouse_zoom_speed = 0.05;
+    this.touch_zoom_speed = 0.5;
+  }
+
+  _createClass(Configuration, [{
+    key: "from_json",
+    value: function from_json(json) {}
+  }]);
+
+  return Configuration;
+}();
+
+var configuration = new Configuration();
+module.exports = configuration;
 },{}],"wewU":[function(require,module,exports) {
-function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var i=0;i<t.length;i++){var _=t[i];_.enumerable=_.enumerable||!1,_.configurable=!0,"value"in _&&(_.writable=!0),Object.defineProperty(e,_.key,_)}}function i(e,i,_){return i&&t(e.prototype,i),_&&t(e,_),e}var _=function(){function t(){e(this,t),this.___time=new THREE.Clock,this.__delta_time=0,this.__elapsed_time=0,this.__allocated_time=new THREE.Vector2(0,0)}return i(t,[{key:"__update",value:function(){this.__delta_time=this.___time.getDelta(),this.__elapsed_time=this.___time.getElapsedTime()}},{key:"delta_time",get:function(){return this.__delta_time<.4?this.__delta_time:.016}},{key:"elapsed_time",get:function(){return this.__elapsed_time}},{key:"shader_time",get:function(){return this.__allocated_time.x=this.delta_time,this.__allocated_time.y=this.elapsed_time,this.__allocated_time}}]),t}(),a=new _;module.exports=a;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Time = /*#__PURE__*/function () {
+  function Time() {
+    _classCallCheck(this, Time);
+
+    this.___time = new THREE.Clock();
+    this.__delta_time = 0;
+    this.__elapsed_time = 0;
+    this.__allocated_time = new THREE.Vector2(0, 0);
+  }
+
+  _createClass(Time, [{
+    key: "__update",
+    value: function __update() {
+      this.__delta_time = this.___time.getDelta();
+      this.__elapsed_time = this.___time.getElapsedTime();
+    }
+  }, {
+    key: "delta_time",
+    get: function get() {
+      return this.__delta_time < 0.4 ? this.__delta_time : 0.016;
+    }
+  }, {
+    key: "elapsed_time",
+    get: function get() {
+      return this.__elapsed_time;
+    }
+  }, {
+    key: "shader_time",
+    get: function get() {
+      this.__allocated_time.x = this.delta_time;
+      this.__allocated_time.y = this.elapsed_time;
+      return this.__allocated_time;
+    }
+  }]);
+
+  return Time;
+}();
+
+var time = new Time();
+module.exports = time;
 },{}],"Oo8n":[function(require,module,exports) {
-"use strict";function e(e,s){if(!(e instanceof s))throw new TypeError("Cannot call a class as a function")}function s(e,s){for(var t=0;t<s.length;t++){var n=s[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function t(e,t,n){return t&&s(e.prototype,t),n&&s(e,n),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.KeyboardInput=void 0;var n=function(){function s(){e(this,s),this.ctrlz_pressed=!1,this.ctrlz_fired=!1,this.keys=[]}return t(s,[{key:"init",value:function(){document.onkeydown=this.on_key_down.bind(this),document.onkeyup=this.on_key_up.bind(this),document.onkeypress=this.on_key_press.bind(this)}},{key:"on_key_down",value:function(e){90==e.keyCode&&e.ctrlKey&&!this.ctrlz_fired&&(this.ctrlz_pressed=!0,this.ctrlz_fired=!0),e.key&&this.press_key(e.key)}},{key:"on_key_press",value:function(e){}},{key:"on_key_up",value:function(e){this.release_keys()}},{key:"clear",value:function(){this.ctrlz_pressed=!1;for(var e=0;e<this.keys.length;e++)this.keys[e].pressed=!1}},{key:"release_keys",value:function(){this.ctrlz_fired=!1;for(var e=0;e<this.keys.length;e++)this.keys[e].fired=!1,this.keys[e].down=!1}},{key:"press_key",value:function(e){for(var s=0;s<this.keys.length;s++)this.keys[s].key_name!==e||this.keys[s].fired||(this.keys[s].pressed=!0,this.keys[s].down=!0,this.keys[s].fired=!0)}},{key:"key_is_pressed",value:function(e){for(var s=0;s<this.keys.length;s++)if(this.keys[s].key_name===e)return this.keys[s].pressed;return!1}},{key:"key_is_down",value:function(e){for(var s=0;s<this.keys.length;s++)if(this.keys[s].key_name===e)return this.keys[s].down;return!1}},{key:"register_key",value:function(e){this.keys.push({key_name:e,pressed:!1,down:!1,up:!1,fired:!1})}},{key:"unregister_key",value:function(e){for(var s=void 0,t=0;t<this.keys.length;t++)this.keys[t].key_name===e&&(s=this.keys[t]);var n=this.keys.indexOf(s);n>-1&&this.keys.splice(n,1)}}]),s}();exports.KeyboardInput=n;var i=new n;module.exports=i;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.KeyboardInput = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var KeyboardInput = /*#__PURE__*/function () {
+  function KeyboardInput() {
+    _classCallCheck(this, KeyboardInput);
+
+    this.ctrlz_pressed = false;
+    this.ctrlz_fired = false;
+    this.keys = [];
+  }
+
+  _createClass(KeyboardInput, [{
+    key: "init",
+    value: function init() {
+      document.onkeydown = this.on_key_down.bind(this);
+      document.onkeyup = this.on_key_up.bind(this);
+      document.onkeypress = this.on_key_press.bind(this);
+    }
+  }, {
+    key: "on_key_down",
+    value: function on_key_down(e) {
+      if (e.keyCode == 90 && e.ctrlKey && !this.ctrlz_fired) {
+        this.ctrlz_pressed = true;
+        this.ctrlz_fired = true;
+      }
+
+      if (e.key) {
+        this.press_key(e.key);
+      }
+    }
+  }, {
+    key: "on_key_press",
+    value: function on_key_press(e) {}
+  }, {
+    key: "on_key_up",
+    value: function on_key_up(e) {
+      this.release_keys();
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.ctrlz_pressed = false;
+
+      for (var i = 0; i < this.keys.length; i++) {
+        this.keys[i].pressed = false;
+      }
+    }
+  }, {
+    key: "release_keys",
+    value: function release_keys() {
+      this.ctrlz_fired = false;
+
+      for (var i = 0; i < this.keys.length; i++) {
+        this.keys[i].fired = false;
+        this.keys[i].down = false;
+      }
+    }
+  }, {
+    key: "press_key",
+    value: function press_key(key) {
+      for (var i = 0; i < this.keys.length; i++) {
+        if (this.keys[i].key_name === key && !this.keys[i].fired) {
+          this.keys[i].pressed = true;
+          this.keys[i].down = true;
+          this.keys[i].fired = true;
+        }
+      }
+    }
+  }, {
+    key: "key_is_pressed",
+    value: function key_is_pressed(key) {
+      for (var i = 0; i < this.keys.length; i++) {
+        if (this.keys[i].key_name === key) {
+          return this.keys[i].pressed;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "key_is_down",
+    value: function key_is_down(key) {
+      for (var i = 0; i < this.keys.length; i++) {
+        if (this.keys[i].key_name === key) {
+          return this.keys[i].down;
+        }
+      }
+
+      return false;
+    }
+  }, {
+    key: "register_key",
+    value: function register_key(key) {
+      this.keys.push({
+        key_name: key,
+        pressed: false,
+        down: false,
+        up: false,
+        fired: false
+      });
+    }
+  }, {
+    key: "unregister_key",
+    value: function unregister_key(key_name) {
+      var key = undefined;
+
+      for (var i = 0; i < this.keys.length; i++) {
+        if (this.keys[i].key_name === key_name) key = this.keys[i];
+      }
+
+      var index = this.keys.indexOf(key);
+
+      if (index > -1) {
+        this.keys.splice(index, 1);
+      }
+    }
+  }]);
+
+  return KeyboardInput;
+}();
+
+exports.KeyboardInput = KeyboardInput;
+var keyboard_input = new KeyboardInput();
+module.exports = keyboard_input;
 },{}],"k3P6":[function(require,module,exports) {
-"use strict";var t=o(require("/Screen")),e=o(require("/Configuration")),i=o(require("/Time")),s=o(require("/KeyboardInput"));function o(t){return t&&t.__esModule?t:{default:t}}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function _(t,e){for(var i=0;i<e.length;i++){var s=e[i];s.enumerable=s.enumerable||!1,s.configurable=!0,"value"in s&&(s.writable=!0),Object.defineProperty(t,s.key,s)}}function u(t,e,i){return e&&_(t.prototype,e),i&&_(t,i),t}var a=function(){function e(){n(this,e),this.mouse_pos=new THREE.Vector2,this.last_mouse_pos=new THREE.Vector2,this.mouse_dir=new THREE.Vector2,this.__clicked_time=0,this.__elapsed_time=0,this.__delta_time=0,this.is_mouse_down=!1,this.is_mouse_up=!1,this.rotation_angle=0,this._normalized_mouse_pos=new THREE.Vector2(0,0),this.left_mouse_button_down=!1,this.left_mouse_button_pressed=!1,this.left_mouse_button_released=!1,this.middle_mouse_button_down=!1,this.right_mouse_button_down=!1,this.right_mouse_button_pressed=!1,this.right_mouse_button_released=!1,this.mousewheel=0,this.previous_scale=0,this.previous_rotation=0,this.previous_rotation_dirty=!0,this.mouse_str="mouse",this.tmp_mouse_velocity=new THREE.Vector2,this.bounding_client=new THREE.Vector2,this.multitouch_active=!1,this.tapped=!1,this.initial_zoom_distance=100,this.zoom_center=new THREE.Vector2,this.zoom_started=!1,this.touch_zoom=1,this.multi_touch_dir=new THREE.Vector2,this.wheel_delta=0,this.mac="mac",this.pinching_with_trackpad=!1,this.scrolling_with_trackpad=!1,this.scrolling_with_mouse=!1,this.double_click=!1,this.canvas=void 0,this.previous_pos_x=0,this.previous_pos_y=0}return u(e,[{key:"mouse_is_within_bounds",value:function(t){return t=t||this.canvas.getBoundingClientRect(),this.mouse_pos.x>t.left&&this.mouse_pos.x<t.left+t.width&&this.mouse_pos.y>t.top&&this.mouse_pos.y<t.top+t.height}},{key:"init",value:function(t,e){var i=this;this.canvas=e;var o=new ZingTouch.Region(t,!1,!1);s.default.init();var n=this;o.bind(t,"tap",function(t){n.tapped=!0,n.set_mouse_pos(t)}),window.addEventListener("dblclick",this.on_double_click.bind(this)),t.addEventListener("mouseleave",this.on_focus_lost.bind(this)),t.addEventListener("mouseup",this.on_mouse_up.bind(this)),t.addEventListener("mousemove",this.on_mouse_move.bind(this)),t.addEventListener("touchmove",this.on_touch_move.bind(this),!1),t.addEventListener("touchend",this.on_touch_end.bind(this),!1);var _=new ZingTouch.Pan({numInputs:1});o.register("one_finger_pan",_),o.bind(t,"one_finger_pan",function(t){t.detail.data.length});var u=new ZingTouch.Pan({numInputs:2});o.register("two_fingers_pan",u),o.bind(t,"two_fingers_pan",function(t){t.detail.data.length>0&&(n.multi_touch_dir.set(t.detail.data[0].change.x,t.detail.data[0].change.y),n.multi_touch_dir.multiplyScalar(n.__delta_time))});var a=new ZingTouch.Pan({numInputs:3});o.register("three_fingers_pan",a),o.bind(t,"three_fingers_pan",function(t){t.detail.data.length>0&&(n.multi_touch_dir.set(t.detail.data[0].change.x,t.detail.data[0].change.y),n.multi_touch_dir.multiplyScalar(n.__delta_time))}),o.bind(t,"distance",function(t){n.zoom_started||(n.zoom_started=!0,n.touch_zoom_delta=0,n.initial_zoom_distance=t.detail.distance,n.last_zoom_distance=t.detail.distance,n.zoom_center.set(t.detail.center.x,t.detail.center.y),n.mouse_pos.set(t.detail.center.x,t.detail.center.y)),n.touch_zoom_delta=t.detail.distance-n.last_zoom_distance,n.last_zoom_distance=t.detail.distance,n.touch_zoom=1},!1);var h=new ZingTouch.Gesture;h.end=function(t,e,i){n.on_gesture_end(t)},h.start=function(t,e,i){n.on_mouse_down(t)},o.register("shortTap",h),o.bind(t,"shortTap",function(t){}),window.addEventListener("wheel",this.on_mouse_wheel.bind(this)),t.addEventListener("contextmenu",function(t){t.preventDefault()},!1),t.addEventListener("mousemove",function(t){i.mouse_pos.x=t.clientX,i.mouse_pos.y=t.clientY,i.scrolling_with_mouse=!1,i.scrolling_with_trackpad=!1,i.pinching_with_trackpad=!1})}},{key:"set_mouse_pos",value:function(t){this.mouse_pos.x=t.detail.events[0].clientX,this.mouse_pos.y=t.detail.events[0].clientY}},{key:"is_mac",value:function(){return this.get_os()===this.mac}},{key:"on_double_click",value:function(t){this.double_click=!0}},{key:"on_mouse_wheel",value:function(t){this.mouse_pos.x=t.clientX,this.mouse_pos.y=t.clientY,this.is_mac()?t.ctrlKey?(console.log("Pinching with a touchpad",t.deltaY),this.pinching_with_trackpad=!0,this.scrolling_with_trackpad=!1,this.scrolling_with_mouse=!1):this.is_int(t.deltaY)?(this.pinching_with_trackpad=!1,this.scrolling_with_trackpad=!0,this.scrolling_with_mouse=!1,this.wheel_delta=1-t.deltaY/350*2-1):(this.pinching_with_trackpad=!1,this.scrolling_with_trackpad=!1,this.scrolling_with_mouse=!0,this.wheel_delta=t.deltaY/Math.abs(t.deltaY)):(this.pinching_with_trackpad=!1,this.scrolling_with_trackpad=!1,this.scrolling_with_mouse=!0,Math.abs(t.deltaY)<1e-4?this.wheel_delta=0:this.wheel_delta=t.deltaY/Math.abs(t.deltaY))}},{key:"on_mouse_down",value:function(t){switch(this.mouse_pos.x=t[0].current.clientX,this.mouse_pos.y=t[0].current.clientY,this.multitouch_active=t.length>1,this.mouse_dir.x=0,this.mouse_dir.y=0,this.__clicked_time=this.__elapsed_time,this.is_mouse_down=!0,this.is_mouse_up=!1,t[0].current.originalEvent.which){case 1:this.left_mouse_button_down=!0,this.left_mouse_button_pressed=!0;break;case 2:this.middle_mouse_button_down=!0;break;case 3:this.right_mouse_button_down=!0,this.right_mouse_button_pressed=!0;break;default:this.left_mouse_button_down=!0,this.left_mouse_button_pressed=!0}this.wheel_delta=0,this.previous_scale=0,this.previous_rotation=0}},{key:"mouse_clicked",value:function(){return this.tapped}},{key:"on_touch_move",value:function(t){this.on_mouse_move({clientX:t.changedTouches[0].clientX,clientY:t.changedTouches[0].clientY})}},{key:"on_touch_end",value:function(t){this.on_gesture_end([{current:{originalEvent:t}}])}},{key:"on_mouse_up",value:function(t){this.on_gesture_end([{current:{originalEvent:t}}])}},{key:"on_gesture_end",value:function(t){if(this.multitouch_active=!!t&&t.length>1,this.is_mouse_up=!0,this.zoom_started=!1,this.touch_zoom=1,this.mouse_dir.x=0,this.mouse_dir.y=0,this.previous_scale=0,this.previous_rotation=0,this.wheel_delta=0,this.left_mouse_button_down=!1,this.middle_mouse_button_down=!1,this.right_mouse_button_down=!1,t)switch(t[0].current.originalEvent.which){case 1:this.left_mouse_button_released=!0;break;case 2:this.middle_mouse_button_released=!0;break;case 3:this.right_mouse_button_released=!0;break;default:this.left_mouse_button_released=!0}this.is_mouse_down=!1,this.previous_rotation_dirty=!0,this.rotation_delta=0}},{key:"on_focus_lost",value:function(){this.on_gesture_end(),this.left_mouse_button_released=!0,this.middle_mouse_button_released=!0,this.right_mouse_button_released=!0,this.left_mouse_button_released=!0}},{key:"time_since_last_mouse_down",value:function(){return this.__elapsed_time-this.__clicked_time}},{key:"on_mouse_move",value:function(t){this.mouse_pos.x=t.clientX,this.mouse_pos.y=t.clientY,this.mouse_dir.set(this.mouse_pos.x-this.previous_pos_x,this.mouse_pos.x-this.previous_pos_y),this.mouse_dir.normalize(),this.previous_pos_x=this.mouse_pos.x,this.previous_pos_y=this.mouse_pos.x}},{key:"on_mouse_move_zingtouch",value:function(t){t.detail.data.length>0&&(this.set_mouse_pos(t),this.mouse_dir.set(t.detail.data[0].change.x,t.detail.data[0].change.y))}},{key:"get_os",value:function(){var t=window.navigator.userAgent,e=window.navigator.platform,i=null;return-1!==["Macintosh","MacIntel","MacPPC","Mac68K"].indexOf(e)?i="mac":-1!==["iPhone","iPad","iPod"].indexOf(e)?i="ios":-1!==["Win32","Win64","Windows","WinCE"].indexOf(e)?i="windows":/Android/.test(t)?i="android":!i&&/Linux/.test(e)&&(i="linux"),i}},{key:"is_int",value:function(t){return t%1==0}},{key:"clear",value:function(){this.__elapsed_time=i.default.elapsed_time,this.__delta_time=i.default.delta_time,this.is_mouse_up=!1,this.wheel_delta=0,this.rotation_delta=0,this.double_click=!1,this.tapped=!1,this.mouse_dir.multiplyScalar(0),this.multi_touch_dir.multiplyScalar(0),this.left_mouse_button_pressed=!1,this.left_mouse_button_released=!1,this.right_mouse_button_pressed=!1,this.right_mouse_button_released=!1,s.default.clear()}},{key:"normalized_mouse_pos",get:function(){return this._normalized_mouse_pos.x=this.mouse_pos.x/t.default.width*2-1,this._normalized_mouse_pos.y=-1*(this.mouse_pos.y/t.default.height*2-1),this._normalized_mouse_pos}},{key:"NDC",get:function(){return this.normalized_mouse_pos}}]),e}(),h=new a;module.exports=h;
+"use strict";
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _Configuration = _interopRequireDefault(require("/Configuration"));
+
+var _Time = _interopRequireDefault(require("/Time"));
+
+var _KeyboardInput = _interopRequireDefault(require("/KeyboardInput"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Input = /*#__PURE__*/function () {
+  function Input() {
+    _classCallCheck(this, Input);
+
+    this.mouse_pos = new THREE.Vector2();
+    this.last_mouse_pos = new THREE.Vector2();
+    this.mouse_dir = new THREE.Vector2();
+    this.__clicked_time = 0;
+    this.__elapsed_time = 0;
+    this.__delta_time = 0;
+    this.is_mouse_down = false;
+    this.is_mouse_up = false;
+    this.rotation_angle = 0;
+    this._normalized_mouse_pos = new THREE.Vector2(0, 0);
+    this.left_mouse_button_down = false;
+    this.left_mouse_button_pressed = false;
+    this.left_mouse_button_released = false;
+    this.middle_mouse_button_down = false;
+    this.right_mouse_button_down = false;
+    this.right_mouse_button_pressed = false;
+    this.right_mouse_button_released = false;
+    this.mousewheel = 0;
+    this.previous_scale = 0;
+    this.previous_rotation = 0;
+    this.previous_rotation_dirty = true;
+    this.mouse_str = "mouse";
+    this.tmp_mouse_velocity = new THREE.Vector2();
+    this.bounding_client = new THREE.Vector2();
+    this.multitouch_active = false;
+    this.tapped = false;
+    this.initial_zoom_distance = 100;
+    this.zoom_center = new THREE.Vector2();
+    this.zoom_started = false;
+    this.touch_zoom = 1;
+    this.multi_touch_dir = new THREE.Vector2();
+    this.wheel_delta = 0;
+    this.mac = 'mac';
+    this.pinching_with_trackpad = false;
+    this.scrolling_with_trackpad = false;
+    this.scrolling_with_mouse = false;
+    this.double_click = false;
+    this.canvas = undefined; // Input 2.0
+
+    this.previous_pos_x = 0;
+    this.previous_pos_y = 0;
+  }
+
+  _createClass(Input, [{
+    key: "mouse_is_within_bounds",
+    value: function mouse_is_within_bounds(rect) {
+      rect = rect || this.canvas.getBoundingClientRect();
+      return this.mouse_pos.x > rect.left && this.mouse_pos.x < rect.left + rect.width && this.mouse_pos.y > rect.top && this.mouse_pos.y < rect.top + rect.height;
+    }
+  }, {
+    key: "init",
+    value: function init(container, canvas) {
+      var _this = this;
+
+      this.canvas = canvas;
+      var region = new ZingTouch.Region(container, false, false);
+
+      _KeyboardInput.default.init();
+
+      var scope = this;
+      region.bind(container, 'tap', function (e) {
+        scope.tapped = true;
+        scope.set_mouse_pos(e);
+      });
+      window.addEventListener('dblclick', this.on_double_click.bind(this));
+      container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
+      container.addEventListener('mouseup', this.on_mouse_up.bind(this));
+      container.addEventListener('mousemove', this.on_mouse_move.bind(this));
+      container.addEventListener('touchmove', this.on_touch_move.bind(this), false);
+      container.addEventListener('touchend', this.on_touch_end.bind(this), false); // region.bind(container, 'pan', function(e){
+      // 	scope.on_mouse_move(e);
+      // 	console.log("PAN");
+      // });
+
+      var one_finger_pan = new ZingTouch.Pan({
+        numInputs: 1
+      });
+      region.register("one_finger_pan", one_finger_pan);
+      region.bind(container, "one_finger_pan", function (event) {
+        if (event.detail.data.length > 0) {// scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
+          // scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
+          // scope.on_mouse_move_zingtouch(event);
+        }
+      });
+      var two_fingers_pan = new ZingTouch.Pan({
+        numInputs: 2
+      });
+      region.register("two_fingers_pan", two_fingers_pan);
+      region.bind(container, "two_fingers_pan", function (event) {
+        if (event.detail.data.length > 0) {
+          // scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y)
+          // scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
+          scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y);
+          scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
+        }
+      });
+      var three_fingers_pan = new ZingTouch.Pan({
+        numInputs: 3
+      });
+      region.register("three_fingers_pan", three_fingers_pan);
+      region.bind(container, "three_fingers_pan", function (event) {
+        if (event.detail.data.length > 0) {
+          scope.multi_touch_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y);
+          scope.multi_touch_dir.multiplyScalar(scope.__delta_time);
+        }
+      });
+      region.bind(container, 'distance', function (e) {
+        if (!scope.zoom_started) {
+          scope.zoom_started = true;
+          scope.touch_zoom_delta = 0;
+          scope.initial_zoom_distance = e.detail.distance;
+          scope.last_zoom_distance = e.detail.distance;
+          scope.zoom_center.set(e.detail.center.x, e.detail.center.y);
+          scope.mouse_pos.set(e.detail.center.x, e.detail.center.y);
+        }
+
+        scope.touch_zoom_delta = e.detail.distance - scope.last_zoom_distance;
+        scope.last_zoom_distance = e.detail.distance;
+        scope.touch_zoom = 1;
+      }, false);
+      var gesture = new ZingTouch.Gesture();
+
+      gesture.end = function (inputs, state, element) {
+        scope.on_gesture_end(inputs);
+      };
+
+      gesture.start = function (inputs, state, element) {
+        scope.on_mouse_down(inputs);
+      };
+
+      region.register('shortTap', gesture);
+      region.bind(container, 'shortTap', function (e) {});
+      window.addEventListener('wheel', this.on_mouse_wheel.bind(this));
+      container.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+      }, false);
+      container.addEventListener("mousemove", function (event) {
+        _this.mouse_pos.x = event.clientX;
+        _this.mouse_pos.y = event.clientY;
+        _this.scrolling_with_mouse = false;
+        _this.scrolling_with_trackpad = false;
+        _this.pinching_with_trackpad = false;
+      });
+    }
+  }, {
+    key: "set_mouse_pos",
+    value: function set_mouse_pos(ev) {
+      this.mouse_pos.x = ev.detail.events[0].clientX;
+      this.mouse_pos.y = ev.detail.events[0].clientY;
+    }
+  }, {
+    key: "is_mac",
+    value: function is_mac() {
+      return this.get_os() === this.mac;
+    }
+  }, {
+    key: "on_double_click",
+    value: function on_double_click(event) {
+      this.double_click = true;
+    }
+  }, {
+    key: "on_mouse_wheel",
+    value: function on_mouse_wheel(event) {
+      this.mouse_pos.x = event.clientX;
+      this.mouse_pos.y = event.clientY; // User is using a mac
+
+      if (this.is_mac()) {
+        // User is pinching
+        if (event.ctrlKey) {
+          // Negative values means pinch in.
+          // Positive values means pinch out.
+          console.log("Pinching with a touchpad", event.deltaY);
+          this.pinching_with_trackpad = true;
+          this.scrolling_with_trackpad = false;
+          this.scrolling_with_mouse = false; // User is scrolling
+        } else {
+          // User is using the touchpad
+          if (this.is_int(event.deltaY)) {
+            // Negative values means scroll up
+            // Positive values means scroll down
+            // console.log("Scrolling with a touchpad", (event.deltaY))
+            // 350 is aprox the maximum value of deltaY on touchpad scroll
+            this.pinching_with_trackpad = false;
+            this.scrolling_with_trackpad = true;
+            this.scrolling_with_mouse = false;
+            this.wheel_delta = 1 - event.deltaY / 350 * 2.0 - 1;
+          } else {
+            // Negative values means scroll up
+            // Positive values means scroll down
+            // console.log("Scrolling with a mouse", event.deltaY)
+            this.pinching_with_trackpad = false;
+            this.scrolling_with_trackpad = false;
+            this.scrolling_with_mouse = true;
+            this.wheel_delta = event.deltaY / Math.abs(event.deltaY);
+          }
+        }
+      } else {
+        //probably windows
+        this.pinching_with_trackpad = false;
+        this.scrolling_with_trackpad = false;
+        this.scrolling_with_mouse = true;
+        if (Math.abs(event.deltaY) < 0.0001) this.wheel_delta = 0;else this.wheel_delta = event.deltaY / Math.abs(event.deltaY);
+      }
+    }
+  }, {
+    key: "on_mouse_down",
+    value: function on_mouse_down(inputs) {
+      this.mouse_pos.x = inputs[0].current.clientX;
+      this.mouse_pos.y = inputs[0].current.clientY;
+      this.multitouch_active = inputs.length > 1;
+      this.mouse_dir.x = 0;
+      this.mouse_dir.y = 0;
+      this.__clicked_time = this.__elapsed_time;
+      this.is_mouse_down = true;
+      this.is_mouse_up = false;
+
+      switch (inputs[0].current.originalEvent.which) {
+        case 1:
+          this.left_mouse_button_down = true;
+          this.left_mouse_button_pressed = true;
+          break;
+
+        case 2:
+          this.middle_mouse_button_down = true;
+          break;
+
+        case 3:
+          this.right_mouse_button_down = true;
+          this.right_mouse_button_pressed = true;
+          break;
+
+        default:
+          this.left_mouse_button_down = true;
+          this.left_mouse_button_pressed = true;
+          break;
+      }
+
+      this.wheel_delta = 0;
+      this.previous_scale = 0;
+      this.previous_rotation = 0;
+    }
+  }, {
+    key: "mouse_clicked",
+    value: function mouse_clicked() {
+      return this.tapped;
+    }
+  }, {
+    key: "on_touch_move",
+    value: function on_touch_move(e) {
+      this.on_mouse_move({
+        clientX: e.changedTouches[0].clientX,
+        clientY: e.changedTouches[0].clientY
+      });
+    }
+  }, {
+    key: "on_touch_end",
+    value: function on_touch_end(e) {
+      this.on_gesture_end([{
+        current: {
+          originalEvent: e
+        }
+      }]);
+    }
+  }, {
+    key: "on_mouse_up",
+    value: function on_mouse_up(e) {
+      this.on_gesture_end([{
+        current: {
+          originalEvent: e
+        }
+      }]);
+    }
+  }, {
+    key: "on_gesture_end",
+    value: function on_gesture_end(inputs) {
+      this.multitouch_active = inputs ? inputs.length > 1 : false;
+      this.is_mouse_up = true;
+      this.zoom_started = false;
+      this.touch_zoom = 1;
+      this.mouse_dir.x = 0;
+      this.mouse_dir.y = 0;
+      this.previous_scale = 0;
+      this.previous_rotation = 0;
+      this.wheel_delta = 0;
+      this.left_mouse_button_down = false;
+      this.middle_mouse_button_down = false;
+      this.right_mouse_button_down = false;
+
+      if (inputs) {
+        switch (inputs[0].current.originalEvent.which) {
+          case 1:
+            this.left_mouse_button_released = true;
+            break;
+
+          case 2:
+            this.middle_mouse_button_released = true;
+            break;
+
+          case 3:
+            this.right_mouse_button_released = true;
+            break;
+
+          default:
+            this.left_mouse_button_released = true;
+            break;
+        }
+      }
+
+      this.is_mouse_down = false;
+      this.previous_rotation_dirty = true;
+      this.rotation_delta = 0;
+    }
+  }, {
+    key: "on_focus_lost",
+    value: function on_focus_lost() {
+      this.on_gesture_end();
+      this.left_mouse_button_released = true;
+      this.middle_mouse_button_released = true;
+      this.right_mouse_button_released = true;
+      this.left_mouse_button_released = true;
+    }
+  }, {
+    key: "time_since_last_mouse_down",
+    value: function time_since_last_mouse_down() {
+      return this.__elapsed_time - this.__clicked_time;
+    }
+  }, {
+    key: "on_mouse_move",
+    value: function on_mouse_move(event) {
+      this.mouse_pos.x = event.clientX;
+      this.mouse_pos.y = event.clientY;
+      this.mouse_dir.set(this.mouse_pos.x - this.previous_pos_x, this.mouse_pos.x - this.previous_pos_y);
+      this.mouse_dir.normalize();
+      this.previous_pos_x = this.mouse_pos.x;
+      this.previous_pos_y = this.mouse_pos.x;
+    }
+  }, {
+    key: "on_mouse_move_zingtouch",
+    value: function on_mouse_move_zingtouch(event) {
+      if (event.detail.data.length > 0) {
+        this.set_mouse_pos(event);
+        this.mouse_dir.set(event.detail.data[0].change.x, event.detail.data[0].change.y); // this.mouse_dir.x *=  Screen.height / Screen.width;
+        // this.mouse_dir.multiplyScalar(this.__delta_time/window.devicePixelRatio);
+      }
+    }
+  }, {
+    key: "get_os",
+    value: function get_os() {
+      var userAgent = window.navigator.userAgent,
+          platform = window.navigator.platform,
+          macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+          windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+          iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+          os = null;
+
+      if (macosPlatforms.indexOf(platform) !== -1) {
+        os = 'mac';
+      } else if (iosPlatforms.indexOf(platform) !== -1) {
+        os = 'ios';
+      } else if (windowsPlatforms.indexOf(platform) !== -1) {
+        os = 'windows';
+      } else if (/Android/.test(userAgent)) {
+        os = 'android';
+      } else if (!os && /Linux/.test(platform)) {
+        os = 'linux';
+      }
+
+      return os;
+    }
+  }, {
+    key: "is_int",
+    value: function is_int(n) {
+      return n % 1 === 0;
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.__elapsed_time = _Time.default.elapsed_time;
+      this.__delta_time = _Time.default.delta_time;
+      this.is_mouse_up = false;
+      this.wheel_delta = 0;
+      this.rotation_delta = 0;
+      this.double_click = false;
+      this.tapped = false;
+      this.mouse_dir.multiplyScalar(0);
+      this.multi_touch_dir.multiplyScalar(0);
+      this.left_mouse_button_pressed = false;
+      this.left_mouse_button_released = false;
+      this.right_mouse_button_pressed = false;
+      this.right_mouse_button_released = false;
+
+      _KeyboardInput.default.clear();
+    }
+  }, {
+    key: "normalized_mouse_pos",
+    get: function get() {
+      this._normalized_mouse_pos.x = this.mouse_pos.x / _Screen.default.width * 2.0 - 1;
+      this._normalized_mouse_pos.y = -1 * (this.mouse_pos.y / _Screen.default.height * 2.0 - 1);
+      return this._normalized_mouse_pos;
+    }
+  }, {
+    key: "NDC",
+    get: function get() {
+      return this.normalized_mouse_pos;
+    }
+  }]);
+
+  return Input;
+}();
+
+var INPUT = new Input();
+module.exports = INPUT;
 },{"/Screen":"JIgx","/Configuration":"RyjO","/Time":"wewU","/KeyboardInput":"Oo8n"}],"sPjl":[function(require,module,exports) {
-"use strict";function t(e){return(t="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(e)}function e(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function r(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&n(t,e)}function n(t,e){return(n=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function o(t){return function(){var e,r=i(t);if(f()){var n=i(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return c(this,e)}}function c(e,r){return!r||"object"!==t(r)&&"function"!=typeof r?u(e):r}function u(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function f(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function i(t){return(i=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var s=function(t){r(c,THREE.Mesh);var n=o(c);function c(t,r){e(this,c),r=r||"#FF0000",t=t||1;var o=new THREE.SphereBufferGeometry(t,64,64),u=new THREE.MeshBasicMaterial({color:r});return n.call(this,o,u)}return c}();exports.default=s;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Sphere = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Sphere, _THREE$Mesh);
+
+  var _super = _createSuper(Sphere);
+
+  function Sphere(radius, color) {
+    _classCallCheck(this, Sphere);
+
+    color = color || "#FF0000";
+    radius = radius || 1;
+    var geometry = new THREE.SphereBufferGeometry(radius, 64, 64);
+    var material = new THREE.MeshBasicMaterial({
+      color: color
+    });
+    return _super.call(this, geometry, material);
+  }
+
+  return Sphere;
+}(THREE.Mesh);
+
+exports.default = Sphere;
 },{}],"iaBK":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  //gl_Position.zw -= 0.1;\n}";
+module.exports = "#define GLSLIFY 1\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n  //gl_Position.zw -= 0.1;\n}";
 },{}],"ezmQ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=r(require("/editor/shaders/object_picker_vert")),t=r(require("/editor/shaders/object_picker_frag"));function r(e){return e&&e.__esModule?e:{default:e}}function n(e){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function i(e,t,r){return t&&a(e.prototype,t),r&&a(e,r),e}function u(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&l(e,t)}function l(e,t){return(l=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function c(e){return function(){var t,r=_(e);if(y()){var n=_(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return f(this,t)}}function f(e,t){return!t||"object"!==n(t)&&"function"!=typeof t?s(e):t}function s(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function y(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function _(e){return(_=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var p=function(r){u(a,THREE.Mesh);var n=c(a);function a(e,t){var r;return o(this,a),(r=n.call(this,e,t))._selectable_material=r.__get_selectable_material(),r.original_material=r.material,r.stored_layers=r.layers.mask,r}return i(a,[{key:"__get_selectable_material",value:function(){return new THREE.ShaderMaterial({uniforms:{_Color:{value:new THREE.Color}},vertexShader:e.default,fragmentShader:t.default})}},{key:"restore_material",value:function(){this.material=this.original_material}},{key:"store_layer_state",value:function(){this.stored_layers=this.layers.mask}},{key:"restore_layer_state",value:function(){this.layers.mask=this.stored_layers}},{key:"selectable_material",get:function(){return this._selectable_material}}]),a}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _object_picker_vert = _interopRequireDefault(require("/editor/shaders/object_picker_vert"));
+
+var _object_picker_frag = _interopRequireDefault(require("/editor/shaders/object_picker_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Mesh = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Mesh, _THREE$Mesh);
+
+  var _super = _createSuper(Mesh);
+
+  function Mesh(geometry, material) {
+    var _this;
+
+    _classCallCheck(this, Mesh);
+
+    _this = _super.call(this, geometry, material);
+    _this._selectable_material = _this.__get_selectable_material();
+    _this.original_material = _this.material;
+    _this.stored_layers = _this.layers.mask;
+    return _this;
+  }
+
+  _createClass(Mesh, [{
+    key: "__get_selectable_material",
+    value: function __get_selectable_material() {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          _Color: {
+            value: new THREE.Color()
+          }
+        },
+        vertexShader: _object_picker_vert.default,
+        fragmentShader: _object_picker_frag.default
+      });
+    }
+  }, {
+    key: "restore_material",
+    value: function restore_material() {
+      this.material = this.original_material;
+    }
+  }, {
+    key: "store_layer_state",
+    value: function store_layer_state() {
+      this.stored_layers = this.layers.mask;
+    }
+  }, {
+    key: "restore_layer_state",
+    value: function restore_layer_state() {
+      this.layers.mask = this.stored_layers;
+    }
+  }, {
+    key: "selectable_material",
+    get: function get() {
+      return this._selectable_material;
+    }
+  }]);
+
+  return Mesh;
+}(THREE.Mesh);
+
+exports.default = Mesh;
 },{"/editor/shaders/object_picker_vert":"iaBK","/editor/shaders/object_picker_frag":"LSxb"}],"E21w":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/Mesh"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&o(t.prototype,e),r&&o(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=y(t);if(l()){var n=y(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?s(t):e}function s(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function y(t){return(y=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var p=function(e){c(o,t.default);var r=f(o);function o(t,e,u){var c;n(this,o),t=t||"#FF0000";var i=(e=e||1)-.4,f=new THREE.CylinderBufferGeometry(.01,.01,i,32);f.translate(0,i/2,0);var a=new THREE.ConeBufferGeometry(.1,.4,32);a.translate(0,i+.2,0);var s=THREE.BufferGeometryUtils.mergeBufferGeometries([f,a]);s.rotateX(1.57);var l=new THREE.MeshBasicMaterial({color:t});return c=r.call(this,s,l),u&&c.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),u),c}return u(o,[{key:"dir",set:function(t){this.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,1),t)}},{key:"length",set:function(t){this.scale.z=t}}]),o}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Mesh2 = _interopRequireDefault(require("/Mesh"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Arrow = /*#__PURE__*/function (_Mesh) {
+  _inherits(Arrow, _Mesh);
+
+  var _super = _createSuper(Arrow);
+
+  function Arrow(color, length, dir) {
+    var _this;
+
+    _classCallCheck(this, Arrow);
+
+    color = color || "#FF0000";
+    length = length || 1;
+    var cone_height = 0.4;
+    var cylinder_height = length - cone_height;
+    var cylinder_geo = new THREE.CylinderBufferGeometry(0.01, 0.01, cylinder_height, 32);
+    cylinder_geo.translate(0, cylinder_height / 2, 0);
+    var cone_geometry = new THREE.ConeBufferGeometry(0.1, cone_height, 32);
+    cone_geometry.translate(0, cylinder_height + cone_height / 2, 0);
+    var buffer_geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([cylinder_geo, cone_geometry]);
+    buffer_geometry.rotateX(3.14 / 2);
+    var material = new THREE.MeshBasicMaterial({
+      color: color
+    });
+    _this = _super.call(this, buffer_geometry, material);
+    if (dir) _this.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+    return _this;
+  }
+
+  _createClass(Arrow, [{
+    key: "dir",
+    set: function set(dir) {
+      this.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+    }
+  }, {
+    key: "length",
+    set: function set(value) {
+      this.scale.z = value;
+    }
+  }]);
+
+  return Arrow;
+}(_Mesh2.default);
+
+exports.default = Arrow;
 },{"/Mesh":"ezmQ"}],"qvMM":[function(require,module,exports) {
-function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var r=n[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function t(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}var r=function(){function n(){e(this,n),this._current=new THREE.Scene,this._current.name="default_scene"}return t(n,[{key:"add_scene",value:function(e){}},{key:"current",get:function(){return this._current},set:function(e){this._current=e}}]),n}(),u=new r;module.exports=u;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var SceneManager = /*#__PURE__*/function () {
+  function SceneManager() {
+    _classCallCheck(this, SceneManager);
+
+    this._current = new THREE.Scene();
+    this._current.name = "default_scene";
+  }
+
+  _createClass(SceneManager, [{
+    key: "add_scene",
+    value: function add_scene(name) {}
+  }, {
+    key: "current",
+    get: function get() {
+      return this._current;
+    },
+    set: function set(scene) {
+      this._current = scene;
+    }
+  }]);
+
+  return SceneManager;
+}();
+
+var scene_manager = new SceneManager();
+module.exports = scene_manager;
 },{}],"ayC1":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var r=n[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function t(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=function(){function n(){e(this,n)}return t(n,null,[{key:"linear_map",value:function(e,n,t,r,o){return(e-n)/(t-n)*(o-r)+r}},{key:"between",value:function(e,n,t){return e>=n&&e<=t}},{key:"rgb_to_hex",value:function(e){return e.r=Math.round(255*e.r).toString(16),e.g=Math.round(255*e.g).toString(16),e.b=Math.round(255*e.b).toString(16),1==e.r.length&&(e.r="0"+e.r),1==e.g.length&&(e.g="0"+e.g),1==e.b.length&&(e.b="0"+e.b),"#"+e.r+e.g+e.b}},{key:"project_points_on_plane",value:function(e,n){for(var t=new THREE.Vector3,r=[],o=0;o<e.length;o++)n.projectPoint(e[o],t),r.push(t.clone());return r}},{key:"matrix4_lerp",value:function(e,n,t,r){for(var o=0;o<16;o++)t.elements[o]=THREE.Math.lerp(e.elements[o],n.elements[o],r)}},{key:"equals",value:function(e,n){return Math.abs(e-n)<1e-6}}]),n}();exports.default=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MathUtilities = /*#__PURE__*/function () {
+  function MathUtilities() {
+    _classCallCheck(this, MathUtilities);
+  }
+
+  _createClass(MathUtilities, null, [{
+    key: "linear_map",
+    value: function linear_map(value, from_range_start_value, from_range_end_value, to_range_start_value, to_range_end_value) {
+      return (value - from_range_start_value) / (from_range_end_value - from_range_start_value) * (to_range_end_value - to_range_start_value) + to_range_start_value;
+    }
+  }, {
+    key: "between",
+    value: function between(value, min, max) {
+      return value >= min && value <= max;
+    }
+  }, {
+    key: "rgb_to_hex",
+    value: function rgb_to_hex(rgb) {
+      rgb.r = Math.round(rgb.r * 255).toString(16);
+      rgb.g = Math.round(rgb.g * 255).toString(16);
+      rgb.b = Math.round(rgb.b * 255).toString(16);
+      if (rgb.r.length == 1) rgb.r = "0" + rgb.r;
+      if (rgb.g.length == 1) rgb.g = "0" + rgb.g;
+      if (rgb.b.length == 1) rgb.b = "0" + rgb.b;
+      return "#" + rgb.r + rgb.g + rgb.b;
+    }
+  }, {
+    key: "project_points_on_plane",
+    value: function project_points_on_plane(points, plane) {
+      var projected_point = new THREE.Vector3();
+      var points_on_plane = [];
+
+      for (var i = 0; i < points.length; i++) {
+        plane.projectPoint(points[i], projected_point);
+        points_on_plane.push(projected_point.clone());
+      }
+
+      return points_on_plane;
+    }
+  }, {
+    key: "matrix4_lerp",
+    value: function matrix4_lerp(from, to, target, t) {
+      for (var i = 0; i < 16; i++) {
+        target.elements[i] = THREE.Math.lerp(from.elements[i], to.elements[i], t);
+      }
+    }
+  }, {
+    key: "equals",
+    value: function equals(x1, x2) {
+      return Math.abs(x1 - x2) < 0.000001;
+    }
+  }]);
+
+  return MathUtilities;
+}();
+
+exports.default = MathUtilities;
 },{}],"ugwp":[function(require,module,exports) {
-"use strict";var t=u(require("/CameraManager")),e=u(require("/Input")),r=u(require("/primitives/Sphere")),n=u(require("/primitives/Arrow")),i=u(require("/SceneManager")),a=u(require("/utilities/MathUtilities")),o=u(require("/Screen"));function u(t){return t&&t.__esModule?t:{default:t}}function s(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function c(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function p(t,e,r){return e&&c(t.prototype,e),r&&c(t,r),t}var h=function(){function r(){s(this,r),this.tmp_mat=new THREE.Matrix4,this.tmp_vec=new THREE.Vector3(0,0,1),this.tmp_vec2=new THREE.Vector3(0,0,0),this.plane=new THREE.Plane,this.ray=new THREE.Ray,this.tmp_size=new THREE.Vector3,this.tmp_unproj=new THREE.Vector3}return p(r,[{key:"get_up_dir",value:function(e){return e=e||t.default.current,this.tmp_vec.set(0,1,0),this.tmp_vec.applyQuaternion(e.quaternion),this.tmp_vec}},{key:"get_forward_dir",value:function(e){return e=e||t.default.current,this.tmp_vec.set(0,0,1),this.tmp_vec.applyQuaternion(e.quaternion),this.tmp_vec}},{key:"get_right_dir",value:function(e){return e=e||t.default.current,this.tmp_vec.set(1,0,0),this.tmp_vec.applyQuaternion(e.quaternion),this.tmp_vec}},{key:"unproject_mouse_position",value:function(e,r){var n=(r=r||t.default.current).fov/2*Math.PI/180,i=2*Math.atan(Math.tan(n)*r.aspect)/2,a=Math.tan(n)*r.far,o=Math.tan(i)*r.far;return this.tmp_vec.set(o*e.x,a*e.y,-r.far).normalize(),this.tmp_vec.applyQuaternion(r.quaternion)}},{key:"get_plane_intersection",value:function(r,n,i,a){return a=a||t.default.current,i=i||e.default.normalized_mouse_pos,this.plane.setFromNormalAndCoplanarPoint(n||this.get_forward_dir(a),r),a.isPerspectiveCamera?this.ray.set(a.position,this.unproject_mouse_position(i,a)):(this.tmp_unproj.set(i.x,i.y,1).unproject(a),this.ray.set(a.position,this.tmp_unproj)),this.ray.intersectPlane(this.plane,this.tmp_vec2),this.tmp_vec2}},{key:"fit_points_on_camera",value:function(e){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1,n=(new THREE.Sphere).setFromPoints(e).center,i=this.get_forward_dir(t.default.current).clone(),o=(new THREE.Plane).setFromNormalAndCoplanarPoint(i,n),u=a.default.project_points_on_plane(e,o),s=new THREE.Vector3,c=(new THREE.Box3).setFromPoints(u);c.getCenter(s);for(var p=new THREE.Vector3(0,1,0).applyQuaternion(t.default.current.quaternion),h=p.clone().cross(i).normalize(),_=(new THREE.Matrix4).set(h.x,p.x,i.x,n.x,h.y,p.y,i.y,n.y,h.z,p.z,i.z,n.z,0,0,0,1),l=(new THREE.Matrix4).getInverse(_),m=0;m<u.length;m++)u[m].applyMatrix4(l);var f=new THREE.Vector3;(c=(new THREE.Box3).setFromPoints(u)).getSize(f),f.multiplyScalar(r);var v=new THREE.Vector3;return c.getCenter(v),{position:s,zoom:this.get_zoom_to_fit_rect(f.x/2,f.y/2)}}},{key:"get_zoom_to_fit_rect",value:function(e,r){var n=t.default.current.fov/2*Math.PI/180,i=2*Math.atan(Math.tan(n)*t.default.current.aspect)/2,a=r/Math.tan(n),o=e/Math.tan(i);return Math.max(Math.abs(o),Math.abs(a))}},{key:"get_zoom_to_fit_box",value:function(t,e){if(e.isOrthographicCamera){t.getSize(this.tmp_size);var r=this.tmp_size.x,n=this.tmp_size.y,i=r/n;return o.default.aspect_ratio/i>1?o.default.height/n:o.default.width/r}var a=new THREE.Vector3;return t.getSize(a),this.get_zoom_to_fit_rect(a.x,a.y)}},{key:"get_html_screen_pos",value:function(t,e){return t.getWorldPosition(this.tmp_vec),this.tmp_vec.project(e),this.tmp_vec.x=(.5*this.tmp_vec.x+.5)*o.default.width,this.tmp_vec.y=(1-(.5*this.tmp_vec.y+.5))*o.default.height,this.tmp_vec}},{key:"update_projection",value:function(t){t.left=-o.default.width/2,t.right=o.default.width/2,t.top=o.default.height/2,t.bottom=-o.default.height/2,t.aspect=o.default.aspect_ratio,t.updateProjectionMatrix(!0)}}]),r}(),_=new h;module.exports=_;
+"use strict";
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _Input = _interopRequireDefault(require("/Input"));
+
+var _Sphere = _interopRequireDefault(require("/primitives/Sphere"));
+
+var _Arrow = _interopRequireDefault(require("/primitives/Arrow"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _MathUtilities = _interopRequireDefault(require("/utilities/MathUtilities"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var CameraUtilities = /*#__PURE__*/function () {
+  function CameraUtilities() {
+    _classCallCheck(this, CameraUtilities);
+
+    this.tmp_mat = new THREE.Matrix4();
+    this.tmp_vec = new THREE.Vector3(0, 0, 1);
+    this.tmp_vec2 = new THREE.Vector3(0, 0, 0);
+    this.plane = new THREE.Plane();
+    this.ray = new THREE.Ray();
+    this.tmp_size = new THREE.Vector3();
+    this.tmp_unproj = new THREE.Vector3();
+  }
+
+  _createClass(CameraUtilities, [{
+    key: "get_up_dir",
+    value: function get_up_dir(camera) {
+      camera = camera || _CameraManager.default.current;
+      this.tmp_vec.set(0, 1, 0);
+      this.tmp_vec.applyQuaternion(camera.quaternion);
+      return this.tmp_vec;
+    }
+  }, {
+    key: "get_forward_dir",
+    value: function get_forward_dir(camera) {
+      camera = camera || _CameraManager.default.current;
+      this.tmp_vec.set(0, 0, 1);
+      this.tmp_vec.applyQuaternion(camera.quaternion);
+      return this.tmp_vec;
+    }
+  }, {
+    key: "get_right_dir",
+    value: function get_right_dir(camera) {
+      camera = camera || _CameraManager.default.current;
+      this.tmp_vec.set(1, 0, 0);
+      this.tmp_vec.applyQuaternion(camera.quaternion);
+      return this.tmp_vec;
+    }
+  }, {
+    key: "unproject_mouse_position",
+    value: function unproject_mouse_position(NDC, camera) {
+      camera = camera || _CameraManager.default.current;
+      var v_fov = camera.fov / 2 * Math.PI / 180;
+      var h_fov = 2 * Math.atan(Math.tan(v_fov) * camera.aspect) / 2;
+      var distV = Math.tan(v_fov) * camera.far;
+      var distH = Math.tan(h_fov) * camera.far;
+      this.tmp_vec.set(distH * NDC.x, distV * NDC.y, -camera.far).normalize();
+      return this.tmp_vec.applyQuaternion(camera.quaternion);
+    }
+  }, {
+    key: "get_plane_intersection",
+    value: function get_plane_intersection(plane_position, plane_normal, NDC, camera) {
+      camera = camera || _CameraManager.default.current;
+      NDC = NDC || _Input.default.normalized_mouse_pos;
+      this.plane.setFromNormalAndCoplanarPoint(plane_normal || this.get_forward_dir(camera), plane_position);
+
+      if (camera.isPerspectiveCamera) {
+        this.ray.set(camera.position, this.unproject_mouse_position(NDC, camera));
+      } else {
+        this.tmp_unproj.set(NDC.x, NDC.y, 1).unproject(camera);
+        this.ray.set(camera.position, this.tmp_unproj);
+      }
+
+      this.ray.intersectPlane(this.plane, this.tmp_vec2);
+      return this.tmp_vec2;
+    }
+  }, {
+    key: "fit_points_on_camera",
+    value: function fit_points_on_camera(points) {
+      var zoom_scale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var points_sphere = new THREE.Sphere().setFromPoints(points);
+      var world_space_center = points_sphere.center;
+      var camera_forward = this.get_forward_dir(_CameraManager.default.current).clone();
+      var plane = new THREE.Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
+
+      var points_on_plane = _MathUtilities.default.project_points_on_plane(points, plane);
+
+      var projected_points_center = new THREE.Vector3();
+      var box = new THREE.Box3().setFromPoints(points_on_plane);
+      box.getCenter(projected_points_center);
+      var up = new THREE.Vector3(0, 1, 0).applyQuaternion(_CameraManager.default.current.quaternion);
+      var right = up.clone().cross(camera_forward).normalize();
+      var mat = new THREE.Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x, right.y, up.y, camera_forward.y, world_space_center.y, right.z, up.z, camera_forward.z, world_space_center.z, 0, 0, 0, 1);
+      var inverse_mat = new THREE.Matrix4().getInverse(mat);
+
+      for (var i = 0; i < points_on_plane.length; i++) {
+        points_on_plane[i].applyMatrix4(inverse_mat);
+      }
+
+      var size = new THREE.Vector3();
+      box = new THREE.Box3().setFromPoints(points_on_plane);
+      box.getSize(size);
+      size.multiplyScalar(zoom_scale);
+      var projected_center = new THREE.Vector3();
+      box.getCenter(projected_center);
+      return {
+        position: projected_points_center,
+        zoom: this.get_zoom_to_fit_rect(size.x / 2, size.y / 2)
+      };
+    }
+  }, {
+    key: "get_zoom_to_fit_rect",
+    value: function get_zoom_to_fit_rect(width, height) {
+      var v_fov = _CameraManager.default.current.fov / 2 * Math.PI / 180;
+      var h_fov = 2 * Math.atan(Math.tan(v_fov) * _CameraManager.default.current.aspect) / 2;
+      var distV = height / Math.tan(v_fov);
+      var distH = width / Math.tan(h_fov);
+      return Math.max(Math.abs(distH), Math.abs(distV));
+    }
+  }, {
+    key: "get_zoom_to_fit_box",
+    value: function get_zoom_to_fit_box(bb, camera) {
+      if (camera.isOrthographicCamera) {
+        bb.getSize(this.tmp_size);
+        var obj_x = this.tmp_size.x;
+        var obj_y = this.tmp_size.y;
+        var object_aspect = obj_x / obj_y;
+
+        if (_Screen.default.aspect_ratio / object_aspect > 1) {
+          return _Screen.default.height / obj_y;
+        } else {
+          return _Screen.default.width / obj_x;
+        }
+      } else {
+        // return this.fit_points_on_camera([bb.min, bb.max], 1).zoom;
+        var size = new THREE.Vector3();
+        bb.getSize(size);
+        return this.get_zoom_to_fit_rect(size.x, size.y);
+      }
+    }
+  }, {
+    key: "get_html_screen_pos",
+    value: function get_html_screen_pos(object, camera) {
+      object.getWorldPosition(this.tmp_vec);
+      this.tmp_vec.project(camera);
+      this.tmp_vec.x = (this.tmp_vec.x * 0.5 + 0.5) * _Screen.default.width;
+      this.tmp_vec.y = (1 - (this.tmp_vec.y * 0.5 + 0.5)) * _Screen.default.height;
+      return this.tmp_vec;
+    }
+  }, {
+    key: "update_projection",
+    value: function update_projection(camera) {
+      camera.left = -_Screen.default.width / 2;
+      camera.right = _Screen.default.width / 2;
+      camera.top = _Screen.default.height / 2;
+      camera.bottom = -_Screen.default.height / 2;
+      camera.aspect = _Screen.default.aspect_ratio;
+      camera.updateProjectionMatrix(true);
+    }
+  }]);
+
+  return CameraUtilities;
+}();
+
+var camera_utilities = new CameraUtilities();
+module.exports = camera_utilities;
 },{"/CameraManager":"XMgG","/Input":"k3P6","/primitives/Sphere":"sPjl","/primitives/Arrow":"E21w","/SceneManager":"qvMM","/utilities/MathUtilities":"ayC1","/Screen":"JIgx"}],"hZlU":[function(require,module,exports) {
-function a(a,t){if(!(a instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function t(){a(this,t),this.max_anisotropy=0,this.vertex_texture_sampler_available=!1,this.fp_textures_available=!1},e=new t;module.exports=e;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Capabilities = function Capabilities() {
+  _classCallCheck(this, Capabilities);
+
+  this.max_anisotropy = 0;
+  this.vertex_texture_sampler_available = false;
+  this.fp_textures_available = false;
+};
+
+var capabilities = new Capabilities();
+module.exports = capabilities;
 },{}],"ZeWG":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var u=t[n];u.enumerable=u.enumerable||!1,u.configurable=!0,"value"in u&&(u.writable=!0),Object.defineProperty(e,u.key,u)}}function n(e,n,u){return n&&t(e.prototype,n),u&&t(e,u),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var u=function(){function t(){e(this,t)}return n(t,null,[{key:"ease_out_sine",value:function(e){return Math.sin(3.14*e/2)}},{key:"ease_in_out_cubic",value:function(e){return e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2}},{key:"ease_out_cubic",value:function(e){return 1-Math.pow(1-e,3)}},{key:"ease_in_out_quint",value:function(e){return e<.5?16*e*e*e*e*e:1-Math.pow(-2*e+2,5)/2}},{key:"ease_out_quint",value:function(e){return 1-Math.pow(1-e,5)}},{key:"ease_in_out_circ",value:function(e){return e<.5?(1-Math.sqrt(1-Math.pow(2*e,2)))/2:(Math.sqrt(1-Math.pow(-2*e+2,2))+1)/2}},{key:"ease_out_quad",value:function(e){return 1-(1-e)*(1-e)}}]),t}();exports.default=u;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var EasingFunctions = /*#__PURE__*/function () {
+  function EasingFunctions() {
+    _classCallCheck(this, EasingFunctions);
+  }
+
+  _createClass(EasingFunctions, null, [{
+    key: "ease_out_sine",
+    value: function ease_out_sine(x) {
+      return Math.sin(x * 3.14 / 2);
+    }
+  }, {
+    key: "ease_in_out_cubic",
+    value: function ease_in_out_cubic(x) {
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    }
+  }, {
+    key: "ease_out_cubic",
+    value: function ease_out_cubic(x) {
+      return 1 - Math.pow(1 - x, 3);
+    }
+  }, {
+    key: "ease_in_out_quint",
+    value: function ease_in_out_quint(x) {
+      return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
+    }
+  }, {
+    key: "ease_out_quint",
+    value: function ease_out_quint(x) {
+      return 1 - Math.pow(1 - x, 5);
+    }
+  }, {
+    key: "ease_in_out_circ",
+    value: function ease_in_out_circ(x) {
+      return x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+    }
+  }, {
+    key: "ease_out_quad",
+    value: function ease_out_quad(x) {
+      return 1 - (1 - x) * (1 - x);
+    }
+  }]);
+
+  return EasingFunctions;
+}();
+
+exports.default = EasingFunctions;
 },{}],"pJqg":[function(require,module,exports) {
-function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var i=0;i<t.length;i++){var o=t[i];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function i(e,i,o){return i&&t(e.prototype,i),o&&t(e,o),e}var o=function(){function t(){e(this,t),this.queue={},this.zoom_changed_evt="zoom_changed",this.store_clickd_evt="store_clicked",this.point_selected_evt="point_selected",this.config_changed="config_changed",this.path_substep_completed="path_substep_completed",this.path_completed="path_completed",this.go_to_store_requested_evt="go_to_store_requested",this.resource_loaded_evt="resource_loaded",this.service_clicked_evt="service_clicked",this.unit_pos_updated_evt="unit_position_updated",this.floor_changed_evt="floor_changed",this.on_enter_floor_navigation="on_enter_floor_navigation",this.on_exit_floor_navigation="on_exit_floor_navigation",this.on_enter_floor_selection="on_enter_floor_selection",this.on_exit_floor_selection="on_exit_floor_selection",this.on_enter_outside_navigation="on_enter_outside_navigation",this.on_exit_outside_navigation="on_exit_outside_navigation",this.step_selected_evt="step_selected"}return i(t,[{key:"fire",value:function(e,t){var i=this.queue[e];if(void 0!==i)for(var o=i.length;o--;)i[o](t)}},{key:"on",value:function(e,t){void 0===this.queue[e]&&(this.queue[e]=[]),this.queue[e].push(t)}},{key:"fire_zoom_changed",value:function(e){this.fire(this.zoom_changed_evt,e)}},{key:"fire_store_selected",value:function(e){this.fire(this.store_clickd_evt,e)}},{key:"fire_point_selected",value:function(e){this.fire(this.point_selected_evt,e)}},{key:"fire_config_changed",value:function(){this.fire(this.config_changed)}},{key:"fire_path_substep_completed",value:function(e){this.fire(this.path_substep_completed,e)}},{key:"fire_path_completed",value:function(){this.fire(this.path_completed)}},{key:"fire_step_selected",value:function(e){this.fire(this.step_selected_evt,e)}},{key:"fire_go_to_store_requested",value:function(e){this.fire(this.go_to_store_requested_evt,e)}},{key:"fire_resource_loaded",value:function(e){this.fire(this.resource_loaded_evt,e)}},{key:"fire_service_clicked",value:function(e){this.fire(this.service_clicked_evt,e)}},{key:"fire_unit_position_updated",value:function(e){this.fire(this.unit_pos_updated_evt,e)}},{key:"fire_floor_switched",value:function(e){this.fire(this.floor_changed_evt,e)}},{key:"fire_on_enter_floor_navigation",value:function(e){this.fire(this.on_enter_floor_navigation,e)}},{key:"fire_on_exit_floor_navigation",value:function(e){this.fire(this.on_exit_floor_navigation,e)}},{key:"fire_on_enter_floor_selection",value:function(e){this.fire(this.on_enter_floor_selection,e)}},{key:"fire_on_exit_floor_selection",value:function(e){this.fire(this.on_exit_floor_selection,e)}},{key:"fire_on_enter_outside_navigation",value:function(e){this.fire(this.on_enter_outside_navigation,e)}},{key:"fire_on_exit_outside_navigation",value:function(e){this.fire(this.on_exit_outside_navigation,e)}}]),t}(),_=new o;module.exports=_;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var EventManager = /*#__PURE__*/function () {
+  function EventManager() {
+    _classCallCheck(this, EventManager);
+
+    this.queue = {};
+    this.zoom_changed_evt = "zoom_changed";
+    this.store_clickd_evt = "store_clicked";
+    this.point_selected_evt = "point_selected";
+    this.config_changed = "config_changed";
+    this.path_substep_completed = "path_substep_completed";
+    this.path_completed = "path_completed";
+    this.go_to_store_requested_evt = "go_to_store_requested";
+    this.resource_loaded_evt = "resource_loaded";
+    this.service_clicked_evt = "service_clicked";
+    this.unit_pos_updated_evt = "unit_position_updated";
+    this.floor_changed_evt = "floor_changed";
+    this.on_enter_floor_navigation = "on_enter_floor_navigation";
+    this.on_exit_floor_navigation = "on_exit_floor_navigation";
+    this.on_enter_floor_selection = "on_enter_floor_selection";
+    this.on_exit_floor_selection = "on_exit_floor_selection";
+    this.on_enter_outside_navigation = "on_enter_outside_navigation";
+    this.on_exit_outside_navigation = "on_exit_outside_navigation";
+    this.step_selected_evt = "step_selected";
+  }
+
+  _createClass(EventManager, [{
+    key: "fire",
+    value: function fire(event, payload) {
+      var queue = this.queue[event];
+
+      if (queue === undefined) {
+        return;
+      }
+
+      var i = queue.length;
+
+      while (i--) {
+        queue[i](payload);
+      }
+    }
+  }, {
+    key: "on",
+    value: function on(event, callback) {
+      if (typeof this.queue[event] === 'undefined') {
+        this.queue[event] = [];
+      }
+
+      this.queue[event].push(callback);
+    }
+  }, {
+    key: "fire_zoom_changed",
+    value: function fire_zoom_changed(zoom) {
+      this.fire(this.zoom_changed_evt, zoom);
+    }
+  }, {
+    key: "fire_store_selected",
+    value: function fire_store_selected(store_id) {
+      this.fire(this.store_clickd_evt, store_id);
+    }
+  }, {
+    key: "fire_point_selected",
+    value: function fire_point_selected(hit_data) {
+      this.fire(this.point_selected_evt, hit_data);
+    }
+  }, {
+    key: "fire_config_changed",
+    value: function fire_config_changed() {
+      this.fire(this.config_changed);
+    }
+  }, {
+    key: "fire_path_substep_completed",
+    value: function fire_path_substep_completed(step_number) {
+      this.fire(this.path_substep_completed, step_number);
+    }
+  }, {
+    key: "fire_path_completed",
+    value: function fire_path_completed() {
+      this.fire(this.path_completed);
+    }
+  }, {
+    key: "fire_step_selected",
+    value: function fire_step_selected(step_index) {
+      this.fire(this.step_selected_evt, step_index);
+    }
+  }, {
+    key: "fire_go_to_store_requested",
+    value: function fire_go_to_store_requested(store_id) {
+      this.fire(this.go_to_store_requested_evt, store_id);
+    }
+  }, {
+    key: "fire_resource_loaded",
+    value: function fire_resource_loaded(resource) {
+      this.fire(this.resource_loaded_evt, resource);
+    }
+  }, {
+    key: "fire_service_clicked",
+    value: function fire_service_clicked(service) {
+      this.fire(this.service_clicked_evt, service);
+    }
+  }, {
+    key: "fire_unit_position_updated",
+    value: function fire_unit_position_updated(unit_data) {
+      this.fire(this.unit_pos_updated_evt, unit_data);
+    }
+  }, {
+    key: "fire_floor_switched",
+    value: function fire_floor_switched(floor_id) {
+      this.fire(this.floor_changed_evt, floor_id);
+    }
+  }, {
+    key: "fire_on_enter_floor_navigation",
+    value: function fire_on_enter_floor_navigation(state) {
+      this.fire(this.on_enter_floor_navigation, state);
+    }
+  }, {
+    key: "fire_on_exit_floor_navigation",
+    value: function fire_on_exit_floor_navigation(state) {
+      this.fire(this.on_exit_floor_navigation, state);
+    }
+  }, {
+    key: "fire_on_enter_floor_selection",
+    value: function fire_on_enter_floor_selection(state) {
+      this.fire(this.on_enter_floor_selection, state);
+    }
+  }, {
+    key: "fire_on_exit_floor_selection",
+    value: function fire_on_exit_floor_selection(state) {
+      this.fire(this.on_exit_floor_selection, state);
+    }
+  }, {
+    key: "fire_on_enter_outside_navigation",
+    value: function fire_on_enter_outside_navigation(state) {
+      this.fire(this.on_enter_outside_navigation, state);
+    }
+  }, {
+    key: "fire_on_exit_outside_navigation",
+    value: function fire_on_exit_outside_navigation(state) {
+      this.fire(this.on_exit_outside_navigation, state);
+    }
+  }]);
+
+  return EventManager;
+}();
+
+var event_manager = new EventManager();
+module.exports = event_manager;
 },{}],"xAef":[function(require,module,exports) {
-"use strict";function e(t){return(e="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(t)}function t(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function n(e,t,n){return t&&r(e.prototype,t),n&&r(e,n),e}function o(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}function c(e,t){return(c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function i(e){return function(){var t,r=s(e);if(f()){var n=s(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return u(this,t)}}function u(t,r){return!r||"object"!==e(r)&&"function"!=typeof r?a(t):r}function a(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function f(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function s(e){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var l=function(e){o(c,THREE.Object3D);var r=i(c);function c(){var e,n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1;t(this,c),e=r.call(this);var o=new THREE.LineBasicMaterial({color:4474111,depthFunc:THREE.AlwaysDepth}),i=new THREE.Geometry;i.vertices.push(new THREE.Vector3(0,0,0)),i.vertices.push(new THREE.Vector3(0,0,-1e3));var u=new THREE.Line(i,o);u.renderOrder=5e4;var a=new THREE.LineBasicMaterial({color:4521796,depthFunc:THREE.AlwaysDepth}),f=new THREE.Geometry;f.vertices.push(new THREE.Vector3(0,0,0)),f.vertices.push(new THREE.Vector3(0,1e3,0));var s=new THREE.Line(f,a);s.renderOrder=5e4;var l=new THREE.LineBasicMaterial({linewidth:100,color:16729156,depthFunc:THREE.AlwaysDepth}),p=new THREE.Geometry;p.vertices.push(new THREE.Vector3(0,0,0)),p.vertices.push(new THREE.Vector3(1e3,0,0));var y=new THREE.Line(p,l);return y.renderOrder=5e4,e.renderOrder=1e5,e.add(u),e.add(s),e.add(y),e.scale.set(n,n,n),e}return n(c,[{key:"update",value:function(){}},{key:"dispose",value:function(){}}]),c}();exports.default=l;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var AxisHelper = /*#__PURE__*/function (_THREE$Object3D) {
+  _inherits(AxisHelper, _THREE$Object3D);
+
+  var _super = _createSuper(AxisHelper);
+
+  function AxisHelper() {
+    var _this;
+
+    var scale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1.0;
+
+    _classCallCheck(this, AxisHelper);
+
+    _this = _super.call(this);
+    var blueAxisMat = new THREE.LineBasicMaterial({
+      color: 0x4444ff,
+      depthFunc: THREE.AlwaysDepth
+    });
+    var blueAxisGeo = new THREE.Geometry();
+    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
+    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, -1000));
+    var blueAxisLine = new THREE.Line(blueAxisGeo, blueAxisMat);
+    blueAxisLine.renderOrder = 50000;
+    var greenAxisMat = new THREE.LineBasicMaterial({
+      color: 0x44ff44,
+      depthFunc: THREE.AlwaysDepth
+    });
+    var greenAxisGeo = new THREE.Geometry();
+    greenAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
+    greenAxisGeo.vertices.push(new THREE.Vector3(0, 1000, 0));
+    var greenAxisLine = new THREE.Line(greenAxisGeo, greenAxisMat);
+    greenAxisLine.renderOrder = 50000;
+    var redAxisMat = new THREE.LineBasicMaterial({
+      linewidth: 100,
+      color: 0xff4444,
+      depthFunc: THREE.AlwaysDepth
+    });
+    var redAxisGeo = new THREE.Geometry();
+    redAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
+    redAxisGeo.vertices.push(new THREE.Vector3(1000, 0, 0));
+    var redAxisLine = new THREE.Line(redAxisGeo, redAxisMat);
+    redAxisLine.renderOrder = 50000;
+    _this.renderOrder = 100000;
+
+    _this.add(blueAxisLine);
+
+    _this.add(greenAxisLine);
+
+    _this.add(redAxisLine);
+
+    _this.scale.set(scale, scale, scale);
+
+    return _this;
+  }
+
+  _createClass(AxisHelper, [{
+    key: "update",
+    value: function update() {}
+  }, {
+    key: "dispose",
+    value: function dispose() {}
+  }]);
+
+  return AxisHelper;
+}(THREE.Object3D);
+
+exports.default = AxisHelper;
 },{}],"gDca":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var r=n[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function t(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=function(){function n(){e(this,n)}return t(n,[{key:"render",value:function(){}},{key:"on_enter",value:function(e,n){}},{key:"on_exit",value:function(e,n){}},{key:"resize",value:function(){}}]),n}();exports.default=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var BaseRender = /*#__PURE__*/function () {
+  function BaseRender() {
+    _classCallCheck(this, BaseRender);
+  }
+
+  _createClass(BaseRender, [{
+    key: "render",
+    value: function render() {}
+  }, {
+    key: "on_enter",
+    value: function on_enter(context, renderer) {}
+  }, {
+    key: "on_exit",
+    value: function on_exit(context, renderer) {}
+  }, {
+    key: "resize",
+    value: function resize() {}
+  }]);
+
+  return BaseRender;
+}();
+
+exports.default = BaseRender;
 },{}],"bFlA":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function n(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=function(){function t(){e(this,t)}return n(t,null,[{key:"opaque",get:function(){return 0}},{key:"transparent",get:function(){return 1}},{key:"outline",get:function(){return 2}},{key:"selectable",get:function(){return 3}}]),t}();exports.default=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var RenderLayers = /*#__PURE__*/function () {
+  function RenderLayers() {
+    _classCallCheck(this, RenderLayers);
+  }
+
+  _createClass(RenderLayers, null, [{
+    key: "opaque",
+    get: function get() {
+      return 0;
+    }
+  }, {
+    key: "transparent",
+    get: function get() {
+      return 1;
+    }
+  }, {
+    key: "outline",
+    get: function get() {
+      return 2;
+    }
+  }, {
+    key: "selectable",
+    get: function get() {
+      return 3;
+    }
+  }]);
+
+  return RenderLayers;
+}();
+
+exports.default = RenderLayers;
 },{}],"aRZG":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform sampler2D _Blur;\nuniform vec2 _Screen;\nvarying vec2 vUv;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\tvec2 pixel_size = 1.0/_Screen;\n\n\tvec4 color = texture2D( _MainTex, vUv);\n\tfloat mask = 1.0 - color.a;\n\n\tfloat blur = texture2D( _Blur, vUv).a;\n\n  // gl_FragColor = vec4(mask,mask,mask,0.0);\n  // gl_FragColor = color;\n\n\tgl_FragColor = vec4(mix(color.rgb, mix(color.rgb, vec3(1.,0.,0.),aastep(0.076, blur)), mask), 1.0);\n}\n\n";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform sampler2D _Blur;\nuniform vec2 _Screen;\nvarying vec2 vUv;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\tvec2 pixel_size = 1.0/_Screen;\n\n\tvec4 color = texture2D( _MainTex, vUv);\n\tfloat mask = 1.0 - color.a;\n\n\tfloat blur = texture2D( _Blur, vUv).a;\n\n  // gl_FragColor = vec4(mask,mask,mask,0.0);\n  // gl_FragColor = color;\n\n\tgl_FragColor = vec4(mix(color.rgb, mix(color.rgb, vec3(1.,0.,0.),aastep(0.076, blur)), mask), 1.0);\n}\n\n";
 },{}],"GnKT":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _Resolution;\nuniform vec2 _SampleDir;\nvarying vec2 vUv;\n\nvoid main()\n{\n\n\tvec3 sum = vec3(0.,0.,0.);\n\tvec2 dir = (0.5/_Resolution) * _SampleDir;\n\tfloat _Distance = 2.0;\n\tsum += texture2D( _MainTex, vUv + dir * -4. * _Distance ).rgb * 0.0525;\n\tsum += texture2D( _MainTex, vUv + dir * -3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir * -2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir * -1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  0. * _Distance ).rgb * 0.225;\n\tsum += texture2D( _MainTex, vUv + dir *  1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir *  3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir *  4. * _Distance ).rgb * 0.0525;\n\tgl_FragColor = vec4(sum, 1.0);\n\n}\n";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _Resolution;\nuniform vec2 _SampleDir;\nvarying vec2 vUv;\n\nvoid main()\n{\n\n\tvec3 sum = vec3(0.,0.,0.);\n\tvec2 dir = (0.5/_Resolution) * _SampleDir;\n\tfloat _Distance = 2.0;\n\tsum += texture2D( _MainTex, vUv + dir * -4. * _Distance ).rgb * 0.0525;\n\tsum += texture2D( _MainTex, vUv + dir * -3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir * -2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir * -1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  0. * _Distance ).rgb * 0.225;\n\tsum += texture2D( _MainTex, vUv + dir *  1. * _Distance ).rgb * 0.150;\n\tsum += texture2D( _MainTex, vUv + dir *  2. * _Distance ).rgb * 0.110;\n\tsum += texture2D( _MainTex, vUv + dir *  3. * _Distance ).rgb * 0.075;\n\tsum += texture2D( _MainTex, vUv + dir *  4. * _Distance ).rgb * 0.0525;\n\tgl_FragColor = vec4(sum, 1.0);\n\n}\n";
 },{}],"s876":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex;\n\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv);\n}";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\n\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv);\n}";
 },{}],"i1za":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}";
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}";
 },{}],"F9Xn":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=o(require("/Screen")),r=o(require("/RenderLayers")),t=o(require("/shaders/box_blur/compose_frag")),a=o(require("/shaders/box_blur/box_blur_frag")),i=o(require("/shaders/copy/copy_frag")),n=o(require("/shaders/copy/copy_vert")),l=o(require("/shaders/basic_color/basic_color_frag"));function o(e){return e&&e.__esModule?e:{default:e}}function u(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function s(e,r){for(var t=0;t<r.length;t++){var a=r[t];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function _(e,r,t){return r&&s(e.prototype,r),t&&s(e,t),e}var d=function(){function o(r){u(this,o),this.main_rt=new THREE.WebGLRenderTarget(e.default.width,e.default.height),this.rt1=new THREE.WebGLRenderTarget(e.default.width,e.default.height),this.rt2=new THREE.WebGLRenderTarget(e.default.width,e.default.height),this.compose_material=this.__get_compose_material(),this.copy_material=this.__get_copy_material(),this.box_blur_material=this.__get_box_blur_material(),this.background_material=this.__get_background_material(),this.copy_plane=new THREE.Mesh(new THREE.PlaneGeometry(1,1),this.copy_material),this.copy_plane.frustumCulled=!1,this.copy_scene=new THREE.Scene,this.copy_scene.add(this.copy_plane)}return _(o,[{key:"resize",value:function(e,r){this.main_rt.setSize(e,r),this.rt1.setSize(e,r),this.rt2.setSize(e,r),this.box_blur_material.uniforms._Screen.value.set(e,r),this.compose_material.uniforms._Screen.value.set(e,r)}},{key:"render",value:function(e){e.camera.updateMatrix(),e.camera.updateMatrixWorld(),e.camera.layers.enable(r.default.opaque),e.camera.layers.enable(r.default.transparent),e.camera.layers.disable(r.default.outline),e._renderer.setClearColor(e.clear_color,0),e._renderer.clearTarget(this.main_rt,!0,!0,!0),this.copy_scene.overrideMaterial=this.background_material,this.background_material.uniforms._Color.value.set(e.clear_color.r,e.clear_color.g,e.clear_color.b,0),e._renderer.render(this.copy_scene,e.camera,this.main_rt,!1),e._renderer.render(e.scene,e.camera,this.main_rt,!1),this.box_blur_material.uniforms._MainTex.value=this.main_rt.texture,this.box_blur_material.uniforms._SampleDir.value.set(1,0),this.copy_scene.overrideMaterial=this.box_blur_material,e._renderer.render(this.copy_scene,e.camera,this.rt1,!1),this.box_blur_material.uniforms._SampleDir.value.set(0,1),this.box_blur_material.uniforms._MainTex.value=this.rt1.texture,e._renderer.render(this.copy_scene,e.camera,this.rt2,!1),this.copy_scene.overrideMaterial=this.compose_material,this.compose_material.uniforms._MainTex.value=this.main_rt.texture,this.compose_material.uniforms._Blur.value=this.rt2.texture,e._renderer.render(this.copy_scene,e.camera,void 0,!1),this.copy_scene.overrideMaterial=void 0}},{key:"__get_copy_material",value:function(){return new THREE.ShaderMaterial({uniforms:{_MainTex:{value:void 0}},vertexShader:n.default,fragmentShader:i.default,depthTest:!1,depthWrite:!1})}},{key:"__get_box_blur_material",value:function(){return new THREE.ShaderMaterial({uniforms:{_MainTex:{value:void 0},_SampleDir:{value:new THREE.Vector2},_Screen:{value:new THREE.Vector2(e.default.width,e.default.height)}},vertexShader:n.default,fragmentShader:a.default,depthTest:!1,depthWrite:!1})}},{key:"__get_compose_material",value:function(){return new THREE.ShaderMaterial({uniforms:{_MainTex:{value:void 0},_Blur:{value:void 0},_Screen:{value:new THREE.Vector2(e.default.width,e.default.height)}},vertexShader:n.default,fragmentShader:t.default,depthTest:!1,depthWrite:!1,extensions:{derivatives:!0}})}},{key:"__get_background_material",value:function(){return new THREE.ShaderMaterial({uniforms:{_Color:{value:new THREE.Vector4(0,0,0,0)}},vertexShader:n.default,fragmentShader:l.default,depthTest:!0,depthWrite:!1})}},{key:"on_enter",value:function(e){e._renderer.autoClear=!1}},{key:"on_exit",value:function(e){e._renderer.autoClear=!0}}]),o}();exports.default=d;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _RenderLayers = _interopRequireDefault(require("/RenderLayers"));
+
+var _compose_frag = _interopRequireDefault(require("/shaders/box_blur/compose_frag"));
+
+var _box_blur_frag = _interopRequireDefault(require("/shaders/box_blur/box_blur_frag"));
+
+var _copy_frag = _interopRequireDefault(require("/shaders/copy/copy_frag"));
+
+var _copy_vert = _interopRequireDefault(require("/shaders/copy/copy_vert"));
+
+var _basic_color_frag = _interopRequireDefault(require("/shaders/basic_color/basic_color_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var OutlineRender = /*#__PURE__*/function () {
+  function OutlineRender(webgl) {
+    _classCallCheck(this, OutlineRender);
+
+    this.main_rt = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height);
+    this.rt1 = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height);
+    this.rt2 = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height);
+    this.compose_material = this.__get_compose_material();
+    this.copy_material = this.__get_copy_material();
+    this.box_blur_material = this.__get_box_blur_material();
+    this.background_material = this.__get_background_material();
+    this.copy_plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.copy_material);
+    this.copy_plane.frustumCulled = false;
+    this.copy_scene = new THREE.Scene();
+    this.copy_scene.add(this.copy_plane);
+  }
+
+  _createClass(OutlineRender, [{
+    key: "resize",
+    value: function resize(w, h) {
+      this.main_rt.setSize(w, h);
+      this.rt1.setSize(w, h);
+      this.rt2.setSize(w, h);
+
+      this.box_blur_material.uniforms._Screen.value.set(w, h);
+
+      this.compose_material.uniforms._Screen.value.set(w, h);
+    }
+  }, {
+    key: "render",
+    value: function render(webgl) {
+      webgl.camera.updateMatrix();
+      webgl.camera.updateMatrixWorld();
+      webgl.camera.layers.enable(_RenderLayers.default.opaque);
+      webgl.camera.layers.enable(_RenderLayers.default.transparent);
+      webgl.camera.layers.disable(_RenderLayers.default.outline); //render scene
+
+      webgl._renderer.setClearColor(webgl.clear_color, 0);
+
+      webgl._renderer.clearTarget(this.main_rt, true, true, true);
+
+      this.copy_scene.overrideMaterial = this.background_material;
+
+      this.background_material.uniforms._Color.value.set(webgl.clear_color.r, webgl.clear_color.g, webgl.clear_color.b, 0);
+
+      webgl._renderer.render(this.copy_scene, webgl.camera, this.main_rt, false);
+
+      webgl._renderer.render(webgl.scene, webgl.camera, this.main_rt, false); //horizontal blur
+
+
+      this.box_blur_material.uniforms._MainTex.value = this.main_rt.texture;
+
+      this.box_blur_material.uniforms._SampleDir.value.set(1, 0);
+
+      this.copy_scene.overrideMaterial = this.box_blur_material;
+
+      webgl._renderer.render(this.copy_scene, webgl.camera, this.rt1, false); //vertical blur
+
+
+      this.box_blur_material.uniforms._SampleDir.value.set(0, 1);
+
+      this.box_blur_material.uniforms._MainTex.value = this.rt1.texture;
+
+      webgl._renderer.render(this.copy_scene, webgl.camera, this.rt2, false); //compose
+
+
+      this.copy_scene.overrideMaterial = this.compose_material;
+      this.compose_material.uniforms._MainTex.value = this.main_rt.texture;
+      this.compose_material.uniforms._Blur.value = this.rt2.texture;
+
+      webgl._renderer.render(this.copy_scene, webgl.camera, undefined, false);
+
+      this.copy_scene.overrideMaterial = undefined;
+    }
+  }, {
+    key: "__get_copy_material",
+    value: function __get_copy_material() {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          _MainTex: {
+            value: undefined
+          }
+        },
+        vertexShader: _copy_vert.default,
+        fragmentShader: _copy_frag.default,
+        depthTest: false,
+        depthWrite: false
+      });
+    }
+  }, {
+    key: "__get_box_blur_material",
+    value: function __get_box_blur_material() {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          _MainTex: {
+            value: undefined
+          },
+          _SampleDir: {
+            value: new THREE.Vector2()
+          },
+          _Screen: {
+            value: new THREE.Vector2(_Screen.default.width, _Screen.default.height)
+          }
+        },
+        vertexShader: _copy_vert.default,
+        fragmentShader: _box_blur_frag.default,
+        depthTest: false,
+        depthWrite: false
+      });
+    }
+  }, {
+    key: "__get_compose_material",
+    value: function __get_compose_material() {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          _MainTex: {
+            value: undefined
+          },
+          _Blur: {
+            value: undefined
+          },
+          _Screen: {
+            value: new THREE.Vector2(_Screen.default.width, _Screen.default.height)
+          }
+        },
+        vertexShader: _copy_vert.default,
+        fragmentShader: _compose_frag.default,
+        depthTest: false,
+        depthWrite: false,
+        extensions: {
+          derivatives: true
+        }
+      });
+    }
+  }, {
+    key: "__get_background_material",
+    value: function __get_background_material() {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          _Color: {
+            value: new THREE.Vector4(0, 0, 0, 0)
+          }
+        },
+        vertexShader: _copy_vert.default,
+        fragmentShader: _basic_color_frag.default,
+        depthTest: true,
+        depthWrite: false
+      });
+    }
+  }, {
+    key: "on_enter",
+    value: function on_enter(webgl) {
+      webgl._renderer.autoClear = false;
+    }
+  }, {
+    key: "on_exit",
+    value: function on_exit(webgl) {
+      webgl._renderer.autoClear = true;
+    }
+  }]);
+
+  return OutlineRender;
+}();
+
+exports.default = OutlineRender;
 },{"/Screen":"JIgx","/RenderLayers":"bFlA","/shaders/box_blur/compose_frag":"aRZG","/shaders/box_blur/box_blur_frag":"GnKT","/shaders/copy/copy_frag":"s876","/shaders/copy/copy_vert":"i1za","/shaders/basic_color/basic_color_frag":"LSxb"}],"Ftca":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/shaders/copy/copy_vert")),e=r(require("/shaders/copy/copy_frag"));function r(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e,r){return e in t?Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}):t[e]=r,t}function u(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(r){c(i,THREE.ShaderMaterial);var n=f(i);function i(r,c,f){var a;return u(this,i),n.call(this,(o(a={uniforms:{_MainTex:{value:null},_Resolution:{value:new THREE.Vector2(0,0)}},defines:f||{},vertexShader:c||t.default,fragmentShader:r||e.default,depthWrite:!1,blending:THREE.NoBlending,depthTest:!1},"depthWrite",!1),o(a,"depthFunc",THREE.AlwaysDepth),a))}return i}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _copy_vert = _interopRequireDefault(require("/shaders/copy/copy_vert"));
+
+var _copy_frag = _interopRequireDefault(require("/shaders/copy/copy_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var BlitMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
+  _inherits(BlitMaterial, _THREE$ShaderMaterial);
+
+  var _super = _createSuper(BlitMaterial);
+
+  function BlitMaterial(frag_shader, vert_shader, defines) {
+    var _super$call;
+
+    _classCallCheck(this, BlitMaterial);
+
+    return _super.call(this, (_super$call = {
+      uniforms: {
+        _MainTex: {
+          value: null
+        },
+        _Resolution: {
+          value: new THREE.Vector2(0, 0)
+        }
+      },
+      defines: defines || {},
+      vertexShader: vert_shader || _copy_vert.default,
+      fragmentShader: frag_shader || _copy_frag.default,
+      depthWrite: false,
+      blending: THREE.NoBlending,
+      depthTest: false
+    }, _defineProperty(_super$call, "depthWrite", false), _defineProperty(_super$call, "depthFunc", THREE.AlwaysDepth), _super$call));
+  }
+
+  return BlitMaterial;
+}(THREE.ShaderMaterial);
+
+exports.default = BlitMaterial;
 },{"/shaders/copy/copy_vert":"i1za","/shaders/copy/copy_frag":"s876"}],"qoY1":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform vec4 _DepthNormal;\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n    gl_FragColor = vec4(EncodeFloatRG(_DepthNormal.x), EncodeNormal(normalize(_DepthNormal.yzw)));  \n}";
+module.exports = "#define GLSLIFY 1\nuniform vec4 _DepthNormal;\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n    gl_FragColor = vec4(EncodeFloatRG(_DepthNormal.x), EncodeNormal(normalize(_DepthNormal.yzw)));  \n}";
 },{}],"bGMu":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/materials/BlitMaterial")),e=r(require("/shaders/clear/clear_depth_normal_frag"));function r(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=s(t);if(l()){var n=s(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return i(this,e)}}function i(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?a(t):e}function a(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function s(t){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var p=function(r){u(c,t.default);var n=f(c);function c(t,r){var u;return o(this,c),(u=n.call(this,e.default)).uniforms._DepthNormal={value:new THREE.Vector4(t,r.x,r.y,r.z)},u}return c}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _clear_depth_normal_frag = _interopRequireDefault(require("/shaders/clear/clear_depth_normal_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var ClearDepthNormalMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(ClearDepthNormalMaterial, _BlitMaterial);
+
+  var _super = _createSuper(ClearDepthNormalMaterial);
+
+  function ClearDepthNormalMaterial(clear_depth, clear_normal) {
+    var _this;
+
+    _classCallCheck(this, ClearDepthNormalMaterial);
+
+    _this = _super.call(this, _clear_depth_normal_frag.default);
+    _this.uniforms._DepthNormal = {
+      value: new THREE.Vector4(clear_depth, clear_normal.x, clear_normal.y, clear_normal.z)
+    };
+    return _this;
+  }
+
+  return ClearDepthNormalMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = ClearDepthNormalMaterial;
 },{"/materials/BlitMaterial":"Ftca","/shaders/clear/clear_depth_normal_frag":"qoY1"}],"DRHE":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  v_normal \t= (modelViewMatrix * vec4(normal, 0.0)).xyz;\n  v_pos \t\t= (modelViewMatrix * vec4( pos, 1.0 )).xyz;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n}";
+module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nvoid main()\n{\n  vec3 pos = position;\n  mat4 MVP = projectionMatrix * modelViewMatrix;\n\n  v_normal \t= (modelViewMatrix * vec4(normal, 0.0)).xyz;\n  v_pos \t\t= (modelViewMatrix * vec4( pos, 1.0 )).xyz;\n\n  gl_Position = MVP * vec4( pos, 1.0 );\n}";
 },{}],"a4Wy":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nuniform float _FarPlane;\n\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n\tgl_FragColor = vec4(EncodeFloatRG(length(v_pos.z)/_FarPlane), EncodeNormal(normalize(v_normal)));\t\n}\n\n";
+module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvarying vec3 v_pos;\n\nuniform float _FarPlane;\n\nvec2 EncodeFloatRG( float v )\n{\n    vec2 kEncodeMul = vec2(1.0, 255.0);\n    float kEncodeBit = 1.0/255.0;\n    vec2 enc = kEncodeMul * v;\n    enc = fract (enc);\n    enc.x -= enc.y * kEncodeBit;\n    return enc;\n}\n\nvec2 EncodeNormal (vec3 n)\n{\n    float scale = 1.7777;\n    vec2 enc = n.xy / (n.z+1.0);\n    enc /= scale;\n    enc = enc*0.5+0.5;\n    return enc;\n}\n\nvoid main()\n{\n\tgl_FragColor = vec4(EncodeFloatRG(length(v_pos.z)/_FarPlane), EncodeNormal(normalize(v_normal)));\t\n}\n\n";
 },{}],"VcOC":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/shaders/depth_normals/depth_normals_vert")),e=r(require("/shaders/depth_normals/depth_normals_frag"));function r(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function f(t,e,r){return e&&u(t.prototype,e),r&&u(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function a(t){return function(){var e,r=y(t);if(p()){var n=y(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return l(this,e)}}function l(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?s(t):e}function s(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function p(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function y(t){return(y=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var h=function(r){c(u,THREE.ShaderMaterial);var n=a(u);function u(){return o(this,u),n.call(this,{uniforms:{_FarPlane:{value:1}},vertexShader:t.default,fragmentShader:e.default})}return f(u,[{key:"far_plane",set:function(t){this.uniforms._FarPlane.value=t}}]),u}();exports.default=h;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _depth_normals_vert = _interopRequireDefault(require("/shaders/depth_normals/depth_normals_vert"));
+
+var _depth_normals_frag = _interopRequireDefault(require("/shaders/depth_normals/depth_normals_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DepthNormalMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
+  _inherits(DepthNormalMaterial, _THREE$ShaderMaterial);
+
+  var _super = _createSuper(DepthNormalMaterial);
+
+  function DepthNormalMaterial() {
+    _classCallCheck(this, DepthNormalMaterial);
+
+    return _super.call(this, {
+      uniforms: {
+        _FarPlane: {
+          value: 1
+        }
+      },
+      vertexShader: _depth_normals_vert.default,
+      fragmentShader: _depth_normals_frag.default
+    });
+  }
+
+  _createClass(DepthNormalMaterial, [{
+    key: "far_plane",
+    set: function set(value) {
+      this.uniforms._FarPlane.value = value;
+    }
+  }]);
+
+  return DepthNormalMaterial;
+}(THREE.ShaderMaterial);
+
+exports.default = DepthNormalMaterial;
 },{"/shaders/depth_normals/depth_normals_vert":"DRHE","/shaders/depth_normals/depth_normals_frag":"a4Wy"}],"pWL9":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=n(require("/CameraManager")),t=n(require("/SceneManager")),r=n(require("/Screen")),a=n(require("/materials/ClearDepthNormalMaterial")),i=n(require("/materials/DepthNormalMaterial"));function n(e){return e&&e.__esModule?e:{default:e}}function l(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function u(e,t){for(var r=0;r<t.length;r++){var a=t[r];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function h(e,t,r){return t&&u(e.prototype,t),r&&u(e,r),e}var o=function(){function t(){l(this,t),this.RT=new THREE.WebGLRenderTarget(r.default.width,r.default.height),this.clear_depth_normal_mat=new a.default(1,new THREE.Vector3(0,0,1)),this.depth_normal_material=new i.default}return h(t,[{key:"render",value:function(t){this.__resize_RT_if_necessary(),t.clear(this.RT,void 0,!0,!0),t.blit_clear_with_material(this.RT,this.clear_depth_normal_mat),this.depth_normal_material.far_plane=e.default.current.far,t.render(void 0,void 0,this.RT,this.depth_normal_material)}},{key:"__resize_RT_if_necessary",value:function(){this.RT.width===r.default.width&&this.RT.height===r.default.height||this.RT.setSize(r.default.width,r.default.height)}},{key:"render_target",get:function(){return this.RT}}]),t}();exports.default=o;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _ClearDepthNormalMaterial = _interopRequireDefault(require("/materials/ClearDepthNormalMaterial"));
+
+var _DepthNormalMaterial = _interopRequireDefault(require("/materials/DepthNormalMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var DepthAndNormalsRenderer = /*#__PURE__*/function () {
+  function DepthAndNormalsRenderer() {
+    _classCallCheck(this, DepthAndNormalsRenderer);
+
+    this.RT = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height);
+    this.clear_depth_normal_mat = new _ClearDepthNormalMaterial.default(1, new THREE.Vector3(0, 0, 1));
+    this.depth_normal_material = new _DepthNormalMaterial.default();
+  }
+
+  _createClass(DepthAndNormalsRenderer, [{
+    key: "render",
+    value: function render(graphics) {
+      this.__resize_RT_if_necessary();
+
+      graphics.clear(this.RT, undefined, true, true);
+      graphics.blit_clear_with_material(this.RT, this.clear_depth_normal_mat);
+      this.depth_normal_material.far_plane = _CameraManager.default.current.far;
+      graphics.render(undefined, undefined, this.RT, this.depth_normal_material);
+    }
+  }, {
+    key: "__resize_RT_if_necessary",
+    value: function __resize_RT_if_necessary() {
+      if (this.RT.width !== _Screen.default.width || this.RT.height !== _Screen.default.height) {
+        this.RT.setSize(_Screen.default.width, _Screen.default.height);
+      }
+    }
+  }, {
+    key: "render_target",
+    get: function get() {
+      return this.RT;
+    }
+  }]);
+
+  return DepthAndNormalsRenderer;
+}();
+
+exports.default = DepthAndNormalsRenderer;
 },{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/materials/ClearDepthNormalMaterial":"bGMu","/materials/DepthNormalMaterial":"VcOC"}],"IerZ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=t(require("/materials/BlitMaterial"));function t(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){for(var i=0;i<t.length;i++){var r=t[i];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function a(e,t,i){return t&&r(e.prototype,t),i&&r(e,i),e}var l=function(){function t(r){i(this,t),this.renderer=r,this._blit_scene=new THREE.Scene,this._blit_material=new e.default,this._blit_quad=new THREE.Mesh(new THREE.PlaneBufferGeometry(1,1),this._blit_material),this._blit_scene.add(this._blit_quad),this._blit_camera=new THREE.OrthographicCamera(-1,1,1,-1,-1e4,1e4)}return a(t,[{key:"blit",value:function(e,t){this._blit_quad.material=this._blit_material,this._blit_quad.material.uniforms._MainTex.value=e.texture,this._blit_quad.material.uniforms._Resolution.value.set(e.width,e.height),this.renderer.setRenderTarget(void 0===t?null:t),this.renderer.render(this._blit_scene,this._blit_camera)}},{key:"blit_with_material",value:function(e,t,i){this._blit_quad.material=i,this._blit_quad.material.uniforms._MainTex.value=e.texture,this._blit_quad.material.uniforms._Resolution.value.set(e.width,e.height),this.renderer.setRenderTarget(void 0===t?null:t),this.renderer.render(this._blit_scene,this._blit_camera)}},{key:"blit_clear_with_material",value:function(e,t){this._blit_quad.material=t,this.renderer.setRenderTarget(void 0===e?null:e),this.renderer.render(this._blit_scene,this._blit_camera)}}]),t}();exports.default=l;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Blitter = /*#__PURE__*/function () {
+  function Blitter(renderer) {
+    _classCallCheck(this, Blitter);
+
+    this.renderer = renderer;
+    this._blit_scene = new THREE.Scene();
+    this._blit_material = new _BlitMaterial.default();
+    this._blit_quad = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), this._blit_material);
+
+    this._blit_scene.add(this._blit_quad);
+
+    this._blit_camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -10000, 10000);
+  }
+
+  _createClass(Blitter, [{
+    key: "blit",
+    value: function blit(src, dst) {
+      this._blit_quad.material = this._blit_material;
+      this._blit_quad.material.uniforms._MainTex.value = src.texture;
+
+      this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
+
+      this.renderer.setRenderTarget(dst === undefined ? null : dst);
+      this.renderer.render(this._blit_scene, this._blit_camera);
+    }
+  }, {
+    key: "blit_with_material",
+    value: function blit_with_material(src, dst, mat) {
+      this._blit_quad.material = mat;
+      this._blit_quad.material.uniforms._MainTex.value = src.texture;
+
+      this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
+
+      this.renderer.setRenderTarget(dst === undefined ? null : dst);
+      this.renderer.render(this._blit_scene, this._blit_camera);
+    }
+  }, {
+    key: "blit_clear_with_material",
+    value: function blit_clear_with_material(dst_RT, mat) {
+      this._blit_quad.material = mat;
+      this.renderer.setRenderTarget(dst_RT === undefined ? null : dst_RT);
+      this.renderer.render(this._blit_scene, this._blit_camera);
+    }
+  }]);
+
+  return Blitter;
+}();
+
+exports.default = Blitter;
 },{"/materials/BlitMaterial":"Ftca"}],"xMH9":[function(require,module,exports) {
-"use strict";var e=o(require("/Configuration")),r=o(require("/render_mode/BaseRender")),t=o(require("/render_mode/OutlineRender")),i=o(require("/Screen")),n=o(require("/CameraManager")),d=o(require("/SceneManager")),l=o(require("/Capabilities")),u=o(require("/render_utilities/DepthAndNormalsRenderer")),s=o(require("/render_utilities/Blitter"));function o(e){return e&&e.__esModule?e:{default:e}}function h(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function _(e,r){for(var t=0;t<r.length;t++){var i=r[t];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}function c(e,r,t){return r&&_(e.prototype,r),t&&_(e,t),e}var f=function(){function e(){h(this,e),this._renderer=void 0,this.blitter=void 0,this.canvas=void 0,this.no_render=void 0,this.current_render_mode=void 0,this.generateDepthNormalTexture=!1,this.depth_and_normals_renderer=void 0}return c(e,[{key:"init",value:function(e){var t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];this._renderer=new THREE.WebGLRenderer({antialias:t,preserveDrawingBuffer:!0,alpha:!0,canvas:e}),this._renderer.autoClear=!1,this._renderer.setPixelRatio(1),i.default.dpr=window.devicePixelRatio,this._renderer.extensions.get("ANGLE_instanced_arrays"),this.blitter=new s.default(this._renderer),this.canvas=this._renderer.domElement,this.no_render=new r.default,this.current_render_mode=this.no_render,l.default.max_anisotropy=this._renderer.capabilities.getMaxAnisotropy(),l.default.vertex_texture_sampler_available=this._renderer.capabilities.maxVertexTextures>0,l.default.fp_textures_available=this._renderer.capabilities.floatVertexTextures,this.generateDepthNormalTexture=!1,this.depth_and_normals_renderer=new u.default}},{key:"set_state",value:function(e){console.log("VIEWAPI - map render mode switch to: "+e.constructor.name),this.current_render_mode.on_exit(this,this._renderer),this.current_render_mode=e,this.current_render_mode.on_enter(this,this._renderer)}},{key:"update",value:function(){this.check_for_resize(),this.generateDepthNormalTexture&&this.depth_and_normals_renderer.render(this),n.default.current&&(n.default.current.aspect=i.default.aspect_ratio,n.default.current.updateProjectionMatrix(),n.default.current.updateMatrix(),n.default.current.updateMatrixWorld(!0),this.current_render_mode.render())}},{key:"render",value:function(e,r,t,i){this.__apply_override_material(e,i),this._renderer.setRenderTarget(void 0===t?null:t),this._renderer.render(e||d.default.current,r||n.default.current),this.__apply_override_material(e,void 0)}},{key:"__apply_override_material",value:function(e,r){e?e.overrideMaterial=r:d.default.current.overrideMaterial=r}},{key:"readback_RT",value:function(e,r){this._renderer.readRenderTargetPixels(e,0,0,e.width,e.height,r)}},{key:"clear",value:function(e,r,t,i){this._renderer.setRenderTarget(void 0===e?null:e),r&&this._renderer.setClearColor(r.clear_color,r.clear_alpha),this._renderer.clear(!!r,!!t,!!i)}},{key:"check_for_resize",value:function(){var e=this.canvas.clientWidth,r=this.canvas.clientHeight;this.canvas.width===i.default.render_width&&this.canvas.height===i.default.render_height&&e===i.default.width&&r===i.default.height||(i.default.update_size(e,r),this._renderer.setSize(i.default.render_width,i.default.render_height,!1),this.current_render_mode.resize(i.default.render_width,i.default.render_height))}},{key:"on_resize",value:function(){console.error("Graphics.on_resize call no longer needed.")}},{key:"blit",value:function(e,r,t){t?this.blitter.blit_with_material(e,r,t):this.blitter.blit(e,r)}},{key:"blit_clear_with_material",value:function(e,r){this.blitter.blit_clear_with_material(e,r)}},{key:"take_screenshot",value:function(e){var r=i.default.width,t=i.default.height,a=parseInt(Math.ceil(4)),d=parseInt(Math.ceil(4));i.default.update_size(1024,1024),this._renderer.setPixelRatio(1),this._renderer.setSize(1024,1024,!1),this.ctx_2D.canvas.width=4096,this.ctx_2D.canvas.height=4096,n.default.current.aspect=i.default.aspect_ratio,n.default.current.updateMatrix(),n.default.current.updateMatrixWorld(!0);for(var l=0;l<a;l++)for(var u=0;u<d;u++)n.default.current.setViewOffset(4096,4096,i.default.width*l,i.default.height*u,i.default.width,i.default.height),this.current_render_mode.render(),this.ctx_2D.drawImage(this._renderer.domElement,i.default.width*l,i.default.height*u);this.ctx_2D.canvas.toBlob(e,"image/png;base64;"),n.default.current.clearViewOffset(),i.default.update_size(r,t),this._renderer.setPixelRatio(window.devicePixelRatio),this._renderer.setSize(r,t,!1),n.default.current.aspect=i.default.aspect_ratio,n.default.current.updateMatrix(),n.default.current.updateMatrixWorld(!0)}},{key:"download_screenshot",value:function(e){console.log("el blob",e);var r=document.createElement("a");r.download="Snapshot.png",r.href=URL.createObjectURL(e),r.click(),r.onclick=function(){requestAnimationFrame(function(){URL.revokeObjectURL(a.href)}),a.removeAttribute("href")}}},{key:"dom_element",get:function(){return this._renderer.domElement}},{key:"depth_normals_RT",get:function(){return this.depth_and_normals_renderer.render_target}}]),e}(),v=new f;module.exports=v;
+"use strict";
+
+var _Configuration = _interopRequireDefault(require("/Configuration"));
+
+var _BaseRender = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _OutlineRender = _interopRequireDefault(require("/render_mode/OutlineRender"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Capabilities = _interopRequireDefault(require("/Capabilities"));
+
+var _DepthAndNormalsRenderer = _interopRequireDefault(require("/render_utilities/DepthAndNormalsRenderer"));
+
+var _Blitter = _interopRequireDefault(require("/render_utilities/Blitter"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Graphics = /*#__PURE__*/function () {
+  function Graphics() {
+    _classCallCheck(this, Graphics);
+
+    this._renderer = undefined;
+    this.blitter = undefined;
+    this.canvas = undefined;
+    this.no_render = undefined;
+    this.current_render_mode = undefined;
+    this.generateDepthNormalTexture = false;
+    this.depth_and_normals_renderer = undefined;
+  }
+
+  _createClass(Graphics, [{
+    key: "init",
+    value: function init(canvas) {
+      var msaa = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      this._renderer = new THREE.WebGLRenderer({
+        antialias: msaa,
+        preserveDrawingBuffer: true,
+        alpha: true,
+        canvas: canvas
+      });
+      this._renderer.autoClear = false;
+
+      this._renderer.setPixelRatio(1);
+
+      _Screen.default.dpr = window.devicePixelRatio;
+
+      this._renderer.extensions.get('ANGLE_instanced_arrays');
+
+      this.blitter = new _Blitter.default(this._renderer);
+      this.canvas = this._renderer.domElement;
+      this.no_render = new _BaseRender.default();
+      this.current_render_mode = this.no_render;
+      _Capabilities.default.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
+      _Capabilities.default.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
+      _Capabilities.default.fp_textures_available = this._renderer.capabilities.floatVertexTextures;
+      this.generateDepthNormalTexture = false;
+      this.depth_and_normals_renderer = new _DepthAndNormalsRenderer.default();
+    }
+  }, {
+    key: "set_state",
+    value: function set_state(new_state) {
+      console.log("VIEWAPI - map render mode switch to: " + new_state.constructor.name);
+      this.current_render_mode.on_exit(this, this._renderer);
+      this.current_render_mode = new_state;
+      this.current_render_mode.on_enter(this, this._renderer);
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.check_for_resize();
+
+      if (this.generateDepthNormalTexture) {
+        this.depth_and_normals_renderer.render(this);
+      }
+
+      if (_CameraManager.default.current) {
+        _CameraManager.default.current.aspect = _Screen.default.aspect_ratio;
+
+        _CameraManager.default.current.updateProjectionMatrix();
+
+        _CameraManager.default.current.updateMatrix();
+
+        _CameraManager.default.current.updateMatrixWorld(true);
+
+        this.current_render_mode.render();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render(scene, camera, RT, override_mat) {
+      this.__apply_override_material(scene, override_mat);
+
+      this._renderer.setRenderTarget(RT === undefined ? null : RT);
+
+      this._renderer.render(scene || _SceneManager.default.current, camera || _CameraManager.default.current);
+
+      this.__apply_override_material(scene, undefined);
+    }
+  }, {
+    key: "__apply_override_material",
+    value: function __apply_override_material(scene, mat) {
+      if (scene) scene.overrideMaterial = mat;else _SceneManager.default.current.overrideMaterial = mat;
+    }
+  }, {
+    key: "readback_RT",
+    value: function readback_RT(RT, buffer) {
+      this._renderer.readRenderTargetPixels(RT, 0, 0, RT.width, RT.height, buffer);
+    }
+  }, {
+    key: "clear",
+    value: function clear(RT, camera, clear_depth, clear_stencil) {
+      this._renderer.setRenderTarget(RT === undefined ? null : RT);
+
+      if (camera) {
+        this._renderer.setClearColor(camera.clear_color, camera.clear_alpha);
+      }
+
+      this._renderer.clear(camera ? true : false, // clear color
+      clear_depth ? true : false, clear_stencil ? true : false);
+    }
+  }, {
+    key: "check_for_resize",
+    value: function check_for_resize() {
+      var current_width = this.canvas.clientWidth;
+      var current_height = this.canvas.clientHeight;
+
+      if (this.canvas.width !== _Screen.default.render_width || this.canvas.height !== _Screen.default.render_height || current_width !== _Screen.default.width || current_height !== _Screen.default.height) {
+        _Screen.default.update_size(current_width, current_height);
+
+        this._renderer.setSize(_Screen.default.render_width, _Screen.default.render_height, false);
+
+        this.current_render_mode.resize(_Screen.default.render_width, _Screen.default.render_height);
+      }
+    }
+  }, {
+    key: "on_resize",
+    value: function on_resize() {
+      console.error("Graphics.on_resize call no longer needed.");
+    }
+  }, {
+    key: "blit",
+    value: function blit(src_RT, dst_RT, mat) {
+      if (mat) this.blitter.blit_with_material(src_RT, dst_RT, mat);else this.blitter.blit(src_RT, dst_RT);
+    }
+  }, {
+    key: "blit_clear_with_material",
+    value: function blit_clear_with_material(dst_RT, mat) {
+      this.blitter.blit_clear_with_material(dst_RT, mat);
+    }
+  }, {
+    key: "take_screenshot",
+    value: function take_screenshot(blob_callback) {
+      var ctx = this;
+      var old_width = _Screen.default.width;
+      var old_height = _Screen.default.height;
+      var new_width = 4096;
+      var new_height = 4096;
+      var tile_width = 1024;
+      var tile_height = 1024;
+      var divisions_x = parseInt(Math.ceil(new_width / tile_width));
+      var divisions_y = parseInt(Math.ceil(new_height / tile_height));
+
+      _Screen.default.update_size(tile_width, tile_height);
+
+      this._renderer.setPixelRatio(1);
+
+      this._renderer.setSize(tile_width, tile_height, false);
+
+      this.ctx_2D.canvas.width = new_width;
+      this.ctx_2D.canvas.height = new_height;
+      _CameraManager.default.current.aspect = _Screen.default.aspect_ratio;
+
+      _CameraManager.default.current.updateMatrix();
+
+      _CameraManager.default.current.updateMatrixWorld(true);
+
+      for (var x = 0; x < divisions_x; x++) {
+        for (var y = 0; y < divisions_y; y++) {
+          _CameraManager.default.current.setViewOffset(new_width, new_height, _Screen.default.width * x, _Screen.default.height * y, _Screen.default.width, _Screen.default.height);
+
+          this.current_render_mode.render();
+          this.ctx_2D.drawImage(this._renderer.domElement, _Screen.default.width * x, _Screen.default.height * y);
+        }
+      } // transform the result canvas into a blob
+      // from them the callback turns into a ULR and download it
+
+
+      this.ctx_2D.canvas.toBlob(blob_callback, "image/png;base64;");
+
+      _CameraManager.default.current.clearViewOffset();
+
+      _Screen.default.update_size(old_width, old_height);
+
+      this._renderer.setPixelRatio(window.devicePixelRatio);
+
+      this._renderer.setSize(old_width, old_height, false);
+
+      _CameraManager.default.current.aspect = _Screen.default.aspect_ratio;
+
+      _CameraManager.default.current.updateMatrix();
+
+      _CameraManager.default.current.updateMatrixWorld(true);
+    }
+  }, {
+    key: "download_screenshot",
+    value: function download_screenshot(blob) {
+      console.log("el blob", blob);
+      var link = document.createElement('a');
+      link.download = "Snapshot.png";
+      link.href = URL.createObjectURL(blob);
+      link.click();
+
+      link.onclick = function () {
+        requestAnimationFrame(function () {
+          URL.revokeObjectURL(a.href);
+        });
+        a.removeAttribute('href');
+      };
+    }
+  }, {
+    key: "dom_element",
+    get: function get() {
+      return this._renderer.domElement;
+    }
+  }, {
+    key: "depth_normals_RT",
+    get: function get() {
+      return this.depth_and_normals_renderer.render_target;
+    }
+  }]);
+
+  return Graphics;
+}();
+
+var graphics = new Graphics();
+module.exports = graphics;
 },{"/Configuration":"RyjO","/render_mode/BaseRender":"gDca","/render_mode/OutlineRender":"F9Xn","/Screen":"JIgx","/CameraManager":"XMgG","/SceneManager":"qvMM","/Capabilities":"hZlU","/render_utilities/DepthAndNormalsRenderer":"pWL9","/render_utilities/Blitter":"IerZ"}],"wyL4":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/Mesh"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&u(t,e)}function u(t,e){return(u=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function c(t){return function(){var e,r=s(t);if(l()){var n=s(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return f(this,e)}}function f(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?i(t):e}function i(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function s(t){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var a=function(e){o(u,t.default);var r=c(u);function u(t,e,o){n(this,u),t=t||new THREE.Vector3(1,1,1),e=e||new THREE.Vector3(1,1,1),o=o||16711680;var c=new THREE.BoxGeometry(t.x,t.y,t.z,e.x,e.y,e.z),f=new THREE.MeshBasicMaterial({color:o});return r.call(this,c,f)}return u}();exports.default=a;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Mesh2 = _interopRequireDefault(require("/Mesh"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Cube = /*#__PURE__*/function (_Mesh) {
+  _inherits(Cube, _Mesh);
+
+  var _super = _createSuper(Cube);
+
+  function Cube(size, segments, color) {
+    _classCallCheck(this, Cube);
+
+    size = size || new THREE.Vector3(1, 1, 1);
+    segments = segments || new THREE.Vector3(1, 1, 1);
+    color = color || 0xff0000;
+    var geometry = new THREE.BoxGeometry(size.x, size.y, size.z, segments.x, segments.y, segments.z);
+    var material = new THREE.MeshBasicMaterial({
+      color: color
+    });
+    return _super.call(this, geometry, material);
+  }
+
+  return Cube;
+}(_Mesh2.default);
+
+exports.default = Cube;
 },{"/Mesh":"ezmQ"}],"J9UP":[function(require,module,exports) {
-"use strict";var e=c(require("/components/AxisHelper")),r=c(require("/shaders/basic_color/basic_color_vert")),t=c(require("/shaders/basic_color/basic_color_frag")),n=c(require("/SceneManager")),a=c(require("/Graphics")),o=c(require("/primitives/Cube")),i=c(require("/primitives/Sphere"));function c(e){return e&&e.__esModule?e:{default:e}}function u(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function l(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function d(e,r,t){return r&&l(e.prototype,r),t&&l(e,t),e}var s=function(){function a(){u(this,a),this.Vector3_one=new THREE.Vector3(1,1,1),this.Vector3_zero=new THREE.Vector3(0,0,0),this.canvas_renderer=void 0,this.rt_debug=void 0}return d(a,[{key:"init",value:function(e){this.webgl=e,this.ctx=void 0}},{key:"draw_axis",value:function(){var r=new e.default;return n.default.current.add(r),r}},{key:"set_debug_RT",value:function(e){this.rt_debug=e}},{key:"draw_rectangle",value:function(e,r,t,n){r=r||100,t=t||100,this.ctx.fillStyle=n||"rgba(255, 0, 0, 1)",this.ctx.fillRect(e.x-r/2,this.ctx.canvas.height-e.y-t/2,r,t)}},{key:"clear",value:function(){this.ctx&&this.ctx.clearRect(0,0,this.ctx.canvas.width,this.ctx.canvas.height)}},{key:"draw_line_2D",value:function(e,r,t){this.ctx.strokeStyle=t||"rgba(255, 0, 0, 1)",this.ctx.beginPath(),this.ctx.moveTo(e.x,e.y),this.ctx.lineTo(r.x,r.y),this.ctx.closePath(),this.ctx.stroke()}},{key:"draw_line",value:function(e,r){var t=new THREE.LineBasicMaterial({color:r}),a=(new THREE.BufferGeometry).setFromPoints(e),o=new THREE.Line(a,t);return n.default.current.add(o),o}},{key:"draw_cube",value:function(e,r,t){r=r||1,t=t||16711680,e=e||new THREE.Vector3;var a=new o.default(new THREE.Vector3(r,r,r),void 0,t);return a.position.copy(e),n.default.current.add(a),a}},{key:"draw_oriented_cube",value:function(e,r){var t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:1,a=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"#FF0000",i=arguments.length>4&&void 0!==arguments[4]?arguments[4]:.1,c=e.distanceTo(r),u=new o.default(new THREE.Vector3(i,t,c),void 0,a),l=r.clone().sub(e).multiplyScalar(.5),d=l.clone().normalize();l.add(e),u.position.copy(l);var s=new THREE.Vector3(0,1,0);d.clone().clone().cross(s);return u.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,-1),d),n.default.current.add(u),u}},{key:"draw_plane",value:function(e,a,o){var i=new THREE.PlaneGeometry(e,a),c=new THREE.ShaderMaterial({uniforms:{_Color:{value:new THREE.Vector4(0,1,0,.2)}},vertexShader:r.default,fragmentShader:t.default,transparent:!0,depthWrite:!1}),u=new THREE.Mesh(i,c);return u.renderOrder=-1e4,n.default.current.add(u),u}},{key:"draw_empty_cube",value:function(e,r,t){r=r||1,t=t||16711680;var n=(new THREE.Box3).setFromCenterAndSize(new THREE.Vector3,new THREE.Vector3(r,r,r)),a=new THREE.Box3Helper(n,t);return a.position.copy(e||new THREE.Vector3),a}},{key:"draw_sphere",value:function(e,r,t){r=r||1,t=t||16711680,e=e||new THREE.Vector3;var a=new i.default(r,t);return a.position.copy(e),n.default.current.add(a),a}},{key:"draw_point_array",value:function(e){var r=arguments.length>1&&void 0!==arguments[1]&&arguments[1],t=(arguments.length>2&&void 0!==arguments[2]&&arguments[2],new THREE.CatmullRomCurve3(e,r));t.updateArcLengths();var n=t.getSpacedPoints(200);return this.draw_line(n,65280)}},{key:"draw_sphere_helper",value:function(e,r){r=r||16711680;var t=new THREE.SphereGeometry(e.radius,32,32),a=new THREE.MeshBasicMaterial({color:r}),o=new THREE.Mesh(t,a);return o.position.copy(e.center),n.default.current.add(o),o}},{key:"draw_math_sphere",value:function(e){var a=new THREE.SphereGeometry(e.radius,32,32),o=new THREE.ShaderMaterial({uniforms:{_Color:{value:new THREE.Vector4(1,0,0,.2)}},vertexShader:r.default,fragmentShader:t.default,transparent:!0}),i=new THREE.Mesh(a,o);i.position.copy(e.center),n.default.current.add(i)}},{key:"draw_bounding_box",value:function(e){var r=new THREE.Box3Helper(e,16776960);n.default.current.add(r)}},{key:"draw_curve",value:function(e,r){var t=new THREE.Vector3(0,0,0);r&&(t.y=r.offset||0);for(var n=0;n<e.length-1;n++)this.draw_line(e[n].clone().add(t),e[n+1].clone().add(t))}}]),a}(),h=new s;module.exports=h;
-},{"/components/AxisHelper":"xAef","/shaders/basic_color/basic_color_vert":"QfnR","/shaders/basic_color/basic_color_frag":"LSxb","/SceneManager":"qvMM","/Graphics":"xMH9","/primitives/Cube":"wyL4","/primitives/Sphere":"sPjl"}],"Zz8J":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=u(require("/CameraManager")),t=u(require("/SceneManager")),r=u(require("/Screen")),n=u(require("/render_mode/BaseRender")),o=u(require("/Graphics"));function u(e){return e&&e.__esModule?e:{default:e}}function c(e){return(c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function f(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function a(e,t,r){return t&&i(e.prototype,t),r&&i(e,r),e}function l(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&s(e,t)}function s(e,t){return(s=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function p(e){return function(){var t,r=h(e);if(b()){var n=h(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return y(this,t)}}function y(e,t){return!t||"object"!==c(t)&&"function"!=typeof t?d(e):t}function d(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function b(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function h(e){return(h=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var v=function(r){l(c,n.default);var u=p(c);function c(){return f(this,c),u.call(this)}return a(c,[{key:"render",value:function(){o.default.clear(void 0,e.default.current,!0,!0),o.default.render(t.default.current,e.default.current)}}]),c}();exports.default=v;
+"use strict";
+
+var _AxisHelper = _interopRequireDefault(require("/components/AxisHelper"));
+
+var _basic_color_vert = _interopRequireDefault(require("/shaders/basic_color/basic_color_vert"));
+
+var _basic_color_frag = _interopRequireDefault(require("/shaders/basic_color/basic_color_frag"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _Cube = _interopRequireDefault(require("/primitives/Cube"));
+
+var _Sphere = _interopRequireDefault(require("/primitives/Sphere"));
+
+var _Arrow = _interopRequireDefault(require("/primitives/Arrow"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Debug = /*#__PURE__*/function () {
+  function Debug() {
+    _classCallCheck(this, Debug);
+
+    this.Vector3_one = new THREE.Vector3(1, 1, 1);
+    this.Vector3_zero = new THREE.Vector3(0, 0, 0);
+    this.canvas_renderer = undefined;
+    this.rt_debug = undefined;
+  }
+
+  _createClass(Debug, [{
+    key: "init",
+    value: function init(webgl) {
+      this.webgl = webgl;
+      this.ctx = undefined; // var cln = webgl.dom.cloneNode(false);
+      // cln.id = "canvas_debug";
+      // $(cln).css("position", "absolute");
+      // webgl.dom.parentElement.insertBefore(cln, webgl.dom);
+      // this.ctx = cln.getContext('2d');
+      // this.ctx.clearRect(0, 0, cln.width, cln.height);
+      // this.ctx.fillStyle =  "rgba(255, 0, 0, 1)";
+    }
+  }, {
+    key: "draw_arrow",
+    value: function draw_arrow(origin, dir) {
+      var color = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0xff0000;
+      var arrow = new _Arrow.default(color, dir.length(), dir.clone().normalize());
+      arrow.position.copy(origin);
+
+      _SceneManager.default.current.add(arrow);
+
+      return arrow;
+    }
+  }, {
+    key: "draw_axis",
+    value: function draw_axis() {
+      var axis = new _AxisHelper.default();
+
+      _SceneManager.default.current.add(axis);
+
+      return axis;
+    }
+  }, {
+    key: "set_debug_RT",
+    value: function set_debug_RT(RT) {
+      this.rt_debug = RT;
+    }
+  }, {
+    key: "draw_rectangle",
+    value: function draw_rectangle(position_2d, width, height, color) {
+      width = width || 100;
+      height = height || 100;
+      this.ctx.fillStyle = color || "rgba(255, 0, 0, 1)";
+      this.ctx.fillRect(position_2d.x - width / 2, this.ctx.canvas.height - position_2d.y - height / 2, width, height);
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      if (this.ctx) this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    }
+  }, {
+    key: "draw_line_2D",
+    value: function draw_line_2D(from, to, color) {
+      this.ctx.strokeStyle = color || "rgba(255, 0, 0, 1)";
+      this.ctx.beginPath();
+      this.ctx.moveTo(from.x, from.y);
+      this.ctx.lineTo(to.x, to.y);
+      this.ctx.closePath();
+      this.ctx.stroke();
+    }
+  }, {
+    key: "draw_line",
+    value: function draw_line(points, color) {
+      var material = new THREE.LineBasicMaterial({
+        color: color
+      });
+      var geometry = new THREE.BufferGeometry().setFromPoints(points);
+      var line = new THREE.Line(geometry, material);
+
+      _SceneManager.default.current.add(line);
+
+      return line;
+    }
+  }, {
+    key: "draw_cube",
+    value: function draw_cube(pos, size, color) {
+      size = size || 1;
+      color = color || 0xff0000;
+      pos = pos || new THREE.Vector3();
+      var cube = new _Cube.default(new THREE.Vector3(size, size, size), undefined, color);
+      cube.position.copy(pos);
+
+      _SceneManager.default.current.add(cube);
+
+      return cube;
+    }
+  }, {
+    key: "draw_oriented_cube",
+    value: function draw_oriented_cube(from, to) {
+      var height = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      var color = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "#FF0000";
+      var depth = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0.1;
+      var size = from.distanceTo(to);
+      var cube = new _Cube.default(new THREE.Vector3(depth, height, size), undefined, color);
+      var center = to.clone().sub(from).multiplyScalar(0.5);
+      var forward_dir = center.clone().normalize();
+      center.add(from);
+      cube.position.copy(center);
+      var up = new THREE.Vector3(0, 1, 0);
+      var forward = forward_dir.clone();
+      var right = forward.clone().cross(up); // cube.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(right,up,forward));
+
+      cube.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), forward_dir);
+
+      _SceneManager.default.current.add(cube);
+
+      return cube;
+    }
+  }, {
+    key: "draw_plane",
+    value: function draw_plane(width, height, color) {
+      var geometry = new THREE.PlaneGeometry(width, height);
+      var material = new THREE.ShaderMaterial({
+        uniforms: {
+          _Color: {
+            value: new THREE.Vector4(0, 1, 0, 0.2)
+          }
+        },
+        vertexShader: _basic_color_vert.default,
+        fragmentShader: _basic_color_frag.default,
+        transparent: true,
+        depthWrite: false
+      });
+      var plane = new THREE.Mesh(geometry, material);
+      plane.renderOrder = -10000;
+
+      _SceneManager.default.current.add(plane);
+
+      return plane;
+    }
+  }, {
+    key: "draw_empty_cube",
+    value: function draw_empty_cube(pos, size, color) {
+      size = size || 1;
+      color = color || 0xff0000;
+      var box = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(), new THREE.Vector3(size, size, size));
+      var helper = new THREE.Box3Helper(box, color);
+      helper.position.copy(pos || new THREE.Vector3());
+      return helper;
+    }
+  }, {
+    key: "draw_sphere",
+    value: function draw_sphere(pos, size, color) {
+      size = size || 1;
+      color = color || 0xff0000;
+      pos = pos || new THREE.Vector3();
+      var sphere = new _Sphere.default(size, color);
+      sphere.position.copy(pos);
+
+      _SceneManager.default.current.add(sphere);
+
+      return sphere;
+    }
+  }, {
+    key: "draw_point_array",
+    value: function draw_point_array(input_points) {
+      var open = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var color = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0xff0000;
+      var catmull = new THREE.CatmullRomCurve3(input_points, open);
+      catmull.updateArcLengths();
+      var points = catmull.getSpacedPoints(200);
+      var line_helper = this.draw_line(points, 0x00ff00); // line_helper.position.y = 1.5;
+
+      return line_helper;
+    }
+  }, {
+    key: "draw_sphere_helper",
+    value: function draw_sphere_helper(sphere, color) {
+      color = color || 0xff0000;
+      var geometry = new THREE.SphereGeometry(sphere.radius, 32, 32);
+      var material = new THREE.MeshBasicMaterial({
+        color: color
+      });
+      var sphere_mesh = new THREE.Mesh(geometry, material);
+      sphere_mesh.position.copy(sphere.center);
+
+      _SceneManager.default.current.add(sphere_mesh);
+
+      return sphere_mesh;
+    }
+  }, {
+    key: "draw_math_sphere",
+    value: function draw_math_sphere(sphere) {
+      var geometry = new THREE.SphereGeometry(sphere.radius, 32, 32);
+      var material = new THREE.ShaderMaterial({
+        uniforms: {
+          _Color: {
+            value: new THREE.Vector4(1, 0, 0, 0.2)
+          }
+        },
+        vertexShader: _basic_color_vert.default,
+        fragmentShader: _basic_color_frag.default,
+        transparent: true
+      }); // var material = new THREE.MeshBasicMaterial( {color: 0xff0000, transparent = true} );
+
+      var sphere1 = new THREE.Mesh(geometry, material);
+      sphere1.position.copy(sphere.center);
+
+      _SceneManager.default.current.add(sphere1);
+    }
+  }, {
+    key: "draw_bounding_box",
+    value: function draw_bounding_box(bb) {
+      var helper = new THREE.Box3Helper(bb, 0xffff00);
+
+      _SceneManager.default.current.add(helper);
+    }
+  }, {
+    key: "draw_curve",
+    value: function draw_curve(curve, options) {
+      var offset = new THREE.Vector3(0, 0, 0);
+      if (options) offset.y = options.offset || 0;
+
+      for (var i = 0; i < curve.length - 1; i++) {
+        this.draw_line(curve[i].clone().add(offset), curve[i + 1].clone().add(offset));
+      }
+    }
+  }]);
+
+  return Debug;
+}();
+
+var DEBUG = new Debug();
+module.exports = DEBUG;
+},{"/components/AxisHelper":"xAef","/shaders/basic_color/basic_color_vert":"QfnR","/shaders/basic_color/basic_color_frag":"LSxb","/SceneManager":"qvMM","/Graphics":"xMH9","/primitives/Cube":"wyL4","/primitives/Sphere":"sPjl","/primitives/Arrow":"E21w"}],"Zz8J":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _BaseRender2 = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var NormalRender = /*#__PURE__*/function (_BaseRender) {
+  _inherits(NormalRender, _BaseRender);
+
+  var _super = _createSuper(NormalRender);
+
+  function NormalRender() {
+    _classCallCheck(this, NormalRender);
+
+    return _super.call(this);
+  }
+
+  _createClass(NormalRender, [{
+    key: "render",
+    value: function render() {
+      _Graphics.default.clear(undefined, _CameraManager.default.current, true, true);
+
+      _Graphics.default.render(_SceneManager.default.current, _CameraManager.default.current);
+    }
+  }]);
+
+  return NormalRender;
+}(_BaseRender2.default);
+
+exports.default = NormalRender;
 },{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9"}],"aVPl":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex; //albedo\nuniform sampler2D _NormalDepthRT;\nuniform mat4 _InverseProjMatrix;\nuniform vec2 _Resolution;\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthRT, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv)\n{\n  vec2 depth = texture2D(_NormalDepthRT, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (vRay.xyz/vRay.w);\n}\n\nvoid main()\n{\n\n    vec3 fragPos   = DecodeViewPos(vUv);\n    vec3 normal    = DecodeNormal(vUv);\n\n    vec3 dir_to_light = normalize(fragPos) * -1.0;\n\n    float diffuse = dot(normal, dir_to_light);\n\n    gl_FragColor = vec4(diffuse, diffuse, diffuse, 1.0);\n}\n";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex; //albedo\nuniform sampler2D _NormalDepthRT;\nuniform mat4 _InverseProjMatrix;\nuniform vec2 _Resolution;\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthRT, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv)\n{\n  vec2 depth = texture2D(_NormalDepthRT, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (vRay.xyz/vRay.w);\n}\n\nvoid main()\n{\n\n    vec3 fragPos   = DecodeViewPos(vUv);\n    vec3 normal    = DecodeNormal(vUv);\n\n    vec3 dir_to_light = normalize(fragPos) * -1.0;\n\n    float diffuse = dot(normal, dir_to_light);\n\n    gl_FragColor = vec4(diffuse, diffuse, diffuse, 1.0);\n}\n";
 },{}],"mld6":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nuniform mat4 _InverseProjMatrix;\n\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvRay = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}\n";
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nuniform mat4 _InverseProjMatrix;\n\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvRay = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}\n";
 },{}],"ITsm":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=n(require("/materials/BlitMaterial")),t=n(require("/shaders/deferred/deferred_compose.frag")),r=n(require("/shaders/deferred/blit_copy.vert"));function n(e){return e&&e.__esModule?e:{default:e}}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function f(e,t,r){return t&&i(e.prototype,t),r&&i(e,r),e}function c(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&a(e,t)}function a(e,t){return(a=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function l(e){return function(){var t,r=d(e);if(y()){var n=d(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return s(this,t)}}function s(e,t){return!t||"object"!==o(t)&&"function"!=typeof t?p(e):t}function p(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function y(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function d(e){return(d=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var b=function(n){c(i,e.default);var o=l(i);function i(){var e;return u(this,i),(e=o.call(this,t.default,r.default)).uniforms._NormalDepthRT={value:void 0},e.uniforms._AlbedoRT={value:void 0},e.uniforms._InverseProjMatrix={value:new THREE.Matrix4},e}return f(i,[{key:"set_normal_depth_rt",value:function(e){this.uniforms._NormalDepthRT.value=e.texture}},{key:"set_albedo_rt",value:function(e){this.uniforms._AlbedoRT.value=e}},{key:"set_proj_matrix",value:function(e){this.uniforms._InverseProjMatrix.value.getInverse(e)}}]),i}();exports.default=b;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _deferred_compose = _interopRequireDefault(require("/shaders/deferred/deferred_compose.frag"));
+
+var _blit_copy = _interopRequireDefault(require("/shaders/deferred/blit_copy.vert"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredRendererComposeMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(DeferredRendererComposeMaterial, _BlitMaterial);
+
+  var _super = _createSuper(DeferredRendererComposeMaterial);
+
+  function DeferredRendererComposeMaterial() {
+    var _this;
+
+    _classCallCheck(this, DeferredRendererComposeMaterial);
+
+    _this = _super.call(this, _deferred_compose.default, _blit_copy.default);
+    _this.uniforms._NormalDepthRT = {
+      value: undefined
+    };
+    _this.uniforms._AlbedoRT = {
+      value: undefined
+    };
+    _this.uniforms._InverseProjMatrix = {
+      value: new THREE.Matrix4()
+    };
+    return _this;
+  }
+
+  _createClass(DeferredRendererComposeMaterial, [{
+    key: "set_normal_depth_rt",
+    value: function set_normal_depth_rt(rt) {
+      this.uniforms._NormalDepthRT.value = rt.texture;
+    }
+  }, {
+    key: "set_albedo_rt",
+    value: function set_albedo_rt(tex) {
+      this.uniforms._AlbedoRT.value = tex;
+    }
+  }, {
+    key: "set_proj_matrix",
+    value: function set_proj_matrix(mat4) {
+      this.uniforms._InverseProjMatrix.value.getInverse(mat4);
+    }
+  }]);
+
+  return DeferredRendererComposeMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = DeferredRendererComposeMaterial;
 },{"/materials/BlitMaterial":"Ftca","/shaders/deferred/deferred_compose.frag":"aVPl","/shaders/deferred/blit_copy.vert":"mld6"}],"s8VP":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nvoid main()\n{\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\n    vProjPos = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\tvUv = uv;\n    vCenter = vec3(modelMatrix[3][0],modelMatrix[3][1],modelMatrix[3][2]);\n    vCenter = (viewMatrix * vec4(vCenter, 1.0)).xyz;\n}\n";
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nvoid main()\n{\n\tgl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\n    vProjPos = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n\tvUv = uv;\n    vCenter = vec3(modelMatrix[3][0],modelMatrix[3][1],modelMatrix[3][2]);\n    vCenter = (viewMatrix * vec4(vCenter, 1.0)).xyz;\n}\n";
 },{}],"Whr1":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _AlbedoTex; //albedo\nuniform sampler2D _NormalDepthTex;\nuniform mat4 _InverseProjMatrix;\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nuniform float _Intensity;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthTex, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv, vec4 ray)\n{\n  vec2 depth = texture2D(_NormalDepthTex, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (ray.xyz/ray.w);\n}\n\nfloat saturate(float x)\n{\n    return clamp(x, 0.0, 1.0);\n}\n\nvoid main()\n{\n    vec2 uv = (vProjPos.xy/vProjPos.w)*0.5+vec2(0.5);\n\tvec4 ray = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\n    vec3 fragPos   = DecodeViewPos(uv, ray);\n    vec3 normal    = DecodeNormal(uv);\n    vec3 albedo    = texture2D(_AlbedoTex, uv).rgb;\n\n    vec3 dir_to_light = normalize(vCenter - fragPos);\n    float diffuse = saturate(dot(normal, dir_to_light));\n    float attenuation = _Intensity/pow(length(vCenter - fragPos), 2.0);\n    gl_FragColor = vec4(albedo * diffuse * attenuation, 1.0);\n}\n";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _AlbedoTex; //albedo\nuniform sampler2D _NormalDepthTex;\nuniform mat4 _InverseProjMatrix;\nvarying vec2 vUv;\nvarying vec4 vProjPos;\nvarying vec3 vCenter;\n\nuniform float _Intensity;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_NormalDepthTex, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv, vec4 ray)\n{\n  vec2 depth = texture2D(_NormalDepthTex, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (ray.xyz/ray.w);\n}\n\nfloat saturate(float x)\n{\n    return clamp(x, 0.0, 1.0);\n}\n\nvoid main()\n{\n    vec2 uv = (vProjPos.xy/vProjPos.w)*0.5+vec2(0.5);\n\tvec4 ray = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\n    vec3 fragPos   = DecodeViewPos(uv, ray);\n    vec3 normal    = DecodeNormal(uv);\n    vec3 albedo    = texture2D(_AlbedoTex, uv).rgb;\n\n    vec3 dir_to_light = normalize(vCenter - fragPos);\n    float diffuse = saturate(dot(normal, dir_to_light));\n    float attenuation = _Intensity/pow(length(vCenter - fragPos), 2.0);\n    gl_FragColor = vec4(albedo * diffuse * attenuation, 1.0);\n}\n";
 },{}],"dxxC":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=n(require("/shaders/deferred/point_light.vert")),t=n(require("/shaders/deferred/point_light.frag")),r=n(require("/materials/BaseShaderMaterial"));function n(e){return e&&e.__esModule?e:{default:e}}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function f(e,t,r){return t&&i(e.prototype,t),r&&i(e,r),e}function a(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}function c(e,t){return(c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function l(e){return function(){var t,r=d(e);if(y()){var n=d(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return s(this,t)}}function s(e,t){return!t||"object"!==o(t)&&"function"!=typeof t?p(e):t}function p(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function y(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function d(e){return(d=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var v=function(n){a(i,r.default);var o=l(i);function i(){var r,n=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1;return u(this,i),(r=o.call(this,e.default,t.default,{_Intensity:{value:n},_AlbedoTex:{value:void 0},_NormalDepthTex:{value:void 0},_InverseProjMatrix:{value:new THREE.Matrix4}})).blending=THREE.AdditiveBlending,r.depthWrite=!1,r.side=THREE.BackSide,r}return f(i,[{key:"set_inverse_proj_matrix",value:function(e){this.uniforms._InverseProjMatrix.value.copy(e)}},{key:"set_normal_depth_rt",value:function(e){this.uniforms._NormalDepthTex.value=e.texture}},{key:"set_albedo_rt",value:function(e){this.uniforms._AlbedoTex.value=e.texture}}]),i}();exports.default=v;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _point_light = _interopRequireDefault(require("/shaders/deferred/point_light.vert"));
+
+var _point_light2 = _interopRequireDefault(require("/shaders/deferred/point_light.frag"));
+
+var _BaseShaderMaterial2 = _interopRequireDefault(require("/materials/BaseShaderMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredPointLightMaterial = /*#__PURE__*/function (_BaseShaderMaterial) {
+  _inherits(DeferredPointLightMaterial, _BaseShaderMaterial);
+
+  var _super = _createSuper(DeferredPointLightMaterial);
+
+  function DeferredPointLightMaterial() {
+    var _this;
+
+    var intensity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+    _classCallCheck(this, DeferredPointLightMaterial);
+
+    _this = _super.call(this, _point_light.default, _point_light2.default, {
+      _Intensity: {
+        value: intensity
+      },
+      _AlbedoTex: {
+        value: undefined
+      },
+      _NormalDepthTex: {
+        value: undefined
+      },
+      _InverseProjMatrix: {
+        value: new THREE.Matrix4()
+      }
+    });
+    _this.blending = THREE.AdditiveBlending;
+    _this.depthWrite = false;
+    _this.side = THREE.BackSide;
+    return _this;
+  }
+
+  _createClass(DeferredPointLightMaterial, [{
+    key: "set_inverse_proj_matrix",
+    value: function set_inverse_proj_matrix(mat4) {
+      this.uniforms._InverseProjMatrix.value.copy(mat4);
+    }
+  }, {
+    key: "set_normal_depth_rt",
+    value: function set_normal_depth_rt(rt) {
+      this.uniforms._NormalDepthTex.value = rt.texture;
+    }
+  }, {
+    key: "set_albedo_rt",
+    value: function set_albedo_rt(rt) {
+      this.uniforms._AlbedoTex.value = rt.texture;
+    }
+  }]);
+
+  return DeferredPointLightMaterial;
+}(_BaseShaderMaterial2.default);
+
+exports.default = DeferredPointLightMaterial;
 },{"/shaders/deferred/point_light.vert":"s8VP","/shaders/deferred/point_light.frag":"Whr1","/materials/BaseShaderMaterial":"Ej2H"}],"VyPa":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=u(require("/CameraManager")),t=u(require("/SceneManager")),r=u(require("/Screen")),n=u(require("/render_mode/BaseRender")),o=u(require("/materials/DeferredRendererComposeMaterial")),i=u(require("/Graphics")),a=u(require("/materials/deferred/DeferredPointLightMaterial"));function u(e){return e&&e.__esModule?e:{default:e}}function c(e){return(c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function f(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function l(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function s(e,t,r){return t&&l(e.prototype,t),r&&l(e,r),e}function d(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&_(e,t)}function _(e,t){return(_=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function h(e){return function(){var t,r=v(e);if(y()){var n=v(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return p(this,t)}}function p(e,t){return!t||"object"!==c(t)&&"function"!=typeof t?m(e):t}function m(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function y(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function v(e){return(v=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var b=function(u){d(l,n.default);var c=h(l);function l(){var e;f(this,l),(e=c.call(this)).compose_mat=new o.default,e.main_rt=new THREE.WebGLRenderTarget(r.default.width,r.default.height,{}),e.scene_lights=new THREE.Scene;for(var t=Math.sqrt(204.8)/2,n=new THREE.Mesh(new THREE.SphereBufferGeometry(t),new a.default(1)),i=0;i<2;i++)for(var u=0;u<2;u++){var s=n.clone();s.position.set(2*i-1,1,2*u-1),e.scene_lights.add(s)}return e.camera_inverse_proj_mat=new THREE.Matrix4,e}return s(l,[{key:"on_enter",value:function(){i.default.generateDepthNormalTexture=!0}},{key:"render",value:function(){this.__check_RT_size(),i.default.clear(this.main_rt,e.default.current,!0,!1),i.default.render(t.default.current,e.default.current,this.main_rt),this.camera_inverse_proj_mat.getInverse(e.default.current.projectionMatrix);var r=this.camera_inverse_proj_mat,n=this.main_rt,o=i.default.depth_normals_RT;this.scene_lights.traverse(function(e){e.material&&(e.material.set_inverse_proj_matrix(r),e.material.set_normal_depth_rt(o),e.material.set_albedo_rt(n))}),i.default.clear(void 0,e.default.current,!0,!0),i.default.render(this.scene_lights,e.default.current)}},{key:"__check_RT_size",value:function(){this.main_rt.width===r.default.width&&this.main_rt.height===r.default.height||this.main_rt.setSize(r.default.width,r.default.height)}}]),l}();exports.default=b;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _BaseRender2 = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _DeferredRendererComposeMaterial = _interopRequireDefault(require("/materials/DeferredRendererComposeMaterial"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _DeferredPointLightMaterial = _interopRequireDefault(require("/materials/deferred/DeferredPointLightMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DeferredRender = /*#__PURE__*/function (_BaseRender) {
+  _inherits(DeferredRender, _BaseRender);
+
+  var _super = _createSuper(DeferredRender);
+
+  function DeferredRender() {
+    var _this;
+
+    _classCallCheck(this, DeferredRender);
+
+    _this = _super.call(this);
+    _this.compose_mat = new _DeferredRendererComposeMaterial.default();
+    _this.main_rt = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height, {// magFilter: THREE.NearestFilter,
+      // minFilter: THREE.NearestFilter
+    });
+    _this.scene_lights = new THREE.Scene();
+    var light_intensity = 1;
+    var light_brightest_component = 1;
+    var radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
+    var sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius_needed_for_intensity), new _DeferredPointLightMaterial.default(light_intensity)); // sphere.position.y = 2;
+    // this.scene_lights.add(sphere);
+    // let sphere2 = sphere.clone();
+    // sphere2.position.x = 2;
+    // this.scene_lights.add(sphere2);
+    // let sphere3 = sphere.clone();
+    // sphere3.position.x = -2;
+    // this.scene_lights.add(sphere3);
+    // let sphere4 = sphere.clone();
+    // sphere4.position.z = -2;
+    // this.scene_lights.add(sphere4);
+    // let sphere5 = sphere.clone();
+    // sphere5.position.z = 2;
+    // this.scene_lights.add(sphere5);
+
+    var light_row = 2;
+    var light_col = 2;
+
+    for (var x = 0; x < light_row; x++) {
+      for (var y = 0; y < light_col; y++) {
+        var clone = sphere.clone();
+        clone.position.set(x * 2 - light_row / 2, 1, y * 2 - light_col / 2);
+
+        _this.scene_lights.add(clone);
+      }
+    }
+
+    _this.camera_inverse_proj_mat = new THREE.Matrix4();
+    return _this;
+  }
+
+  _createClass(DeferredRender, [{
+    key: "on_enter",
+    value: function on_enter() {
+      _Graphics.default.generateDepthNormalTexture = true;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      this.__check_RT_size();
+
+      _Graphics.default.clear(this.main_rt, _CameraManager.default.current, true, false);
+
+      _Graphics.default.render(_SceneManager.default.current, _CameraManager.default.current, this.main_rt); // this.compose_mat.set_normal_depth_rt(Graphics.depth_normals_RT);
+      // this.compose_mat.set_proj_matrix(CameraManager.current.projectionMatrix);
+      // Graphics.blit(this.main_rt, undefined, this.compose_mat);
+
+
+      this.camera_inverse_proj_mat.getInverse(_CameraManager.default.current.projectionMatrix);
+      var inverse_proj = this.camera_inverse_proj_mat;
+      var albedo_rt = this.main_rt;
+      var depth_normals_rt = _Graphics.default.depth_normals_RT;
+      this.scene_lights.traverse(function (child) {
+        if (child.material) {
+          child.material.set_inverse_proj_matrix(inverse_proj);
+          child.material.set_normal_depth_rt(depth_normals_rt);
+          child.material.set_albedo_rt(albedo_rt);
+        }
+      }); // Graphics.clear(undefined, CameraManager.current, true, true);
+      // Graphics.render(SceneManager.current, CameraManager.current);
+
+      _Graphics.default.clear(undefined, _CameraManager.default.current, true, true);
+
+      _Graphics.default.render(this.scene_lights, _CameraManager.default.current);
+    }
+  }, {
+    key: "__check_RT_size",
+    value: function __check_RT_size() {
+      if (this.main_rt.width !== _Screen.default.width || this.main_rt.height !== _Screen.default.height) {
+        this.main_rt.setSize(_Screen.default.width, _Screen.default.height);
+      }
+    }
+  }]);
+
+  return DeferredRender;
+}(_BaseRender2.default);
+
+exports.default = DeferredRender;
 },{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/materials/DeferredRendererComposeMaterial":"ITsm","/Graphics":"xMH9","/materials/deferred/DeferredPointLightMaterial":"dxxC"}],"oP7G":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec3 v_normal;\n\nvoid main()\n{\n    gl_FragColor = vec4(v_normal * 0.5 + vec3(0.5), 1.0);\n}\n";
+module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\n\nvoid main()\n{\n    gl_FragColor = vec4(v_normal * 0.5 + vec3(0.5), 1.0);\n}\n";
 },{}],"OGPa":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nvarying vec3 v_normal;\nvoid main()\n{\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n    v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;\n}\n";
+module.exports = "#define GLSLIFY 1\nvarying vec3 v_normal;\nvoid main()\n{\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n    v_normal = (modelMatrix * vec4(normal, 0.0)).xyz;\n}\n";
 },{}],"yMPJ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/shaders/normal/normal.frag")),e=r(require("/shaders/normal/normal.vert"));function r(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function u(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=s(t);if(l()){var n=s(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return i(this,e)}}function i(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?a(t):e}function a(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function s(t){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var p=function(r){u(c,THREE.ShaderMaterial);var n=f(c);function c(){return o(this,c),n.call(this,{uniforms:{},vertexShader:e.default,fragmentShader:t.default})}return c}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _normal = _interopRequireDefault(require("/shaders/normal/normal.frag"));
+
+var _normal2 = _interopRequireDefault(require("/shaders/normal/normal.vert"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var NormalMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
+  _inherits(NormalMaterial, _THREE$ShaderMaterial);
+
+  var _super = _createSuper(NormalMaterial);
+
+  function NormalMaterial() {
+    _classCallCheck(this, NormalMaterial);
+
+    return _super.call(this, {
+      uniforms: {},
+      vertexShader: _normal2.default,
+      fragmentShader: _normal.default
+    });
+  }
+
+  return NormalMaterial;
+}(THREE.ShaderMaterial);
+
+exports.default = NormalMaterial;
 },{"/shaders/normal/normal.frag":"oP7G","/shaders/normal/normal.vert":"OGPa"}],"M0uM":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=c(require("/CameraManager")),t=c(require("/SceneManager")),r=c(require("/Screen")),n=c(require("/render_mode/BaseRender")),o=c(require("/Graphics")),u=c(require("/materials/NormalMaterial"));function c(e){return e&&e.__esModule?e:{default:e}}function i(e){return(i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function f(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function l(e,t,r){return t&&a(e.prototype,t),r&&a(e,r),e}function s(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&p(e,t)}function p(e,t){return(p=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function y(e){return function(){var t,r=m(e);if(h()){var n=m(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return d(this,t)}}function d(e,t){return!t||"object"!==i(t)&&"function"!=typeof t?b(e):t}function b(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function h(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function m(e){return(m=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var v=function(r){s(i,n.default);var c=y(i);function i(){return f(this,i),c.call(this)}return l(i,[{key:"render",value:function(){o.default.clear(void 0,e.default.current,!0,!0),o.default.render(t.default.current,e.default.current,void 0,new u.default)}}]),i}();exports.default=v;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _BaseRender2 = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _NormalMaterial = _interopRequireDefault(require("/materials/NormalMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DebugNormalsRender = /*#__PURE__*/function (_BaseRender) {
+  _inherits(DebugNormalsRender, _BaseRender);
+
+  var _super = _createSuper(DebugNormalsRender);
+
+  function DebugNormalsRender() {
+    _classCallCheck(this, DebugNormalsRender);
+
+    return _super.call(this);
+  }
+
+  _createClass(DebugNormalsRender, [{
+    key: "render",
+    value: function render() {
+      _Graphics.default.clear(undefined, _CameraManager.default.current, true, true);
+
+      _Graphics.default.render(_SceneManager.default.current, _CameraManager.default.current, undefined, new _NormalMaterial.default());
+    }
+  }]);
+
+  return DebugNormalsRender;
+}(_BaseRender2.default);
+
+exports.default = DebugNormalsRender;
 },{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/Graphics":"xMH9","/materials/NormalMaterial":"yMPJ"}],"rJQo":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function n(e,n,o){return n&&t(e.prototype,n),o&&t(e,o),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var o=function(){function t(){e(this,t)}return n(t,null,[{key:"xml_to_json",value:function(e){var t={};if(1==e.nodeType){if(e.attributes.length>0){t["@attributes"]={};for(var n=0;n<e.attributes.length;n++){var o=e.attributes.item(n);t["@attributes"][o.nodeName]=o.nodeValue}}}else 3==e.nodeType&&(t=e.nodeValue);if(e.hasChildNodes())for(var r=0;r<e.childNodes.length;r++){var i=e.childNodes.item(r),a=i.nodeName;if(void 0===t[a])t[a]=this.xml_to_json(i);else{if(void 0===t[a].push){var u=t[a];t[a]=[],t[a].push(u)}t[a].push(this.xml_to_json(i))}}return t}}]),t}();exports.default=o;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ObjectUtilities = /*#__PURE__*/function () {
+  function ObjectUtilities() {
+    _classCallCheck(this, ObjectUtilities);
+  } // Changes XML to JSON
+
+
+  _createClass(ObjectUtilities, null, [{
+    key: "xml_to_json",
+    value: function xml_to_json(xml) {
+      // Create the return object
+      var obj = {};
+
+      if (xml.nodeType == 1) {
+        // element
+        // do attributes
+        if (xml.attributes.length > 0) {
+          obj["@attributes"] = {};
+
+          for (var j = 0; j < xml.attributes.length; j++) {
+            var attribute = xml.attributes.item(j);
+            obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+          }
+        }
+      } else if (xml.nodeType == 3) {
+        // text
+        obj = xml.nodeValue;
+      } // do children
+
+
+      if (xml.hasChildNodes()) {
+        for (var i = 0; i < xml.childNodes.length; i++) {
+          var item = xml.childNodes.item(i);
+          var nodeName = item.nodeName;
+
+          if (typeof obj[nodeName] == "undefined") {
+            obj[nodeName] = this.xml_to_json(item);
+          } else {
+            if (typeof obj[nodeName].push == "undefined") {
+              var old = obj[nodeName];
+              obj[nodeName] = [];
+              obj[nodeName].push(old);
+            }
+
+            obj[nodeName].push(this.xml_to_json(item));
+          }
+        }
+      }
+
+      return obj;
+    }
+  }]);
+
+  return ObjectUtilities;
+}();
+
+exports.default = ObjectUtilities;
 },{}],"iUFL":[function(require,module,exports) {
-"use strict";function t(e){return(t="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(e)}function e(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function r(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&o(t,e)}function o(t,e){return(o=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function n(t){return function(){var e,r=i(t);if(f()){var o=i(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return c(this,e)}}function c(e,r){return!r||"object"!==t(r)&&"function"!=typeof r?u(e):r}function u(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function f(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function i(t){return(i=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var l=function(t){r(c,THREE.PerspectiveCamera);var o=n(c);function c(t,r,n,u){var f;return e(this,c),(f=o.call(this,t,r,n,u)).clear_color=new THREE.Color("#000000"),f.clear_alpha=1,f}return c}();exports.default=l;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var PerspectiveCamera = /*#__PURE__*/function (_THREE$PerspectiveCam) {
+  _inherits(PerspectiveCamera, _THREE$PerspectiveCam);
+
+  var _super = _createSuper(PerspectiveCamera);
+
+  function PerspectiveCamera(fov, aspect, near, far) {
+    var _this;
+
+    _classCallCheck(this, PerspectiveCamera);
+
+    _this = _super.call(this, fov, aspect, near, far);
+    _this.clear_color = new THREE.Color("#000000");
+    _this.clear_alpha = 1;
+    return _this;
+  }
+
+  return PerspectiveCamera;
+}(THREE.PerspectiveCamera);
+
+exports.default = PerspectiveCamera;
 },{}],"yntx":[function(require,module,exports) {
-"use strict";var e=i(require("/Input")),s=i(require("/CameraManager")),t=i(require("/Graphics")),n=i(require("/Screen"));function i(e){return e&&e.__esModule?e:{default:e}}function r(e,s){if(!(e instanceof s))throw new TypeError("Cannot call a class as a function")}function a(e,s){for(var t=0;t<s.length;t++){var n=s[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function u(e,s,t){return s&&a(e.prototype,s),t&&a(e,t),e}var c=function(){function n(){r(this,n),this.ui_elements=[],this._tmp_normalized_pos=new THREE.Vector2,this.ss_scene=new THREE.Scene,this.ss_scene.autoUpdate=!1,this.ss_scene.frustumCulled=!1,this.ws_scene=new THREE.Scene,this.ws_scene.autoUpdate=!1,this.ws_scene.frustumCulled=!1,this.ss_camera=new THREE.OrthographicCamera(-1,1,1,-1,-100,100)}return u(n,[{key:"delete_element",value:function(e){var s=this.ui_elements.indexOf(e);s>-1&&this.ui_elements.splice(s,1),this.ss_scene.remove(e),this.ws_scene.remove(e),e.dispose()}},{key:"add_screen_space_element",value:function(e){this.ui_elements.push(e),this.ss_scene.add(e),e.set_screen_space_coordinate_system()}},{key:"add_world_space_element",value:function(e){this.ui_elements.push(e),this.ws_scene.add(e),e.set_world_space_coordinate_system()}},{key:"update",value:function(){this.ss_camera.updateProjectionMatrix(),this._tmp_normalized_pos.copy(e.default.normalized_mouse_pos);for(var s=0;s<this.ui_elements.length;s++)this.ui_elements[s].update_state(this._tmp_normalized_pos)}},{key:"render",value:function(e){this.ss_scene.children.length>0&&t.default.render(this.ss_scene,this.ss_camera),this.ws_scene.children.length>0&&t.default.render(this.ws_scene,s.default.current)}},{key:"clear",value:function(){this.current_clicked_element=void 0}}]),n}(),_=new c;module.exports=_;
+"use strict";
+
+var _Input = _interopRequireDefault(require("/Input"));
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var UI = /*#__PURE__*/function () {
+  function UI() {
+    _classCallCheck(this, UI);
+
+    this.ui_elements = [];
+    this._tmp_normalized_pos = new THREE.Vector2();
+    this.ss_scene = new THREE.Scene();
+    this.ss_scene.autoUpdate = false;
+    this.ss_scene.frustumCulled = false;
+    this.ws_scene = new THREE.Scene();
+    this.ws_scene.autoUpdate = false;
+    this.ws_scene.frustumCulled = false;
+    this.ss_camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -100, 100);
+  }
+
+  _createClass(UI, [{
+    key: "delete_element",
+    value: function delete_element(elem) {
+      var index = this.ui_elements.indexOf(elem);
+
+      if (index > -1) {
+        this.ui_elements.splice(index, 1);
+      }
+
+      this.ss_scene.remove(elem);
+      this.ws_scene.remove(elem);
+      elem.dispose();
+    }
+  }, {
+    key: "add_screen_space_element",
+    value: function add_screen_space_element(elem) {
+      this.ui_elements.push(elem);
+      this.ss_scene.add(elem);
+      elem.set_screen_space_coordinate_system();
+    }
+  }, {
+    key: "add_world_space_element",
+    value: function add_world_space_element(elem) {
+      this.ui_elements.push(elem);
+      this.ws_scene.add(elem);
+      elem.set_world_space_coordinate_system();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      // this.ss_camera.left     = -Screen.width / 2;
+      // this.ss_camera.right    = Screen.width / 2;
+      // this.ss_camera.top      = Screen.top / 2;
+      // this.ss_camera.right    = -Screen.bottom / 2;
+      this.ss_camera.updateProjectionMatrix();
+
+      this._tmp_normalized_pos.copy(_Input.default.normalized_mouse_pos);
+
+      for (var i = 0; i < this.ui_elements.length; i++) {
+        this.ui_elements[i].update_state(this._tmp_normalized_pos);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render(renderer) {
+      // renderer.render_ui(this.scene);
+      if (this.ss_scene.children.length > 0) _Graphics.default.render(this.ss_scene, this.ss_camera);
+      if (this.ws_scene.children.length > 0) _Graphics.default.render(this.ws_scene, _CameraManager.default.current);
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.current_clicked_element = undefined;
+    }
+  }]);
+
+  return UI;
+}();
+
+var ui = new UI();
+module.exports = ui;
 },{"/Input":"k3P6","/CameraManager":"XMgG","/Graphics":"xMH9","/Screen":"JIgx"}],"WHWR":[function(require,module,exports) {
-"use strict";function t(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function e(t,e){for(var _=0;_<e.length;_++){var a=e[_];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(t,a.key,a)}}function _(t,_,a){return _&&e(t.prototype,_),a&&e(t,a),t}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var a=function(){function e(_,a){t(this,e),this.geometry=_,this.material=void 0,this.uniforms={},this.batch_width=a,this.data_textures=[],this.object_names=void 0,this.zero_offset=new THREE.Vector2,this.write_offset=new THREE.Vector2,this.uniform_dirty_count=0,this.tmp_uploaded_data_count=0}return _(e,[{key:"init",value:function(t,e,_){this.material=new THREE.ShaderMaterial({uniforms:this.uniforms,vertexShader:e,fragmentShader:_}),this.object_names=t}},{key:"add_global_uniform",value:function(t,e){this.uniforms[t]={value:e},this.material.needsUpdate=!0}},{key:"set_global_uniform",value:function(t,e){this.uniforms[t].value=e}},{key:"add_object_uniform_v3",value:function(t,e){var _=this.__create_rgb_texture(this.batch_width),a=this.__create_rgb_texture(this.batch_width),r=this.__create_rgb_texture(1),i=this.__add_data_texture(t,_,a,r);e&&this.__flood_data_texture_rgb(i,e)}},{key:"add_object_uniform_v4",value:function(t,e){var _=this.__create_rgba_texture(this.batch_width),a=this.__create_rgba_texture(this.batch_width),r=this.__create_rgba_texture(1),i=this.__add_data_texture(t,_,a,r);e&&this.__flood_data_texture_rgba(i,e)}},{key:"add_object_uniform_v4_float",value:function(t,e){var _=this.__create_rgba_float_texture(this.batch_width),a=this.__create_rgba_float_texture(this.batch_width),r=this.__create_rgba_float_texture(1),i=this.__add_data_texture(t,_,a,r);e&&this.__flood_data_texture_rgba(i,e)}},{key:"set_object_uniform_v3",value:function(t,e,_,a,r,i){var s=this.__get_object_index(t),u=this.__get_data_texture(e);this.__set_pixel_rgb(u.src,s,_,a,r,i),this.__set_pixel_rgb(u.one_pixel,0,_,a,r,i),u.last_accessed_index=s,u.dirty_count++}},{key:"set_object_uniform_v4",value:function(t,e,_,a,r,i,s){var u=this.__get_object_index(t),n=this.__get_data_texture(e);this.__set_pixel_rgba(n.src,u,_,a,r,i,s),this.__set_pixel_rgba(n.one_pixel,0,_,a,r,i,s),n.last_accessed_index=u,n.dirty_count++}},{key:"upload_texture_data",value:function(t,e){for(var _=0;_<this.data_textures.length;_++)e>0&&this.data_textures[_].dirty_count>0&&(1===this.data_textures[_].dirty_count&&this.__partial_texture_data_upload(t,this.data_textures[_]),this.data_textures[_].dirty_count>1&&this.__full_texture_data_upload(t,this.data_textures[_]),this.data_textures[_].dirty_count=0,e--)}},{key:"get_uniform_dirty_count",value:function(){this.uniform_dirty_count=0;for(var t=0;t<this.data_textures.length;t++)this.data_textures[t].dirty_count>0&&this.uniform_dirty_count++;return this.uniform_dirty_count}},{key:"__full_texture_data_upload",value:function(t,e){e.dst.needsUpdate=!0,t.copyTextureToTexture(this.zero_offset,e.src,e.dst)}},{key:"__partial_texture_data_upload",value:function(t,e){var _=e.last_accessed_index;-1!==_&&(this.write_offset.y=Math.floor(_/this.batch_width),this.write_offset.x=_-this.batch_width*this.write_offset.y,t.copyTextureToTexture(this.write_offset,e.one_pixel,e.dst))}},{key:"get_mesh",value:function(){return new THREE.Mesh(this.geometry,this.material)}},{key:"__set_pixel_rgb",value:function(t,e,_,a,r,i){a&&(t.image.data[3*e+0]=_.x),r&&(t.image.data[3*e+1]=_.y),i&&(t.image.data[3*e+2]=_.z)}},{key:"__set_pixel_rgba",value:function(t,e,_,a,r,i,s){a&&(t.image.data[4*e+0]=_.x),r&&(t.image.data[4*e+1]=_.y),i&&(t.image.data[4*e+2]=_.z),s&&(t.image.data[4*e+3]=_.w)}},{key:"__flood_data_texture_rgb",value:function(t,e){for(var _=0;_<this.batch_width*this.batch_width;_++)this.__set_pixel_rgb(t.src,_,e,!0,!0,!0),t.dirty_count++}},{key:"__flood_data_texture_rgba",value:function(t,e){for(var _=0;_<this.batch_width*this.batch_width;_++)this.__set_pixel_rgba(t.src,_,e,!0,!0,!0,!0),t.dirty_count++}},{key:"__create_rgb_texture",value:function(t){var e=new Uint8Array(3*t*t);return new THREE.DataTexture(e,t,t,THREE.RGBFormat)}},{key:"__create_rgba_texture",value:function(t){var e=new Uint8Array(4*t*t);return new THREE.DataTexture(e,t,t,THREE.RGBAFormat)}},{key:"__create_rgba_float_texture",value:function(t){var e=new Float32Array(4*t*t);return new THREE.DataTexture(e,t,t,THREE.RGBA,THREE.FloatType)}},{key:"__get_data_texture",value:function(t){for(var e=0;e<this.data_textures.length;e++)if(this.data_textures[e].name===t)return this.data_textures[e];conosle.error("Data texture "+t+" does not exist")}},{key:"__get_object_index",value:function(t){for(var e=0;e<this.object_names.length;e++)if(this.object_names[e]===t)return e;console.error("the name "+t+" is not contained in this batch")}},{key:"__add_data_texture",value:function(t,e,_,a){return _.needsUpdate=!0,this.data_textures.push({name:t,src:e,dst:_,one_pixel:a,last_accessed_index:-1,dirty_count:0}),this.uniforms[t]={value:_},this.data_textures[this.data_textures.length-1]}},{key:"dispose",value:function(){for(var t=0;t<this.data_textures.length;t++)this.data_textures[t].src.dispose(),this.data_textures[t].dst.dispose(),this.data_textures[t].one_pixel.dispose()}}]),e}();exports.default=a;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var GeometryBatch = /*#__PURE__*/function () {
+  function GeometryBatch(geometry, batch_width) {
+    _classCallCheck(this, GeometryBatch);
+
+    this.geometry = geometry;
+    this.material = undefined;
+    this.uniforms = {};
+    this.batch_width = batch_width;
+    this.data_textures = [];
+    this.object_names = undefined;
+    this.zero_offset = new THREE.Vector2();
+    this.write_offset = new THREE.Vector2();
+    this.uniform_dirty_count = 0;
+    this.tmp_uploaded_data_count = 0;
+  }
+
+  _createClass(GeometryBatch, [{
+    key: "init",
+    value: function init(object_names, vert_shader, frag_shader) {
+      this.material = new THREE.ShaderMaterial({
+        uniforms: this.uniforms,
+        vertexShader: vert_shader,
+        fragmentShader: frag_shader
+      });
+      this.object_names = object_names;
+    }
+  }, {
+    key: "add_global_uniform",
+    value: function add_global_uniform(name, data) {
+      this.uniforms[name] = {
+        value: data
+      };
+      this.material.needsUpdate = true;
+    }
+  }, {
+    key: "set_global_uniform",
+    value: function set_global_uniform(name, data) {
+      this.uniforms[name].value = data;
+    }
+  }, {
+    key: "add_object_uniform_v3",
+    value: function add_object_uniform_v3(uniform_name, default_value_v3) {
+      var src_tex = this.__create_rgb_texture(this.batch_width);
+
+      var dst_tex = this.__create_rgb_texture(this.batch_width);
+
+      var one_pixel_tex = this.__create_rgb_texture(1);
+
+      var new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+
+      if (default_value_v3) this.__flood_data_texture_rgb(new_data_tex, default_value_v3);
+    }
+  }, {
+    key: "add_object_uniform_v4",
+    value: function add_object_uniform_v4(uniform_name, default_value_v4) {
+      var src_tex = this.__create_rgba_texture(this.batch_width);
+
+      var dst_tex = this.__create_rgba_texture(this.batch_width);
+
+      var one_pixel_tex = this.__create_rgba_texture(1);
+
+      var new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+
+      if (default_value_v4) this.__flood_data_texture_rgba(new_data_tex, default_value_v4);
+    }
+  }, {
+    key: "add_object_uniform_v4_float",
+    value: function add_object_uniform_v4_float(uniform_name, default_value_v4) {
+      var src_tex = this.__create_rgba_float_texture(this.batch_width);
+
+      var dst_tex = this.__create_rgba_float_texture(this.batch_width);
+
+      var one_pixel_tex = this.__create_rgba_float_texture(1);
+
+      var new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+
+      if (default_value_v4) this.__flood_data_texture_rgba(new_data_tex, default_value_v4);
+    }
+  }, {
+    key: "set_object_uniform_v3",
+    value: function set_object_uniform_v3(object_name, uniform_name, vector3, use_r, use_g, use_b) {
+      var obj_index = this.__get_object_index(object_name);
+
+      var data_texture = this.__get_data_texture(uniform_name);
+
+      this.__set_pixel_rgb(data_texture.src, obj_index, vector3, use_r, use_g, use_b);
+
+      this.__set_pixel_rgb(data_texture.one_pixel, 0, vector3, use_r, use_g, use_b);
+
+      data_texture.last_accessed_index = obj_index;
+      data_texture.dirty_count++;
+    }
+  }, {
+    key: "set_object_uniform_v4",
+    value: function set_object_uniform_v4(object_name, uniform_name, vector4, use_r, use_g, use_b, use_a) {
+      var obj_index = this.__get_object_index(object_name);
+
+      var data_texture = this.__get_data_texture(uniform_name);
+
+      this.__set_pixel_rgba(data_texture.src, obj_index, vector4, use_r, use_g, use_b, use_a);
+
+      this.__set_pixel_rgba(data_texture.one_pixel, 0, vector4, use_r, use_g, use_b, use_a);
+
+      data_texture.last_accessed_index = obj_index;
+      data_texture.dirty_count++;
+    }
+  }, {
+    key: "upload_texture_data",
+    value: function upload_texture_data(renderer, upload_budget) {
+      for (var i = 0; i < this.data_textures.length; i++) {
+        if (upload_budget > 0 && this.data_textures[i].dirty_count > 0) {
+          if (this.data_textures[i].dirty_count === 1) this.__partial_texture_data_upload(renderer, this.data_textures[i]);
+          if (this.data_textures[i].dirty_count > 1) this.__full_texture_data_upload(renderer, this.data_textures[i]);
+          this.data_textures[i].dirty_count = 0;
+          upload_budget--;
+        }
+      }
+    }
+  }, {
+    key: "get_uniform_dirty_count",
+    value: function get_uniform_dirty_count() {
+      this.uniform_dirty_count = 0;
+
+      for (var i = 0; i < this.data_textures.length; i++) {
+        if (this.data_textures[i].dirty_count > 0) this.uniform_dirty_count++;
+      }
+
+      return this.uniform_dirty_count;
+    }
+  }, {
+    key: "__full_texture_data_upload",
+    value: function __full_texture_data_upload(renderer, texture_data) {
+      // console.log("full texture update of"+ texture_data.name);
+      texture_data.dst.needsUpdate = true;
+      renderer.copyTextureToTexture(this.zero_offset, texture_data.src, texture_data.dst);
+    }
+  }, {
+    key: "__partial_texture_data_upload",
+    value: function __partial_texture_data_upload(renderer, texture_data) {
+      // console.log("partial texture update"+ texture_data.name);
+      var index = texture_data.last_accessed_index;
+      if (index === -1) return;
+      this.write_offset.y = Math.floor(index / this.batch_width);
+      this.write_offset.x = index - this.batch_width * this.write_offset.y;
+      renderer.copyTextureToTexture(this.write_offset, texture_data.one_pixel, texture_data.dst);
+    }
+  }, {
+    key: "get_mesh",
+    value: function get_mesh() {
+      return new THREE.Mesh(this.geometry, this.material);
+    }
+  }, {
+    key: "__set_pixel_rgb",
+    value: function __set_pixel_rgb(data_texture, index, vector3, use_r, use_g, use_b) {
+      if (use_r) data_texture.image.data[index * 3 + 0] = vector3.x;
+      if (use_g) data_texture.image.data[index * 3 + 1] = vector3.y;
+      if (use_b) data_texture.image.data[index * 3 + 2] = vector3.z;
+    }
+  }, {
+    key: "__set_pixel_rgba",
+    value: function __set_pixel_rgba(data_texture, index, vector4, use_r, use_g, use_b, use_a) {
+      if (use_r) data_texture.image.data[index * 4 + 0] = vector4.x;
+      if (use_g) data_texture.image.data[index * 4 + 1] = vector4.y;
+      if (use_b) data_texture.image.data[index * 4 + 2] = vector4.z;
+      if (use_a) data_texture.image.data[index * 4 + 3] = vector4.w;
+    }
+  }, {
+    key: "__flood_data_texture_rgb",
+    value: function __flood_data_texture_rgb(data_texture, v3) {
+      for (var i = 0; i < this.batch_width * this.batch_width; i++) {
+        this.__set_pixel_rgb(data_texture.src, i, v3, true, true, true);
+
+        data_texture.dirty_count++;
+      }
+    }
+  }, {
+    key: "__flood_data_texture_rgba",
+    value: function __flood_data_texture_rgba(data_texture, v4) {
+      for (var i = 0; i < this.batch_width * this.batch_width; i++) {
+        this.__set_pixel_rgba(data_texture.src, i, v4, true, true, true, true);
+
+        data_texture.dirty_count++;
+      }
+    }
+  }, {
+    key: "__create_rgb_texture",
+    value: function __create_rgb_texture(width) {
+      var data = new Uint8Array(3 * width * width);
+      return new THREE.DataTexture(data, width, width, THREE.RGBFormat);
+    }
+  }, {
+    key: "__create_rgba_texture",
+    value: function __create_rgba_texture(width) {
+      var data = new Uint8Array(4 * width * width);
+      return new THREE.DataTexture(data, width, width, THREE.RGBAFormat);
+    }
+  }, {
+    key: "__create_rgba_float_texture",
+    value: function __create_rgba_float_texture(width) {
+      var data = new Float32Array(4 * width * width);
+      return new THREE.DataTexture(data, width, width, THREE.RGBA, THREE.FloatType);
+    }
+  }, {
+    key: "__get_data_texture",
+    value: function __get_data_texture(uniform_name) {
+      for (var i = 0; i < this.data_textures.length; i++) {
+        if (this.data_textures[i].name === uniform_name) return this.data_textures[i];
+      }
+
+      conosle.error("Data texture " + uniform_name + " does not exist");
+      return undefined;
+    }
+  }, {
+    key: "__get_object_index",
+    value: function __get_object_index(name) {
+      for (var i = 0; i < this.object_names.length; i++) {
+        if (this.object_names[i] === name) return i;
+      }
+
+      console.error("the name " + name + " is not contained in this batch");
+      return undefined;
+    }
+  }, {
+    key: "__add_data_texture",
+    value: function __add_data_texture(uniform_name, src_texture, dst_texture, one_pixel_text) {
+      dst_texture.needsUpdate = true;
+      this.data_textures.push({
+        name: uniform_name,
+        src: src_texture,
+        dst: dst_texture,
+        one_pixel: one_pixel_text,
+        last_accessed_index: -1,
+        dirty_count: 0
+      });
+      this.uniforms[uniform_name] = {
+        value: dst_texture
+      };
+      return this.data_textures[this.data_textures.length - 1];
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      for (var i = 0; i < this.data_textures.length; i++) {
+        this.data_textures[i].src.dispose();
+        this.data_textures[i].dst.dispose();
+        this.data_textures[i].one_pixel.dispose();
+      }
+    }
+  }]);
+
+  return GeometryBatch;
+}();
+
+exports.default = GeometryBatch;
 },{}],"VduU":[function(require,module,exports) {
-"use strict";var t=e(require("/static_batcher/GeometryBatch"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function a(t,e){for(var r=0;r<e.length;r++){var a=e[r];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(t,a.key,a)}}function n(t,e,r){return e&&a(t.prototype,e),r&&a(t,r),t}var u=function(){function e(){r(this,e),this.batches=[]}return n(e,[{key:"batch",value:function(e){var r=[],a=THREE.Math.ceilPowerOfTwo(Math.sqrt(e.length));this.__init_uv_array(r,a);for(var n=0,u=0;u<e.length;u++)for(var o=e[u].getAttribute("position").count,i=Math.floor(u/a),s=u-a*i,c=0;c<o;c++)r[n]=s/a+.5/a,r[n+1]=i/a+.5/a,n+=2;var f=new THREE.BufferAttribute(new Float32Array(r),2),h=THREE.BufferGeometryUtils.mergeBufferGeometries(e);return h.setAttribute("attr_accessor_uv",f),this.batches.push(new t.default(h,a)),this.batches[this.batches.length-1]}},{key:"upload_texture_data",value:function(t){for(var e=0;e<this.batches.length;e++)this.batches[e].upload_texture_data(t,1)}},{key:"__init_uv_array",value:function(t,e){for(var r=0;r<e*e*2;r++)t.push(0)}}]),e}(),o=new u;module.exports=o;
+"use strict";
+
+var _GeometryBatch = _interopRequireDefault(require("/static_batcher/GeometryBatch"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var GeometryBatcher = /*#__PURE__*/function () {
+  function GeometryBatcher() {
+    _classCallCheck(this, GeometryBatcher);
+
+    this.batches = [];
+  }
+
+  _createClass(GeometryBatcher, [{
+    key: "batch",
+    value: function batch(buffer_geometries) {
+      var attr_accessor_uvs = [];
+      var texture_width = THREE.Math.ceilPowerOfTwo(Math.sqrt(buffer_geometries.length)); // console.log("Store count: " + buffer_geometries.length + ", Texture size: " +texture_width);
+
+      this.__init_uv_array(attr_accessor_uvs, texture_width);
+
+      var uv_index = 0;
+
+      for (var i = 0; i < buffer_geometries.length; i++) {
+        var vertex_count = buffer_geometries[i].getAttribute('position').count;
+        var y = Math.floor(i / texture_width);
+        var x = i - texture_width * y;
+
+        for (var count = 0; count < vertex_count; count++) {
+          attr_accessor_uvs[uv_index] = x / texture_width + 0.5 / texture_width;
+          attr_accessor_uvs[uv_index + 1] = y / texture_width + 0.5 / texture_width;
+          uv_index += 2;
+        }
+      }
+
+      var buffer_attribute = new THREE.BufferAttribute(new Float32Array(attr_accessor_uvs), 2);
+      var buffer_geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(buffer_geometries);
+      buffer_geometry.setAttribute('attr_accessor_uv', buffer_attribute);
+      this.batches.push(new _GeometryBatch.default(buffer_geometry, texture_width));
+      return this.batches[this.batches.length - 1];
+    }
+  }, {
+    key: "upload_texture_data",
+    value: function upload_texture_data(renderer) {
+      for (var i = 0; i < this.batches.length; i++) {
+        this.batches[i].upload_texture_data(renderer, 1);
+      }
+    }
+  }, {
+    key: "__init_uv_array",
+    value: function __init_uv_array(uvs, texture_width) {
+      for (var i = 0; i < texture_width * texture_width * 2; i++) {
+        uvs.push(0);
+      }
+    }
+  }]);
+
+  return GeometryBatcher;
+}();
+
+var geometry_batcher = new GeometryBatcher();
+module.exports = geometry_batcher;
 },{"/static_batcher/GeometryBatch":"WHWR"}],"QYq1":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=s(require("/Time")),t=s(require("/Input")),r=s(require("/UI")),a=s(require("/Debug")),i=s(require("/static_batcher/GeometryBatcher")),n=s(require("/BaseApplication"));function s(e){return e&&e.__esModule?e:{default:e}}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function o(e,t){for(var r=0;r<t.length;r++){var a=t[r];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function d(e,t,r){return t&&o(e.prototype,t),r&&o(e,r),e}var l=function(){function i(e,t){u(this,i),e=e||new n.default,this._frame_id=-1,this.target_application=e,this.renderer=t,this.is_running=!0,this.frames_passed=0}return d(i,[{key:"update",value:function(){this.is_running&&(e.default.__update(),a.default.clear(),5===this.frames_passed&&this.target_application.post_start(),this.target_application.update(),this.target_application.on_pre_render(),this.renderer.update(),r.default.update(),r.default.render(this.renderer),this.target_application.on_post_render(),a.default.rt_debug&&this.renderer.blit(a.default.rt_debug),t.default.clear(),r.default.clear(),this._frame_id=requestAnimationFrame(this.update.bind(this)),this.frames_passed++)}},{key:"start",value:function(){this.target_application.start(),this.update(),this.is_running=!0}},{key:"stop",value:function(){this.is_running=!1,this.target_application.end(),cancelAnimationFrame(this._frame_id)}}]),i}();exports.default=l;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Time = _interopRequireDefault(require("/Time"));
+
+var _Input = _interopRequireDefault(require("/Input"));
+
+var _UI = _interopRequireDefault(require("/UI"));
+
+var _Debug = _interopRequireDefault(require("/Debug"));
+
+var _GeometryBatcher = _interopRequireDefault(require("/static_batcher/GeometryBatcher"));
+
+var _BaseApplication = _interopRequireDefault(require("/BaseApplication"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var RenderLoop = /*#__PURE__*/function () {
+  function RenderLoop(target_application, renderer) {
+    _classCallCheck(this, RenderLoop);
+
+    target_application = target_application || new _BaseApplication.default();
+    this._frame_id = -1;
+    this.target_application = target_application;
+    this.renderer = renderer;
+    this.is_running = true;
+    this.frames_passed = 0;
+  }
+
+  _createClass(RenderLoop, [{
+    key: "update",
+    value: function update() {
+      if (!this.is_running) return;
+
+      _Time.default.__update();
+
+      _Debug.default.clear(); //###### START CYCLE ######
+
+
+      if (this.frames_passed === 5) {
+        this.target_application.post_start();
+      }
+
+      this.target_application.update();
+      this.target_application.on_pre_render();
+      this.renderer.update(); // render scene
+
+      _UI.default.update(); // update after new camera matrix has been calculated
+
+
+      _UI.default.render(this.renderer); // render ui layer on top
+
+
+      this.target_application.on_post_render();
+      if (_Debug.default.rt_debug) this.renderer.blit(_Debug.default.rt_debug); //###### END  CYCLE #######
+
+      _Input.default.clear();
+
+      _UI.default.clear(); //   GeometryBatcher.upload_texture_data(this.renderer);
+
+
+      this._frame_id = requestAnimationFrame(this.update.bind(this));
+      this.frames_passed++;
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      this.target_application.start();
+      this.update();
+      this.is_running = true;
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      this.is_running = false;
+      this.target_application.end();
+      cancelAnimationFrame(this._frame_id);
+    }
+  }]);
+
+  return RenderLoop;
+}();
+
+exports.default = RenderLoop;
 },{"/Time":"wewU","/Input":"k3P6","/UI":"yntx","/Debug":"J9UP","/static_batcher/GeometryBatcher":"VduU","/BaseApplication":"v0GF"}],"mqLz":[function(require,module,exports) {
-"use strict";function e(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function r(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function t(e,t,n){return t&&r(e.prototype,t),n&&r(e,n),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var n=function(){function r(t,n){e(this,r),this.progress=0,this.resource_id=t,this.url=n,this.has_finished=!1,this.has_error=!1,this.error_message="none"}return t(r,[{key:"__update_progress",value:function(e){this.progress=e}},{key:"__loading_ended",value:function(){this.has_finished=!0}},{key:"__set_error",value:function(e){this.has_error=!0,this.error_message=e}},{key:"print_error",value:function(){console.error("Error while loading "+this.resource_id+"\n\t path: "+this.url+"\n\t\t"+this.error_message)}},{key:"load",value:function(e){}}]),r}();exports.default=n;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AbstractLoader = /*#__PURE__*/function () {
+  function AbstractLoader(resource_id, url) {
+    _classCallCheck(this, AbstractLoader);
+
+    this.progress = 0;
+    this.resource_id = resource_id;
+    this.url = url;
+    this.has_finished = false;
+    this.has_error = false;
+    this.error_message = "none";
+  }
+
+  _createClass(AbstractLoader, [{
+    key: "__update_progress",
+    value: function __update_progress(value) {
+      this.progress = value;
+    }
+  }, {
+    key: "__loading_ended",
+    value: function __loading_ended() {
+      this.has_finished = true;
+    }
+  }, {
+    key: "__set_error",
+    value: function __set_error(message) {
+      this.has_error = true;
+      this.error_message = message;
+    }
+  }, {
+    key: "print_error",
+    value: function print_error() {
+      console.error("Error while loading " + this.resource_id + "\n\t path: " + this.url + "\n\t\t" + this.error_message);
+    }
+  }, {
+    key: "load",
+    value: function load(resource_container) {}
+  }]);
+
+  return AbstractLoader;
+}();
+
+exports.default = AbstractLoader;
 },{}],"ged4":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function n(t,e){for(var r=0;r<e.length;r++){var o=e[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}function u(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var o=p(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(n,t.default);var r=f(n);function n(t,e){var u;return o(this,n),(u=r.call(this,t,e)).loader=new THREE.TextureLoader,u}return u(n,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},void 0,function(){e.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know¯\\_(ツ)_/¯"),e.__loading_ended()})}}]),n}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var TextureLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(TextureLoader, _AbstractLoader);
+
+  var _super = _createSuper(TextureLoader);
+
+  function TextureLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, TextureLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.TextureLoader();
+    return _this;
+  }
+
+  _createClass(TextureLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (image) {
+        resource_container.set_resource(ctx.resource_id, image);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, undefined, function () {
+        ctx.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯');
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return TextureLoader;
+}(_AbstractLoader2.default);
+
+exports.default = TextureLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"DPLo":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&o(t.prototype,e),r&&o(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var d=function(e){c(o,t.default);var r=f(o);function o(t,e){var u;return n(this,o),(u=r.call(this,t,e)).loader=new THREE.GLTFLoader,u}return u(o,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t+"\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource"),e.__loading_ended()})}}]),o}();exports.default=d;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(GLTFLoader, _AbstractLoader);
+
+  var _super = _createSuper(GLTFLoader);
+
+  function GLTFLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, GLTFLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.GLTFLoader();
+    return _this;
+  }
+
+  _createClass(GLTFLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (gltf) {
+        resource_container.set_resource(ctx.resource_id, gltf);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return GLTFLoader;
+}(_AbstractLoader2.default);
+
+exports.default = GLTFLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"k6LD":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function n(t,e){for(var r=0;r<e.length;r++){var o=e[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}function u(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var o=p(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var d=function(e){c(n,t.default);var r=f(n);function n(t,e){var u;return o(this,n),(u=r.call(this,t,e)).loader=new THREE.ColladaLoader,u}return u(n,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t+"\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource"),e.__loading_ended()})}}]),n}();exports.default=d;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DAELoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(DAELoader, _AbstractLoader);
+
+  var _super = _createSuper(DAELoader);
+
+  function DAELoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, DAELoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.ColladaLoader();
+    return _this;
+  }
+
+  _createClass(DAELoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (gltf) {
+        resource_container.set_resource(ctx.resource_id, gltf);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return DAELoader;
+}(_AbstractLoader2.default);
+
+exports.default = DAELoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"X88z":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function n(t,e){for(var r=0;r<e.length;r++){var o=e[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}function u(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var o=p(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(n,t.default);var r=f(n);function n(t,e){var u;return o(this,n),(u=r.call(this,t,e)).loader=new THREE.FileLoader,u}return u(n,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t),e.__loading_ended()})}}]),n}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var TextLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(TextLoader, _AbstractLoader);
+
+  var _super = _createSuper(TextLoader);
+
+  function TextLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, TextLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.FileLoader();
+    return _this;
+  }
+
+  _createClass(TextLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (gltf) {
+        resource_container.set_resource(ctx.resource_id, gltf);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg);
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return TextLoader;
+}(_AbstractLoader2.default);
+
+exports.default = TextLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"jYGB":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&o(t.prototype,e),r&&o(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(o,t.default);var r=f(o);function o(t,e){var u;return n(this,o),(u=r.call(this,t,e)).loader=new THREE.CubeTextureLoader,u.loader.setPath(e+"/"),u.urls=["px.png","nx.png","py.png","ny.png","pz.png","nz.png"],u}return u(o,[{key:"load",value:function(t){var e=this;this.loader.load(this.urls,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},void 0,function(t){e.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know¯\\_(ツ)_/¯",t),e.__loading_ended()})}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(CubemapLoader, _AbstractLoader);
+
+  var _super = _createSuper(CubemapLoader);
+
+  function CubemapLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, CubemapLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.CubeTextureLoader();
+
+    _this.loader.setPath(url + "/");
+
+    _this.urls = ['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'];
+    return _this;
+  }
+
+  _createClass(CubemapLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.urls, function (image) {
+        resource_container.set_resource(ctx.resource_id, image);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, undefined, function (error) {
+        ctx.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯', error);
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return CubemapLoader;
+}(_AbstractLoader2.default);
+
+exports.default = CubemapLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"w983":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=t(require("/resource_loader/AbstractLoader"));function t(e){return e&&e.__esModule?e:{default:e}}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function n(e,t){for(var o=0;o<t.length;o++){var r=t[o];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function u(e,t,o){return t&&n(e.prototype,t),o&&n(e,o),e}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}function c(e,t){return(c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function f(e){return function(){var t,o=p(e);if(s()){var r=p(this).constructor;t=Reflect.construct(o,arguments,r)}else t=o.apply(this,arguments);return l(this,t)}}function l(e,t){return!t||"object"!==o(t)&&"function"!=typeof t?a(e):t}function a(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function p(e){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var d=function(t){i(n,e.default);var o=f(n);function n(e,t,u,i,c){var f;return r(this,n),(f=o.call(this,e,t)).loader=new THREE.AudioLoader,f.loop=i,f.listener=u,f.voluem=c,f}return u(n,[{key:"load",value:function(e){var t=this,o=this,r=new THREE.Audio(this.listener);this.loader.load(this.url,function(n){r.setBuffer(n),r.setLoop(t.loop),r.setVolume(t.voluem),e.set_resource(o.resource_id,r),e.get_resource("audio_listener")||e.set_resource("audio_listener",t.listener),o.__update_progress(1),o.__loading_ended()},void 0,function(e){o.__set_error("Audio could not be loaded. Maybe wrong name or path, I don't know¯\\_(ツ)_/¯",e),o.__loading_ended()})}}]),n}();exports.default=d;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(AudioLoader, _AbstractLoader);
+
+  var _super = _createSuper(AudioLoader);
+
+  function AudioLoader(resource_id, url, listener, loop, volume) {
+    var _this;
+
+    _classCallCheck(this, AudioLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.AudioLoader();
+    _this.loop = loop;
+    _this.listener = listener;
+    _this.voluem = volume;
+    return _this;
+  }
+
+  _createClass(AudioLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var _this2 = this;
+
+      var ctx = this;
+      var sound = new THREE.Audio(this.listener);
+      this.loader.load(this.url, function (audio) {
+        sound.setBuffer(audio);
+        sound.setLoop(_this2.loop);
+        sound.setVolume(_this2.voluem);
+        resource_container.set_resource(ctx.resource_id, sound);
+
+        if (!resource_container.get_resource('audio_listener')) {
+          resource_container.set_resource('audio_listener', _this2.listener);
+        }
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, undefined, function (error) {
+        ctx.__set_error("Audio could not be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯', error);
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return AudioLoader;
+}(_AbstractLoader2.default);
+
+exports.default = AudioLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"NvAk":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function n(t,e){for(var r=0;r<e.length;r++){var o=e[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}function u(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}function i(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function s(t){return function(){var e,r=p(t);if(l()){var o=p(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?f(t):e}function f(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var _=function(e){i(n,t.default);var r=s(n);function n(t,e,u,i){var c;return o(this,n),(c=r.call(this,t,e)).loader=new THREE.FileLoader,c.username=u,c.password=i,c.resource_container=void 0,c}return u(n,[{key:"load",value:function(t){var e={};this.resource_container=t,void 0!==this.username&&void 0!==this.password&&(e.Authorization="Basic ".concat(btoa("".concat(this.username,":").concat(this.password)))),fetch(this.url,{headers:e}).then(this.__parse_to_json.bind(this)).then(this.__set_resource.bind(this))}},{key:"__parse_to_json",value:function(t){return t.json()}},{key:"__set_resource",value:function(t){this.resource_container.set_resource(this.resource_id,t),this.__update_progress(1),this.__loading_ended()}}]),n}();exports.default=_;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var JSONLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(JSONLoader, _AbstractLoader);
+
+  var _super = _createSuper(JSONLoader);
+
+  function JSONLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, JSONLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.FileLoader();
+    return _this;
+  }
+
+  _createClass(JSONLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (data) {
+        resource_container.set_resource(ctx.resource_id, JSON.parse(data));
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return JSONLoader;
+}(_AbstractLoader2.default);
+
+exports.default = JSONLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"tM6y":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&o(t.prototype,e),r&&o(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var d=function(e){c(o,t.default);var r=f(o);function o(t,e){var u;return n(this,o),(u=r.call(this,t,e)).loader=new THREE.OBJLoader,u}return u(o,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t+"\n\n\t If the error says something about unexpected token < in JSON then probably the problem is related to the file not being found. Check the name and path of the resource"),e.__loading_ended()})}}]),o}();exports.default=d;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var OBJLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(OBJLoader, _AbstractLoader);
+
+  var _super = _createSuper(OBJLoader);
+
+  function OBJLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, OBJLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.OBJLoader();
+    return _this;
+  }
+
+  _createClass(OBJLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (gltf) {
+        resource_container.set_resource(ctx.resource_id, gltf);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return OBJLoader;
+}(_AbstractLoader2.default);
+
+exports.default = OBJLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"cO40":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("./AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&o(t.prototype,e),r&&o(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,r=p(t);if(s()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(o,t.default);var r=f(o);function o(t,e){var u;return n(this,o),(u=r.call(this,t,e)).loader=new THREE.RGBELoader,u.loader.setDataType(THREE.UnsignedByteType),u}return u(o,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,r),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t+"\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource"),e.__loading_ended()})}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("./AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var RGBETextureLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(RGBETextureLoader, _AbstractLoader);
+
+  var _super = _createSuper(RGBETextureLoader);
+
+  function RGBETextureLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, RGBETextureLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.RGBELoader();
+
+    _this.loader.setDataType(THREE.UnsignedByteType);
+
+    return _this;
+  }
+
+  _createClass(RGBETextureLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (hdr) {
+        resource_container.set_resource(ctx.resource_id, hdr);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return RGBETextureLoader;
+}(_AbstractLoader2.default);
+
+exports.default = RGBETextureLoader;
 },{"./AbstractLoader":"mqLz"}],"cNL4":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/resource_loader/AbstractLoader"));function e(t){return t&&t.__esModule?t:{default:t}}function r(t){return(r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function n(t,e){for(var r=0;r<e.length;r++){var o=e[r];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}function u(t,e,r){return e&&n(t.prototype,e),r&&n(t,r),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function a(t){return function(){var e,r=p(t);if(s()){var o=p(this).constructor;e=Reflect.construct(r,arguments,o)}else e=r.apply(this,arguments);return f(this,e)}}function f(t,e){return!e||"object"!==r(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(n,t.default);var r=a(n);function n(t,e){var u;return o(this,n),(u=r.call(this,t,e)).loader=new THREE.FileLoader,u}return u(n,[{key:"load",value:function(t){var e=this;this.loader.load(this.url,function(r){t.set_resource(e.resource_id,e.parse_path(r)),e.__update_progress(1),e.__loading_ended()},function(t){e.__update_progress(t.loaded/t.total)},function(t){e.__set_error(t),e.__loading_ended()})}},{key:"parse_path",value:function(t){var e=t.split("\n");""===e[e.length-1]&&e.pop();for(var r=[],o=0;o<e.length;o+=3){var n=parseFloat(e[o+0]),u=parseFloat(e[o+1]),c=parseFloat(e[o+2]);r.push(new THREE.Vector3(n,u,c))}return r}}]),n}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(PointArrayLoader, _AbstractLoader);
+
+  var _super = _createSuper(PointArrayLoader);
+
+  function PointArrayLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, PointArrayLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.FileLoader();
+    return _this;
+  }
+
+  _createClass(PointArrayLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.load(this.url, function (text) {
+        resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg);
+
+        ctx.__loading_ended();
+      });
+    }
+  }, {
+    key: "parse_path",
+    value: function parse_path(raw_data) {
+      var string_array = raw_data.split('\n');
+
+      if (string_array[string_array.length - 1] === "") {
+        string_array.pop();
+      }
+
+      var positions = [];
+
+      for (var i = 0; i < string_array.length; i += 3) {
+        var x = parseFloat(string_array[i + 0]);
+        var y = parseFloat(string_array[i + 1]);
+        var z = parseFloat(string_array[i + 2]);
+        positions.push(new THREE.Vector3(x, y, z));
+      }
+
+      return positions; // let curve = new THREE.CatmullRomCurve3(positions);
+      // return curve.getPoints(100);
+    }
+  }]);
+
+  return PointArrayLoader;
+}(_AbstractLoader2.default);
+
+exports.default = PointArrayLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"HJ6F":[function(require,module,exports) {
-"use strict";var e=r(require("/EventManager"));function r(e){return e&&e.__esModule?e:{default:e}}function n(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function t(e,r){for(var n=0;n<r.length;n++){var t=r[n];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}function u(e,r,n){return r&&t(e.prototype,r),n&&t(e,n),e}var o=function(){function r(){n(this,r),this.resources={}}return u(r,[{key:"set_resource",value:function(r,n){this.resources[r]=n,e.default.fire_resource_loaded({name:r,value:n})}},{key:"get_resource",value:function(e){return this.resources[e]}},{key:"get",value:function(e){return this.resources[e]}}]),r}(),a=new o;module.exports=a;
+"use strict";
+
+var _EventManager = _interopRequireDefault(require("/EventManager"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ResourceContainer = /*#__PURE__*/function () {
+  function ResourceContainer() {
+    _classCallCheck(this, ResourceContainer);
+
+    this.resources = {};
+  }
+
+  _createClass(ResourceContainer, [{
+    key: "set_resource",
+    value: function set_resource(name, resource) {
+      this.resources[name] = resource;
+
+      _EventManager.default.fire_resource_loaded({
+        name: name,
+        value: resource
+      });
+    }
+  }, {
+    key: "get_resource",
+    value: function get_resource(name) {
+      return this.resources[name];
+    }
+  }, {
+    key: "get",
+    value: function get(name) {
+      return this.resources[name];
+    }
+  }]);
+
+  return ResourceContainer;
+}();
+
+var resource_container = new ResourceContainer();
+module.exports = resource_container;
 },{"/EventManager":"pJqg"}],"gkjv":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=c(require("/resource_loader/TextureLoader")),r=c(require("/resource_loader/GLTFLoader")),o=c(require("/resource_loader/DAELoader")),u=c(require("/resource_loader/TextLoader")),a=c(require("/resource_loader/CubemapLoader")),s=c(require("/resource_loader/AudioLoader")),t=c(require("/resource_loader/JSONLoader")),d=c(require("/resource_loader/OBJLoader")),n=c(require("/resource_loader/RGBETextureLoader")),l=c(require("/resource_loader/PointArrayLoader")),i=c(require("/ResourceContainer"));function c(e){return e&&e.__esModule?e:{default:e}}function _(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function h(e,r){for(var o=0;o<r.length;o++){var u=r[o];u.enumerable=u.enumerable||!1,u.configurable=!0,"value"in u&&(u.writable=!0),Object.defineProperty(e,u.key,u)}}function f(e,r,o){return r&&h(e.prototype,r),o&&h(e,o),e}var p=function(){function c(e){_(this,c),this.resource_loaders=[],this.batch_name=e||"unnamed batch"}return f(c,[{key:"add_texture",value:function(r,o){this.resource_loaders.push(new e.default(r,o))}},{key:"add_gltf",value:function(e,o){this.resource_loaders.push(new r.default(e,o))}},{key:"add_dae",value:function(e,r){this.resource_loaders.push(new o.default(e,r))}},{key:"add_obj",value:function(e,r){this.resource_loaders.push(new d.default(e,r))}},{key:"add_text",value:function(e,r){this.resource_loaders.push(new u.default(e,r))}},{key:"add_cubemap",value:function(e,r){this.resource_loaders.push(new a.default(e,r))}},{key:"add_audio",value:function(e,r,o,u,a){this.resource_loaders.push(new s.default(e,r,o,u,a))}},{key:"add_json",value:function(e,r,o,u){this.resource_loaders.push(new t.default(e,r,o,u))}},{key:"add_point_array",value:function(e,r){this.resource_loaders.push(new l.default(e,r))}},{key:"add_hdr",value:function(e,r){this.resource_loaders.push(new n.default(e,r))}},{key:"load",value:function(e){for(var r=0;r<this.resource_loaders.length;r++)this.resource_loaders[r].load(e||i.default)}},{key:"print_errors",value:function(){console.error("Batch <"+this.batch_name+"> could not load successfully");for(var e=0;e<this.resource_loaders.length;e++)this.resource_loaders[e].has_error&&this.resource_loaders[e].print_error()}},{key:"get_progress",value:function(){for(var e=0,r=0;r<this.resource_loaders.length;r++)e+=this.resource_loaders[r].progress;return e/this.resource_loaders.length}},{key:"loading_finished",get:function(){for(var e=!0,r=0;r<this.resource_loaders.length;r++)e=e&&this.resource_loaders[r].has_finished;return e}},{key:"has_errors",get:function(){for(var e=!1,r=0;r<this.resource_loaders.length;r++)e=e||this.resource_loaders[r].has_error;return e}}]),c}();exports.default=p;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _TextureLoader = _interopRequireDefault(require("/resource_loader/TextureLoader"));
+
+var _GLTFLoader = _interopRequireDefault(require("/resource_loader/GLTFLoader"));
+
+var _DAELoader = _interopRequireDefault(require("/resource_loader/DAELoader"));
+
+var _TextLoader = _interopRequireDefault(require("/resource_loader/TextLoader"));
+
+var _CubemapLoader = _interopRequireDefault(require("/resource_loader/CubemapLoader"));
+
+var _AudioLoader = _interopRequireDefault(require("/resource_loader/AudioLoader"));
+
+var _JSONLoader = _interopRequireDefault(require("/resource_loader/JSONLoader"));
+
+var _OBJLoader = _interopRequireDefault(require("/resource_loader/OBJLoader"));
+
+var _RGBETextureLoader = _interopRequireDefault(require("/resource_loader/RGBETextureLoader"));
+
+var _PointArrayLoader = _interopRequireDefault(require("/resource_loader/PointArrayLoader"));
+
+var _ResourceContainer = _interopRequireDefault(require("/ResourceContainer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ResourceBatch = /*#__PURE__*/function () {
+  function ResourceBatch(batch_name) {
+    _classCallCheck(this, ResourceBatch);
+
+    this.resource_loaders = [];
+    this.batch_name = batch_name || "unnamed batch";
+  }
+
+  _createClass(ResourceBatch, [{
+    key: "add_texture",
+    value: function add_texture(resource_id, url) {
+      this.resource_loaders.push(new _TextureLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_gltf",
+    value: function add_gltf(resource_id, url) {
+      this.resource_loaders.push(new _GLTFLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_dae",
+    value: function add_dae(resource_id, url) {
+      this.resource_loaders.push(new _DAELoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_obj",
+    value: function add_obj(resource_id, url) {
+      this.resource_loaders.push(new _OBJLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_text",
+    value: function add_text(resource_id, url) {
+      this.resource_loaders.push(new _TextLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_cubemap",
+    value: function add_cubemap(resource_id, url) {
+      this.resource_loaders.push(new _CubemapLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_audio",
+    value: function add_audio(resource_id, url, listener, loop, volume) {
+      this.resource_loaders.push(new _AudioLoader.default(resource_id, url, listener, loop, volume));
+    }
+  }, {
+    key: "add_json",
+    value: function add_json(resource_id, url) {
+      this.resource_loaders.push(new _JSONLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_point_array",
+    value: function add_point_array(resource_id, url) {
+      this.resource_loaders.push(new _PointArrayLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_hdr",
+    value: function add_hdr(resource_id, url) {
+      this.resource_loaders.push(new _RGBETextureLoader.default(resource_id, url));
+    }
+  }, {
+    key: "load",
+    value: function load(resource_container) {
+      for (var i = 0; i < this.resource_loaders.length; i++) {
+        this.resource_loaders[i].load(resource_container || _ResourceContainer.default);
+      }
+    }
+  }, {
+    key: "print_errors",
+    value: function print_errors() {
+      console.error("Batch <" + this.batch_name + "> could not load successfully");
+
+      for (var i = 0; i < this.resource_loaders.length; i++) {
+        if (this.resource_loaders[i].has_error) this.resource_loaders[i].print_error();
+      }
+    }
+  }, {
+    key: "get_progress",
+    value: function get_progress() {
+      var progress = 0;
+
+      for (var i = 0; i < this.resource_loaders.length; i++) {
+        progress += this.resource_loaders[i].progress;
+      }
+
+      if (progress === 0) {
+        console.error("Batch " + this.name + " does not contain any loaders");
+        return 0;
+      }
+
+      return progress / this.resource_loaders.length;
+    }
+  }, {
+    key: "loading_finished",
+    get: function get() {
+      var finished = true;
+
+      for (var i = 0; i < this.resource_loaders.length; i++) {
+        finished = finished && this.resource_loaders[i].has_finished;
+      }
+
+      return finished;
+    }
+  }, {
+    key: "has_errors",
+    get: function get() {
+      var has_error = false;
+
+      for (var i = 0; i < this.resource_loaders.length; i++) {
+        has_error = has_error || this.resource_loaders[i].has_error;
+      }
+
+      return has_error;
+    }
+  }]);
+
+  return ResourceBatch;
+}();
+
+exports.default = ResourceBatch;
 },{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/resource_loader/OBJLoader":"tM6y","/resource_loader/RGBETextureLoader":"cO40","/resource_loader/PointArrayLoader":"cNL4","/ResourceContainer":"HJ6F"}],"wwEn":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=function t(){e(this,t)};exports.default=t;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// This class helps with parsing an entire recording that spans several days, into one-day recordings
+// that start at 0:00:00 and ends at 23:59:59, except for the first and last day of a recording range
+var TimeUtilities = function TimeUtilities() {
+  _classCallCheck(this, TimeUtilities);
+};
+
+exports.default = TimeUtilities;
 },{}],"XAIA":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}function n(e,n,a){return n&&t(e.prototype,n),a&&t(e,a),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var a=function(){function t(){e(this,t)}return n(t,null,[{key:"get_image_data",value:function(e){var t=document.createElement("canvas");t.width=e.width,t.height=e.height;var n=t.getContext("2d");return n.drawImage(e,0,0),n.getImageData(0,0,e.width,e.height)}},{key:"get_pixel",value:function(e,t,n){var a=4*(t+e.width*n),r=e.data;return new THREE.Vector4(r[a+0],r[a+1],r[a+2],r[a+3])}}]),t}();exports.default=a;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ImageUtilities = /*#__PURE__*/function () {
+  function ImageUtilities() {
+    _classCallCheck(this, ImageUtilities);
+  }
+
+  _createClass(ImageUtilities, null, [{
+    key: "get_image_data",
+    value: function get_image_data(image) {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      var context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+      return context.getImageData(0, 0, image.width, image.height);
+    }
+  }, {
+    key: "get_pixel",
+    value: function get_pixel(imagedata, x, y) {
+      var position = (x + imagedata.width * y) * 4;
+      var data = imagedata.data;
+      return new THREE.Vector4(data[position + 0], data[position + 1], data[position + 2], data[position + 3]);
+    }
+  }]);
+
+  return ImageUtilities;
+}();
+
+exports.default = ImageUtilities;
 },{}],"c2tY":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var o=n[t];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function t(e,t,o){return t&&n(e.prototype,t),o&&n(e,o),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.ModelUtilities=void 0;var o=function(){function n(){e(this,n)}return t(n,[{key:"get_mesh",value:function(e,n){e.traverse(function(e){e instanceof THREE.Mesh&&(e.geometry instanceof THREE.Geometry&&(e.geometry=(new THREE.BufferGeometry).fromGeometry(e.geometry)),n(e))})}},{key:"get_geometries",value:function(e){var n=[];return this.get_mesh(e,function(e){n.push(e.geometry)}),n}},{key:"assign_material",value:function(e,n,t){e.traverse(function(e){e instanceof THREE.Mesh&&(void 0===t?e.material=n:e.name===t&&(e.material=n))})}},{key:"clone_animated_gltf",value:function(e){var n={animations:e.animations,scene:e.scene.clone(!0)},t={};e.scene.traverse(function(e){e.isSkinnedMesh&&(t[e.name]=e)});var o={},r={};for(var a in n.scene.traverse(function(e){e.isBone&&(o[e.name]=e),e.isSkinnedMesh&&(r[e.name]=e)}),t){for(var i=t[a].skeleton,s=r[a],u=[],c=0;c<i.bones.length;++c){var f=o[i.bones[c].name];u.push(f)}s.bind(new THREE.Skeleton(u,i.boneInverses),s.matrixWorld)}return n}},{key:"set_shadow_config",value:function(e,n,t){e.traverse(function(e){e instanceof THREE.Mesh&&(e.castShadow=n,e.receiveShadow=t)})}},{key:"__find_object",value:function(e,n,t){e.traverse(function(e){e.name===n&&t(e)})}},{key:"get_object",value:function(e,n){var t=void 0;return e.traverse(function(e){e.name===n&&(t=e)}),t}},{key:"get_object_by_type",value:function(e,n){var t=void 0;return e.traverse(function(e){e.constructor.name===n&&(t=e)}),t}}]),n}();exports.ModelUtilities=o;var r=new o;module.exports=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ModelUtilities = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ModelUtilities = /*#__PURE__*/function () {
+  function ModelUtilities() {
+    _classCallCheck(this, ModelUtilities);
+  }
+
+  _createClass(ModelUtilities, [{
+    key: "get_mesh",
+    value: function get_mesh(scene, result_callback) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          if (child.geometry instanceof THREE.Geometry) {
+            child.geometry = new THREE.BufferGeometry().fromGeometry(child.geometry);
+          }
+
+          result_callback(child);
+        }
+      });
+    }
+  }, {
+    key: "get_geometries",
+    value: function get_geometries(scene) {
+      var geometries = [];
+      this.get_mesh(scene, function (child) {
+        geometries.push(child.geometry);
+      });
+      return geometries;
+    }
+  }, {
+    key: "assign_material",
+    value: function assign_material(scene, material, name) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          // assign to all if no name is given
+          if (name === undefined) child.material = material;else {
+            // if name is given, assign only to that
+            if (child.name === name) {
+              child.material = material;
+            }
+          }
+        }
+      });
+    }
+  }, {
+    key: "clone_animated_gltf",
+    value: function clone_animated_gltf(gltf) {
+      var clone = {
+        animations: gltf.animations,
+        scene: gltf.scene.clone(true)
+      };
+      var skinnedMeshes = {};
+      gltf.scene.traverse(function (node) {
+        if (node.isSkinnedMesh) {
+          skinnedMeshes[node.name] = node;
+        }
+      });
+      var cloneBones = {};
+      var cloneSkinnedMeshes = {};
+      clone.scene.traverse(function (node) {
+        if (node.isBone) {
+          cloneBones[node.name] = node;
+        }
+
+        if (node.isSkinnedMesh) {
+          cloneSkinnedMeshes[node.name] = node;
+        }
+      });
+
+      for (var name in skinnedMeshes) {
+        var skinnedMesh = skinnedMeshes[name];
+        var skeleton = skinnedMesh.skeleton;
+        var cloneSkinnedMesh = cloneSkinnedMeshes[name];
+        var orderedCloneBones = [];
+
+        for (var i = 0; i < skeleton.bones.length; ++i) {
+          var cloneBone = cloneBones[skeleton.bones[i].name];
+          orderedCloneBones.push(cloneBone);
+        }
+
+        cloneSkinnedMesh.bind(new THREE.Skeleton(orderedCloneBones, skeleton.boneInverses), cloneSkinnedMesh.matrixWorld);
+      }
+
+      return clone;
+    }
+  }, {
+    key: "set_shadow_config",
+    value: function set_shadow_config(scene, cast, receive) {
+      scene.traverse(function (child) {
+        if (child instanceof THREE.Mesh) {
+          child.castShadow = cast;
+          child.receiveShadow = receive;
+        }
+      });
+    }
+  }, {
+    key: "__find_object",
+    value: function __find_object(scene, object_name, result_callback) {
+      scene.traverse(function (obj) {
+        if (obj.name === object_name) result_callback(obj);
+      });
+    }
+  }, {
+    key: "get_object",
+    value: function get_object(scene, object_name) {
+      var object = undefined;
+      scene.traverse(function (obj) {
+        if (obj.name === object_name) object = obj;
+      });
+      return object;
+    }
+  }, {
+    key: "get_object_by_type",
+    value: function get_object_by_type(scene, object_type) {
+      var object = undefined;
+      scene.traverse(function (obj) {
+        if (obj.constructor.name === object_type) object = obj;
+      });
+      return object;
+    }
+  }]);
+
+  return ModelUtilities;
+}();
+
+exports.ModelUtilities = ModelUtilities;
+var model_utilities = new ModelUtilities();
+module.exports = model_utilities;
 },{}],"bOug":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var r=n[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function t(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=function(){function n(){e(this,n)}return t(n,null,[{key:"is_int",value:function(e){return Number(e)===e&&e%1==0}},{key:"is_float",value:function(e){return Number(e)===e&&e%1!=0}},{key:"is_json",value:function(e){try{JSON.parse(e)}catch(n){return!1}return!0}}]),n}();exports.default=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Validation = /*#__PURE__*/function () {
+  function Validation() {
+    _classCallCheck(this, Validation);
+  }
+
+  _createClass(Validation, null, [{
+    key: "is_int",
+    value: function is_int(n) {
+      return Number(n) === n && n % 1 === 0;
+    }
+  }, {
+    key: "is_float",
+    value: function is_float(n) {
+      return Number(n) === n && n % 1 !== 0;
+    }
+  }, {
+    key: "is_json",
+    value: function is_json(str) {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+
+      return true;
+    }
+  }]);
+
+  return Validation;
+}();
+
+exports.default = Validation;
 },{}],"dxG8":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform vec3 _Color;\n\nvarying vec3 vBarycentric;\n\nfloat edgeFactor(vec3 baryc ){\n    vec3 d = fwidth(baryc);\n    vec3 a3 = smoothstep(vec3(0.0), d*1.5, baryc);\n    return min(min(a3.x, a3.y), a3.z);\n}\n\nvoid main()\n{\t\n\tfloat alpha = edgeFactor(vBarycentric + vec3(1. , 1., 0.));\n\tgl_FragColor.rgb = mix(_Color, vec3(0.), alpha);\n\tgl_FragColor.a = 1.0 - alpha;\n\tgl_FragColor.a *= 0.2;\n}";
+module.exports = "#define GLSLIFY 1\nuniform vec3 _Color;\n\nvarying vec3 vBarycentric;\n\nfloat edgeFactor(vec3 baryc ){\n    vec3 d = fwidth(baryc);\n    vec3 a3 = smoothstep(vec3(0.0), d*1.5, baryc);\n    return min(min(a3.x, a3.y), a3.z);\n}\n\nvoid main()\n{\t\n\tfloat alpha = edgeFactor(vBarycentric + vec3(1. , 1., 0.));\n\tgl_FragColor.rgb = mix(_Color, vec3(0.), alpha);\n\tgl_FragColor.a = 1.0 - alpha;\n\tgl_FragColor.a *= 0.2;\n}";
 },{}],"WMaX":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nattribute vec3 barycentric;\nvarying vec3 vBarycentric;\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n  vec3 pos = (modelMatrix * vec4(position, 1.0)).xyz;\n  gl_Position = VP * vec4(pos, 1.0);\n  vBarycentric = barycentric;\n}";
+module.exports = "#define GLSLIFY 1\nattribute vec3 barycentric;\nvarying vec3 vBarycentric;\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n  vec3 pos = (modelMatrix * vec4(position, 1.0)).xyz;\n  gl_Position = VP * vec4(pos, 1.0);\n  vBarycentric = barycentric;\n}";
 },{}],"LEA3":[function(require,module,exports) {
-"use strict";function t(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function e(t,e){for(var r=0;r<e.length;r++){var u=e[r];u.enumerable=u.enumerable||!1,u.configurable=!0,"value"in u&&(u.writable=!0),Object.defineProperty(t,u.key,u)}}function r(t,r,u){return r&&e(t.prototype,r),u&&e(t,u),t}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var u=function(){function e(){t(this,e)}return r(e,null,[{key:"convert_to_non_indexed_geometry",value:function(t){for(var r=t.index,u=t.getAttribute("position"),a=[],n=[],s=0;s<r.count;s+=3)n.push(u.getX(r.array[s+0])),n.push(u.getY(r.array[s+0])),n.push(u.getZ(r.array[s+0])),a.push(1),a.push(0),a.push(0),n.push(u.getX(r.array[s+1])),n.push(u.getY(r.array[s+1])),n.push(u.getZ(r.array[s+1])),a.push(0),a.push(1),a.push(0),n.push(u.getX(r.array[s+2])),n.push(u.getY(r.array[s+2])),n.push(u.getZ(r.array[s+2])),a.push(0),a.push(0),a.push(1);var o=new THREE.BufferGeometry;return o.setAttribute("position",new THREE.BufferAttribute(new Float32Array(n),3)),e.add_barycentric_attribute(o),o}},{key:"add_barycentric_attribute",value:function(t){for(var e=[],r=t.getAttribute("position"),u=0;u<r.count;u+=3)e.push(1),e.push(0),e.push(0),e.push(0),e.push(1),e.push(0),e.push(0),e.push(0),e.push(1);t.setAttribute("barycentric",new THREE.BufferAttribute(new Float32Array(e),3))}}]),e}();exports.default=u;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var GeometryUtilities = /*#__PURE__*/function () {
+  function GeometryUtilities() {
+    _classCallCheck(this, GeometryUtilities);
+  }
+
+  _createClass(GeometryUtilities, null, [{
+    key: "convert_to_non_indexed_geometry",
+    value: function convert_to_non_indexed_geometry(geometry_buffer) {
+      var indices = geometry_buffer.index;
+      var positions = geometry_buffer.getAttribute("position");
+      var bar_coordinates = [];
+      var vertices = [];
+
+      for (var i = 0; i < indices.count; i += 3) {
+        // VERTEX 1
+        vertices.push(positions.getX(indices.array[i + 0]));
+        vertices.push(positions.getY(indices.array[i + 0]));
+        vertices.push(positions.getZ(indices.array[i + 0]));
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0); // VERTEX 2
+
+        vertices.push(positions.getX(indices.array[i + 1]));
+        vertices.push(positions.getY(indices.array[i + 1]));
+        vertices.push(positions.getZ(indices.array[i + 1]));
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+        bar_coordinates.push(0); // VERTEX 3
+
+        vertices.push(positions.getX(indices.array[i + 2]));
+        vertices.push(positions.getY(indices.array[i + 2]));
+        vertices.push(positions.getZ(indices.array[i + 2]));
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+      }
+
+      var geometry = new THREE.BufferGeometry(); // geometry.setAttribute('barycentric', new THREE.BufferAttribute( new Float32Array(bar_coordinates), 3 ));
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+      GeometryUtilities.add_barycentric_attribute(geometry);
+      return geometry;
+    }
+  }, {
+    key: "add_barycentric_attribute",
+    value: function add_barycentric_attribute(non_indexed_geometry_buffer) {
+      var bar_coordinates = [];
+      var positions = non_indexed_geometry_buffer.getAttribute("position");
+
+      for (var i = 0; i < positions.count; i += 3) {
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(0);
+        bar_coordinates.push(1);
+      }
+
+      non_indexed_geometry_buffer.setAttribute('barycentric', new THREE.BufferAttribute(new Float32Array(bar_coordinates), 3));
+    }
+  }]);
+
+  return GeometryUtilities;
+}();
+
+exports.default = GeometryUtilities;
 },{}],"rXwc":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=n(require("/shaders/grid/grid_frag")),e=n(require("/shaders/grid/grid_vert")),r=n(require("/utilities/GeometryUtilities"));function n(t){return t&&t.__esModule?t:{default:t}}function o(t){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function u(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function i(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&f(t,e)}function f(t,e){return(f=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function c(t){return function(){var e,r=p(t);if(l()){var n=p(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==o(e)&&"function"!=typeof e?s(t):e}function s(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function l(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(n){i(f,THREE.Mesh);var o=c(f);function f(){var n;u(this,f);var i=new THREE.ShaderMaterial({uniforms:{_Color:{value:new THREE.Color("#919191")}},vertexShader:e.default,fragmentShader:t.default,extensions:{derivatives:!0},transparent:!0,depthWrite:!1}),c=new THREE.PlaneBufferGeometry(100,100,100,100),a=r.default.convert_to_non_indexed_geometry(c);return(n=o.call(this,a,i)).rotation.x=-1.57,n}return f}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _grid_frag = _interopRequireDefault(require("/shaders/grid/grid_frag"));
+
+var _grid_vert = _interopRequireDefault(require("/shaders/grid/grid_vert"));
+
+var _GeometryUtilities = _interopRequireDefault(require("/utilities/GeometryUtilities"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Grid = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Grid, _THREE$Mesh);
+
+  var _super = _createSuper(Grid);
+
+  function Grid() {
+    var _this;
+
+    _classCallCheck(this, Grid);
+
+    var material = new THREE.ShaderMaterial({
+      uniforms: {
+        _Color: {
+          value: new THREE.Color("#919191")
+        }
+      },
+      vertexShader: _grid_vert.default,
+      fragmentShader: _grid_frag.default,
+      extensions: {
+        derivatives: true
+      },
+      transparent: true,
+      depthWrite: false
+    });
+    var plane_geometry = new THREE.PlaneBufferGeometry(100, 100, 100, 100);
+
+    var non_indexed_geometry = _GeometryUtilities.default.convert_to_non_indexed_geometry(plane_geometry);
+
+    _this = _super.call(this, non_indexed_geometry, material);
+    _this.rotation.x = -3.14 / 2;
+    return _this;
+  }
+
+  return Grid;
+}(THREE.Mesh);
+
+exports.default = Grid;
 },{"/shaders/grid/grid_frag":"dxG8","/shaders/grid/grid_vert":"WMaX","/utilities/GeometryUtilities":"LEA3"}],"wMgF":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nuniform vec2 _PixelOffset;\nuniform vec3 _NDC;\nuniform vec2 _PivotPoint;\nuniform float _DepthOffset;\nvarying vec2 vUv;\n\nvec2 add_pixel_offset(vec2 pos)\n{\n\tpos = pos * 0.5 + 0.5;\n\tpos *= _ScreenSize;\n\tpos = ceil(pos+_PixelOffset)+0.5;\n\tpos /= _ScreenSize;\n\treturn pos * 2.0 - 1.0;\n}\nvoid main()\n{\n\tvec4 projected_pos = projectionMatrix * viewMatrix * vec4(_NDC, 1.0);\n  projected_pos.zw += _DepthOffset;\n\n\tprojected_pos.xyz /= projected_pos.w;\n\n  vec2 normalized_size = _TextureSize/_ScreenSize;\n  vec2 dir = uv * 2.0 - 1.0;\n  dir -= _PivotPoint;\n  vec2 pos = projected_pos.xy+dir * normalized_size;\n  gl_Position = vec4(add_pixel_offset(pos), projected_pos.z, 1.0);\n  vUv = uv;\n\n}\n";
+module.exports = "#define GLSLIFY 1\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nuniform vec2 _PixelOffset;\nuniform vec3 _NDC;\nuniform vec2 _PivotPoint;\nuniform float _DepthOffset;\nvarying vec2 vUv;\n\nvec2 add_pixel_offset(vec2 pos)\n{\n\tpos = pos * 0.5 + 0.5;\n\tpos *= _ScreenSize;\n\tpos = ceil(pos+_PixelOffset)+0.5;\n\tpos /= _ScreenSize;\n\treturn pos * 2.0 - 1.0;\n}\nvoid main()\n{\n\tvec4 projected_pos = projectionMatrix * viewMatrix * vec4(_NDC, 1.0);\n  projected_pos.zw += _DepthOffset;\n\n\tprojected_pos.xyz /= projected_pos.w;\n\n  vec2 normalized_size = _TextureSize/_ScreenSize;\n  vec2 dir = uv * 2.0 - 1.0;\n  dir -= _PivotPoint;\n  vec2 pos = projected_pos.xy+dir * normalized_size;\n  gl_Position = vec4(add_pixel_offset(pos), projected_pos.z, 1.0);\n  vUv = uv;\n\n}\n";
 },{}],"zYpx":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nvarying vec2 vUv;\n\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv + vec2(0.5, 0.5)/_TextureSize);\n}\n";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nvarying vec2 vUv;\n\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv + vec2(0.5, 0.5)/_TextureSize);\n}\n";
 },{}],"F8cc":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=n(require("/shaders/ui_element/ui_element.vert")),t=n(require("/shaders/ui_element/ui_element.frag")),r=n(require("/materials/BaseShaderMaterial"));function n(e){return e&&e.__esModule?e:{default:e}}function o(e){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function u(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}function c(e,t){return(c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function f(e){return function(){var t,r=p(e);if(s()){var n=p(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return a(this,t)}}function a(e,t){return!t||"object"!==o(t)&&"function"!=typeof t?l(e):t}function l(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function p(e){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var y=function(n){i(c,r.default);var o=f(c);function c(){var r;arguments.length>0&&void 0!==arguments[0]&&arguments[0];return u(this,c),(r=o.call(this,e.default,t.default,{_MainTex:{value:void 0},_ScreenSize:{value:new THREE.Vector2(Screen.width,Screen.height)},_TextureSize:{value:new THREE.Vector2},_PixelOffset:{value:new THREE.Vector2(0,0)},_NDC:{value:new THREE.Vector3},_PivotPoint:{value:new THREE.Vector2},_DepthOffset:{value:0}})).transparent=!0,r.depthWrite=!1,r.depthTest=!1,r}return c}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _ui_element = _interopRequireDefault(require("/shaders/ui_element/ui_element.vert"));
+
+var _ui_element2 = _interopRequireDefault(require("/shaders/ui_element/ui_element.frag"));
+
+var _BaseShaderMaterial2 = _interopRequireDefault(require("/materials/BaseShaderMaterial"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var UIElementMaterial = /*#__PURE__*/function (_BaseShaderMaterial) {
+  _inherits(UIElementMaterial, _BaseShaderMaterial);
+
+  var _super = _createSuper(UIElementMaterial);
+
+  function UIElementMaterial() {
+    var _this;
+
+    var intensity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+    _classCallCheck(this, UIElementMaterial);
+
+    _this = _super.call(this, _ui_element.default, _ui_element2.default, {
+      _MainTex: {
+        value: undefined
+      },
+      _ScreenSize: {
+        value: new THREE.Vector2(Screen.width, Screen.height)
+      },
+      _TextureSize: {
+        value: new THREE.Vector2()
+      },
+      _PixelOffset: {
+        value: new THREE.Vector2(0, 0)
+      },
+      _NDC: {
+        value: new THREE.Vector3()
+      },
+      _PivotPoint: {
+        value: new THREE.Vector2()
+      },
+      _DepthOffset: {
+        value: 0
+      }
+    });
+    _this.transparent = true;
+    _this.depthWrite = false;
+    _this.depthTest = false;
+    return _this;
+  }
+
+  return UIElementMaterial;
+}(_BaseShaderMaterial2.default);
+
+exports.default = UIElementMaterial;
 },{"/shaders/ui_element/ui_element.vert":"wMgF","/shaders/ui_element/ui_element.frag":"zYpx","/materials/BaseShaderMaterial":"Ej2H"}],"HZsS":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nvarying vec2 vUv;\n\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv + vec2(0.5, 0.5)/_TextureSize);\n}";
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nvarying vec2 vUv;\n\nvoid main()\n{\n\tgl_FragColor = texture2D(_MainTex, vUv + vec2(0.5, 0.5)/_TextureSize);\n}";
 },{}],"Spsq":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nuniform vec2 _PixelOffset;\nuniform vec3 _NDC;\nuniform vec2 _PivotPoint;\nuniform float _DepthOffset;\nvarying vec2 vUv;\n\nvec2 round_to_ceil(vec2 pos)\n{\n\tpos = pos * 0.5 + 0.5;\n\tpos *= _ScreenSize;\n\tpos = ceil(pos)+0.5;\n\tpos /= _ScreenSize;\n\treturn pos * 2.0 - 1.0;\n}\nvoid main()\n{\n\tvec4 projected_pos = projectionMatrix * viewMatrix * vec4(_NDC, 1.0);\n  projected_pos.zw += _DepthOffset;\n\n\tprojected_pos.xyz /= projected_pos.w;\n\t\n  vec2 normalized_size = _TextureSize/_ScreenSize;\n  vec2 dir = uv * 2.0 - 1.0;\n  dir -= _PivotPoint; \n  vec2 pos = projected_pos.xy+ dir * normalized_size;\n  gl_Position = vec4(round_to_ceil(pos), projected_pos.z, 1.0);\n  vUv = uv;\n\n}";
+module.exports = "#define GLSLIFY 1\nuniform vec2 _ScreenSize;\nuniform vec2 _TextureSize;\nuniform vec2 _PixelOffset;\nuniform vec3 _NDC;\nuniform vec2 _PivotPoint;\nuniform float _DepthOffset;\nvarying vec2 vUv;\n\nvec2 round_to_ceil(vec2 pos)\n{\n\tpos = pos * 0.5 + 0.5;\n\tpos *= _ScreenSize;\n\tpos = ceil(pos)+0.5;\n\tpos /= _ScreenSize;\n\treturn pos * 2.0 - 1.0;\n}\nvoid main()\n{\n\tvec4 projected_pos = projectionMatrix * viewMatrix * vec4(_NDC, 1.0);\n  projected_pos.zw += _DepthOffset;\n\n\tprojected_pos.xyz /= projected_pos.w;\n\t\n  vec2 normalized_size = _TextureSize/_ScreenSize;\n  vec2 dir = uv * 2.0 - 1.0;\n  dir -= _PivotPoint; \n  vec2 pos = projected_pos.xy+ dir * normalized_size;\n  gl_Position = vec4(round_to_ceil(pos), projected_pos.z, 1.0);\n  vUv = uv;\n\n}";
 },{}],"GMfh":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function n(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=function(){function t(){e(this,t),this.tmp_vec=new THREE.Vector2}return n(t,[{key:"get_pos_NDC",value:function(e){return this.tmp_vec.set(e.x,e.y)}}]),t}();exports.default=r;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ScreenSpacePosition = /*#__PURE__*/function () {
+  function ScreenSpacePosition() {
+    _classCallCheck(this, ScreenSpacePosition);
+
+    this.tmp_vec = new THREE.Vector2();
+  }
+
+  _createClass(ScreenSpacePosition, [{
+    key: "get_pos_NDC",
+    value: function get_pos_NDC(position) {
+      return this.tmp_vec.set(position.x, position.y);
+    }
+  }]);
+
+  return ScreenSpacePosition;
+}();
+
+exports.default = ScreenSpacePosition;
 },{}],"zIq8":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=t(require("/CameraManager"));function t(e){return e&&e.__esModule?e:{default:e}}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function n(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function o(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}var c=function(){function t(){r(this,t),this.tmp_vec3=new THREE.Vector3,this.tmp_vec2=new THREE.Vector2}return o(t,[{key:"get_pos_NDC",value:function(t){return this.tmp_vec3.copy(t),this.tmp_vec3.project(e.default.current),this.tmp_vec2.set(this.tmp_vec3.x,this.tmp_vec3.y)}}]),t}();exports.default=c;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var WorldSpacePosition = /*#__PURE__*/function () {
+  function WorldSpacePosition() {
+    _classCallCheck(this, WorldSpacePosition);
+
+    this.tmp_vec3 = new THREE.Vector3();
+    this.tmp_vec2 = new THREE.Vector2();
+  }
+
+  _createClass(WorldSpacePosition, [{
+    key: "get_pos_NDC",
+    value: function get_pos_NDC(position) {
+      this.tmp_vec3.copy(position);
+      this.tmp_vec3.project(_CameraManager.default.current);
+      return this.tmp_vec2.set(this.tmp_vec3.x, this.tmp_vec3.y);
+    }
+  }]);
+
+  return WorldSpacePosition;
+}();
+
+exports.default = WorldSpacePosition;
 },{"/CameraManager":"XMgG"}],"ZBbQ":[function(require,module,exports) {
-"use strict";function e(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}function n(e,n){for(var t=0;t<n.length;t++){var o=n[t];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function t(e,t,o){return t&&n(e.prototype,t),o&&n(e,o),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var o=function(){function n(){e(this,n)}return t(n,[{key:"update",value:function(e,n){}},{key:"on_enter",value:function(e){}},{key:"on_exit",value:function(e){}}]),n}();exports.default=o;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var UIElementState = /*#__PURE__*/function () {
+  function UIElementState() {
+    _classCallCheck(this, UIElementState);
+  }
+
+  _createClass(UIElementState, [{
+    key: "update",
+    value: function update(ui_element, normalized_mouse_position) {}
+  }, {
+    key: "on_enter",
+    value: function on_enter(ui_element) {}
+  }, {
+    key: "on_exit",
+    value: function on_exit(ui_element) {}
+  }]);
+
+  return UIElementState;
+}();
+
+exports.default = UIElementState;
 },{}],"XKzP":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/ui/ui_element_state/UIElementState"));function e(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}function u(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&f(t,e)}function f(t,e){return(f=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function i(t){return function(){var e,n=p(t);if(s()){var r=p(this).constructor;e=Reflect.construct(n,arguments,r)}else e=n.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(o,t.default);var n=i(o);function o(){return r(this,o),n.call(this)}return u(o,[{key:"update",value:function(t,e){t.is_mouse_over(e)&&t.set_state(t._on_enter_state)}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UIElementState2 = _interopRequireDefault(require("/ui/ui_element_state/UIElementState"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var OnIdle = /*#__PURE__*/function (_UIElementState) {
+  _inherits(OnIdle, _UIElementState);
+
+  var _super = _createSuper(OnIdle);
+
+  function OnIdle() {
+    _classCallCheck(this, OnIdle);
+
+    return _super.call(this);
+  }
+
+  _createClass(OnIdle, [{
+    key: "update",
+    value: function update(ui_element, normalized_mouse_position) {
+      if (ui_element.is_mouse_over(normalized_mouse_position)) {
+        ui_element.set_state(ui_element._on_enter_state);
+      }
+    }
+  }]);
+
+  return OnIdle;
+}(_UIElementState2.default);
+
+exports.default = OnIdle;
 },{"/ui/ui_element_state/UIElementState":"ZBbQ"}],"Ow46":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/ui/ui_element_state/UIElementState"));function e(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}function u(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,n=p(t);if(s()){var r=p(this).constructor;e=Reflect.construct(n,arguments,r)}else e=n.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(o,t.default);var n=f(o);function o(){return r(this,o),n.call(this)}return u(o,[{key:"on_enter",value:function(t){t.on_mouse_enter()}},{key:"update",value:function(t,e){t.is_mouse_over(e)?t.set_state(t._on_hover_state):t.set_state(t._on_exit_state)}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UIElementState2 = _interopRequireDefault(require("/ui/ui_element_state/UIElementState"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var OnMouseEnter = /*#__PURE__*/function (_UIElementState) {
+  _inherits(OnMouseEnter, _UIElementState);
+
+  var _super = _createSuper(OnMouseEnter);
+
+  function OnMouseEnter() {
+    _classCallCheck(this, OnMouseEnter);
+
+    return _super.call(this);
+  }
+
+  _createClass(OnMouseEnter, [{
+    key: "on_enter",
+    value: function on_enter(ui_element) {
+      ui_element.on_mouse_enter();
+    }
+  }, {
+    key: "update",
+    value: function update(ui_element, normalized_mouse_position) {
+      if (ui_element.is_mouse_over(normalized_mouse_position)) {
+        ui_element.set_state(ui_element._on_hover_state);
+      } else {
+        ui_element.set_state(ui_element._on_exit_state);
+      }
+    }
+  }]);
+
+  return OnMouseEnter;
+}(_UIElementState2.default);
+
+exports.default = OnMouseEnter;
 },{"/ui/ui_element_state/UIElementState":"ZBbQ"}],"Eg4K":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/ui/ui_element_state/UIElementState"));function e(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}function u(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}function c(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&i(t,e)}function i(t,e){return(i=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,n=p(t);if(s()){var r=p(this).constructor;e=Reflect.construct(n,arguments,r)}else e=n.apply(this,arguments);return l(this,e)}}function l(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?a(t):e}function a(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){c(o,t.default);var n=f(o);function o(){return r(this,o),n.call(this)}return u(o,[{key:"on_enter",value:function(t){t.on_mouse_exit(),t.set_state(t._on_idle_state)}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UIElementState2 = _interopRequireDefault(require("/ui/ui_element_state/UIElementState"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var OnMouseExit = /*#__PURE__*/function (_UIElementState) {
+  _inherits(OnMouseExit, _UIElementState);
+
+  var _super = _createSuper(OnMouseExit);
+
+  function OnMouseExit() {
+    _classCallCheck(this, OnMouseExit);
+
+    return _super.call(this);
+  }
+
+  _createClass(OnMouseExit, [{
+    key: "on_enter",
+    value: function on_enter(ui_element) {
+      ui_element.on_mouse_exit();
+      ui_element.set_state(ui_element._on_idle_state);
+    }
+  }]);
+
+  return OnMouseExit;
+}(_UIElementState2.default);
+
+exports.default = OnMouseExit;
 },{"/ui/ui_element_state/UIElementState":"ZBbQ"}],"SPP6":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/ui/ui_element_state/UIElementState"));function e(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}function u(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}function i(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,n=p(t);if(s()){var r=p(this).constructor;e=Reflect.construct(n,arguments,r)}else e=n.apply(this,arguments);return a(this,e)}}function a(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?l(t):e}function l(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){i(o,t.default);var n=f(o);function o(){return r(this,o),n.call(this)}return u(o,[{key:"on_enter",value:function(t){this.__trigger_on_hover(t)}},{key:"update",value:function(t,e){t.is_mouse_over(e)?this.__trigger_on_hover(t):t.set_state(t._on_exit_state)}},{key:"__trigger_on_hover",value:function(t){t.on_mouse_hover()}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UIElementState2 = _interopRequireDefault(require("/ui/ui_element_state/UIElementState"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var OnMouseHover = /*#__PURE__*/function (_UIElementState) {
+  _inherits(OnMouseHover, _UIElementState);
+
+  var _super = _createSuper(OnMouseHover);
+
+  function OnMouseHover() {
+    _classCallCheck(this, OnMouseHover);
+
+    return _super.call(this);
+  }
+
+  _createClass(OnMouseHover, [{
+    key: "on_enter",
+    value: function on_enter(ui_element) {
+      this.__trigger_on_hover(ui_element);
+    }
+  }, {
+    key: "update",
+    value: function update(ui_element, normalized_mouse_position) {
+      if (ui_element.is_mouse_over(normalized_mouse_position)) {
+        this.__trigger_on_hover(ui_element);
+      } else {
+        ui_element.set_state(ui_element._on_exit_state);
+      }
+    }
+  }, {
+    key: "__trigger_on_hover",
+    value: function __trigger_on_hover(ui_element) {
+      ui_element.on_mouse_hover();
+    }
+  }]);
+
+  return OnMouseHover;
+}(_UIElementState2.default);
+
+exports.default = OnMouseHover;
 },{"/ui/ui_element_state/UIElementState":"ZBbQ"}],"IBEu":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=f(require("/UI")),t=f(require("/CameraManager")),i=f(require("/Screen")),n=f(require("/materials/UIElementMaterial")),o=f(require("/shaders/ui/ss_texture_frag")),r=f(require("/shaders/ui/ss_texture_vert")),s=f(require("/ui/ui_element_position/ScreenSpacePosition")),u=f(require("/ui/ui_element_position/WorldSpacePosition")),a=f(require("/ui/ui_element_state/OnIdle")),_=f(require("/ui/ui_element_state/OnMouseEnter")),c=f(require("/ui/ui_element_state/OnMouseExit")),l=f(require("/ui/ui_element_state/OnMouseHover"));function f(e){return e&&e.__esModule?e:{default:e}}function p(e){return(p="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function h(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function y(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function m(e,t,i){return t&&y(e.prototype,t),i&&y(e,i),e}function d(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&v(e,t)}function v(e,t){return(v=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function x(e){return function(){var t,i=b(e);if(g()){var n=b(this).constructor;t=Reflect.construct(i,arguments,n)}else t=i.apply(this,arguments);return w(this,t)}}function w(e,t){return!t||"object"!==p(t)&&"function"!=typeof t?E(e):t}function E(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function g(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(e){return!1}}function b(e){return(b=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}var k=function(e){d(o,THREE.Mesh);var t=x(o);function o(e,i){var r;return h(this,o),(r=t.call(this,new THREE.PlaneGeometry(1,1),new n.default)).is_clickable=!1,r.position_strategy=new u.default,r.current_state=new a.default,r._position=new THREE.Vector3,r._on_idle_state=new a.default,r._on_enter_state=new _.default,r._on_exit_state=new c.default,r._on_hover_state=new l.default,r.on_enter=void 0,r.on_exit=void 0,r.on_hover=void 0,r.mouse_pos_tmp=new THREE.Vector2,r.cached_NDC_position=new THREE.Vector2,r.screen_pos_tmp=new THREE.Vector2,r.texture_size=new THREE.Vector2(1,1),r.frustumCulled=!1,r.matrixAutoUpdate=!1,r.renderOrder=0,r.size=1,r.pixel_offset=new THREE.Vector2,r}return m(o,[{key:"set_render_order",value:function(e){this.renderOrder=e}},{key:"set_pixel_offset",value:function(e){this.pixel_offset.copy(e),this.material.uniforms._PixelOffset.value.copy(e)}},{key:"set_state",value:function(e){this.current_state.on_exit(this),this.current_state=e,this.current_state.on_enter(this)}},{key:"clear_state",value:function(){this.visible=!1}},{key:"set_world_space_coordinate_system",value:function(){this.position_strategy=new u.default}},{key:"set_screen_space_coordinate_system",value:function(){this.position_strategy=new s.default}},{key:"set_texture",value:function(e){e.minFilter=THREE.NearestFilter,e.magFilter=THREE.NearestFilter,e.needsUpdate=!0,this.texture_size.set(e.image.width,e.image.height),this.material.uniforms._MainTex.value=e,this.get_size(this.material.uniforms._TextureSize.value),this.visible=!0}},{key:"update_state",value:function(e){this.material.uniforms._ScreenSize.value.set(i.default.width,i.default.height),this.get_size(this.material.uniforms._TextureSize.value),this.cached_NDC_position.copy(this.position_strategy.get_pos_NDC(this.position)),this.material.uniforms._NDC.value.copy(this.position),this.current_state.update(this,e)}},{key:"is_mouse_over",value:function(e){this.screen_pos_tmp.copy(this.cached_NDC_position),this.to_screen_position(this.screen_pos_tmp),this.screen_pos_tmp.x+=this.pixel_offset.x,this.screen_pos_tmp.y+=this.pixel_offset.y;var t=(new THREE.Box2).setFromCenterAndSize(this.screen_pos_tmp,this.get_size());return this.mouse_pos_tmp.copy(e),this.to_screen_position(this.mouse_pos_tmp),t.containsPoint(this.mouse_pos_tmp)}},{key:"to_screen_position",value:function(e){e.x=(.5*e.x+.5)*i.default.width+this.pixel_offset.x,e.y=(.5*e.y+.5)*i.default.height+this.pixel_offset.y}},{key:"get_screen_space_position",value:function(){var e=this.cached_NDC_position.clone();return this.to_screen_position(e),e}},{key:"set_screen_space_position",value:function(e){this.position.x=e.x/i.default.width*2-1,this.position.y=e.y/i.default.height*2-1}},{key:"dispose",value:function(){this.material.uniforms._MainTex.value&&this.material.uniforms._MainTex.value.dispose(),i.default.remove_screen_material(this.material),this.geometry.dispose(),this.material.dispose()}},{key:"get_size",value:function(e){return e?e.copy(this.texture_size).multiplyScalar(this.size/i.default.dpr):(new THREE.Vector2).copy(this.texture_size).multiplyScalar(this.size/i.default.dpr)}},{key:"on_mouse_enter",value:function(){}},{key:"on_mouse_exit",value:function(){}},{key:"on_mouse_hover",value:function(){}},{key:"pivot_point",get:function(){return this.material.uniforms._PivotPoint.value}},{key:"position",get:function(){return this._position}},{key:"use_depth",set:function(e){this.material.depthTest=e}},{key:"depth_offset",set:function(e){this.material.uniforms._DepthOffset.value=e}}]),o}();exports.default=k;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _UI = _interopRequireDefault(require("/UI"));
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _UIElementMaterial = _interopRequireDefault(require("/materials/UIElementMaterial"));
+
+var _ss_texture_frag = _interopRequireDefault(require("/shaders/ui/ss_texture_frag"));
+
+var _ss_texture_vert = _interopRequireDefault(require("/shaders/ui/ss_texture_vert"));
+
+var _ScreenSpacePosition = _interopRequireDefault(require("/ui/ui_element_position/ScreenSpacePosition"));
+
+var _WorldSpacePosition = _interopRequireDefault(require("/ui/ui_element_position/WorldSpacePosition"));
+
+var _OnIdle = _interopRequireDefault(require("/ui/ui_element_state/OnIdle"));
+
+var _OnMouseEnter = _interopRequireDefault(require("/ui/ui_element_state/OnMouseEnter"));
+
+var _OnMouseExit = _interopRequireDefault(require("/ui/ui_element_state/OnMouseExit"));
+
+var _OnMouseHover = _interopRequireDefault(require("/ui/ui_element_state/OnMouseHover"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var UIElement = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(UIElement, _THREE$Mesh);
+
+  var _super = _createSuper(UIElement);
+
+  function UIElement(vert, frag) {
+    var _this;
+
+    _classCallCheck(this, UIElement);
+
+    _this = _super.call(this, new THREE.PlaneGeometry(1, 1), new _UIElementMaterial.default());
+    _this.is_clickable = false;
+    _this.position_strategy = new _WorldSpacePosition.default();
+    _this.current_state = new _OnIdle.default();
+    _this._position = new THREE.Vector3();
+    _this._on_idle_state = new _OnIdle.default();
+    _this._on_enter_state = new _OnMouseEnter.default();
+    _this._on_exit_state = new _OnMouseExit.default();
+    _this._on_hover_state = new _OnMouseHover.default();
+    _this.on_enter = undefined;
+    _this.on_exit = undefined;
+    _this.on_hover = undefined;
+    _this.mouse_pos_tmp = new THREE.Vector2();
+    _this.cached_NDC_position = new THREE.Vector2();
+    _this.screen_pos_tmp = new THREE.Vector2();
+    _this.texture_size = new THREE.Vector2(1, 1);
+    _this.frustumCulled = false;
+    _this.matrixAutoUpdate = false;
+    _this.renderOrder = 0;
+    _this.size = 1;
+    _this.pixel_offset = new THREE.Vector2();
+    return _this;
+  }
+
+  _createClass(UIElement, [{
+    key: "set_render_order",
+    value: function set_render_order(value) {
+      this.renderOrder = value;
+    }
+  }, {
+    key: "set_pixel_offset",
+    value: function set_pixel_offset(offset) {
+      this.pixel_offset.copy(offset);
+
+      this.material.uniforms._PixelOffset.value.copy(offset);
+    }
+  }, {
+    key: "set_state",
+    value: function set_state(new_state) {
+      this.current_state.on_exit(this);
+      this.current_state = new_state;
+      this.current_state.on_enter(this);
+    }
+  }, {
+    key: "clear_state",
+    value: function clear_state() {
+      this.visible = false;
+    }
+  }, {
+    key: "set_world_space_coordinate_system",
+    value: function set_world_space_coordinate_system() {
+      this.position_strategy = new _WorldSpacePosition.default();
+    }
+  }, {
+    key: "set_screen_space_coordinate_system",
+    value: function set_screen_space_coordinate_system() {
+      this.position_strategy = new _ScreenSpacePosition.default();
+    }
+  }, {
+    key: "set_texture",
+    value: function set_texture(texture) {
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+      texture.needsUpdate = true;
+      this.texture_size.set(texture.image.width, texture.image.height);
+      this.material.uniforms._MainTex.value = texture;
+      this.get_size(this.material.uniforms._TextureSize.value);
+      this.visible = true;
+    }
+  }, {
+    key: "update_state",
+    value: function update_state(normalized_mouse_pos) {
+      this.material.uniforms._ScreenSize.value.set(_Screen.default.width, _Screen.default.height);
+
+      this.get_size(this.material.uniforms._TextureSize.value);
+      this.cached_NDC_position.copy(this.position_strategy.get_pos_NDC(this.position));
+
+      this.material.uniforms._NDC.value.copy(this.position);
+
+      this.current_state.update(this, normalized_mouse_pos);
+    }
+  }, {
+    key: "is_mouse_over",
+    value: function is_mouse_over(normalized_mouse_pos) {
+      this.screen_pos_tmp.copy(this.cached_NDC_position);
+      this.to_screen_position(this.screen_pos_tmp);
+      this.screen_pos_tmp.x += this.pixel_offset.x;
+      this.screen_pos_tmp.y += this.pixel_offset.y;
+      var rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
+      this.mouse_pos_tmp.copy(normalized_mouse_pos);
+      this.to_screen_position(this.mouse_pos_tmp);
+      return rect.containsPoint(this.mouse_pos_tmp);
+    }
+  }, {
+    key: "to_screen_position",
+    value: function to_screen_position(projected_pos) {
+      projected_pos.x = (projected_pos.x * 0.5 + 0.5) * _Screen.default.width + this.pixel_offset.x;
+      projected_pos.y = (projected_pos.y * 0.5 + 0.5) * _Screen.default.height + this.pixel_offset.y;
+    }
+  }, {
+    key: "get_screen_space_position",
+    value: function get_screen_space_position() {
+      var pos = this.cached_NDC_position.clone();
+      this.to_screen_position(pos);
+      return pos;
+    }
+  }, {
+    key: "set_screen_space_position",
+    value: function set_screen_space_position(screen_pos) {
+      this.position.x = screen_pos.x / _Screen.default.width * 2 - 1;
+      this.position.y = screen_pos.y / _Screen.default.height * 2 - 1;
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      if (this.material.uniforms._MainTex.value) {
+        this.material.uniforms._MainTex.value.dispose();
+      }
+
+      _Screen.default.remove_screen_material(this.material);
+
+      this.geometry.dispose();
+      this.material.dispose();
+    }
+  }, {
+    key: "get_size",
+    value: function get_size(vector2) {
+      if (vector2) {
+        return vector2.copy(this.texture_size).multiplyScalar(this.size / _Screen.default.dpr);
+      } else {
+        return new THREE.Vector2().copy(this.texture_size).multiplyScalar(this.size / _Screen.default.dpr);
+      }
+    }
+  }, {
+    key: "on_mouse_enter",
+    value: function on_mouse_enter() {}
+  }, {
+    key: "on_mouse_exit",
+    value: function on_mouse_exit() {}
+  }, {
+    key: "on_mouse_hover",
+    value: function on_mouse_hover() {}
+  }, {
+    key: "pivot_point",
+    get: function get() {
+      return this.material.uniforms._PivotPoint.value;
+    }
+  }, {
+    key: "position",
+    get: function get() {
+      return this._position;
+    }
+  }, {
+    key: "use_depth",
+    set: function set(boolean) {
+      this.material.depthTest = boolean;
+    }
+  }, {
+    key: "depth_offset",
+    set: function set(value) {
+      this.material.uniforms._DepthOffset.value = value;
+    }
+  }]);
+
+  return UIElement;
+}(THREE.Mesh);
+
+exports.default = UIElement;
 },{"/UI":"yntx","/CameraManager":"XMgG","/Screen":"JIgx","/materials/UIElementMaterial":"F8cc","/shaders/ui/ss_texture_frag":"HZsS","/shaders/ui/ss_texture_vert":"Spsq","/ui/ui_element_position/ScreenSpacePosition":"GMfh","/ui/ui_element_position/WorldSpacePosition":"zIq8","/ui/ui_element_state/OnIdle":"XKzP","/ui/ui_element_state/OnMouseEnter":"Ow46","/ui/ui_element_state/OnMouseExit":"Eg4K","/ui/ui_element_state/OnMouseHover":"SPP6"}],"uwzL":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform float _Thickness;\n\nattribute vec3 next_position;\nattribute vec3 previous_position;\nattribute float orientation;\nattribute float coverage;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nvec3 w_space_normal(vec3 from, vec3 to)\n{\n  vec3 w_from = (modelMatrix * vec4(from, 1.0)).xyz;\n  vec3 w_to   = (modelMatrix * vec4(to, 1.0)).xyz;\n\n  vec3 z = normalize(w_to - w_from);\n  return normalize(cross(z , normalize(cameraPosition - w_from)));\n\n}\n\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n\n  vec3 pos = position;\n  vec3 normal = w_space_normal(next_position ,previous_position);\n  pos = (modelMatrix * vec4(pos, 1.0)).xyz;\n  pos += normal * (_Thickness * 0.5) * orientation;\n\n  gl_Position = VP * vec4(pos, 1.0);\n\n  line_coverage = coverage;\n  uv_u = orientation * 0.5 + 0.5;\n\n}";
+module.exports = "#define GLSLIFY 1\nuniform float _Thickness;\n\nattribute vec3 next_position;\nattribute vec3 previous_position;\nattribute float orientation;\nattribute float coverage;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nvec3 w_space_normal(vec3 from, vec3 to)\n{\n  vec3 w_from = (modelMatrix * vec4(from, 1.0)).xyz;\n  vec3 w_to   = (modelMatrix * vec4(to, 1.0)).xyz;\n\n  vec3 z = normalize(w_to - w_from);\n  return normalize(cross(z , normalize(cameraPosition - w_from)));\n\n}\n\nvoid main()\n{\n\n  mat4 VP = projectionMatrix * viewMatrix;\n\n  vec3 pos = position;\n  vec3 normal = w_space_normal(next_position ,previous_position);\n  pos = (modelMatrix * vec4(pos, 1.0)).xyz;\n  pos += normal * (_Thickness * 0.5) * orientation;\n\n  gl_Position = VP * vec4(pos, 1.0);\n\n  line_coverage = coverage;\n  uv_u = orientation * 0.5 + 0.5;\n\n}";
 },{}],"f148":[function(require,module,exports) {
-module.exports="#define GLSLIFY 1\nuniform float _Length;\nuniform float _ElapsedTime;\nuniform float _Thickness;\nuniform vec3  _Color;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\n    // float y = fract(line_coverage /_Thickness - _TrueElapsedTime) ;\n\n    // vec2 uv = vec2(uv_u, y);\n\n   \n    // vec4 col = texture2D(_ArrowsTex,uv);\n    // col.rgb *= _ForwardColor;\n    // col.a = aastep(0.5, col.a);\n    // gl_FragColor = col;\n    float u = (1.0 - abs(uv_u * 2.0 - 1.0));\n    float diffuse = dot(vec2(u, u), vec2(0.0, 1.0)) * 0.5+0.5;\n    gl_FragColor = vec4(_Color * diffuse, 1.0);\n\n}";
+module.exports = "#define GLSLIFY 1\nuniform float _Length;\nuniform float _ElapsedTime;\nuniform float _Thickness;\nuniform vec3  _Color;\n\nvarying float line_coverage;\nvarying float uv_u;\n\nfloat aastep(float threshold, float value) {\n  #ifdef GL_OES_standard_derivatives\n    float afwidth = length(vec2(dFdx(value), dFdy(value))) * 0.70710678118654757;\n    return smoothstep(threshold-afwidth, threshold+afwidth, value);\n  #else\n    return step(threshold, value);\n  #endif  \n}\n\nvoid main()\n{\n\n    // float y = fract(line_coverage /_Thickness - _TrueElapsedTime) ;\n\n    // vec2 uv = vec2(uv_u, y);\n\n   \n    // vec4 col = texture2D(_ArrowsTex,uv);\n    // col.rgb *= _ForwardColor;\n    // col.a = aastep(0.5, col.a);\n    // gl_FragColor = col;\n    float u = (1.0 - abs(uv_u * 2.0 - 1.0));\n    float diffuse = dot(vec2(u, u), vec2(0.0, 1.0)) * 0.5+0.5;\n    gl_FragColor = vec4(_Color * diffuse, 1.0);\n\n}";
 },{}],"BhSJ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=r(require("/shaders/basic_line/basic_line_vert")),e=r(require("/shaders/basic_line/basic_line_frag"));function r(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function i(t,e){for(var r=0;r<e.length;r++){var n=e[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}function u(t,e,r){return e&&i(t.prototype,e),r&&i(t,r),t}function s(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&a(t,e)}function a(t,e){return(a=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function l(t){return function(){var e,r=h(t);if(f()){var n=h(this).constructor;e=Reflect.construct(r,arguments,n)}else e=r.apply(this,arguments);return p(this,e)}}function p(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?c(t):e}function c(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function f(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function h(t){return(h=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(r){s(i,THREE.Mesh);var n=l(i);function i(r){var u;o(this,i);var s=new THREE.BufferGeometry;s.setAttribute("position",new THREE.BufferAttribute(new Float32Array([]),3)),s.setAttribute("next_position",new THREE.BufferAttribute(new Float32Array([]),3)),s.setAttribute("previous_position",new THREE.BufferAttribute(new Float32Array([]),3)),s.setAttribute("orientation",new THREE.BufferAttribute(new Float32Array([]),1)),s.setAttribute("coverage",new THREE.BufferAttribute(new Float32Array([]),1));var a=new THREE.ShaderMaterial({uniforms:{_Thickness:{value:.2},_Length:{value:0},_ElapsedTime:{value:0},_Color:{value:new THREE.Color("#FF0000")}},vertexShader:t.default,fragmentShader:e.default,transparent:!0,depthWrite:!1,extensions:{derivatives:!0}});return u=n.call(this,s,a),r&&u.setup(r),u}return u(i,[{key:"setup",value:function(t){for(var e=[],r=[],n=[],o=[],i=[],u=0,s=0;s<t.length;s++){e.push(t[s].x),e.push(t[s].y),e.push(t[s].z),o.push(1),e.push(t[s].x),e.push(t[s].y),e.push(t[s].z),o.push(-1);var a=this.__get_next_position(t,s);r.push(a.x),r.push(a.y),r.push(a.z),r.push(a.x),r.push(a.y),r.push(a.z);var l=this.__get_previous_position(t,s);n.push(l.x),n.push(l.y),n.push(l.z),n.push(l.x),n.push(l.y),n.push(l.z),s<t.length-1&&(u+=t[s].distanceTo(a)),i.push(u),i.push(u)}for(var p=new Float32Array(e),c=new Float32Array(r),f=new Float32Array(n),h=new Float32Array(o),y=new Float32Array(i),b=[],_=0;_<(p.length/3-2)/2;_++){var g=2*_+1;b.push(g),b.push(g+1),b.push(g-1),b.push(g),b.push(g+2),b.push(g+1)}this.geometry.setIndex(b),this.geometry.getAttribute("position").copy(new THREE.BufferAttribute(p,3)),this.geometry.getAttribute("next_position").copy(new THREE.BufferAttribute(c,3)),this.geometry.getAttribute("previous_position").copy(new THREE.BufferAttribute(f,3)),this.geometry.getAttribute("orientation").copy(new THREE.BufferAttribute(h,1)),this.geometry.getAttribute("coverage").copy(new THREE.BufferAttribute(y,1)),this.geometry.getAttribute("position").needsUpdate=!0,this.geometry.getAttribute("next_position").needsUpdate=!0,this.geometry.getAttribute("previous_position").needsUpdate=!0,this.geometry.getAttribute("orientation").needsUpdate=!0,this.geometry.getAttribute("coverage").needsUpdate=!0,this.material.uniforms._Length.value=u,this._length=u}},{key:"__get_previous_position",value:function(t,e){return 0===e?t[1].clone().sub(t[0]).multiplyScalar(-1).add(t[0]):t[e-1]}},{key:"__get_next_position",value:function(t,e){return e===t.length-1?t[t.length-2].clone().sub(t[t.length-1]).multiplyScalar(-1).add(t[t.length-1]):t[e+1]}},{key:"update",value:function(){}},{key:"distance",value:function(){return this.accumulated_length}},{key:"total_length",value:function(){return this.accumulated_length}},{key:"dispose",value:function(){this.geometry.dispose(),this.material.dispose(),this.parent&&this.parent.remove(this)}},{key:"copy_color",value:function(t){this.material.uniforms._Color.value.copy(t)}},{key:"thickness",set:function(t){this.material.uniforms._Thickness.value=t}},{key:"color",set:function(t){this.material.uniforms._Color.value.set(t)}}]),i}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _basic_line_vert = _interopRequireDefault(require("/shaders/basic_line/basic_line_vert"));
+
+var _basic_line_frag = _interopRequireDefault(require("/shaders/basic_line/basic_line_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Line = /*#__PURE__*/function (_THREE$Mesh) {
+  _inherits(Line, _THREE$Mesh);
+
+  var _super = _createSuper(Line);
+
+  function Line(points) {
+    var _this;
+
+    _classCallCheck(this, Line);
+
+    var geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('next_position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('previous_position', new THREE.BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('orientation', new THREE.BufferAttribute(new Float32Array([]), 1));
+    geometry.setAttribute('coverage', new THREE.BufferAttribute(new Float32Array([]), 1));
+    var material = new THREE.ShaderMaterial({
+      uniforms: {
+        _Thickness: {
+          value: 0.2
+        },
+        _Length: {
+          value: 0
+        },
+        _ElapsedTime: {
+          value: 0
+        },
+        _Color: {
+          value: new THREE.Color("#FF0000")
+        }
+      },
+      vertexShader: _basic_line_vert.default,
+      fragmentShader: _basic_line_frag.default,
+      transparent: true,
+      depthWrite: false,
+      extensions: {
+        derivatives: true
+      }
+    });
+    _this = _super.call(this, geometry, material);
+    if (points) _this.setup(points);
+    return _this;
+  }
+
+  _createClass(Line, [{
+    key: "setup",
+    value: function setup(points) {
+      var vertices = [];
+      var next_position = [];
+      var previous_position = [];
+      var orientation = [];
+      var coverage = [];
+      var accumulated_length = 0;
+
+      for (var i = 0; i < points.length; i++) {
+        vertices.push(points[i].x);
+        vertices.push(points[i].y);
+        vertices.push(points[i].z);
+        orientation.push(1);
+        vertices.push(points[i].x);
+        vertices.push(points[i].y);
+        vertices.push(points[i].z);
+        orientation.push(-1);
+
+        var next_point = this.__get_next_position(points, i);
+
+        next_position.push(next_point.x);
+        next_position.push(next_point.y);
+        next_position.push(next_point.z);
+        next_position.push(next_point.x);
+        next_position.push(next_point.y);
+        next_position.push(next_point.z);
+
+        var previous_point = this.__get_previous_position(points, i);
+
+        previous_position.push(previous_point.x);
+        previous_position.push(previous_point.y);
+        previous_position.push(previous_point.z);
+        previous_position.push(previous_point.x);
+        previous_position.push(previous_point.y);
+        previous_position.push(previous_point.z);
+        if (i < points.length - 1) accumulated_length += points[i].distanceTo(next_point);
+        coverage.push(accumulated_length);
+        coverage.push(accumulated_length);
+      }
+
+      var vertexList = new Float32Array(vertices);
+      var nextPositionList = new Float32Array(next_position);
+      var previousPositionList = new Float32Array(previous_position);
+      var orientationList = new Float32Array(orientation);
+      var coverageList = new Float32Array(coverage);
+      var indices = [];
+
+      for (var _i = 0; _i < (vertexList.length / 3 - 2) / 2; _i++) {
+        var index = _i * 2 + 1;
+        indices.push(index);
+        indices.push(index + 1);
+        indices.push(index - 1);
+        indices.push(index);
+        indices.push(index + 2);
+        indices.push(index + 1);
+      }
+
+      this.geometry.setIndex(indices);
+      this.geometry.getAttribute('position').copy(new THREE.BufferAttribute(vertexList, 3));
+      this.geometry.getAttribute('next_position').copy(new THREE.BufferAttribute(nextPositionList, 3));
+      this.geometry.getAttribute('previous_position').copy(new THREE.BufferAttribute(previousPositionList, 3));
+      this.geometry.getAttribute('orientation').copy(new THREE.BufferAttribute(orientationList, 1));
+      this.geometry.getAttribute('coverage').copy(new THREE.BufferAttribute(coverageList, 1));
+      this.geometry.getAttribute('position').needsUpdate = true;
+      this.geometry.getAttribute('next_position').needsUpdate = true;
+      this.geometry.getAttribute('previous_position').needsUpdate = true;
+      this.geometry.getAttribute('orientation').needsUpdate = true;
+      this.geometry.getAttribute('coverage').needsUpdate = true;
+      this.material.uniforms._Length.value = accumulated_length;
+      this._length = accumulated_length;
+    }
+  }, {
+    key: "__get_previous_position",
+    value: function __get_previous_position(points, i) {
+      if (i === 0) {
+        return points[1].clone().sub(points[0]).multiplyScalar(-1).add(points[0]);
+      } else {
+        return points[i - 1];
+      }
+    }
+  }, {
+    key: "__get_next_position",
+    value: function __get_next_position(points, i) {
+      if (i === points.length - 1) {
+        return points[points.length - 2].clone().sub(points[points.length - 1]).multiplyScalar(-1).add(points[points.length - 1]);
+      } else {
+        return points[i + 1];
+      }
+    }
+  }, {
+    key: "update",
+    value: function update() {}
+  }, {
+    key: "distance",
+    value: function distance() {
+      return this.accumulated_length;
+    }
+  }, {
+    key: "total_length",
+    value: function total_length() {
+      return this.accumulated_length;
+    }
+  }, {
+    key: "dispose",
+    value: function dispose() {
+      this.geometry.dispose();
+      this.material.dispose();
+      if (this.parent) this.parent.remove(this);
+    }
+  }, {
+    key: "copy_color",
+    value: function copy_color(col) {
+      this.material.uniforms._Color.value.copy(col);
+    }
+  }, {
+    key: "thickness",
+    set: function set(value) {
+      this.material.uniforms._Thickness.value = value;
+    }
+  }, {
+    key: "color",
+    set: function set(col) {
+      this.material.uniforms._Color.value.set(col);
+    }
+  }]);
+
+  return Line;
+}(THREE.Mesh);
+
+exports.default = Line;
 },{"/shaders/basic_line/basic_line_vert":"uwzL","/shaders/basic_line/basic_line_frag":"f148"}],"m3BF":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=u(require("/components/Grid")),t=u(require("/components/UIElement")),r=u(require("/components/Line"));function u(e){return e&&e.__esModule?e:{default:e}}var n={Grid:e.default,Line:r.default,UIElement:t.default};exports.default=n;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Grid = _interopRequireDefault(require("/components/Grid"));
+
+var _UIElement = _interopRequireDefault(require("/components/UIElement"));
+
+var _Line = _interopRequireDefault(require("/components/Line"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = {
+  Grid: _Grid.default,
+  Line: _Line.default,
+  UIElement: _UIElement.default
+};
+exports.default = _default;
 },{"/components/Grid":"rXwc","/components/UIElement":"IBEu","/components/Line":"BhSJ"}],"LsO8":[function(require,module,exports) {
-"use strict";function e(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function t(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}function n(e,n,i){return n&&t(e.prototype,n),i&&t(e,i),e}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var i=function(){function t(n){e(this,t),this.uses_dynamic_font=n,this.__textHeight=null,this.canvas=document.createElement("canvas"),this.ctx=this.canvas.getContext("2d")}return n(t,[{key:"getFontHeight",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"Arial";if(null==this.__textHeight||this.uses_dynamic_font){var t=document.getElementsByTagName("body")[0],n=document.createElement("div"),i=document.createTextNode("MÉqgOLAKTAL");n.appendChild(i),n.setAttribute("style","font:".concat(e,";position:absolute;top:0;left:0")),t.appendChild(n),this.__textHeight=n.offsetHeight,t.removeChild(n)}return this.__textHeight}},{key:"get_text_size",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"24px Arial",n=new THREE.Vector2;return this.ctx.font=t,n.x=Math.ceil(this.ctx.measureText(e).width)*window.devicePixelRatio,n.y=Math.ceil(this.getFontHeight(t))*window.devicePixelRatio,n}},{key:"draw_canvas",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return t.font=t.font||"24px Arial",t.font_color=t.font_color||"#000000",this.__draw(e,t,this.canvas,this.ctx),this.canvas}},{key:"draw_on_texture",value:function(e,t){var n=this.draw_canvas(e,t),i=new THREE.CanvasTexture(n,THREE.UVMapping,THREE.ClampToEdgeWrapping,THREE.ClampToEdgeWrapping,THREE.NearestFilter,THREE.NearestFilter);return i.generateMipMaps=!1,i.needsUpdate=!0,i}},{key:"__draw",value:function(e,t){}},{key:"roundRect",value:function(e,t,n,i,a,r,o,l){if(void 0===l&&(l=!0),void 0===r&&(r=5),"number"==typeof r)r={tl:r,tr:r,br:r,bl:r};else{var u={tl:0,tr:0,br:0,bl:0};for(var s in u)r[s]=r[s]||u[s]}e.beginPath(),e.moveTo(t+r.tl,n),e.lineTo(t+i-r.tr,n),e.quadraticCurveTo(t+i,n,t+i,n+r.tr),e.lineTo(t+i,n+a-r.br),e.quadraticCurveTo(t+i,n+a,t+i-r.br,n+a),e.lineTo(t+r.bl,n+a),e.quadraticCurveTo(t,n+a,t,n+a-r.bl),e.lineTo(t,n+r.tl),e.quadraticCurveTo(t,n,t+r.tl,n),e.closePath(),o&&e.fill(),l&&e.stroke()}}]),t}();exports.default=i;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var CanvasDrawer = /*#__PURE__*/function () {
+  function CanvasDrawer(uses_dynamic_font) {
+    _classCallCheck(this, CanvasDrawer);
+
+    this.uses_dynamic_font = uses_dynamic_font;
+    this.__textHeight = null;
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
+  }
+
+  _createClass(CanvasDrawer, [{
+    key: "getFontHeight",
+    value: function getFontHeight() {
+      var fontStyle = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "Arial";
+
+      if (this.__textHeight == null || this.uses_dynamic_font) {
+        var body = document.getElementsByTagName('body')[0];
+        var dummy = document.createElement('div');
+        var dummyText = document.createTextNode('MÉqgOLAKTAL');
+        dummy.appendChild(dummyText);
+        dummy.setAttribute('style', "font:".concat(fontStyle, ";position:absolute;top:0;left:0"));
+        body.appendChild(dummy);
+        this.__textHeight = dummy.offsetHeight;
+        body.removeChild(dummy);
+      }
+
+      return this.__textHeight;
+    }
+  }, {
+    key: "get_text_size",
+    value: function get_text_size(text) {
+      var font = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "24px Arial";
+      var size = new THREE.Vector2();
+      this.ctx.font = font;
+      size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
+      size.y = Math.ceil(this.getFontHeight(font)) * window.devicePixelRatio;
+      return size;
+    }
+  }, {
+    key: "draw_canvas",
+    value: function draw_canvas(text) {
+      var ctxOptions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      ctxOptions.font = ctxOptions.font || '24px Arial';
+      ctxOptions.font_color = ctxOptions.font_color || '#000000';
+
+      this.__draw(text, ctxOptions, this.canvas, this.ctx);
+
+      return this.canvas;
+    }
+  }, {
+    key: "draw_on_texture",
+    value: function draw_on_texture(text, ctxOptions) {
+      var canvas = this.draw_canvas(text, ctxOptions);
+      var canvas_texture = new THREE.CanvasTexture(canvas, THREE.UVMapping, THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, THREE.NearestFilter, THREE.NearestFilter);
+      canvas_texture.generateMipMaps = false;
+      canvas_texture.needsUpdate = true;
+      return canvas_texture;
+    }
+  }, {
+    key: "__draw",
+    value: function __draw(text, ctxOptions) {}
+  }, {
+    key: "roundRect",
+    value: function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+      if (typeof stroke == 'undefined') {
+        stroke = true;
+      }
+
+      if (typeof radius === 'undefined') {
+        radius = 5;
+      }
+
+      if (typeof radius === 'number') {
+        radius = {
+          tl: radius,
+          tr: radius,
+          br: radius,
+          bl: radius
+        };
+      } else {
+        var defaultRadius = {
+          tl: 0,
+          tr: 0,
+          br: 0,
+          bl: 0
+        };
+
+        for (var side in defaultRadius) {
+          radius[side] = radius[side] || defaultRadius[side];
+        }
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(x + radius.tl, y);
+      ctx.lineTo(x + width - radius.tr, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+      ctx.lineTo(x + width, y + height - radius.br);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+      ctx.lineTo(x + radius.bl, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+      ctx.lineTo(x, y + radius.tl);
+      ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+      ctx.closePath();
+
+      if (fill) {
+        ctx.fill();
+      }
+
+      if (stroke) {
+        ctx.stroke();
+      }
+    }
+  }]);
+
+  return CanvasDrawer;
+}();
+
+exports.default = CanvasDrawer;
 },{}],"hKPB":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=e(require("/canvas_drawer/CanvasDrawer"));function e(t){return t&&t.__esModule?t:{default:t}}function n(t){return(n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function r(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function o(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}function i(t,e,n){return e&&o(t.prototype,e),n&&o(t,n),t}function u(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function");t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,writable:!0,configurable:!0}}),e&&c(t,e)}function c(t,e){return(c=Object.setPrototypeOf||function(t,e){return t.__proto__=e,t})(t,e)}function f(t){return function(){var e,n=p(t);if(s()){var r=p(this).constructor;e=Reflect.construct(n,arguments,r)}else e=n.apply(this,arguments);return l(this,e)}}function l(t,e){return!e||"object"!==n(e)&&"function"!=typeof e?a(t):e}function a(t){if(void 0===t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return t}function s(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],function(){})),!0}catch(t){return!1}}function p(t){return(p=Object.setPrototypeOf?Object.getPrototypeOf:function(t){return t.__proto__||Object.getPrototypeOf(t)})(t)}var y=function(e){u(o,t.default);var n=f(o);function o(){var t;return r(this,o),(t=n.call(this)).text_margin=new THREE.Vector2(2,0),t}return i(o,[{key:"__draw",value:function(t,e,n,r){r.font=e.font;var o=this.get_text_size(t,e.font);n.width=Math.ceil(o.x+2*this.text_margin.x),n.height=Math.ceil(o.y+2*this.text_margin.y),r.clearRect(0,0,n.width,n.height),r.globalAlpha=1,r.font=e.font,r.fillStyle=e.font_color||"#000000",r.textBaseline="middle",r.textAlignment="left",r.fillText(t,0,n.height/2)}}]),o}();exports.default=y;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CanvasDrawer2 = _interopRequireDefault(require("/canvas_drawer/CanvasDrawer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var SimpleTextDrawer = /*#__PURE__*/function (_CanvasDrawer) {
+  _inherits(SimpleTextDrawer, _CanvasDrawer);
+
+  var _super = _createSuper(SimpleTextDrawer);
+
+  function SimpleTextDrawer() {
+    var _this;
+
+    _classCallCheck(this, SimpleTextDrawer);
+
+    _this = _super.call(this);
+    _this.text_margin = new THREE.Vector2(2, 0);
+    return _this;
+  }
+
+  _createClass(SimpleTextDrawer, [{
+    key: "__draw",
+    value: function __draw(text, ctxOptions, canvas, ctx) {
+      ctx.font = ctxOptions.font;
+      var text_size = this.get_text_size(text, ctxOptions.font); // canvas.width = THREE.Math.ceilPowerOfTwo(text_size.x+this.text_margin.x*2);
+      // canvas.height = THREE.Math.ceilPowerOfTwo(text_size.y+ this.text_margin.y*2);
+
+      canvas.width = Math.ceil(text_size.x + this.text_margin.x * 2);
+      canvas.height = Math.ceil(text_size.y + this.text_margin.y * 2);
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // ctx.globalAlpha = 0.2;
+      // ctx.fillStyle = "#FF0000";
+      // ctx.fillRect(0,0, canvas.width, canvas.height);
+
+      ctx.globalAlpha = 1;
+      ctx.font = ctxOptions.font;
+      ctx.fillStyle = ctxOptions.font_color || "#000000";
+      ctx.textBaseline = "middle";
+      ctx.textAlignment = "left";
+      ctx.fillText(text, 0, canvas.height / 2);
+    }
+  }]);
+
+  return SimpleTextDrawer;
+}(_CanvasDrawer2.default);
+
+exports.default = SimpleTextDrawer;
 },{"/canvas_drawer/CanvasDrawer":"LsO8"}],"Focm":[function(require,module,exports) {
-"use strict";var e=E(require("/utilities/ArrayUtilities.js")),r=E(require("/BaseApplication")),i=E(require("/materials/BaseShaderMaterial")),a=E(require("/CameraManager")),t=E(require("/utilities/CameraUtilities")),u=E(require("/Capabilities")),l=E(require("/Configuration")),d=E(require("/utilities/EasingFunctions")),s=E(require("/EventManager")),n=E(require("/Debug")),o=E(require("/Graphics")),f=E(require("/Input")),q=E(require("/utilities/MathUtilities")),c=E(require("/render_mode/NormalRender")),m=E(require("/render_mode/DeferredRender")),p=E(require("/render_mode/DebugNormalsRender")),g=E(require("/utilities/ObjectUtilities")),C=E(require("/PerspectiveCamera")),U=E(require("/RenderLoop")),M=E(require("/resource_loader/ResourceBatch")),R=E(require("/ResourceContainer")),D=E(require("/SceneManager")),v=E(require("/Screen")),b=E(require("/Time")),h=E(require("/UI")),S=E(require("/utilities/TimeUtilities")),_=E(require("/utilities/ImageUtilities")),w=E(require("/utilities/ModelUtilities")),B=E(require("/utilities/Validation")),I=E(require("/Components")),T=E(require("/canvas_drawer/CanvasDrawer")),A=E(require("/canvas_drawer/SimpleTextDrawer"));function E(e){return e&&e.__esModule?e:{default:e}}module.exports={ArrayUtilities:e.default,BaseApplication:r.default,BaseShaderMaterial:i.default,CameraManager:a.default,CameraUtilities:t.default,Capabilities:u.default,Configuration:l.default,EasingFunctions:d.default,EventManager:s.default,Debug:n.default,Graphics:o.default,Input:f.default,MathUtilities:q.default,NormalRender:c.default,DeferredRender:m.default,DebugNormalsRender:p.default,ObjectUtilities:g.default,PerspectiveCamera:C.default,RenderLoop:U.default,ResourceBatch:M.default,ResourceContainer:R.default,SceneManager:D.default,Screen:v.default,Time:b.default,TimeUtilities:S.default,ImageUtilities:_.default,ModelUtilities:w.default,Validation:B.default,Components:I.default,UI:h.default,CanvasDrawer:T.default,SimpleTextDrawer:A.default};
+"use strict";
+
+var _ArrayUtilities = _interopRequireDefault(require("/utilities/ArrayUtilities.js"));
+
+var _BaseApplication = _interopRequireDefault(require("/BaseApplication"));
+
+var _BaseShaderMaterial = _interopRequireDefault(require("/materials/BaseShaderMaterial"));
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _CameraUtilities = _interopRequireDefault(require("/utilities/CameraUtilities"));
+
+var _Capabilities = _interopRequireDefault(require("/Capabilities"));
+
+var _Configuration = _interopRequireDefault(require("/Configuration"));
+
+var _EasingFunctions = _interopRequireDefault(require("/utilities/EasingFunctions"));
+
+var _EventManager = _interopRequireDefault(require("/EventManager"));
+
+var _Debug = _interopRequireDefault(require("/Debug"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+var _Input = _interopRequireDefault(require("/Input"));
+
+var _MathUtilities = _interopRequireDefault(require("/utilities/MathUtilities"));
+
+var _NormalRender = _interopRequireDefault(require("/render_mode/NormalRender"));
+
+var _DeferredRender = _interopRequireDefault(require("/render_mode/DeferredRender"));
+
+var _DebugNormalsRender = _interopRequireDefault(require("/render_mode/DebugNormalsRender"));
+
+var _ObjectUtilities = _interopRequireDefault(require("/utilities/ObjectUtilities"));
+
+var _PerspectiveCamera = _interopRequireDefault(require("/PerspectiveCamera"));
+
+var _RenderLoop = _interopRequireDefault(require("/RenderLoop"));
+
+var _ResourceBatch = _interopRequireDefault(require("/resource_loader/ResourceBatch"));
+
+var _ResourceContainer = _interopRequireDefault(require("/ResourceContainer"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _Time = _interopRequireDefault(require("/Time"));
+
+var _UI = _interopRequireDefault(require("/UI"));
+
+var _TimeUtilities = _interopRequireDefault(require("/utilities/TimeUtilities"));
+
+var _ImageUtilities = _interopRequireDefault(require("/utilities/ImageUtilities"));
+
+var _ModelUtilities = _interopRequireDefault(require("/utilities/ModelUtilities"));
+
+var _Validation = _interopRequireDefault(require("/utilities/Validation"));
+
+var _Components = _interopRequireDefault(require("/Components"));
+
+var _CanvasDrawer = _interopRequireDefault(require("/canvas_drawer/CanvasDrawer"));
+
+var _SimpleTextDrawer = _interopRequireDefault(require("/canvas_drawer/SimpleTextDrawer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = {
+  ArrayUtilities: _ArrayUtilities.default,
+  BaseApplication: _BaseApplication.default,
+  BaseShaderMaterial: _BaseShaderMaterial.default,
+  CameraManager: _CameraManager.default,
+  CameraUtilities: _CameraUtilities.default,
+  Capabilities: _Capabilities.default,
+  Configuration: _Configuration.default,
+  EasingFunctions: _EasingFunctions.default,
+  EventManager: _EventManager.default,
+  Debug: _Debug.default,
+  Graphics: _Graphics.default,
+  Input: _Input.default,
+  MathUtilities: _MathUtilities.default,
+  NormalRender: _NormalRender.default,
+  DeferredRender: _DeferredRender.default,
+  DebugNormalsRender: _DebugNormalsRender.default,
+  ObjectUtilities: _ObjectUtilities.default,
+  PerspectiveCamera: _PerspectiveCamera.default,
+  RenderLoop: _RenderLoop.default,
+  ResourceBatch: _ResourceBatch.default,
+  ResourceContainer: _ResourceContainer.default,
+  SceneManager: _SceneManager.default,
+  Screen: _Screen.default,
+  Time: _Time.default,
+  TimeUtilities: _TimeUtilities.default,
+  ImageUtilities: _ImageUtilities.default,
+  ModelUtilities: _ModelUtilities.default,
+  Validation: _Validation.default,
+  Components: _Components.default,
+  UI: _UI.default,
+  CanvasDrawer: _CanvasDrawer.default,
+  SimpleTextDrawer: _SimpleTextDrawer.default
+};
 },{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Configuration":"RyjO","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Debug":"J9UP","/Graphics":"xMH9","/Input":"k3P6","/utilities/MathUtilities":"ayC1","/render_mode/NormalRender":"Zz8J","/render_mode/DeferredRender":"VyPa","/render_mode/DebugNormalsRender":"M0uM","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/Time":"wewU","/UI":"yntx","/utilities/TimeUtilities":"wwEn","/utilities/ImageUtilities":"XAIA","/utilities/ModelUtilities":"c2tY","/utilities/Validation":"bOug","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/canvas_drawer/SimpleTextDrawer":"hKPB"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

@@ -46,8 +46,8 @@ export default class ResourceBatch
 	add_audio(resource_id, url, listener, loop, volume) {
 		this.resource_loaders.push(new AudioLoader(resource_id, url, listener, loop, volume));
 	}
-	add_json(resource_id, url, username, password) {
-		this.resource_loaders.push(new JSONLoader(resource_id, url, username, password));
+	add_json(resource_id, url) {
+		this.resource_loaders.push(new JSONLoader(resource_id, url));
 	}
 	add_point_array(resource_id, url)
 	{
@@ -102,6 +102,11 @@ export default class ResourceBatch
 		for(let i=0; i< this.resource_loaders.length; i++)
 		{
 			progress+=this.resource_loaders[i].progress;
+		}
+		if(progress === 0)
+		{
+			console.error("Batch "+this.name+" does not contain any loaders");
+			return 0;
 		}
 		return progress/this.resource_loaders.length;
 	}

@@ -5,6 +5,7 @@ import SceneManager from '/SceneManager';
 import Graphics from '/Graphics';
 import Cube from '/primitives/Cube';
 import Sphere from '/primitives/Sphere';
+import Arrow from '/primitives/Arrow';
 
 class Debug {
   constructor() {
@@ -30,6 +31,14 @@ class Debug {
     // this.ctx.clearRect(0, 0, cln.width, cln.height);
     // this.ctx.fillStyle =  "rgba(255, 0, 0, 1)";
 
+  }
+
+  draw_arrow(origin, dir, color = 0xff0000)
+  {
+    let arrow = new Arrow(color, dir.length(), dir.clone().normalize());
+    arrow.position.copy(origin);
+    SceneManager.current.add(arrow);
+    return arrow;
   }
 
   draw_axis()
