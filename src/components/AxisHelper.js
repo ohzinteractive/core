@@ -6,7 +6,7 @@ export default class AxisHelper extends THREE.Object3D {
     const blueAxisMat = new THREE.LineBasicMaterial({ color: 0x4444ff, depthFunc: THREE.AlwaysDepth });
     const blueAxisGeo = new THREE.Geometry();
     blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
-    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, -1000));
+    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 1000));
     const blueAxisLine = new THREE.Line(blueAxisGeo, blueAxisMat);
     blueAxisLine.renderOrder = 50000;
 

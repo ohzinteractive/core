@@ -56,4 +56,23 @@ export default class MathUtilities
   static equals(x1, x2) {
     return Math.abs(x1 - x2) < 0.000001
   }
+
+  static perspective_divide(v)
+  {
+    v.x /= v.w;
+    v.y /= v.w;
+    v.z /= v.w;
+    return v;
+  }
+
+  static points_average(points)
+  {
+    let center = points[0].clone();
+    for(let i=1; i< points.length; i++)
+    {
+      center.add(points[i]);
+    }
+    center.multiplyScalar(1/points.length);
+    return center;
+  }
 }

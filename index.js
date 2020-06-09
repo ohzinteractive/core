@@ -159,6 +159,21 @@ var ArrayUtilities = /*#__PURE__*/function () {
         array.splice(index, 1);
       }
     }
+  }, {
+    key: "get_closest_point",
+    value: function get_closest_point(points, target) {
+      var closest_point = points[0];
+      var closest_distance = closest_point.distanceTo(target);
+
+      for (var i = 1; i < points.length; i++) {
+        if (points[i].distanceTo(target) < closest_distance) {
+          closest_point = points[i];
+          closest_distance = points[i].distanceTo(target);
+        }
+      }
+
+      return closest_point;
+    }
   }]);
 
   return ArrayUtilities;
@@ -1364,6 +1379,26 @@ var MathUtilities = /*#__PURE__*/function () {
     value: function equals(x1, x2) {
       return Math.abs(x1 - x2) < 0.000001;
     }
+  }, {
+    key: "perspective_divide",
+    value: function perspective_divide(v) {
+      v.x /= v.w;
+      v.y /= v.w;
+      v.z /= v.w;
+      return v;
+    }
+  }, {
+    key: "points_average",
+    value: function points_average(points) {
+      var center = points[0].clone();
+
+      for (var i = 1; i < points.length; i++) {
+        center.add(points[i]);
+      }
+
+      center.multiplyScalar(1 / points.length);
+      return center;
+    }
   }]);
 
   return MathUtilities;
@@ -1825,7 +1860,7 @@ var AxisHelper = /*#__PURE__*/function (_THREE$Object3D) {
     });
     var blueAxisGeo = new THREE.Geometry();
     blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 0));
-    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, -1000));
+    blueAxisGeo.vertices.push(new THREE.Vector3(0, 0, 1000));
     var blueAxisLine = new THREE.Line(blueAxisGeo, blueAxisMat);
     blueAxisLine.renderOrder = 50000;
     var greenAxisMat = new THREE.LineBasicMaterial({
