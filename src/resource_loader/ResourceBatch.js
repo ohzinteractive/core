@@ -105,8 +105,7 @@ export default class ResourceBatch
 		}
 		if (this.resource_loaders.length === 0)
 		{
-			console.error("Batch "+this.name+" does not contain any loaders");
-			return 0;
+			return 1;
 		}
 		return progress/this.resource_loaders.length;
 	}
