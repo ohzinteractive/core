@@ -12,7 +12,6 @@ import Graphics from '/Graphics';
 import Input from '/Input';
 import MathUtilities from '/utilities/MathUtilities';
 import NormalRender from '/render_mode/NormalRender';
-import DeferredRender from '/render_mode/DeferredRender';
 import DebugNormalsRender from '/render_mode/DebugNormalsRender';
 import ObjectUtilities from '/utilities/ObjectUtilities';
 import PerspectiveCamera from '/PerspectiveCamera';
@@ -46,7 +45,6 @@ module.exports = {
   Input: Input,
   MathUtilities: MathUtilities,
   NormalRender: NormalRender,
-  DeferredRender: DeferredRender,
   DebugNormalsRender: DebugNormalsRender,
   ObjectUtilities: ObjectUtilities,
   PerspectiveCamera: PerspectiveCamera,
