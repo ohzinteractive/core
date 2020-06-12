@@ -835,7 +835,7 @@ var Input = /*#__PURE__*/function () {
             this.pinching_with_trackpad = false;
             this.scrolling_with_trackpad = true;
             this.scrolling_with_mouse = false;
-            this.wheel_delta = 1 - event.deltaY / 350 * 2.0 - 1;
+            this.wheel_delta = THREE.Math.clamp(event.deltaY / 350, -1, 1);
           } else {
             // Negative values means scroll up
             // Positive values means scroll down
