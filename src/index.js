@@ -4,15 +4,20 @@ import BaseShaderMaterial from '/materials/BaseShaderMaterial';
 import CameraManager from '/CameraManager';
 import CameraUtilities from '/utilities/CameraUtilities';
 import Capabilities from '/Capabilities';
+import Components from '/Components';
+import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
 import Configuration from '/Configuration';
+import Debug from '/Debug';
+import DebugNormalsRender from '/render_mode/DebugNormalsRender';
 import EasingFunctions from '/utilities/EasingFunctions';
 import EventManager from '/EventManager';
-import Debug from '/Debug';
 import Graphics from '/Graphics';
+import ImageUtilities from '/utilities/ImageUtilities';
 import Input from '/Input';
+import JSONLoader from '/resource_loader/JSONLoader';
 import MathUtilities from '/utilities/MathUtilities';
+import ModelUtilities from '/utilities/ModelUtilities';
 import NormalRender from '/render_mode/NormalRender';
-import DebugNormalsRender from '/render_mode/DebugNormalsRender';
 import ObjectUtilities from '/utilities/ObjectUtilities';
 import PerspectiveCamera from '/PerspectiveCamera';
 import RenderLoop from '/RenderLoop';
@@ -20,15 +25,11 @@ import ResourceBatch from '/resource_loader/ResourceBatch';
 import ResourceContainer from '/ResourceContainer';
 import SceneManager from '/SceneManager';
 import Screen from '/Screen';
-import Time from '/Time';
-import UI from '/UI';
-import TimeUtilities from '/utilities/TimeUtilities';
-import ImageUtilities from '/utilities/ImageUtilities';
-import ModelUtilities from '/utilities/ModelUtilities';
-import Validation from '/utilities/Validation';
-import Components from '/Components';
-import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
 import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
+import Time from '/Time';
+import TimeUtilities from '/utilities/TimeUtilities';
+import UI from '/UI';
+import Validation from '/utilities/Validation';
 
 module.exports = {
   ArrayUtilities: ArrayUtilities,
@@ -36,16 +37,21 @@ module.exports = {
   BaseShaderMaterial: BaseShaderMaterial,
   CameraManager: CameraManager,
   CameraUtilities: CameraUtilities,
+  CanvasDrawer: CanvasDrawer,
   Capabilities: Capabilities,
+  Components: Components,
   Configuration: Configuration,
+  Debug: Debug,
+  DebugNormalsRender: DebugNormalsRender,
   EasingFunctions: EasingFunctions,
   EventManager: EventManager,
-  Debug: Debug,
   Graphics: Graphics,
+  ImageUtilities: ImageUtilities,
   Input: Input,
+  JSONLoader: JSONLoader,
   MathUtilities: MathUtilities,
+  ModelUtilities: ModelUtilities,
   NormalRender: NormalRender,
-  DebugNormalsRender: DebugNormalsRender,
   ObjectUtilities: ObjectUtilities,
   PerspectiveCamera: PerspectiveCamera,
   RenderLoop: RenderLoop,
@@ -53,13 +59,9 @@ module.exports = {
   ResourceContainer: ResourceContainer,
   SceneManager: SceneManager,
   Screen: Screen,
+  SimpleTextDrawer: SimpleTextDrawer,
   Time: Time,
   TimeUtilities: TimeUtilities,
-  ImageUtilities: ImageUtilities,
-  ModelUtilities: ModelUtilities,
-  Validation: Validation,
-  Components: Components,
   UI: UI,
-  CanvasDrawer: CanvasDrawer,
-  SimpleTextDrawer: SimpleTextDrawer
+  Validation: Validation
 }

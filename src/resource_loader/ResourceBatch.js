@@ -53,6 +53,10 @@ export default class ResourceBatch
 	{
 		this.resource_loaders.push(new PointArrayLoader(resource_id, url));
 	}
+	add_loader(loader)
+	{
+		this.resource_loaders.push(loader)
+	}
   add_hdr(resource_id, url)
   {
     this.resource_loaders.push(new RGBETextureLoader(resource_id, url));
