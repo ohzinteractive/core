@@ -174,6 +174,18 @@ var ArrayUtilities = /*#__PURE__*/function () {
 
       return closest_point;
     }
+  }, {
+    key: "object_values_to_array",
+    value: function object_values_to_array(obj) {
+      var ids = Object.keys(obj);
+      var arr = [];
+
+      for (var i = 0; i < ids.length; i++) {
+        arr.push(obj[ids[i]]);
+      }
+
+      return arr;
+    }
   }]);
 
   return ArrayUtilities;
@@ -355,13 +367,13 @@ var Screen = /*#__PURE__*/function () {
   }, {
     key: "apply_pixel_density_v2",
     value: function apply_pixel_density_v2(vector2) {
-      vector2.multiplyScalar(1 / window.devicePixelRatio);
+      vector2.multiplyScalar(1 / this.dpr);
       return vector2;
     }
   }, {
     key: "apply_pixel_density",
     value: function apply_pixel_density(value) {
-      return value * (1 / window.devicePixelRatio);
+      return value * (1 / this.dpr);
     }
   }, {
     key: "get_pixel_size",
@@ -2450,16 +2462,21 @@ var Graphics = /*#__PURE__*/function () {
       }
 
       if (_CameraManager.default.current) {
-        _CameraManager.default.current.aspect = _Screen.default.aspect_ratio;
-
-        _CameraManager.default.current.updateProjectionMatrix();
-
-        _CameraManager.default.current.updateMatrix();
-
-        _CameraManager.default.current.updateMatrixWorld(true);
+        this.__update_current_camera();
 
         this.current_render_mode.render();
       }
+    }
+  }, {
+    key: "__update_current_camera",
+    value: function __update_current_camera() {
+      _CameraManager.default.current.aspect = _Screen.default.aspect_ratio;
+
+      _CameraManager.default.current.updateProjectionMatrix();
+
+      _CameraManager.default.current.updateMatrix();
+
+      _CameraManager.default.current.updateMatrixWorld(true);
     }
   }, {
     key: "render",
@@ -2500,12 +2517,17 @@ var Graphics = /*#__PURE__*/function () {
       var current_width = this.canvas.clientWidth;
       var current_height = this.canvas.clientHeight;
 
-      if (this.canvas.width !== _Screen.default.render_width || this.canvas.height !== _Screen.default.render_height || current_width !== _Screen.default.width || current_height !== _Screen.default.height) {
+      if (current_width !== _Screen.default.width || current_height !== _Screen.default.height || window.devicePixelRatio !== _Screen.default.dpr) {
+        _Screen.default.dpr = window.devicePixelRatio;
+
         _Screen.default.update_size(current_width, current_height);
 
-        this._renderer.setSize(_Screen.default.render_width, _Screen.default.render_height, false);
+        this.canvas.width = _Screen.default.render_width;
+        this.canvas.height = _Screen.default.render_height;
 
-        this.current_render_mode.resize(_Screen.default.render_width, _Screen.default.render_height);
+        this._renderer.setViewport(0, 0, _Screen.default.render_width, _Screen.default.render_height);
+
+        this.__update_current_camera();
       }
     }
   }, {
@@ -3998,12 +4020,14 @@ var Debug = /*#__PURE__*/function () {
     }
   }, {
     key: "draw_line",
-    value: function draw_line(points, color) {
+    value: function draw_line(points) {
+      var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0xff0000;
       var material = new THREE.LineBasicMaterial({
         color: color
       });
       var geometry = new THREE.BufferGeometry().setFromPoints(points);
       var line = new THREE.Line(geometry, material);
+      line.frustumCulled = false;
 
       _SceneManager.default.current.add(line);
 
@@ -6252,14 +6276,14 @@ var ResourceBatch = /*#__PURE__*/function () {
       this.resource_loaders.push(new _PointArrayLoader.default(resource_id, url));
     }
   }, {
-    key: "add_loader",
-    value: function add_loader(loader) {
-      this.resource_loaders.push(loader);
-    }
-  }, {
     key: "add_hdr",
     value: function add_hdr(resource_id, url) {
       this.resource_loaders.push(new _RGBETextureLoader.default(resource_id, url));
+    }
+  }, {
+    key: "add_loader",
+    value: function add_loader(loader) {
+      this.resource_loaders.push(loader);
     }
   }, {
     key: "load",

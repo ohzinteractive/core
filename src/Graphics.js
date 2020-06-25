@@ -158,8 +158,6 @@ class Graphics {
       this.canvas.width  = Screen.render_width;
       this.canvas.height = Screen.render_height;
       this._renderer.setViewport(0, 0, Screen.render_width, Screen.render_height);
-      console.log(this.canvas.width);
-      console.log("UPDATE");
 
       this.__update_current_camera();
     }
