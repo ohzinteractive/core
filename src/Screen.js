@@ -31,13 +31,13 @@ class Screen {
 
 	apply_pixel_density_v2(vector2)
 	{
-		vector2.multiplyScalar(1/window.devicePixelRatio);
+		vector2.multiplyScalar(1/this.dpr);
 
 		return vector2;
 	}
 	apply_pixel_density(value)
 	{
-		return value * (1/window.devicePixelRatio);
+		return value * (1/this.dpr);
 	}
 
 

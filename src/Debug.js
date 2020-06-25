@@ -79,7 +79,7 @@ class Debug {
     this.ctx.stroke();
   }
 
-  draw_line(points, color)
+  draw_line(points, color = 0xff0000)
   {
     var material = new THREE.LineBasicMaterial({
       color: color
@@ -88,9 +88,12 @@ class Debug {
     var geometry = new THREE.BufferGeometry().setFromPoints(points);
 
     var line = new THREE.Line(geometry, material);
+    line.frustumCulled = false;
     SceneManager.current.add(line);
     return line;
   }
+
+
   draw_cube(pos, size, color)
   {
     size = size || 1;

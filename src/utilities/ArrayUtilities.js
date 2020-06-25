@@ -41,5 +41,14 @@ export default class ArrayUtilities
     return closest_point;
   }
 
+  static object_values_to_array(obj) {
+    let ids = Object.keys(obj)
+    let arr = [];
+    for (let i = 0; i < ids.length; i++) {
+      arr.push(obj[ids[i]]);
+    }
+    return arr;
+  }
+
 }
 

@@ -85,14 +85,17 @@ class Graphics {
 
     if(CameraManager.current)
     {
-      CameraManager.current.aspect = Screen.aspect_ratio;
-
-      CameraManager.current.updateProjectionMatrix();
-
-      CameraManager.current.updateMatrix();
-      CameraManager.current.updateMatrixWorld(true);
+      this.__update_current_camera();
       this.current_render_mode.render();
     }
+  }
+
+  __update_current_camera()
+  {
+    CameraManager.current.aspect = Screen.aspect_ratio;
+    CameraManager.current.updateProjectionMatrix();
+    CameraManager.current.updateMatrix();
+    CameraManager.current.updateMatrixWorld(true);
   }
 
 
@@ -139,19 +142,26 @@ class Graphics {
 
   check_for_resize()
   {
-    let current_width = this.canvas.clientWidth;
-    let current_height = this.canvas.clientHeight;
 
-    if (this.canvas.width !== Screen.render_width ||
-        this.canvas.height !== Screen.render_height ||
+    let current_width   = this.canvas.clientWidth;
+    let current_height  = this.canvas.clientHeight;
 
-        current_width !== Screen.width ||
-        current_height !== Screen.height)
+    if (
+          current_width  !== Screen.width  ||
+          current_height !== Screen.height ||
+          window.devicePixelRatio !== Screen.dpr
+        )
     {
+      Screen.dpr = window.devicePixelRatio;
       Screen.update_size(current_width, current_height);
 
-      this._renderer.setSize(Screen.render_width, Screen.render_height, false);
-      this.current_render_mode.resize(Screen.render_width, Screen.render_height);
+      this.canvas.width  = Screen.render_width;
+      this.canvas.height = Screen.render_height;
+      this._renderer.setViewport(0, 0, Screen.render_width, Screen.render_height);
+      console.log(this.canvas.width);
+      console.log("UPDATE");
+
+      this.__update_current_camera();
     }
   }
 
