@@ -57,6 +57,10 @@ export default class ResourceBatch
 	{
 		this.resource_loaders.push(new RGBETextureLoader(resource_id, url));
 	}
+	add_loader(loader)
+	{
+		this.resource_loaders.push(loader)
+	}
 
 	load(resource_container)
 	{
@@ -105,8 +109,7 @@ export default class ResourceBatch
 		}
 		if (this.resource_loaders.length === 0)
 		{
-			console.error("Batch "+this.name+" does not contain any loaders");
-			return 0;
+			return 1;
 		}
 		return progress/this.resource_loaders.length;
 	}

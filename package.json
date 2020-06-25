@@ -1,10 +1,11 @@
 {
   "name": "ohzi-core",
-  "version": "2.16.0",
+  "version": "2.17.0",
   "description": "OHZI Core Library",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postpublish": "cross-var git tag -a v$npm_package_version -m 'Release Version $npm_package_version' && git push origin v$npm_package_version",
     "start": "parcel ./src/index.js --out-dir . --port 4444",
     "build": "parcel build ./src/index.js --no-minify --out-dir .",
     "prod": "parcel build ./src/index.js --out-dir ."
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/ohzinteractive/core#readme",
   "devDependencies": {
+    "cross-var": "^1.1.0",
     "glslify-bundle": "^5.1.1",
     "glslify-deps": "^1.3.1",
     "parcel-bundler": "^1.12.4"
