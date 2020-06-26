@@ -1581,6 +1581,16 @@ var CameraUtilities = /*#__PURE__*/function () {
       return this.tmp_vec;
     }
   }, {
+    key: "world_pos_to_screen",
+    value: function world_pos_to_screen(pos, camera) {
+      camera = camera || _CameraManager.default.current;
+      this.tmp_vec.copy(pos);
+      this.tmp_vec.project(camera);
+      this.tmp_vec.x = (this.tmp_vec.x * 0.5 + 0.5) * _Screen.default.width;
+      this.tmp_vec.y = (1 - (this.tmp_vec.y * 0.5 + 0.5)) * _Screen.default.height;
+      return this.tmp_vec;
+    }
+  }, {
     key: "update_projection",
     value: function update_projection(camera) {
       camera.left = -_Screen.default.width / 2;

@@ -178,6 +178,17 @@ class CameraUtilities
     return this.tmp_vec;
   }
 
+  world_pos_to_screen(pos, camera)
+  {
+  	camera = camera || CameraManager.current;
+    this.tmp_vec.copy(pos);
+    this.tmp_vec.project(camera);
+
+    this.tmp_vec.x = (this.tmp_vec.x * 0.5 + 0.5) * (Screen.width);
+    this.tmp_vec.y = (1-(this.tmp_vec.y * 0.5 + 0.5)) * Screen.height;
+    return this.tmp_vec;
+  }
+
   update_projection(camera)
   {
     camera.left   = -Screen.width/2;
