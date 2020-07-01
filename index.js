@@ -3534,9 +3534,9 @@ var Line = /*#__PURE__*/function (_THREE$Mesh) {
         previous_position.push(previous_point.x);
         previous_position.push(previous_point.y);
         previous_position.push(previous_point.z);
+        coverage.push(accumulated_length);
+        coverage.push(accumulated_length);
         if (i < points.length - 1) accumulated_length += points[i].distanceTo(next_point);
-        coverage.push(accumulated_length);
-        coverage.push(accumulated_length);
       }
 
       var vertexList = new Float32Array(vertices);
@@ -6147,6 +6147,80 @@ var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = PointArrayLoader;
+},{"/resource_loader/AbstractLoader":"mqLz"}],"WYYb":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var HDRCubeTextureLoader = /*#__PURE__*/function (_AbstractLoader) {
+  _inherits(HDRCubeTextureLoader, _AbstractLoader);
+
+  var _super = _createSuper(HDRCubeTextureLoader);
+
+  function HDRCubeTextureLoader(resource_id, url) {
+    var _this;
+
+    _classCallCheck(this, HDRCubeTextureLoader);
+
+    _this = _super.call(this, resource_id, url);
+    _this.loader = new THREE.HDRCubeTextureLoader();
+    _this.url_suffix = ['/px.hdr', '/nx.hdr', '/py.hdr', '/ny.hdr', '/pz.hdr', '/nz.hdr'];
+    return _this;
+  }
+
+  _createClass(HDRCubeTextureLoader, [{
+    key: "load",
+    value: function load(resource_container) {
+      var ctx = this;
+      this.loader.setPath(this.url).setDataType(THREE.UnsignedByteType).load(this.url_suffix, function (hdr) {
+        resource_container.set_resource(ctx.resource_id, hdr);
+
+        ctx.__update_progress(1);
+
+        ctx.__loading_ended();
+      }, function (xhr) {
+        ctx.__update_progress(xhr.loaded / xhr.total);
+      }, function (msg) {
+        ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
+
+        ctx.__loading_ended();
+      });
+    }
+  }]);
+
+  return HDRCubeTextureLoader;
+}(_AbstractLoader2.default);
+
+exports.default = HDRCubeTextureLoader;
 },{"/resource_loader/AbstractLoader":"mqLz"}],"HJ6F":[function(require,module,exports) {
 "use strict";
 
@@ -6222,6 +6296,8 @@ var _RGBETextureLoader = _interopRequireDefault(require("/resource_loader/RGBETe
 
 var _PointArrayLoader = _interopRequireDefault(require("/resource_loader/PointArrayLoader"));
 
+var _HDRCubeTextureLoader = _interopRequireDefault(require("/resource_loader/HDRCubeTextureLoader"));
+
 var _ResourceContainer = _interopRequireDefault(require("/ResourceContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6291,6 +6367,11 @@ var ResourceBatch = /*#__PURE__*/function () {
       this.resource_loaders.push(new _RGBETextureLoader.default(resource_id, url));
     }
   }, {
+    key: "add_hdr_cubemap",
+    value: function add_hdr_cubemap(resource_id, url) {
+      this.resource_loaders.push(new _HDRCubeTextureLoader.default(resource_id, url));
+    }
+  }, {
     key: "add_loader",
     value: function add_loader(loader) {
       this.resource_loaders.push(loader);
@@ -6354,7 +6435,7 @@ var ResourceBatch = /*#__PURE__*/function () {
 }();
 
 exports.default = ResourceBatch;
-},{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/resource_loader/OBJLoader":"tM6y","/resource_loader/RGBETextureLoader":"cO40","/resource_loader/PointArrayLoader":"cNL4","/ResourceContainer":"HJ6F"}],"hKPB":[function(require,module,exports) {
+},{"/resource_loader/TextureLoader":"ged4","/resource_loader/GLTFLoader":"DPLo","/resource_loader/DAELoader":"k6LD","/resource_loader/TextLoader":"X88z","/resource_loader/CubemapLoader":"jYGB","/resource_loader/AudioLoader":"w983","/resource_loader/JSONLoader":"NvAk","/resource_loader/OBJLoader":"tM6y","/resource_loader/RGBETextureLoader":"cO40","/resource_loader/PointArrayLoader":"cNL4","/resource_loader/HDRCubeTextureLoader":"WYYb","/ResourceContainer":"HJ6F"}],"hKPB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

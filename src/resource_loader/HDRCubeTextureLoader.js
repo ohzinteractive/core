@@ -6,8 +6,7 @@ export default class HDRCubeTextureLoader extends AbstractLoader
 	{
 		super(resource_id, url);
 		this.loader = new THREE.HDRCubeTextureLoader();
-
-		this.url_suffix = [ 'posx.hdr', 'negx.hdr', 'posy.hdr', 'negy.hdr', 'posz.hdr', 'negz.hdr' ];
+		this.url_suffix = [ '/px.hdr', '/nx.hdr', '/py.hdr', '/ny.hdr', '/pz.hdr', '/nz.hdr' ];
 
 
 	}

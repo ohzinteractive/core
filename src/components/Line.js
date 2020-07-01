@@ -75,15 +75,13 @@ export default class Line extends THREE.Mesh {
       previous_position.push(previous_point.y);
       previous_position.push(previous_point.z);
 
+      coverage.push(accumulated_length);
+      coverage.push(accumulated_length);
 
-      if(i < points.length -1)
+      if (i < points.length - 1)
         accumulated_length += points[i].distanceTo(next_point);
 
-      coverage.push(accumulated_length);
-      coverage.push(accumulated_length);
-
     }
-
     let vertexList            = new Float32Array(vertices);
     let nextPositionList      = new Float32Array(next_position);
     let previousPositionList  = new Float32Array(previous_position);

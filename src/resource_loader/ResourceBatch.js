@@ -8,6 +8,7 @@ import JSONLoader from '/resource_loader/JSONLoader';
 import OBJLoader from '/resource_loader/OBJLoader';
 import RGBETextureLoader from '/resource_loader/RGBETextureLoader';
 import PointArrayLoader from '/resource_loader/PointArrayLoader';
+import HDRCubeTextureLoader from '/resource_loader/HDRCubeTextureLoader';
 import ResourceContainer from '/ResourceContainer';
 
 export default class ResourceBatch
@@ -56,6 +57,9 @@ export default class ResourceBatch
 	add_hdr(resource_id, url)
 	{
 		this.resource_loaders.push(new RGBETextureLoader(resource_id, url));
+	}
+	add_hdr_cubemap(resource_id, url) {
+		this.resource_loaders.push(new HDRCubeTextureLoader(resource_id, url));
 	}
 	add_loader(loader)
 	{
