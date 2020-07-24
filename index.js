@@ -4841,6 +4841,111 @@ var ModelUtilities = /*#__PURE__*/function () {
 exports.ModelUtilities = ModelUtilities;
 var model_utilities = new ModelUtilities();
 module.exports = model_utilities;
+},{}],"hjkK":[function(require,module,exports) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var MeshSampler = /*#__PURE__*/function () {
+  function MeshSampler() {
+    _classCallCheck(this, MeshSampler);
+  }
+
+  _createClass(MeshSampler, [{
+    key: "sample",
+    value: function sample(geometry, sample_count) {
+      var face_areas = [];
+      var min_area = 99999999;
+
+      for (var i = 0; i < geometry.faces.length; i++) {
+        var area = this.get_face_area(geometry.faces[i], geometry.vertices);
+        min_area = Math.min(area, min_area);
+        face_areas.push(area);
+      }
+
+      var normalized_faces_array = this.get_uniform_face_distribution(face_areas, min_area, geometry.faces);
+      var selected_faces = this.select_random_faces(normalized_faces_array, sample_count);
+      var sampled_data = this.sample_data_from_faces(selected_faces, geometry.vertices);
+      return sampled_data;
+    }
+  }, {
+    key: "sample_data_from_faces",
+    value: function sample_data_from_faces(faces, vertices) {
+      var sampled_points = [];
+      var sampled_normals = [];
+
+      for (var i = 0; i < faces.length; i++) {
+        var face = faces[i];
+        var w1 = Math.random();
+        var w2 = Math.random();
+        sampled_points.push(this.sample_point_in_face(w1, w2, vertices[face.a], vertices[face.b], vertices[face.c]).clone());
+        if (sampled_normals && face.normal) sampled_normals.push(face.normal.clone());
+      }
+
+      return {
+        points: sampled_points,
+        normals: sampled_normals
+      };
+    }
+  }, {
+    key: "select_random_faces",
+    value: function select_random_faces(faces, amount) {
+      var selected_faces = [];
+
+      for (var i = 0; i < amount; i++) {
+        var random = parseInt(Math.random() * (faces.length - 1));
+        var selected_face = faces[random];
+        selected_faces.push(selected_face);
+      }
+
+      return selected_faces;
+    }
+  }, {
+    key: "get_uniform_face_distribution",
+    value: function get_uniform_face_distribution(face_areas, minimum_area, faces) {
+      var extended_triangle_indices = [];
+
+      for (var i = 0; i < face_areas.length; i++) {
+        face_areas[i] /= minimum_area;
+        var repetitions_needed = parseInt(Math.round(face_areas[i]));
+
+        for (var j = 0; j < repetitions_needed; j++) {
+          extended_triangle_indices.push(faces[i]);
+        }
+      }
+
+      return extended_triangle_indices;
+    }
+  }, {
+    key: "get_face_area",
+    value: function get_face_area(face, vertices) {
+      var v1 = vertices[face.a].clone();
+      var v2 = vertices[face.b].clone();
+      var v3 = vertices[face.c].clone();
+      var vec1 = v2.clone().sub(v1);
+      var vec2 = v3.clone().sub(v1);
+      return vec1.cross(vec2).length() / 2;
+    }
+  }, {
+    key: "sample_point_in_face",
+    value: function sample_point_in_face(w1, w2, v1, v2, v3) {
+      if (w1 + w2 > 1) {
+        w1 = 1.0 - w1;
+        w2 = 1.0 - w2;
+      }
+
+      var w3 = 1.0 - (w1 + w2);
+      return v1.clone().multiplyScalar(w1).add(v2.clone().multiplyScalar(w2)).add(v3.clone().multiplyScalar(w3));
+    }
+  }]);
+
+  return MeshSampler;
+}();
+
+var mesh_sampler = new MeshSampler();
+module.exports = mesh_sampler;
 },{}],"Zz8J":[function(require,module,exports) {
 "use strict";
 
@@ -6614,6 +6719,8 @@ var _MathUtilities = _interopRequireDefault(require("/utilities/MathUtilities"))
 
 var _ModelUtilities = _interopRequireDefault(require("/utilities/ModelUtilities"));
 
+var _MeshSampler = _interopRequireDefault(require("/utilities/MeshSampler"));
+
 var _NormalRender = _interopRequireDefault(require("/render_mode/NormalRender"));
 
 var _ObjectUtilities = _interopRequireDefault(require("/utilities/ObjectUtilities"));
@@ -6674,7 +6781,8 @@ module.exports = {
   Time: _Time.default,
   TimeUtilities: _TimeUtilities.default,
   UI: _UI.default,
-  Validation: _Validation.default
+  Validation: _Validation.default,
+  MeshSampler: _MeshSampler.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/utilities/MeshSampler":"hjkK","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

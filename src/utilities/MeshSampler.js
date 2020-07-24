@@ -1,11 +1,11 @@
-class MeshSampler 
+class MeshSampler
 {
   constructor()
   {
 
   }
 
-  sample(geometry, sample_count, sample_normals)
+  sample(geometry, sample_count)
   {
     let face_areas = [];
 
@@ -20,13 +20,13 @@ class MeshSampler
 
     let normalized_faces_array = this.get_uniform_face_distribution(face_areas, min_area, geometry.faces);
     let selected_faces = this.select_random_faces(normalized_faces_array, sample_count);
-    let sampled_data = this.sample_data_from_faces(selected_faces, geometry.vertices, sample_normals);
+    let sampled_data = this.sample_data_from_faces(selected_faces, geometry.vertices);
     return sampled_data;
 
   }
 
 
-  sample_data_from_faces(faces, vertices, sample_normals)
+  sample_data_from_faces(faces, vertices)
   {
       let sampled_points = [];
       let sampled_normals = [];
