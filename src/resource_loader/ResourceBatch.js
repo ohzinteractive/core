@@ -44,8 +44,8 @@ export default class ResourceBatch
 	{
 		this.resource_loaders.push(new CubemapLoader(resource_id, url));
 	}
-	add_audio(resource_id, url, listener, loop, volume) {
-		this.resource_loaders.push(new AudioLoader(resource_id, url, listener, loop, volume));
+	add_audio(resource_id, url, loop, volume) {
+		this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume));
 	}
 	add_json(resource_id, url) {
 		this.resource_loaders.push(new JSONLoader(resource_id, url));

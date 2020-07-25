@@ -1,31 +1,24 @@
 import AbstractLoader from '/resource_loader/AbstractLoader';
+import AudioClip from '/components/AudioClip';
 
 export default class AudioLoader extends AbstractLoader
 {
-	constructor(resource_id, url, listener, loop, volume)
+	constructor(resource_id, url, loop = true, volume = 1)
 	{
 		super(resource_id, url);
 		this.loader = new THREE.AudioLoader();
 		this.loop = loop;
-		this.listener = listener;
-		this.voluem = volume;
+		this.volume = volume;
 	}
 
 	load(resource_container)
 	{
 		let ctx = this;
-		let sound = new THREE.Audio(this.listener);
 
-		this.loader.load(this.url, (audio)=> {
-			sound.setBuffer(audio);
-			sound.setLoop(this.loop);
-			sound.setVolume(this.voluem);
+		this.loader.load(this.url, (buffer)=> {
 
-			resource_container.set_resource(ctx.resource_id, sound);
+			resource_container.set_resource(ctx.resource_id, new AudioClip(buffer, this.loop, this.volume));
 
-			if (!resource_container.get_resource('audio_listener')) {
-				resource_container.set_resource('audio_listener', this.listener);
-			}
 
 			ctx.__update_progress(1);
 			ctx.__loading_ended()

@@ -5925,7 +5925,53 @@ var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = CubemapLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"w983":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"mqLz"}],"Jt4Q":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var AudioClip = /*#__PURE__*/function () {
+  function AudioClip(buffer) {
+    var loop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var volume = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+    _classCallCheck(this, AudioClip);
+
+    this.buffer = buffer;
+    this.loop = loop;
+    this.volume = volume;
+    this.audio = undefined;
+  }
+
+  _createClass(AudioClip, [{
+    key: "init",
+    value: function init(audio_listener) {
+      this.audio = new THREE.Audio(audio_listener);
+      this.audio.setBuffer(this.buffer);
+      this.audio.setLoop(this.loop);
+      this.audio.setVolume(this.volume);
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.audio.play();
+    }
+  }]);
+
+  return AudioClip;
+}();
+
+exports.default = AudioClip;
+},{}],"w983":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5934,6 +5980,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _AbstractLoader2 = _interopRequireDefault(require("/resource_loader/AbstractLoader"));
+
+var _AudioClip = _interopRequireDefault(require("/components/AudioClip"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5964,16 +6012,18 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(AudioLoader);
 
-  function AudioLoader(resource_id, url, listener, loop, volume) {
+  function AudioLoader(resource_id, url) {
     var _this;
+
+    var loop = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var volume = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
     _classCallCheck(this, AudioLoader);
 
     _this = _super.call(this, resource_id, url);
     _this.loader = new THREE.AudioLoader();
     _this.loop = loop;
-    _this.listener = listener;
-    _this.voluem = volume;
+    _this.volume = volume;
     return _this;
   }
 
@@ -5983,16 +6033,8 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
       var _this2 = this;
 
       var ctx = this;
-      var sound = new THREE.Audio(this.listener);
-      this.loader.load(this.url, function (audio) {
-        sound.setBuffer(audio);
-        sound.setLoop(_this2.loop);
-        sound.setVolume(_this2.voluem);
-        resource_container.set_resource(ctx.resource_id, sound);
-
-        if (!resource_container.get_resource('audio_listener')) {
-          resource_container.set_resource('audio_listener', _this2.listener);
-        }
+      this.loader.load(this.url, function (buffer) {
+        resource_container.set_resource(ctx.resource_id, new _AudioClip.default(buffer, _this2.loop, _this2.volume));
 
         ctx.__update_progress(1);
 
@@ -6009,7 +6051,7 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = AudioLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"tM6y":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"mqLz","/components/AudioClip":"Jt4Q"}],"tM6y":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6453,8 +6495,8 @@ var ResourceBatch = /*#__PURE__*/function () {
     }
   }, {
     key: "add_audio",
-    value: function add_audio(resource_id, url, listener, loop, volume) {
-      this.resource_loaders.push(new _AudioLoader.default(resource_id, url, listener, loop, volume));
+    value: function add_audio(resource_id, url, loop, volume) {
+      this.resource_loaders.push(new _AudioLoader.default(resource_id, url, loop, volume));
     }
   }, {
     key: "add_json",
