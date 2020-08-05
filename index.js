@@ -6219,6 +6219,8 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
+        console.log(xhr.loaded, xhr.total, xhr);
+
         ctx.__update_progress(xhr.loaded / xhr.total);
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");

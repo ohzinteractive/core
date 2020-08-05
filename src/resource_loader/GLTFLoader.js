@@ -18,6 +18,7 @@ export default class GLTFLoader extends AbstractLoader
 				ctx.__loading_ended()
 			},
 			(xhr) =>{
+				console.log(xhr.loaded, xhr.total, xhr)
 				ctx.__update_progress(xhr.loaded/xhr.total);
 			},
 			(msg) => {
