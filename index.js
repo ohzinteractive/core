@@ -4946,7 +4946,518 @@ var MeshSampler = /*#__PURE__*/function () {
 
 var mesh_sampler = new MeshSampler();
 module.exports = mesh_sampler;
-},{}],"Zz8J":[function(require,module,exports) {
+},{}],"HJ6F":[function(require,module,exports) {
+"use strict";
+
+var _EventManager = _interopRequireDefault(require("/EventManager"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ResourceContainer = /*#__PURE__*/function () {
+  function ResourceContainer() {
+    _classCallCheck(this, ResourceContainer);
+
+    this.resources = {};
+  }
+
+  _createClass(ResourceContainer, [{
+    key: "set_resource",
+    value: function set_resource(name, resource) {
+      this.resources[name] = resource;
+
+      _EventManager.default.fire_resource_loaded({
+        name: name,
+        value: resource
+      });
+    }
+  }, {
+    key: "get_resource",
+    value: function get_resource(name) {
+      return this.resources[name];
+    }
+  }, {
+    key: "get",
+    value: function get(name) {
+      return this.resources[name];
+    }
+  }]);
+
+  return ResourceContainer;
+}();
+
+var resource_container = new ResourceContainer();
+module.exports = resource_container;
+},{"/EventManager":"pJqg"}],"Zdq6":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform mat4 _InverseProjMatrix;\n\nuniform float _Bias;\nuniform float _Radius;\n\nuniform vec2 _Resolution;\nuniform float _FarPlane;\n\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nuniform vec3 _SampleKernel[64];\nuniform sampler2D _RandomRotation;\nuniform mat4 _ProjectionMatrix;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec2 encoded_normal = texture2D(_MainTex, uv).zw;\n  vec3 normalValue = normalize(decode_normal(vec4(encoded_normal, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv)\n{\n  vec2 depth = texture2D(_MainTex, uv).xy;\n  vec4 inv_proj = _InverseProjMatrix * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);\n  return DecodeFloatRG(depth) * (vRay.xyz/vRay.w);\n  \n}\n\nvoid main()\n{\n\n  vec2 noiseScale = vec2(_Resolution.x/4.0,_Resolution.y/4.0); // noise texture 4x4\n\n  vec3 fragPos   = DecodeViewPos(vUv);\n  vec3 normal    = DecodeNormal(vUv);\n  vec3 randomVec = texture2D(_RandomRotation, vUv * noiseScale).xyz;\n  randomVec = vec3(randomVec.xy * 2.0 - 1.0, 0);\n  randomVec = normalize(randomVec);\n\n  vec3 tangent   = normalize(randomVec - normal * dot(randomVec, normal));\n  vec3 bitangent = normalize(cross(normal, tangent));\n  mat3 TBN       = mat3(tangent, bitangent, normal); \n\n  float occlusion = 0.0;\n  const int kernelSize = 64;\n\n  for(int i = 0; i < kernelSize; ++i)\n  {\n      // get sample position\n      vec3 sample = TBN * _SampleKernel[i]; // From tangent to view-space\n      sample = fragPos + sample * _Radius; \n      vec4 projPos = _ProjectionMatrix * vec4(sample, 1.0);\n      vec2 screenPos = projPos.xy / projPos.w;\n      screenPos = screenPos * 0.5 +0.5;\n\n      float sampled_depth = DecodeViewPos(screenPos).z;\n      float rangeCheck = smoothstep(0.0, 1.0, _Radius / abs(fragPos.z - sampled_depth));\n      occlusion += step(sample.z+_Bias, sampled_depth) * rangeCheck;         \n      \n  } \n  occlusion = (occlusion / float(kernelSize));\n  gl_FragColor.rgb = vec3(occlusion,occlusion,occlusion); \n  gl_FragColor.a = 1.0; \n\n}\n";
+},{}],"AVNb":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nuniform mat4 _InverseProjMatrix;\n\nvoid main()\n{\n\tgl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvRay = _InverseProjMatrix * vec4(uv * 2.0 - 1.0, 1.0, 1.0);\n\tvUv = uv;\n}";
+},{}],"aeFh":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _ssao_frag = _interopRequireDefault(require("/shaders/ssao/ssao_frag"));
+
+var _ssao_vert = _interopRequireDefault(require("/shaders/ssao/ssao_vert"));
+
+var _Sphere = _interopRequireDefault(require("/primitives/Sphere"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var SSAOMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(SSAOMaterial, _BlitMaterial);
+
+  var _super = _createSuper(SSAOMaterial);
+
+  function SSAOMaterial() {
+    var _this;
+
+    _classCallCheck(this, SSAOMaterial);
+
+    _this = _super.call(this, _ssao_frag.default, _ssao_vert.default);
+    _this.uniforms._InverseProjMatrix = {
+      value: new THREE.Matrix4()
+    };
+    _this.uniforms._ProjectionMatrix = {
+      value: new THREE.Matrix4()
+    };
+    _this.uniforms._Bias = {
+      value: 0.0125
+    };
+    _this.uniforms._Radius = {
+      value: 0.3
+    };
+    _this.uniforms._FarPlane = {
+      value: 100
+    };
+    _this.uniforms._SampleKernel = {
+      value: _this.__get_sample_kernel()
+    };
+    _this.uniforms._RandomRotation = {
+      value: _this.__get_rotation_kernel()
+    };
+    return _this;
+  }
+
+  _createClass(SSAOMaterial, [{
+    key: "__get_sample_kernel",
+    value: function __get_sample_kernel() {
+      var sample_kernel = [];
+      var kernel_size = 64;
+
+      for (var i = 0; i < kernel_size; i++) {
+        var dir = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random());
+        dir.normalize();
+        var scale = i / kernel_size;
+        scale = THREE.Math.lerp(0.1, 1.0, scale * scale);
+        dir.multiplyScalar(scale);
+        sample_kernel.push(dir);
+      }
+
+      return sample_kernel;
+    }
+  }, {
+    key: "__get_rotation_kernel",
+    value: function __get_rotation_kernel() {
+      var rotation_kernel = new Uint8Array(3 * 16);
+
+      for (var i = 0; i < 16; i++) {
+        rotation_kernel[i * 3 + 1] = Math.floor(Math.random() * 255);
+        rotation_kernel[i * 3 + 2] = Math.floor(Math.random() * 255);
+        rotation_kernel[i * 3 + 3] = 0;
+      }
+
+      var rotation_texture = new THREE.DataTexture(rotation_kernel, 4, 4, THREE.RGBFormat);
+      rotation_texture.wrapS = THREE.RepeatWrapping;
+      rotation_texture.wrapT = THREE.RepeatWrapping;
+      rotation_texture.needsUpdate = true;
+      return rotation_texture;
+    }
+  }]);
+
+  return SSAOMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = SSAOMaterial;
+},{"/materials/BlitMaterial":"Ftca","/shaders/ssao/ssao_frag":"Zdq6","/shaders/ssao/ssao_vert":"AVNb","/primitives/Sphere":"sPjl","/SceneManager":"qvMM"}],"Y7D9":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform sampler2D _AO;\nuniform vec2 _Resolution;\nuniform vec2 _SampleDir;\nvarying vec2 vUv;\n\nvoid main()\n{\n\n  gl_FragColor.rgb = texture2D(_MainTex, vUv).rgb * (1.0 - texture2D(_AO, vUv).r);\n  gl_FragColor.a = 1.0;\n\n}\n";
+},{}],"THz7":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _ssao_compose_frag = _interopRequireDefault(require("/shaders/ssao/ssao_compose_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var SSAOComposeMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(SSAOComposeMaterial, _BlitMaterial);
+
+  var _super = _createSuper(SSAOComposeMaterial);
+
+  function SSAOComposeMaterial() {
+    var _this;
+
+    _classCallCheck(this, SSAOComposeMaterial);
+
+    _this = _super.call(this, _ssao_compose_frag.default);
+    _this.uniforms._AO = {
+      value: undefined
+    };
+    return _this;
+  }
+
+  return SSAOComposeMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = SSAOComposeMaterial;
+},{"/materials/BlitMaterial":"Ftca","/shaders/ssao/ssao_compose_frag":"Y7D9"}],"S6TW":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D _MainTex;\nuniform vec2 _Resolution;\nuniform float _FarPlane;\n\nvarying vec2 vUv;\nvarying vec4 vRay;\n\nvec3 decode_normal (vec4 enc)\n{\n    float scale = 1.7777;\n    vec3 nn =\n        enc.xyz*vec3(2.0*scale,2.0*scale,0.0) +\n        vec3(-scale,-scale,1.0);\n    float g = 2.0 / dot(nn.xyz,nn.xyz);\n    vec3 n;\n    n.xy = g*nn.xy;\n    n.z = g-1.0;\n    return n;\n}\n\nfloat DecodeFloatRG( vec2 enc )\n{\n    vec2 kDecodeDot = vec2(1.0, 1.0/255.0);\n    return dot( enc, kDecodeDot );\n}\n\nvec3 DecodeNormal(vec2 uv)\n{\n  vec4 depthNormal = texture2D(_MainTex, uv);\n  vec3 normalValue = normalize(decode_normal(vec4(depthNormal.zw, 0., 0.)));\n  return normalize(normalValue);\n}\nvec3 DecodeViewPos(vec2 uv)\n{\n  vec2 depth = texture2D(_MainTex, uv).xy;\n  return DecodeFloatRG(depth) * (vRay.xyz/vRay.w);\n}\n\nvoid main()\n{\n    vec3 viewPos = DecodeViewPos(vUv);\n    vec3 normalValue = DecodeNormal(vUv);\n\n    float vDepth = clamp(0.0, 1.0, length(viewPos)/_FarPlane);\n    vDepth = length(viewPos)/_FarPlane;\n    // gl_FragColor = vec4(normalValue*0.5+0.5, 1.0);\n    gl_FragColor = vec4(vDepth,vDepth,vDepth, 1.0);\n}";
+},{}],"avwz":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _debug_normals_frag = _interopRequireDefault(require("/shaders/depth_normals/debug_normals_frag"));
+
+var _ssao_vert = _interopRequireDefault(require("/shaders/ssao/ssao_vert"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DisplayNormalTextureMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(DisplayNormalTextureMaterial, _BlitMaterial);
+
+  var _super = _createSuper(DisplayNormalTextureMaterial);
+
+  function DisplayNormalTextureMaterial() {
+    var _this;
+
+    _classCallCheck(this, DisplayNormalTextureMaterial);
+
+    _this = _super.call(this, _debug_normals_frag.default, _ssao_vert.default);
+    _this.uniforms._FarPlane = {
+      value: 1
+    };
+    _this.uniforms._InverseProjMatrix = {
+      value: new THREE.Matrix4()
+    };
+    return _this;
+  }
+
+  return DisplayNormalTextureMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = DisplayNormalTextureMaterial;
+},{"/materials/BlitMaterial":"Ftca","/shaders/depth_normals/debug_normals_frag":"S6TW","/shaders/ssao/ssao_vert":"AVNb"}],"xUzl":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BlitMaterial2 = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _box_blur_frag = _interopRequireDefault(require("/shaders/box_blur/box_blur_frag"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var BoxBlurMaterial = /*#__PURE__*/function (_BlitMaterial) {
+  _inherits(BoxBlurMaterial, _BlitMaterial);
+
+  var _super = _createSuper(BoxBlurMaterial);
+
+  function BoxBlurMaterial() {
+    var _this;
+
+    _classCallCheck(this, BoxBlurMaterial);
+
+    _this = _super.call(this, _box_blur_frag.default);
+    _this.uniforms._SampleDir = {
+      value: new THREE.Vector2()
+    };
+    return _this;
+  }
+
+  return BoxBlurMaterial;
+}(_BlitMaterial2.default);
+
+exports.default = BoxBlurMaterial;
+},{"/materials/BlitMaterial":"Ftca","/shaders/box_blur/box_blur_frag":"GnKT"}],"S5lC":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _BoxBlurMaterial = _interopRequireDefault(require("/materials/BoxBlurMaterial"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Blurrer = /*#__PURE__*/function () {
+  function Blurrer(renderer) {
+    _classCallCheck(this, Blurrer);
+
+    this.RT1 = new THREE.WebGLRenderTarget(1, 1);
+    this.RT2 = new THREE.WebGLRenderTarget(1, 1);
+    this.box_blur_mat = new _BoxBlurMaterial.default();
+  }
+
+  _createClass(Blurrer, [{
+    key: "blur",
+    value: function blur(RT) {
+      if (RT.width !== this.RT1.width || RT.height !== this.RT1.height) {
+        this.RT1.setSize(RT.width, RT.height);
+        this.RT2.setSize(RT.width, RT.height);
+      }
+
+      this.box_blur_mat.uniforms._SampleDir.value.set(1, 0);
+
+      _Graphics.default.blit(RT, this.RT1, this.box_blur_mat);
+
+      this.box_blur_mat.uniforms._SampleDir.value.set(0, 1);
+
+      _Graphics.default.blit(this.RT1, RT, this.box_blur_mat); // return this.RT2;
+
+    }
+  }]);
+
+  return Blurrer;
+}();
+
+exports.default = Blurrer;
+},{"/materials/BoxBlurMaterial":"xUzl","/Graphics":"xMH9"}],"NTLg":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _CameraManager = _interopRequireDefault(require("/CameraManager"));
+
+var _SceneManager = _interopRequireDefault(require("/SceneManager"));
+
+var _Screen = _interopRequireDefault(require("/Screen"));
+
+var _BaseRender2 = _interopRequireDefault(require("/render_mode/BaseRender"));
+
+var _ResourceContainer = _interopRequireDefault(require("/ResourceContainer"));
+
+var _Configuration = _interopRequireDefault(require("/Configuration"));
+
+var _SSAOMaterial = _interopRequireDefault(require("/materials/SSAOMaterial"));
+
+var _SSAOComposeMaterial = _interopRequireDefault(require("/materials/SSAOComposeMaterial"));
+
+var _DisplayNormalTextureMaterial = _interopRequireDefault(require("/materials/DisplayNormalTextureMaterial"));
+
+var _Blurrer = _interopRequireDefault(require("/render_utilities/Blurrer"));
+
+var _Graphics = _interopRequireDefault(require("/Graphics"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var NormalAORender = /*#__PURE__*/function (_BaseRender) {
+  _inherits(NormalAORender, _BaseRender);
+
+  var _super = _createSuper(NormalAORender);
+
+  function NormalAORender() {
+    var _this;
+
+    _classCallCheck(this, NormalAORender);
+
+    _this = _super.call(this);
+    _this.ssao_mat = new _SSAOMaterial.default();
+    _this.ssao_compose_mat = new _SSAOComposeMaterial.default();
+    _this.debug_normals = new _DisplayNormalTextureMaterial.default();
+    _this.ssaa = _Configuration.default.use_ssaa ? 2 : 1;
+    _this.main_RT = new THREE.WebGLRenderTarget(_Screen.default.width * _this.ssaa, _Screen.default.height * _this.ssaa);
+    _this.SSAO_RT = new THREE.WebGLRenderTarget(_Screen.default.width, _Screen.default.height);
+    _this.blurrer = new _Blurrer.default();
+    _Graphics.default.generateDepthNormalTexture = true;
+    return _this;
+  }
+
+  _createClass(NormalAORender, [{
+    key: "render",
+    value: function render() {
+      this.__check_RT_size();
+
+      _Graphics.default.clear(this.main_RT, _CameraManager.default.current, true, false);
+
+      _Graphics.default.render(_SceneManager.default.current, _CameraManager.default.current, this.main_RT);
+
+      this.__update_uniforms();
+
+      _Graphics.default.blit(_Graphics.default.depth_normals_RT, this.SSAO_RT, this.ssao_mat); // // BLUR
+
+
+      this.blurrer.blur(this.SSAO_RT);
+
+      _Graphics.default.blit(this.SSAO_RT, undefined); // // COMPOSE
+
+
+      this.ssao_compose_mat.uniforms._AO.value = this.SSAO_RT.texture;
+
+      _Graphics.default.blit(this.main_RT, undefined, this.ssao_compose_mat); // Graphics.blit(this.SSAO_RT, undefined);
+
+    }
+  }, {
+    key: "__update_uniforms",
+    value: function __update_uniforms() {
+      this.ssao_mat.uniforms._InverseProjMatrix.value.getInverse(_CameraManager.default.current.projectionMatrix);
+
+      this.ssao_mat.uniforms._ProjectionMatrix.value.copy(_CameraManager.default.current.projectionMatrix);
+
+      this.ssao_mat.uniforms._FarPlane.value = _CameraManager.default.current.far;
+    }
+  }, {
+    key: "__check_RT_size",
+    value: function __check_RT_size() {
+      if (this.main_RT.width !== _Screen.default.width * this.ssaa || this.main_RT.height !== _Screen.default.height * this.ssaa) {
+        this.main_RT.setSize(_Screen.default.width * this.ssaa, _Screen.default.height * this.ssaa);
+        this.SSAO_RT.setSize(_Screen.default.width, _Screen.default.height);
+      }
+    }
+  }]);
+
+  return NormalAORender;
+}(_BaseRender2.default);
+
+exports.default = NormalAORender;
+},{"/CameraManager":"XMgG","/SceneManager":"qvMM","/Screen":"JIgx","/render_mode/BaseRender":"gDca","/ResourceContainer":"HJ6F","/Configuration":"RyjO","/materials/SSAOMaterial":"aeFh","/materials/SSAOComposeMaterial":"THz7","/materials/DisplayNormalTextureMaterial":"avwz","/render_utilities/Blurrer":"S5lC","/Graphics":"xMH9"}],"Zz8J":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6368,54 +6879,7 @@ var HDRCubeTextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 }(_AbstractLoader2.default);
 
 exports.default = HDRCubeTextureLoader;
-},{"/resource_loader/AbstractLoader":"mqLz"}],"HJ6F":[function(require,module,exports) {
-"use strict";
-
-var _EventManager = _interopRequireDefault(require("/EventManager"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var ResourceContainer = /*#__PURE__*/function () {
-  function ResourceContainer() {
-    _classCallCheck(this, ResourceContainer);
-
-    this.resources = {};
-  }
-
-  _createClass(ResourceContainer, [{
-    key: "set_resource",
-    value: function set_resource(name, resource) {
-      this.resources[name] = resource;
-
-      _EventManager.default.fire_resource_loaded({
-        name: name,
-        value: resource
-      });
-    }
-  }, {
-    key: "get_resource",
-    value: function get_resource(name) {
-      return this.resources[name];
-    }
-  }, {
-    key: "get",
-    value: function get(name) {
-      return this.resources[name];
-    }
-  }]);
-
-  return ResourceContainer;
-}();
-
-var resource_container = new ResourceContainer();
-module.exports = resource_container;
-},{"/EventManager":"pJqg"}],"gkjv":[function(require,module,exports) {
+},{"/resource_loader/AbstractLoader":"mqLz"}],"gkjv":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6763,6 +7227,8 @@ var _ModelUtilities = _interopRequireDefault(require("/utilities/ModelUtilities"
 
 var _MeshSampler = _interopRequireDefault(require("/utilities/MeshSampler"));
 
+var _NormalAORender = _interopRequireDefault(require("/render_mode/NormalAORender"));
+
 var _NormalRender = _interopRequireDefault(require("/render_mode/NormalRender"));
 
 var _ObjectUtilities = _interopRequireDefault(require("/utilities/ObjectUtilities"));
@@ -6811,6 +7277,7 @@ module.exports = {
   JSONLoader: _JSONLoader.default,
   MathUtilities: _MathUtilities.default,
   ModelUtilities: _ModelUtilities.default,
+  NormalAORender: _NormalAORender.default,
   NormalRender: _NormalRender.default,
   ObjectUtilities: _ObjectUtilities.default,
   PerspectiveCamera: _PerspectiveCamera.default,
@@ -6826,5 +7293,5 @@ module.exports = {
   Validation: _Validation.default,
   MeshSampler: _MeshSampler.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/utilities/MeshSampler":"hjkK","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/utilities/MeshSampler":"hjkK","/render_mode/NormalAORender":"NTLg","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

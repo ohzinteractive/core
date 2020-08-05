@@ -18,6 +18,7 @@ import JSONLoader from '/resource_loader/JSONLoader';
 import MathUtilities from '/utilities/MathUtilities';
 import ModelUtilities from '/utilities/ModelUtilities';
 import MeshSampler from '/utilities/MeshSampler';
+import NormalAORender from '/render_mode/NormalAORender';
 import NormalRender from '/render_mode/NormalRender';
 import ObjectUtilities from '/utilities/ObjectUtilities';
 import PerspectiveCamera from '/PerspectiveCamera';
@@ -52,6 +53,7 @@ module.exports = {
   JSONLoader: JSONLoader,
   MathUtilities: MathUtilities,
   ModelUtilities: ModelUtilities,
+  NormalAORender: NormalAORender,
   NormalRender: NormalRender,
   ObjectUtilities: ObjectUtilities,
   PerspectiveCamera: PerspectiveCamera,
