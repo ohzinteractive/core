@@ -2424,17 +2424,32 @@ var Graphics = /*#__PURE__*/function () {
     this.current_render_mode = undefined;
     this.generateDepthNormalTexture = false;
     this.depth_and_normals_renderer = undefined;
+    this.is_webgl2 = false;
+    this.canvas_context = undefined;
+    this.context_attributes = undefined;
   }
 
   _createClass(Graphics, [{
     key: "init",
     value: function init(canvas) {
       var msaa = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      this._renderer = new THREE.WebGLRenderer({
-        antialias: msaa,
-        preserveDrawingBuffer: true,
+      var context_attributes = arguments.length > 2 ? arguments[2] : undefined;
+      this.context_attributes = context_attributes || {
         alpha: true,
-        canvas: canvas
+        depth: true,
+        desynchronized: false,
+        stencil: false,
+        antialias: msaa,
+        premultipliedAlpha: true,
+        preserveDrawingBuffer: true,
+        powerPreference: 'high-performance'
+      };
+      this.canvas_context = canvas.getContext('webgl2', this.context_attributes) || canvas.getContext('webgl', this.context_attributes) || canvas.getContext('experimental-webgl', this.context_attributes);
+      this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
+      console.log("Using Webgl ".concat(this.is_webgl2 ? 2 : 1));
+      this._renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        context: this.canvas_context
       });
       this._renderer.autoClear = false;
 
@@ -2442,7 +2457,9 @@ var Graphics = /*#__PURE__*/function () {
 
       _Screen.default.dpr = window.devicePixelRatio;
 
-      this._renderer.extensions.get('ANGLE_instanced_arrays');
+      if (!this.is_webgl2) {
+        this._renderer.extensions.get('ANGLE_instanced_arrays');
+      }
 
       this.blitter = new _Blitter.default(this._renderer);
       this.canvas = this._renderer.domElement;
@@ -7016,6 +7033,7 @@ var ResourceBatch = /*#__PURE__*/function () {
         return 1;
       }
 
+      console.log(progress, this.resource_loaders.length, this.resource_loaders);
       return progress / this.resource_loaders.length;
     }
   }, {

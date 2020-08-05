@@ -19,14 +19,34 @@ class Graphics {
     this.current_render_mode = undefined;
     this.generateDepthNormalTexture = false;
     this.depth_and_normals_renderer = undefined;
+
+    this.is_webgl2 = false;
+    this.canvas_context = undefined;
+    this.context_attributes = undefined;
   }
 
-  init(canvas, msaa = true) {
-    this._renderer = new THREE.WebGLRenderer({
-      antialias: msaa,
-      preserveDrawingBuffer: true,
+  init(canvas, msaa = true, context_attributes) {
+    this.context_attributes = context_attributes || {
       alpha: true,
-      canvas: canvas
+      depth: true,
+      desynchronized: false,
+      stencil: false,
+      antialias: msaa,
+      premultipliedAlpha: true,
+      preserveDrawingBuffer: true,
+      powerPreference: 'high-performance'
+    }
+
+    this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
+                          canvas.getContext('webgl', this.context_attributes) ||
+                          canvas.getContext('experimental-webgl', this.context_attributes);
+
+    this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
+    console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
+
+    this._renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      context: this.canvas_context
     });
 
     this._renderer.autoClear = false;
@@ -35,7 +55,9 @@ class Graphics {
 
     Screen.dpr = window.devicePixelRatio;
 
-		this._renderer.extensions.get( 'ANGLE_instanced_arrays' )
+    if(!this.is_webgl2) {
+      this._renderer.extensions.get('ANGLE_instanced_arrays')
+    }
 
     this.blitter = new Blitter(this._renderer);
 

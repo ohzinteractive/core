@@ -115,6 +115,7 @@ export default class ResourceBatch
 		{
 			return 1;
 		}
+		console.log(progress, this.resource_loaders.length, this.resource_loaders)
 		return progress/this.resource_loaders.length;
 	}
 }
