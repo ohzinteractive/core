@@ -1,8 +1,9 @@
 import AbstractLoader from '/resource_loader/AbstractLoader';
 
 export default class PointArrayLoader extends AbstractLoader {
-    constructor(resource_id, url) {
-        super(resource_id, url);
+    constructor(resource_id, url, size)
+    {
+        super(resource_id, url, size);
         this.loader = new THREE.FileLoader();
     }
 
@@ -10,12 +11,15 @@ export default class PointArrayLoader extends AbstractLoader {
         let ctx = this;
 
         this.loader.load(this.url, (text) => {
-            resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
-            ctx.__update_progress(1);
-            ctx.__loading_ended()
-        },
-            (xhr) => {
-                ctx.__update_progress(xhr.loaded / xhr.total);
+                resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
+                ctx.__update_progress(1);
+                ctx.__loading_ended()
+            },
+            (xhr) =>{
+                if (xhr) {
+                    let total = xhr.total || this.size;
+                    ctx.__update_progress(xhr.loaded / total);
+                }
             },
             (msg) => {
                 ctx.__set_error(msg);

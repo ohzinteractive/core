@@ -1,10 +1,11 @@
 export default class AbstractLoader
 {
-	constructor(resource_id, url)
+	constructor(resource_id, url, size = 0)
 	{
 		this.progress = 0;
 		this.resource_id = resource_id;
 		this.url = url;
+		this.size = size;
 
 		this.has_finished = false;
 		this.has_error = false;

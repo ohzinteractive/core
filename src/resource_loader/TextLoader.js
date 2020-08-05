@@ -2,9 +2,9 @@ import AbstractLoader from '/resource_loader/AbstractLoader';
 
 export default class TextLoader extends AbstractLoader
 {
-	constructor(resource_id, url)
+	constructor(resource_id, url, size)
 	{
-		super(resource_id, url);
+		super(resource_id, url, size);
 		this.loader = new THREE.FileLoader();
 	}
 
@@ -18,7 +18,10 @@ export default class TextLoader extends AbstractLoader
 				ctx.__loading_ended()
 			},
 			(xhr) =>{
-				ctx.__update_progress(xhr.loaded/xhr.total);
+				if (xhr) {
+					let total = xhr.total || this.size;
+					ctx.__update_progress(xhr.loaded / total);
+				}
 			},
 			(msg) => {
 				ctx.__set_error(msg);

@@ -19,47 +19,47 @@ export default class ResourceBatch
 		this.batch_name = batch_name || "unnamed batch";
 	}
 
-	add_texture(resource_id, url)
+	add_texture(resource_id, url, size)
 	{
-		this.resource_loaders.push(new TextureLoader(resource_id, url));
+		this.resource_loaders.push(new TextureLoader(resource_id, url, size));
 	}
 
-	add_gltf(resource_id, url)
+	add_gltf(resource_id, url, size)
 	{
-		this.resource_loaders.push(new GLTFLoader(resource_id, url));
+		this.resource_loaders.push(new GLTFLoader(resource_id, url, size));
 	}
-	add_dae(resource_id, url)
+	add_dae(resource_id, url, size)
 	{
-		this.resource_loaders.push(new DAELoader(resource_id, url));
+		this.resource_loaders.push(new DAELoader(resource_id, url, size));
 	}
-	add_obj(resource_id, url)
+	add_obj(resource_id, url, size)
 	{
-		this.resource_loaders.push(new OBJLoader(resource_id, url));
+		this.resource_loaders.push(new OBJLoader(resource_id, url, size));
 	}
-	add_text(resource_id, url)
+	add_text(resource_id, url, size)
 	{
-		this.resource_loaders.push(new TextLoader(resource_id, url));
+		this.resource_loaders.push(new TextLoader(resource_id, url, size));
 	}
-	add_cubemap(resource_id, url)
+	add_cubemap(resource_id, url, size)
 	{
-		this.resource_loaders.push(new CubemapLoader(resource_id, url));
+		this.resource_loaders.push(new CubemapLoader(resource_id, url, size));
 	}
-	add_audio(resource_id, url, loop, volume) {
-		this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume));
+	add_audio(resource_id, url, loop, volume, size) {
+		this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume, size));
 	}
-	add_json(resource_id, url) {
-		this.resource_loaders.push(new JSONLoader(resource_id, url));
+	add_json(resource_id, url, size) {
+		this.resource_loaders.push(new JSONLoader(resource_id, url, size));
 	}
-	add_point_array(resource_id, url)
+	add_point_array(resource_id, url, size)
 	{
-		this.resource_loaders.push(new PointArrayLoader(resource_id, url));
+		this.resource_loaders.push(new PointArrayLoader(resource_id, url, size));
 	}
-	add_hdr(resource_id, url)
+	add_hdr(resource_id, url, size)
 	{
-		this.resource_loaders.push(new RGBETextureLoader(resource_id, url));
+		this.resource_loaders.push(new RGBETextureLoader(resource_id, url, size));
 	}
-	add_hdr_cubemap(resource_id, url) {
-		this.resource_loaders.push(new HDRCubeTextureLoader(resource_id, url));
+	add_hdr_cubemap(resource_id, url, size) {
+		this.resource_loaders.push(new HDRCubeTextureLoader(resource_id, url, size));
 	}
 	add_loader(loader)
 	{

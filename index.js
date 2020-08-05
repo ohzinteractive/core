@@ -4605,11 +4605,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var AbstractLoader = /*#__PURE__*/function () {
   function AbstractLoader(resource_id, url) {
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
     _classCallCheck(this, AbstractLoader);
 
     this.progress = 0;
     this.resource_id = resource_id;
     this.url = url;
+    this.size = size;
     this.has_finished = false;
     this.has_error = false;
     this.error_message = "none";
@@ -4684,12 +4687,12 @@ var JSONLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(JSONLoader);
 
-  function JSONLoader(resource_id, url) {
+  function JSONLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, JSONLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.FileLoader();
     return _this;
   }
@@ -4697,6 +4700,8 @@ var JSONLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(JSONLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (data) {
         resource_container.set_resource(ctx.resource_id, JSON.parse(data));
@@ -4705,7 +4710,11 @@ var JSONLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6127,12 +6136,12 @@ var TextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(TextureLoader);
 
-  function TextureLoader(resource_id, url) {
+  function TextureLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, TextureLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.TextureLoader();
     return _this;
   }
@@ -6140,6 +6149,8 @@ var TextureLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(TextureLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (image) {
         resource_container.set_resource(ctx.resource_id, image);
@@ -6147,7 +6158,13 @@ var TextureLoader = /*#__PURE__*/function (_AbstractLoader) {
         ctx.__update_progress(1);
 
         ctx.__loading_ended();
-      }, undefined, function () {
+      }, function (xhr) {
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
+      }, function () {
         ctx.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯');
 
         ctx.__loading_ended();
@@ -6198,12 +6215,12 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(GLTFLoader);
 
-  function GLTFLoader(resource_id, url) {
+  function GLTFLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, GLTFLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.GLTFLoader();
     return _this;
   }
@@ -6211,6 +6228,8 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(GLTFLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (gltf) {
         resource_container.set_resource(ctx.resource_id, gltf);
@@ -6219,9 +6238,12 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        console.log(xhr.loaded, xhr.total, xhr);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+          console.log(xhr.loaded, total, xhr);
 
-        ctx.__update_progress(xhr.loaded / xhr.total);
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6273,12 +6295,12 @@ var DAELoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(DAELoader);
 
-  function DAELoader(resource_id, url) {
+  function DAELoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, DAELoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.ColladaLoader();
     return _this;
   }
@@ -6286,6 +6308,8 @@ var DAELoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(DAELoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (gltf) {
         resource_container.set_resource(ctx.resource_id, gltf);
@@ -6294,7 +6318,11 @@ var DAELoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6346,12 +6374,12 @@ var TextLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(TextLoader);
 
-  function TextLoader(resource_id, url) {
+  function TextLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, TextLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.FileLoader();
     return _this;
   }
@@ -6359,6 +6387,8 @@ var TextLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(TextLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (gltf) {
         resource_container.set_resource(ctx.resource_id, gltf);
@@ -6367,7 +6397,11 @@ var TextLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg);
 
@@ -6419,12 +6453,12 @@ var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(CubemapLoader);
 
-  function CubemapLoader(resource_id, url) {
+  function CubemapLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, CubemapLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.CubeTextureLoader();
 
     _this.loader.setPath(url + "/");
@@ -6436,6 +6470,8 @@ var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(CubemapLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.urls, function (image) {
         resource_container.set_resource(ctx.resource_id, image);
@@ -6443,7 +6479,13 @@ var CubemapLoader = /*#__PURE__*/function (_AbstractLoader) {
         ctx.__update_progress(1);
 
         ctx.__loading_ended();
-      }, undefined, function (error) {
+      }, function (xhr) {
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
+      }, function (error) {
         ctx.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯', error);
 
         ctx.__loading_ended();
@@ -6547,10 +6589,11 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
 
     var loop = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     var volume = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+    var size = arguments.length > 4 ? arguments[4] : undefined;
 
     _classCallCheck(this, AudioLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.AudioLoader();
     _this.loop = loop;
     _this.volume = volume;
@@ -6569,7 +6612,13 @@ var AudioLoader = /*#__PURE__*/function (_AbstractLoader) {
         ctx.__update_progress(1);
 
         ctx.__loading_ended();
-      }, undefined, function (error) {
+      }, function (xhr) {
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
+      }, function (error) {
         ctx.__set_error("Audio could not be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯', error);
 
         ctx.__loading_ended();
@@ -6620,12 +6669,12 @@ var OBJLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(OBJLoader);
 
-  function OBJLoader(resource_id, url) {
+  function OBJLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, OBJLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.OBJLoader();
     return _this;
   }
@@ -6633,6 +6682,8 @@ var OBJLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(OBJLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (gltf) {
         resource_container.set_resource(ctx.resource_id, gltf);
@@ -6641,7 +6692,11 @@ var OBJLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6693,12 +6748,12 @@ var RGBETextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(RGBETextureLoader);
 
-  function RGBETextureLoader(resource_id, url) {
+  function RGBETextureLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, RGBETextureLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.RGBELoader();
 
     _this.loader.setDataType(THREE.UnsignedByteType);
@@ -6709,6 +6764,8 @@ var RGBETextureLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(RGBETextureLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (hdr) {
         resource_container.set_resource(ctx.resource_id, hdr);
@@ -6717,7 +6774,11 @@ var RGBETextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6769,12 +6830,12 @@ var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(PointArrayLoader);
 
-  function PointArrayLoader(resource_id, url) {
+  function PointArrayLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, PointArrayLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.FileLoader();
     return _this;
   }
@@ -6782,6 +6843,8 @@ var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(PointArrayLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.load(this.url, function (text) {
         resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
@@ -6790,7 +6853,11 @@ var PointArrayLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg);
 
@@ -6863,12 +6930,12 @@ var HDRCubeTextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 
   var _super = _createSuper(HDRCubeTextureLoader);
 
-  function HDRCubeTextureLoader(resource_id, url) {
+  function HDRCubeTextureLoader(resource_id, url, size) {
     var _this;
 
     _classCallCheck(this, HDRCubeTextureLoader);
 
-    _this = _super.call(this, resource_id, url);
+    _this = _super.call(this, resource_id, url, size);
     _this.loader = new THREE.HDRCubeTextureLoader();
     _this.url_suffix = ['/px.hdr', '/nx.hdr', '/py.hdr', '/ny.hdr', '/pz.hdr', '/nz.hdr'];
     return _this;
@@ -6877,6 +6944,8 @@ var HDRCubeTextureLoader = /*#__PURE__*/function (_AbstractLoader) {
   _createClass(HDRCubeTextureLoader, [{
     key: "load",
     value: function load(resource_container) {
+      var _this2 = this;
+
       var ctx = this;
       this.loader.setPath(this.url).setDataType(THREE.UnsignedByteType).load(this.url_suffix, function (hdr) {
         resource_container.set_resource(ctx.resource_id, hdr);
@@ -6885,7 +6954,11 @@ var HDRCubeTextureLoader = /*#__PURE__*/function (_AbstractLoader) {
 
         ctx.__loading_ended();
       }, function (xhr) {
-        ctx.__update_progress(xhr.loaded / xhr.total);
+        if (xhr) {
+          var total = xhr.total || _this2.size;
+
+          ctx.__update_progress(xhr.loaded / total);
+        }
       }, function (msg) {
         ctx.__set_error(msg + "\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource");
 
@@ -6948,58 +7021,58 @@ var ResourceBatch = /*#__PURE__*/function () {
 
   _createClass(ResourceBatch, [{
     key: "add_texture",
-    value: function add_texture(resource_id, url) {
-      this.resource_loaders.push(new _TextureLoader.default(resource_id, url));
+    value: function add_texture(resource_id, url, size) {
+      this.resource_loaders.push(new _TextureLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_gltf",
-    value: function add_gltf(resource_id, url) {
-      this.resource_loaders.push(new _GLTFLoader.default(resource_id, url));
+    value: function add_gltf(resource_id, url, size) {
+      this.resource_loaders.push(new _GLTFLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_dae",
-    value: function add_dae(resource_id, url) {
-      this.resource_loaders.push(new _DAELoader.default(resource_id, url));
+    value: function add_dae(resource_id, url, size) {
+      this.resource_loaders.push(new _DAELoader.default(resource_id, url, size));
     }
   }, {
     key: "add_obj",
-    value: function add_obj(resource_id, url) {
-      this.resource_loaders.push(new _OBJLoader.default(resource_id, url));
+    value: function add_obj(resource_id, url, size) {
+      this.resource_loaders.push(new _OBJLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_text",
-    value: function add_text(resource_id, url) {
-      this.resource_loaders.push(new _TextLoader.default(resource_id, url));
+    value: function add_text(resource_id, url, size) {
+      this.resource_loaders.push(new _TextLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_cubemap",
-    value: function add_cubemap(resource_id, url) {
-      this.resource_loaders.push(new _CubemapLoader.default(resource_id, url));
+    value: function add_cubemap(resource_id, url, size) {
+      this.resource_loaders.push(new _CubemapLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_audio",
-    value: function add_audio(resource_id, url, loop, volume) {
-      this.resource_loaders.push(new _AudioLoader.default(resource_id, url, loop, volume));
+    value: function add_audio(resource_id, url, loop, volume, size) {
+      this.resource_loaders.push(new _AudioLoader.default(resource_id, url, loop, volume, size));
     }
   }, {
     key: "add_json",
-    value: function add_json(resource_id, url) {
-      this.resource_loaders.push(new _JSONLoader.default(resource_id, url));
+    value: function add_json(resource_id, url, size) {
+      this.resource_loaders.push(new _JSONLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_point_array",
-    value: function add_point_array(resource_id, url) {
-      this.resource_loaders.push(new _PointArrayLoader.default(resource_id, url));
+    value: function add_point_array(resource_id, url, size) {
+      this.resource_loaders.push(new _PointArrayLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_hdr",
-    value: function add_hdr(resource_id, url) {
-      this.resource_loaders.push(new _RGBETextureLoader.default(resource_id, url));
+    value: function add_hdr(resource_id, url, size) {
+      this.resource_loaders.push(new _RGBETextureLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_hdr_cubemap",
-    value: function add_hdr_cubemap(resource_id, url) {
-      this.resource_loaders.push(new _HDRCubeTextureLoader.default(resource_id, url));
+    value: function add_hdr_cubemap(resource_id, url, size) {
+      this.resource_loaders.push(new _HDRCubeTextureLoader.default(resource_id, url, size));
     }
   }, {
     key: "add_loader",

@@ -2,9 +2,9 @@ import AbstractLoader from '/resource_loader/AbstractLoader';
 
 export default class TextureLoader extends AbstractLoader
 {
-	constructor(resource_id, url)
+	constructor(resource_id, url, size)
 	{
-		super(resource_id, url);
+		super(resource_id, url, size);
 		this.loader = new THREE.TextureLoader();
 	}
 
@@ -17,7 +17,12 @@ export default class TextureLoader extends AbstractLoader
 				ctx.__update_progress(1);
 				ctx.__loading_ended()
 			},
-			undefined,
+			(xhr) =>{
+				if (xhr) {
+					let total = xhr.total || this.size;
+					ctx.__update_progress(xhr.loaded / total);
+				}
+			},
 			() => {
 				ctx.__set_error("Image could not  be loaded. Maybe wrong name or path, I don't know" + '¯\\_(ツ)_/¯');
 				ctx.__loading_ended()
