@@ -20,7 +20,7 @@ export default class GLTFLoader extends AbstractLoader
 			(xhr) =>{
 				if (xhr) {
 					let total = xhr.total || this.size;
-					ctx.__update_progress(xhr.loaded / total);
+					ctx.__update_progress(THREE.Math.clamp(xhr.loaded / total), 0,1);
 				}
 			},
 			(msg) => {
