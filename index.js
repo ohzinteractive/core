@@ -6240,7 +6240,6 @@ var GLTFLoader = /*#__PURE__*/function (_AbstractLoader) {
       }, function (xhr) {
         if (xhr) {
           var total = xhr.total || _this2.size;
-          console.log(xhr.loaded, total, xhr);
 
           ctx.__update_progress(xhr.loaded / total);
         }

@@ -1,14 +1,14 @@
 {
   "name": "ohzi-core",
-  "version": "2.25.0",
+  "version": "2.25.1",
   "description": "OHZI Core Library",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postpublish": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
+    "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "start": "parcel ./src/index.js --out-dir . --port 4444",
-    "build": "parcel build ./src/index.js --no-minify --out-dir .",
-    "prod": "parcel build ./src/index.js --out-dir ."
+    "build": "parcel build ./src/index.js --no-minify --out-dir . && cross-var echo \"v$npm_package_version\" > .version",
+    "prod": "parcel build ./src/index.js --out-dir . && cross-var echo \"v$npm_package_version\" > .version"
   },
   "repository": {
     "type": "git",
