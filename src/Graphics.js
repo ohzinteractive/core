@@ -37,7 +37,7 @@ class Graphics {
       powerPreference: 'high-performance'
     }
 
-    this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
+    this.canvas_context = canvas.getContext('webgl', this.context_attributes) ||
                           canvas.getContext('webgl', this.context_attributes) ||
                           canvas.getContext('experimental-webgl', this.context_attributes);
 
