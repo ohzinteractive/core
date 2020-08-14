@@ -34,7 +34,8 @@ class Graphics {
       antialias: msaa,
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'high-performance',
+      logarithmicDepthBuffer: false
     }
 
     this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||

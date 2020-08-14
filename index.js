@@ -2442,7 +2442,8 @@ var Graphics = /*#__PURE__*/function () {
         antialias: msaa,
         premultipliedAlpha: true,
         preserveDrawingBuffer: true,
-        powerPreference: 'high-performance'
+        powerPreference: 'high-performance',
+        logarithmicDepthBuffer: false
       };
       this.canvas_context = canvas.getContext('webgl2', this.context_attributes) || canvas.getContext('webgl', this.context_attributes) || canvas.getContext('experimental-webgl', this.context_attributes);
       this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
@@ -4354,6 +4355,11 @@ var EasingFunctions = /*#__PURE__*/function () {
   }
 
   _createClass(EasingFunctions, null, [{
+    key: "triangular",
+    value: function triangular(x) {
+      return 1 - Math.abs(x * 2 % (1 * 2) - 1);
+    }
+  }, {
     key: "ease_out_sine",
     value: function ease_out_sine(x) {
       return Math.sin(x * 3.14 / 2);
@@ -4381,12 +4387,166 @@ var EasingFunctions = /*#__PURE__*/function () {
   }, {
     key: "ease_in_out_circ",
     value: function ease_in_out_circ(x) {
-      return x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+      return x < 0.5 ? (1 - Math.Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
     }
   }, {
     key: "ease_out_quad",
     value: function ease_out_quad(x) {
       return 1 - (1 - x) * (1 - x);
+    }
+  }, {
+    key: "easeInElastic",
+    value: function easeInElastic(t) {
+      return (0.04 - 0.04 / t) * Math.sin(25.0 * t) + 1.0;
+    }
+  }, {
+    key: "heartbeat",
+    value: function heartbeat(t) {
+      return 1.0 - Math.pow(Math.abs(Math.sin(t + 1.0)), 63.0) * Math.sign(Math.sin(t)) * Math.sin(t + 1.5 + 1.0) * 0.8;
+    }
+  }, {
+    key: "easeInQuad",
+    value: function easeInQuad(x) {
+      return x * x;
+    }
+  }, {
+    key: "easeOutQuad",
+    value: function easeOutQuad(x) {
+      return 1 - (1 - x) * (1 - x);
+    }
+  }, {
+    key: "easeInOutQuad",
+    value: function easeInOutQuad(x) {
+      return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    }
+  }, {
+    key: "easeInCubic",
+    value: function easeInCubic(x) {
+      return x * x * x;
+    }
+  }, {
+    key: "easeOutCubic",
+    value: function easeOutCubic(x) {
+      return 1 - Math.pow(1 - x, 3);
+    }
+  }, {
+    key: "easeInOutCubic",
+    value: function easeInOutCubic(x) {
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    }
+  }, {
+    key: "easeInQuart",
+    value: function easeInQuart(x) {
+      return x * x * x * x;
+    }
+  }, {
+    key: "easeOutQuart",
+    value: function easeOutQuart(x) {
+      return 1 - Math.pow(1 - x, 4);
+    }
+  }, {
+    key: "easeInOutQuart",
+    value: function easeInOutQuart(x) {
+      return x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2;
+    }
+  }, {
+    key: "easeInQuint",
+    value: function easeInQuint(x) {
+      return x * x * x * x * x;
+    }
+  }, {
+    key: "easeOutQuint",
+    value: function easeOutQuint(x) {
+      return 1 - Math.pow(1 - x, 5);
+    }
+  }, {
+    key: "easeInOutQuint",
+    value: function easeInOutQuint(x) {
+      return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
+    }
+  }, {
+    key: "easeInSine",
+    value: function easeInSine(x) {
+      return 1 - Math.cos(x * 3.1415926 / 2);
+    }
+  }, {
+    key: "easeOutSine",
+    value: function easeOutSine(x) {
+      return Math.sin(x * 3.1415926 / 2);
+    }
+  }, {
+    key: "easeInOutSine",
+    value: function easeInOutSine(x) {
+      return -(Math.cos(3.1415926 * x) - 1) / 2;
+    }
+  }, {
+    key: "easeInExpo",
+    value: function easeInExpo(x) {
+      return x === 0 ? 0 : Math.pow(2, 10 * x - 10);
+    }
+  }, {
+    key: "easeOutExpo",
+    value: function easeOutExpo(x) {
+      return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    }
+  }, {
+    key: "easeInOutExpo",
+    value: function easeInOutExpo(x) {
+      return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2;
+    }
+  }, {
+    key: "easeInCirc",
+    value: function easeInCirc(x) {
+      return 1 - Math.sqrt(1 - Math.pow(x, 2));
+    }
+  }, {
+    key: "easeOutCirc",
+    value: function easeOutCirc(x) {
+      return Math.sqrt(1 - Math.pow(x - 1, 2));
+    }
+  }, {
+    key: "easeInOutCirc",
+    value: function easeInOutCirc(x) {
+      return x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+    }
+  }, {
+    key: "easeInBack",
+    value: function easeInBack(x) {
+      return 2.7015 * x * x * x - 1.7015 * x * x;
+    }
+  }, {
+    key: "easeOutBack",
+    value: function easeOutBack(x) {
+      return 1 + 2.7015 * Math.pow(x - 1, 3) + 1.7015 * Math.pow(x - 1, 2);
+    }
+  }, {
+    key: "easeInOutBack",
+    value: function easeInOutBack(x) {
+      return x < 0.5 ? Math.pow(2 * x, 2) * ((2.5949095 + 1) * 2 * x - 2.5949095) / 2 : (Math.pow(2 * x - 2, 2) * ((2.5949095 + 1) * (x * 2 - 2) + 2.5949095) + 2) / 2;
+    } // static easeInElastic(x) {
+    // 	return x === 0 ? 0 : x === 1 ? 1 :
+    // 		-Math.pow( 2, 10 * x - 10 ) * Math.sin( ( x * 10 - 10.75 ) * 2.0943950 );
+    // }
+
+  }, {
+    key: "easeOutElastic",
+    value: function easeOutElastic(x) {
+      return x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * 2.0943950) + 1;
+    }
+  }, {
+    key: "easeInOutElastic",
+    value: function easeInOutElastic(x) {
+      return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * 1.3962633)) / 2 : Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * 1.3962633) / 2 + 1;
+    }
+  }, {
+    key: "easeInBounce",
+    value: function easeInBounce(x) {
+      return 1 - bounceOut(1 - x);
+    }
+  }, {
+    key: "easeInOutBounce",
+    value: function easeInOutBounce(x) {
+      return x < 0.5 ? (1 - bounceOut(1 - 2 * x)) / 2 : (1 + bounceOut(2 * x - 1)) / 2;
     }
   }]);
 
