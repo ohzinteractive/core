@@ -10,6 +10,7 @@ import RGBETextureLoader from '/resource_loader/RGBETextureLoader';
 import PointArrayLoader from '/resource_loader/PointArrayLoader';
 import HDRCubeTextureLoader from '/resource_loader/HDRCubeTextureLoader';
 import ResourceContainer from '/ResourceContainer';
+import GLTFDRACOLoader from './GLTFDRACOLoader';
 
 export default class ResourceBatch
 {
@@ -27,6 +28,10 @@ export default class ResourceBatch
 	add_gltf(resource_id, url, size)
 	{
 		this.resource_loaders.push(new GLTFLoader(resource_id, url, size));
+	}
+	add_gltf_draco(resource_id, url, size)
+	{
+		this.resource_loaders.push(new GLTFDRACOLoader(resource_id, url, size));
 	}
 	add_dae(resource_id, url, size)
 	{
@@ -107,15 +112,21 @@ export default class ResourceBatch
 	get_progress()
 	{
 		let progress = 0;
+
 		for(let i=0; i< this.resource_loaders.length; i++)
 		{
 			progress+=this.resource_loaders[i].progress;
 		}
+
 		if (this.resource_loaders.length === 0)
 		{
 			return 1;
 		}
-		console.log(progress, this.resource_loaders.length, this.resource_loaders)
+
+		if (!progress) {
+			return 1;
+		}
+
 		return progress/this.resource_loaders.length;
 	}
 }
