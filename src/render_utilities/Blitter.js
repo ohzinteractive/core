@@ -22,6 +22,11 @@ export default class Blitter
     this._blit_quad.material.uniforms._MainTex.value = src.texture;
     this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
 
+    if(dst)
+      this._blit_quad.material.uniforms._TargetResolution.value.set(dst.width, dst.height);
+    else
+      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value)
+
     this.renderer.setRenderTarget(dst === undefined? null : dst);
 
     this.renderer.render( this._blit_scene,
@@ -33,6 +38,10 @@ export default class Blitter
     this._blit_quad.material = mat;
     this._blit_quad.material.uniforms._MainTex.value = src.texture;
     this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
+    if (dst)
+      this._blit_quad.material.uniforms._TargetResolution.value.set(dst.width, dst.height);
+    else
+      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value)
 
     this.renderer.setRenderTarget(dst === undefined? null : dst);
 

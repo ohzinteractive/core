@@ -32,6 +32,8 @@ import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
 import UI from '/UI';
 import Validation from '/utilities/Validation';
+import BlitMaterial from '/materials/BlitMaterial';
+import BaseRender from '/render_mode/BaseRender';
 
 module.exports = {
   ArrayUtilities: ArrayUtilities,
@@ -67,5 +69,7 @@ module.exports = {
   TimeUtilities: TimeUtilities,
   UI: UI,
   Validation: Validation,
-  MeshSampler: MeshSampler
+  MeshSampler: MeshSampler,
+  BlitMaterial: BlitMaterial,
+  BaseRender: BaseRender
 }

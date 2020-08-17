@@ -2114,6 +2114,9 @@ var BlitMaterial = /*#__PURE__*/function (_THREE$ShaderMaterial) {
         },
         _Resolution: {
           value: new THREE.Vector2(0, 0)
+        },
+        _TargetResolution: {
+          value: new THREE.Vector2(0, 0)
         }
       },
       defines: defines || {},
@@ -2357,6 +2360,7 @@ var Blitter = /*#__PURE__*/function () {
 
       this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
 
+      if (dst) this._blit_quad.material.uniforms._TargetResolution.value.set(dst.width, dst.height);else this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value);
       this.renderer.setRenderTarget(dst === undefined ? null : dst);
       this.renderer.render(this._blit_scene, this._blit_camera);
     }
@@ -2368,6 +2372,7 @@ var Blitter = /*#__PURE__*/function () {
 
       this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
 
+      if (dst) this._blit_quad.material.uniforms._TargetResolution.value.set(dst.width, dst.height);else this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value);
       this.renderer.setRenderTarget(dst === undefined ? null : dst);
       this.renderer.render(this._blit_scene, this._blit_camera);
     }
@@ -7606,6 +7611,10 @@ var _UI = _interopRequireDefault(require("/UI"));
 
 var _Validation = _interopRequireDefault(require("/utilities/Validation"));
 
+var _BlitMaterial = _interopRequireDefault(require("/materials/BlitMaterial"));
+
+var _BaseRender = _interopRequireDefault(require("/render_mode/BaseRender"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
@@ -7642,7 +7651,9 @@ module.exports = {
   TimeUtilities: _TimeUtilities.default,
   UI: _UI.default,
   Validation: _Validation.default,
-  MeshSampler: _MeshSampler.default
+  MeshSampler: _MeshSampler.default,
+  BlitMaterial: _BlitMaterial.default,
+  BaseRender: _BaseRender.default
 };
-},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/utilities/MeshSampler":"hjkK","/render_mode/NormalAORender":"NTLg","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug"}]},{},["Focm"], null)
+},{"/utilities/ArrayUtilities.js":"INHd","/BaseApplication":"v0GF","/materials/BaseShaderMaterial":"Ej2H","/CameraManager":"XMgG","/utilities/CameraUtilities":"ugwp","/Capabilities":"hZlU","/Components":"m3BF","/canvas_drawer/CanvasDrawer":"LsO8","/Configuration":"RyjO","/Debug":"J9UP","/render_mode/DebugNormalsRender":"M0uM","/utilities/EasingFunctions":"ZeWG","/EventManager":"pJqg","/Graphics":"xMH9","/utilities/ImageUtilities":"XAIA","/Input":"k3P6","/resource_loader/JSONLoader":"NvAk","/utilities/MathUtilities":"ayC1","/utilities/ModelUtilities":"c2tY","/utilities/MeshSampler":"hjkK","/render_mode/NormalAORender":"NTLg","/render_mode/NormalRender":"Zz8J","/utilities/ObjectUtilities":"rJQo","/PerspectiveCamera":"iUFL","/RenderLoop":"QYq1","/resource_loader/ResourceBatch":"gkjv","/ResourceContainer":"HJ6F","/SceneManager":"qvMM","/Screen":"JIgx","/canvas_drawer/SimpleTextDrawer":"hKPB","/Time":"wewU","/utilities/TimeUtilities":"wwEn","/UI":"yntx","/utilities/Validation":"bOug","/materials/BlitMaterial":"Ftca","/render_mode/BaseRender":"gDca"}]},{},["Focm"], null)
 //# sourceMappingURL=/index.js.map

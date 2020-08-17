@@ -13,7 +13,7 @@ export default class SSAOMaterial extends BlitMaterial
 		this.uniforms._InverseProjMatrix 	= { value: new THREE.Matrix4()};
 		this.uniforms._ProjectionMatrix 	= { value: new THREE.Matrix4()};
 
-		this.uniforms._Bias 					= { value: 0.0125};
+		this.uniforms._Bias 				= { value: 0.0125};
 		this.uniforms._Radius 				= { value: 0.3	};
 		this.uniforms._FarPlane				= {value: 100};
 
