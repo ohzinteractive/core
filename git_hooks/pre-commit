@@ -7,5 +7,5 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
-npm run build
+npm run update-version
 git add .
