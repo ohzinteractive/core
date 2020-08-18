@@ -33,3 +33,6 @@ bower_components/
 *.zip
 *.msi
 *.apk
+
+index.js
+index.js.map
