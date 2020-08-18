@@ -22,6 +22,7 @@ import NormalAORender from '/render_mode/NormalAORender';
 import NormalRender from '/render_mode/NormalRender';
 import ObjectUtilities from '/utilities/ObjectUtilities';
 import PerspectiveCamera from '/PerspectiveCamera';
+import Primitives from '/Primitives';
 import RenderLoop from '/RenderLoop';
 import ResourceBatch from '/resource_loader/ResourceBatch';
 import ResourceContainer from '/ResourceContainer';
@@ -59,6 +60,7 @@ module.exports = {
   NormalRender: NormalRender,
   ObjectUtilities: ObjectUtilities,
   PerspectiveCamera: PerspectiveCamera,
+  Primitives: Primitives,
   RenderLoop: RenderLoop,
   ResourceBatch: ResourceBatch,
   ResourceContainer: ResourceContainer,

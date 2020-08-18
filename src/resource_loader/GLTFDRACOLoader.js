@@ -8,7 +8,7 @@ export default class GLTFDRACOLoader extends AbstractLoader
 		this.loader = new THREE.GLTFLoader();
 		this.draco_loader = new THREE.DRACOLoader();
 
-		this.draco_loader.setDecoderPath( 'libs/three/gltf/' );
+		this.draco_loader.setDecoderPath( window.draco_decoder_path );
 		this.draco_loader.setDecoderConfig({type: 'js'});
 		this.loader.setDRACOLoader( this.draco_loader );
 	}

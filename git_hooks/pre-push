@@ -26,6 +26,8 @@ published_version="v"$published_version
 if [ "$version" != "$published_version" ]
 then
 	echo "New version founded!"
+	echo "Compiling ..."
+	npm run build
 	echo "Publishing ..."
 	npm publish
 	echo "Creating tag ..."
