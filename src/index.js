@@ -31,6 +31,7 @@ import Screen from '/Screen';
 import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
 import Time from '/Time';
 import TimeUtilities from '/utilities/TimeUtilities';
+import TouchInput from '/TouchInput';
 import UI from '/UI';
 import Validation from '/utilities/Validation';
 import BlitMaterial from '/materials/BlitMaterial';
@@ -69,6 +70,7 @@ module.exports = {
   SimpleTextDrawer: SimpleTextDrawer,
   Time: Time,
   TimeUtilities: TimeUtilities,
+  TouchInput: TouchInput,
   UI: UI,
   Validation: Validation,
   MeshSampler: MeshSampler,

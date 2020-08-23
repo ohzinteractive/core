@@ -1,20 +1,26 @@
 export default class Validation
 {
-	constructor(){}
+  constructor()
+  {}
 
-  static is_int(n) {
+  static is_int(n)
+  {
     return Number(n) === n && n % 1 === 0;
   }
 
-  static is_float(n) {
+  static is_float(n)
+  {
     return Number(n) === n && n % 1 !== 0;
   }
 
   static is_json(str)
   {
-    try {
+    try
+    {
       JSON.parse(str);
-    } catch (e) {
+    }
+    catch (e)
+    {
       return false;
     }
 
