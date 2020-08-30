@@ -40,11 +40,27 @@ export class TouchInput
     this.touches = ev.touches.length;
     this.is_touching = true;
 
+    // Emulate left mouse button down
+    // See Input.on_mouse_down for param references
     if (this.touches === 1)
     {
-      this.__trigger_event(ev, 'mousedown');
+      this.__trigger_event(ev, 'mousedown', 1);
 
       this.first_touch_elapsed_time = Time.elapsed_time;
+    }
+
+    // Emulate right mouse button down
+    // See Input.on_mouse_down for param references
+    if (this.touches === 2)
+    {
+      this.__trigger_event(ev, 'mousedown', 3);
+    }
+
+    // Emulate middle mouse button down
+    // See Input.on_mouse_down for param references
+    if (this.touches === 3)
+    {
+      this.__trigger_event(ev, 'mousedown', 2);
     }
 
     if (this.touches > 1)
@@ -135,14 +151,15 @@ export class TouchInput
     this.last_zoom_distance = current_diff;
   }
 
-  __trigger_event(ev, type)
+  __trigger_event(ev, type, which)
   {
-    let event = new Event(type);
+    let event = new Event(type, { bubbles: true });
     event.clientX = ev.changedTouches[0].clientX;
     event.clientY = ev.changedTouches[0].clientY;
-    event.which = ev.which;
+    event.which = which || ev.which;
 
-    this.container.dispatchEvent(event);
+    let target_element =  document.elementFromPoint(event.clientX, event.clientY);
+    target_element.dispatchEvent(event);
   }
 
   __is_a_tap()
