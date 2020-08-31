@@ -17,9 +17,6 @@ class Input
     this.__elapsed_time = 0;
     this.__delta_time = 0;
 
-    this.is_mouse_down = false;
-    this.is_mouse_up = false;
-
     this._normalized_mouse_pos = new THREE.Vector2(0, 0);
 
     this.left_mouse_button_down = false;
@@ -27,6 +24,8 @@ class Input
     this.left_mouse_button_released = false;
 
     this.middle_mouse_button_down = false;
+    this.middle_mouse_button_pressed = false;
+    this.middle_mouse_button_released = false;
 
     this.right_mouse_button_down = false;
     this.right_mouse_button_pressed = false;
@@ -179,8 +178,6 @@ class Input
     this.mouse_dir.y = 0;
 
     this.__clicked_time = this.__elapsed_time;
-    this.is_mouse_down = true;
-    this.is_mouse_up = false;
 
     switch (ev.which)
     {
@@ -188,7 +185,10 @@ class Input
       this.left_mouse_button_down = true;
       this.left_mouse_button_pressed = true;
       break;
-    case 2: this.middle_mouse_button_down = true; break;
+    case 2:
+      this.middle_mouse_button_down = true;
+      this.middle_mouse_button_pressed = true;
+      break;
     case 3:
       this.right_mouse_button_down = true;
       this.right_mouse_button_pressed = true;
@@ -209,7 +209,6 @@ class Input
 
   on_mouse_up(ev)
   {
-    this.is_mouse_up = true;
     this.mouse_dir.x = 0;
     this.mouse_dir.y = 0;
     this.wheel_delta = 0;
@@ -236,17 +235,26 @@ class Input
         break;
       }
     }
-
-    this.is_mouse_down = false;
   }
 
   on_focus_lost()
   {
     this.on_mouse_up();
-    this.left_mouse_button_released = true;
-    this.middle_mouse_button_released = true;
-    this.right_mouse_button_released = true;
-    this.left_mouse_button_released = true;
+
+    if (this.left_mouse_button_down)
+    {
+      this.left_mouse_button_released = true;
+    }
+
+    if (this.middle_mouse_button_down)
+    {
+      this.middle_mouse_button_released = true;
+    }
+
+    if (this.right_mouse_button_down)
+    {
+      this.right_mouse_button_released = true;
+    }
   }
 
   time_since_last_mouse_down()
@@ -287,7 +295,6 @@ class Input
     this.__elapsed_time = Time.elapsed_time;
     this.__delta_time = Time.delta_time;
 
-    this.is_mouse_up = false;
     this.wheel_delta = 0;
 
     this.single_click = false;
@@ -296,6 +303,9 @@ class Input
     this.mouse_dir.multiplyScalar(0);
     this.left_mouse_button_pressed = false;
     this.left_mouse_button_released = false;
+
+    this.middle_mouse_button_pressed = false;
+    this.middle_mouse_button_released = false;
 
     this.right_mouse_button_pressed = false;
     this.right_mouse_button_released = false;
