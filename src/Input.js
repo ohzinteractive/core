@@ -193,10 +193,6 @@ class Input
       this.right_mouse_button_down = true;
       this.right_mouse_button_pressed = true;
       break;
-    default:
-      this.left_mouse_button_down = true;
-      this.left_mouse_button_pressed = true;
-      break;
     }
 
     this.wheel_delta = 0;
@@ -230,30 +226,25 @@ class Input
       case 3:
         this.right_mouse_button_released = true;
         break;
-      default:
-        this.left_mouse_button_released = true;
-        break;
       }
     }
   }
 
   on_focus_lost()
   {
-    this.on_mouse_up();
-
     if (this.left_mouse_button_down)
     {
-      this.left_mouse_button_released = true;
+      this.on_mouse_up({ which: 1 });
     }
 
     if (this.middle_mouse_button_down)
     {
-      this.middle_mouse_button_released = true;
+      this.on_mouse_up({ which: 2 });
     }
 
     if (this.right_mouse_button_down)
     {
-      this.right_mouse_button_released = true;
+      this.on_mouse_up({ which: 3 });
     }
   }
 

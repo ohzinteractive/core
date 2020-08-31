@@ -40,28 +40,8 @@ export class TouchInput
     this.touches = ev.touches.length;
     this.is_touching = true;
 
-    // Emulate left mouse button down
-    // See Input.on_mouse_down for param references
-    if (this.touches === 1)
-    {
-      this.__trigger_event(ev, 'mousedown', 1);
-
-      this.first_touch_elapsed_time = Time.elapsed_time;
-    }
-
-    // Emulate right mouse button down
-    // See Input.on_mouse_down for param references
-    if (this.touches === 2)
-    {
-      this.__trigger_event(ev, 'mousedown', 3);
-    }
-
-    // Emulate middle mouse button down
-    // See Input.on_mouse_down for param references
-    if (this.touches === 3)
-    {
-      this.__trigger_event(ev, 'mousedown', 2);
-    }
+    this.first_touch_elapsed_time = Time.elapsed_time;
+    this.__trigger_mousedown_event(ev);
 
     if (this.touches > 1)
     {
@@ -89,10 +69,10 @@ export class TouchInput
     ev.preventDefault();
     this.touches = ev.touches.length;
 
+    this.__trigger_mouseup_event(ev);
+
     if (this.touches === 0)
     {
-      this.__trigger_event(ev, 'mouseup');
-
       if (this.__is_a_tap())
       {
         this.tapped = true;
@@ -110,6 +90,54 @@ export class TouchInput
   {
     console.log('touch cancel', ev);
     this.clear();
+  }
+
+  __trigger_mousedown_event(ev)
+  {
+    // Emulate left mouse button down
+    // See Input.on_mouse_down for param references
+    if (this.touches === 1)
+    {
+      this.__trigger_event(ev, 'mousedown', 1);
+    }
+
+    // Emulate right mouse button down
+    // See Input.on_mouse_down for param references
+    if (this.touches === 2)
+    {
+      this.__trigger_event(ev, 'mousedown', 3);
+    }
+
+    // Emulate middle mouse button down
+    // See Input.on_mouse_down for param references
+    if (this.touches === 3)
+    {
+      this.__trigger_event(ev, 'mousedown', 2);
+    }
+  }
+
+  __trigger_mouseup_event(ev)
+  {
+    // Emulate left mouse button down
+    // See Input.on_mouse_up for param references
+    if (this.touches === 0)
+    {
+      this.__trigger_event(ev, 'mouseup', 1);
+    }
+
+    // Emulate right mouse button down
+    // See Input.on_mouse_up for param references
+    if (this.touches === 1)
+    {
+      this.__trigger_event(ev, 'mouseup', 3);
+    }
+
+    // Emulate middle mouse button down
+    // See Input.on_mouse_up for param references
+    if (this.touches === 2)
+    {
+      this.__trigger_event(ev, 'mouseup', 2);
+    }
   }
 
   __process_pinch_gestures(ev)
