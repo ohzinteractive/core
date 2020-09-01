@@ -19,6 +19,7 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     canvas.height = Math.ceil(text_size.y+ this.text_margin.y*2);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // turn this on for debugging
     // ctx.globalAlpha = 0.2;
     // ctx.fillStyle = "#FF0000";
     // ctx.fillRect(0,0, canvas.width, canvas.height);
@@ -30,8 +31,12 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     ctx.font = ctxOptions.font;
     ctx.fillStyle = ctxOptions.font_color || "#000000";
     ctx.textBaseline = "middle";
-    ctx.textAlignment = "left";
-    ctx.fillText(text, 0, canvas.height/2);
+
+    ctx.textAlign = ctxOptions.textAlign || "center";
+    if(ctx.textAlign === "center")
+      ctx.fillText(text, canvas.width/2, canvas.height/2);
+    else
+      ctx.fillText(text, 0, canvas.height / 2);
   }
 
 }
