@@ -21,6 +21,7 @@ import MeshSampler from '/utilities/MeshSampler';
 import NormalAORender from '/render_mode/NormalAORender';
 import NormalRender from '/render_mode/NormalRender';
 import ObjectUtilities from '/utilities/ObjectUtilities';
+import OS from '/OS';
 import PerspectiveCamera from '/PerspectiveCamera';
 import Primitives from '/Primitives';
 import RenderLoop from '/RenderLoop';
@@ -60,6 +61,7 @@ module.exports = {
   NormalAORender: NormalAORender,
   NormalRender: NormalRender,
   ObjectUtilities: ObjectUtilities,
+  OS: OS,
   PerspectiveCamera: PerspectiveCamera,
   Primitives: Primitives,
   RenderLoop: RenderLoop,

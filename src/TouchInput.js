@@ -14,13 +14,16 @@ export class TouchInput
     // Gestures
     this.is_multitouch = false;
     this.tapped = false;
+    this.tapped_amount = 0;
 
     // Pinch gesture
     this.zoom_started = false;
+    // TODO: touch_zoom_delta is not working properly
     this.touch_zoom_delta = 0;
     this.initial_zoom_distance = 100;
-    this.zoom_center = new THREE.Vector2();
     this.last_zoom_distance = -1;
+
+    this.center = new THREE.Vector2();
   }
 
   init(input, container)
@@ -76,13 +79,30 @@ export class TouchInput
       if (this.__is_a_tap())
       {
         this.tapped = true;
+
+        this.tapped_amount++;
+
         this.__trigger_event(ev, 'click');
+
+        if (this.__is_double_tap())
+        {
+          this.__trigger_event(ev, 'dblclick');
+          this.tapped_amount = 0;
+        }
+
+        this.last_tap_elapsed_time = Time.elapsed_time;
       }
 
       this.is_touching = false;
       this.touch_moved = false;
       this.is_multitouch = false;
       this.zoom_started = false;
+    }
+
+    if (this.touches === 1 ||
+       (this.touches === 0 && ev.changedTouches.length === 2))
+    {
+      this.__trigger_event(ev, 'contextmenu');
     }
   }
 
@@ -167,12 +187,12 @@ export class TouchInput
       this.zoom_started = true;
       this.touch_zoom_delta = 0;
       this.initial_zoom_distance = this.last_zoom_distance;
-
-      let center_x = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
-      let center_y = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
-
-      this.zoom_center.set(center_x, center_y);
     }
+
+    let center_x = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
+    let center_y = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
+
+    this.center.set(center_x, center_y);
 
     this.touch_zoom_delta = current_diff - this.last_zoom_distance;
 
@@ -181,10 +201,27 @@ export class TouchInput
 
   __trigger_event(ev, type, which)
   {
+    // ev.touches are the current touches on the screen and didn't change
+    // ev.changeTouches are the ones that are left the screen or change their position
+
     let event = new Event(type, { bubbles: true });
-    event.clientX = ev.changedTouches[0].clientX;
-    event.clientY = ev.changedTouches[0].clientY;
+
+    let current_touches_x = 0;
+    let current_touches_y = 0;
+
+    for (let i = 0; i < ev.touches.length; i++)
+    {
+      const touch = ev.touches[i];
+
+      current_touches_x += touch.clientX;
+      current_touches_y += touch.clientY;
+    }
+
+    event.clientX = (ev.changedTouches[0].clientX + current_touches_x) / (ev.touches.length + 1);
+    event.clientY = (ev.changedTouches[0].clientY + current_touches_y) / (ev.touches.length + 1);
     event.which = which || ev.which;
+
+    this.center.set(event.clientX, event.clientY);
 
     let target_element =  document.elementFromPoint(event.clientX, event.clientY);
     target_element.dispatchEvent(event);
@@ -193,6 +230,11 @@ export class TouchInput
   __is_a_tap()
   {
     return (!this.is_multitouch && !this.touch_moved && (Time.elapsed_time - this.first_touch_elapsed_time) < 0.4);
+  }
+
+  __is_double_tap()
+  {
+    return (this.tapped_amount > 1 && (Time.elapsed_time - this.last_tap_elapsed_time) < 0.4);
   }
 
   clear()
