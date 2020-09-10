@@ -190,7 +190,7 @@ export class TouchInput
     }
 
     let center_x = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
-    let center_y = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
+    let center_y = (ev.touches[0].clientY + ev.touches[1].clientY) / 2;
 
     this.center.set(center_x, center_y);
 
