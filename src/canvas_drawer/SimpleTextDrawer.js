@@ -20,9 +20,10 @@ export default class SimpleTextDrawer extends CanvasDrawer{
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // turn this on for debugging
-    // ctx.globalAlpha = 0.2;
-    // ctx.fillStyle = "#FF0000";
-    // ctx.fillRect(0,0, canvas.width, canvas.height);
+    ctx.globalAlpha = 0.0;
+    ctx.fillStyle = ctxOptions.font_color || "#000000";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
 
 
 
