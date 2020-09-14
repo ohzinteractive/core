@@ -7,6 +7,7 @@ import Capabilities from '/Capabilities';
 import Components from '/Components';
 import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
 import Configuration from '/Configuration';
+import CSSAnimator from '/html_utilities/CSSAnimator';
 import Debug from '/Debug';
 import DebugNormalsRender from '/render_mode/DebugNormalsRender';
 import EasingFunctions from '/utilities/EasingFunctions';
@@ -48,6 +49,7 @@ module.exports = {
   Capabilities: Capabilities,
   Components: Components,
   Configuration: Configuration,
+  CSSAnimator: CSSAnimator,
   Debug: Debug,
   DebugNormalsRender: DebugNormalsRender,
   EasingFunctions: EasingFunctions,
