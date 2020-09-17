@@ -134,6 +134,7 @@ class Graphics
 
   __apply_override_material(scene, mat)
   {
+    mat = mat === undefined? null : mat;
     if (scene)
     {
       scene.overrideMaterial = mat;
