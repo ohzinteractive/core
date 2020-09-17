@@ -73,21 +73,26 @@ class Input
 
   get normalized_mouse_pos()
   {
-    this._normalized_mouse_pos.x = ((this.mouse_pos.x - Screen.position.x) / Screen.width) * 2.0 - 1;
-    this._normalized_mouse_pos.y = -1 * (((this.mouse_pos.y - Screen.position.y) / Screen.height) * 2.0 - 1);
-    return this._normalized_mouse_pos;
+    return this.calculate_normalized_mouse_pos();
   }
 
   get uNDC()
   {
-    return this.normalized_mouse_pos;
+    return this.calculate_normalized_mouse_pos();
   }
 
   get NDC()
   {
-    this.normalized_mouse_pos();
+    this.calculate_normalized_mouse_pos();
     this._normalized_mouse_pos.x = THREE.Math.clamp(this._normalized_mouse_pos.x, -1, 1);
     this._normalized_mouse_pos.y = THREE.Math.clamp(this._normalized_mouse_pos.y, -1, 1);
+    return this._normalized_mouse_pos;
+  }
+
+  calculate_normalized_mouse_pos()
+  {
+    this._normalized_mouse_pos.x = ((this.mouse_pos.x - Screen.position.x) / Screen.width) * 2.0 - 1;
+    this._normalized_mouse_pos.y = -1 * (((this.mouse_pos.y - Screen.position.y) / Screen.height) * 2.0 - 1);
     return this._normalized_mouse_pos;
   }
 
