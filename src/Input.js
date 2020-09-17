@@ -71,22 +71,24 @@ class Input
     // }, false);
   }
 
-  set_mouse_pos(ev)
-  {
-    this.mouse_pos.x = ev.detail.events[0].clientX;
-    this.mouse_pos.y = ev.detail.events[0].clientY;
-  }
-
   get normalized_mouse_pos()
   {
-    this._normalized_mouse_pos.x = (this.mouse_pos.x / Screen.width) * 2.0 - 1;
-    this._normalized_mouse_pos.y = -1 * ((this.mouse_pos.y / Screen.height) * 2.0 - 1);
+    this._normalized_mouse_pos.x = ((this.mouse_pos.x - Screen.position.x) / Screen.width) * 2.0 - 1;
+    this._normalized_mouse_pos.y = -1 * (((this.mouse_pos.y - Screen.position.y) / Screen.height) * 2.0 - 1);
     return this._normalized_mouse_pos;
+  }
+
+  get uNDC()
+  {
+    return this.normalized_mouse_pos;
   }
 
   get NDC()
   {
-    return this.normalized_mouse_pos;
+    this.normalized_mouse_pos();
+    this._normalized_mouse_pos.x = THREE.Math.clamp(this._normalized_mouse_pos.x, -1, 1);
+    this._normalized_mouse_pos.y = THREE.Math.clamp(this._normalized_mouse_pos.y, -1, 1);
+    return this._normalized_mouse_pos;
   }
 
   on_mouse_click(ev)

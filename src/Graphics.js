@@ -1,6 +1,5 @@
 import Configuration from '/Configuration';
 import BaseRender from '/render_mode/BaseRender';
-import OutlineRender from '/render_mode/OutlineRender';
 import Screen from '/Screen';
 import CameraManager from '/CameraManager';
 import SceneManager from '/SceneManager';
@@ -175,11 +174,15 @@ class Graphics
       Configuration.dpr !== Screen.dpr
     )
     {
+      let canvas_rect = this.canvas.getBoundingClientRect();
+
       Screen.dpr = Configuration.dpr;
+      Screen.update_position(canvas_rect.x, canvas_rect.y);
       Screen.update_size(current_width, current_height);
 
       this.canvas.width  = Screen.render_width;
       this.canvas.height = Screen.render_height;
+
       this._renderer.setViewport(0, 0, Screen.render_width, Screen.render_height);
 
       this.__update_current_camera();
@@ -266,7 +269,6 @@ class Graphics
 
   download_screenshot(blob)
   {
-    console.log('el blob', blob);
     let link = document.createElement('a');
     link.download = 'Snapshot.png';
 
@@ -277,12 +279,11 @@ class Graphics
     {
       requestAnimationFrame(function()
       {
-        URL.revokeObjectURL(a.href);
+        URL.revokeObjectURL(link.href);
       });
-      a.removeAttribute('href');
+      link.removeAttribute('href');
     };
   }
 }
 
-const graphics = new Graphics();
-module.exports = graphics;
+export default new Graphics();
