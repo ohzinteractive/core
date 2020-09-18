@@ -3,12 +3,13 @@ import Idle from './css_animator_states/Idle';
 
 export default class CSSAnimator
 {
-  constructor(element, css_property, from, to, value_suffix, duration, easing_function)
+  constructor(element, css_property, from, to, value_prefix, value_suffix, duration, easing_function)
   {
     this.element = element;
     this.css_property = css_property;
     this.from = from;
     this.to = to;
+    this.value_prefix = value_prefix;
     this.value_suffix = value_suffix;
     this.duration = duration;
     this.easing_function = easing_function;
@@ -23,7 +24,7 @@ export default class CSSAnimator
 
   set_property_value(value)
   {
-    this.element.style[this.css_property] = `${value}${this.value_suffix}`;
+    this.element.style[this.css_property] = `${this.value_prefix}${value}${this.value_suffix}`;
   }
 
   update()
