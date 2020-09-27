@@ -1,10 +1,14 @@
 
-export default class PlaneHelper extends THREE.Object3D {
-  constructor(scale = 1.0) {
+import * as THREE from 'three';
+
+export default class PlaneHelper extends THREE.Object3D
+{
+  constructor(scale = 1.0)
+  {
     super();
 
-    const lineMat = new THREE.MeshBasicMaterial({ color: 0x4444ff, wireframe : true });
-    const geo = new THREE.PlaneGeometry(1,1,1,1);
+    const lineMat = new THREE.MeshBasicMaterial({ color: 0x4444ff, wireframe: true });
+    const geo = new THREE.PlaneGeometry(1, 1, 1, 1);
     geo.rotateX(-Math.PI * 0.5);
 
     const line = new THREE.Mesh(geo, lineMat);
@@ -16,13 +20,14 @@ export default class PlaneHelper extends THREE.Object3D {
     this.add(line);
     this.add(mesh);
     this.scale.set(scale, scale, scale);
-
   }
 
-  update() {
+  update()
+  {
   }
 
-  dispose() {
+  dispose()
+  {
 
   }
 }

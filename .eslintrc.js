@@ -7,7 +7,6 @@ module.exports = {
     'globals': {
         'Atomics': 'readonly',
         'SharedArrayBuffer': 'readonly',
-        'THREE': 'readonly',
         'ViewApi': 'readonly',
         '$': 'readonly',
         'Cesium': 'readonly'

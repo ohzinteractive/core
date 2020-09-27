@@ -1,5 +1,7 @@
 import Time from '/Time';
 
+import * as THREE from 'three';
+
 export class TouchInput
 {
   constructor()

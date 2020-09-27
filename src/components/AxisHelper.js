@@ -1,6 +1,9 @@
+import * as THREE from 'three';
 
-export default class AxisHelper extends THREE.Object3D {
-  constructor(scale = 1.0) {
+export default class AxisHelper extends THREE.Object3D
+{
+  constructor(scale = 1.0)
+  {
     super();
 
     const blueAxisMat = new THREE.LineBasicMaterial({ color: 0x4444ff, depthFunc: THREE.AlwaysDepth });
@@ -28,13 +31,14 @@ export default class AxisHelper extends THREE.Object3D {
     this.add(greenAxisLine);
     this.add(redAxisLine);
     this.scale.set(scale, scale, scale);
-
   }
 
-  update() {
+  update()
+  {
   }
 
-  dispose() {
+  dispose()
+  {
 
   }
 }

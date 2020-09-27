@@ -6,6 +6,8 @@ import KeyboardInput from '/KeyboardInput';
 import TouchInput from '/TouchInput';
 import OS from '/OS';
 
+import * as THREE from 'three';
+
 class Input
 {
   constructor()

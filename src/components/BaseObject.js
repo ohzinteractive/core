@@ -1,23 +1,21 @@
 
+import * as THREE from 'three';
 
 export default class BaseObject extends THREE.Object3D
 {
-	constructor()
-	{
-		super();
+  constructor()
+  {
+    super();
     this.___temp_w_pos = new THREE.Vector3();
-		
-	}
+  }
 
-
-
-	get_world_pos()
+  get_world_pos()
   {
     this.getWorldPosition(this.___temp_w_pos);
   	return this.___temp_w_pos;
   }
 
-	deep_dispose (obj)
+  deep_dispose(obj)
   {
     if (obj !== null)
     {
@@ -33,12 +31,14 @@ export default class BaseObject extends THREE.Object3D
       {
         if (obj.material.map)
         {
-            obj.material.map.dispose();
+          obj.material.map.dispose();
         }
         obj.material.dispose();
       }
     }
-    if(obj.parent)
-    	obj.parent.remove(obj);
+    if (obj.parent)
+    	{
+      obj.parent.remove(obj);
+    }
   }
 }

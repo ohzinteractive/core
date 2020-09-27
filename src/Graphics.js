@@ -7,6 +7,8 @@ import Capabilities from '/Capabilities';
 import DepthAndNormalsRenderer from '/render_utilities/DepthAndNormalsRenderer';
 import Blitter from '/render_utilities/Blitter';
 
+import * as THREE from 'three';
+
 class Graphics
 {
   constructor()
@@ -134,7 +136,7 @@ class Graphics
 
   __apply_override_material(scene, mat)
   {
-    mat = mat === undefined? null : mat;
+    mat = mat === undefined ? null : mat;
     if (scene)
     {
       scene.overrideMaterial = mat;

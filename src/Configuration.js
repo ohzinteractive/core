@@ -4,6 +4,8 @@
 
 */
 
+import * as THREE from 'three';
+
 class Configuration
 {
   constructor(parameters = {})
