@@ -26,14 +26,11 @@ node_modules/
 # Brunch folder for temporary files.
 tmp/
 
-# Brunch output folder.
-public/
-
 # Bower stuff.
 bower_components/
 *.zip
 *.msi
 *.apk
 
-index.js
-index.js.map
+# Parcel output folder.
+build/
