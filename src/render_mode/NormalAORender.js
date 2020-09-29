@@ -1,14 +1,14 @@
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Screen from '/Screen';
-import BaseRender from '/render_mode/BaseRender';
-import ResourceContainer from '/ResourceContainer';
-import Configuration from '/Configuration';
-import SSAOMaterial from '/materials/SSAOMaterial';
-import SSAOComposeMaterial from '/materials/SSAOComposeMaterial';
-import DisplayNormalTextureMaterial from '/materials/DisplayNormalTextureMaterial';
-import Blurrer from '/render_utilities/Blurrer';
-import Graphics from '/Graphics';
+import CameraManager from '../CameraManager';
+import SceneManager from '../SceneManager';
+import Screen from '../Screen';
+import BaseRender from '../render_mode/BaseRender';
+import Configuration from '../Configuration';
+import SSAOMaterial from '../materials/SSAOMaterial';
+import SSAOComposeMaterial from '../materials/SSAOComposeMaterial';
+import DisplayNormalTextureMaterial from '../materials/DisplayNormalTextureMaterial';
+import Blurrer from '../render_utilities/Blurrer';
+import Graphics from '../Graphics';
+
 import * as THREE from 'three';
 
 export default class NormalAORender extends BaseRender
@@ -57,7 +57,7 @@ export default class NormalAORender extends BaseRender
   {
     this.ssao_mat.uniforms._InverseProjMatrix.value.getInverse(CameraManager.current.projectionMatrix);
     this.ssao_mat.uniforms._ProjectionMatrix.value.copy(CameraManager.current.projectionMatrix);
-    this.ssao_mat.uniforms._FarPlane.value 			= CameraManager.current.far;
+    this.ssao_mat.uniforms._FarPlane.value = CameraManager.current.far;
   }
 
   __check_RT_size()

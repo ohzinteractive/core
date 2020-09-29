@@ -1,11 +1,11 @@
-import Screen from '/Screen';
-import RenderLayers from '/RenderLayers';
+import Screen from '../Screen';
+import RenderLayers from '../RenderLayers';
+import transparent_mix_vert from '../shaders/transparent_mix/transparent_mix.vert';
+import transparent_mix_frag from '../shaders/transparent_mix/transparent_mix.frag';
+import copy_frag from '../shaders/transparent_mix/copy.frag';
+import fxaa from '../shaders/anti_aliasing/fxaa.frag';
+import Configuration from '../Configuration';
 
-import transparent_mix_vert from '/shaders/transparent_mix/transparent_mix_vert';
-import transparent_mix_frag from '/shaders/transparent_mix/transparent_mix_frag';
-import copy_frag from '/shaders/transparent_mix/copy_frag';
-import fxaa from '/shaders/anti_aliasing/fxaa';
-import Configuration from '/Configuration';
 import * as THREE from 'three';
 
 export default class TransparencyMixRender
@@ -13,9 +13,9 @@ export default class TransparencyMixRender
   constructor(webgl)
   {
     this.SSAA = Configuration.use_ssaa ? 2 : 1;
-    this.main_rt 				= new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.opaque_rt 			= new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.fxaa_rt 				= new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
+    this.main_rt   = new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
+    this.opaque_rt = new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
+    this.fxaa_rt   = new THREE.WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
 
     this.mix_material = new THREE.ShaderMaterial({
       uniforms: {

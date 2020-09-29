@@ -1,4 +1,4 @@
-import CameraManager from '/CameraManager';
+import CameraManager from '../../CameraManager';
 import * as THREE from 'three';
 
 export default class WorldSpacePosition

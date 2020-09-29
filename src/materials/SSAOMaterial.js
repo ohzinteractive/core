@@ -1,8 +1,7 @@
-import BlitMaterial from '/materials/BlitMaterial';
-import frag from '/shaders/ssao/ssao_frag';
-import vert from '/shaders/ssao/ssao_vert';
-import Sphere from '/primitives/Sphere';
-import SceneManager from '/SceneManager';
+import BlitMaterial from '../materials/BlitMaterial';
+import frag from '../shaders/ssao/ssao.frag';
+import vert from '../shaders/ssao/ssao.vert';
+
 import * as THREE from 'three';
 
 export default class SSAOMaterial extends BlitMaterial
@@ -11,12 +10,12 @@ export default class SSAOMaterial extends BlitMaterial
   {
     super(frag, vert);
 
-    this.uniforms._InverseProjMatrix 	= { value: new THREE.Matrix4() };
-    this.uniforms._ProjectionMatrix 	= { value: new THREE.Matrix4() };
+    this.uniforms._InverseProjMatrix = { value: new THREE.Matrix4() };
+    this.uniforms._ProjectionMatrix  = { value: new THREE.Matrix4() };
 
-    this.uniforms._Bias 				= { value: 0.0125 };
-    this.uniforms._Radius 				= { value: 0.3	};
-    this.uniforms._FarPlane				= { value: 100 };
+    this.uniforms._Bias     = { value: 0.0125 };
+    this.uniforms._Radius   = { value: 0.3 };
+    this.uniforms._FarPlane = { value: 100 };
 
     this.uniforms._SampleKernel = { value: this.__get_sample_kernel() };
     this.uniforms._RandomRotation = { value: this.__get_rotation_kernel() };
@@ -37,7 +36,7 @@ export default class SSAOMaterial extends BlitMaterial
       scale   = THREE.Math.lerp(0.1, 1.0, scale * scale);
       dir.multiplyScalar(scale);
 
-   		sample_kernel.push(dir);
+      sample_kernel.push(dir);
     }
     return sample_kernel;
   }

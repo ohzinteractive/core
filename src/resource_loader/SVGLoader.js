@@ -1,4 +1,4 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
 
 import * as THREESVGLoader from 'three/examples/jsm/loaders/SVGLoader.js';
 

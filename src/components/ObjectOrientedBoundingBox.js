@@ -76,7 +76,7 @@ export default class ObjectOrientedBoundingBox
     let right_up    = max;
     let right_down  = min.clone().add(new THREE.Vector3(max.x - min.x, 0, 0));
 
- 		let deep_left   = min.clone().add(new THREE.Vector3(0, 0, max.z - min.z));
+    let deep_left   = min.clone().add(new THREE.Vector3(0, 0, max.z - min.z));
     let deep_right  = min.clone().add(new THREE.Vector3(max.x - min.x, 0, max.z - min.z));
 
     this.bounds = [];
@@ -122,7 +122,7 @@ export default class ObjectOrientedBoundingBox
 
   getSize()
   {
-  	return this.max.clone().sub(this.min);
+    return this.max.clone().sub(this.min);
   }
 
   is_inside_XZ(point)
@@ -175,17 +175,17 @@ export default class ObjectOrientedBoundingBox
 
   local_to_world(point)
   {
-  		let pos = point.clone();
-  		pos.applyQuaternion(this.axis_to_world);
-  		pos.add(this.center);
-  		return pos;
+    let pos = point.clone();
+    pos.applyQuaternion(this.axis_to_world);
+    pos.add(this.center);
+    return pos;
   }
 
   local_to_world_dir(direction)
   {
-  		let dir = direction.clone();
-     	dir.applyQuaternion(this.axis_to_world);
-     	return dir;
+    let dir = direction.clone();
+    dir.applyQuaternion(this.axis_to_world);
+    return dir;
   }
 
   get_corners()

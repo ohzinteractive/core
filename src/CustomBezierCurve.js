@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 
 export default class CustomBezierCurve
 {
@@ -8,8 +8,8 @@ export default class CustomBezierCurve
     this.tmp_points = [];
     for (let i = 0; i < points.length; i++)
     {
-      this.original_points.push(new THREE.Vector3().copy(points[i]));
-      this.tmp_points.push(new THREE.Vector3());
+      this.original_points.push(new Vector3().copy(points[i]));
+      this.tmp_points.push(new Vector3());
     }
   }
 
@@ -18,7 +18,7 @@ export default class CustomBezierCurve
     let curve = [];
     for (let i = 0; i < point_amount; i++)
     {
-      curve.push(new THREE.Vector3().copy(this.get_point_at(i / point_amount)));
+      curve.push(new Vector3().copy(this.get_point_at(i / point_amount)));
     }
     return curve;
   }
@@ -30,7 +30,7 @@ export default class CustomBezierCurve
       this.tmp_points[i].copy(this.original_points[i]);
     }
 
-    let tmp_vec = new THREE.Vector3();
+    let tmp_vec = new Vector3();
     for (let steps = this.tmp_points.length - 1; steps > 0; steps--)
     {
       for (let i = 0; i < steps; i++)

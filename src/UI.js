@@ -1,6 +1,6 @@
-import Input from '/Input';
-import CameraManager from '/CameraManager';
-import Graphics from '/Graphics';
+import Input from './Input';
+import CameraManager from './CameraManager';
+import Graphics from './Graphics';
 
 import * as THREE from 'three';
 
@@ -85,5 +85,4 @@ class UI
   }
 }
 
-const ui = new UI();
-module.exports = ui;
+export default new UI();

@@ -1,11 +1,11 @@
-import Configuration from '/Configuration';
-import BaseRender from '/render_mode/BaseRender';
-import Screen from '/Screen';
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Capabilities from '/Capabilities';
-import DepthAndNormalsRenderer from '/render_utilities/DepthAndNormalsRenderer';
-import Blitter from '/render_utilities/Blitter';
+import Configuration from './Configuration';
+import BaseRender from './render_mode/BaseRender';
+import Screen from './Screen';
+import CameraManager from './CameraManager';
+import SceneManager from './SceneManager';
+import Capabilities from './Capabilities';
+import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
+import Blitter from './render_utilities/Blitter';
 
 import * as THREE from 'three';
 
@@ -216,7 +216,7 @@ class Graphics
 
   take_screenshot(blob_callback)
   {
-    const ctx = this;
+    // const ctx = this;
 
     let old_width = Screen.width;
     let old_height = Screen.height;

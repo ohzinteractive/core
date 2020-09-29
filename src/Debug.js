@@ -1,11 +1,10 @@
-import AxisHelper from '/components/AxisHelper';
-import basic_color_vert from '/shaders/basic_color/basic_color_vert';
-import basic_color_frag from '/shaders/basic_color/basic_color_frag';
-import SceneManager from '/SceneManager';
-import Graphics from '/Graphics';
-import Cube from '/primitives/Cube';
-import Sphere from '/primitives/Sphere';
-import Arrow from '/primitives/Arrow';
+import AxisHelper from './components/AxisHelper';
+import basic_color_vert from './shaders/basic_color/basic_color.vert';
+import basic_color_frag from './shaders/basic_color/basic_color.frag';
+import SceneManager from './SceneManager';
+import Cube from './primitives/Cube';
+import Sphere from './primitives/Sphere';
+import Arrow from './primitives/Arrow';
 
 import * as THREE from 'three';
 
@@ -111,21 +110,21 @@ class Debug
 
   draw_oriented_cube(from, to, height = 1, color = '#FF0000', depth = 0.1)
   {
-  	let size = from.distanceTo(to);
+    let size = from.distanceTo(to);
     let cube = new Cube(new THREE.Vector3(depth, height, size), undefined, color);
 
-  	let center = to.clone().sub(from).multiplyScalar(0.5);
+    let center = to.clone().sub(from).multiplyScalar(0.5);
     let forward_dir = center.clone().normalize();
     center.add(from);
 
     cube.position.copy(center);
 
-    let up = new THREE.Vector3(0, 1, 0);
-  	let forward = forward_dir.clone();
-  	let right = forward.clone().cross(up);
+    // let up = new THREE.Vector3(0, 1, 0);
+    // let forward = forward_dir.clone();
+    // let right = forward.clone().cross(up);
 
-  	// cube.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(right,up,forward));
-  	cube.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), forward_dir);
+    // cube.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(right,up,forward));
+    cube.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), forward_dir);
 
     SceneManager.current.add(cube);
     return cube;
@@ -232,5 +231,4 @@ class Debug
   }
 }
 
-const DEBUG = new Debug();
-module.exports = DEBUG;
+export default new Debug();

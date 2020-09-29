@@ -1,5 +1,6 @@
-import BoxBlurMaterial from '/materials/BoxBlurMaterial';
-import Graphics from '/Graphics';
+import BoxBlurMaterial from '../materials/BoxBlurMaterial';
+import Graphics from '../Graphics';
+
 import * as THREE from 'three';
 
 export default class Blurrer

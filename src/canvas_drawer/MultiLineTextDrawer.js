@@ -1,4 +1,4 @@
-import CanvasDrawer from '/CanvasDrawer';
+import CanvasDrawer from './CanvasDrawer';
 
 import * as THREE from 'three';
 
@@ -16,9 +16,9 @@ export default class MultiLineTextDrawer extends CanvasDrawer
     let text_size = new THREE.Vector2();
     for (let i = 0; i < text_array.length; i++)
     {
-    	let new_size = this.get_text_size(text_array[i], ctxOptions.font);
-    	console.log(new_size.clone());
-    	text_size.x = Math.max(text_size.x, new_size.x);
+      let new_size = this.get_text_size(text_array[i], ctxOptions.font);
+      console.log(new_size.clone());
+      text_size.x = Math.max(text_size.x, new_size.x);
       text_size.y += Math.max(text_size.y, new_size.y);
     }
 
@@ -42,8 +42,8 @@ export default class MultiLineTextDrawer extends CanvasDrawer
     let word_height = canvas.height / text_array.length;
     for (let i = 0; i < text_array.length; i++)
     {
-    	let height = i / (text_array.length);
-    	ctx.fillText(text_array[i], this.text_margin.x / 2, word_height * i + word_height / 2);
+      // let height = i / (text_array.length);
+      ctx.fillText(text_array[i], this.text_margin.x / 2, word_height * i + word_height / 2);
     }
   }
 }

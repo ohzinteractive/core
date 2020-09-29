@@ -14,5 +14,4 @@ class ReflectionPlaneContext
   }
 }
 
-const reflection_plane_context = new ReflectionPlaneContext();
-module.exports = reflection_plane_context;
+export default new ReflectionPlaneContext();

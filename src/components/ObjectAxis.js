@@ -1,4 +1,4 @@
-import Arrow from '/primitives/Arrow';
+import Arrow from '../primitives/Arrow';
 
 import * as THREE from 'three';
 

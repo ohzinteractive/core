@@ -45,8 +45,8 @@ export default class GeometryBatch
 
   add_object_uniform_v3(uniform_name, default_value_v3)
   {
-    let src_tex 		= this.__create_rgb_texture(this.batch_width);
-    let dst_tex 		= this.__create_rgb_texture(this.batch_width);
+    let src_tex       = this.__create_rgb_texture(this.batch_width);
+    let dst_tex       = this.__create_rgb_texture(this.batch_width);
     let one_pixel_tex = this.__create_rgb_texture(1);
 
     let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
@@ -59,8 +59,8 @@ export default class GeometryBatch
 
   add_object_uniform_v4(uniform_name, default_value_v4)
   {
-    let src_tex 		= this.__create_rgba_texture(this.batch_width);
-    let dst_tex 		= this.__create_rgba_texture(this.batch_width);
+    let src_tex       = this.__create_rgba_texture(this.batch_width);
+    let dst_tex       = this.__create_rgba_texture(this.batch_width);
     let one_pixel_tex = this.__create_rgba_texture(1);
 
     let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
@@ -73,8 +73,8 @@ export default class GeometryBatch
 
   add_object_uniform_v4_float(uniform_name, default_value_v4)
   {
-    let src_tex 		= this.__create_rgba_float_texture(this.batch_width);
-    let dst_tex 		= this.__create_rgba_float_texture(this.batch_width);
+    let src_tex       = this.__create_rgba_float_texture(this.batch_width);
+    let dst_tex       = this.__create_rgba_float_texture(this.batch_width);
     let one_pixel_tex = this.__create_rgba_float_texture(1);
 
     let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
@@ -165,8 +165,8 @@ export default class GeometryBatch
       return;
     }
 
-  	this.write_offset.y = Math.floor(index / this.batch_width);
-  	this.write_offset.x = index - this.batch_width * this.write_offset.y;
+    this.write_offset.y = Math.floor(index / this.batch_width);
+    this.write_offset.x = index - this.batch_width * this.write_offset.y;
     renderer.copyTextureToTexture(
       this.write_offset,
       texture_data.one_pixel,
@@ -260,7 +260,7 @@ export default class GeometryBatch
         return this.data_textures[i];
       }
     }
-    conosle.error('Data texture ' + uniform_name + ' does not exist');
+    console.error('Data texture ' + uniform_name + ' does not exist');
     return undefined;
   }
 

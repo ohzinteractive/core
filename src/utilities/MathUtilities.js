@@ -25,15 +25,15 @@ export default class MathUtilities
     rgb.g = Math.round(rgb.g * 255).toString(16);
     rgb.b = Math.round(rgb.b * 255).toString(16);
 
-    if (rgb.r.length == 1)
+    if (rgb.r.length === 1)
     {
       rgb.r = '0' + rgb.r;
     }
-    if (rgb.g.length == 1)
+    if (rgb.g.length === 1)
     {
       rgb.g = '0' + rgb.g;
     }
-    if (rgb.b.length == 1)
+    if (rgb.b.length === 1)
     {
       rgb.b = '0' + rgb.b;
     }

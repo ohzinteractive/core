@@ -1,6 +1,6 @@
-import grid_frag from '/shaders/grid/grid_frag';
-import grid_vert from '/shaders/grid/grid_vert';
-import GeometryUtilities from '/utilities/GeometryUtilities';
+import grid_frag from '../shaders/grid/grid.frag';
+import grid_vert from '../shaders/grid/grid.vert';
+import GeometryUtilities from '../utilities/GeometryUtilities';
 
 import * as THREE from 'three';
 
@@ -10,7 +10,7 @@ export default class Grid extends THREE.Mesh
   {
     let material = new THREE.ShaderMaterial({
       uniforms: {
-      	_Color: { value: new THREE.Color('#919191') }
+        _Color: { value: new THREE.Color('#919191') }
       },
       vertexShader: grid_vert,
       fragmentShader: grid_frag,

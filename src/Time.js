@@ -34,5 +34,4 @@ class Time
   }
 }
 
-const time = new Time();
-module.exports = time;
+export default new Time();

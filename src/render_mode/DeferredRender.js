@@ -1,11 +1,11 @@
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Screen from '/Screen';
-import BaseRender from '/render_mode/BaseRender';
-import DeferredRendererComposeMaterial from '/materials/DeferredRendererComposeMaterial';
-import Graphics from '/Graphics';
+import CameraManager from '../CameraManager';
+import SceneManager from '../SceneManager';
+import Screen from '../Screen';
+import BaseRender from '../render_mode/BaseRender';
+import DeferredRendererComposeMaterial from '../materials/DeferredRendererComposeMaterial';
+import Graphics from '../Graphics';
+import DeferredPointLightMaterial from '../materials/deferred/DeferredPointLightMaterial';
 
-import DeferredPointLightMaterial from '/materials/deferred/DeferredPointLightMaterial';
 import * as THREE from 'three';
 
 export default class DeferredRender extends BaseRender

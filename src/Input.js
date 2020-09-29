@@ -1,10 +1,10 @@
-import Screen from '/Screen';
-import Time from '/Time';
-import Validation from '/utilities/Validation';
+import Screen from './Screen';
+import Time from './Time';
+import Validation from './utilities/Validation';
 
-import KeyboardInput from '/KeyboardInput';
-import TouchInput from '/TouchInput';
-import OS from '/OS';
+import KeyboardInput from './KeyboardInput';
+import TouchInput from './TouchInput';
+import OS from './OS';
 
 import * as THREE from 'three';
 

@@ -1,6 +1,6 @@
-import BlitMaterial from '/materials/BlitMaterial';
-import frag from '/shaders/deferred/deferred_compose.frag';
-import vert from '/shaders/deferred/blit_copy.vert';
+import BlitMaterial from '../materials/BlitMaterial';
+import frag from '../shaders/deferred/deferred_compose.frag';
+import vert from '../shaders/deferred/blit_copy.vert';
 import * as THREE from 'three';
 
 export default class DeferredRendererComposeMaterial extends BlitMaterial

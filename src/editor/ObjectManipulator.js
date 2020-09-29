@@ -1,6 +1,6 @@
-import ManipulatorHandle from '/ManipulatorHandle';
-import Input from '/Input';
-import EventManager from '/EventManager';
+import ManipulatorHandle from '../editor/ManipulatorHandle';
+import Input from '../Input';
+import EventManager from '../EventManager';
 
 import * as THREE from 'three';
 

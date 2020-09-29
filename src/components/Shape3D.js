@@ -1,4 +1,4 @@
-import GeometryEdgeVisualizer from '/GeometryEdgeVisualizer';
+import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
 
 import * as THREE from 'three';
 

@@ -1,7 +1,6 @@
-import CameraManager from '/CameraManager';
-import Input from '/Input';
-import PlaneRaycastResolver from '/raycast/PlaneRaycastResolver';
-import CameraUtilities from '/utilities/CameraUtilities';
+
+import PlaneRaycastResolver from './PlaneRaycastResolver';
+import CameraUtilities from '../utilities/CameraUtilities';
 import * as THREE from 'three';
 
 export default class PlaneRaycaster
@@ -17,6 +16,6 @@ export default class PlaneRaycaster
   update(reference_position, plane_normal)
   {
     this.current_intersected_point.copy(CameraUtilities.get_plane_intersection(reference_position, plane_normal));
-  	this.raycast_resolver.on_hover(this.current_intersected_point);
+    this.raycast_resolver.on_hover(this.current_intersected_point);
   }
 }

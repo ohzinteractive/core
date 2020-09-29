@@ -1,5 +1,6 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
-import AudioClip from '/components/AudioClip';
+import AbstractLoader from './AbstractLoader';
+
+import AudioClip from '../components/AudioClip';
 import { AudioLoader as THREEAudioLoader } from 'three';
 
 export default class AudioLoader extends AbstractLoader

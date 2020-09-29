@@ -12,7 +12,7 @@ export default class BaseObject extends THREE.Object3D
   get_world_pos()
   {
     this.getWorldPosition(this.___temp_w_pos);
-  	return this.___temp_w_pos;
+    return this.___temp_w_pos;
   }
 
   deep_dispose(obj)
@@ -37,7 +37,7 @@ export default class BaseObject extends THREE.Object3D
       }
     }
     if (obj.parent)
-    	{
+    {
       obj.parent.remove(obj);
     }
   }

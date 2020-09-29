@@ -1,6 +1,6 @@
-import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
 
 import * as THREE from 'three';
+import CanvasDrawer from './CanvasDrawer';
 
 export default class SimpleTextDrawer extends CanvasDrawer
 {

@@ -29,8 +29,8 @@ export default class CanvasDrawer
 
   get_text_size(text, font = '24px Arial')
   {
-  	let size = new THREE.Vector2();
-  	this.ctx.font = font;
+    let size = new THREE.Vector2();
+    this.ctx.font = font;
     size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
     size.y = Math.ceil(this.getFontHeight(font)) * window.devicePixelRatio;
     return size;
@@ -41,8 +41,8 @@ export default class CanvasDrawer
     ctxOptions.font = ctxOptions.font || '24px Arial';
     ctxOptions.font_color = ctxOptions.font_color || '#000000';
 
-  	this.__draw(text, ctxOptions, this.canvas, this.ctx);
-  	return this.canvas;
+    this.__draw(text, ctxOptions, this.canvas, this.ctx);
+    return this.canvas;
   }
 
   draw_on_texture(text, ctxOptions)

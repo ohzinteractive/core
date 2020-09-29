@@ -1,12 +1,7 @@
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Screen from '/Screen';
-import BaseRender from '/render_mode/BaseRender';
-import Configuration from '/Configuration';
-import SSAOMaterial from '/materials/SSAOMaterial';
-import UnrealComposeMaterial from '/materials/UnrealComposeMaterial';
-import Blurrer from '/render_utilities/Blurrer';
-import Graphics from '/Graphics';
+import Screen from '../Screen';
+import BaseRender from '../render_mode/BaseRender';
+import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
+
 import * as THREE from 'three';
 
 export default class UnrealBloomRender extends BaseRender
@@ -74,14 +69,19 @@ export default class UnrealBloomRender extends BaseRender
     this.compositeMaterial.uniforms.blurTexture3.value = this.renderTargetsVertical[2].texture;
     this.compositeMaterial.uniforms.blurTexture4.value = this.renderTargetsVertical[3].texture;
     this.compositeMaterial.uniforms.blurTexture5.value = this.renderTargetsVertical[4].texture;
-    this.compositeMaterial.uniforms.bloomStrength.value = strength;
+    this.compositeMaterial.uniforms.bloomStrength.value = 1;
     this.compositeMaterial.uniforms.bloomRadius.value = 0.05;
     this.compositeMaterial.needsUpdate = true;
 
     let bloomFactors = [1.0, 0.8, 0.6, 0.4, 0.2];
     this.compositeMaterial.uniforms.bloomFactors.value = bloomFactors;
-    this.bloomTintColors = [new THREE.Vector3(1, 1, 1), new THREE.Vector3(1, 1, 1), new THREE.Vector3(1, 1, 1),
-									 new THREE.Vector3(1, 1, 1), new THREE.Vector3(1, 1, 1)];
+    this.bloomTintColors = [
+      new THREE.Vector3(1, 1, 1),
+      new THREE.Vector3(1, 1, 1),
+      new THREE.Vector3(1, 1, 1),
+      new THREE.Vector3(1, 1, 1),
+      new THREE.Vector3(1, 1, 1)
+    ];
     this.compositeMaterial.uniforms.bloomTintColors.value = this.bloomTintColors;
 
     // this.bloom_compose_mat = new BloomComposeMaterial();

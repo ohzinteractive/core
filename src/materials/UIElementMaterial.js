@@ -1,6 +1,6 @@
-import vert from '/shaders/ui_element/ui_element.vert';
-import frag from '/shaders/ui_element/ui_element.frag';
-import BaseShaderMaterial from '/materials/BaseShaderMaterial';
+import vert from '../shaders/ui_element/ui_element.vert';
+import frag from '../shaders/ui_element/ui_element.frag';
+import BaseShaderMaterial from '../materials/BaseShaderMaterial';
 import * as THREE from 'three';
 
 export default class UIElementMaterial extends BaseShaderMaterial

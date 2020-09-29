@@ -1,4 +1,5 @@
-import BlitMaterial from '/materials/BlitMaterial';
+import BlitMaterial from '../materials/BlitMaterial';
+
 import * as THREE from 'three';
 
 export default class Blitter

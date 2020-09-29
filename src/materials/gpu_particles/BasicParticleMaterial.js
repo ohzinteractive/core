@@ -1,6 +1,6 @@
-import vert from '/shaders/gpu_particles/visualize/visualize_vert';
-import frag from '/shaders/gpu_particles/visualize/visualize_frag';
-import common_utils from '/shaders/gpu_particles/common_utils';
+import vert from '../../shaders/gpu_particles/visualize/visualize.vert';
+import frag from '../../shaders/gpu_particles/visualize/visualize.frag';
+
 import * as THREE from 'three';
 
 export default class BasicParticleMaterial extends THREE.ShaderMaterial

@@ -1,25 +1,25 @@
-import Screen from '/Screen';
-import RenderLayers from '/RenderLayers';
+import Screen from '../Screen';
+import RenderLayers from '../RenderLayers';
+import compose_frag from '../shaders/box_blur/compose.frag';
+import box_blur_frag from '../shaders/box_blur/box_blur.frag';
+import copy_frag from '../shaders/copy/copy.frag';
+import copy_vert from '../shaders/copy/copy.vert';
+import background_frag from '../shaders/basic_color/basic_color.frag';
 
-import compose_frag from '/shaders/box_blur/compose_frag';
-import box_blur_frag from '/shaders/box_blur/box_blur_frag';
-import copy_frag from '/shaders/copy/copy_frag';
-import copy_vert from '/shaders/copy/copy_vert';
-import background_frag from '/shaders/basic_color/basic_color_frag';
 import * as THREE from 'three';
 
 export default class OutlineRender
 {
   constructor(webgl)
   {
-    this.main_rt 				= new THREE.WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt1		 				= new THREE.WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt2		 				= new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.main_rt = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.rt1     = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.rt2     = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
 
-    this.compose_material 		= this.__get_compose_material();
-    this.copy_material 				= this.__get_copy_material();
-    this.box_blur_material 		= this.__get_box_blur_material();
-    this.background_material 	= this.__get_background_material();
+    this.compose_material    = this.__get_compose_material();
+    this.copy_material       = this.__get_copy_material();
+    this.box_blur_material   = this.__get_box_blur_material();
+    this.background_material = this.__get_background_material();
 
     this.copy_plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.copy_material);
     this.copy_plane.frustumCulled = false;
@@ -91,7 +91,7 @@ export default class OutlineRender
 
   __get_box_blur_material()
   {
- 		return new THREE.ShaderMaterial({
+    return new THREE.ShaderMaterial({
       uniforms: {
         _MainTex: { value: undefined },
         _SampleDir: { value: new THREE.Vector2() },
@@ -117,7 +117,7 @@ export default class OutlineRender
       depthTest: false,
       depthWrite: false,
       extensions: {
-      	derivatives: true
+        derivatives: true
       }
     });
   }

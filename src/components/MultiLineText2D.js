@@ -1,8 +1,4 @@
-import WorldImage from '/components/WorldImage';
-import MultiLineTextDrawer from '/canvas_drawer/MultiLineTextDrawer';
-import Capabilities from '/Capabilities';
-import Debug from '/Debug';
-import Text2D from '/Text2D';
+import Text2D from './Text2D';
 
 import * as THREE from 'three';
 

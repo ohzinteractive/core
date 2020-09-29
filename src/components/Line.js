@@ -1,5 +1,5 @@
-import line_vs from '/shaders/basic_line/basic_line_vert';
-import line_fs from '/shaders/basic_line/basic_line_frag';
+import line_vs from '../shaders/basic_line/basic_line.vert';
+import line_fs from '../shaders/basic_line/basic_line.frag';
 
 import * as THREE from 'three';
 
@@ -175,11 +175,11 @@ export default class Line extends THREE.Mesh
 
   set color(col)
   {
-  	this.material.uniforms._Color.value.set(col);
+    this.material.uniforms._Color.value.set(col);
   }
 
   copy_color(col)
   {
-  	this.material.uniforms._Color.value.copy(col);
+    this.material.uniforms._Color.value.copy(col);
   }
 }

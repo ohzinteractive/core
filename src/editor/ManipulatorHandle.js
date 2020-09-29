@@ -1,5 +1,5 @@
-import CameraManager from '/CameraManager';
-import Input from '/Input';
+import CameraManager from '../CameraManager';
+import Input from '../Input';
 
 import * as THREE from 'three';
 

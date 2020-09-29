@@ -4,7 +4,7 @@
 
 */
 
-import * as THREE from 'three';
+import { Color } from 'three';
 
 class Configuration
 {
@@ -26,7 +26,7 @@ class Configuration
     this.use_fxaa = false;
     this.use_ssaa = true;
 
-    this.background_color = new THREE.Color(0.768, 0.768, 0.768);
+    this.background_color = new Color(0.768, 0.768, 0.768);
 
     // TOUCH
     this.touch_sensitivity = 1.5;

@@ -1,4 +1,4 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
 
 import * as THREEHDRCubeTextureLoader from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { UnsignedByteType } from 'three';

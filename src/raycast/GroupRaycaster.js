@@ -1,7 +1,7 @@
-import CameraManager from '/CameraManager';
-import Input from '/Input';
-import RaycastResolver from '/raycast/RaycastResolver';
-import IdleState from '/states/IdleState';
+import CameraManager from '../CameraManager';
+import Input from '../Input';
+import RaycastResolver from './RaycastResolver';
+import IdleState from './states/IdleState';
 import * as THREE from 'three';
 
 export default class GroupRaycaster
@@ -26,7 +26,7 @@ export default class GroupRaycaster
   {
     this.raycaster.setFromCamera(Input.normalized_mouse_pos, this.camera);
     this.current_intersections = this.raycaster.intersectObjects(this.raycastee_group);
-  	this.current_state.update(this);
+    this.current_state.update(this);
   }
 
   set_state(new_state)

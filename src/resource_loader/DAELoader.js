@@ -1,4 +1,4 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
 
 import * as THREEColladaLoader from 'three/examples/jsm/loaders/ColladaLoader.js';
 

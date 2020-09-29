@@ -24,5 +24,4 @@ class SceneManager
   }
 }
 
-const scene_manager = new SceneManager();
-module.exports = scene_manager;
+export default new SceneManager();

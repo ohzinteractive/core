@@ -1,6 +1,6 @@
-import vert from '/shaders/deferred/point_light.vert';
-import frag from '/shaders/deferred/point_light.frag';
-import BaseShaderMaterial from '/materials/BaseShaderMaterial';
+import vert from '../../shaders/deferred/point_light.vert';
+import frag from '../../shaders/deferred/point_light.frag';
+import BaseShaderMaterial from '../../materials/BaseShaderMaterial';
 import * as THREE from 'three';
 
 export default class DeferredPointLightMaterial extends BaseShaderMaterial

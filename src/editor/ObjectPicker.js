@@ -1,5 +1,5 @@
-import RenderLayers from '/RenderLayers';
-import Screen from '/Screen';
+import RenderLayers from '../RenderLayers';
+import Screen from '../Screen';
 
 import * as THREE from 'three';
 

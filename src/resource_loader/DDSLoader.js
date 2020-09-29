@@ -1,4 +1,5 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
+
 import * as THREEDDSLoader from 'three/examples/jsm/loaders/DDSLoader.js';
 
 export default class DDSLoader extends AbstractLoader

@@ -1,17 +1,12 @@
 export default class ActionEvent
 {
+  constructor()
+  {
 
+  }
 
-	constructor()
-	{
+  trigger(context)
+  {
 
-	}
-	
-	trigger(context)
-	{
-		
-	}
-
-
-
+  }
 }

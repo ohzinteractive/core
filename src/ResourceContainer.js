@@ -1,4 +1,4 @@
-import EventManager from '/EventManager';
+import EventManager from './EventManager';
 
 class ResourceContainer
 {
@@ -24,5 +24,4 @@ class ResourceContainer
   }
 }
 
-const resource_container = new ResourceContainer();
-module.exports = resource_container;
+export default new ResourceContainer();

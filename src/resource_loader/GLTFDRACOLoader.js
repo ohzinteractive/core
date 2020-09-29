@@ -1,4 +1,4 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
 
 import * as THREEGLTFLoader from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREEDRACOLoader from 'three/examples/jsm/loaders/DRACOLoader.js';

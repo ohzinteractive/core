@@ -62,8 +62,8 @@ export default class ActionSequencer
   {
     this.action_interpolators.push({
       from: from,
-																		 to: from + duration,
-																		 action: action
+      to: from + duration,
+      action: action
     });
   }
 
@@ -72,7 +72,7 @@ export default class ActionSequencer
     for (let i = 0; i < this.action_events.length; i++)
     {
       if (this.action_events[i].trigger_time >= from &&
-					this.action_events[i].trigger_time < to)
+          this.action_events[i].trigger_time < to)
       {
         // console.log("Play event: " + this.action_events[i].action.constructor.name + " at "+  this.action_events[i].trigger_time);
         this.action_events[i].action.trigger(this.context);

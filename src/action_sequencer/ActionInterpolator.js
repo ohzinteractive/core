@@ -1,17 +1,12 @@
 export default class ActionInterpolator
 {
+  constructor()
+  {
 
+  }
 
-	constructor()
-	{
+  update(context, t)
+  {
 
-	}
-	
-	update(context, t)
-	{
-		
-	}
-
-
-
+  }
 }

@@ -1,5 +1,5 @@
-import vert from '/editor/shaders/object_picker_vert';
-import frag from '/editor/shaders/object_picker_frag';
+import vert from './editor/shaders/object_picker.vert';
+import frag from './editor/shaders/object_picker.frag';
 
 import * as THREE from 'three';
 

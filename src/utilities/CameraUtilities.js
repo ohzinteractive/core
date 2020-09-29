@@ -1,10 +1,7 @@
-import CameraManager from '/CameraManager';
-import Input from '/Input';
-import Sphere from '/primitives/Sphere';
-import Arrow from '/primitives/Arrow';
-import SceneManager from '/SceneManager';
-import MathUtilities from '/utilities/MathUtilities';
-import Screen from '/Screen';
+import CameraManager from '../CameraManager';
+import Input from '../Input';
+import MathUtilities from '../utilities/MathUtilities';
+import Screen from '../Screen';
 
 import * as THREE from 'three';
 
@@ -44,8 +41,8 @@ class CameraUtilities
   {
     camera = camera || CameraManager.current;
     this.tmp_vec.set(1, 0, 0);
-  		this.tmp_vec.applyQuaternion(camera.quaternion);
-  		return this.tmp_vec;
+    this.tmp_vec.applyQuaternion(camera.quaternion);
+    return this.tmp_vec;
   }
 
   unproject_mouse_position(NDC, camera)
@@ -172,7 +169,7 @@ class CameraUtilities
 
   world_pos_to_screen(pos, camera)
   {
-  	camera = camera || CameraManager.current;
+    camera = camera || CameraManager.current;
     this.tmp_vec.copy(pos);
     this.tmp_vec.project(camera);
 
@@ -192,5 +189,4 @@ class CameraUtilities
   }
 }
 
-const camera_utilities = new CameraUtilities();
-module.exports = camera_utilities;
+export default new CameraUtilities();

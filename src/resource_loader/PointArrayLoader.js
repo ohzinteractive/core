@@ -1,4 +1,5 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
+
 import { Vector3 as THREEVector3 } from 'three';
 import { FileLoader as THREEFileLoader } from 'three';
 

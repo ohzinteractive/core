@@ -1,10 +1,11 @@
-import basic_color_frag from '/shaders/basic_color/basic_color_frag';
-import basic_color_vert from '/shaders/basic_color/basic_color_vert';
-import SceneManager from '/SceneManager';
-import CameraManager from '/CameraManager';
-import ReflectionPlaneContext from '/ReflectionPlaneContext';
-import Screen from '/Screen';
-import BaseRender from '/render_mode/BaseRender';
+import basic_color_frag from '../shaders/basic_color/basic_color.frag';
+import basic_color_vert from '../shaders/basic_color/basic_color.vert';
+import SceneManager from '../SceneManager';
+import CameraManager from '../CameraManager';
+import ReflectionPlaneContext from '../ReflectionPlaneContext';
+import Screen from '../Screen';
+import BaseRender from '../render_mode/BaseRender';
+
 import * as THREE from 'three';
 
 export default class PlanarReflectionsRender extends BaseRender
@@ -38,7 +39,7 @@ export default class PlanarReflectionsRender extends BaseRender
   on_enter(context, renderer)
   {
     this.gl = renderer.domElement.getContext('webgl');
-  	CameraManager.current.parent = SceneManager.current;
+    CameraManager.current.parent = SceneManager.current;
 
     var plane_material_mask = new THREE.MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
     this.plane_mask = new THREE.Mesh(ReflectionPlaneContext.target_geometry, plane_material_mask);
@@ -59,9 +60,9 @@ export default class PlanarReflectionsRender extends BaseRender
   {
     if (CameraManager.current)
     {
-    	CameraManager.current.aspect = Screen.aspect_ratio;
-	    CameraManager.current.updateProjectionMatrix();
-	    CameraManager.current.updateMatrix();
+      CameraManager.current.aspect = Screen.aspect_ratio;
+      CameraManager.current.updateProjectionMatrix();
+      CameraManager.current.updateMatrix();
       CameraManager.current.updateMatrixWorld(true);
 
       renderer.setClearColor(CameraManager.current.clear_color, CameraManager.current.clear_alpha);

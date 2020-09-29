@@ -1,7 +1,7 @@
-import edge_line_vert from '/shaders/edges/edges_vert';
-import edge_line_frag from '/shaders/edges/edges_frag';
-import corners_vert from '/shaders/edges/corners_vert';
-import corners_frag from '/shaders/edges/corners_frag';
+import edge_line_vert from '../shaders/edges/edges.vert';
+import edge_line_frag from '../shaders/edges/edges.frag';
+import corners_vert from '../shaders/edges/corners.vert';
+import corners_frag from '../shaders/edges/corners.frag';
 
 import * as THREE from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';

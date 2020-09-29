@@ -1,4 +1,4 @@
-import Time from '/Time';
+import Time from '../../Time';
 import Idle from './Idle';
 import * as THREE from 'three';
 

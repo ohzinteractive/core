@@ -1,4 +1,4 @@
-import Line from '/Line';
+import Line from '../Line';
 
 import * as THREE from 'three';
 

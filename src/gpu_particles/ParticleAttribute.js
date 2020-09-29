@@ -1,4 +1,4 @@
-import Graphics from '/Graphics';
+import Graphics from '../Graphics';
 
 import * as THREE from 'three';
 

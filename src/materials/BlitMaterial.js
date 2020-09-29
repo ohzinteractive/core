@@ -1,5 +1,5 @@
-import vert from '/shaders/copy/copy_vert';
-import frag from '/shaders/copy/copy_frag';
+import vert from '../shaders/copy/copy.vert';
+import frag from '../shaders/copy/copy.frag';
 
 import * as THREE from 'three';
 
@@ -19,7 +19,6 @@ export default class BlitMaterial extends THREE.ShaderMaterial
       depthWrite: false,
       blending: THREE.NoBlending,
       depthTest: false,
-      depthWrite: false,
       depthFunc: THREE.AlwaysDepth
     });
   }

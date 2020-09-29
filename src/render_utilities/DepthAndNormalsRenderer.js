@@ -1,9 +1,8 @@
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Screen from '/Screen';
+import CameraManager from '../CameraManager';
+import Screen from '../Screen';
 
-import ClearDepthNormalMaterial from '/materials/ClearDepthNormalMaterial';
-import DepthNormalMaterial from '/materials/DepthNormalMaterial';
+import ClearDepthNormalMaterial from '../materials/ClearDepthNormalMaterial';
+import DepthNormalMaterial from '../materials/DepthNormalMaterial';
 import * as THREE from 'three';
 
 export default class DepthAndNormalsRenderer

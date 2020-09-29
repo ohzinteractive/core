@@ -1,4 +1,4 @@
-import AbstractLoader from '/resource_loader/AbstractLoader';
+import AbstractLoader from './AbstractLoader';
 
 import { CubeTextureLoader as THREECubeTextureLoader } from 'three';
 

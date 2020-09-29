@@ -1,5 +1,5 @@
-import WorldImage from '/components/WorldImage';
-import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
+import WorldImage from './WorldImage';
+import SimpleTextDrawer from '../canvas_drawer/SimpleTextDrawer';
 
 import * as THREE from 'three';
 

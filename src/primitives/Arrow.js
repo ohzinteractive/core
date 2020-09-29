@@ -1,4 +1,4 @@
-import Mesh from '/Mesh';
+import Mesh from '../Mesh';
 import * as THREE from 'three';
 
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';

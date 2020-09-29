@@ -147,5 +147,4 @@ class EventManager
   }
 }
 
-const event_manager = new EventManager();
-module.exports = event_manager;
+export default new EventManager();

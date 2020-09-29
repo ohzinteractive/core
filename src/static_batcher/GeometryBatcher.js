@@ -1,4 +1,4 @@
-import GeometryBatch from '/static_batcher/GeometryBatch';
+import GeometryBatch from './GeometryBatch';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import * as THREE from 'three';
@@ -58,5 +58,4 @@ class GeometryBatcher
   }
 }
 
-const geometry_batcher = new GeometryBatcher();
-module.exports = geometry_batcher;
+export default new GeometryBatcher();

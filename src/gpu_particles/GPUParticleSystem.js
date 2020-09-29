@@ -1,5 +1,3 @@
-import ParticlePositionAttribute from '/ParticlePositionAttribute';
-
 import * as THREE from 'three';
 
 export default class GPUParticleSystem extends THREE.Object3D

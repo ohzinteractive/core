@@ -1,7 +1,6 @@
-import CameraManager from '/CameraManager';
-import Input from '/Input';
-import ObjectManipulator from '/ObjectManipulator';
-import ObjectPicker from '/ObjectPicker';
+import Input from '../Input';
+import ObjectManipulator from './ObjectManipulator';
+import ObjectPicker from './ObjectPicker';
 
 import * as THREE from 'three';
 
@@ -37,9 +36,9 @@ export default class ObjectEditor
       let x = this.object_picker.pick(Input.normalized_mouse_pos, this.selectable_objects);
       if (x !== 0)
       {
-      	let selected_obj = this.selectable_objects[x - 1];
-      	// this.object_manipulator.position.copy(selected_obj.position);
-      	this.object_manipulator.set_target(selected_obj);
+        let selected_obj = this.selectable_objects[x - 1];
+        // this.object_manipulator.position.copy(selected_obj.position);
+        this.object_manipulator.set_target(selected_obj);
       }
     }
 
