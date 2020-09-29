@@ -9,7 +9,7 @@ import DisplayNormalTextureMaterial from '../materials/DisplayNormalTextureMater
 import Blurrer from '../render_utilities/Blurrer';
 import Graphics from '../Graphics';
 
-import * as THREE from 'three';
+import { WebGLRenderTarget } from 'three';
 
 export default class NormalAORender extends BaseRender
 {
@@ -23,9 +23,9 @@ export default class NormalAORender extends BaseRender
 
     this.ssaa = Configuration.use_ssaa ? 2 : 1;
 
-    this.main_RT = new THREE.WebGLRenderTarget(Screen.width * this.ssaa, Screen.height * this.ssaa);
+    this.main_RT = new WebGLRenderTarget(Screen.width * this.ssaa, Screen.height * this.ssaa);
 
-    this.SSAO_RT = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.SSAO_RT = new WebGLRenderTarget(Screen.width, Screen.height);
 
     this.blurrer = new Blurrer();
     Graphics.generateDepthNormalTexture = true;

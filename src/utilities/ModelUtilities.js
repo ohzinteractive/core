@@ -1,4 +1,7 @@
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { BufferGeometry } from 'three';
+import { Geometry } from 'three';
+import { Skeleton } from 'three';
 
 export class ModelUtilities
 {
@@ -6,11 +9,11 @@ export class ModelUtilities
   {
     scene.traverse((child) =>
     {
-      if (child instanceof THREE.Mesh)
+      if (child instanceof Mesh)
       {
-        if (child.geometry instanceof THREE.Geometry)
+        if (child.geometry instanceof Geometry)
         {
-          child.geometry = new THREE.BufferGeometry().fromGeometry(child.geometry);
+          child.geometry = new BufferGeometry().fromGeometry(child.geometry);
         }
         result_callback(child);
       }
@@ -32,7 +35,7 @@ export class ModelUtilities
   {
     scene.traverse((child) =>
     {
-      if (child instanceof THREE.Mesh)
+      if (child instanceof Mesh)
       {
         // assign to all if no name is given
         if (name === undefined)
@@ -99,7 +102,7 @@ export class ModelUtilities
       }
 
       cloneSkinnedMesh.bind(
-        new THREE.Skeleton(orderedCloneBones, skeleton.boneInverses),
+        new Skeleton(orderedCloneBones, skeleton.boneInverses),
         cloneSkinnedMesh.matrixWorld);
     }
 
@@ -110,7 +113,7 @@ export class ModelUtilities
   {
     scene.traverse((child) =>
     {
-      if (child instanceof THREE.Mesh)
+      if (child instanceof Mesh)
       {
         child.castShadow = cast;
         child.receiveShadow = receive;

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Vector4 } from 'three';
 
 export default class ImageUtilities
 {
@@ -21,6 +21,6 @@ export default class ImageUtilities
   {
     let position = (x + imagedata.width * y) * 4;
     let data = imagedata.data;
-    return new THREE.Vector4(data[position + 0], data[position + 1], data[position + 2], data[position + 3]);
+    return new Vector4(data[position + 0], data[position + 1], data[position + 2], data[position + 3]);
   }
 }

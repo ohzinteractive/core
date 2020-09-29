@@ -1,13 +1,14 @@
-import * as THREE from 'three';
+import { Vector2 } from 'three';
+import { Clock } from 'three';
 
 class Time
 {
   constructor()
   {
-    this.___time = new THREE.Clock();
+    this.___time = new Clock();
     this.__delta_time = 0;
     this.__elapsed_time = 0;
-    this.__allocated_time = new THREE.Vector2(0, 0);
+    this.__allocated_time = new Vector2(0, 0);
   }
 
   get delta_time()

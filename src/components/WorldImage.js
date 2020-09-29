@@ -1,14 +1,19 @@
 import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
 import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
 
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { Vector2 } from 'three';
+import { ShaderMaterial } from 'three';
+import { DoubleSide } from 'three';
+import { PlaneGeometry } from 'three';
+import { Vector3 } from 'three';
 
-export default class WorldImage extends THREE.Mesh
+export default class WorldImage extends Mesh
 {
   constructor(texture, pivot)
   {
-    pivot = pivot || new THREE.Vector2(0, 0);
-    let material = new THREE.ShaderMaterial({
+    pivot = pivot || new Vector2(0, 0);
+    let material = new ShaderMaterial({
       uniforms: {
         _MainTex: { value: texture },
         _ScreenAligned: { value: 0 },
@@ -18,9 +23,9 @@ export default class WorldImage extends THREE.Mesh
       fragmentShader: basic_texture_frag,
       transparent: true,
       depthWrite: false,
-      side: THREE.DoubleSide
+      side: DoubleSide
     });
-    let geometry = new THREE.PlaneGeometry(1, 1, 1);
+    let geometry = new PlaneGeometry(1, 1, 1);
     geometry.translate(-pivot.x / 2, -pivot.y / 2, 0);
     let current_scale = texture.image.width / texture.image.height;
     geometry.scale(current_scale, 1, 1);
@@ -28,7 +33,7 @@ export default class WorldImage extends THREE.Mesh
     this.current_scale = current_scale;
     this.geometry.computeBoundingBox();
 
-    this.tmp_bb_size = new THREE.Vector3();
+    this.tmp_bb_size = new Vector3();
     this.geometry.boundingBox.getSize(this.tmp_bb_size);
   }
 

@@ -6,7 +6,12 @@ import ReflectionPlaneContext from '../ReflectionPlaneContext';
 import Screen from '../Screen';
 import BaseRender from '../render_mode/BaseRender';
 
-import * as THREE from 'three';
+import { ShaderMaterial } from 'three';
+import { Matrix4 } from 'three';
+import { Vector4 } from 'three';
+import { Scene } from 'three';
+import { MeshBasicMaterial } from 'three';
+import { Mesh } from 'three';
 
 export default class PlanarReflectionsRender extends BaseRender
 {
@@ -14,9 +19,9 @@ export default class PlanarReflectionsRender extends BaseRender
   {
     super();
     let color = 0.946;
-    this.plane_material_solid = new THREE.ShaderMaterial({
+    this.plane_material_solid = new ShaderMaterial({
       uniforms: {
-        _Color: { value: new THREE.Vector4(color, color, color, 0.5) }
+        _Color: { value: new Vector4(color, color, color, 0.5) }
       },
       vertexShader: basic_color_vert,
       fragmentShader: basic_color_frag,
@@ -24,11 +29,11 @@ export default class PlanarReflectionsRender extends BaseRender
       depthWrite: false
     });
 
-    this.stencil_mask_scene = new THREE.Scene();
+    this.stencil_mask_scene = new Scene();
 
-    this.original_view_matrix = new THREE.Matrix4();
-    this.inverted_view_matrix = new THREE.Matrix4();
-    this.reflection_matrix    = new THREE.Matrix4().set(1, 0, 0, 0,
+    this.original_view_matrix = new Matrix4();
+    this.inverted_view_matrix = new Matrix4();
+    this.reflection_matrix    = new Matrix4().set(1, 0, 0, 0,
       0, -1, 0, 0,
       0, 0, 1, 0,
       0, 0, 0, 1);
@@ -41,9 +46,9 @@ export default class PlanarReflectionsRender extends BaseRender
     this.gl = renderer.domElement.getContext('webgl');
     CameraManager.current.parent = SceneManager.current;
 
-    var plane_material_mask = new THREE.MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
-    this.plane_mask = new THREE.Mesh(ReflectionPlaneContext.target_geometry, plane_material_mask);
-    this.plane_solid = new THREE.Mesh(ReflectionPlaneContext.target_geometry, this.plane_material_solid);
+    var plane_material_mask = new MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
+    this.plane_mask = new Mesh(ReflectionPlaneContext.target_geometry, plane_material_mask);
+    this.plane_solid = new Mesh(ReflectionPlaneContext.target_geometry, this.plane_material_solid);
 
     let clear_color = CameraManager.current.clear_color;
     this.plane_material_solid.uniforms._Color.value.set(clear_color.r, clear_color.g, clear_color.b, 0.5);

@@ -2,7 +2,8 @@ import CameraManager from '../CameraManager';
 import Input from '../Input';
 import RaycastResolver from './RaycastResolver';
 import IdleState from './states/IdleState';
-import * as THREE from 'three';
+
+import { Raycaster } from 'three';
 
 export default class GroupRaycaster
 {
@@ -12,7 +13,7 @@ export default class GroupRaycaster
     this.raycast_resolver = raycast_resolver || new RaycastResolver();
     this.raycastee_group = raycastee_group || [];
 
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new Raycaster();
     this.current_state = new IdleState();
     this.current_intersections = undefined;
   }

@@ -11,20 +11,25 @@ import OnMouseEnter from '../ui/ui_element_state/OnMouseEnter';
 import OnMouseExit from '../ui/ui_element_state/OnMouseExit';
 import OnMouseHover from '../ui/ui_element_state/OnMouseHover';
 
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { PlaneGeometry } from 'three';
+import { Vector2 } from 'three';
+import { Vector3 } from 'three';
+import { NearestFilter } from 'three';
+import { Box2 } from 'three';
 
-export default class UIElement extends THREE.Mesh
+export default class UIElement extends Mesh
 {
   constructor(vert, frag)
   {
-    super(new THREE.PlaneGeometry(1, 1), new UIElementMaterial());
+    super(new PlaneGeometry(1, 1), new UIElementMaterial());
 
     this.is_clickable = false;
 
     this.position_strategy = new WorldSpacePosition();
     this.current_state = new OnIdle();
 
-    this._position = new THREE.Vector3();
+    this._position = new Vector3();
 
     this._on_idle_state = new OnIdle();
     this._on_enter_state = new OnMouseEnter();
@@ -35,18 +40,18 @@ export default class UIElement extends THREE.Mesh
     this.on_exit = undefined;
     this.on_hover = undefined;
 
-    this.mouse_pos_tmp = new THREE.Vector2();
-    this.cached_NDC_position = new THREE.Vector2();
-    this.screen_pos_tmp = new THREE.Vector2();
+    this.mouse_pos_tmp = new Vector2();
+    this.cached_NDC_position = new Vector2();
+    this.screen_pos_tmp = new Vector2();
 
-    this.texture_size = new THREE.Vector2(1, 1);
+    this.texture_size = new Vector2(1, 1);
 
     this.frustumCulled = false;
     this.matrixAutoUpdate = false;
     this.renderOrder = 0;
 
     this.size = 1;
-    this.pixel_offset = new THREE.Vector2();
+    this.pixel_offset = new Vector2();
   }
 
   set_render_order(value)
@@ -104,8 +109,8 @@ export default class UIElement extends THREE.Mesh
 
   set_texture(texture)
   {
-    texture.minFilter = THREE.NearestFilter;
-    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = NearestFilter;
+    texture.magFilter = NearestFilter;
     texture.needsUpdate = true;
 
     this.texture_size.set(texture.image.width, texture.image.height);
@@ -132,7 +137,7 @@ export default class UIElement extends THREE.Mesh
     this.screen_pos_tmp.x += this.pixel_offset.x;
     this.screen_pos_tmp.y += this.pixel_offset.y;
 
-    let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
+    let rect = new Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
 
     this.mouse_pos_tmp.copy(normalized_mouse_pos);
     this.to_screen_position(this.mouse_pos_tmp);
@@ -178,7 +183,7 @@ export default class UIElement extends THREE.Mesh
     }
     else
     {
-      return new THREE.Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
+      return new Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
     }
   }
 

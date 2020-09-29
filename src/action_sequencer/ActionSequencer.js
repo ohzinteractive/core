@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+
+import { Math as TMath } from 'three';
 
 export default class ActionSequencer
 {
@@ -83,7 +84,7 @@ export default class ActionSequencer
       if (this.elapsed_time >= this.action_interpolators[i].from)
       {
         this.tmp_t = this.__linear_map_01(this.elapsed_time, this.action_interpolators[i].from, this.action_interpolators[i].to);
-        this.tmp_t = THREE.Math.clamp(this.tmp_t, 0, 1);
+        this.tmp_t = TMath.clamp(this.tmp_t, 0, 1);
         this.action_interpolators[i].action.update(this.context, this.tmp_t);
       }
     }

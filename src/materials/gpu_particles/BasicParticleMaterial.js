@@ -1,13 +1,13 @@
 import vert from '../../shaders/gpu_particles/visualize/visualize.vert';
 import frag from '../../shaders/gpu_particles/visualize/visualize.frag';
 
-import * as THREE from 'three';
+import { ShaderMaterial } from 'three';
 
-export default class BasicParticleMaterial extends THREE.ShaderMaterial
+export default class BasicParticleMaterial extends ShaderMaterial
 {
   constructor()
   {
-    // THREE.ShaderChunk["gpu_particles_utils"] = common_utils;
+    // ShaderChunk["gpu_particles_utils"] = common_utils;
 
     super({
       uniforms: {

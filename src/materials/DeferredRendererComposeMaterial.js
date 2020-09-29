@@ -1,7 +1,8 @@
 import BlitMaterial from '../materials/BlitMaterial';
 import frag from '../shaders/deferred/deferred_compose.frag';
 import vert from '../shaders/deferred/blit_copy.vert';
-import * as THREE from 'three';
+
+import { Matrix4 } from 'three';
 
 export default class DeferredRendererComposeMaterial extends BlitMaterial
 {
@@ -11,7 +12,7 @@ export default class DeferredRendererComposeMaterial extends BlitMaterial
 
     this.uniforms._NormalDepthRT = { value: undefined };
     this.uniforms._AlbedoRT = { value: undefined };
-    this.uniforms._InverseProjMatrix = { value: new THREE.Matrix4() };
+    this.uniforms._InverseProjMatrix = { value: new Matrix4() };
   }
 
   set_normal_depth_rt(rt)

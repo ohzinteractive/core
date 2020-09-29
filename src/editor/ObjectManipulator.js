@@ -2,18 +2,20 @@ import ManipulatorHandle from '../editor/ManipulatorHandle';
 import Input from '../Input';
 import EventManager from '../EventManager';
 
-import * as THREE from 'three';
+import { Object3D } from 'three';
+import { Vector2 } from 'three';
+import { Vector3 } from 'three';
 
-export default class ObjectManipulator extends THREE.Object3D
+export default class ObjectManipulator extends Object3D
 {
   constructor()
   {
     super();
     this.target_obj = undefined;
 
-    this.up_handle = new ManipulatorHandle(new THREE.Vector3(0, 1, 0), 0x00ff00);
-    this.right_handle = new ManipulatorHandle(new THREE.Vector3(1, 0, 0), 0xff0000);
-    this.forward_handle = new ManipulatorHandle(new THREE.Vector3(0, 0, 1), 0x0000ff);
+    this.up_handle = new ManipulatorHandle(new Vector3(0, 1, 0), 0x00ff00);
+    this.right_handle = new ManipulatorHandle(new Vector3(1, 0, 0), 0xff0000);
+    this.forward_handle = new ManipulatorHandle(new Vector3(0, 0, 1), 0x0000ff);
 
     this.add(this.up_handle);
     this.add(this.right_handle);
@@ -21,13 +23,13 @@ export default class ObjectManipulator extends THREE.Object3D
 
     this.active_handle = undefined;
 
-    this.tmp_displacement_vector = new THREE.Vector3();
-    this.tmp_local_pos = new THREE.Vector3();
+    this.tmp_displacement_vector = new Vector3();
+    this.tmp_local_pos = new Vector3();
 
     this.target_obj = undefined;
 
-    this.tmp_up_v2 = new THREE.Vector2(0, 1);
-    this.tmp_right_v2 = new THREE.Vector2(1, 0);
+    this.tmp_up_v2 = new Vector2(0, 1);
+    this.tmp_right_v2 = new Vector2(1, 0);
 
     this.use_vertical_translation = false;
     this.translation_sign = false;

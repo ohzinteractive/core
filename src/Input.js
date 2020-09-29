@@ -6,20 +6,21 @@ import KeyboardInput from './KeyboardInput';
 import TouchInput from './TouchInput';
 import OS from './OS';
 
-import * as THREE from 'three';
+import { Math as TMath } from 'three';
+import { Vector2 } from 'three';
 
 class Input
 {
   constructor()
   {
-    this.mouse_pos = new THREE.Vector2();
-    this.mouse_dir = new THREE.Vector2();
+    this.mouse_pos = new Vector2();
+    this.mouse_dir = new Vector2();
 
     this.__clicked_time = 0;
     this.__elapsed_time = 0;
     this.__delta_time = 0;
 
-    this._normalized_mouse_pos = new THREE.Vector2(0, 0);
+    this._normalized_mouse_pos = new Vector2(0, 0);
 
     this.left_mouse_button_down = false;
     this.left_mouse_button_pressed = false;
@@ -86,8 +87,8 @@ class Input
   get NDC()
   {
     this.calculate_normalized_mouse_pos();
-    this._normalized_mouse_pos.x = THREE.Math.clamp(this._normalized_mouse_pos.x, -1, 1);
-    this._normalized_mouse_pos.y = THREE.Math.clamp(this._normalized_mouse_pos.y, -1, 1);
+    this._normalized_mouse_pos.x = TMath.clamp(this._normalized_mouse_pos.x, -1, 1);
+    this._normalized_mouse_pos.y = TMath.clamp(this._normalized_mouse_pos.y, -1, 1);
     return this._normalized_mouse_pos;
   }
 
@@ -145,7 +146,7 @@ class Input
           this.scrolling_with_trackpad = true;
           this.scrolling_with_mouse = false;
 
-          this.wheel_delta = THREE.Math.clamp(event.deltaY / 350, -1, 1) * -1;
+          this.wheel_delta = TMath.clamp(event.deltaY / 350, -1, 1) * -1;
         }
         else
         {

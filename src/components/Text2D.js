@@ -1,7 +1,8 @@
 import WorldImage from './WorldImage';
 import SimpleTextDrawer from '../canvas_drawer/SimpleTextDrawer';
 
-import * as THREE from 'three';
+import { LinearMipMapLinearFilter } from 'three';
+import { LinearFilter } from 'three';
 
 export default class Text2D extends WorldImage
 {
@@ -15,8 +16,8 @@ export default class Text2D extends WorldImage
     };
     let canvas_texture = simple_text_drawer.draw_on_texture(text, draw_settings);
 
-    canvas_texture.minFilter = THREE.LinearMipMapLinearFilter;
-    canvas_texture.minFilter = THREE.LinearFilter;
+    canvas_texture.minFilter = LinearMipMapLinearFilter;
+    canvas_texture.minFilter = LinearFilter;
     canvas_texture.needsUpdate = true;
     super(canvas_texture, pivot);
 

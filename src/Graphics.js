@@ -7,7 +7,7 @@ import Capabilities from './Capabilities';
 import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
 import Blitter from './render_utilities/Blitter';
 
-import * as THREE from 'three';
+import { WebGLRenderer } from 'three';
 
 class Graphics
 {
@@ -47,7 +47,7 @@ class Graphics
     this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
     console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
 
-    this._renderer = new THREE.WebGLRenderer({
+    this._renderer = new WebGLRenderer({
       canvas: canvas,
       context: this.canvas_context
     });

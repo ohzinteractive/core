@@ -1,25 +1,29 @@
 import line_vs from '../shaders/basic_line/basic_line.vert';
 import line_fs from '../shaders/basic_line/basic_line.frag';
 
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { BufferAttribute } from 'three';
+import { BufferGeometry } from 'three';
+import { ShaderMaterial } from 'three';
+import { Color } from 'three';
 
-export default class Line extends THREE.Mesh
+export default class Line extends Mesh
 {
   constructor(points)
   {
-    let geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position',           new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('next_position',      new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('previous_position',  new THREE.BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('orientation',        new THREE.BufferAttribute(new Float32Array([]), 1));
-    geometry.setAttribute('coverage',           new THREE.BufferAttribute(new Float32Array([]), 1));
+    let geometry = new BufferGeometry();
+    geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
+    geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
+    geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
 
-    let material = new THREE.ShaderMaterial({
+    let material = new ShaderMaterial({
       uniforms: {
         _Thickness: { value: 0.2 },
         _Length: { value: 0 },
         _ElapsedTime: { value: 0 },
-        _Color: { value: new THREE.Color('#FF0000') }
+        _Color: { value: new Color('#FF0000') }
       },
       vertexShader: line_vs,
       fragmentShader: line_fs,
@@ -104,11 +108,11 @@ export default class Line extends THREE.Mesh
     }
 
     this.geometry.setIndex(indices);
-    this.geometry.getAttribute('position').copy(new THREE.BufferAttribute(vertexList, 3));
-    this.geometry.getAttribute('next_position').copy(new THREE.BufferAttribute(nextPositionList, 3));
-    this.geometry.getAttribute('previous_position').copy(new THREE.BufferAttribute(previousPositionList, 3));
-    this.geometry.getAttribute('orientation').copy(new THREE.BufferAttribute(orientationList, 1));
-    this.geometry.getAttribute('coverage').copy(new THREE.BufferAttribute(coverageList, 1));
+    this.geometry.getAttribute('position').copy(new BufferAttribute(vertexList, 3));
+    this.geometry.getAttribute('next_position').copy(new BufferAttribute(nextPositionList, 3));
+    this.geometry.getAttribute('previous_position').copy(new BufferAttribute(previousPositionList, 3));
+    this.geometry.getAttribute('orientation').copy(new BufferAttribute(orientationList, 1));
+    this.geometry.getAttribute('coverage').copy(new BufferAttribute(coverageList, 1));
 
     this.geometry.getAttribute('position').needsUpdate = true;
     this.geometry.getAttribute('next_position').needsUpdate = true;

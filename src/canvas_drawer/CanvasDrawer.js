@@ -1,4 +1,8 @@
-import * as THREE from 'three';
+import { CanvasTexture } from 'three';
+import { Vector2 } from 'three';
+import { UVMapping } from 'three';
+import { ClampToEdgeWrapping } from 'three';
+import { NearestFilter } from 'three';
 
 export default class CanvasDrawer
 {
@@ -29,7 +33,7 @@ export default class CanvasDrawer
 
   get_text_size(text, font = '24px Arial')
   {
-    let size = new THREE.Vector2();
+    let size = new Vector2();
     this.ctx.font = font;
     size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
     size.y = Math.ceil(this.getFontHeight(font)) * window.devicePixelRatio;
@@ -48,11 +52,11 @@ export default class CanvasDrawer
   draw_on_texture(text, ctxOptions)
   {
     let canvas = this.draw_canvas(text, ctxOptions);
-    let canvas_texture = new THREE.CanvasTexture(canvas, THREE.UVMapping,
-      THREE.ClampToEdgeWrapping,
-      THREE.ClampToEdgeWrapping,
-      THREE.NearestFilter,
-      THREE.NearestFilter);
+    let canvas_texture = new CanvasTexture(canvas, UVMapping,
+      ClampToEdgeWrapping,
+      ClampToEdgeWrapping,
+      NearestFilter,
+      NearestFilter);
     canvas_texture.generateMipMaps = false;
     canvas_texture.needsUpdate = true;
 

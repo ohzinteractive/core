@@ -1,8 +1,9 @@
 import Text2D from './Text2D';
 
-import * as THREE from 'three';
+import { Object3D } from 'three';
+import { Vector2 } from 'three';
 
-export default class MultiLineText2D extends THREE.Object3D
+export default class MultiLineText2D extends Object3D
 {
   constructor(text_array, font, color, pivot, is_static)
   {
@@ -10,7 +11,7 @@ export default class MultiLineText2D extends THREE.Object3D
 
     font = font || '200px Arial';
     color = color || '#000000';
-    pivot = pivot || new THREE.Vector2();
+    pivot = pivot || new Vector2();
 
     this.text_array = [];
 

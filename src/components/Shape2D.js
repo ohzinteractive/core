@@ -1,16 +1,19 @@
 import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
 
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { Shape } from 'three';
+import { ShapeBufferGeometry } from 'three';
+import { MeshBasicMaterial } from 'three';
 
-export default class Shape2D extends THREE.Mesh
+export default class Shape2D extends Mesh
 {
   constructor(points_2D, show_edges)
   {
-    let shape = new THREE.Shape(points_2D);
-    let geometry = new THREE.ShapeBufferGeometry(shape);
+    let shape = new Shape(points_2D);
+    let geometry = new ShapeBufferGeometry(shape);
     geometry.rotateX(3.14 / 2);
 
-    let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    let material = new MeshBasicMaterial({ color: 0xff0000 });
     super(geometry, material);
     this.invert_normals(geometry);
 

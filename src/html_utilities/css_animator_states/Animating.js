@@ -1,6 +1,7 @@
 import Time from '../../Time';
 import Idle from './Idle';
-import * as THREE from 'three';
+
+import { Math as TMath } from 'three';
 
 export default class Animating
 {
@@ -19,9 +20,9 @@ export default class Animating
     this.t += Time.delta_time / animator.duration;
 
     this.easing_function_t = animator.easing_function(this.t);
-    this.easing_function_t = THREE.Math.clamp(this.easing_function_t, 0, 1);
+    this.easing_function_t = TMath.clamp(this.easing_function_t, 0, 1);
 
-    animator.set_property_value(THREE.Math.lerp(animator.from, animator.to, this.easing_function_t));
+    animator.set_property_value(TMath.lerp(animator.from, animator.to, this.easing_function_t));
 
     if (this.easing_function_t >= 0.9999)
     {

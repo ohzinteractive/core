@@ -1,12 +1,14 @@
 import CameraManager from '../../CameraManager';
-import * as THREE from 'three';
+
+import { Vector2 } from 'three';
+import { Vector3 } from 'three';
 
 export default class WorldSpacePosition
 {
   constructor()
   {
-    this.tmp_vec3 = new THREE.Vector3();
-    this.tmp_vec2 = new THREE.Vector2();
+    this.tmp_vec3 = new Vector3();
+    this.tmp_vec2 = new Vector2();
   }
 
   get_pos_NDC(position)

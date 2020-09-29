@@ -1,19 +1,19 @@
 import CanvasDrawer from './CanvasDrawer';
 
-import * as THREE from 'three';
+import { Vector2 } from 'three';
 
 export default class MultiLineTextDrawer extends CanvasDrawer
 {
   constructor()
   {
     super();
-    this.text_margin = new THREE.Vector2(2, 0);
+    this.text_margin = new Vector2(2, 0);
   }
 
   __draw(text_array, ctxOptions, canvas, ctx)
   {
     ctx.font = ctxOptions.font;
-    let text_size = new THREE.Vector2();
+    let text_size = new Vector2();
     for (let i = 0; i < text_array.length; i++)
     {
       let new_size = this.get_text_size(text_array[i], ctxOptions.font);

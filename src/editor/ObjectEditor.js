@@ -2,13 +2,13 @@ import Input from '../Input';
 import ObjectManipulator from './ObjectManipulator';
 import ObjectPicker from './ObjectPicker';
 
-import * as THREE from 'three';
+import { Raycaster } from 'three';
 
 export default class ObjectEditor
 {
   constructor(renderer, scene, camera)
   {
-    this.raycaster = new THREE.Raycaster();
+    this.raycaster = new Raycaster();
 
     this.selected_object = undefined;
     this.object_manipulator = new ObjectManipulator();

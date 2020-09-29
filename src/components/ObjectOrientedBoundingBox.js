@@ -1,5 +1,6 @@
 
-import * as THREE from 'three';
+import { Vector3 } from 'three';
+import { Quaternion } from 'three';
 
 export default class ObjectOrientedBoundingBox
 {
@@ -9,13 +10,13 @@ export default class ObjectOrientedBoundingBox
     let center = this.get_center(points);
     // console.log(points);
 
-    let min = new THREE.Vector3(90000, 90000, 90000);
-    let max = new THREE.Vector3(-90000, -90000, -90000);
+    let min = new Vector3(90000, 90000, 90000);
+    let max = new Vector3(-90000, -90000, -90000);
 
     for (let deg = 0; deg < 359; deg++)
     {
-      let local_min = new THREE.Vector3(100000, 100000, 100000);
-      let local_max = new THREE.Vector3(-100000, -100000, -100000);
+      let local_min = new Vector3(100000, 100000, 100000);
+      let local_max = new Vector3(-100000, -100000, -100000);
 
       for (let i = 0; i < points.length; i++)
       {
@@ -24,9 +25,9 @@ export default class ObjectOrientedBoundingBox
 
         store_pos.sub(center);
 
-        let quaternion = new THREE.Quaternion();
+        let quaternion = new Quaternion();
 
-        quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), (deg / 359) * Math.PI * 2);
+        quaternion.setFromAxisAngle(new Vector3(0, 1, 0), (deg / 359) * Math.PI * 2);
 
         store_pos.applyQuaternion(quaternion);
 
@@ -64,20 +65,20 @@ export default class ObjectOrientedBoundingBox
       }
     }
 
-    this.axis_to_world = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, -1, 0), (degrees / 359) * Math.PI * 2);
-    this.world_to_axis = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),  (degrees / 359) * Math.PI * 2);
+    this.axis_to_world = new Quaternion().setFromAxisAngle(new Vector3(0, -1, 0), (degrees / 359) * Math.PI * 2);
+    this.world_to_axis = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0),  (degrees / 359) * Math.PI * 2);
 
     this.min = min.clone();
     this.max = max.clone();
     this.center = center;
 
     let left_down   = min;
-    let left_up     = min.clone().add(new THREE.Vector3(0, max.y - min.y, 0));
+    let left_up     = min.clone().add(new Vector3(0, max.y - min.y, 0));
     let right_up    = max;
-    let right_down  = min.clone().add(new THREE.Vector3(max.x - min.x, 0, 0));
+    let right_down  = min.clone().add(new Vector3(max.x - min.x, 0, 0));
 
-    let deep_left   = min.clone().add(new THREE.Vector3(0, 0, max.z - min.z));
-    let deep_right  = min.clone().add(new THREE.Vector3(max.x - min.x, 0, max.z - min.z));
+    let deep_left   = min.clone().add(new Vector3(0, 0, max.z - min.z));
+    let deep_right  = min.clone().add(new Vector3(max.x - min.x, 0, max.z - min.z));
 
     this.bounds = [];
     this.bounds[0] = left_down.clone();
@@ -105,7 +106,7 @@ export default class ObjectOrientedBoundingBox
 
   get_center(points)
   {
-    let v = new THREE.Vector3();
+    let v = new Vector3();
     for (let i = 0; i < points.length; i++)
     {
       v.add(points[i]);
@@ -145,13 +146,13 @@ export default class ObjectOrientedBoundingBox
 
   closest_point_on_bounds(reference_point)
   {
-    let force = new THREE.Vector3();
+    let force = new Vector3();
     for (let i = 0; i < this.bounds.length - 1; i++)
     {
       let dir = this.bounds[i + 1].clone().sub(this.bounds[i]);
       dir.y = 0;
       dir.normalize();
-      dir = new THREE.Vector3(dir.z, 0, -dir.x);
+      dir = new Vector3(dir.z, 0, -dir.x);
 
       let dir_to_point = this.world_to_local(reference_point);
       dir_to_point.sub(this.bounds[i]);

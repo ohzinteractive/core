@@ -1,7 +1,10 @@
 import vert from '../../shaders/deferred/point_light.vert';
 import frag from '../../shaders/deferred/point_light.frag';
 import BaseShaderMaterial from '../../materials/BaseShaderMaterial';
-import * as THREE from 'three';
+
+import { Matrix4 } from 'three';
+import { AdditiveBlending } from 'three';
+import { BackSide } from 'three';
 
 export default class DeferredPointLightMaterial extends BaseShaderMaterial
 {
@@ -11,12 +14,12 @@ export default class DeferredPointLightMaterial extends BaseShaderMaterial
       _Intensity: { value: intensity },
       _AlbedoTex: { value: undefined },
       _NormalDepthTex: { value: undefined },
-      _InverseProjMatrix: { value: new THREE.Matrix4() }
+      _InverseProjMatrix: { value: new Matrix4() }
     });
 
-    this.blending = THREE.AdditiveBlending;
+    this.blending = AdditiveBlending;
     this.depthWrite = false;
-    this.side = THREE.BackSide;
+    this.side = BackSide;
   }
 
   set_inverse_proj_matrix(mat4)

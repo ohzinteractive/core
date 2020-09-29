@@ -1,9 +1,10 @@
 import vert from './editor/shaders/object_picker.vert';
 import frag from './editor/shaders/object_picker.frag';
 
-import * as THREE from 'three';
+import { ShaderMaterial } from 'three';
+import { Color } from 'three';
 
-export default class Mesh extends THREE.Mesh
+export default class Mesh extends Mesh
 {
   constructor(geometry, material)
   {
@@ -16,9 +17,9 @@ export default class Mesh extends THREE.Mesh
 
   __get_selectable_material()
   {
-    return new THREE.ShaderMaterial({
+    return new ShaderMaterial({
       uniforms: {
-        _Color: { value: new THREE.Color() }
+        _Color: { value: new Color() }
       },
       vertexShader: vert,
       fragmentShader: frag

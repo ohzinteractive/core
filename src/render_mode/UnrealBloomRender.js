@@ -2,7 +2,12 @@ import Screen from '../Screen';
 import BaseRender from '../render_mode/BaseRender';
 import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
 
-import * as THREE from 'three';
+import { Vector2 } from 'three';
+import { Vector3 } from 'three';
+import { Color } from 'three';
+import { LinearFilter } from 'three';
+import { RGBAFormat } from 'three';
+import { WebGLRenderTarget } from 'three';
 
 export default class UnrealBloomRender extends BaseRender
 {
@@ -13,13 +18,13 @@ export default class UnrealBloomRender extends BaseRender
     this.strength = 1;
     this.radius = 0.1;
     this.threshold = 0;
-    this.resolution = new THREE.Vector2(Screen.width, Screen.height);
+    this.resolution = new Vector2(Screen.width, Screen.height);
 
     // create color only once here, reuse it later inside the render function
-    this.clearColor = new THREE.Color(0, 0, 0);
+    this.clearColor = new Color(0, 0, 0);
 
     // render targets
-    let pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };
+    let pars = { minFilter: LinearFilter, magFilter: LinearFilter, format: RGBAFormat };
     this.renderTargetsHorizontal = [];
     this.renderTargetsVertical = [];
     this.nMips = 5;
@@ -28,14 +33,14 @@ export default class UnrealBloomRender extends BaseRender
 
     for (let i = 0; i < this.nMips; i++)
     {
-      let renderTargetHorizonal = new THREE.WebGLRenderTarget(resx, resy, pars);
+      let renderTargetHorizonal = new WebGLRenderTarget(resx, resy, pars);
 
       renderTargetHorizonal.texture.name = 'UnrealBloomPass.h' + i;
       renderTargetHorizonal.texture.generateMipmaps = false;
 
       this.renderTargetsHorizontal.push(renderTargetHorizonal);
 
-      let renderTargetVertical = new THREE.WebGLRenderTarget(resx, resy, pars);
+      let renderTargetVertical = new WebGLRenderTarget(resx, resy, pars);
 
       renderTargetVertical.texture.name = 'UnrealBloomPass.v' + i;
       renderTargetVertical.texture.generateMipmaps = false;
@@ -56,7 +61,7 @@ export default class UnrealBloomRender extends BaseRender
     {
       this.separableBlurMaterials.push(this.getSeperableBlurMaterial(kernelSizeArray[i]));
 
-      this.separableBlurMaterials[i].uniforms.texSize.value = new THREE.Vector2(resx, resy);
+      this.separableBlurMaterials[i].uniforms.texSize.value = new Vector2(resx, resy);
 
       resx = Math.round(resx / 2);
 
@@ -76,19 +81,19 @@ export default class UnrealBloomRender extends BaseRender
     let bloomFactors = [1.0, 0.8, 0.6, 0.4, 0.2];
     this.compositeMaterial.uniforms.bloomFactors.value = bloomFactors;
     this.bloomTintColors = [
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1),
-      new THREE.Vector3(1, 1, 1)
+      new Vector3(1, 1, 1),
+      new Vector3(1, 1, 1),
+      new Vector3(1, 1, 1),
+      new Vector3(1, 1, 1),
+      new Vector3(1, 1, 1)
     ];
     this.compositeMaterial.uniforms.bloomTintColors.value = this.bloomTintColors;
 
     // this.bloom_compose_mat = new BloomComposeMaterial();
     // window.bloom_mat = this.bloom_compose_mat;
 
-    // this.main_RT = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
-    // this.blur_RT = new THREE.WebGLRenderTarget(Screen.width/2, Screen.height/2);
+    // this.main_RT = new WebGLRenderTarget(Screen.width, Screen.height);
+    // this.blur_RT = new WebGLRenderTarget(Screen.width/2, Screen.height/2);
     // this.blurrer = new Blurrer();
   }
 

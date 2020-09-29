@@ -1,4 +1,11 @@
-import * as THREE from 'three';
+import { Vector2 } from 'three';
+import { ShaderMaterial } from 'three';
+import { Mesh } from 'three';
+import { DataTexture } from 'three';
+import { RGBAFormat } from 'three';
+import { RGBFormat } from 'three';
+import { RGBA } from 'three';
+import { FloatType } from 'three';
 
 export default class GeometryBatch
 {
@@ -14,8 +21,8 @@ export default class GeometryBatch
 
     this.object_names = undefined;
 
-    this.zero_offset = new THREE.Vector2();
-    this.write_offset = new THREE.Vector2();
+    this.zero_offset = new Vector2();
+    this.write_offset = new Vector2();
 
     this.uniform_dirty_count = 0;
 
@@ -24,7 +31,7 @@ export default class GeometryBatch
 
   init(object_names, vert_shader, frag_shader)
   {
-    this.material = new THREE.ShaderMaterial({
+    this.material = new ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: vert_shader,
       fragmentShader: frag_shader
@@ -176,7 +183,7 @@ export default class GeometryBatch
 
   get_mesh()
   {
-    return new THREE.Mesh(this.geometry, this.material);
+    return new Mesh(this.geometry, this.material);
   }
 
   __set_pixel_rgb(data_texture, index, vector3, use_r, use_g, use_b)
@@ -236,19 +243,19 @@ export default class GeometryBatch
   __create_rgb_texture(width)
   {
     let data = new Uint8Array(3 * width * width);
-    return new THREE.DataTexture(data, width, width, THREE.RGBFormat);
+    return new DataTexture(data, width, width, RGBFormat);
   }
 
   __create_rgba_texture(width)
   {
     let data = new Uint8Array(4 * width * width);
-    return new THREE.DataTexture(data, width, width, THREE.RGBAFormat);
+    return new DataTexture(data, width, width, RGBAFormat);
   }
 
   __create_rgba_float_texture(width)
   {
     let data = new Float32Array(4 * width * width);
-    return new THREE.DataTexture(data, width, width, THREE.RGBA, THREE.FloatType);
+    return new DataTexture(data, width, width, RGBA, FloatType);
   }
 
   __get_data_texture(uniform_name)

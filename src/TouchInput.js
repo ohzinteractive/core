@@ -1,6 +1,6 @@
 import Time from './Time';
 
-import * as THREE from 'three';
+import { Vector2 } from 'three';
 
 export class TouchInput
 {
@@ -25,7 +25,7 @@ export class TouchInput
     this.initial_zoom_distance = 100;
     this.last_zoom_distance = -1;
 
-    this.center = new THREE.Vector2();
+    this.center = new Vector2();
   }
 
   init(input, container)

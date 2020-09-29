@@ -1,13 +1,14 @@
 
-import * as THREE from 'three';
 import CanvasDrawer from './CanvasDrawer';
+
+import { Vector2 } from 'three';
 
 export default class SimpleTextDrawer extends CanvasDrawer
 {
   constructor()
   {
     super();
-    this.text_margin = new THREE.Vector2(2, 0);
+    this.text_margin = new Vector2(2, 0);
   }
 
   __draw(text, ctxOptions, canvas, ctx)
@@ -15,8 +16,8 @@ export default class SimpleTextDrawer extends CanvasDrawer
     ctx.font = ctxOptions.font;
 
     let text_size = this.get_text_size(text, ctxOptions.font);
-    // canvas.width = THREE.Math.ceilPowerOfTwo(text_size.x+this.text_margin.x*2);
-    // canvas.height = THREE.Math.ceilPowerOfTwo(text_size.y+ this.text_margin.y*2);
+    // canvas.width = Math.ceilPowerOfTwo(text_size.x+this.text_margin.x*2);
+    // canvas.height = Math.ceilPowerOfTwo(text_size.y+ this.text_margin.y*2);
     canvas.width = Math.ceil(text_size.x + this.text_margin.x * 2);
     canvas.height = Math.ceil(text_size.y + this.text_margin.y * 2);
     ctx.clearRect(0, 0, canvas.width, canvas.height);

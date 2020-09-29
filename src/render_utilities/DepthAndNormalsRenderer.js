@@ -3,15 +3,17 @@ import Screen from '../Screen';
 
 import ClearDepthNormalMaterial from '../materials/ClearDepthNormalMaterial';
 import DepthNormalMaterial from '../materials/DepthNormalMaterial';
-import * as THREE from 'three';
+
+import { WebGLRenderTarget } from 'three';
+import { Vector3 } from 'three';
 
 export default class DepthAndNormalsRenderer
 {
   constructor()
   {
-    this.RT = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.RT = new WebGLRenderTarget(Screen.width, Screen.height);
 
-    this.clear_depth_normal_mat = new ClearDepthNormalMaterial(1, new THREE.Vector3(0, 0, 1));
+    this.clear_depth_normal_mat = new ClearDepthNormalMaterial(1, new Vector3(0, 0, 1));
     this.depth_normal_material = new DepthNormalMaterial();
   }
 

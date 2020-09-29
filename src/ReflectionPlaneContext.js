@@ -1,11 +1,11 @@
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 
 class ReflectionPlaneContext
 {
   constructor()
   {
     this.target_geometry = undefined;
-    this.target_position = new THREE.Vector3();
+    this.target_position = new Vector3();
   }
 
   set_target_geometry(geometry)

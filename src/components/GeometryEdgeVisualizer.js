@@ -2,18 +2,20 @@ import edge_visualizer_frag from '../shaders/edge_visualizer/edge_visualizer.fra
 import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer.vert';
 import GeometryUtilities from '../utilities/GeometryUtilities';
 
-import * as THREE from 'three';
+import { Mesh } from 'three';
+import { Color } from 'three';
+import { ShaderMaterial } from 'three';
 
-export default class GeometryEdgeVisualizer extends THREE.Mesh
+export default class GeometryEdgeVisualizer extends Mesh
 {
   constructor(geometry, line_color)
   {
     line_color = line_color || '#91EE91';
 
-    let material = new THREE.ShaderMaterial({
+    let material = new ShaderMaterial({
       uniforms: {
-        _Color: { value: new THREE.Color('#CC3333') },
-        _LineColor: { value: new THREE.Color(line_color) },
+        _Color: { value: new Color('#CC3333') },
+        _LineColor: { value: new Color(line_color) },
         _Alpha: { value: 1 },
         _DepthOffset: { value: 0.001 },
         _Thickness: { value: 2.5 }

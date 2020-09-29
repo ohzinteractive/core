@@ -1,6 +1,8 @@
-import * as THREE from 'three';
+import { Object3D } from 'three';
+import { BufferAttribute } from 'three';
+import { Points } from 'three';
 
-export default class GPUParticleSystem extends THREE.Object3D
+export default class GPUParticleSystem extends Object3D
 {
   constructor()
   {
@@ -23,7 +25,7 @@ export default class GPUParticleSystem extends THREE.Object3D
 
     // material.uniforms._Position.value = position.read.texture;
 
-    let points = new THREE.Points(geometry, material);
+    let points = new Points(geometry, material);
     points.frustumCulled = false;
     this.particles = points;
 
@@ -50,7 +52,7 @@ export default class GPUParticleSystem extends THREE.Object3D
       uvs[i + 1] = (Math.floor(j / resolution) / resolution) + (0.5 / resolution);
     }
 
-    return new THREE.BufferAttribute(uvs, 2);
+    return new BufferAttribute(uvs, 2);
   }
 
   calculate_resolution(particle_count)

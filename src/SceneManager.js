@@ -1,10 +1,10 @@
-import * as THREE from 'three';
+import { Scene } from 'three';
 
 class SceneManager
 {
   constructor()
   {
-    this._current = new THREE.Scene();
+    this._current = new Scene();
     this._current.name = 'default_scene';
   }
 

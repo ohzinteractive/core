@@ -2,23 +2,25 @@ import Input from './Input';
 import CameraManager from './CameraManager';
 import Graphics from './Graphics';
 
-import * as THREE from 'three';
+import { Vector2 } from 'three';
+import { Scene } from 'three';
+import { OrthographicCamera } from 'three';
 
 class UI
 {
   constructor()
   {
     this.ui_elements = [];
-    this._tmp_normalized_pos = new THREE.Vector2();
-    this.ss_scene = new THREE.Scene();
+    this._tmp_normalized_pos = new Vector2();
+    this.ss_scene = new Scene();
     this.ss_scene.autoUpdate = false;
     this.ss_scene.frustumCulled = false;
 
-    this.ws_scene = new THREE.Scene();
+    this.ws_scene = new Scene();
     this.ws_scene.autoUpdate = false;
     this.ws_scene.frustumCulled = false;
 
-    this.ss_camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -100, 100);
+    this.ss_camera = new OrthographicCamera(-1, 1, 1, -1, -100, 100);
   }
 
   delete_element(elem)

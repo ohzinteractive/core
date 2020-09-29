@@ -1,6 +1,13 @@
 import Graphics from '../Graphics';
 
-import * as THREE from 'three';
+import { Scene } from 'three';
+import { NearestFilter } from 'three';
+import { RGBAFormat } from 'three';
+import { LinearEncoding } from 'three';
+import { HalfFloatType } from 'three';
+import { FloatType } from 'three';
+import { WebGLRenderTarget } from 'three';
+import { Points } from 'three';
 
 export default class ParticleAttribute
 {
@@ -13,7 +20,7 @@ export default class ParticleAttribute
 
     this.update_material = undefined;
 
-    this.update_scene = new THREE.Scene();
+    this.update_scene = new Scene();
   }
 
   init_from_geometry(geometry)
@@ -30,16 +37,16 @@ export default class ParticleAttribute
   {
     let resolution = this.calculate_resolution(particle_count);
     let options = {
-      minFilter: THREE.NearestFilter,
-      magFilter: THREE.NearestFilter,
-      format: THREE.RGBAFormat,
-      encoding: THREE.LinearEncoding,
-      type: (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? THREE.HalfFloatType : THREE.FloatType,
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+      format: RGBAFormat,
+      encoding: LinearEncoding,
+      type: (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? HalfFloatType : FloatType,
       stencilBuffer: false,
       depthBuffer: false
     };
 
-    return new THREE.WebGLRenderTarget(resolution, resolution, options);
+    return new WebGLRenderTarget(resolution, resolution, options);
   }
 
   calculate_resolution(particle_count)
@@ -65,9 +72,9 @@ export default class ParticleAttribute
 
   render_geometry_to_RT(geometry, material, RT)
   {
-    let points = new THREE.Points(geometry, material);
+    let points = new Points(geometry, material);
     points.frustumCulled = false;
-    let scene = new THREE.Scene();
+    let scene = new Scene();
     // scene.add( points );
     this.update_scene.add(points);
     Graphics.render(this.update_scene, undefined, RT);

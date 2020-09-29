@@ -3,14 +3,16 @@ import SceneManager from '../SceneManager';
 import Screen from '../Screen';
 import ViewPositionMaterial from '../materials/ViewPositionMaterial';
 
-import * as THREE from 'three';
+import { WebGLRenderTarget } from 'three';
+import { FloatType } from 'three';
+import { Color } from 'three';
 
 export default class ViewPositionRenderer
 {
   constructor()
   {
-    this.RT = new THREE.WebGLRenderTarget(Screen.width, Screen.height, { type: THREE.FloatType });
-    this.clear_color = new THREE.Color(0, 0, 0);
+    this.RT = new WebGLRenderTarget(Screen.width, Screen.height, { type: FloatType });
+    this.clear_color = new Color(0, 0, 0);
     this.render_pos_mat = new ViewPositionMaterial();
   }
 

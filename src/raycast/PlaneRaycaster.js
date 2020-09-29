@@ -1,7 +1,9 @@
 
 import PlaneRaycastResolver from './PlaneRaycastResolver';
 import CameraUtilities from '../utilities/CameraUtilities';
-import * as THREE from 'three';
+
+import { Raycaster } from 'three';
+import { Vector3 } from 'three';
 
 export default class PlaneRaycaster
 {
@@ -9,8 +11,8 @@ export default class PlaneRaycaster
   {
     this.raycast_resolver = raycast_resolver || new PlaneRaycastResolver();
 
-    this.raycaster = new THREE.Raycaster();
-    this.current_intersected_point = new THREE.Vector3();
+    this.raycaster = new Raycaster();
+    this.current_intersected_point = new Vector3();
   }
 
   update(reference_position, plane_normal)

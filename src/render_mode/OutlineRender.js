@@ -6,24 +6,30 @@ import copy_frag from '../shaders/copy/copy.frag';
 import copy_vert from '../shaders/copy/copy.vert';
 import background_frag from '../shaders/basic_color/basic_color.frag';
 
-import * as THREE from 'three';
+import { WebGLRenderTarget } from 'three';
+import { Mesh } from 'three';
+import { PlaneGeometry } from 'three';
+import { Scene } from 'three';
+import { ShaderMaterial } from 'three';
+import { Vector2 } from 'three';
+import { Vector4 } from 'three';
 
 export default class OutlineRender
 {
   constructor(webgl)
   {
-    this.main_rt = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt1     = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt2     = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.main_rt = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.rt1     = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.rt2     = new WebGLRenderTarget(Screen.width, Screen.height);
 
     this.compose_material    = this.__get_compose_material();
     this.copy_material       = this.__get_copy_material();
     this.box_blur_material   = this.__get_box_blur_material();
     this.background_material = this.__get_background_material();
 
-    this.copy_plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), this.copy_material);
+    this.copy_plane = new Mesh(new PlaneGeometry(1, 1), this.copy_material);
     this.copy_plane.frustumCulled = false;
-    this.copy_scene = new THREE.Scene();
+    this.copy_scene = new Scene();
     this.copy_scene.add(this.copy_plane);
   }
 
@@ -78,7 +84,7 @@ export default class OutlineRender
 
   __get_copy_material()
   {
-    return new THREE.ShaderMaterial({
+    return new ShaderMaterial({
       uniforms: {
         _MainTex: { value: undefined }
       },
@@ -91,11 +97,11 @@ export default class OutlineRender
 
   __get_box_blur_material()
   {
-    return new THREE.ShaderMaterial({
+    return new ShaderMaterial({
       uniforms: {
         _MainTex: { value: undefined },
-        _SampleDir: { value: new THREE.Vector2() },
-        _Screen: { value: new THREE.Vector2(Screen.width, Screen.height) }
+        _SampleDir: { value: new Vector2() },
+        _Screen: { value: new Vector2(Screen.width, Screen.height) }
       },
       vertexShader: copy_vert,
       fragmentShader: box_blur_frag,
@@ -106,11 +112,11 @@ export default class OutlineRender
 
   __get_compose_material()
   {
-    return new THREE.ShaderMaterial({
+    return new ShaderMaterial({
       uniforms: {
         _MainTex: { value: undefined },
         _Blur: { value: undefined },
-        _Screen: { value: new THREE.Vector2(Screen.width, Screen.height) }
+        _Screen: { value: new Vector2(Screen.width, Screen.height) }
       },
       vertexShader: copy_vert,
       fragmentShader: compose_frag,
@@ -124,9 +130,9 @@ export default class OutlineRender
 
   __get_background_material()
   {
-    return new THREE.ShaderMaterial({
+    return new ShaderMaterial({
       uniforms: {
-        _Color: { value: new THREE.Vector4(0, 0, 0, 0) }
+        _Color: { value: new Vector4(0, 0, 0, 0) }
       },
       vertexShader: copy_vert,
       fragmentShader: background_frag,

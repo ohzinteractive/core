@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import { Vector3 } from 'three';
+import { Math as TMath } from 'three';
 
 export default class MathUtilities
 {
@@ -43,7 +44,7 @@ export default class MathUtilities
 
   static project_points_on_plane(points, plane)
   {
-    let projected_point = new THREE.Vector3();
+    let projected_point = new Vector3();
     let points_on_plane = [];
     for (let i = 0; i < points.length; i++)
     {
@@ -58,7 +59,7 @@ export default class MathUtilities
   {
     for (let i = 0; i < 16; i++)
     {
-      target.elements[i] = THREE.Math.lerp(from.elements[i], to.elements[i], t);
+      target.elements[i] = TMath.lerp(from.elements[i], to.elements[i], t);
     }
   }
 

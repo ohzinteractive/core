@@ -1,14 +1,14 @@
 import BoxBlurMaterial from '../materials/BoxBlurMaterial';
 import Graphics from '../Graphics';
 
-import * as THREE from 'three';
+import { WebGLRenderTarget } from 'three';
 
 export default class Blurrer
 {
   constructor(renderer)
   {
-    this.RT1 = new THREE.WebGLRenderTarget(1, 1);
-    this.RT2 = new THREE.WebGLRenderTarget(1, 1);
+    this.RT1 = new WebGLRenderTarget(1, 1);
+    this.RT2 = new WebGLRenderTarget(1, 1);
     this.box_blur_mat = new BoxBlurMaterial();
   }
 

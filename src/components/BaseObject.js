@@ -1,12 +1,13 @@
 
-import * as THREE from 'three';
+import { Object3D } from 'three';
+import { Vector3 } from 'three';
 
-export default class BaseObject extends THREE.Object3D
+export default class BaseObject extends Object3D
 {
   constructor()
   {
     super();
-    this.___temp_w_pos = new THREE.Vector3();
+    this.___temp_w_pos = new Vector3();
   }
 
   get_world_pos()

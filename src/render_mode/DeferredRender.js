@@ -6,7 +6,11 @@ import DeferredRendererComposeMaterial from '../materials/DeferredRendererCompos
 import Graphics from '../Graphics';
 import DeferredPointLightMaterial from '../materials/deferred/DeferredPointLightMaterial';
 
-import * as THREE from 'three';
+import { WebGLRenderTarget } from 'three';
+import { Scene } from 'three';
+import { Mesh } from 'three';
+import { SphereBufferGeometry } from 'three';
+import { Matrix4 } from 'three';
 
 export default class DeferredRender extends BaseRender
 {
@@ -15,17 +19,17 @@ export default class DeferredRender extends BaseRender
     super();
 
     this.compose_mat = new DeferredRendererComposeMaterial();
-    this.main_rt = new THREE.WebGLRenderTarget(Screen.width, Screen.height, {
-      // magFilter: THREE.NearestFilter,
-      // minFilter: THREE.NearestFilter
+    this.main_rt = new WebGLRenderTarget(Screen.width, Screen.height, {
+      // magFilter: NearestFilter,
+      // minFilter: NearestFilter
     });
 
-    this.scene_lights = new THREE.Scene();
+    this.scene_lights = new Scene();
 
     let light_intensity = 1;
     let light_brightest_component = 1;
     let radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
-    let sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
+    let sphere = new Mesh(new SphereBufferGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
     // sphere.position.y = 2;
     // this.scene_lights.add(sphere);
 
@@ -57,7 +61,7 @@ export default class DeferredRender extends BaseRender
       }
     }
 
-    this.camera_inverse_proj_mat = new THREE.Matrix4();
+    this.camera_inverse_proj_mat = new Matrix4();
   }
 
   on_enter()

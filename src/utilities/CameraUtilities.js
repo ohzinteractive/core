@@ -3,20 +3,25 @@ import Input from '../Input';
 import MathUtilities from '../utilities/MathUtilities';
 import Screen from '../Screen';
 
-import * as THREE from 'three';
+import { Vector3 } from 'three';
+import { Matrix4 } from 'three';
+import { Plane } from 'three';
+import { Ray } from 'three';
+import { Sphere } from 'three';
+import { Box3 } from 'three';
 
 class CameraUtilities
 {
   constructor()
   {
-    this.tmp_mat = new THREE.Matrix4();
-    this.tmp_vec = new THREE.Vector3(0, 0, 1);
-    this.tmp_vec2 = new THREE.Vector3(0, 0, 0);
-    this.plane = new THREE.Plane();
-    this.ray = new THREE.Ray();
+    this.tmp_mat = new Matrix4();
+    this.tmp_vec = new Vector3(0, 0, 1);
+    this.tmp_vec2 = new Vector3(0, 0, 0);
+    this.plane = new Plane();
+    this.ray = new Ray();
 
-    this.tmp_size = new THREE.Vector3();
-    this.tmp_unproj = new THREE.Vector3();
+    this.tmp_size = new Vector3();
+    this.tmp_unproj = new Vector3();
   }
 
   get_up_dir(camera)
@@ -81,36 +86,36 @@ class CameraUtilities
 
   fit_points_on_camera(points, zoom_scale = 1)
   {
-    let points_sphere = new THREE.Sphere().setFromPoints(points);
+    let points_sphere = new Sphere().setFromPoints(points);
     let world_space_center = points_sphere.center;
     let camera_forward = this.get_forward_dir(CameraManager.current).clone();
 
-    let plane = new THREE.Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
+    let plane = new Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
 
     let points_on_plane = MathUtilities.project_points_on_plane(points, plane);
 
-    let projected_points_center = new THREE.Vector3();
-    let box =  new THREE.Box3().setFromPoints(points_on_plane);
+    let projected_points_center = new Vector3();
+    let box =  new Box3().setFromPoints(points_on_plane);
     box.getCenter(projected_points_center);
 
-    let up = new THREE.Vector3(0, 1, 0).applyQuaternion(CameraManager.current.quaternion);
+    let up = new Vector3(0, 1, 0).applyQuaternion(CameraManager.current.quaternion);
     let right = up.clone().cross(camera_forward).normalize();
-    let mat = new THREE.Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x,
+    let mat = new Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x,
       right.y, up.y, camera_forward.y, world_space_center.y,
       right.z, up.z, camera_forward.z, world_space_center.z,
       0,    0,                0,        1);
 
-    let inverse_mat = new THREE.Matrix4().getInverse(mat);
+    let inverse_mat = new Matrix4().getInverse(mat);
     for (let i = 0; i < points_on_plane.length; i++)
     {
       points_on_plane[i].applyMatrix4(inverse_mat);
     }
 
-    let size = new THREE.Vector3();
-    box =  new THREE.Box3().setFromPoints(points_on_plane);
+    let size = new Vector3();
+    box =  new Box3().setFromPoints(points_on_plane);
     box.getSize(size);
     size.multiplyScalar(zoom_scale);
-    let projected_center = new THREE.Vector3();
+    let projected_center = new Vector3();
     box.getCenter(projected_center);
 
     return {
@@ -151,7 +156,7 @@ class CameraUtilities
     else
     {
       // return this.fit_points_on_camera([bb.min, bb.max], 1).zoom;
-      let size = new THREE.Vector3();
+      let size = new Vector3();
       bb.getSize(size);
       return this.get_zoom_to_fit_rect(size.x, size.y);
     }

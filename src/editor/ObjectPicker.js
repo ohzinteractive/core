@@ -1,7 +1,9 @@
 import RenderLayers from '../RenderLayers';
 import Screen from '../Screen';
 
-import * as THREE from 'three';
+import { Color } from 'three';
+import { WebGLRenderTarget } from 'three';
+import { Vector2 } from 'three';
 
 export default class ObjectPicker
 {
@@ -13,11 +15,11 @@ export default class ObjectPicker
     this.camera = camera;
     this.camera_layers = camera.layers;
 
-    this.clear_color = new THREE.Color('#000000');
-    this.picking_texture = new THREE.WebGLRenderTarget(Screen.width, Screen.height);
+    this.clear_color = new Color('#000000');
+    this.picking_texture = new WebGLRenderTarget(Screen.width, Screen.height);
     this.tmp_scene_auto_update = undefined;
 
-    this.tmp_mouse_pos = new THREE.Vector2();
+    this.tmp_mouse_pos = new Vector2();
   }
 
   pick(mouse_NDC, objects)
