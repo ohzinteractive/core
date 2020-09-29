@@ -3,8 +3,9 @@ import frag from './editor/shaders/object_picker.frag';
 
 import { ShaderMaterial } from 'three';
 import { Color } from 'three';
+import { Mesh as TMeth } from 'three';
 
-export default class Mesh extends Mesh
+export default class Mesh extends TMeth
 {
   constructor(geometry, material)
   {
