@@ -1,18 +1,18 @@
 export default class ArrayUtilities
 {
-	constructor(){}
-
+  constructor()
+  {}
 
   static merge_from_to(source, target)
   {
-    target.push.apply( target, source );
+    target.push.apply(target, source);
   }
 
   static expand_vec3_array(array, size)
   {
     let items_left_count = size - array.length;
 
-		for (let i = 0;i < items_left_count;i++)
+    for (let i = 0; i < items_left_count; i++)
     {
       array.push(array[i].clone());
     }
@@ -21,7 +21,8 @@ export default class ArrayUtilities
   static remove_elem(array, elem)
   {
     let index = array.indexOf(elem);
-    if (index > -1) {
+    if (index > -1)
+    {
       array.splice(index, 1);
     }
   }
@@ -30,9 +31,9 @@ export default class ArrayUtilities
   {
     let closest_point = points[0];
     let closest_distance = closest_point.distanceTo(target);
-    for(let i=1; i< points.length; i++)
+    for (let i = 1; i < points.length; i++)
     {
-      if(points[i].distanceTo(target) < closest_distance)
+      if (points[i].distanceTo(target) < closest_distance)
       {
         closest_point = points[i];
         closest_distance = points[i].distanceTo(target);
@@ -41,14 +42,14 @@ export default class ArrayUtilities
     return closest_point;
   }
 
-  static object_values_to_array(obj) {
-    let ids = Object.keys(obj)
+  static object_values_to_array(obj)
+  {
+    let ids = Object.keys(obj);
     let arr = [];
-    for (let i = 0; i < ids.length; i++) {
+    for (let i = 0; i < ids.length; i++)
+    {
       arr.push(obj[ids[i]]);
     }
     return arr;
   }
-
 }
-

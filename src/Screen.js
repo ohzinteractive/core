@@ -1,3 +1,5 @@
+import { Vector2 } from 'three';
+
 class Screen
 {
   constructor()
@@ -5,14 +7,14 @@ class Screen
     this.width = 1;
     this.height = 1;
 
-    this.position = new THREE.Vector2();
+    this.position = new Vector2();
 
     this.render_width = 1;
     this.render_height = 1;
-    this.width_height = new THREE.Vector2(this.width, this.height);
+    this.width_height = new Vector2(this.width, this.height);
 
     this.dpr = 1;
-    this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
+    this.pixel_size = new Vector2(1 / this.width, 1 / this.height);
   }
 
   update_position(x, y)
@@ -25,7 +27,7 @@ class Screen
     this.width = width;
     this.height = height;
 
-    this.pixel_size = new THREE.Vector2(1 / this.width, 1 / this.height);
+    this.pixel_size = new Vector2(1 / this.width, 1 / this.height);
 
     this.width_height.x = width;
     this.width_height.y = height;

@@ -15,7 +15,7 @@ float aastep(float threshold, float value) {
     return smoothstep(threshold-afwidth, threshold+afwidth, value);
   #else
     return step(threshold, value);
-  #endif  
+  #endif
 }
 
 void main()
@@ -25,7 +25,7 @@ void main()
 
     // vec2 uv = vec2(uv_u, y);
 
-   
+
     // vec4 col = texture2D(_ArrowsTex,uv);
     // col.rgb *= _ForwardColor;
     // col.a = aastep(0.5, col.a);

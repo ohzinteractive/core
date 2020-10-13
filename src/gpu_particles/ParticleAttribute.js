@@ -1,80 +1,83 @@
-import Graphics from '/Graphics';
+import Graphics from '../Graphics';
+
+import { Scene } from 'three';
+import { NearestFilter } from 'three';
+import { RGBAFormat } from 'three';
+import { LinearEncoding } from 'three';
+import { HalfFloatType } from 'three';
+import { FloatType } from 'three';
+import { WebGLRenderTarget } from 'three';
+import { Points } from 'three';
 
 export default class ParticleAttribute
 {
-	constructor(attr_name)
-	{
-		this.read = undefined;
-		this.write = undefined;
+  constructor(attr_name)
+  {
+    this.read = undefined;
+    this.write = undefined;
 
-		this.name = attr_name;
+    this.name = attr_name;
 
-		this.update_material = undefined;
+    this.update_material = undefined;
 
-		this.update_scene = new THREE.Scene();
-	}
+    this.update_scene = new Scene();
+  }
 
-	init_from_geometry(geometry)
-	{
-		//overrided by inheritance
-	}
+  init_from_geometry(geometry)
+  {
+    // overrided by inheritance
+  }
 
-	init_from_attribute(particle_attribute)
-	{
+  init_from_attribute(particle_attribute)
+  {
 
-	}
+  }
 
-
-
-	build_RT(particle_count)
-	{
-		let resolution = this.calculate_resolution(particle_count);
-		let options = {
-        minFilter: THREE.NearestFilter,
-        magFilter: THREE.NearestFilter,
-        format: THREE.RGBAFormat,
-        encoding: THREE.LinearEncoding,
-				type: ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) ? THREE.HalfFloatType : THREE.FloatType,
-				stencilBuffer: false,
-				depthBuffer : false
+  build_RT(particle_count)
+  {
+    let resolution = this.calculate_resolution(particle_count);
+    let options = {
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+      format: RGBAFormat,
+      encoding: LinearEncoding,
+      type: (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? HalfFloatType : FloatType,
+      stencilBuffer: false,
+      depthBuffer: false
     };
 
-		return new THREE.WebGLRenderTarget(resolution,resolution, options);
-	}
+    return new WebGLRenderTarget(resolution, resolution, options);
+  }
 
-	calculate_resolution(particle_count)
-	{
-		return Math.ceil(Math.sqrt(particle_count));
-	}
+  calculate_resolution(particle_count)
+  {
+    return Math.ceil(Math.sqrt(particle_count));
+  }
 
-	swap_RT()
-	{
-		let tmp = this.read;
-		this.read = this.write;
-		this.write = tmp;
-	}
+  swap_RT()
+  {
+    let tmp = this.read;
+    this.read = this.write;
+    this.write = tmp;
+  }
 
+  update()
+  {
+    if (this.update_material)
+    {
+      Graphics.blit(this.read, this.write, this.update_material);
+      this.swap_RT();
+    }
+  }
 
-	update()
-	{
-		if(this.update_material)
-		{
-			Graphics.blit(this.read, this.write, this.update_material);
-			this.swap_RT();
-		}
-	}
-
-
-
-
-	render_geometry_to_RT(geometry, material, RT)
-	{
-		let points = new THREE.Points( geometry, material );
-		points.frustumCulled = false;
-		let scene = new THREE.Scene();
-		// scene.add( points );
-		this.update_scene.add(points);
-		Graphics.render(this.update_scene, undefined, RT);
-		// Graphics.render(scene, undefined, RT);
-	}
+  render_geometry_to_RT(geometry, material, RT)
+  {
+    let points = new Points(geometry, material);
+    points.frustumCulled = false;
+    let scene = new Scene();
+    // scene.add( points );
+    this.update_scene.add(points);
+    Graphics.render(this.update_scene, undefined, RT);
+    // Graphics.render(scene, undefined, RT);
+  }
 }

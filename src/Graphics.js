@@ -1,11 +1,13 @@
-import Configuration from '/Configuration';
-import BaseRender from '/render_mode/BaseRender';
-import Screen from '/Screen';
-import CameraManager from '/CameraManager';
-import SceneManager from '/SceneManager';
-import Capabilities from '/Capabilities';
-import DepthAndNormalsRenderer from '/render_utilities/DepthAndNormalsRenderer';
-import Blitter from '/render_utilities/Blitter';
+import Configuration from './Configuration';
+import BaseRender from './render_mode/BaseRender';
+import Screen from './Screen';
+import CameraManager from './CameraManager';
+import SceneManager from './SceneManager';
+import Capabilities from './Capabilities';
+import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
+import Blitter from './render_utilities/Blitter';
+
+import { WebGLRenderer } from 'three';
 
 class Graphics
 {
@@ -45,7 +47,7 @@ class Graphics
     this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
     console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
 
-    this._renderer = new THREE.WebGLRenderer({
+    this._renderer = new WebGLRenderer({
       canvas: canvas,
       context: this.canvas_context
     });
@@ -134,7 +136,7 @@ class Graphics
 
   __apply_override_material(scene, mat)
   {
-    mat = mat === undefined? null : mat;
+    mat = mat === undefined ? null : mat;
     if (scene)
     {
       scene.overrideMaterial = mat;
@@ -214,7 +216,7 @@ class Graphics
 
   take_screenshot(blob_callback)
   {
-    const ctx = this;
+    // const ctx = this;
 
     let old_width = Screen.width;
     let old_height = Screen.height;
