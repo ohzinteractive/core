@@ -1,8 +1,12 @@
 {
   "name": "ohzi-core",
-  "version": "2.28.2",
+  "version": "2.28.3",
   "description": "OHZI Core Library",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "index.js.map"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
