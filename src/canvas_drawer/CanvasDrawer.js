@@ -35,8 +35,8 @@ export default class CanvasDrawer
   {
     let size = new Vector2();
     this.ctx.font = font;
-    size.x = Math.ceil(this.ctx.measureText(text).width) * window.devicePixelRatio;
-    size.y = Math.ceil(this.getFontHeight(font)) * window.devicePixelRatio;
+    size.x = Math.ceil(this.ctx.measureText(text).width);
+    size.y = Math.ceil(this.getFontHeight(font));
     return size;
   }
 
