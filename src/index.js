@@ -28,7 +28,7 @@ import TouchInput from '/TouchInput';
 import UI from '/UI';
 import BlitMaterial from '/materials/BlitMaterial';
 import BaseRender from '/render_mode/BaseRender';
-import Utilities from './Utilities';
+import Utilities from './utilities';
 
 module.exports = {
   BaseApplication: BaseApplication,
