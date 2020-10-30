@@ -1,16 +1,31 @@
-import AxisHelper from '/components/AxisHelper';
-import basic_color_vert from '/shaders/basic_color/basic_color_vert';
-import basic_color_frag from '/shaders/basic_color/basic_color_frag';
-import SceneManager from '/SceneManager';
-import Graphics from '/Graphics';
-import Cube from '/primitives/Cube';
-import Sphere from '/primitives/Sphere';
-import Arrow from '/primitives/Arrow';
+import AxisHelper from './components/AxisHelper';
+import basic_color_vert from './shaders/basic_color/basic_color.vert';
+import basic_color_frag from './shaders/basic_color/basic_color.frag';
+import SceneManager from './SceneManager';
+import Cube from './primitives/Cube';
+import Sphere from './primitives/Sphere';
+import Arrow from './primitives/Arrow';
 
-class Debug {
-  constructor() {
-    this.Vector3_one = new THREE.Vector3(1,1,1);
-    this.Vector3_zero = new THREE.Vector3(0,0,0);
+import { Vector3 } from 'three';
+import { LineBasicMaterial } from 'three';
+import { BufferGeometry } from 'three';
+import { Line } from 'three';
+import { PlaneGeometry } from 'three';
+import { ShaderMaterial } from 'three';
+import { Vector4 } from 'three';
+import { Mesh } from 'three';
+import { Box3 } from 'three';
+import { Box3Helper } from 'three';
+import { CatmullRomCurve3 } from 'three';
+import { SphereGeometry } from 'three';
+import { MeshBasicMaterial } from 'three';
+
+class Debug
+{
+  constructor()
+  {
+    this.Vector3_one = new Vector3(1, 1, 1);
+    this.Vector3_zero = new Vector3(0, 0, 0);
     this.canvas_renderer = undefined;
 
     this.rt_debug = undefined;
@@ -30,7 +45,6 @@ class Debug {
 
     // this.ctx.clearRect(0, 0, cln.width, cln.height);
     // this.ctx.fillStyle =  "rgba(255, 0, 0, 1)";
-
   }
 
   draw_arrow(origin, dir, color = 0xff0000)
@@ -57,21 +71,22 @@ class Debug {
   {
     width  = width || 100;
     height = height || 100;
-    this.ctx.fillStyle =  color || "rgba(255, 0, 0, 1)";
-    this.ctx.fillRect(position_2d.x - width/2,
-                      (this.ctx.canvas.height - position_2d.y) - height/2,width,height);
-
+    this.ctx.fillStyle =  color || 'rgba(255, 0, 0, 1)';
+    this.ctx.fillRect(position_2d.x - width / 2,
+      (this.ctx.canvas.height - position_2d.y) - height / 2, width, height);
   }
 
   clear()
   {
-    if(this.ctx)
+    if (this.ctx)
+    {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    }
   }
 
   draw_line_2D(from, to, color)
   {
-    this.ctx.strokeStyle =  color ||"rgba(255, 0, 0, 1)";
+    this.ctx.strokeStyle =  color || 'rgba(255, 0, 0, 1)';
     this.ctx.beginPath();
     this.ctx.moveTo(from.x, from.y);
     this.ctx.lineTo(to.x, to.y);
@@ -81,58 +96,58 @@ class Debug {
 
   draw_line(points, color = 0xff0000)
   {
-    var material = new THREE.LineBasicMaterial({
+    var material = new LineBasicMaterial({
       color: color
     });
 
-    var geometry = new THREE.BufferGeometry().setFromPoints(points);
+    var geometry = new BufferGeometry().setFromPoints(points);
 
-    var line = new THREE.Line(geometry, material);
+    var line = new Line(geometry, material);
     line.frustumCulled = false;
     SceneManager.current.add(line);
     return line;
   }
 
-
   draw_cube(pos, size, color)
   {
     size = size || 1;
     color = color || 0xff0000;
-    pos = pos || new THREE.Vector3();
+    pos = pos || new Vector3();
 
-    var cube = new Cube(new THREE.Vector3(size, size, size), undefined, color );
+    var cube = new Cube(new Vector3(size, size, size), undefined, color);
     cube.position.copy(pos);
-    SceneManager.current.add( cube );
+    SceneManager.current.add(cube);
     return cube;
   }
-  draw_oriented_cube(from, to, height = 1, color = "#FF0000", depth = 0.1)
+
+  draw_oriented_cube(from, to, height = 1, color = '#FF0000', depth = 0.1)
   {
-  	let size = from.distanceTo(to);
-    let cube = new Cube(new THREE.Vector3(depth, height, size), undefined, color );
+    let size = from.distanceTo(to);
+    let cube = new Cube(new Vector3(depth, height, size), undefined, color);
 
-  	let center = to.clone().sub(from).multiplyScalar(0.5);
-		let forward_dir = center.clone().normalize();
-		center.add(from);
+    let center = to.clone().sub(from).multiplyScalar(0.5);
+    let forward_dir = center.clone().normalize();
+    center.add(from);
 
-		cube.position.copy(center);
+    cube.position.copy(center);
 
+    // let up = new Vector3(0, 1, 0);
+    // let forward = forward_dir.clone();
+    // let right = forward.clone().cross(up);
 
-		let up = new THREE.Vector3(0,1,0);
-  	let forward = forward_dir.clone();
-  	let right = forward.clone().cross(up);
+    // cube.quaternion.setFromRotationMatrix(new Matrix4().makeBasis(right,up,forward));
+    cube.quaternion.setFromUnitVectors(new Vector3(0, 0, -1), forward_dir);
 
-  	// cube.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(right,up,forward));
-  	cube.quaternion.setFromUnitVectors(new THREE.Vector3(0,0,-1), forward_dir);
-
-    SceneManager.current.add( cube );
+    SceneManager.current.add(cube);
     return cube;
   }
+
   draw_plane(width, height, color)
   {
-    var geometry = new THREE.PlaneGeometry( width, height );
-    let material = new THREE.ShaderMaterial({
+    var geometry = new PlaneGeometry(width, height);
+    let material = new ShaderMaterial({
       uniforms: {
-        _Color: {value : new THREE.Vector4(0,1,0, 0.2)},
+        _Color: { value: new Vector4(0, 1, 0, 0.2) }
       },
       vertexShader: basic_color_vert,
       fragmentShader: basic_color_frag,
@@ -140,48 +155,51 @@ class Debug {
       depthWrite: false
     });
 
-    var plane = new THREE.Mesh( geometry, material );
-    plane.renderOrder = -10000
+    var plane = new Mesh(geometry, material);
+    plane.renderOrder = -10000;
     SceneManager.current.add(plane);
     return plane;
   }
-  draw_empty_cube(pos, size,color)
+
+  draw_empty_cube(pos, size, color)
   {
     size = size || 1;
     color = color || 0xff0000;
 
-    let box = new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(), new THREE.Vector3(size, size, size));
-    let helper = new THREE.Box3Helper( box, color );
-    helper.position.copy(pos || new THREE.Vector3());
+    let box = new Box3().setFromCenterAndSize(new Vector3(), new Vector3(size, size, size));
+    let helper = new Box3Helper(box, color);
+    helper.position.copy(pos || new Vector3());
     return helper;
   }
+
   draw_sphere(pos, size, color)
   {
     size = size || 1;
     color = color || 0xff0000;
-    pos = pos || new THREE.Vector3();
+    pos = pos || new Vector3();
 
-    var sphere = new Sphere(size, color );
+    var sphere = new Sphere(size, color);
     sphere.position.copy(pos);
-    SceneManager.current.add( sphere );
+    SceneManager.current.add(sphere);
     return sphere;
   }
 
-  draw_point_array(input_points, open = false, color = 0xff0000 )
+  draw_point_array(input_points, open = false, color = 0xff0000)
   {
-    let catmull = new THREE.CatmullRomCurve3(input_points, open)
+    let catmull = new CatmullRomCurve3(input_points, open);
     catmull.updateArcLengths();
     let points = catmull.getSpacedPoints(200);
     let line_helper = this.draw_line(points, 0x00ff00);
     // line_helper.position.y = 1.5;
     return line_helper;
   }
+
   draw_sphere_helper(sphere, color)
   {
     color = color || 0xff0000;
-    var geometry = new THREE.SphereGeometry( sphere.radius, 32, 32 );
-    var material = new THREE.MeshBasicMaterial( {color: color} );
-    var sphere_mesh = new THREE.Mesh( geometry, material );
+    var geometry = new SphereGeometry(sphere.radius, 32, 32);
+    var material = new MeshBasicMaterial({ color: color });
+    var sphere_mesh = new Mesh(geometry, material);
     sphere_mesh.position.copy(sphere.center);
     SceneManager.current.add(sphere_mesh);
     return sphere_mesh;
@@ -189,40 +207,40 @@ class Debug {
 
   draw_math_sphere(sphere)
   {
-    var geometry = new THREE.SphereGeometry( sphere.radius, 32, 32 );
-    let material = new THREE.ShaderMaterial({
+    var geometry = new SphereGeometry(sphere.radius, 32, 32);
+    let material = new ShaderMaterial({
       uniforms: {
-        _Color: {value : new THREE.Vector4(1,0,0, 0.2)},
+        _Color: { value: new Vector4(1, 0, 0, 0.2) }
       },
       vertexShader: basic_color_vert,
       fragmentShader: basic_color_frag,
       transparent: true
     });
-    // var material = new THREE.MeshBasicMaterial( {color: 0xff0000, transparent = true} );
-    var sphere1 = new THREE.Mesh( geometry, material );
+    // var material = new MeshBasicMaterial( {color: 0xff0000, transparent = true} );
+    var sphere1 = new Mesh(geometry, material);
     sphere1.position.copy(sphere.center);
-    SceneManager.current.add(sphere1)
+    SceneManager.current.add(sphere1);
   }
 
   draw_bounding_box(bb)
   {
-    var helper = new THREE.Box3Helper( bb, 0xffff00 );
-    SceneManager.current.add( helper );
+    var helper = new Box3Helper(bb, 0xffff00);
+    SceneManager.current.add(helper);
   }
 
   draw_curve(curve, options)
   {
-    let offset = new THREE.Vector3(0,0, 0);
-    if(options)
-      offset.y = options.offset || 0;
-
-    for(let i=0; i< curve.length-1; i++)
+    let offset = new Vector3(0, 0, 0);
+    if (options)
     {
-      this.draw_line(curve[i].clone().add(offset), curve[i+1].clone().add(offset));
+      offset.y = options.offset || 0;
+    }
+
+    for (let i = 0; i < curve.length - 1; i++)
+    {
+      this.draw_line(curve[i].clone().add(offset), curve[i + 1].clone().add(offset));
     }
   }
-
 }
 
-const DEBUG = new Debug();
-module.exports = DEBUG;
+export default new Debug();

@@ -1,10 +1,13 @@
-export default class OrthographicCamera extends THREE.OrthographicCamera
-{
-	constructor(left, right, top, bottom, near, far)
-	{
-		super(left, right, top, bottom, near, far);
+import { Color } from 'three';
+import { OrthographicCamera as THREEOrthographicCamera } from 'three';
 
-		this.clear_color = new THREE.Color("#000000");
-		this.clear_alpha = 1;
-	}
+export default class OrthographicCamera extends THREEOrthographicCamera
+{
+  constructor(left, right, top, bottom, near, far)
+  {
+    super(left, right, top, bottom, near, far);
+
+    this.clear_color = new Color('#000000');
+    this.clear_alpha = 1;
+  }
 }

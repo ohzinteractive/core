@@ -1,8 +1,8 @@
-import Arrow from '/primitives/Arrow';
-import Cube from '/primitives/Cube';
-import HorizontalPlane from '/primitives/HorizontalPlane';
-import Sphere from '/primitives/Sphere';
-import VerticalPlane from '/primitives/VerticalPlane';
+import Arrow from './primitives/Arrow';
+import Cube from './primitives/Cube';
+import HorizontalPlane from './primitives/HorizontalPlane';
+import Sphere from './primitives/Sphere';
+import VerticalPlane from './primitives/VerticalPlane';
 
 export default {
   Arrow: Arrow,
@@ -10,4 +10,4 @@ export default {
   HorizontalPlane: HorizontalPlane,
   Sphere: Sphere,
   VerticalPlane: VerticalPlane
-}
+};

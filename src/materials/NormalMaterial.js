@@ -1,15 +1,17 @@
-import frag from '/shaders/normal/normal.frag';
-import vert from '/shaders/normal/normal.vert';
+import frag from '../shaders/normal/normal.frag';
+import vert from '../shaders/normal/normal.vert';
 
-export default class NormalMaterial extends THREE.ShaderMaterial {
-    constructor() {
-        super({
-            uniforms: {
-            },
-            vertexShader: vert,
-            fragmentShader: frag
-        });
+import { ShaderMaterial } from 'three';
 
-    }
-
+export default class NormalMaterial extends ShaderMaterial
+{
+  constructor()
+  {
+    super({
+      uniforms: {
+      },
+      vertexShader: vert,
+      fragmentShader: frag
+    });
+  }
 }

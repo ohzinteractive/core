@@ -7,4 +7,4 @@ export default {
   Line: Line,
   UIElement: UIElement,
   Text2D: Text2D
-}
+};

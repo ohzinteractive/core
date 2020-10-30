@@ -1,125 +1,130 @@
 export class KeyboardInput
 {
-	constructor()
-	{
-		this.ctrlz_pressed = false;
-		this.ctrlz_fired = false;
+  constructor()
+  {
+    this.ctrlz_pressed = false;
+    this.ctrlz_fired = false;
 
-		this.keys = [];
-	}
+    this.keys = [];
+  }
 
-	init()
-	{
-		document.onkeydown 	= this.on_key_down.bind(this);
-		document.onkeyup 		= this.on_key_up.bind(this);
-		document.onkeypress = this.on_key_press.bind(this);
-	}
+  init()
+  {
+    document.onkeydown  = this.on_key_down.bind(this);
+    document.onkeyup    = this.on_key_up.bind(this);
+    document.onkeypress = this.on_key_press.bind(this);
+  }
 
-	on_key_down(e)
-	{
-		if(e.keyCode == 90 && e.ctrlKey && !this.ctrlz_fired)
+  on_key_down(e)
+  {
+    if (e.keyCode === 90 && e.ctrlKey && !this.ctrlz_fired)
     {
-    	this.ctrlz_pressed = true;
-    	this.ctrlz_fired = true;
-    } 
-    if(e.key)
-    {
-    	this.press_key(e.key);
+      this.ctrlz_pressed = true;
+      this.ctrlz_fired = true;
     }
-	}
-	on_key_press(e)
-	{
-		
-	}
-	on_key_up(e)
-	{
-		this.release_keys();
-	}
+    if (e.key)
+    {
+      this.press_key(e.key);
+    }
+  }
 
-	clear()
-	{
-		this.ctrlz_pressed = false;
-		for(let i=0; i< this.keys.length; i++)
-		{
-			this.keys[i].pressed = false;
-		}
-	}
+  on_key_press(e)
+  {
 
-	release_keys()
-	{
-		this.ctrlz_fired = false;
-		
-		for(let i=0; i< this.keys.length; i++)
-		{
-			this.keys[i].fired = false;
-			this.keys[i].down = false;
-		}
-	}
+  }
 
-	press_key(key)
-	{
-		for(let i=0; i< this.keys.length; i++)
-		{
-			if(this.keys[i].key_name === key && !this.keys[i].fired)
-			{
-				this.keys[i].pressed = true;
-				this.keys[i].down = true;
-				this.keys[i].fired = true;
-			}
-		}
-	}
-	key_is_pressed(key)
-	{
-		for(let i=0; i< this.keys.length; i++)
-		{
-			if(this.keys[i].key_name === key)
-			{
-				return this.keys[i].pressed;
-			}
-		}
-		return false;
-	}
+  on_key_up(e)
+  {
+    this.release_keys();
+  }
 
-	key_is_down(key)
-	{
-		for(let i=0; i< this.keys.length; i++)
-		{
-			if(this.keys[i].key_name === key)
-			{
-				return this.keys[i].down;
-			}
-		}
-		return false;
-	}
+  clear()
+  {
+    this.ctrlz_pressed = false;
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      this.keys[i].pressed = false;
+    }
+  }
 
-	register_key(key)
-	{
-		this.keys.push(
-		{
-			key_name: key,
-			pressed: false,
-			down: false,
-			up: false,
-			fired: false
+  release_keys()
+  {
+    this.ctrlz_fired = false;
 
-		});
-	}
-	unregister_key(key_name)
-	{
-		let key = undefined;
-		for(let i=0; i< this.keys.length; i++)
-		{
-			if(this.keys[i].key_name === key_name)
-				key = this.keys[i];
-		}
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      this.keys[i].fired = false;
+      this.keys[i].down = false;
+    }
+  }
 
-		let index = this.keys.indexOf(key);
-    if (index > -1) {
+  press_key(key)
+  {
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      if (this.keys[i].key_name === key && !this.keys[i].fired)
+      {
+        this.keys[i].pressed = true;
+        this.keys[i].down = true;
+        this.keys[i].fired = true;
+      }
+    }
+  }
+
+  key_is_pressed(key)
+  {
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      if (this.keys[i].key_name === key)
+      {
+        return this.keys[i].pressed;
+      }
+    }
+    return false;
+  }
+
+  key_is_down(key)
+  {
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      if (this.keys[i].key_name === key)
+      {
+        return this.keys[i].down;
+      }
+    }
+    return false;
+  }
+
+  register_key(key)
+  {
+    this.keys.push(
+      {
+        key_name: key,
+        pressed: false,
+        down: false,
+        up: false,
+        fired: false
+
+      });
+  }
+
+  unregister_key(key_name)
+  {
+    let key = undefined;
+    for (let i = 0; i < this.keys.length; i++)
+    {
+      if (this.keys[i].key_name === key_name)
+      {
+        key = this.keys[i];
+      }
+    }
+
+    let index = this.keys.indexOf(key);
+    if (index > -1)
+    {
       this.keys.splice(index, 1);
     }
-	}
-
+  }
 }
 
-const keyboard_input = new KeyboardInput();
-module.exports = keyboard_input;
+export default new KeyboardInput();

@@ -1,14 +1,13 @@
-import Time from '/Time';
-import Input from '/Input';
-import UI from '/UI';
-import Debug from '/Debug';
-import GeometryBatcher from '/static_batcher/GeometryBatcher';
-import BaseApplication from '/BaseApplication';
+import Time from './Time';
+import Input from './Input';
+import UI from './UI';
+import Debug from './Debug';
+import BaseApplication from './BaseApplication';
 
-export default class RenderLoop {
-
-  constructor(target_application, renderer) {
-
+export default class RenderLoop
+{
+  constructor(target_application, renderer)
+  {
     target_application = target_application || new BaseApplication();
 
     this._frame_id = -1;
@@ -18,19 +17,21 @@ export default class RenderLoop {
 
     this.is_running = true;
     this.frames_passed = 0;
-
   }
 
-  update() {
-
-    if(!this.is_running)
+  update()
+  {
+    if (!this.is_running)
+    {
       return;
+    }
 
     Time.__update();
     Debug.clear();
 
-    //###### START CYCLE ######
-    if (this.frames_passed === 5) {
+    // ###### START CYCLE ######
+    if (this.frames_passed === 5)
+    {
       this.target_application.post_start();
     }
 
@@ -44,9 +45,11 @@ export default class RenderLoop {
 
     this.target_application.on_post_render();
 
-    if(Debug.rt_debug)
+    if (Debug.rt_debug)
+    {
       this.renderer.blit(Debug.rt_debug);
-    //###### END  CYCLE #######
+    }
+    // ###### END  CYCLE #######
     Input.clear();
     UI.clear();
 
@@ -56,15 +59,15 @@ export default class RenderLoop {
     this.frames_passed++;
   }
 
-  start() {
+  start()
+  {
     this.target_application.start();
     this.update();
     this.is_running = true;
-
-
   }
 
-  stop() {
+  stop()
+  {
     this.is_running = false;
     this.target_application.end();
 

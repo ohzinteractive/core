@@ -1,33 +1,35 @@
-import UI from '/UI';
-import CameraManager from '/CameraManager';
-import Screen from '/Screen';
 
-import UIElementMaterial from '/materials/UIElementMaterial';
-import screen_space_text_frag from '/shaders/ui/ss_texture_frag';
-import screen_space_text_vert from '/shaders/ui/ss_texture_vert';
+import Screen from '../Screen';
 
-import ScreenSpacePosition from '/ui/ui_element_position/ScreenSpacePosition';
-import WorldSpacePosition from '/ui/ui_element_position/WorldSpacePosition';
+import UIElementMaterial from '../materials/UIElementMaterial';
 
-import OnIdle from '/ui/ui_element_state/OnIdle';
-import OnMouseEnter from '/ui/ui_element_state/OnMouseEnter';
-import OnMouseExit from '/ui/ui_element_state/OnMouseExit';
-import OnMouseHover from '/ui/ui_element_state/OnMouseHover';
+import ScreenSpacePosition from '../ui/ui_element_position/ScreenSpacePosition';
+import WorldSpacePosition from '../ui/ui_element_position/WorldSpacePosition';
 
+import OnIdle from '../ui/ui_element_state/OnIdle';
+import OnMouseEnter from '../ui/ui_element_state/OnMouseEnter';
+import OnMouseExit from '../ui/ui_element_state/OnMouseExit';
+import OnMouseHover from '../ui/ui_element_state/OnMouseHover';
 
-export default class UIElement extends THREE.Mesh
+import { Mesh } from 'three';
+import { PlaneGeometry } from 'three';
+import { Vector2 } from 'three';
+import { Vector3 } from 'three';
+import { NearestFilter } from 'three';
+import { Box2 } from 'three';
+
+export default class UIElement extends Mesh
 {
   constructor(vert, frag)
   {
-    super(new THREE.PlaneGeometry(1, 1), new UIElementMaterial());
-
+    super(new PlaneGeometry(1, 1), new UIElementMaterial());
 
     this.is_clickable = false;
 
     this.position_strategy = new WorldSpacePosition();
     this.current_state = new OnIdle();
 
-    this._position = new THREE.Vector3();
+    this._position = new Vector3();
 
     this._on_idle_state = new OnIdle();
     this._on_enter_state = new OnMouseEnter();
@@ -38,20 +40,18 @@ export default class UIElement extends THREE.Mesh
     this.on_exit = undefined;
     this.on_hover = undefined;
 
-    this.mouse_pos_tmp = new THREE.Vector2();
-    this.cached_NDC_position = new THREE.Vector2();
-    this.screen_pos_tmp = new THREE.Vector2();
+    this.mouse_pos_tmp = new Vector2();
+    this.cached_NDC_position = new Vector2();
+    this.screen_pos_tmp = new Vector2();
 
-
-    this.texture_size = new THREE.Vector2(1,1);
-
+    this.texture_size = new Vector2(1, 1);
 
     this.frustumCulled = false;
     this.matrixAutoUpdate = false;
     this.renderOrder = 0;
 
     this.size = 1;
-    this.pixel_offset = new THREE.Vector2();
+    this.pixel_offset = new Vector2();
   }
 
   set_render_order(value)
@@ -97,11 +97,11 @@ export default class UIElement extends THREE.Mesh
     this.visible = false;
   }
 
-
   set_world_space_coordinate_system()
   {
     this.position_strategy = new WorldSpacePosition();
   }
+
   set_screen_space_coordinate_system()
   {
     this.position_strategy = new ScreenSpacePosition();
@@ -109,8 +109,8 @@ export default class UIElement extends THREE.Mesh
 
   set_texture(texture)
   {
-    texture.minFilter = THREE.NearestFilter;
-    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = NearestFilter;
+    texture.magFilter = NearestFilter;
     texture.needsUpdate = true;
 
     this.texture_size.set(texture.image.width, texture.image.height);
@@ -132,14 +132,12 @@ export default class UIElement extends THREE.Mesh
 
   is_mouse_over(normalized_mouse_pos)
   {
-
-    this.screen_pos_tmp.copy(this.cached_NDC_position)
+    this.screen_pos_tmp.copy(this.cached_NDC_position);
     this.to_screen_position(this.screen_pos_tmp);
     this.screen_pos_tmp.x += this.pixel_offset.x;
     this.screen_pos_tmp.y += this.pixel_offset.y;
 
-    let rect = new THREE.Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
-
+    let rect = new Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
 
     this.mouse_pos_tmp.copy(normalized_mouse_pos);
     this.to_screen_position(this.mouse_pos_tmp);
@@ -155,10 +153,11 @@ export default class UIElement extends THREE.Mesh
 
   get_screen_space_position()
   {
-    let pos = this.cached_NDC_position.clone()
+    let pos = this.cached_NDC_position.clone();
     this.to_screen_position(pos);
     return pos;
   }
+
   set_screen_space_position(screen_pos)
   {
     this.position.x = (screen_pos.x / Screen.width) * 2 - 1;
@@ -167,7 +166,7 @@ export default class UIElement extends THREE.Mesh
 
   dispose()
   {
-    if(this.material.uniforms._MainTex.value)
+    if (this.material.uniforms._MainTex.value)
     {
       this.material.uniforms._MainTex.value.dispose();
     }
@@ -184,13 +183,16 @@ export default class UIElement extends THREE.Mesh
     }
     else
     {
-      return new THREE.Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
+      return new Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
     }
   }
 
-  on_mouse_enter(){}
-  on_mouse_exit(){}
-  on_mouse_hover(){}
+  on_mouse_enter()
+  {}
 
+  on_mouse_exit()
+  {}
+
+  on_mouse_hover()
+  {}
 }
-

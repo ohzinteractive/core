@@ -1,28 +1,27 @@
 export default class BaseRender
 {
-	constructor()
-	{
+  constructor()
+  {
 
-	}
+  }
 
-	render()
-	{
-		
-	}
+  render()
+  {
 
-	on_enter(context, renderer)
-	{
+  }
 
-	}
+  on_enter(context, renderer)
+  {
 
-	on_exit(context, renderer)
-	{
-		
-	}
+  }
 
-	resize()
-	{
-		
-	}
+  on_exit(context, renderer)
+  {
 
+  }
+
+  resize()
+  {
+
+  }
 }

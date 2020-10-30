@@ -9,6 +9,7 @@ import ModelUtilities from './utilities/ModelUtilities';
 import ObjectUtilities from './utilities/ObjectUtilities';
 import TimeUtilities from './utilities/TimeUtilities';
 import Validation from './utilities/Validation';
+import MeshSampler from './utilities/MeshSampler';
 
 
 export default {
@@ -22,5 +23,6 @@ export default {
     ModelUtilities: ModelUtilities,
     ObjectUtilities: ObjectUtilities,
     TimeUtilities: TimeUtilities,
-    Validation: Validation
+    Validation: Validation,
+    MeshSampler: MeshSampler
 }
