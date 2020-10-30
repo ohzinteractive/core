@@ -26,14 +26,14 @@ class Graphics
     this.context_attributes = undefined;
   }
 
-  init(canvas, msaa = true, context_attributes)
+  init(canvas, context_attributes)
   {
     this.context_attributes = context_attributes || {
       alpha: true,
       depth: true,
       desynchronized: false,
       stencil: false,
-      antialias: msaa,
+      antialias: false,
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
       powerPreference: 'high-performance',

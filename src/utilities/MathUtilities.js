@@ -86,4 +86,19 @@ export default class MathUtilities
     center.multiplyScalar(1 / points.length);
     return center;
   }
+
+  static get_random_color() {
+    let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+
+    let col = '#';
+    col += arr[Math.floor(Math.random() * 16)];
+    col += arr[Math.floor(Math.random() * 16)];
+
+    col += arr[Math.floor(Math.random() * 16)];
+    col += arr[Math.floor(Math.random() * 16)];
+
+    col += arr[Math.floor(Math.random() * 16)];
+    col += arr[Math.floor(Math.random() * 16)];
+    return col;
+  }
 }
