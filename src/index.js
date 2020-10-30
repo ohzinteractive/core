@@ -24,6 +24,7 @@ import NormalRender from './render_mode/NormalRender';
 import ObjectUtilities from './utilities/ObjectUtilities';
 import OS from './OS';
 import PerspectiveCamera from './PerspectiveCamera';
+import OrthographicCamera from './OrthographicCamera';
 import Primitives from './Primitives';
 import RenderLoop from './RenderLoop';
 import ResourceBatch from './resource_loader/ResourceBatch';
@@ -65,6 +66,7 @@ export {
   ObjectUtilities,
   OS,
   PerspectiveCamera,
+  OrthographicCamera,
   Primitives,
   RenderLoop,
   ResourceBatch,
