@@ -52,7 +52,15 @@ export class OS
 
   is_ios()
   {
-    return this.get_os() === this.operating_systems.IOS;
+    return navigator.userAgent.match(/(iPhone|iPod|iPad)/);
+  }
+  is_ipad()
+  {
+    return navigator.userAgent.match(/(iPad)/);
+  }
+  is_mobile()
+  {
+    return navigator.userAgent.match(/(iPhone|iPod|iPad|Android|playbook|silk|BlackBerry|BB10|Windows Phone|Tizen|Bada|webOS|IEMobile|Opera Mini)/);
   }
 
   is_linux()
