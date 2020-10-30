@@ -1,8 +1,6 @@
-import ArrayUtilities from '/utilities/ArrayUtilities.js';
 import BaseApplication from '/BaseApplication';
 import BaseShaderMaterial from '/materials/BaseShaderMaterial';
 import CameraManager from '/CameraManager';
-import CameraUtilities from '/utilities/CameraUtilities';
 import Capabilities from '/Capabilities';
 import Components from '/Components';
 import CanvasDrawer from '/canvas_drawer/CanvasDrawer';
@@ -10,18 +8,12 @@ import Configuration from '/Configuration';
 import CSSAnimator from '/html_utilities/CSSAnimator';
 import Debug from '/Debug';
 import DebugNormalsRender from '/render_mode/DebugNormalsRender';
-import EasingFunctions from '/utilities/EasingFunctions';
 import EventManager from '/EventManager';
 import Graphics from '/Graphics';
-import ImageUtilities from '/utilities/ImageUtilities';
 import Input from '/Input';
 import JSONLoader from '/resource_loader/JSONLoader';
-import MathUtilities from '/utilities/MathUtilities';
-import ModelUtilities from '/utilities/ModelUtilities';
-import MeshSampler from '/utilities/MeshSampler';
 import NormalAORender from '/render_mode/NormalAORender';
 import NormalRender from '/render_mode/NormalRender';
-import ObjectUtilities from '/utilities/ObjectUtilities';
 import OS from '/OS';
 import PerspectiveCamera from '/PerspectiveCamera';
 import Primitives from '/Primitives';
@@ -32,19 +24,16 @@ import SceneManager from '/SceneManager';
 import Screen from '/Screen';
 import SimpleTextDrawer from '/canvas_drawer/SimpleTextDrawer';
 import Time from '/Time';
-import TimeUtilities from '/utilities/TimeUtilities';
 import TouchInput from '/TouchInput';
 import UI from '/UI';
-import Validation from '/utilities/Validation';
 import BlitMaterial from '/materials/BlitMaterial';
 import BaseRender from '/render_mode/BaseRender';
+import Utilities from './Utilities';
 
 module.exports = {
-  ArrayUtilities: ArrayUtilities,
   BaseApplication: BaseApplication,
   BaseShaderMaterial: BaseShaderMaterial,
   CameraManager: CameraManager,
-  CameraUtilities: CameraUtilities,
   CanvasDrawer: CanvasDrawer,
   Capabilities: Capabilities,
   Components: Components,
@@ -52,17 +41,12 @@ module.exports = {
   CSSAnimator: CSSAnimator,
   Debug: Debug,
   DebugNormalsRender: DebugNormalsRender,
-  EasingFunctions: EasingFunctions,
   EventManager: EventManager,
   Graphics: Graphics,
-  ImageUtilities: ImageUtilities,
   Input: Input,
   JSONLoader: JSONLoader,
-  MathUtilities: MathUtilities,
-  ModelUtilities: ModelUtilities,
   NormalAORender: NormalAORender,
   NormalRender: NormalRender,
-  ObjectUtilities: ObjectUtilities,
   OS: OS,
   PerspectiveCamera: PerspectiveCamera,
   Primitives: Primitives,
@@ -73,11 +57,10 @@ module.exports = {
   Screen: Screen,
   SimpleTextDrawer: SimpleTextDrawer,
   Time: Time,
-  TimeUtilities: TimeUtilities,
   TouchInput: TouchInput,
   UI: UI,
-  Validation: Validation,
   MeshSampler: MeshSampler,
   BlitMaterial: BlitMaterial,
-  BaseRender: BaseRender
+  BaseRender: BaseRender,
+  Utilities: Utilities
 }
