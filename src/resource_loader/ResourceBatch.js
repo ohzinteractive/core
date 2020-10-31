@@ -10,6 +10,7 @@ import RGBETextureLoader from './RGBETextureLoader';
 import PointArrayLoader from './PointArrayLoader';
 import HDRCubeTextureLoader from './HDRCubeTextureLoader';
 import GLTFDRACOLoader from './GLTFDRACOLoader';
+import BasisLoader from './BasisLoader';
 import ResourceContainer from '../ResourceContainer';
 
 export default class ResourceBatch
@@ -28,6 +29,11 @@ export default class ResourceBatch
   add_gltf(resource_id, url, size)
   {
     this.resource_loaders.push(new GLTFLoader(resource_id, url, size));
+  }
+
+  add_basis(resource_id, url, size)
+  {
+    this.resource_loaders.push(new BasisLoader(resource_id, url, size));
   }
 
   add_gltf_draco(resource_id, url, size)
