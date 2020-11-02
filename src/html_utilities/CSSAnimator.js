@@ -1,9 +1,21 @@
 import Animating from './css_animator_states/Animating';
 import Idle from './css_animator_states/Idle';
+import EasingFunctions from '../utilities/EasingFunctions';
 
 export default class CSSAnimator
 {
-  constructor(element, css_property, from, to, value_prefix, value_suffix, duration, easing_function)
+  constructor({
+    element,
+    css_property,
+    from = 0,
+    to = 1,
+    duration = 1,
+    value_prefix = '',
+    value_suffix =  '',
+    easing_function = EasingFunctions.ease_in_out_cubic,
+    finished_callback = () =>
+    {}
+  })
   {
     this.element = element;
     this.css_property = css_property;
@@ -13,6 +25,7 @@ export default class CSSAnimator
     this.value_suffix = value_suffix;
     this.duration = duration;
     this.easing_function = easing_function;
+    this.finished_callback = finished_callback;
 
     this.current_state = new Idle();
   }

@@ -27,6 +27,7 @@ export default class Animating
     if (this.easing_function_t >= 0.9999)
     {
       animator.set_property_value(animator.to);
+      animator.finished_callback(animator.element);
       animator.set_current_state(new Idle());
     }
   }
