@@ -45,39 +45,39 @@ export class OS
     return os;
   }
 
-  is_android()
+  get is_android()
   {
     return this.get_os() === this.operating_systems.ANDROID;
   }
 
-  is_ios()
+  get is_ios()
   {
     return navigator.userAgent.match(/(iPhone|iPod|iPad)/);
   }
 
-  is_ipad()
+  get is_ipad()
   {
     return navigator.userAgent.match(/(iPad)/);
   }
 
-  is_mobile()
+  get is_mobile()
   {
     return !!(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|playbook|silk|BlackBerry|BB10|Windows Phone|Tizen|Bada|webOS|IEMobile|Opera Mini)/));
   }
 
-  is_linux()
+  get is_linux()
+  {
+    return this.get_os() === this.operating_systems.LINUX;
+  }
+
+  get is_mac()
   {
     return this.get_os() === this.operating_systems.MAC;
   }
 
-  is_mac()
+  get is_windows()
   {
-    return this.get_os() === this.operating_systems.MAC;
-  }
-
-  is_windows()
-  {
-    return this.get_os() === this.operating_systems.MAC;
+    return this.get_os() === this.operating_systems.WINDOWS;
   }
 }
 

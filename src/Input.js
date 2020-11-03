@@ -120,7 +120,7 @@ class Input
     this.mouse_pos.y = event.clientY;
 
     // User is using a mac
-    if (OS.is_mac())
+    if (OS.is_mac)
     {
       // User is pinching
       if (event.ctrlKey)
