@@ -4,6 +4,11 @@ export default class Idle
   {
   }
 
+  get is_animating()
+  {
+    return false;
+  }
+
   on_enter(view)
   {
 

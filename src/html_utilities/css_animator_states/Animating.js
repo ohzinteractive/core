@@ -11,6 +11,11 @@ export default class Animating
     this.easing_function_t = 0;
   }
 
+  get is_animating()
+  {
+    return true;
+  }
+
   on_enter(animator)
   {
   }

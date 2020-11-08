@@ -17,7 +17,8 @@ export default class WorldImage extends Mesh
       uniforms: {
         _MainTex: { value: texture },
         _ScreenAligned: { value: 0 },
-        _Scale: { value: 1 }
+        _Scale: { value: 1 },
+        _Opacity: { value: 1 }
       },
       vertexShader: basic_texture_vert,
       fragmentShader: basic_texture_frag,
@@ -63,6 +64,11 @@ export default class WorldImage extends Mesh
   set screen_aligned(boolean)
   {
     this.material.uniforms._ScreenAligned.value = boolean === true ? 1 : 0;
+  }
+
+  set opacity(opacity)
+  {
+    this.material.uniforms._Opacity.value = opacity;
   }
 
   dispose()
