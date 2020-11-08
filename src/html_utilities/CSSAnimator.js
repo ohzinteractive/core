@@ -45,6 +45,11 @@ export default class CSSAnimator
     this.current_state.update(this);
   }
 
+  get is_animating()
+  {
+    return this.current_state.is_animating;
+  }
+
   set_current_state(state)
   {
     this.current_state.on_exit(this);
