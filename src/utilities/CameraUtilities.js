@@ -36,7 +36,7 @@ class CameraUtilities
   get_forward_dir(camera)
   {
     camera = camera || CameraManager.current;
-    this.tmp_vec.set(0, 0, 1);
+    this.tmp_vec.set(0, 0, -1);
     this.tmp_vec.applyQuaternion(camera.quaternion);
 
     return this.tmp_vec;
