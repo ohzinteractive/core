@@ -48,6 +48,9 @@ import Line from './components/Line';
 import Text2D from './components/Text2D';
 import UIElement from './components/UIElement';
 
+import SDFTextBatch from './components/sdf_text/SDFTextBatch';
+
+
 export {
   AbstractLoader,
   BaseApplication,
@@ -95,5 +98,6 @@ export {
   Grid,
   Line,
   Text2D,
-  UIElement
+  UIElement,
+  SDFTextBatch
 };
