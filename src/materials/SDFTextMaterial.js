@@ -20,9 +20,9 @@ export default class SDFTextMaterial extends BaseShaderMaterial
     };
     this.depthWrite = false;
     this.side = DoubleSide;
-    // texture.minFilter = LinearFilter;
-    // texture.magFilter = LinearFilter;
-    // texture.generateMipMaps = false;
+    texture.minFilter = LinearFilter;
+    texture.magFilter = LinearFilter;
+    texture.generateMipMaps = false;
   }
 
   set_atlas_size(size)
