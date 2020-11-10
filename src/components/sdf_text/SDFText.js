@@ -3,7 +3,7 @@ import TextGlyph from './TextGlyph';
 
 export default class SDFText
 {
-  constructor(glyph_layout, text = "")
+  constructor(glyph_layout, text = '')
   {
     this.glyph_layout = glyph_layout;
 
@@ -15,14 +15,13 @@ export default class SDFText
 
     this.position = new Vector3();
     this.quaternion = new Quaternion();
-    this.scale = new Vector3(1,1,1);
+    this.scale = new Vector3(1, 1, 1);
     this.matrix = new Matrix4();
 
-    this.color = new Color("#FFFFFF");
+    this.color = new Color('#FFFFFF');
     this.__opacity = 1;
 
     this.__text   = text;
-
 
     this.__generate_glyphs(text);
   }
@@ -49,15 +48,16 @@ export default class SDFText
   {
     this.glyph_is_dirty = false;
   }
+
   clear_color_dirty()
   {
     this.color_is_dirty = false;
   }
 
-  set_rotation(orientation = 0, tilt = 0) //0..360, -90..0..90
+  set_rotation(orientation = 0, tilt = 0) // 0..360, -90..0..90
   {
-    let new_orientation = new Quaternion().setFromAxisAngle(new Vector3(0,1,0), (orientation / 360) * Math.PI * 2);
-    let new_tilt = new Quaternion().setFromAxisAngle(new Vector3(1,0,0), (-tilt / 360) * Math.PI * 2);
+    let new_orientation = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), (orientation / 360) * Math.PI * 2);
+    let new_tilt = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), (-tilt / 360) * Math.PI * 2);
 
     this.quaternion.copy(new_orientation.multiply(new_tilt));
     this.matrix_is_dirty = true;
@@ -80,11 +80,13 @@ export default class SDFText
     this.color.set(col);
     this.color_is_dirty = true;
   }
+
   set opacity(op)
   {
     this.__opacity = op;
     this.color_is_dirty = true;
   }
+
   get opacity()
   {
     return this.__opacity;
@@ -96,24 +98,21 @@ export default class SDFText
 
     this.glyphs.length = 0;
 
-    for(let i=0; i< text.length; i++)
+    for (let i = 0; i < text.length; i++)
     {
       let unicode = text.charCodeAt(i);
       let glyph = this.glyph_layout.find(element => element.unicode === unicode);
-      if(glyph)
+      if (glyph)
       {
-        if(glyph.planeBounds)
+        if (glyph.planeBounds)
         {
-          let text_glyph = new TextGlyph(cursor, glyph.planeBounds, glyph.atlasBounds)
+          let text_glyph = new TextGlyph(cursor, glyph.planeBounds, glyph.atlasBounds);
           this.glyphs.push(text_glyph);
         }
         cursor += glyph.advance;
       }
-
     }
-    
+
     this.glyph_is_dirty = true;
   }
-
-
 }

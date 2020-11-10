@@ -50,7 +50,6 @@ import UIElement from './components/UIElement';
 
 import SDFTextBatch from './components/sdf_text/SDFTextBatch';
 
-
 export {
   AbstractLoader,
   BaseApplication,

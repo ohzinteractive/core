@@ -1,17 +1,18 @@
-import BaseShaderMaterial from './BaseShaderMaterial'
-import ResourceContainer from '../ResourceContainer';
+'use strict';
+
+import BaseShaderMaterial from './BaseShaderMaterial';
 import frag from '../shaders/sdf_text/sdf_text.frag';
 import vert from '../shaders/sdf_text/sdf_text.vert';
 
-import {Vector2, DoubleSide} from 'three';
+import { Vector2, DoubleSide, LinearFilter } from 'three';
 
 export default class SDFTextMaterial extends BaseShaderMaterial
 {
   constructor(texture)
   {
     super(vert, frag, {
-      _Texture: {value: texture},
-      _AtlasSize: {value: new Vector2(1,1)}
+      _Texture: { value: texture },
+      _AtlasSize: { value: new Vector2(1, 1) }
     });
 
     this.transparent = true;
@@ -27,7 +28,6 @@ export default class SDFTextMaterial extends BaseShaderMaterial
 
   set_atlas_size(size)
   {
-    this.uniforms._AtlasSize.value.copy(size)
+    this.uniforms._AtlasSize.value.copy(size);
   }
-
 }

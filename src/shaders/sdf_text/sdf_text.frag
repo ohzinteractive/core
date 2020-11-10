@@ -11,10 +11,10 @@ float median(float r, float g, float b) {
 }
 
 void main()
-{ 
+{
 
 
-  
+
   float left  = v_glyph_bounds.x / _AtlasSize.x;
   float right = v_glyph_bounds.y / _AtlasSize.x;
 

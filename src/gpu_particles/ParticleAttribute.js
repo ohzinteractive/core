@@ -74,7 +74,7 @@ export default class ParticleAttribute
   {
     let points = new Points(geometry, material);
     points.frustumCulled = false;
-    let scene = new Scene();
+    // let scene = new Scene();
     // scene.add( points );
     this.update_scene.add(points);
     Graphics.render(this.update_scene, undefined, RT);

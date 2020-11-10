@@ -4,8 +4,6 @@
 
 */
 
-import { Color } from 'three';
-
 class Configuration
 {
   constructor(parameters = {})
@@ -14,7 +12,6 @@ class Configuration
 
     this.app  = {}; // for arbitrary use in end application
   }
-
 
   from_json(json)
   {

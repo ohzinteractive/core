@@ -73,8 +73,8 @@ export default class ObjectOrientedBoundingBox
     this.center = center;
 
     let left_down   = min;
-    let left_up     = min.clone().add(new Vector3(0, max.y - min.y, 0));
-    let right_up    = max;
+    // let left_up     = min.clone().add(new Vector3(0, max.y - min.y, 0));
+    // let right_up    = max;
     let right_down  = min.clone().add(new Vector3(max.x - min.x, 0, 0));
 
     let deep_left   = min.clone().add(new Vector3(0, 0, max.z - min.z));
