@@ -129,6 +129,11 @@ export default class Line extends Mesh
     this.material.uniforms._Thickness.value = value;
   }
 
+  get thickness()
+  {
+    return this.material.uniforms._Thickness.value;
+  }
+
   __get_previous_position(points, i)
   {
     if (i === 0)
@@ -180,6 +185,11 @@ export default class Line extends Mesh
   set color(col)
   {
     this.material.uniforms._Color.value.set(col);
+  }
+
+  get color()
+  {
+    return this.material.uniforms._Color.value;
   }
 
   copy_color(col)

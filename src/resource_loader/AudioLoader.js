@@ -5,7 +5,7 @@ import { AudioLoader as THREEAudioLoader } from 'three';
 
 export default class AudioLoader extends AbstractLoader
 {
-  constructor(resource_id, url, loop = true, volume = 1, size)
+  constructor(resource_id, url, loop = true, volume = 1, size = 0)
   {
     super(resource_id, url, size);
     this.loader = new THREEAudioLoader();

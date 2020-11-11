@@ -31,15 +31,28 @@ export default class Arrow extends Mesh
     {
       this.quaternion.setFromUnitVectors(new Vector3(0, 0, 1), dir);
     }
+
+    this._dir = dir;
   }
 
   set dir(dir)
   {
     this.quaternion.setFromUnitVectors(new Vector3(0, 0, 1), dir);
+    this._dir = dir;
+  }
+
+  get dir()
+  {
+    return this._dir;
   }
 
   set length(value)
   {
     this.scale.z = value;
+  }
+
+  get length()
+  {
+    return this.scale.z;
   }
 }

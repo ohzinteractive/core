@@ -20,4 +20,9 @@ export default class DepthNormalMaterial extends ShaderMaterial
   {
     this.uniforms._FarPlane.value = value;
   }
+
+  get far_plane()
+  {
+    return this.uniforms._FarPlane.value;
+  }
 }

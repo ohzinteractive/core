@@ -31,4 +31,9 @@ export default class Text2D extends WorldImage
     this.simple_text_drawer.draw_canvas(value, this.draw_settings);
     this.update_texture();
   }
+
+  get text()
+  {
+    return 'not implemented';
+  }
 }

@@ -66,9 +66,19 @@ export default class WorldImage extends Mesh
     this.material.uniforms._ScreenAligned.value = boolean === true ? 1 : 0;
   }
 
+  get screen_aligned()
+  {
+    return this.material.uniforms._ScreenAligned.value === 1;
+  }
+
   set opacity(opacity)
   {
     this.material.uniforms._Opacity.value = opacity;
+  }
+
+  get opacity()
+  {
+    return this.material.uniforms._Opacity.value;
   }
 
   dispose()

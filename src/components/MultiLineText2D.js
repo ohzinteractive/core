@@ -49,4 +49,14 @@ export default class MultiLineText2D extends Object3D
     }
     this.update_text_positions();
   }
+
+  get texts()
+  {
+    return [];
+  }
+
+  get size()
+  {
+    return 1;
+  }
 }

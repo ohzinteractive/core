@@ -87,9 +87,19 @@ export default class UIElement extends Mesh
     this.material.depthTest = boolean;
   }
 
+  get use_depth()
+  {
+    return this.material.depthTest;
+  }
+
   set depth_offset(value)
   {
     this.material.uniforms._DepthOffset.value = value;
+  }
+
+  get depth_offset()
+  {
+    return this.material.uniforms._DepthOffset.value;
   }
 
   clear_state()
