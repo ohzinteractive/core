@@ -43,6 +43,7 @@ module.exports = {
     'no-multi-spaces': 0,
     'prefer-const': 0,
     'no-useless-constructor': 0,
-    'no-undef-init': 0
+    'no-undef-init': 0,
+    'multiline-ternary': 0
   }
 };
