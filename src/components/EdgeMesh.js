@@ -59,9 +59,9 @@ export default class EdgeMesh extends Object3D
 
   __get_edges(cube_geometry)
   {
-    var edges = new EdgesGeometry(cube_geometry);
-    var line = new LineSegments(edges, new LineBasicMaterial());
-    var points_array = line.geometry.attributes.position.array;
+    let edges = new EdgesGeometry(cube_geometry);
+    let line = new LineSegments(edges, new LineBasicMaterial());
+    let points_array = line.geometry.attributes.position.array;
 
     let points = [];
     for (let i = 0; i < points_array.length; i += 3)

@@ -26,8 +26,8 @@ export default class ManipulatorHandle extends Object3D
     collider_size.y = TMath.clamp(direction.y * length, 1, 30);
     collider_size.z = TMath.clamp(direction.z * length, 1, 30);
 
-    var geometry = new BoxGeometry(collider_size.x, collider_size.y, collider_size.z);
-    var material = new MeshBasicMaterial({ color: color, depthTest: false, depthWrite: false });
+    let geometry = new BoxGeometry(collider_size.x, collider_size.y, collider_size.z);
+    let material = new MeshBasicMaterial({ color: color, depthTest: false, depthWrite: false });
     material.visible = false;
     this.box_collider = new Mesh(geometry, material);
     this.box_collider.position.add(direction.clone().multiplyScalar(length * 0.5));

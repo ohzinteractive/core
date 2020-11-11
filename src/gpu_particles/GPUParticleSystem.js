@@ -46,7 +46,7 @@ export default class GPUParticleSystem extends Object3D
   {
     let resolution = this.calculate_resolution(particle_count);
     let uvs = new Float32Array(particle_count * 2);
-    for (var i = 0, j = 0; i < particle_count * 2; i += 2, j++)
+    for (let i = 0, j = 0; i < particle_count * 2; i += 2, j++)
     {
       uvs[i] = ((j % resolution) / resolution) + (0.5 / resolution);
       uvs[i + 1] = (Math.floor(j / resolution) / resolution) + (0.5 / resolution);

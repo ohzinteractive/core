@@ -7,7 +7,7 @@ export default class ObjectUtilities
   static xml_to_json(xml)
   {
     // Create the return object
-    var obj = {};
+    let obj = {};
 
     if (xml.nodeType === 1)
     { // element
@@ -15,9 +15,9 @@ export default class ObjectUtilities
       if (xml.attributes.length > 0)
       {
         obj['@attributes'] = {};
-        for (var j = 0; j < xml.attributes.length; j++)
+        for (let j = 0; j < xml.attributes.length; j++)
         {
-          var attribute = xml.attributes.item(j);
+          let attribute = xml.attributes.item(j);
           obj['@attributes'][attribute.nodeName] = attribute.nodeValue;
         }
       }
@@ -30,10 +30,10 @@ export default class ObjectUtilities
     // do children
     if (xml.hasChildNodes())
     {
-      for (var i = 0; i < xml.childNodes.length; i++)
+      for (let i = 0; i < xml.childNodes.length; i++)
       {
-        var item = xml.childNodes.item(i);
-        var nodeName = item.nodeName;
+        let item = xml.childNodes.item(i);
+        let nodeName = item.nodeName;
         if (typeof (obj[nodeName]) === 'undefined')
         {
           obj[nodeName] = this.xml_to_json(item);
@@ -42,7 +42,7 @@ export default class ObjectUtilities
         {
           if (typeof (obj[nodeName].push) === 'undefined')
           {
-            var old = obj[nodeName];
+            let old = obj[nodeName];
             obj[nodeName] = [];
             obj[nodeName].push(old);
           }

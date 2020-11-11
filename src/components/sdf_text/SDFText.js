@@ -1,4 +1,4 @@
-import { Vector3, Quaternion, Matrix4, Color } from 'three';
+import { Vector3, Quaternion, Matrix4, Color, Box2, Vector2 } from 'three';
 import TextGlyph from './TextGlyph';
 
 export default class SDFText
@@ -19,6 +19,8 @@ export default class SDFText
     this.matrix = new Matrix4();
 
     this.color = new Color('#FFFFFF');
+
+    this.pivot_point = new Vector2();
     this.__opacity = 1;
 
     this.__text   = text;
@@ -30,6 +32,7 @@ export default class SDFText
   {
     this.__text = value;
     this.__generate_glyphs(value);
+    this.matrix_is_dirty = true;
   }
 
   get text()
@@ -81,6 +84,12 @@ export default class SDFText
     this.color_is_dirty = true;
   }
 
+  set_pivot(pivot)
+  {
+    this.pivot_point.copy(pivot);
+    this.update_glyphs();
+  }
+
   set opacity(op)
   {
     this.__opacity = op;
@@ -90,6 +99,11 @@ export default class SDFText
   get opacity()
   {
     return this.__opacity;
+  }
+
+  update_glyphs()
+  {
+    this.__generate_glyphs(this.text);
   }
 
   __generate_glyphs(text)
@@ -111,6 +125,28 @@ export default class SDFText
         }
         cursor += glyph.advance;
       }
+    }
+
+    let box2 = new Box2();
+    let first_glyph = this.glyphs[0];
+    box2.setFromCenterAndSize(first_glyph.position.clone().add(new Vector2(first_glyph.scale.x / 2, first_glyph.scale.y / 2)), first_glyph.scale);
+
+    for (let i = 1; i < this.glyphs.length; i++)
+    {
+      let g = this.glyphs[i];
+      let box = new Box2().setFromCenterAndSize(g.position.clone().add(new Vector2(g.scale.x / 2, g.scale.y / 2)), g.scale);
+      box2.union(box);
+    }
+
+    let box2_size = new Vector2();
+    box2.getSize(box2_size);
+    for (let i = 0; i < this.glyphs.length; i++)
+    {
+      this.glyphs[i].position.x -= box2_size.x / 2;
+      this.glyphs[i].position.y -= box2_size.y / 2;
+
+      this.glyphs[i].position.x += (box2_size.x / 2) * this.pivot_point.x;
+      this.glyphs[i].position.y += (box2_size.y / 2) * this.pivot_point.y;
     }
 
     this.glyph_is_dirty = true;

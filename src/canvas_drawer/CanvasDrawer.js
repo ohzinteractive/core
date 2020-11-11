@@ -19,9 +19,9 @@ export default class CanvasDrawer
   {
     if (this.__textHeight == null || this.uses_dynamic_font)
     {
-      var body = document.getElementsByTagName('body')[0];
-      var dummy = document.createElement('div');
-      var dummyText = document.createTextNode('MÉqgOLAKTAL');
+      let body = document.getElementsByTagName('body')[0];
+      let dummy = document.createElement('div');
+      let dummyText = document.createTextNode('MÉqgOLAKTAL');
       dummy.appendChild(dummyText);
       dummy.setAttribute('style', `font:${fontStyle};position:absolute;top:0;left:0`);
       body.appendChild(dummy);
@@ -82,8 +82,8 @@ export default class CanvasDrawer
     }
     else
     {
-      var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
-      for (var side in defaultRadius)
+      let defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+      for (let side in defaultRadius)
       {
         radius[side] = radius[side] || defaultRadius[side];
       }

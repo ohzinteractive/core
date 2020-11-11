@@ -96,13 +96,13 @@ class Debug
 
   draw_line(points, color = 0xff0000)
   {
-    var material = new LineBasicMaterial({
+    let material = new LineBasicMaterial({
       color: color
     });
 
-    var geometry = new BufferGeometry().setFromPoints(points);
+    let geometry = new BufferGeometry().setFromPoints(points);
 
-    var line = new Line(geometry, material);
+    let line = new Line(geometry, material);
     line.frustumCulled = false;
     SceneManager.current.add(line);
     return line;
@@ -114,7 +114,7 @@ class Debug
     color = color || 0xff0000;
     pos = pos || new Vector3();
 
-    var cube = new Cube(new Vector3(size, size, size), undefined, color);
+    let cube = new Cube(new Vector3(size, size, size), undefined, color);
     cube.position.copy(pos);
     SceneManager.current.add(cube);
     return cube;
@@ -144,7 +144,7 @@ class Debug
 
   draw_plane(width, height, color)
   {
-    var geometry = new PlaneGeometry(width, height);
+    let geometry = new PlaneGeometry(width, height);
     let material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(0, 1, 0, 0.2) }
@@ -155,7 +155,7 @@ class Debug
       depthWrite: false
     });
 
-    var plane = new Mesh(geometry, material);
+    let plane = new Mesh(geometry, material);
     plane.renderOrder = -10000;
     SceneManager.current.add(plane);
     return plane;
@@ -178,7 +178,7 @@ class Debug
     color = color || 0xff0000;
     pos = pos || new Vector3();
 
-    var sphere = new Sphere(size, color);
+    let sphere = new Sphere(size, color);
     sphere.position.copy(pos);
     SceneManager.current.add(sphere);
     return sphere;
@@ -197,9 +197,9 @@ class Debug
   draw_sphere_helper(sphere, color)
   {
     color = color || 0xff0000;
-    var geometry = new SphereGeometry(sphere.radius, 32, 32);
-    var material = new MeshBasicMaterial({ color: color });
-    var sphere_mesh = new Mesh(geometry, material);
+    let geometry = new SphereGeometry(sphere.radius, 32, 32);
+    let material = new MeshBasicMaterial({ color: color });
+    let sphere_mesh = new Mesh(geometry, material);
     sphere_mesh.position.copy(sphere.center);
     SceneManager.current.add(sphere_mesh);
     return sphere_mesh;
@@ -207,7 +207,7 @@ class Debug
 
   draw_math_sphere(sphere)
   {
-    var geometry = new SphereGeometry(sphere.radius, 32, 32);
+    let geometry = new SphereGeometry(sphere.radius, 32, 32);
     let material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(1, 0, 0, 0.2) }
@@ -217,14 +217,14 @@ class Debug
       transparent: true
     });
     // var material = new MeshBasicMaterial( {color: 0xff0000, transparent = true} );
-    var sphere1 = new Mesh(geometry, material);
+    let sphere1 = new Mesh(geometry, material);
     sphere1.position.copy(sphere.center);
     SceneManager.current.add(sphere1);
   }
 
   draw_bounding_box(bb)
   {
-    var helper = new Box3Helper(bb, 0xffff00);
+    let helper = new Box3Helper(bb, 0xffff00);
     SceneManager.current.add(helper);
   }
 

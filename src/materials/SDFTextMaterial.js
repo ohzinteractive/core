@@ -1,5 +1,3 @@
-'use strict';
-
 import BaseShaderMaterial from './BaseShaderMaterial';
 import frag from '../shaders/sdf_text/sdf_text.frag';
 import vert from '../shaders/sdf_text/sdf_text.vert';

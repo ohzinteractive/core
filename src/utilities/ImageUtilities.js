@@ -7,11 +7,11 @@ export default class ImageUtilities
 
   static get_image_data(image)
   {
-    var canvas = document.createElement('canvas');
+    let canvas = document.createElement('canvas');
     canvas.width = image.width;
     canvas.height = image.height;
 
-    var context = canvas.getContext('2d');
+    let context = canvas.getContext('2d');
     context.drawImage(image, 0, 0);
 
     return context.getImageData(0, 0, image.width, image.height);

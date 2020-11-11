@@ -74,9 +74,10 @@ export default class SDFTextBatch extends Mesh
   remove_text(text_elem)
   {
     ArrayUtilities.remove_elem(this.text_elements, text_elem);
+    this.update(true);
   }
 
-  update()
+  update(force_update)
   {
     let glyph_bounds_atr = this.geometry.getAttribute('glyph_bounds');
     let plane_bounds_atr = this.geometry.getAttribute('plane_bounds');
@@ -88,9 +89,9 @@ export default class SDFTextBatch extends Mesh
 
     let color_atr = this.geometry.getAttribute('color');
 
-    let matrix_needs_update = false;
-    let glyph_needs_update  = false;
-    let color_needs_update  = false;
+    let matrix_needs_update = force_update === true;
+    let glyph_needs_update  = force_update === true;
+    let color_needs_update  = force_update === true;
 
     let glyph_count = 0;
     for (let i = 0; i < this.text_elements.length; i++)
@@ -177,5 +178,11 @@ export default class SDFTextBatch extends Mesh
     {
       color_atr.needsUpdate = true;
     }
+  }
+
+  dispose()
+  {
+    this.geometry.dispose();
+    this.material.dispose();
   }
 }

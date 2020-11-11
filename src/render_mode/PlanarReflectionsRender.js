@@ -46,7 +46,7 @@ export default class PlanarReflectionsRender extends BaseRender
     this.gl = renderer.domElement.getContext('webgl');
     CameraManager.current.parent = SceneManager.current;
 
-    var plane_material_mask = new MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
+    let plane_material_mask = new MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
     this.plane_mask = new Mesh(ReflectionPlaneContext.target_geometry, plane_material_mask);
     this.plane_solid = new Mesh(ReflectionPlaneContext.target_geometry, this.plane_material_solid);
 
