@@ -31,8 +31,20 @@ void main()
 
   float sig_dist = median(col.r, col.g, col.b);
 
-  float w = fwidth(sig_dist);
-  float opacity = smoothstep(0.5 - w, 0.5 + w, sig_dist);
+
+  float _Cutoff = 0.5;
+  float dist = (_Cutoff - sig_dist);
+
+  // sdf distance per pixel (gradient vector)
+  vec2 ddist = vec2(dFdx(dist), dFdy(dist));
+
+  // distance to edge in pixels (scalar)
+  float pixelDist = dist / length(ddist);
+
+  float opacity = clamp(0.5 - pixelDist, 0.0, 1.0);
+
+  // float w = fwidth(sig_dist);
+  // opacity = smoothstep(0.5 - w, 0.5 + w, sig_dist);
 
 
   gl_FragColor = vec4(v_color.rgb, opacity * v_color.a);
