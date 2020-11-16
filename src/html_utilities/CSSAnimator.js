@@ -35,6 +35,11 @@ export default class CSSAnimator
     this.set_current_state(new Animating());
   }
 
+  stop()
+  {
+    this.set_current_state(new Idle());
+  }
+
   set_property_value(value)
   {
     this.element.style[this.css_property] = `${this.value_prefix}${value}${this.value_suffix}`;
