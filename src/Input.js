@@ -269,12 +269,12 @@ class Input
     this.mouse_pos.y = event.clientY;
 
     this.mouse_dir.set(this.mouse_pos.x - this.previous_pos_x,
-      this.mouse_pos.x - this.previous_pos_y);
+      this.mouse_pos.y - this.previous_pos_y);
 
     this.mouse_dir.normalize();
 
     this.previous_pos_x = this.mouse_pos.x;
-    this.previous_pos_y = this.mouse_pos.x;
+    this.previous_pos_y = this.mouse_pos.y;
 
     this.scrolling_with_mouse = false;
     this.scrolling_with_trackpad = false;
