@@ -16,6 +16,7 @@ import Input from './Input';
 import JSONLoader from './resource_loader/JSONLoader';
 import NormalAORender from './render_mode/NormalAORender';
 import NormalRender from './render_mode/NormalRender';
+import UnrealBloomRender from './render_mode/UnrealBloomRender';
 import OrthographicCamera from './OrthographicCamera';
 import OS from './OS';
 import PerspectiveCamera from './PerspectiveCamera';
@@ -67,6 +68,7 @@ export {
   JSONLoader,
   NormalAORender,
   NormalRender,
+  UnrealBloomRender,
   OrthographicCamera,
   OS,
   PerspectiveCamera,
