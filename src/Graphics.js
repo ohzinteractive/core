@@ -70,7 +70,6 @@ class Graphics
     this.no_render = new BaseRender();
 
     this.current_render_mode = this.no_render;
-
     Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
     Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
     Capabilities.fp_textures_available = this._renderer.capabilities.floatVertexTextures;
@@ -195,6 +194,11 @@ class Graphics
   on_resize()
   {
     console.error('Graphics.on_resize call no longer needed.');
+  }
+
+  material_pass(mat, dst)
+  {
+    this.blitter.material_pass(mat, dst);
   }
 
   blit(src_RT, dst_RT, mat)

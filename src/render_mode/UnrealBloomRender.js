@@ -1,6 +1,8 @@
 import Screen from '../Screen';
 import BaseRender from '../render_mode/BaseRender';
 import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
+import UnrealBloomComposeMaterial from '../materials/UnrealBloomComposeMaterial';
+import AddMaterial from '../materials/AddMaterial';
 
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
@@ -9,120 +11,118 @@ import { LinearFilter } from 'three';
 import { RGBAFormat } from 'three';
 import { WebGLRenderTarget } from 'three';
 
+import GaussianBlurrer from '../render_utilities/GaussianBlurrer';
+import Graphics from '../Graphics';
+import CameraManager from '../CameraManager';
+import SceneManager from '../SceneManager';
+
 export default class UnrealBloomRender extends BaseRender
 {
   constructor()
   {
     super();
 
-    this.strength = 1;
-    this.radius = 0.1;
-    this.threshold = 0;
-    this.resolution = new Vector2(Screen.width, Screen.height);
+    this.bloom_compose_mat = undefined;
 
-    // create color only once here, reuse it later inside the render function
-    this.clearColor = new Color(0, 0, 0);
+    this.main_RT = undefined;
+    this.blur_RT = undefined;
+    this.blurrer = undefined;
 
-    // render targets
-    let pars = { minFilter: LinearFilter, magFilter: LinearFilter, format: RGBAFormat };
-    this.renderTargetsHorizontal = [];
-    this.renderTargetsVertical = [];
-    this.nMips = 5;
-    let resx = Math.round(this.resolution.x / 2);
-    let resy = Math.round(this.resolution.y / 2);
+    this.add_mat = new AddMaterial();
+  }
 
-    for (let i = 0; i < this.nMips; i++)
-    {
-      let renderTargetHorizonal = new WebGLRenderTarget(resx, resy, pars);
+  on_enter()
+  {
+    this.blurrer = new GaussianBlurrer();
+    // this.blurrer = new DualFilteringBlurrer()
+    this.main_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
+    this.blur_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
 
-      renderTargetHorizonal.texture.name = 'UnrealBloomPass.h' + i;
-      renderTargetHorizonal.texture.generateMipmaps = false;
+    this.bloom_compose_mat = new UnrealBloomComposeMaterial(5);
+    this.blurrer = new GaussianBlurrer(5);
 
-      this.renderTargetsHorizontal.push(renderTargetHorizonal);
+    this.bloom_compose_mat.set_RT_0(this.blurrer.renderTargetsVertical[0].texture);
+    this.bloom_compose_mat.set_RT_1(this.blurrer.renderTargetsVertical[1].texture);
+    this.bloom_compose_mat.set_RT_2(this.blurrer.renderTargetsVertical[2].texture);
+    this.bloom_compose_mat.set_RT_3(this.blurrer.renderTargetsVertical[3].texture);
+    this.bloom_compose_mat.set_RT_4(this.blurrer.renderTargetsVertical[4].texture);
 
-      let renderTargetVertical = new WebGLRenderTarget(resx, resy, pars);
+    this.bloom_compose_mat.set_bloom_strength(1);
+    this.bloom_compose_mat.set_bloom_radius(1);
 
-      renderTargetVertical.texture.name = 'UnrealBloomPass.v' + i;
-      renderTargetVertical.texture.generateMipmaps = false;
+    window.bloom_mat = this.bloom_compose_mat;
+  }
 
-      this.renderTargetsVertical.push(renderTargetVertical);
+  set_bloom_strength(val)
+  {
+    this.bloom_compose_mat.set_bloom_strength(val);
+  }
 
-      resx = Math.round(resx / 2);
+  set_bloom_radius(val)
+  {
+    this.bloom_compose_mat.set_bloom_radius(val);
+  }
 
-      resy = Math.round(resy / 2);
-    }
+  set_tint_color_0(col_string)
+  {
+    this.bloom_compose_mat.set_tint_color_0(col_string);
+  }
 
-    this.separableBlurMaterials = [];
-    let kernelSizeArray = [3, 5, 7, 9, 11];
-    resx = Math.round(this.resolution.x / 2);
-    resy = Math.round(this.resolution.y / 2);
+  set_tint_color_1(col_string)
+  {
+    this.bloom_compose_mat.set_tint_color_1(col_string);
+  }
 
-    for (let i = 0; i < this.nMips; i++)
-    {
-      this.separableBlurMaterials.push(this.getSeperableBlurMaterial(kernelSizeArray[i]));
+  set_tint_color_2(col_string)
+  {
+    this.bloom_compose_mat.set_tint_color_2(col_string);
+  }
 
-      this.separableBlurMaterials[i].uniforms.texSize.value = new Vector2(resx, resy);
+  set_tint_color_3(col_string)
+  {
+    this.bloom_compose_mat.set_tint_color_3(col_string);
+  }
 
-      resx = Math.round(resx / 2);
-
-      resy = Math.round(resy / 2);
-    }
-
-    this.compositeMaterial = new UnrealComposeMaterial(this.nMips);
-    this.compositeMaterial.uniforms.blurTexture1.value = this.renderTargetsVertical[0].texture;
-    this.compositeMaterial.uniforms.blurTexture2.value = this.renderTargetsVertical[1].texture;
-    this.compositeMaterial.uniforms.blurTexture3.value = this.renderTargetsVertical[2].texture;
-    this.compositeMaterial.uniforms.blurTexture4.value = this.renderTargetsVertical[3].texture;
-    this.compositeMaterial.uniforms.blurTexture5.value = this.renderTargetsVertical[4].texture;
-    this.compositeMaterial.uniforms.bloomStrength.value = 1;
-    this.compositeMaterial.uniforms.bloomRadius.value = 0.05;
-    this.compositeMaterial.needsUpdate = true;
-
-    let bloomFactors = [1.0, 0.8, 0.6, 0.4, 0.2];
-    this.compositeMaterial.uniforms.bloomFactors.value = bloomFactors;
-    this.bloomTintColors = [
-      new Vector3(1, 1, 1),
-      new Vector3(1, 1, 1),
-      new Vector3(1, 1, 1),
-      new Vector3(1, 1, 1),
-      new Vector3(1, 1, 1)
-    ];
-    this.compositeMaterial.uniforms.bloomTintColors.value = this.bloomTintColors;
-
-    // this.bloom_compose_mat = new BloomComposeMaterial();
-    // window.bloom_mat = this.bloom_compose_mat;
-
-    // this.main_RT = new WebGLRenderTarget(Screen.width, Screen.height);
-    // this.blur_RT = new WebGLRenderTarget(Screen.width/2, Screen.height/2);
-    // this.blurrer = new Blurrer();
+  set_tint_color_4(col_string)
+  {
+    this.bloom_compose_mat.set_tint_color_4(col_string);
   }
 
   render()
   {
+    this.__check_RT_size();
 
-    // this.__check_RT_size();
-
-    // Graphics.clear(this.main_RT, CameraManager.current, true, false);
-    // Graphics.render(SceneManager.current, CameraManager.current, this.main_RT);
+    Graphics.clear(this.main_RT, CameraManager.current, true, false);
+    Graphics.render(SceneManager.current, CameraManager.current, this.main_RT);
 
     // Graphics.blit(this.main_RT, this.blur_RT);
 
-    // // // BLUR
+    // // BLUR
     // this.blurrer.blur(this.blur_RT);
+    this.blurrer.blur(this.main_RT);
 
-    // this.bloom_compose_mat.uniforms._BlurredTex.value = this.blur_RT.texture;
+    this.bloom_compose_mat.set_RT_0(this.blurrer.renderTargetsVertical[0].texture);
+    this.bloom_compose_mat.set_RT_1(this.blurrer.renderTargetsVertical[1].texture);
+    this.bloom_compose_mat.set_RT_2(this.blurrer.renderTargetsVertical[2].texture);
+    this.bloom_compose_mat.set_RT_3(this.blurrer.renderTargetsVertical[3].texture);
+    this.bloom_compose_mat.set_RT_4(this.blurrer.renderTargetsVertical[4].texture);
 
-    // // // // COMPOSE
-    // Graphics.blit(this.main_RT, undefined, this.bloom_compose_mat);
+    // this.compositeMaterial.uniforms["bloomTintColors"].value = this.bloomTintColors;
 
+    // Blur compose
+    Graphics.material_pass(this.bloom_compose_mat, this.blurrer.renderTargetsHorizontal[0]);
+
+    // Additive blend
+    this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0]);
+    Graphics.blit(this.main_RT, undefined, this.add_mat);
   }
 
   __check_RT_size()
   {
-    if (this.main_RT.width !== Screen.width || this.main_RT.height !== Screen.height)
+    if (this.main_RT.width !== Screen.render_width || this.main_RT.height !== Screen.render_height)
     {
-      this.main_RT.setSize(Screen.width, Screen.height);
-      this.blur_RT.setSize(Screen.width, Screen.height);
+      this.main_RT.setSize(Screen.render_width, Screen.render_height);
+      this.blur_RT.setSize(Screen.render_width, Screen.render_height);
     }
   }
 }

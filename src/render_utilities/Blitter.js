@@ -40,6 +40,17 @@ export default class Blitter
       this._blit_camera);
   }
 
+  material_pass(mat, dst)
+  {
+    this._blit_quad.material = mat;
+    this._blit_quad.material.uniforms._MainTex.value = undefined;
+    this._blit_quad.material.uniforms._Resolution.value.set(1, 1);
+
+    this.renderer.setRenderTarget(dst === undefined ? null : dst);
+
+    this.renderer.render(this._blit_scene, this._blit_camera);
+  }
+
   blit_with_material(src, dst, mat)
   {
     this._blit_quad.material = mat;
@@ -57,8 +68,7 @@ export default class Blitter
 
     this.renderer.setRenderTarget(dst === undefined ? null : dst);
 
-    this.renderer.render(this._blit_scene,
-      this._blit_camera);
+    this.renderer.render(this._blit_scene, this._blit_camera);
   }
 
   blit_clear_with_material(dst_RT, mat)
