@@ -1,14 +1,8 @@
 import Screen from '../Screen';
 import BaseRender from '../render_mode/BaseRender';
-import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
 import UnrealBloomComposeMaterial from '../materials/UnrealBloomComposeMaterial';
 import AddMaterial from '../materials/AddMaterial';
 
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
-import { Color } from 'three';
-import { LinearFilter } from 'three';
-import { RGBAFormat } from 'three';
 import { WebGLRenderTarget } from 'three';
 
 import GaussianBlurrer from '../render_utilities/GaussianBlurrer';

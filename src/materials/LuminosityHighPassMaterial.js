@@ -8,8 +8,8 @@ export default class LuminosityHighPassMaterial extends BlitMaterial
     super(frag);
 
     this.uniforms.luminosityThreshold = { value: 0.23 };
-    this.uniforms.smoothWidth 				= { value: 0.01 };
-    this.uniforms.defaultColor 				= { value: new Color('#000000') };
-    this.uniforms.defaultOpacity 			= { value: 0.0 };
+    this.uniforms.smoothWidth         = { value: 0.01 };
+    this.uniforms.defaultColor        = { value: new Color('#000000') };
+    this.uniforms.defaultOpacity      = { value: 0.0 };
   }
 }

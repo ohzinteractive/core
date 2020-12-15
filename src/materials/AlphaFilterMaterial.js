@@ -12,4 +12,9 @@ export default class AlphaFilterMaterial extends BlitMaterial
   {
     this.uniforms._Offset.value = value;
   }
+
+  get offset()
+  {
+    return this.uniforms._Offset.value;
+  }
 }

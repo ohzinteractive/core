@@ -1,17 +1,10 @@
 import Screen from '../Screen';
 import BaseRender from '../render_mode/BaseRender';
-import UnrealComposeMaterial from '../materials/UnrealComposeMaterial';
 import BloomComposeMaterial from '../materials/BloomComposeMaterial';
 
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
-import { Color } from 'three';
-import { LinearFilter } from 'three';
-import { RGBAFormat } from 'three';
 import { WebGLRenderTarget } from 'three';
 
 import Blurrer from '../render_utilities/Blurrer';
-import DualFilteringBlurrer from '../render_utilities/DualFilteringBlurrer';
 import Graphics from '../Graphics';
 import CameraManager from '../CameraManager';
 import SceneManager from '../SceneManager';

@@ -8,19 +8,19 @@ export default class UnrealBloomComposeMaterial extends BlitMaterial
     super(frag, undefined, {
       NUM_MIPS: nMips
     });
-    this.uniforms._MainTex 				= { value: undefined };
-    this.uniforms._BlurredTex 		= { value: undefined };
-    this.uniforms._BloomStrength 	= { value: 1 };
+    this.uniforms._MainTex        = { value: undefined };
+    this.uniforms._BlurredTex     = { value: undefined };
+    this.uniforms._BloomStrength  = { value: 1 };
 
-    this.uniforms.blurTexture1 	= { value: null };
-    this.uniforms.blurTexture2 	= { value: null };
-    this.uniforms.blurTexture3 	= { value: null };
-    this.uniforms.blurTexture4 	= { value: null };
-    this.uniforms.blurTexture5 	= { value: null };
+    this.uniforms.blurTexture1  = { value: null };
+    this.uniforms.blurTexture2  = { value: null };
+    this.uniforms.blurTexture3  = { value: null };
+    this.uniforms.blurTexture4  = { value: null };
+    this.uniforms.blurTexture5  = { value: null };
 
     this.uniforms.bloomStrength = { value: 1.0 };
-    this.uniforms.bloomFactors 	= { value: [1.0, 0.8, 0.6, 0.4, 0.2] };
-    this.uniforms.bloomRadius 	= { value: 0.0 };
+    this.uniforms.bloomFactors  = { value: [1.0, 0.8, 0.6, 0.4, 0.2] };
+    this.uniforms.bloomRadius   = { value: 0.0 };
 
     let bloomTintColors = [
       new Color('#FFFFFF'),
