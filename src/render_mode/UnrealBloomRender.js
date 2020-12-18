@@ -107,7 +107,7 @@ export default class UnrealBloomRender extends BaseRender
     Graphics.material_pass(this.bloom_compose_mat, this.blurrer.renderTargetsHorizontal[0]);
 
     // Additive blend
-    this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0]);
+    this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0].texture);
     Graphics.blit(this.main_RT, undefined, this.add_mat);
   }
 

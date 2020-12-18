@@ -51,6 +51,12 @@ import UIElement from './components/UIElement';
 
 import SDFTextBatch from './components/sdf_text/SDFTextBatch';
 
+import ActionSequencer    from './action_sequencer/ActionSequencer';
+import ActionEvent        from './action_sequencer/ActionEvent';
+import ActionInterpolator from './action_sequencer/ActionInterpolator';
+import NumberInterpolator from './action_sequencer/NumberInterpolator';
+import VectorInterpolator from './action_sequencer/VectorInterpolator';
+
 export {
   AbstractLoader,
   BaseApplication,
@@ -100,5 +106,11 @@ export {
   Line,
   Text2D,
   UIElement,
-  SDFTextBatch
+  SDFTextBatch,
+
+  ActionSequencer,
+  ActionEvent,
+  ActionInterpolator,
+  NumberInterpolator,
+  VectorInterpolator
 };

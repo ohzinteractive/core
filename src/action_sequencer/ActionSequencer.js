@@ -3,7 +3,7 @@ import { Math as TMath } from 'three';
 
 export default class ActionSequencer
 {
-  constructor(duration, context)
+  constructor(context)
   {
     this.elapsed_time = -0.00001;
 
@@ -11,7 +11,6 @@ export default class ActionSequencer
 
     this.action_events = [];
     this.action_interpolators = [];
-    this.duration = duration;
     this.context = context;
 
     this.tmp_t = 0;
@@ -32,23 +31,18 @@ export default class ActionSequencer
     this.elapsed_time = -0.00001;
   }
 
-  update(TIME)
+  update(delta_time)
   {
     if (this.playing)
     {
-      this.__play_clips(this.elapsed_time, this.elapsed_time + TIME.delta_time());
-      this.elapsed_time = this.elapsed_time + TIME.delta_time();
+      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time);
+      this.elapsed_time = this.elapsed_time + delta_time;
     }
-  }
-
-  set_duration(value)
-  {
-    this.duration = value;
   }
 
   is_finished()
   {
-    return this.elapsed_time > this.duration;
+    return this.elapsed_time > this.get_duration();
   }
 
   add_action_event(trigger_time, action)
@@ -59,11 +53,11 @@ export default class ActionSequencer
     });
   }
 
-  add_action_interpolator(from, duration, action)
+  add_action_interpolator(from, to, action)
   {
     this.action_interpolators.push({
       from: from,
-      to: from + duration,
+      to: to,
       action: action
     });
   }
@@ -95,5 +89,19 @@ export default class ActionSequencer
     from_range_end_value)
   {
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
+  }
+
+  get_duration()
+  {
+    let max_duration = 0;
+
+    for (let i = 0; i < this.action_events.length; i++)
+    {
+      Math.max(max_duration, this.action_events[i].to);
+    }
+    for (let i = 0; i < this.action_interpolators.length; i++)
+    {
+      Math.max(max_duration, this.action_interpolators[i].to);
+    }
   }
 }
