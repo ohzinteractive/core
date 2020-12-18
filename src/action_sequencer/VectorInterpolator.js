@@ -1,5 +1,4 @@
 import ActionInterpolator from './ActionInterpolator';
-import EasingFunctions from '../utilities/EasingFunctions';
 
 export default class VectorInterpolator extends ActionInterpolator
 {
