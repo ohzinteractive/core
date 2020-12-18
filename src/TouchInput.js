@@ -71,7 +71,11 @@ export class TouchInput
 
   process_touchend(ev)
   {
-    ev.preventDefault();
+    // This prevents a sequence of mouse events triggered by the browser
+    // When the touch is a tap.
+    // It triggers mousemove, mousedown, mouseup and click in that order
+    // ev.preventDefault();
+
     this.touches = ev.touches.length;
 
     this.__trigger_mouseup_event(ev);
@@ -84,11 +88,11 @@ export class TouchInput
 
         this.tapped_amount++;
 
-        this.__trigger_event(ev, 'click');
+        // this.__trigger_event(ev, 'click');
 
         if (this.__is_double_tap())
         {
-          this.__trigger_event(ev, 'dblclick');
+          // this.__trigger_event(ev, 'dblclick');
           this.tapped_amount = 0;
         }
 
