@@ -28,7 +28,6 @@ export default class UnrealBloomRender extends BaseRender
   on_enter()
   {
     this.blurrer = new GaussianBlurrer();
-    // this.blurrer = new DualFilteringBlurrer()
     this.main_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
     this.blur_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
 
@@ -44,7 +43,7 @@ export default class UnrealBloomRender extends BaseRender
     this.bloom_compose_mat.set_bloom_strength(1);
     this.bloom_compose_mat.set_bloom_radius(1);
 
-    window.bloom_mat = this.bloom_compose_mat;
+    this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0].texture);
   }
 
   set_bloom_strength(val)
@@ -89,25 +88,13 @@ export default class UnrealBloomRender extends BaseRender
     Graphics.clear(this.main_RT, CameraManager.current, true, false);
     Graphics.render(SceneManager.current, CameraManager.current, this.main_RT);
 
-    // Graphics.blit(this.main_RT, this.blur_RT);
-
     // // BLUR
-    // this.blurrer.blur(this.blur_RT);
     this.blurrer.blur(this.main_RT);
-
-    this.bloom_compose_mat.set_RT_0(this.blurrer.renderTargetsVertical[0].texture);
-    this.bloom_compose_mat.set_RT_1(this.blurrer.renderTargetsVertical[1].texture);
-    this.bloom_compose_mat.set_RT_2(this.blurrer.renderTargetsVertical[2].texture);
-    this.bloom_compose_mat.set_RT_3(this.blurrer.renderTargetsVertical[3].texture);
-    this.bloom_compose_mat.set_RT_4(this.blurrer.renderTargetsVertical[4].texture);
-
-    // this.compositeMaterial.uniforms["bloomTintColors"].value = this.bloomTintColors;
 
     // Blur compose
     Graphics.material_pass(this.bloom_compose_mat, this.blurrer.renderTargetsHorizontal[0]);
 
     // Additive blend
-    this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0].texture);
     Graphics.blit(this.main_RT, undefined, this.add_mat);
   }
 

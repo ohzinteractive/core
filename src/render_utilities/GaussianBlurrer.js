@@ -76,6 +76,9 @@ export default class GaussianBlurrer
       return;
     }
 
+    this.current_width = texture_width;
+    this.current_height = texture_height;
+
     let width = Math.round(texture_width / 2);
     let height = Math.round(texture_height / 2);
 
