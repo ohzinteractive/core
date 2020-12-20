@@ -23,4 +23,19 @@ export default class AudioClip
   {
     this.audio.play();
   }
+
+  pause()
+  {
+    this.audio.pause();
+  }
+
+  stop()
+  {
+    this.audio.stop();
+  }
+
+  get is_playing()
+  {
+    return this.audio.isPlaying;
+  }
 }
