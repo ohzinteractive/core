@@ -37,21 +37,28 @@ class Graphics
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
       powerPreference: 'high-performance',
-      logarithmicDepthBuffer: false
+      logarithmicDepthBuffer: false,
+      force_webgl2: false
     };
 
-    this.canvas_context = canvas.getContext('webgl', this.context_attributes) ||
-                          canvas.getContext('webgl', this.context_attributes) ||
+    if (this.context_attributes.force_webgl2)
+    {
+      this.canvas_context = canvas.getContext('webgl2', this.context_attributes);
+      this.is_webgl2 = canvas.getContext('webgl2');
+    }
+    else
+    {
+      this.canvas_context = canvas.getContext('webgl', this.context_attributes) ||
                           canvas.getContext('experimental-webgl', this.context_attributes);
+      this.is_webgl2 = false;
+    }
 
-    this.is_webgl2 = !!(window.WebGL2RenderingContext && canvas.getContext('webgl2'));
     console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
 
     this._renderer = new WebGLRenderer({
       canvas: canvas,
       context: this.canvas_context
     });
-
     this._renderer.autoClear = false;
 
     this._renderer.setPixelRatio(1);

@@ -64,6 +64,11 @@ export default class SDFTextBatch extends Mesh
     this.frustumCulled = false;
   }
 
+  set_boldness(value)
+  {
+    this.material.set_boldness(value);
+  }
+
   add_text(text_str)
   {
     let elem = new SDFText(this.font_layout.glyphs, text_str);

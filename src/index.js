@@ -48,6 +48,7 @@ import Grid from './components/Grid';
 import Line from './components/Line';
 import Text2D from './components/Text2D';
 import UIElement from './components/UIElement';
+import UpdatableMaterialMesh from './components/UpdatableMaterialMesh';
 
 import SDFTextBatch from './components/sdf_text/SDFTextBatch';
 
@@ -57,6 +58,7 @@ import ActionInterpolator from './action_sequencer/ActionInterpolator';
 import NumberInterpolator from './action_sequencer/NumberInterpolator';
 import VectorInterpolator from './action_sequencer/VectorInterpolator';
 
+import MedianFilter from './render_utilities/MedianFilter';
 export {
   AbstractLoader,
   BaseApplication,
@@ -107,10 +109,13 @@ export {
   Text2D,
   UIElement,
   SDFTextBatch,
+  UpdatableMaterialMesh,
 
   ActionSequencer,
   ActionEvent,
   ActionInterpolator,
   NumberInterpolator,
-  VectorInterpolator
+  VectorInterpolator,
+
+  MedianFilter
 };

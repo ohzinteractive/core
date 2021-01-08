@@ -1,6 +1,5 @@
-import Mesh from '../Mesh';
 
-import { Vector3 } from 'three';
+import { Vector3, Mesh } from 'three';
 import { BoxGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 

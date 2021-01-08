@@ -1,6 +1,4 @@
 uniform sampler2D _Texture;
-uniform float _Boldness;
-
 varying vec2 vUv;
 
 uniform vec2 _AtlasSize;
@@ -34,7 +32,7 @@ void main()
   float sig_dist = median(col.r, col.g, col.b);
 
 
-  float _Cutoff = _Boldness;
+  float _Cutoff = 0.5;
   float dist = (_Cutoff - sig_dist);
 
   // sdf distance per pixel (gradient vector)

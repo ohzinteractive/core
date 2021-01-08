@@ -1,10 +1,9 @@
-import Mesh from '../Mesh';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { CylinderBufferGeometry } from 'three';
 import { ConeBufferGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
-import { Vector3 } from 'three';
+import { Vector3, Mesh } from 'three';
 
 export default class Arrow extends Mesh
 {
