@@ -28,11 +28,18 @@ export default class GaussianBlurrer
     this.luminosity_high_pass_mat = new LuminosityHighPassMaterial();
   }
 
-  blur(RT)
+  blur(RT, use_luminosity_high_pass)
   {
     this.resize_RT(RT.width, RT.height);
 
-    Graphics.blit(RT, this.renderTargetBright, this.luminosity_high_pass_mat);
+    if (use_luminosity_high_pass)
+    {
+      Graphics.blit(RT, this.renderTargetBright, this.luminosity_high_pass_mat);
+    }
+    else
+    {
+      Graphics.blit(RT, this.renderTargetBright);
+    }
 
     let inputRenderTarget = this.renderTargetBright;
 
@@ -48,6 +55,16 @@ export default class GaussianBlurrer
 
       inputRenderTarget = this.renderTargetsVertical[i];
     }
+  }
+
+  get_blurred_texture()
+  {
+    return this.renderTargetsHorizontal[0].texture;
+  }
+
+  get_blurred_RT()
+  {
+    return this.renderTargetsHorizontal[0];
   }
 
   init_RT()

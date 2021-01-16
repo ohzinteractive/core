@@ -27,7 +27,6 @@ export default class RenderLoop
     }
 
     Time.__update();
-    Debug.clear();
 
     // ###### START CYCLE ######
     if (this.frames_passed === 5)
@@ -42,16 +41,14 @@ export default class RenderLoop
     this.renderer.update();     // render scene
     UI.update();                // update after new camera matrix has been calculated
     UI.render(this.renderer);   // render ui layer on top
+    Debug.render();             // render debug layer
 
     this.target_application.on_post_render();
 
-    if (Debug.rt_debug)
-    {
-      this.renderer.blit(Debug.rt_debug);
-    }
     // ###### END  CYCLE #######
     Input.clear();
     UI.clear();
+    Debug.clear();
 
     //   GeometryBatcher.upload_texture_data(this.renderer);
 

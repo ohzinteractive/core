@@ -5,12 +5,13 @@ import SceneManager from './SceneManager';
 import Cube from './primitives/Cube';
 import Sphere from './primitives/Sphere';
 import Arrow from './primitives/Arrow';
-
+import Screen from './Screen';
+import ScreenSpaceTextureMaterial from './materials/ScreenSpaceTextureMaterial';
 import { Vector3 } from 'three';
 import { LineBasicMaterial } from 'three';
 import { BufferGeometry } from 'three';
 import { Line } from 'three';
-import { PlaneGeometry } from 'three';
+import { PlaneBufferGeometry } from 'three';
 import { ShaderMaterial } from 'three';
 import { Vector4 } from 'three';
 import { Mesh } from 'three';
@@ -28,7 +29,7 @@ class Debug
     this.Vector3_zero = new Vector3(0, 0, 0);
     this.canvas_renderer = undefined;
 
-    this.rt_debug = undefined;
+    this.display_texture_meshes = [];
   }
 
   init(webgl)
@@ -144,7 +145,7 @@ class Debug
 
   draw_plane(width, height, color)
   {
-    let geometry = new PlaneGeometry(width, height);
+    let geometry = new PlaneBufferGeometry(width, height);
     let material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(0, 1, 0, 0.2) }
@@ -239,6 +240,24 @@ class Debug
     for (let i = 0; i < curve.length - 1; i++)
     {
       this.draw_line(curve[i].clone().add(offset), curve[i + 1].clone().add(offset));
+    }
+  }
+
+  draw_texture(tex, w, h)
+  {
+    let mesh = new Mesh(new PlaneBufferGeometry(1, 1), new ScreenSpaceTextureMaterial());
+    this.display_texture_meshes.push(mesh);
+    SceneManager.current.add(mesh);
+
+    mesh.material.set_texture(tex, w, h);
+    return mesh;
+  }
+
+  render()
+  {
+    for (let i = 0; i < this.display_texture_meshes.length; i++)
+    {
+      this.display_texture_meshes[i].material.set_screen_size(Screen.width, Screen.height);
     }
   }
 }

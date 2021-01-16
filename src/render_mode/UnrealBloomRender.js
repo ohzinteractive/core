@@ -89,7 +89,7 @@ export default class UnrealBloomRender extends BaseRender
     Graphics.render(SceneManager.current, CameraManager.current, this.main_RT);
 
     // // BLUR
-    this.blurrer.blur(this.main_RT);
+    this.blurrer.blur(this.main_RT, true);
 
     // Blur compose
     Graphics.material_pass(this.bloom_compose_mat, this.blurrer.renderTargetsHorizontal[0]);

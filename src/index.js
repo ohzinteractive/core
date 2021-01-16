@@ -59,6 +59,9 @@ import NumberInterpolator from './action_sequencer/NumberInterpolator';
 import VectorInterpolator from './action_sequencer/VectorInterpolator';
 
 import MedianFilter from './render_utilities/MedianFilter';
+import GaussianBlurrer from './render_utilities/GaussianBlurrer';
+import Blurrer from './render_utilities/Blurrer';
+
 export {
   AbstractLoader,
   BaseApplication,
@@ -117,5 +120,7 @@ export {
   NumberInterpolator,
   VectorInterpolator,
 
-  MedianFilter
+  MedianFilter,
+  GaussianBlurrer,
+  Blurrer
 };
