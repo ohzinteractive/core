@@ -7,12 +7,17 @@
   "files": [
     "build"
   ],
+  "targets": {
+    "module": {
+      "includeNodeModules": false
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "start": "parcel ./src/index.js --dist-dir . --port 4444",
     "build": "standardx --fix && parcel build ./src/index.js --no-cache --no-minify --dist-dir . && npm run update-version",
-    "prod": "parcel build ./src/index.js --no-cache --dist-dir . && npm run update-version",
+    "prod": "standardx --fix &&  parcel build ./src/index.js --no-cache --dist-dir . && npm run update-version",
     "update-version": "standardx --fix && cross-var echo \"v$npm_package_version\" > .version"
   },
   "repository": {
