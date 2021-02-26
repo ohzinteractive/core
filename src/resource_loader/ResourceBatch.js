@@ -6,6 +6,7 @@ import CubemapLoader from './CubemapLoader';
 import AudioLoader from './AudioLoader';
 import JSONLoader from './JSONLoader';
 import OBJLoader from './OBJLoader';
+import FontLoader from './FontLoader';
 import RGBETextureLoader from './RGBETextureLoader';
 import PointArrayLoader from './PointArrayLoader';
 import HDRCubeTextureLoader from './HDRCubeTextureLoader';
@@ -84,6 +85,11 @@ export default class ResourceBatch
   add_hdr_cubemap(resource_id, url, size)
   {
     this.resource_loaders.push(new HDRCubeTextureLoader(resource_id, url, size));
+  }
+
+  add_font(resource_id, url, size)
+  {
+    this.resource_loaders.push(new FontLoader(resource_id, url, size));
   }
 
   add_loader(loader)
