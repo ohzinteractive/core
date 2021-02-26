@@ -58,6 +58,7 @@ export default class RenderLoop
 
   start()
   {
+    this.renderer.check_for_resize();
     this.target_application.start();
     this.update();
     this.is_running = true;

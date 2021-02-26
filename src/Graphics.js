@@ -114,19 +114,23 @@ class Graphics
       this.depth_and_normals_renderer.render(this);
     }
 
+    this.__update_current_camera();
+
     if (CameraManager.current)
     {
-      this.__update_current_camera();
       this.current_render_mode.render();
     }
   }
 
   __update_current_camera()
   {
-    CameraManager.current.aspect = Screen.aspect_ratio;
-    CameraManager.current.updateProjectionMatrix();
-    CameraManager.current.updateMatrix();
-    CameraManager.current.updateMatrixWorld(true);
+    if (CameraManager.current)
+    {
+      CameraManager.current.aspect = Screen.aspect_ratio;
+      CameraManager.current.updateProjectionMatrix();
+      CameraManager.current.updateMatrix();
+      CameraManager.current.updateMatrixWorld(true);
+    }
   }
 
   render(scene, camera, RT, override_mat)
