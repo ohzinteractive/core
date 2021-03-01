@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "4.17.0",
+  "version": "4.17.1",
   "description": "OHZI Core Library",
   "module": "build/index.module.js",
   "source": "src/index.js",
@@ -17,6 +17,7 @@
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "start": "parcel ./src/index.js --dist-dir . --port 4444",
     "build": "standardx --fix && parcel build ./src/index.js --no-cache --no-minify --dist-dir . && npm run update-version",
+    "build_blitter": "parcel build ./src/blitter_index.js --no-cache --no-minify --dist-dir ./blitter_build ",
     "prod": "standardx --fix &&  parcel build ./src/index.js --no-cache --dist-dir . && npm run update-version",
     "update-version": "standardx --fix && cross-var echo \"v$npm_package_version\" > .version"
   },

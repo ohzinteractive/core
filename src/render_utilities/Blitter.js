@@ -21,8 +21,13 @@ export default class Blitter
   blit(src, dst)
   {
     this._blit_quad.material = this._blit_material;
-    this._blit_quad.material.uniforms._MainTex.value = src.texture;
-    this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
+
+    let src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
+    let src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
+    let src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+
+    this._blit_quad.material.uniforms._MainTex.value = src_texture;
+    this._blit_quad.material.uniforms._Resolution.value.set(src_width, src_height);
 
     if (dst)
     {
@@ -30,14 +35,10 @@ export default class Blitter
     }
     else
     {
-      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value)
-      ;
+      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value);
     }
 
-    this.renderer.setRenderTarget(dst === undefined ? null : dst);
-
-    this.renderer.render(this._blit_scene,
-      this._blit_camera);
+    this.__render(dst);
   }
 
   material_pass(mat, dst)
@@ -46,37 +47,47 @@ export default class Blitter
     this._blit_quad.material.uniforms._MainTex.value = undefined;
     this._blit_quad.material.uniforms._Resolution.value.set(1, 1);
 
-    this.renderer.setRenderTarget(dst === undefined ? null : dst);
-
-    this.renderer.render(this._blit_scene, this._blit_camera);
+    this.__render(dst);
   }
 
   blit_with_material(src, dst, mat)
   {
+    let src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
+    let src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
+    let src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+
     this._blit_quad.material = mat;
-    this._blit_quad.material.uniforms._MainTex.value = src.texture;
-    this._blit_quad.material.uniforms._Resolution.value.set(src.width, src.height);
+    this._blit_quad.material.uniforms._MainTex.value = src_texture;
+    this._blit_quad.material.uniforms._Resolution.value.set(src_width, src_height);
+
     if (dst)
     {
       this._blit_quad.material.uniforms._TargetResolution.value.set(dst.width, dst.height);
     }
     else
     {
-      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value)
-      ;
+      this.renderer.getSize(this._blit_quad.material.uniforms._TargetResolution.value);
     }
 
-    this.renderer.setRenderTarget(dst === undefined ? null : dst);
-
-    this.renderer.render(this._blit_scene, this._blit_camera);
+    this.__render(dst);
   }
 
   blit_clear_with_material(dst_RT, mat)
   {
     this._blit_quad.material = mat;
 
-    this.renderer.setRenderTarget(dst_RT === undefined ? null : dst_RT);
+    this.__render(dst_RT);
+  }
 
+  __render(RT)
+  {
+    RT = RT === undefined ? null : RT;
+
+    let current_rt = this.renderer.getRenderTarget();
+
+    this.renderer.setRenderTarget(RT === undefined ? null : RT);
     this.renderer.render(this._blit_scene, this._blit_camera);
+
+    this.renderer.setRenderTarget(current_rt);
   }
 }

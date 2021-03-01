@@ -43,6 +43,8 @@ import ModelUtilities from './utilities/ModelUtilities';
 import ObjectUtilities from './utilities/ObjectUtilities';
 import TimeUtilities from './utilities/TimeUtilities';
 import Validation from './utilities/Validation';
+import PerspectiveFrustumPointFitter from './utilities/PerspectiveFrustumPointFitter';
+import OrthographicFrustumPointFitter from './utilities/OrthographicFrustumPointFitter';
 
 import Grid from './components/Grid';
 import Line from './components/Line';
@@ -64,6 +66,7 @@ import Blurrer from './render_utilities/Blurrer';
 
 import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
 
+import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
 export {
   AbstractLoader,
   BaseApplication,
@@ -126,5 +129,9 @@ export {
   GaussianBlurrer,
   Blurrer,
 
-  GPUParticleSystem
+  GPUParticleSystem,
+  PerspectiveFrustumPointFitter,
+  OrthographicFrustumPointFitter,
+
+  DualFilteringBlurMaterial
 };
