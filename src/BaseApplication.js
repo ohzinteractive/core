@@ -3,7 +3,7 @@ export default class BaseApplication
   start()
   {}
 
-  post_start()
+  on_post_start()
   {}
 
   end()
