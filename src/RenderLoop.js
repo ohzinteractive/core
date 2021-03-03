@@ -15,7 +15,7 @@ export default class RenderLoop
     this.target_application = target_application;
     this.renderer = renderer;
 
-    this.is_running = true;
+    this.is_running = false;
     this.frames_passed = 0;
   }
 
@@ -25,13 +25,12 @@ export default class RenderLoop
     {
       return;
     }
-
     Time.__update();
 
     // ###### START CYCLE ######
-    if (this.frames_passed === 5)
+    if (this.frames_passed === 1)
     {
-      this.target_application.post_start();
+      this.target_application.on_post_start();
     }
 
     this.target_application.update();
@@ -50,22 +49,28 @@ export default class RenderLoop
     UI.clear();
     Debug.clear();
 
-    //   GeometryBatcher.upload_texture_data(this.renderer);
-
     this._frame_id = requestAnimationFrame(this.update.bind(this));
     this.frames_passed++;
   }
 
   start()
   {
+    if (this.is_running) return; // sanity check
+
     this.renderer.check_for_resize();
-    this.target_application.start();
-    this.update();
+
+    if (this.frames_passed === 0)
+    {
+      this.target_application.start();
+    }
     this.is_running = true;
+    this.update();
   }
 
   stop()
   {
+    if (this.is_running === false) return; // sanity check
+
     this.is_running = false;
     this.target_application.end();
 

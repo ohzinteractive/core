@@ -78,4 +78,10 @@ export default class GPUParticleSystem extends Object3D
       }
     }
   }
+
+  dispose()
+  {
+    this.particles.geometry.dispose();
+    this.particles.material.dispose();
+  }
 }
