@@ -1,4 +1,4 @@
-import { Vector3, Plane, Quaternion, Box3 } from 'three';
+import { Vector3, Box3 } from 'three';
 
 export default class OrthographicFrustumPointFitter
 {

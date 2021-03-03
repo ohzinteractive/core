@@ -111,8 +111,8 @@ export default class PerspectiveFrustumPointFitter
   {
     let closest_distance_to_up_plane = Infinity;
     let closest_distance_to_down_plane  = Infinity;
-    let closest_up_point = undefined;
-    let closest_down_point = undefined;
+    // let closest_up_point = undefined;
+    // let closest_down_point = undefined;
 
     let up_dir = new Vector3(0, 1, 0).applyQuaternion(camera_quaternion);
     for (let i = 0; i < points.length; i++)
@@ -141,12 +141,12 @@ export default class PerspectiveFrustumPointFitter
       if (down_dist < closest_distance_to_down_plane)
       {
         closest_distance_to_down_plane = down_dist;
-        closest_down_point = points[i];
+        // closest_down_point = points[i];
       }
       if (up_dist < closest_distance_to_up_plane)
       {
         closest_distance_to_up_plane = up_dist;
-        closest_up_point = points[i];
+        // closest_up_point = points[i];
       }
     }
 
@@ -160,8 +160,8 @@ export default class PerspectiveFrustumPointFitter
   {
     let closest_distance_to_right_plane = Infinity;
     let closest_distance_to_left_plane  = Infinity;
-    let closest_right_point = undefined;
-    let closest_left_point = undefined;
+    // let closest_right_point = undefined;
+    // let closest_left_point = undefined;
 
     let right_dir = new Vector3(1, 0, 0).applyQuaternion(camera_quaternion);
 
@@ -191,12 +191,12 @@ export default class PerspectiveFrustumPointFitter
       if (left_dist < closest_distance_to_left_plane)
       {
         closest_distance_to_left_plane = left_dist;
-        closest_left_point = points[i];
+        // closest_left_point = points[i];
       }
       if (right_dist < closest_distance_to_right_plane)
       {
         closest_distance_to_right_plane = right_dist;
-        closest_right_point = points[i];
+        // closest_right_point = points[i];
       }
     }
 
