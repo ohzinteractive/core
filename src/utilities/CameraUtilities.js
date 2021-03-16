@@ -67,7 +67,7 @@ class CameraUtilities
   get_plane_intersection(plane_position, plane_normal, NDC, camera)
   {
     camera = camera || CameraManager.current;
-    NDC = NDC || Input.normalized_mouse_pos;
+    NDC = NDC || Input.NDC;
 
     this.plane.setFromNormalAndCoplanarPoint(plane_normal || this.get_forward_dir(camera), plane_position);
     if (camera.isPerspectiveCamera)

@@ -31,9 +31,9 @@ export default class ObjectEditor
 
   update()
   {
-    if (Input.mouse_clicked())
+    if (Input.left_mouse_button_pressed)
     {
-      let x = this.object_picker.pick(Input.normalized_mouse_pos, this.selectable_objects);
+      let x = this.object_picker.pick(Input.NDC, this.selectable_objects);
       if (x !== 0)
       {
         let selected_obj = this.selectable_objects[x - 1];

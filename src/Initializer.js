@@ -29,7 +29,7 @@ class Initializer
     Configuration.init();
     EventManager.init();
     GeometryBatcher.init();
-    Input.init(app_container, canvas);
+    Input.init(app_container);
     OS.init();
     ReflectionPlaneContext.init();
     ResourceContainer.init();

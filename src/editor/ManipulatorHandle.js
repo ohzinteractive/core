@@ -47,7 +47,7 @@ export default class ManipulatorHandle extends Object3D
 
   is_mouse_over()
   {
-    this.raycaster.setFromCamera(Input.normalized_mouse_pos, CameraManager.current);
+    this.raycaster.setFromCamera(Input.NDC, CameraManager.current);
     this.raycast_result = this.raycaster.intersectObject(this.box_collider);
     if (this.raycast_result.length > 0)
     {

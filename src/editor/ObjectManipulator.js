@@ -46,14 +46,14 @@ export default class ObjectManipulator extends Object3D
       this.tmp_displacement_vector.copy(this.active_handle.direction);
       if (this.use_vertical_translation)
       {
-        this.tmp_displacement_vector.multiplyScalar(-Input.mouse_dir.y);
+        this.tmp_displacement_vector.multiplyScalar(-Input.NDC_delta.y);
       }
       else
       {
-        this.tmp_displacement_vector.multiplyScalar(Input.mouse_dir.x);
+        this.tmp_displacement_vector.multiplyScalar(Input.NDC_delta.x);
       }
 
-      this.tmp_displacement_vector.multiplyScalar(Input.mouse_dir.length() * 250 * this.translation_sign);
+      this.tmp_displacement_vector.multiplyScalar(Input.NDC_delta.length() * 250 * this.translation_sign);
       this.position.add(this.tmp_displacement_vector);
 
       this.tmp_local_pos.copy(this.position);
@@ -103,7 +103,7 @@ export default class ObjectManipulator extends Object3D
       }
     }
 
-    if (Input.is_mouse_up)
+    if (Input.left_mouse_button_released)
     {
       this.active_handle = undefined;
     }

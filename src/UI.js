@@ -61,7 +61,7 @@ class UI
     // this.ss_camera.right    = -Screen.bottom / 2;
     this.ss_camera.updateProjectionMatrix();
 
-    this._tmp_normalized_pos.copy(Input.normalized_mouse_pos);
+    this._tmp_normalized_pos.copy(Input.NDC);
     for (let i = 0; i < this.ui_elements.length; i++)
     {
       this.ui_elements[i].update_state(this._tmp_normalized_pos);

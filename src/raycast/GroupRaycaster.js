@@ -25,7 +25,7 @@ export default class GroupRaycaster
 
   update()
   {
-    this.raycaster.setFromCamera(Input.normalized_mouse_pos, this.camera);
+    this.raycaster.setFromCamera(Input.NDC, this.camera);
     this.current_intersections = this.raycaster.intersectObjects(this.raycastee_group);
     this.current_state.update(this);
   }

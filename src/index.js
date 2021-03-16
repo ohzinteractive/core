@@ -29,7 +29,6 @@ import SceneManager from './SceneManager';
 import Screen from './Screen';
 import SimpleTextDrawer from './canvas_drawer/SimpleTextDrawer';
 import Time from './Time';
-import TouchInput from './TouchInput';
 import UI from './UI';
 
 import ArrayUtilities from './utilities/ArrayUtilities';
@@ -98,7 +97,6 @@ export {
   Screen,
   SimpleTextDrawer,
   Time,
-  TouchInput,
   UI,
   BlitMaterial,
   BaseRender,

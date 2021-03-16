@@ -50,8 +50,8 @@ export default class ObjectRotator extends RaycastResolver
 
     if (this.rotation_active)
     {
-      let rot_x = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Input.mouse_dir.x);
-      let rot_y = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Input.mouse_dir.y);
+      let rot_x = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Input.NDC_delta.x);
+      let rot_y = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Input.NDC_delta.y);
 
       this.object.quaternion.multiply(rot_x);
       rot_y.multiply(this.object.quaternion);
