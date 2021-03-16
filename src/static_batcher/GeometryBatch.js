@@ -4,7 +4,6 @@ import { Mesh } from 'three';
 import { DataTexture } from 'three';
 import { RGBAFormat } from 'three';
 import { RGBFormat } from 'three';
-import { RGBA } from 'three';
 import { FloatType } from 'three';
 
 export default class GeometryBatch
@@ -255,7 +254,7 @@ export default class GeometryBatch
   __create_rgba_float_texture(width)
   {
     let data = new Float32Array(4 * width * width);
-    return new DataTexture(data, width, width, RGBA, FloatType);
+    return new DataTexture(data, width, width, RGBAFormat, FloatType);
   }
 
   __get_data_texture(uniform_name)
