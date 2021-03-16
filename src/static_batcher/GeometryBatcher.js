@@ -6,7 +6,7 @@ import { BufferAttribute } from 'three';
 
 class GeometryBatcher
 {
-  constructor()
+  init()
   {
     this.batches = [];
   }

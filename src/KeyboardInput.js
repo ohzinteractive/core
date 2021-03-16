@@ -1,18 +1,15 @@
-export class KeyboardInput
+class KeyboardInput
 {
-  constructor()
+  init(container)
   {
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
 
     this.keys = [];
-  }
+    this.container = container;
 
-  init()
-  {
-    document.onkeydown  = this.on_key_down.bind(this);
-    document.onkeyup    = this.on_key_up.bind(this);
-    document.onkeypress = this.on_key_press.bind(this);
+    this.container.addEventListener('keydown', this.on_key_down.bind(this), false);
+    this.container.addEventListener('keyup', this.on_key_up.bind(this), false);
   }
 
   on_key_down(e)
@@ -26,11 +23,6 @@ export class KeyboardInput
     {
       this.press_key(e.key);
     }
-  }
-
-  on_key_press(e)
-  {
-
   }
 
   on_key_up(e)
@@ -124,6 +116,12 @@ export class KeyboardInput
     {
       this.keys.splice(index, 1);
     }
+  }
+
+  dispose()
+  {
+    this.container.removeEventListener('keydown', this.on_key_down.bind(this), false);
+    this.container.removeEventListener('keyup', this.on_key_up.bind(this), false);
   }
 }
 

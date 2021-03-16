@@ -3,7 +3,7 @@ import { BufferGeometry } from 'three';
 import { Geometry } from 'three';
 import { Skeleton } from 'three';
 
-export class ModelUtilities
+class ModelUtilities
 {
   get_mesh(scene, result_callback)
   {

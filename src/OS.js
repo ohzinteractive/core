@@ -1,7 +1,7 @@
 
-export class OS
+class OS
 {
-  constructor()
+  init()
   {
     this.operating_systems = {
       ANDROID: 'android',

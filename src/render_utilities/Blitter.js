@@ -79,6 +79,12 @@ export default class Blitter
     this.__render(dst_RT);
   }
 
+  dispose()
+  {
+    this._blit_quad.geometry.dispose();
+    this._blit_quad.material.dispose();
+  }
+
   __render(RT)
   {
     RT = RT === undefined ? null : RT;

@@ -2,7 +2,7 @@ import { Scene } from 'three';
 
 class SceneManager
 {
-  constructor()
+  init()
   {
     this._current = new Scene();
     this._current.name = 'default_scene';

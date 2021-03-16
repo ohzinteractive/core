@@ -8,7 +8,7 @@ import { OrthographicCamera } from 'three';
 
 class UI
 {
-  constructor()
+  init()
   {
     this.ui_elements = [];
     this._tmp_normalized_pos = new Vector2();

@@ -1,6 +1,6 @@
 class Capabilities
 {
-  constructor()
+  init()
   {
     this.max_anisotropy = 0;
     this.vertex_texture_sampler_available = false;

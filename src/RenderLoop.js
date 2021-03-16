@@ -76,4 +76,10 @@ export default class RenderLoop
 
     cancelAnimationFrame(this._frame_id);
   }
+
+  dispose()
+  {
+    this.stop();
+    this.frames_passed = 0;
+  }
 }

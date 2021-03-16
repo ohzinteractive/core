@@ -3,7 +3,7 @@ import { Clock } from 'three';
 
 class Time
 {
-  constructor()
+  init()
   {
     this.___time = new Clock();
     this.__delta_time = 0;

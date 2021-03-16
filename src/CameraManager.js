@@ -1,6 +1,6 @@
 class CameraManager
 {
-  constructor()
+  init()
   {
     this._current = undefined;
   }

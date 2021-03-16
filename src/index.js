@@ -13,6 +13,7 @@ import DebugNormalsRender from './render_mode/DebugNormalsRender';
 import EventManager from './EventManager';
 import Graphics from './Graphics';
 import Input from './Input';
+import Initializer from './Initializer';
 import JSONLoader from './resource_loader/JSONLoader';
 import NormalAORender from './render_mode/NormalAORender';
 import NormalRender from './render_mode/NormalRender';
@@ -81,6 +82,7 @@ export {
   EventManager,
   Graphics,
   Input,
+  Initializer,
   JSONLoader,
   NormalAORender,
   NormalRender,

@@ -11,7 +11,7 @@ import { WebGLRenderer } from 'three';
 
 class Graphics
 {
-  constructor()
+  init(canvas, context_attributes)
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -24,10 +24,7 @@ class Graphics
     this.is_webgl2 = false;
     this.canvas_context = undefined;
     this.context_attributes = undefined;
-  }
 
-  init(canvas, context_attributes)
-  {
     this.context_attributes = context_attributes || {
       alpha: true,
       depth: true,
@@ -301,6 +298,13 @@ class Graphics
       });
       link.removeAttribute('href');
     };
+  }
+
+  dispose()
+  {
+    this._renderer.dispose();
+    this.current_render_mode.dispose();
+    this.blitter.dispose();
   }
 }
 

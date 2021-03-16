@@ -1,6 +1,6 @@
 class EventManager
 {
-  constructor()
+  init()
   {
     this.queue = {};
 

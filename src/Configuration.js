@@ -6,7 +6,7 @@
 
 class Configuration
 {
-  constructor(parameters = {})
+  init(parameters = {})
   {
     this.dpr = 1;
 

@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 
 class ReflectionPlaneContext
 {
-  constructor()
+  init()
   {
     this.target_geometry = undefined;
     this.target_position = new Vector3();

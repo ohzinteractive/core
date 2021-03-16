@@ -2,7 +2,7 @@ import EventManager from './EventManager';
 
 class ResourceContainer
 {
-  constructor()
+  init()
   {
     this.resources = {};
   }

@@ -11,7 +11,7 @@ import { Vector2 } from 'three';
 
 class Input
 {
-  constructor()
+  init(container, canvas)
   {
     this.mouse_pos = new Vector2();
     this.mouse_dir = new Vector2();
@@ -49,26 +49,24 @@ class Input
     this.previous_pos_y = 0;
 
     this.should_prevent_default_on_mouse_wheel = false;
-  }
 
-  init(container, canvas)
-  {
     this.canvas = canvas;
+    this.container = container;
 
-    KeyboardInput.init();
-    TouchInput.init(this, container);
+    KeyboardInput.init(this.container);
+    TouchInput.init(this, this.container);
 
-    container.addEventListener('mousedown', this.on_mouse_down.bind(this));
-    container.addEventListener('mousemove', this.on_mouse_move.bind(this));
-    container.addEventListener('mouseup', this.on_mouse_up.bind(this));
+    this.container.addEventListener('mousedown', this.on_mouse_down.bind(this));
+    this.container.addEventListener('mousemove', this.on_mouse_move.bind(this));
+    this.container.addEventListener('mouseup', this.on_mouse_up.bind(this));
 
-    container.addEventListener('click', this.on_mouse_click.bind(this));
-    container.addEventListener('dblclick', this.on_double_click.bind(this));
-    container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
+    this.container.addEventListener('click', this.on_mouse_click.bind(this));
+    this.container.addEventListener('dblclick', this.on_double_click.bind(this));
+    this.container.addEventListener('mouseleave', this.on_focus_lost.bind(this));
 
-    container.addEventListener('wheel', this.on_mouse_wheel.bind(this));
+    this.container.addEventListener('wheel', this.on_mouse_wheel.bind(this));
 
-    // container.addEventListener('contextmenu', (event) =>
+    // this.container.addEventListener('contextmenu', (event) =>
     // {
     //   event.preventDefault();
     // }, false);
@@ -313,6 +311,22 @@ class Input
 
     KeyboardInput.clear();
     TouchInput.clear();
+  }
+
+  dispose()
+  {
+    KeyboardInput.dispose();
+    TouchInput.dispose();
+
+    this.container.removeEventListener('mousedown', this.on_mouse_down.bind(this));
+    this.container.removeEventListener('mousemove', this.on_mouse_move.bind(this));
+    this.container.removeEventListener('mouseup', this.on_mouse_up.bind(this));
+
+    this.container.removeEventListener('click', this.on_mouse_click.bind(this));
+    this.container.removeEventListener('dblclick', this.on_double_click.bind(this));
+    this.container.removeEventListener('mouseleave', this.on_focus_lost.bind(this));
+
+    this.container.removeEventListener('wheel', this.on_mouse_wheel.bind(this));
   }
 }
 

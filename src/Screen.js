@@ -2,7 +2,7 @@ import { Vector2 } from 'three';
 
 class Screen
 {
-  constructor()
+  init()
   {
     this.width = 1;
     this.height = 1;

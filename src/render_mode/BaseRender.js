@@ -24,4 +24,9 @@ export default class BaseRender
   {
 
   }
+
+  dispose()
+  {
+
+  }
 }

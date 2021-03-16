@@ -12,7 +12,7 @@ import { Box3 } from 'three';
 
 class CameraUtilities
 {
-  constructor()
+  init()
   {
     this.tmp_mat = new Matrix4();
     this.tmp_vec = new Vector3(0, 0, 1);

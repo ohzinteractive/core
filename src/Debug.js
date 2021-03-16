@@ -23,29 +23,15 @@ import { MeshBasicMaterial } from 'three';
 
 class Debug
 {
-  constructor()
+  init()
   {
     this.Vector3_one = new Vector3(1, 1, 1);
     this.Vector3_zero = new Vector3(0, 0, 0);
     this.canvas_renderer = undefined;
 
     this.display_texture_meshes = [];
-  }
-
-  init(webgl)
-  {
-    this.webgl = webgl;
 
     this.ctx = undefined;
-
-    // var cln = webgl.dom.cloneNode(false);
-    // cln.id = "canvas_debug";
-    // $(cln).css("position", "absolute");
-    // webgl.dom.parentElement.insertBefore(cln, webgl.dom);
-    // this.ctx = cln.getContext('2d');
-
-    // this.ctx.clearRect(0, 0, cln.width, cln.height);
-    // this.ctx.fillStyle =  "rgba(255, 0, 0, 1)";
   }
 
   draw_arrow(origin, dir, color = 0xff0000)

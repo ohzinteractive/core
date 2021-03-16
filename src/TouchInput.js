@@ -2,9 +2,9 @@ import Time from './Time';
 
 import { Vector2 } from 'three';
 
-export class TouchInput
+class TouchInput
 {
-  constructor()
+  init(input, container)
   {
     this.input = undefined;
     this.container = undefined;
@@ -26,10 +26,7 @@ export class TouchInput
     this.last_zoom_distance = -1;
 
     this.center = new Vector2();
-  }
 
-  init(input, container)
-  {
     this.input = input;
     this.container = container;
 
@@ -246,6 +243,14 @@ export class TouchInput
   clear()
   {
     this.tapped = false;
+  }
+
+  dispose()
+  {
+    this.container.removeEventListener('touchstart', this.process_touchstart.bind(this), false);
+    this.container.removeEventListener('touchmove', this.process_touchmove.bind(this), false);
+    this.container.removeEventListener('touchend', this.process_touchend.bind(this), true);
+    this.container.removeEventListener('touchcancel', this.process_touchcancel.bind(this), false);
   }
 }
 
