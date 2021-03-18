@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "OHZI Core Library",
   "module": "build/index.module.js",
   "source": "src/index.js",
@@ -43,7 +43,7 @@
     "standardx": "^7.0.0"
   },
   "dependencies": {
-    "pit-js": "^1.4.0",
+    "pit-js": "^1.4.1",
     "three": "^0.123.0"
   }
 }
