@@ -16,8 +16,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "start": "parcel ./src/index.js --dist-dir . --port 4444",
-    "build": "standardx --fix && parcel build ./src/index.js --no-cache --no-minify --dist-dir . && npm run update-version",
-    "build_blitter": "parcel build ./src/blitter_index.js --no-cache --no-minify --dist-dir ./blitter_build ",
+    "build": "standardx --fix && parcel build ./src/index.js --no-cache --dist-dir . && npm run update-version",
+    "build_blitter": "parcel build ./src/blitter_index.js --no-cache --dist-dir ./blitter_build ",
     "prod": "standardx --fix &&  parcel build ./src/index.js --no-cache --dist-dir . && npm run update-version",
     "update-version": "standardx --fix && cross-var echo \"v$npm_package_version\" > .version"
   },
@@ -35,15 +35,14 @@
     "url": "https://github.com/ohzinteractive/core/issues"
   },
   "homepage": "https://github.com/ohzinteractive/core#readme",
-  "devDependencies": {
-    "cross-var": "^1.1.0",
-    "glslify-bundle": "^5.1.1",
-    "glslify-deps": "^1.3.1",
-    "parcel": "2.0.0-nightly.424",
-    "standardx": "^7.0.0"
-  },
   "dependencies": {
     "pit-js": "^1.4.1",
     "three": "^0.123.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-glsl": "2.0.0-beta.2",
+    "cross-var": "^1.1.0",
+    "parcel": "2.0.0-beta.2",
+    "standardx": "^7.0.0"
   }
 }
