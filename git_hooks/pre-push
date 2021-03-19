@@ -27,11 +27,11 @@ if [ "$version" != "$published_version" ]
 then
 	echo "New version founded!"
 	echo "Compiling ..."
-	npm run build
+	yarn build
 	echo "Publishing ..."
-	npm publish
+	yarn publish
 	echo "Creating tag ..."
-	npm run create-tag
+	yarn create-tag
 fi
 
 exit 0
