@@ -24,7 +24,21 @@ export default class ResourceBatch
 
   add_texture(resource_id, url, size)
   {
-    this.resource_loaders.push(new TextureLoader(resource_id, url, size));
+    if (process.env.NODE_ENV === 'development')
+    {
+      this.resource_loaders.push(new TextureLoader(resource_id, url, size));
+    }
+    else
+    {
+      let basis_url = url.split('.');
+      basis_url.pop();
+      basis_url.push('basis');
+
+      basis_url = basis_url.join('.');
+
+      console.log(basis_url);
+      this.add_basis(resource_id, basis_url, size);
+    }
   }
 
   add_gltf(resource_id, url, size)

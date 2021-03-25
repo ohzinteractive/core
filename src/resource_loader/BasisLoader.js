@@ -4,7 +4,7 @@ import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoade
 import { sRGBEncoding } from 'three';
 import { WebGLRenderer } from 'three';
 
-export default class DAELoader extends AbstractLoader
+export default class BasisLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
