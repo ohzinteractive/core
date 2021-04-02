@@ -226,15 +226,15 @@ class Graphics
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
-  take_screenshot(blob_callback)
+  take_screenshot(blob_callback, width = Screen.width, height = Screen.height)
   {
     // const ctx = this;
 
     let old_width = Screen.width;
     let old_height = Screen.height;
 
-    let new_width = 4096;
-    let new_height = 4096;
+    let new_width = width;
+    let new_height = height;
 
     let tile_width = 1024;
     let tile_height = 1024;
@@ -248,8 +248,11 @@ class Graphics
 
     this._renderer.setSize(tile_width, tile_height, false);
 
-    this.ctx_2D.canvas.width  = new_width;
-    this.ctx_2D.canvas.height = new_height;
+    let canvas_2d = document.createElement('canvas');
+    let ctx_2D = canvas_2d.getContext('2d');
+
+    ctx_2D.canvas.width  = new_width;
+    ctx_2D.canvas.height = new_height;
 
     CameraManager.current.aspect = Screen.aspect_ratio;
     CameraManager.current.updateMatrix();
@@ -264,15 +267,16 @@ class Graphics
           Screen.width,            Screen.height);
         this.current_render_mode.render();
 
-        this.ctx_2D.drawImage(this._renderer.domElement, Screen.width * x, Screen.height * y);
+        ctx_2D.drawImage(this._renderer.domElement, Screen.width * x, Screen.height * y);
       }
     }
 
     // transform the result canvas into a blob
     // from them the callback turns into a ULR and download it
-    this.ctx_2D.canvas.toBlob(blob_callback, 'image/png;base64;');
+    ctx_2D.canvas.toBlob(blob_callback, 'image/png;base64;');
 
     CameraManager.current.clearViewOffset();
+
     Screen.update_size(old_width, old_height);
     this._renderer.setPixelRatio(Configuration.dpr);
     this._renderer.setSize(old_width, old_height, false);
