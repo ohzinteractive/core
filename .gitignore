@@ -34,3 +34,4 @@ bower_components/
 
 # Parcel output folder.
 build/
+build_blitter/
