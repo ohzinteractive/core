@@ -35,8 +35,8 @@ export default class ActionSequencer
   {
     if (this.playing)
     {
-      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time);
       this.elapsed_time = this.elapsed_time + delta_time;
+      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time);
     }
   }
 
@@ -73,6 +73,7 @@ export default class ActionSequencer
         this.action_events[i].action.trigger(this.context);
       }
     }
+
     for (let i = 0; i < this.action_interpolators.length; i++)
     {
       if (this.elapsed_time >= this.action_interpolators[i].from)
@@ -97,11 +98,14 @@ export default class ActionSequencer
 
     for (let i = 0; i < this.action_events.length; i++)
     {
-      Math.max(max_duration, this.action_events[i].to);
+      max_duration = Math.max(max_duration, this.action_events[i].to);
     }
+
     for (let i = 0; i < this.action_interpolators.length; i++)
     {
-      Math.max(max_duration, this.action_interpolators[i].to);
+      max_duration = Math.max(max_duration, this.action_interpolators[i].to);
     }
+
+    return max_duration;
   }
 }

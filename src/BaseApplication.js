@@ -1,12 +1,12 @@
 export default class BaseApplication
 {
-  start()
-  {}
-
   on_post_start()
   {}
 
-  end()
+  on_enter()
+  {}
+
+  on_exit()
   {}
 
   update()
@@ -16,8 +16,5 @@ export default class BaseApplication
   {}
 
   on_pre_render()
-  {}
-
-  resources_fully_loaded()
   {}
 }

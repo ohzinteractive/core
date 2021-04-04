@@ -3,6 +3,8 @@ import Input from './Input';
 import UI from './UI';
 import Debug from './Debug';
 import BaseApplication from './BaseApplication';
+import ViewManager from './view_components/ViewManager';
+import ViewComponentManager from './view_components/ViewComponentManager';
 
 export default class RenderLoop
 {
@@ -34,6 +36,8 @@ export default class RenderLoop
     }
 
     this.target_application.update();
+    ViewManager.update();
+    ViewComponentManager.update();
 
     this.target_application.on_pre_render();
 
@@ -61,8 +65,9 @@ export default class RenderLoop
 
     if (this.frames_passed === 0)
     {
-      this.target_application.start();
+      this.target_application.on_enter();
     }
+
     this.is_running = true;
     this.update();
   }
@@ -72,9 +77,16 @@ export default class RenderLoop
     if (this.is_running === false) return; // sanity check
 
     this.is_running = false;
-    this.target_application.end();
+    this.target_application.on_exit();
 
     cancelAnimationFrame(this._frame_id);
+  }
+
+  set_state(new_state)
+  {
+    this.target_application.on_exit(this);
+    this.target_application = new_state;
+    this.target_application.on_enter(this);
   }
 
   dispose()

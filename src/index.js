@@ -1,4 +1,5 @@
 import AbstractLoader from './resource_loader/AbstractLoader';
+import ApplicationView from './view_components/ApplicationView';
 import BaseApplication from './BaseApplication';
 import BaseRender from './render_mode/BaseRender';
 import BaseShaderMaterial from './materials/BaseShaderMaterial';
@@ -8,6 +9,7 @@ import Capabilities from './Capabilities';
 import CanvasDrawer from './canvas_drawer/CanvasDrawer';
 import Configuration from './Configuration';
 import CSSAnimator from './html_utilities/CSSAnimator';
+import DrawIOAnimationSheet from './view_components/transition/DrawIOAnimationSheet';
 import Debug from './Debug';
 import DebugNormalsRender from './render_mode/DebugNormalsRender';
 import EventManager from './EventManager';
@@ -30,6 +32,10 @@ import Screen from './Screen';
 import SimpleTextDrawer from './canvas_drawer/SimpleTextDrawer';
 import Time from './Time';
 import UI from './UI';
+import ViewComponent from './view_components/ViewComponent';
+import ViewComponentManager from './view_components/ViewComponentManager';
+import ViewManager from './view_components/ViewManager';
+import TransitionTable from './view_components/transition/TransitionTable';
 
 import ArrayUtilities from './utilities/ArrayUtilities';
 import CameraUtilities from './utilities/CameraUtilities';
@@ -69,6 +75,7 @@ import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
 import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
 export {
   AbstractLoader,
+  ApplicationView,
   BaseApplication,
   BaseShaderMaterial,
   CameraManager,
@@ -76,6 +83,7 @@ export {
   CanvasDrawer,
   Configuration,
   CSSAnimator,
+  DrawIOAnimationSheet,
   Debug,
   DebugNormalsRender,
   EventManager,
@@ -112,9 +120,13 @@ export {
   ObjectUtilities,
   TimeUtilities,
   Validation,
+  ViewComponent,
+  ViewComponentManager,
+  ViewManager,
   Grid,
   Line,
   Text2D,
+  TransitionTable,
   UIElement,
   SDFTextBatch,
   UpdatableMaterialMesh,
