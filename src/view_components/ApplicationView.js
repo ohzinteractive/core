@@ -15,9 +15,18 @@ export default class ApplicationView
   {
   }
 
-  on_enter()
+  show()
   {
     this.container.classList.remove('hidden');
+  }
+
+  hide()
+  {
+    this.container.classList.add('hidden');
+  }
+
+  on_enter()
+  {
   }
 
   update()
@@ -26,16 +35,10 @@ export default class ApplicationView
 
   on_exit()
   {
-    this.container.classList.add('hidden');
   }
 
-  transition_finished()
+  set_opacity(opacity)
   {
-
-  }
-
-  on_resize()
-  {
-
+    this.container.style.opacity = opacity;
   }
 }

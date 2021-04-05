@@ -13,6 +13,8 @@ export default class ActionSequencer
     this.action_interpolators = [];
     this.context = context;
 
+    this.initial_context = JSON.parse(JSON.stringify(context));
+
     this.tmp_t = 0;
   }
 
@@ -40,6 +42,11 @@ export default class ActionSequencer
     }
   }
 
+  get_progress()
+  {
+    return TMath.clamp(this.elapsed_time / this.get_duration(), 0, 1);
+  }
+
   is_finished()
   {
     return this.elapsed_time > this.get_duration();
@@ -53,13 +60,35 @@ export default class ActionSequencer
     });
   }
 
-  add_action_interpolator(from, to, action)
+  add_action_interpolator(from, to, action, use_dynamic_from_value = false)
   {
+    if (use_dynamic_from_value)
+    {
+      action.from = this.__get_starting_value(to, action.attribute_name);
+    }
+
     this.action_interpolators.push({
       from: from,
       to: to,
       action: action
     });
+  }
+
+  get_duration()
+  {
+    let max_duration = 0;
+
+    for (let i = 0; i < this.action_events.length; i++)
+    {
+      max_duration = Math.max(max_duration, this.action_events[i].to);
+    }
+
+    for (let i = 0; i < this.action_interpolators.length; i++)
+    {
+      max_duration = Math.max(max_duration, this.action_interpolators[i].to);
+    }
+
+    return max_duration;
   }
 
   __play_clips(from, to)
@@ -92,20 +121,18 @@ export default class ActionSequencer
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
   }
 
-  get_duration()
+  __get_starting_value(to_time, property_name)
   {
-    let max_duration = 0;
+    Object.assign(this.context, this.initial_context);
+    this.elapsed_time = to_time;
 
-    for (let i = 0; i < this.action_events.length; i++)
-    {
-      max_duration = Math.max(max_duration, this.action_events[i].to);
-    }
+    this.__play_clips(0, this.elapsed_time + 0.001);
 
-    for (let i = 0; i < this.action_interpolators.length; i++)
-    {
-      max_duration = Math.max(max_duration, this.action_interpolators[i].to);
-    }
+    let result = this.context[property_name];
 
-    return max_duration;
+    Object.assign(this.context, this.initial_context);
+    this.elapsed_time = -0.00000001;
+
+    return result;
   }
 }

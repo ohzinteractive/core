@@ -28,7 +28,8 @@ export default class ViewComponent
     this.container.classList.add('hidden');
   }
 
-  on_resize()
+  set_opacity(opacity)
   {
+    this.container.style.opacity = opacity;
   }
 }

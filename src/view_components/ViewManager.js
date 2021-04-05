@@ -14,7 +14,7 @@ class ViewManager
   {
     this.initial_state_data = initial_state_data;
 
-    this.transition_table = new TransitionTable();
+    this.transition_table = new TransitionTable(this.initial_state_data);
     this.transition_handler = new ViewStateTransitionHandler(this.initial_state_data, this.transition_table);
   }
 
@@ -44,6 +44,11 @@ class ViewManager
       }
     }
     return false;
+  }
+
+  add_transitions(transitions)
+  {
+    this.transition_table.add_transitions(transitions);
   }
 
   set_transitions(transitions)

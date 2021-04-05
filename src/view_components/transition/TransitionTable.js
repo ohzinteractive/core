@@ -2,9 +2,10 @@ import ActionSequencerBuilder from './ActionSequencerBuilder';
 
 export default class TransitionTable
 {
-  constructor()
+  constructor(initial_state_data)
   {
-    this.transitions = undefined;
+    this.transitions = [];
+    this.initial_state_data = initial_state_data;
   }
 
   get(to_state, current_context)
@@ -13,7 +14,7 @@ export default class TransitionTable
     {
       if (this.transitions[i].to === to_state)
       {
-        let action_sequencer = new ActionSequencerBuilder().from_animation_sheet(this.transitions[i].data, current_context);
+        let action_sequencer = new ActionSequencerBuilder(this.initial_state_data).from_animation_sheet(this.transitions[i].data, current_context);
 
         return action_sequencer;
       }
@@ -21,6 +22,14 @@ export default class TransitionTable
 
     console.error('TransitionTable.get no data found for: ', to_state);
     return undefined;
+  }
+
+  add_transitions(transitions)
+  {
+    for (let i = 0; i < transitions.length; i++)
+    {
+      this.transitions.push(transitions[i]);
+    }
   }
 
   set_transitions(transitions)
