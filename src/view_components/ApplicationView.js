@@ -1,18 +1,15 @@
 import ViewManager from './ViewManager';
+import ViewState from './ViewState';
 
-export default class ApplicationView
+export default class ApplicationView extends ViewState
 {
-  constructor(name, container)
+  constructor({ name, container })
   {
-    this.name = name;
+    super(name);
 
     ViewManager.register_view(this);
 
     this.container = container;
-  }
-
-  start()
-  {
   }
 
   show()
@@ -23,18 +20,6 @@ export default class ApplicationView
   hide()
   {
     this.container.classList.add('hidden');
-  }
-
-  on_enter()
-  {
-  }
-
-  update()
-  {
-  }
-
-  on_exit()
-  {
   }
 
   set_opacity(opacity)

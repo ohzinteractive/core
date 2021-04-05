@@ -1,12 +1,12 @@
 import Time from '../../Time';
-import ApplicationView from '../ApplicationView';
+import ViewState from '../ViewState';
 
 export default class ViewStateTransitionHandler
 {
   constructor(initial_state_data, transition_table)
   {
-    this.last_state = new ApplicationView();
-    this.current_state = new ApplicationView();
+    this.last_state = new ViewState();
+    this.current_state = new ViewState();
 
     this.initial_state_data = {};
     this.current_state_data = {};
