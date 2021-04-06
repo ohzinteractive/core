@@ -2,11 +2,12 @@ import ViewComponentManager from './ViewComponentManager';
 
 export default class ViewComponent
 {
-  constructor()
+  constructor(name)
   {
-    ViewComponentManager.register_component(this);
-
+    this.name = name;
     this.container = undefined;
+
+    ViewComponentManager.register_component(this);
   }
 
   start(container)
