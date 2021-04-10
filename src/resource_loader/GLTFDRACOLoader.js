@@ -2,7 +2,6 @@ import AbstractLoader from './AbstractLoader';
 
 import * as THREEGLTFLoader from 'three/examples/jsm/loaders/GLTFLoader.js';
 import * as THREEDRACOLoader from 'three/examples/jsm/loaders/DRACOLoader.js';
-import { Math as THREEMath } from 'three';
 
 export default class GLTFDRACOLoader extends AbstractLoader
 {
@@ -17,23 +16,24 @@ export default class GLTFDRACOLoader extends AbstractLoader
     this.loader.setDRACOLoader(this.draco_loader);
   }
 
-  load(resource_container)
+  on_preloaded_finished(resource_container)
   {
     let ctx = this;
 
     this.loader.load(this.url, (gltf) =>
     {
       resource_container.set_resource(ctx.resource_id, gltf);
-      ctx.__update_progress(1);
+
+      ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();
     },
     (xhr) =>
     {
-      if (xhr)
-      {
-        let total = xhr.total || this.size;
-        ctx.__update_progress(THREEMath.clamp(xhr.loaded / total), 0, 1);
-      }
+      // if (xhr)
+      // {
+      //   let total = xhr.total || this.size;
+      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      // }
     },
     (msg) =>
     {

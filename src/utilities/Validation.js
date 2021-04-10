@@ -13,6 +13,11 @@ export default class Validation
     return Number(n) === n && n % 1 !== 0;
   }
 
+  static is_number(n)
+  {
+    return this.is_int(n) || this.is_float(n);
+  }
+
   static is_json(str)
   {
     try

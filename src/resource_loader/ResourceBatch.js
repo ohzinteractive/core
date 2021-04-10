@@ -13,6 +13,7 @@ import HDRCubeTextureLoader from './HDRCubeTextureLoader';
 import GLTFDRACOLoader from './GLTFDRACOLoader';
 import BasisLoader from './BasisLoader';
 import ResourceContainer from '../ResourceContainer';
+import FileLoader from './FileLoader';
 
 export default class ResourceBatch
 {
@@ -50,6 +51,11 @@ export default class ResourceBatch
   add_obj(resource_id, url, size)
   {
     this.resource_loaders.push(new OBJLoader(resource_id, url, size));
+  }
+
+  add_file(resource_id, url, size)
+  {
+    this.resource_loaders.push(new FileLoader(resource_id, url, size));
   }
 
   add_text(resource_id, url, size)
@@ -139,23 +145,30 @@ export default class ResourceBatch
 
   get_progress()
   {
-    let progress = 0;
+    return this.get_loaded_bytes() / this.get_total_bytes();
+  }
+
+  get_loaded_bytes()
+  {
+    let loaded_bytes = 1;
 
     for (let i = 0; i < this.resource_loaders.length; i++)
     {
-      progress += this.resource_loaders[i].progress;
+      loaded_bytes += this.resource_loaders[i].loaded_bytes;
     }
 
-    if (this.resource_loaders.length === 0)
+    return loaded_bytes;
+  }
+
+  get_total_bytes()
+  {
+    let total_bytes = 1;
+
+    for (let i = 0; i < this.resource_loaders.length; i++)
     {
-      return 1;
+      total_bytes += this.resource_loaders[i].total_bytes;
     }
 
-    if (!progress)
-    {
-      return 1;
-    }
-
-    return progress / this.resource_loaders.length;
+    return total_bytes;
   }
 }

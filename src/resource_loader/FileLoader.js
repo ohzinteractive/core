@@ -2,7 +2,7 @@ import AbstractLoader from './AbstractLoader';
 
 import { FileLoader as THREEFileLoader } from 'three';
 
-export default class TextLoader extends AbstractLoader
+export default class FileLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {

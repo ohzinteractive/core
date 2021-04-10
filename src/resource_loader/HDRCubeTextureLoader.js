@@ -12,7 +12,7 @@ export default class HDRCubeTextureLoader extends AbstractLoader
     this.url_suffix = ['/px.hdr', '/nx.hdr', '/py.hdr', '/ny.hdr', '/pz.hdr', '/nz.hdr'];
   }
 
-  load(resource_container)
+  on_preloaded_finished(resource_container)
   {
     let ctx = this;
 
@@ -21,16 +21,17 @@ export default class HDRCubeTextureLoader extends AbstractLoader
       .load(this.url_suffix, (hdr) =>
       {
         resource_container.set_resource(ctx.resource_id, hdr);
-        ctx.__update_progress(1);
+
+        ctx.__update_downloaded_bytes(1, 1);
         ctx.__loading_ended();
       },
       (xhr) =>
       {
-        if (xhr)
-        {
-          let total = xhr.total || this.size;
-          ctx.__update_progress(xhr.loaded / total);
-        }
+        // if (xhr)
+        // {
+        //   let total = xhr.total || this.size;
+        //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+        // }
       },
       (msg) =>
       {

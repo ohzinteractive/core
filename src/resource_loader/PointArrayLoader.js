@@ -11,23 +11,24 @@ export default class PointArrayLoader extends AbstractLoader
     this.loader = new THREEFileLoader();
   }
 
-  load(resource_container)
+  on_preloaded_finished(resource_container)
   {
     let ctx = this;
 
     this.loader.load(this.url, (text) =>
     {
       resource_container.set_resource(ctx.resource_id, ctx.parse_path(text));
-      ctx.__update_progress(1);
+
+      ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();
     },
     (xhr) =>
     {
-      if (xhr)
-      {
-        let total = xhr.total || this.size;
-        ctx.__update_progress(xhr.loaded / total);
-      }
+      // if (xhr)
+      // {
+      //   let total = xhr.total || this.size;
+      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      // }
     },
     (msg) =>
     {

@@ -5,7 +5,7 @@ import { AudioLoader as THREEAudioLoader } from 'three';
 
 export default class AudioLoader extends AbstractLoader
 {
-  constructor(resource_id, url, loop = true, volume = 1, size = 0)
+  constructor(resource_id, url, loop = true, volume = 1, size)
   {
     super(resource_id, url, size);
     this.loader = new THREEAudioLoader();
@@ -13,7 +13,7 @@ export default class AudioLoader extends AbstractLoader
     this.volume = volume;
   }
 
-  load(resource_container)
+  on_preloaded_finished(resource_container)
   {
     let ctx = this;
 
@@ -21,16 +21,17 @@ export default class AudioLoader extends AbstractLoader
     {
       resource_container.set_resource(ctx.resource_id, new AudioClip(buffer, this.loop, this.volume));
 
-      ctx.__update_progress(1);
+      ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();
     },
     (xhr) =>
     {
-      if (xhr)
-      {
-        let total = xhr.total || this.size;
-        ctx.__update_progress(xhr.loaded / total);
-      }
+      // if (xhr)
+      // {
+      //   let total = xhr.total || this.size;
+
+      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      // }
     },
     (error) =>
     {

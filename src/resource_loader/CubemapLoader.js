@@ -19,23 +19,24 @@ export default class CubemapLoader extends AbstractLoader
     ];
   }
 
-  load(resource_container)
+  on_preloaded_finished(resource_container)
   {
     let ctx = this;
 
     this.loader.load(this.urls, (image) =>
     {
       resource_container.set_resource(ctx.resource_id, image);
-      ctx.__update_progress(1);
+
+      ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();
     },
     (xhr) =>
     {
-      if (xhr)
-      {
-        let total = xhr.total || this.size;
-        ctx.__update_progress(xhr.loaded / total);
-      }
+      // if (xhr)
+      // {
+      //   let total = xhr.total || this.size;
+      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      // }
     },
     (error) =>
     {
