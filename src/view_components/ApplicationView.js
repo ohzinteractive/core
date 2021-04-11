@@ -1,3 +1,5 @@
+import ResourceContainer from '../ResourceContainer';
+import DrawIOAnimationSheet from './transition/DrawIOAnimationSheet';
 import ViewManager from './ViewManager';
 import ViewState from './ViewState';
 
@@ -7,9 +9,17 @@ export default class ApplicationView extends ViewState
   {
     super(name);
 
-    ViewManager.register_view(this);
-
     this.container = container;
+
+    let transitions = [
+      {
+        to: name,
+        data: new DrawIOAnimationSheet().parse(ResourceContainer.get(`${name}_data`))
+      }
+    ];
+
+    ViewManager.register_view(this);
+    ViewManager.add_transitions(transitions);
   }
 
   show()

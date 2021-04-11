@@ -3,7 +3,7 @@ import ViewState from '../ViewState';
 
 export default class ViewStateTransitionHandler
 {
-  constructor(initial_state_data, transition_table)
+  constructor(transition_table)
   {
     this.last_state = new ViewState();
     this.current_state = new ViewState();
@@ -12,9 +12,6 @@ export default class ViewStateTransitionHandler
     this.current_state_data = {};
 
     this.transition_table = transition_table;
-
-    Object.assign(this.initial_state_data, initial_state_data);
-    Object.assign(this.current_state_data, initial_state_data);
 
     this.transitioning = false;
   }
@@ -58,5 +55,11 @@ export default class ViewStateTransitionHandler
   set_state(state)
   {
     this.current_state = state;
+  }
+
+  set_initial_state_data(initial_state_data)
+  {
+    Object.assign(this.initial_state_data, initial_state_data);
+    Object.assign(this.current_state_data, initial_state_data);
   }
 }

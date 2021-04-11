@@ -7,15 +7,8 @@ class ViewManager
   {
     this.views = [];
 
-    this.initial_state_data = {};
-  }
-
-  start(initial_state_data)
-  {
-    this.initial_state_data = initial_state_data;
-
-    this.transition_table = new TransitionTable(this.initial_state_data);
-    this.transition_handler = new ViewStateTransitionHandler(this.initial_state_data, this.transition_table);
+    this.transition_table = new TransitionTable();
+    this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
   }
 
   update()
@@ -74,6 +67,12 @@ class ViewManager
     }
     console.error('get_view_by_name no view found for: ', view_name);
     return undefined;
+  }
+
+  set_initial_state_data(initial_state_data)
+  {
+    this.transition_table.set_initial_state_data(initial_state_data);
+    this.transition_handler.set_initial_state_data(initial_state_data);
   }
 }
 

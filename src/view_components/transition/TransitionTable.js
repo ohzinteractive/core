@@ -2,10 +2,10 @@ import ActionSequencerBuilder from './ActionSequencerBuilder';
 
 export default class TransitionTable
 {
-  constructor(initial_state_data)
+  constructor()
   {
     this.transitions = [];
-    this.initial_state_data = initial_state_data;
+    this.initial_state_data = {};
   }
 
   get(to_state, current_context)
@@ -35,5 +35,10 @@ export default class TransitionTable
   set_transitions(transitions)
   {
     this.transitions = transitions;
+  }
+
+  set_initial_state_data(initial_state_data)
+  {
+    this.initial_state_data = initial_state_data;
   }
 }
