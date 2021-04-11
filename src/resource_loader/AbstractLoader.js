@@ -75,7 +75,7 @@ export default class AbstractLoader
       receivedLength += value.length;
 
       this.__update_downloaded_bytes(receivedLength, contentLength);
-      console.log(`Received ${receivedLength} of ${contentLength}`);
+      // console.log(`Received ${receivedLength} of ${contentLength}`);
     }
 
     this.on_preloaded_finished(resource_container);
