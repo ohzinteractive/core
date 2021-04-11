@@ -17,9 +17,10 @@ export default class AbstractLoader
 
   __update_downloaded_bytes(loaded, total)
   {
+    console.log(total);
     loaded = Validation.is_number(loaded) ? loaded : 1;
     total  = Validation.is_number(total)  ? total  : 1;
-
+    console.log(total);
     this.loaded_bytes = loaded;
     this.total_bytes = total;
   }
@@ -50,7 +51,7 @@ export default class AbstractLoader
     const reader = response.body.getReader();
 
     // Step 2: get total length
-    const contentLength = +response.headers.get('Content-Length');
+    let contentLength = +response.headers.get('Content-Length');
 
     // Step 3: read the data
     let receivedLength = 0; // received that many bytes at the moment
@@ -67,7 +68,7 @@ export default class AbstractLoader
       receivedLength += value.length;
 
       this.__update_downloaded_bytes(receivedLength, contentLength);
-      // console.log(`Received ${receivedLength} of ${contentLength}`);
+      console.log(`Received ${receivedLength} of ${contentLength}`);
     }
 
     this.on_preloaded_finished(resource_container);
