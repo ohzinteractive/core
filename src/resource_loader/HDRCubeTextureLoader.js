@@ -29,7 +29,7 @@ export default class HDRCubeTextureLoader extends AbstractLoader
       {
         // if (xhr)
         // {
-        //   let total = xhr.total || this.size;
+        //   let total = xhr.total || this.total_bytes;
         //   ctx.__update_downloaded_bytes(xhr.loaded, total);
         // }
       },

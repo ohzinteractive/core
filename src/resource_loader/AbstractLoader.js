@@ -7,7 +7,6 @@ export default class AbstractLoader
     this.resource_id = resource_id;
     this.url = url;
     this.loaded_bytes = 0;
-    this.size = size;
     this.total_bytes = size;
 
     this.has_finished = false;
@@ -17,12 +16,20 @@ export default class AbstractLoader
 
   __update_downloaded_bytes(loaded, total)
   {
-    console.log(total);
     loaded = Validation.is_number(loaded) ? loaded : 1;
     total  = Validation.is_number(total)  ? total  : 1;
-    console.log(total);
+
     this.loaded_bytes = loaded;
-    this.total_bytes = total;
+
+    if (total > this.total_bytes)
+    {
+      this.total_bytes = total;
+    }
+
+    if (this.loaded_bytes > this.total_bytes)
+    {
+      console.warn('Total bytes is smaller than loaded ones. Please set total bytes by hand to:', this.url);
+    }
   }
 
   __loading_ended()
