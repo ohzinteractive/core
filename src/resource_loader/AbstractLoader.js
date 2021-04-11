@@ -21,7 +21,7 @@ export default class AbstractLoader
 
     this.loaded_bytes = loaded;
 
-    if (total > this.total_bytes)
+    if (total > 0)
     {
       this.total_bytes = total;
     }
