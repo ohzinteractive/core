@@ -25,6 +25,10 @@ export default class ViewState
   {
   }
 
+  update_transition(global_view_data, transition_progress)
+  {
+  }
+
   on_exit()
   {
   }

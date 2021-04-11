@@ -39,6 +39,7 @@ export default class ViewStateTransitionHandler
     if (this.transitioning)
     {
       this.action_sequencer.update(Time.delta_time);
+      this.current_state.update_transition(this.current_state_data, this.action_sequencer.get_progress());
 
       if (this.action_sequencer.is_finished())
       {
@@ -48,8 +49,10 @@ export default class ViewStateTransitionHandler
         this.current_state.on_enter();
       }
     }
-
-    this.current_state.update(this.current_state_data, this.action_sequencer.get_progress());
+    else
+    {
+      this.current_state.update();
+    }
   }
 
   set_state(state)
