@@ -1,4 +1,5 @@
 import AbstractLoader from './resource_loader/AbstractLoader';
+import ActionSequencerBuilder from './view_components/transition/ActionSequencerBuilder';
 import ApplicationView from './view_components/ApplicationView';
 import BaseApplication from './BaseApplication';
 import BaseRender from './render_mode/BaseRender';
@@ -73,8 +74,10 @@ import Blurrer from './render_utilities/Blurrer';
 import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
 
 import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
+
 export {
   AbstractLoader,
+  ActionSequencerBuilder,
   ApplicationView,
   BaseApplication,
   BaseShaderMaterial,
