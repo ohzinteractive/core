@@ -1,5 +1,6 @@
 
 import { Math as TMath } from 'three';
+import { NumberKeyframeTrack } from 'three';
 
 export default class ActionSequencer
 {
@@ -10,12 +11,21 @@ export default class ActionSequencer
     this.playing = false;
 
     this.action_events = [];
-    this.action_interpolators = [];
     this.context = context;
 
     this.initial_context = JSON.parse(JSON.stringify(context));
 
     this.tmp_t = 0;
+
+    this.channels = {};
+
+    let channel_names = Object.keys(context);
+    for(let i=0; i<channel_names.length; i++)
+    {
+      this.channels[channel_names[i]] = [];
+    }
+
+    this.duration = 0;
   }
 
   play()
@@ -60,35 +70,35 @@ export default class ActionSequencer
     });
   }
 
-  add_action_interpolator(from, to, action, use_dynamic_from_value = false)
+  add_action_interpolator(from, to, interpolator, use_dynamic_from_value = false)
   {
     if (use_dynamic_from_value)
     {
-      action.from = this.__get_starting_value(to, action.attribute_name);
+      let actions = this.channels[interpolator.attribute_name];
+      if(actions.length === 0)
+      {
+        interpolator.from = this.initial_context[interpolator.attribute_name];
+      }
+      else
+      {
+        interpolator.from = actions[actions.length-1].interpolator.to;
+      }
     }
 
-    this.action_interpolators.push({
+    let action = {
       from: from,
       to: to,
-      action: action
-    });
+      interpolator: interpolator
+    };
+
+
+    this.duration = Math.max(this.duration, to);
+    this.channels[interpolator.attribute_name].push(action);
   }
 
   get_duration()
   {
-    let max_duration = 0;
-
-    for (let i = 0; i < this.action_events.length; i++)
-    {
-      max_duration = Math.max(max_duration, this.action_events[i].to);
-    }
-
-    for (let i = 0; i < this.action_interpolators.length; i++)
-    {
-      max_duration = Math.max(max_duration, this.action_interpolators[i].to);
-    }
-
-    return max_duration;
+    return this.duration;
   }
 
   __play_clips(from, to)
@@ -102,16 +112,21 @@ export default class ActionSequencer
         this.action_events[i].action.trigger(this.context);
       }
     }
+    let channel_names = Object.keys(this.initial_context);
 
-    for (let i = 0; i < this.action_interpolators.length; i++)
+    for(let i=0; i< channel_names.length; i++)
     {
-      if (this.elapsed_time >= this.action_interpolators[i].from)
-      {
-        this.tmp_t = this.__linear_map_01(this.elapsed_time, this.action_interpolators[i].from, this.action_interpolators[i].to);
-        this.tmp_t = TMath.clamp(this.tmp_t, 0, 1);
-        this.action_interpolators[i].action.update(this.context, this.tmp_t);
-      }
+      let name = channel_names[i];
+      let action = this.__get_nearest_action_interpolator(name, from);
+      this.context[name] = this.evaluate_action_interpolator(action, from);
     }
+
+  }
+
+  evaluate_action_interpolator(action_interpolator, time)
+  {
+    this.tmp_t = this.__linear_map_01(time, action_interpolator.from, action_interpolator.to);
+    return action_interpolator.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
   }
 
   __linear_map_01(value,
@@ -121,18 +136,28 @@ export default class ActionSequencer
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
   }
 
-  __get_starting_value(to_time, property_name)
+
+  __get_nearest_action_interpolator(channel_name, time)
   {
-    Object.assign(this.context, this.initial_context);
-    this.elapsed_time = to_time;
+    let closest = undefined;
+    let min_time = 9999999;
+    let actions = this.channels[channel_name];
+    for(let i=0; i < actions.length; i++)
+    {
 
-    this.__play_clips(0, this.elapsed_time + 0.001);
+      let action = actions[i];
+      let difference = Math.min(
+                            Math.abs(action.from - time), 
+                            Math.abs(action.to - time)
+                          );
 
-    let result = this.context[property_name];
-
-    Object.assign(this.context, this.initial_context);
-    this.elapsed_time = -0.00000001;
-
-    return result;
+      if(difference < min_time)
+      {
+        min_time = difference;
+        closest = action;
+      }
+    }
+    return closest
   }
+
 }

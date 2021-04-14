@@ -16,4 +16,10 @@ export default class NumberInterpolator extends ActionInterpolator
   {
     context[this.attribute_name] = TMath.lerp(this.from, this.to, this.easing_function(t));
   }
+
+  evaluate(t)
+  {
+    return TMath.lerp(this.from, this.to, this.easing_function(t));
+  }
+
 }
