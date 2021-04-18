@@ -1,6 +1,5 @@
 
 import { Math as TMath } from 'three';
-import { NumberKeyframeTrack } from 'three';
 
 export default class ActionSequencer
 {
@@ -20,7 +19,7 @@ export default class ActionSequencer
     this.channels = {};
 
     let channel_names = Object.keys(context);
-    for(let i=0; i<channel_names.length; i++)
+    for (let i = 0; i < channel_names.length; i++)
     {
       this.channels[channel_names[i]] = [];
     }
@@ -75,13 +74,19 @@ export default class ActionSequencer
     if (use_dynamic_from_value)
     {
       let actions = this.channels[interpolator.attribute_name];
-      if(actions.length === 0)
+
+      if (actions === undefined)
+      {
+        console.error(`${interpolator.attribute_name} missing in initial state data.`);
+      }
+
+      if (actions.length === 0)
       {
         interpolator.from = this.initial_context[interpolator.attribute_name];
       }
       else
       {
-        interpolator.from = actions[actions.length-1].interpolator.to;
+        interpolator.from = actions[actions.length - 1].interpolator.to;
       }
     }
 
@@ -90,7 +95,6 @@ export default class ActionSequencer
       to: to,
       interpolator: interpolator
     };
-
 
     this.duration = Math.max(this.duration, to);
     this.channels[interpolator.attribute_name].push(action);
@@ -114,13 +118,12 @@ export default class ActionSequencer
     }
     let channel_names = Object.keys(this.initial_context);
 
-    for(let i=0; i< channel_names.length; i++)
+    for (let i = 0; i < channel_names.length; i++)
     {
       let name = channel_names[i];
       let action = this.__get_nearest_action_interpolator(name, from);
       this.context[name] = this.evaluate_action_interpolator(action, from);
     }
-
   }
 
   evaluate_action_interpolator(action_interpolator, time)
@@ -136,28 +139,25 @@ export default class ActionSequencer
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
   }
 
-
   __get_nearest_action_interpolator(channel_name, time)
   {
     let closest = undefined;
     let min_time = 9999999;
     let actions = this.channels[channel_name];
-    for(let i=0; i < actions.length; i++)
+    for (let i = 0; i < actions.length; i++)
     {
-
       let action = actions[i];
       let difference = Math.min(
-                            Math.abs(action.from - time), 
-                            Math.abs(action.to - time)
-                          );
+        Math.abs(action.from - time),
+        Math.abs(action.to - time)
+      );
 
-      if(difference < min_time)
+      if (difference < min_time)
       {
         min_time = difference;
         closest = action;
       }
     }
-    return closest
+    return closest;
   }
-
 }
