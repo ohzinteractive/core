@@ -5,11 +5,12 @@ import ViewState from './ViewState';
 
 export default class ApplicationView extends ViewState
 {
-  constructor({ name, container })
+  constructor({ name, url, container })
   {
     super(name);
 
     this.container = container;
+    this.url = url;
 
     let transitions = [
       {
