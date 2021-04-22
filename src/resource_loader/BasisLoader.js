@@ -2,11 +2,10 @@ import AbstractLoader from './AbstractLoader';
 
 import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoader.js';
 import { sRGBEncoding } from 'three';
-import { WebGLRenderer } from 'three';
 
 export default class BasisLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  constructor(resource_id, url, renderer, size)
   {
     super(resource_id, url, size);
     this.loader = new BasisTextureLoader();
@@ -15,14 +14,7 @@ export default class BasisLoader extends AbstractLoader
       'libs/basis/'
     );
 
-    this.canvas = document.createElement('canvas');
-    this.canvas.getContext('webgl');
-
-    this.renderer = new WebGLRenderer({
-      canvas: this.canvas
-    });
-
-    this.loader.detectSupport(this.renderer);
+    this.loader.detectSupport(renderer);
   }
 
   on_preloaded_finished(resource_container)
