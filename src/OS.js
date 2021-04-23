@@ -57,7 +57,7 @@ class OS
 
   get is_ipad()
   {
-    return navigator.userAgent.match(/(iPad)/);
+    return (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
   }
 
   get is_mobile()
