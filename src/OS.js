@@ -52,7 +52,7 @@ class OS
 
   get is_ios()
   {
-    return navigator.userAgent.match(/(iPhone|iPod|iPad)/);
+    return navigator.userAgent.match(/(iPhone|iPod|iPad)/) || this.is_ipad;
   }
 
   get is_ipad()
