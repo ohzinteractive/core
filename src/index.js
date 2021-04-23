@@ -4,6 +4,7 @@ import ApplicationView from './view_components/ApplicationView';
 import BaseApplication from './BaseApplication';
 import BaseRender from './render_mode/BaseRender';
 import BaseShaderMaterial from './materials/BaseShaderMaterial';
+import BasisLoader from './resource_loader/BasisLoader.js';
 import BlitMaterial from './materials/BlitMaterial';
 import CameraManager from './CameraManager';
 import Capabilities from './Capabilities';
@@ -81,6 +82,7 @@ export {
   ApplicationView,
   BaseApplication,
   BaseShaderMaterial,
+  BasisLoader,
   CameraManager,
   Capabilities,
   CanvasDrawer,

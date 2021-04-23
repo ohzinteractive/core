@@ -33,9 +33,9 @@ export default class ResourceBatch
     this.resource_loaders.push(new GLTFLoader(resource_id, url, size));
   }
 
-  add_basis(resource_id, url, renderer, size)
+  add_basis(resource_id, url, renderer, loader, size)
   {
-    this.resource_loaders.push(new BasisLoader(resource_id, url, renderer, size));
+    this.resource_loaders.push(new BasisLoader(resource_id, url, renderer, loader, size));
   }
 
   add_gltf_draco(resource_id, url, size)

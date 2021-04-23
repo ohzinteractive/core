@@ -1,14 +1,16 @@
 import AbstractLoader from './AbstractLoader';
 
-import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoader.js';
 import { sRGBEncoding } from 'three';
 
 export default class BasisLoader extends AbstractLoader
 {
-  constructor(resource_id, url, renderer, size)
+  constructor(resource_id, url, renderer, loader, size)
   {
     super(resource_id, url, size);
-    this.loader = new BasisTextureLoader();
+
+    this.loader = loader;
+
+    this.loader.setWorkerLimit(1);
 
     this.loader.setTranscoderPath(
       'libs/basis/'
