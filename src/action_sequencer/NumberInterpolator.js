@@ -21,5 +21,4 @@ export default class NumberInterpolator extends ActionInterpolator
   {
     return TMath.lerp(this.from, this.to, this.easing_function(t));
   }
-
 }
