@@ -27,36 +27,37 @@ export default class DrawIOAnimationSheet
 
       let data = parent_node.getAttribute('value');
 
-      if (data.includes(' '))
+      let valid_element = parent_node.getAttribute('style').includes('rounded=0;') &&
+                           !parent_node.getAttribute('style').includes('text;');
+
+      if (valid_element && data !== '' && !data.includes(' '))
       {
-        console.error('DrawIO data is malformed:', data);
+        let split_data = data.split('=');
+
+        let attribute_name = split_data[0];
+
+        let value_data = split_data[1].split('--');
+        let to_value = parseFloat(value_data[0]);
+        let easing_function = value_data[1];
+
+        if (split_data.length !== 2)
+        {
+          console.error('DrawIO data is malformed:', data);
+        }
+
+        if (value_data.length !== 2)
+        {
+          console.error('DrawIO data is malformed:', data);
+        }
+
+        animation_tracks.push({
+          attribute_name: attribute_name,
+          from_time: from,
+          to_time: to,
+          to_value: to_value,
+          easing_function: easing_function
+        });
       }
-
-      let split_data = data.split('=');
-
-      let attribute_name = split_data[0];
-
-      let value_data = split_data[1].split('--');
-      let to_value = parseFloat(value_data[0]);
-      let easing_function = value_data[1];
-
-      if (split_data.length !== 2)
-      {
-        console.error('DrawIO data is malformed:', data);
-      }
-
-      if (value_data.length !== 2)
-      {
-        console.error('DrawIO data is malformed:', data);
-      }
-
-      animation_tracks.push({
-        attribute_name: attribute_name,
-        from_time: from,
-        to_time: to,
-        to_value: to_value,
-        easing_function: easing_function
-      });
     }
 
     animation_tracks.sort((a, b) =>
