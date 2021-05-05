@@ -50,7 +50,7 @@ class Graphics
       this.is_webgl2 = false;
     }
 
-    console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
+    // console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
 
     this._renderer = new WebGLRenderer({
       canvas: canvas,
@@ -95,7 +95,7 @@ class Graphics
 
   set_state(new_state)
   {
-    console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
+    // console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
 
     this.current_render_mode.on_exit(this, this._renderer);
     this.current_render_mode = new_state;
