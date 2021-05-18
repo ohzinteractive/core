@@ -1,6 +1,5 @@
 import { Mesh } from 'three';
 import { BufferGeometry } from 'three';
-import { Geometry } from 'three';
 import { Skeleton } from 'three';
 
 class ModelUtilities
@@ -11,7 +10,7 @@ class ModelUtilities
     {
       if (child instanceof Mesh)
       {
-        if (child.geometry instanceof Geometry)
+        if (child.geometry)
         {
           child.geometry = new BufferGeometry().fromGeometry(child.geometry);
         }
