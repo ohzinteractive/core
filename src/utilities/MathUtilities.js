@@ -20,6 +20,11 @@ export default class MathUtilities
     return (value >= min && value <= max);
   }
 
+  static mod(number, divisor)
+  {
+    return ((number % divisor) + divisor) % divisor;
+  }
+
   static rgb_to_hex(rgb)
   {
     rgb.r = Math.round(rgb.r * 255).toString(16);
