@@ -34,23 +34,24 @@ class Graphics
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
       powerPreference: 'high-performance',
-      logarithmicDepthBuffer: false,
-      force_webgl2: false
+      logarithmicDepthBuffer: false
     };
 
-    if (this.context_attributes.force_webgl2)
+    if (context_attributes.force_webgl2)
     {
-      this.canvas_context = canvas.getContext('webgl2', this.context_attributes);
-      this.is_webgl2 = canvas.getContext('webgl2');
+      this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
+                            canvas.getContext('webgl', this.context_attributes) ||
+                            canvas.getContext('experimental-webgl', this.context_attributes);
     }
     else
     {
       this.canvas_context = canvas.getContext('webgl', this.context_attributes) ||
-                          canvas.getContext('experimental-webgl', this.context_attributes);
-      this.is_webgl2 = false;
+                            canvas.getContext('experimental-webgl', this.context_attributes);
     }
 
-    // console.log(`Using Webgl ${this.is_webgl2 ? 2 : 1}`);
+    this.is_webgl2 = this.canvas_context.constructor.name === 'WebGL2RenderingContext';
+
+    alert(`Using WebGL ${this.is_webgl2 ? 2 : 1}`);
 
     this._renderer = new WebGLRenderer({
       canvas: canvas,
