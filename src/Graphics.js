@@ -51,7 +51,7 @@ class Graphics
 
     this.is_webgl2 = this.canvas_context.constructor.name === 'WebGL2RenderingContext';
 
-    alert(`Using WebGL ${this.is_webgl2 ? 2 : 1}`);
+    console.log(`Using WebGL ${this.is_webgl2 ? 2 : 1}`);
 
     this._renderer = new WebGLRenderer({
       canvas: canvas,
