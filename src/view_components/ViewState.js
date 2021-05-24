@@ -17,6 +17,10 @@ export default class ViewState
   {
   }
 
+  before_enter()
+  {
+  }
+
   on_enter()
   {
   }
@@ -26,6 +30,10 @@ export default class ViewState
   }
 
   update_transition(global_view_data, transition_progress)
+  {
+  }
+
+  before_exit()
   {
   }
 
