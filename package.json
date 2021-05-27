@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/ohzinteractive/core#readme",
   "dependencies": {
-    "pit-js": "^1.4.1",
+    "pit-js": "^1.4.2",
     "three": "^0.123.0"
   },
   "devDependencies": {
