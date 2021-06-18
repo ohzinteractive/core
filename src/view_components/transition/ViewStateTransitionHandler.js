@@ -42,7 +42,11 @@ export default class ViewStateTransitionHandler
       {
         this.transitioning = false;
 
-        this.last_state.hide();
+        if (this.last_state.name !== this.current_state.name)
+        {
+          this.last_state.hide();
+        }
+
         this.last_state.on_exit();
         this.current_state.on_enter();
       }
