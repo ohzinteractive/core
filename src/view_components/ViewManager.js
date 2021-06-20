@@ -16,10 +16,10 @@ class ViewManager
     this.transition_handler.update();
   }
 
-  go_to_view(view_name, change_url = true)
+  go_to_view(view_name, change_url = true, skip = false)
   {
     let v = this.get_view_by_name(view_name);
-    this.transition_handler.go_to_state(v);
+    this.transition_handler.go_to_state(v, skip);
 
     if (change_url)
     {

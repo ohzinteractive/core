@@ -16,7 +16,7 @@ export default class ViewStateTransitionHandler
     this.transitioning = false;
   }
 
-  go_to_state(state)
+  go_to_state(state, skip = false)
   {
     this.last_state = this.current_state;
     this.current_state = state;
@@ -29,6 +29,12 @@ export default class ViewStateTransitionHandler
     this.action_sequencer.play();
 
     this.transitioning = true;
+
+    if (skip)
+    {
+      this.action_sequencer.skip();
+      this.update();
+    }
   }
 
   update()
