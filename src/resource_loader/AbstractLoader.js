@@ -50,7 +50,15 @@ export default class AbstractLoader
 
   load(resource_container)
   {
-    fetch(this.url).then(this.on_progress.bind(this, resource_container));
+    fetch(this.url, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      redirect: 'follow' // manual, *follow, error
+    })
+      .then(this.on_progress.bind(this, resource_container))
+      .catch(this.__on_error.bind(this));
   }
 
   async on_progress(resource_container, response)
@@ -83,5 +91,10 @@ export default class AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
+  }
+
+  __on_error(data)
+  {
+    console.error(data);
   }
 }
