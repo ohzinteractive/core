@@ -28,9 +28,15 @@ export default class ApplicationView extends ViewState
     this.container.classList.remove('hidden');
   }
 
+  before_exit()
+  {
+    this.container.classList.add('hidding');
+  }
+
   hide()
   {
     this.container.classList.add('hidden');
+    this.container.classList.remove('hidding');
   }
 
   set_opacity(opacity)
