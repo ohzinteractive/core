@@ -1,5 +1,5 @@
+import OS from '../OS';
 import Validation from '../utilities/Validation';
-import { OS } from 'ohzi-core';
 
 export default class AbstractLoader
 {
@@ -13,8 +13,6 @@ export default class AbstractLoader
     this.has_finished = false;
     this.has_error = false;
     this.error_message = 'none';
-
-    this.is_safari = OS.is_safari;
   }
 
   __update_downloaded_bytes(loaded, total)
@@ -53,7 +51,7 @@ export default class AbstractLoader
 
   load(resource_container)
   {
-    const cache = this.is_safari ? 'no-cache' : 'default';
+    const cache = OS.is_safari ? 'no-cache' : 'default';
 
     fetch(this.url, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
