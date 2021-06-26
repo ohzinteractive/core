@@ -26,22 +26,28 @@ export default class ApplicationView extends ViewState
   show()
   {
     this.container.classList.add('before_enter');
+    this.container.classList.remove('before_exit');
     this.container.classList.remove('hidden');
   }
 
   on_enter()
   {
     this.container.classList.remove('before_enter');
+    this.container.classList.remove('before_exit');
+    this.container.classList.remove('hidden');
   }
 
   before_exit()
   {
     this.container.classList.add('before_exit');
+    this.container.classList.remove('before_enter');
+    this.container.classList.remove('hidden');
   }
 
   hide()
   {
     this.container.classList.add('hidden');
+    this.container.classList.remove('before_enter');
     this.container.classList.remove('before_exit');
   }
 
