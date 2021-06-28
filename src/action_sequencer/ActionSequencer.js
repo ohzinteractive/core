@@ -79,31 +79,43 @@ export default class ActionSequencer
   {
     if (use_dynamic_from_value)
     {
-      let actions = this.channels[interpolator.attribute_name];
+      let keyframes = this.channels[interpolator.attribute_name];
 
-      if (actions === undefined)
+      if (keyframes === undefined)
       {
         console.error(`${interpolator.attribute_name} missing in initial state data.`);
       }
 
-      if (actions.length === 0)
+      if (keyframes.length === 0)
       {
         interpolator.from = this.initial_context[interpolator.attribute_name];
       }
       else
       {
-        interpolator.from = actions[actions.length - 1].interpolator.to;
+        interpolator.from = keyframes[keyframes.length - 1].interpolator.to;
       }
     }
 
-    let action = {
+    let keyframe = {
       from: from,
       to: to,
       interpolator: interpolator
     };
 
     this.duration = Math.max(this.duration, to);
-    this.channels[interpolator.attribute_name].push(action);
+    this.channels[interpolator.attribute_name].push(keyframe);
+  }
+
+  get_property_target_value(name)
+  {
+    let keyframe = this.__get_nearest_keyframe(name, this.elapsed_time);
+
+    if (this.elapsed_time < keyframe.from)
+    {
+      return keyframe.interpolator.evaluate(0);
+    }
+
+    return keyframe.interpolator.evaluate(1);
   }
 
   get_duration()
@@ -127,15 +139,15 @@ export default class ActionSequencer
     for (let i = 0; i < channel_names.length; i++)
     {
       let name = channel_names[i];
-      let action = this.__get_nearest_action_interpolator(name, from);
-      this.context[name] = this.evaluate_action_interpolator(action, from);
+      let keyframe = this.__get_nearest_keyframe(name, from);
+      this.context[name] = this.evaluate_keyframe(keyframe, from);
     }
   }
 
-  evaluate_action_interpolator(action_interpolator, time)
+  evaluate_keyframe(keyframe, time)
   {
-    this.tmp_t = this.__linear_map_01(time, action_interpolator.from, action_interpolator.to);
-    return action_interpolator.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
+    this.tmp_t = this.__linear_map_01(time, keyframe.from, keyframe.to);
+    return keyframe.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
   }
 
   __linear_map_01(value,
@@ -145,23 +157,23 @@ export default class ActionSequencer
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
   }
 
-  __get_nearest_action_interpolator(channel_name, time)
+  __get_nearest_keyframe(channel_name, time)
   {
     let closest = undefined;
     let min_time = 9999999;
-    let actions = this.channels[channel_name];
-    for (let i = 0; i < actions.length; i++)
+    let keyframes = this.channels[channel_name];
+    for (let i = 0; i < keyframes.length; i++)
     {
-      let action = actions[i];
+      let keyframe = keyframes[i];
       let difference = Math.min(
-        Math.abs(action.from - time),
-        Math.abs(action.to - time)
+        Math.abs(keyframe.from - time),
+        Math.abs(keyframe.to - time)
       );
 
       if (difference < min_time)
       {
         min_time = difference;
-        closest = action;
+        closest = keyframe;
       }
     }
     return closest;
