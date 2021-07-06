@@ -42,7 +42,8 @@ export default class ViewStateTransitionHandler
     if (this.transitioning)
     {
       this.action_sequencer.update(Time.delta_time);
-      this.current_state.update_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+      this.last_state.update_exit_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+      this.current_state.update_enter_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
 
       if (this.action_sequencer.is_finished())
       {
