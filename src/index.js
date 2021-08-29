@@ -70,6 +70,8 @@ import VectorInterpolator from './action_sequencer/VectorInterpolator';
 
 import MedianFilter from './render_utilities/MedianFilter';
 import GaussianBlurrer from './render_utilities/GaussianBlurrer';
+import DualFilteringBlurrer from './render_utilities/DualFilteringBlurrer';
+
 import Blurrer from './render_utilities/Blurrer';
 
 import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
@@ -145,6 +147,7 @@ export {
   MedianFilter,
   GaussianBlurrer,
   Blurrer,
+  DualFilteringBlurrer,
 
   GPUParticleSystem,
   PerspectiveFrustumPointFitter,
