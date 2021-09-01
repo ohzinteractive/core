@@ -9,11 +9,11 @@ export default class DualFilteringBlurrer
   {
     this.current_width  = 1;
     this.current_height = 1;
-    this.RT0 = new WebGLRenderTarget(1,1);
-    this.RT1 = new WebGLRenderTarget(1,1);
-    this.RT2 = new WebGLRenderTarget(1,1);
-    this.RT3 = new WebGLRenderTarget(1,1);
-    this.RT4 = new WebGLRenderTarget(1,1);
+    this.RT0 = new WebGLRenderTarget(1, 1);
+    this.RT1 = new WebGLRenderTarget(1, 1);
+    this.RT2 = new WebGLRenderTarget(1, 1);
+    this.RT3 = new WebGLRenderTarget(1, 1);
+    this.RT4 = new WebGLRenderTarget(1, 1);
 
     this.upscale_blur_mat   = new DualFilteringBlurMaterial(true);
     this.downscale_blur_mat = new DualFilteringBlurMaterial(false);
@@ -45,7 +45,7 @@ export default class DualFilteringBlurrer
   {
     if (this.current_width !== width || this.current_height !== height)
     {
-      console.log("resize");
+      console.log('resize');
       this.current_width = width;
       this.current_height = height;
       this.RT0.setSize(this.current_width / 2, this.current_height / 2);
