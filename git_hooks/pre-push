@@ -26,12 +26,7 @@ published_version="v"$published_version
 if [ "$version" != "$published_version" ]
 then
 	echo "New version founded!"
-	echo "Compiling ..."
-	yarn build
-	echo "Publishing ..."
-	yarn publish
-	echo "Creating tag ..."
-	yarn create-tag
+	yarn build && echo "Publishing ..." && npm publish && echo "Creating tag ..." && yarn create-tag
 fi
 
 exit 0
