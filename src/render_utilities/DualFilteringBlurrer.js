@@ -7,14 +7,13 @@ export default class DualFilteringBlurrer
 {
   constructor(use_alpha_mask)
   {
-    this.native_width = Screen.render_width;
-    this.native_height = Screen.render_height;
-
-    this.RT0 = new WebGLRenderTarget(this.native_width / 2, this.native_height / 2);
-    this.RT1 = new WebGLRenderTarget(this.native_width / 2, this.native_height / 2);
-    this.RT2 = new WebGLRenderTarget(this.native_width / 4, this.native_height / 4);
-    this.RT3 = new WebGLRenderTarget(this.native_width / 8, this.native_height / 8);
-    this.RT4 = new WebGLRenderTarget(this.native_width / 16, this.native_height / 16);
+    this.current_width  = 1;
+    this.current_height = 1;
+    this.RT0 = new WebGLRenderTarget(1,1);
+    this.RT1 = new WebGLRenderTarget(1,1);
+    this.RT2 = new WebGLRenderTarget(1,1);
+    this.RT3 = new WebGLRenderTarget(1,1);
+    this.RT4 = new WebGLRenderTarget(1,1);
 
     this.upscale_blur_mat   = new DualFilteringBlurMaterial(true);
     this.downscale_blur_mat = new DualFilteringBlurMaterial(false);
@@ -24,7 +23,7 @@ export default class DualFilteringBlurrer
 
   blur(RT)
   {
-    this.check_screen_resize();
+    this.check_RT_resize(RT.width, RT.height);
     Graphics.blit(RT,       this.RT1, this.alpha_filter_mat);
 
     // Graphics.blit(this.RT0, this.RT1, this.downscale_blur_mat);
@@ -42,17 +41,18 @@ export default class DualFilteringBlurrer
     // return this.RT2;
   }
 
-  check_screen_resize()
+  check_RT_resize(width, height)
   {
-    if (Screen.render_width !== this.native_width || Screen.render_height !== this.native_height)
+    if (this.current_width !== width || this.current_height !== height)
     {
-      this.native_width = Screen.render_width;
-      this.native_height = Screen.render_height;
-      this.RT0.setSize(this.native_width / 2, this.native_height / 2);
-      this.RT1.setSize(this.native_width / 2, this.native_height / 2);
-      this.RT2.setSize(this.native_width / 4, this.native_height / 4);
-      this.RT3.setSize(this.native_width / 8, this.native_height / 8);
-      this.RT4.setSize(this.native_width / 16, this.native_height / 16);
+      console.log("resize");
+      this.current_width = width;
+      this.current_height = height;
+      this.RT0.setSize(this.current_width / 2, this.current_height / 2);
+      this.RT1.setSize(this.current_width / 2, this.current_height / 2);
+      this.RT2.setSize(this.current_width / 4, this.current_height / 4);
+      this.RT3.setSize(this.current_width / 8, this.current_height / 8);
+      this.RT4.setSize(this.current_width / 16, this.current_height / 16);
     }
   }
 }
