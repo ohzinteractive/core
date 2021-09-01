@@ -1,7 +1,6 @@
 import DualFilteringBlurMaterial from '../materials/DualFilteringBlurMaterial';
 import AlphaFilterMaterial from '../materials/AlphaFilterMaterial';
 import Graphics from '../Graphics';
-import Screen from '../Screen';
 import { WebGLRenderTarget } from 'three';
 export default class DualFilteringBlurrer
 {
@@ -45,7 +44,6 @@ export default class DualFilteringBlurrer
   {
     if (this.current_width !== width || this.current_height !== height)
     {
-      console.log('resize');
       this.current_width = width;
       this.current_height = height;
       this.RT0.setSize(this.current_width / 2, this.current_height / 2);
