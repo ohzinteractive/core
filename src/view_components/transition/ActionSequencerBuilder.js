@@ -1,5 +1,6 @@
 import ActionSequencer from '../../action_sequencer/ActionSequencer';
 import NumberInterpolator from '../../action_sequencer/NumberInterpolator';
+import ActionEvent from '../../action_sequencer/ActionEvent';
 
 export default class ActionSequencerBuilder
 {
@@ -8,8 +9,11 @@ export default class ActionSequencerBuilder
     this.initial_state_data = initial_state_data;
   }
 
-  from_animation_sheet(tracks, current_context)
+  from_animation_sheet(animation_data, current_context)
   {
+    let tracks = animation_data.animation_tracks;
+    let triggers = animation_data.triggers;
+
     let initial_tracks = this.state_to_tracks(this.initial_state_data);
 
     for (let i = 0; i < initial_tracks.length; i++)
@@ -27,6 +31,13 @@ export default class ActionSequencerBuilder
       let t = tracks[i];
       let interpolator = new NumberInterpolator(t.attribute_name, current_context[t.attribute_name], t.to_value, t.easing_function);
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
+    }
+
+    for(let i=0; i< triggers.length; i++)
+    {
+      let t = triggers[i];
+      let action_event = new ActionEvent(t.name, t.method);
+      sequencer.add_action_event(t.at_time, action_event);
     }
 
     return sequencer;

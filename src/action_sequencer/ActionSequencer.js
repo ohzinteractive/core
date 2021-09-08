@@ -73,6 +73,9 @@ export default class ActionSequencer
       trigger_time: trigger_time,
       action: action
     });
+
+    this.duration = Math.max(this.duration, trigger_time);
+    
   }
 
   add_action_interpolator(from, to, interpolator, use_dynamic_from_value = false)
@@ -131,7 +134,7 @@ export default class ActionSequencer
           this.action_events[i].trigger_time < to)
       {
         // console.log("Play event: " + this.action_events[i].action.constructor.name + " at "+  this.action_events[i].trigger_time);
-        this.action_events[i].action.trigger(this.context);
+        this.action_events[i].action.trigger();
       }
     }
     let channel_names = Object.keys(this.initial_context);

@@ -37,6 +37,7 @@ import UI from './UI';
 import ViewComponent from './view_components/ViewComponent';
 import ViewComponentManager from './view_components/ViewComponentManager';
 import ViewManager from './view_components/ViewManager';
+import ViewContext from './view_components/ViewContext';
 import TransitionTable from './view_components/transition/TransitionTable';
 
 import ArrayUtilities from './utilities/ArrayUtilities';
@@ -143,6 +144,7 @@ export {
   ActionInterpolator,
   NumberInterpolator,
   VectorInterpolator,
+  ViewContext,
 
   MedianFilter,
   GaussianBlurrer,
