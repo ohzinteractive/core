@@ -75,7 +75,6 @@ export default class ActionSequencer
     });
 
     this.duration = Math.max(this.duration, trigger_time);
-    
   }
 
   add_action_interpolator(from, to, interpolator, use_dynamic_from_value = false)

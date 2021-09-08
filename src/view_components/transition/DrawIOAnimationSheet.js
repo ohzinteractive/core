@@ -20,14 +20,13 @@ export default class DrawIOAnimationSheet
       let parent_node = node.parentElement;
       let data = parent_node.getAttribute('value');
 
-
       let x_pos = this.get_node_x_position(node);
 
       let from = x_pos / 100;
       let duration = parseFloat(node.getAttribute('width')) / 100;
 
-      //is trigger
-      if(parent_node.getAttribute('style').includes('rhombus;'))
+      // is trigger
+      if (parent_node.getAttribute('style').includes('rhombus;'))
       {
         let split_data = data.split('.');
         let trigger_name = split_data[0];
@@ -36,14 +35,9 @@ export default class DrawIOAnimationSheet
         triggers.push({
           name: trigger_name,
           method: trigger_method,
-          at_time: from + duration*0.5
-        })
+          at_time: from + duration * 0.5
+        });
       }
-
-
-      
-
-
 
       let valid_element = parent_node.getAttribute('style').includes('rounded=0;') &&
                            !parent_node.getAttribute('style').includes('text;');
@@ -71,7 +65,7 @@ export default class DrawIOAnimationSheet
         animation_tracks.push({
           attribute_name: attribute_name,
           from_time: from,
-          to_time: from+duration,
+          to_time: from + duration,
           to_value: to_value,
           easing_function: easing_function
         });
@@ -93,5 +87,4 @@ export default class DrawIOAnimationSheet
     let x_pos = node.getAttribute('x');
     return x_pos === null ? 0 : parseFloat(x_pos);
   }
-
 }

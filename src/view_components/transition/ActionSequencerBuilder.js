@@ -33,7 +33,7 @@ export default class ActionSequencerBuilder
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
     }
 
-    for(let i=0; i< triggers.length; i++)
+    for (let i = 0; i < triggers.length; i++)
     {
       let t = triggers[i];
       let action_event = new ActionEvent(t.name, t.method);
