@@ -18,7 +18,7 @@ class ViewManager
 
   go_to_view(view_name, change_url = true, skip = false)
   {
-    let v = this.get_view_by_name(view_name);
+    let v = this.get(view_name);
     this.transition_handler.go_to_state(v, skip);
 
     if (change_url)
@@ -56,7 +56,7 @@ class ViewManager
 
   set_view(view_name)
   {
-    let view = this.get_view_by_name(view_name);
+    let view = this.get(view_name);
 
     this.transition_handler.set_state(view);
   }
@@ -68,6 +68,12 @@ class ViewManager
 
   get_view_by_name(view_name)
   {
+    console.warn('DEPRECATED. Use ViewManager.get instead');
+    this.get(view_name);
+  }
+
+  get(view_name)
+  {
     for (let i = 0; i < this.views.length; i++)
     {
       if (this.views[i].name === view_name)
@@ -75,11 +81,17 @@ class ViewManager
         return this.views[i];
       }
     }
-    console.error('get_view_by_name no view found for: ', view_name);
+    console.error('[ViewManager.get] no view found for: ', view_name);
     return undefined;
   }
 
   get_view_by_url(url)
+  {
+    console.warn('DEPRECATED. Use ViewManager.get_by_url instead');
+    this.get_by_url(url);
+  }
+
+  get_by_url(url)
   {
     for (let i = 0; i < this.views.length; i++)
     {
@@ -88,7 +100,7 @@ class ViewManager
         return this.views[i];
       }
     }
-    console.error('get_view_by_name no view found for: ', url);
+    console.error('[ViewManager.get_by_url] no view found for: ', url);
     return undefined;
   }
 

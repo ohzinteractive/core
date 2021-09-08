@@ -2,22 +2,22 @@ import ViewComponentManager from './ViewComponentManager';
 
 export default class ViewComponent
 {
-  constructor(name)
+  constructor({ name, container })
   {
     this.name = name;
-    this.container = undefined;
+    this.container = container;
 
     ViewComponentManager.register_component(this);
   }
 
-  start(container)
+  start()
   {
-    this.container = container;
   }
 
   on_enter()
   {
     this.container.classList.remove('hidden');
+    ViewComponentManager.enable_component(this);
   }
 
   update()
@@ -27,6 +27,7 @@ export default class ViewComponent
   on_exit()
   {
     this.container.classList.add('hidden');
+    ViewComponentManager.disable_component(this);
   }
 
   set_opacity(opacity)

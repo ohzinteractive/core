@@ -10,6 +10,6 @@ export default class ActionEvent
 
   trigger()
   {
-    ViewContext.properties[this.name][this.method]();
+    ViewContext.app[this.name][this.method]();
   }
 }

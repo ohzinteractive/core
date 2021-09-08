@@ -2,12 +2,12 @@ class ViewContext
 {
   constructor()
   {
-    this.properties = {};
+    this.app = undefined;
   }
 
-  add_property(name, p)
+  set_app(app)
   {
-    this.properties[name] = p;
+    this.app = app;
   }
 }
 
