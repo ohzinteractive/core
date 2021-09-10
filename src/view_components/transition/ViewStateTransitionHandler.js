@@ -49,6 +49,10 @@ export default class ViewStateTransitionHandler
       {
         this.transitioning = false;
 
+        this.action_sequencer.update(Time.delta_time);
+        this.last_state.update_exit_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+        this.current_state.update_enter_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+
         if (this.last_state.name !== this.current_state.name)
         {
           this.last_state.hide();

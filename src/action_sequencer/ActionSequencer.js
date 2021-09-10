@@ -52,8 +52,8 @@ export default class ActionSequencer
   {
     if (this.playing)
     {
-      this.elapsed_time = this.elapsed_time + delta_time;
       this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time);
+      this.elapsed_time = this.elapsed_time + delta_time;
     }
   }
 
