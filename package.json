@@ -15,8 +15,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
-    "build": "standardx --fix && rollup -c",
-    "update-version": "cross-var echo \"v$npm_package_version\" > .version"
+    "build": "rollup -c",
+    "update-version": "cross-var echo \"v$npm_package_version\" > .version",
+    "fix-syntax": "standardx --fix"
   },
   "repository": {
     "type": "git",

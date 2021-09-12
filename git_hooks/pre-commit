@@ -7,5 +7,4 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
-yarn update-version
-git add .
+yarn fix-syntax && yarn update-version && git add .
