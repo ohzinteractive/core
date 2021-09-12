@@ -142,6 +142,24 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
+  render_scene(scene)
+  {
+    if (scene.on_before_render)
+    {
+      scene.on_before_render();
+    }
+
+    if (scene.render)
+    {
+      scene.render();
+    }
+
+    if (scene.on_post_render)
+    {
+      scene.on_post_render();
+    }
+  }
+
   __apply_override_material(scene, mat)
   {
     mat = mat === undefined ? null : mat;

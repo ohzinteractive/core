@@ -17,9 +17,11 @@ import { Vector4 } from 'three';
 import { Mesh } from 'three';
 import { Box3 } from 'three';
 import { Box3Helper } from 'three';
+import { Scene } from 'three';
 import { CatmullRomCurve3 } from 'three';
 import { SphereGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
+import PerspectiveCamera from './PerspectiveCamera';
 
 class Debug
 {
@@ -32,6 +34,9 @@ class Debug
     this.display_texture_meshes = [];
 
     this.ctx = undefined;
+    this.scene = new Scene();
+    this.camera = new PerspectiveCamera();
+    // this.camera.clear_alpha = 0;
   }
 
   draw_arrow(origin, dir, color = 0xff0000)
@@ -233,17 +238,21 @@ class Debug
   {
     let mesh = new Mesh(new PlaneBufferGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);
-    SceneManager.current.add(mesh);
+    this.scene.add(mesh);
 
     mesh.material.set_texture(tex, w, h);
     return mesh;
   }
 
-  render()
+  render(graphics)
   {
     for (let i = 0; i < this.display_texture_meshes.length; i++)
     {
       this.display_texture_meshes[i].material.set_screen_size(Screen.width, Screen.height);
+    }
+    if (this.scene.children.length > 0)
+    {
+      graphics.render(this.scene, this.camera);
     }
   }
 }

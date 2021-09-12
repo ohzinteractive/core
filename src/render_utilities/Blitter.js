@@ -44,8 +44,8 @@ export default class Blitter
   material_pass(mat, dst)
   {
     this._blit_quad.material = mat;
-    this._blit_quad.material.uniforms._MainTex.value = undefined;
-    this._blit_quad.material.uniforms._Resolution.value.set(1, 1);
+    // this._blit_quad.material.uniforms._MainTex.value = undefined;
+    // this._blit_quad.material.uniforms._Resolution.value.set(1, 1);
 
     this.__render(dst);
   }

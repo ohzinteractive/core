@@ -14,6 +14,23 @@ export default class NormalRender extends BaseRender
   {
     Graphics.clear(undefined, CameraManager.current, true, true);
 
-    Graphics.render(SceneManager.current, CameraManager.current);
+    if (SceneManager.current.on_pre_render)
+    {
+      SceneManager.current.on_pre_render();
+    }
+
+    if (SceneManager.current.render)
+    {
+      SceneManager.current.render();
+    }
+    else
+    {
+      Graphics.render(SceneManager.current, CameraManager.current);
+    }
+
+    if (SceneManager.current.on_post_render)
+    {
+      SceneManager.current.on_post_render();
+    }
   }
 }

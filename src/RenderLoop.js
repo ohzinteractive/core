@@ -8,14 +8,14 @@ import ViewComponentManager from './view_components/ViewComponentManager';
 
 export default class RenderLoop
 {
-  constructor(target_application, renderer)
+  constructor(target_application, graphics)
   {
     target_application = target_application || new BaseApplication();
 
     this._frame_id = -1;
 
     this.target_application = target_application;
-    this.renderer = renderer;
+    this.graphics = graphics;
 
     this.is_running = false;
     this.frames_passed = 0;
@@ -41,12 +41,12 @@ export default class RenderLoop
 
     this.target_application.on_pre_render();
 
-    this.renderer.update();     // render scene
+    this.graphics.update();     // render scene
     UI.update();                // update after new camera matrix has been calculated
-    UI.render(this.renderer);   // render ui layer on top
-    Debug.render();             // render debug layer
-
+    UI.render(this.graphics);   // render ui layer on top
     this.target_application.on_post_render();
+
+    Debug.render(this.graphics);             // render debug layer
 
     // ###### END  CYCLE #######
     Input.clear();
@@ -61,7 +61,7 @@ export default class RenderLoop
   {
     if (this.is_running) return; // sanity check
 
-    this.renderer.check_for_resize();
+    this.graphics.check_for_resize();
 
     if (this.frames_passed === 0)
     {
