@@ -50,6 +50,7 @@ import MathUtilities from './utilities/MathUtilities';
 import MeshSampler from './utilities/MeshSampler';
 import ModelUtilities from './utilities/ModelUtilities';
 import ObjectUtilities from './utilities/ObjectUtilities';
+import StringUtilities from './utilities/StringUtilities';
 import TimeUtilities from './utilities/TimeUtilities';
 import Validation from './utilities/Validation';
 import PerspectiveFrustumPointFitter from './utilities/PerspectiveFrustumPointFitter';
@@ -126,6 +127,7 @@ export {
   MeshSampler,
   ModelUtilities,
   ObjectUtilities,
+  StringUtilities,
   TimeUtilities,
   Validation,
   ViewComponent,
