@@ -19,7 +19,7 @@ export default class RGBETextureLoader extends AbstractLoader
 
     this.loader.load(this.url, (hdr) =>
     {
-      resource_container.set_resource(ctx.resource_id, hdr);
+      resource_container.set_resource(ctx.resource_id, ctx.url, hdr);
 
       ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();

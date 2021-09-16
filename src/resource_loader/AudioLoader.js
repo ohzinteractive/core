@@ -19,7 +19,7 @@ export default class AudioLoader extends AbstractLoader
 
     this.loader.load(this.url, (buffer) =>
     {
-      resource_container.set_resource(ctx.resource_id, new AudioClip(buffer, this.loop, this.volume));
+      resource_container.set_resource(ctx.resource_id, ctx.url, new AudioClip(buffer, this.loop, this.volume));
 
       ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();

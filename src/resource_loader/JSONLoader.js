@@ -17,7 +17,7 @@ export default class JSONLoader extends AbstractLoader
 
     this.loader.load(this.url, (data) =>
     {
-      resource_container.set_resource(ctx.resource_id, JSON.parse(data));
+      resource_container.set_resource(ctx.resource_id, ctx.url, JSON.parse(data));
 
       ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();

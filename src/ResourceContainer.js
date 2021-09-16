@@ -5,11 +5,23 @@ class ResourceContainer
   init()
   {
     this.resources = {};
+    this.resources_by_url = {};
   }
 
-  set_resource(name, resource)
+  set_resource(name, url, resource)
   {
-    this.resources[name] = resource;
+    const urls = Object.keys(this.resources_by_url);
+
+    if (urls.includes(url))
+    {
+      this.resources[name] = this.resources_by_url[url];
+    }
+    else
+    {
+      this.resources[name] = resource;
+      this.resources_by_url[url] = resource;
+    }
+
     EventManager.fire_resource_loaded({ name: name, value: resource });
   }
 

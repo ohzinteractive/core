@@ -20,7 +20,7 @@ export default class HDRCubeTextureLoader extends AbstractLoader
       .setDataType(UnsignedByteType)
       .load(this.url_suffix, (hdr) =>
       {
-        resource_container.set_resource(ctx.resource_id, hdr);
+        resource_container.set_resource(ctx.resource_id, ctx.url, hdr);
 
         ctx.__update_downloaded_bytes(1, 1);
         ctx.__loading_ended();

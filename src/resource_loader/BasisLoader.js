@@ -27,7 +27,7 @@ export default class BasisLoader extends AbstractLoader
     {
       basis.encoding = sRGBEncoding;
 
-      resource_container.set_resource(ctx.resource_id, basis);
+      resource_container.set_resource(ctx.resource_id, ctx.url, basis);
 
       ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();

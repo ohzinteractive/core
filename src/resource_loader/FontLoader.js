@@ -16,7 +16,7 @@ export default class FontLoader extends AbstractLoader
 
     this.loader.load(this.url, (font) =>
     {
-      resource_container.set_resource(ctx.resource_id, font);
+      resource_container.set_resource(ctx.resource_id, ctx.url, font);
 
       ctx.__update_downloaded_bytes(1, 1);
       ctx.__loading_ended();
