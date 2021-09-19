@@ -57,6 +57,18 @@ export default class ActionSequencer
     }
   }
 
+  set_progress(time)
+  {
+    this.elapsed_time = TMath.clamp(time, 0, this.duration);
+    this.__play_clips(this.elapsed_time, this.elapsed_time);
+  }
+
+  set_normalized_progress(t)
+  {
+    this.elapsed_time = TMath.clamp(t, 0, 1) * this.duration;
+    this.__play_clips(this.elapsed_time, this.elapsed_time);
+  }
+
   get_progress()
   {
     return TMath.clamp(this.elapsed_time / this.get_duration(), 0, 1);

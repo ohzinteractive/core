@@ -1,6 +1,7 @@
 import ActionSequencer from '../../action_sequencer/ActionSequencer';
 import NumberInterpolator from '../../action_sequencer/NumberInterpolator';
 import ActionEvent from '../../action_sequencer/ActionEvent';
+import DrawIOAnimationSheet from './DrawIOAnimationSheet';
 
 export default class ActionSequencerBuilder
 {
@@ -9,8 +10,9 @@ export default class ActionSequencerBuilder
     this.initial_state_data = initial_state_data;
   }
 
-  from_animation_sheet(animation_data, current_context)
+  from_animation_sheet(animation_data, current_context, initial_context)
   {
+    initial_context = initial_context || this.initial_state_data;
     let tracks = animation_data.animation_tracks;
     let triggers = animation_data.triggers;
 
@@ -61,5 +63,29 @@ export default class ActionSequencerBuilder
     }
 
     return tracks;
+  }
+
+  from_draw_io(xml, context)
+  {
+    let transition_data = (new DrawIOAnimationSheet()).parse(xml);
+    let tracks = transition_data.animation_tracks;
+    let triggers = transition_data.triggers;
+    let sequencer = new ActionSequencer(context);
+
+    for (let i = 0; i < tracks.length; i++)
+    {
+      let t = tracks[i];
+      let interpolator = new NumberInterpolator(t.attribute_name, context[t.attribute_name], t.to_value, t.easing_function);
+      sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
+    }
+
+    for (let i = 0; i < triggers.length; i++)
+    {
+      let t = triggers[i];
+      let action_event = new ActionEvent(t.name, t.method);
+      sequencer.add_action_event(t.at_time, action_event);
+    }
+
+    return sequencer;
   }
 }
