@@ -1,0 +1,30 @@
+export default class SDFText {
+    constructor(glyph_layout: any, text?: string);
+    glyph_layout: any;
+    glyphs: any[];
+    glyph_is_dirty: boolean;
+    matrix_is_dirty: boolean;
+    color_is_dirty: boolean;
+    position: any;
+    quaternion: any;
+    scale: any;
+    matrix: any;
+    color: any;
+    pivot_point: any;
+    __opacity: number;
+    __text: string;
+    set text(arg: string);
+    get text(): string;
+    update_matrix(): void;
+    clear_glyph_dirty(): void;
+    clear_color_dirty(): void;
+    set_rotation(orientation?: number, tilt?: number): void;
+    set_position(pos: any): void;
+    set_size(size: any): void;
+    set_color(col: any): void;
+    set_pivot(pivot: any): void;
+    set opacity(arg: number);
+    get opacity(): number;
+    update_glyphs(): void;
+    __generate_glyphs(text: any): void;
+}

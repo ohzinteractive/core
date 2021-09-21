@@ -1,11 +1,16 @@
 {
   "name": "ohzi-core",
-  "version": "5.14.0",
+  "version": "5.14.1",
   "description": "OHZI Core Library",
   "module": "build/index.module.js",
   "source": "src/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "build"
+    "build",
+    "LICENSE",
+    "src",
+    "types",
+    "package.json"
   ],
   "targets": {
     "module": {
@@ -17,7 +22,8 @@
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "build": "rollup -c",
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
-    "fix-syntax": "standardx --fix"
+    "fix-syntax": "standardx --fix",
+    "generate-types": "npx -p typescript tsc src/components/sdf_text/SDFTextBatch.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "repository": {
     "type": "git",
@@ -38,11 +44,13 @@
     "three": "^0.128.0"
   },
   "devDependencies": {
+    "@types/node": "^16.9.4",
     "cross-var": "^1.1.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
-    "standardx": "^7.0.0"
+    "standardx": "^7.0.0",
+    "typescript": "^4.4.3"
   }
 }
