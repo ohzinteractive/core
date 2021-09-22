@@ -2272,10 +2272,10 @@ pify@^4.0.1:
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pit-js@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/pit-js/-/pit-js-1.4.2.tgz#db476f35cc12669794a4f16173be9e12c7ee6d35"
-  integrity sha512-blj6E8BSkaZ5Hj+NrgMgaiS/J5GTmJZSi3TJKgQGE4L7WjsRT4I3d8QAjT3vjN5xsYopvESiIzWfNtBOxlqGVQ==
+pit-js@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/pit-js/-/pit-js-1.5.0.tgz#2b157504aef4aa84e753387760ad3f855405dcee"
+  integrity sha512-KncCNWngVEspvkeP8RR6AyiwZWGTyaPvCfLYCttNLoBveZ0DVVyBu74YZ6UDQdQ5aDwd1SQ7ECBSjTtYCB20Gw==
 
 pkg-conf@^3.1.0:
   version "3.1.0"
@@ -2910,6 +2910,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.3.tgz#bdc5407caa2b109efd4f82fe130656f977a29324"
+  integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
 
 unbox-primitive@^1.0.0:
   version "1.0.1"

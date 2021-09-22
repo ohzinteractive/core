@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "5.14.2",
+  "version": "5.14.3",
   "description": "OHZI Core Library",
   "module": "build/index.module.js",
   "source": "src/index.js",
@@ -44,7 +44,6 @@
     "three": "^0.128.0"
   },
   "devDependencies": {
-    "@types/node": "^16.9.4",
     "cross-var": "^1.1.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
