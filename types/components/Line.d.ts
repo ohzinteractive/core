@@ -1,4 +1,4 @@
-export default class Line {
+export class Line {
     constructor(points: any);
     setup(points: any): void;
     _length: number;

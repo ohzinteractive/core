@@ -1,4 +1,4 @@
-export default class ObjectEditor {
+export class ObjectEditor {
     constructor(renderer: any, scene: any, camera: any);
     raycaster: any;
     selected_object: any;
@@ -12,5 +12,5 @@ export default class ObjectEditor {
     __populate_selectable_objects(array: any): void;
     __set_object_ids(array: any): void;
 }
-import ObjectManipulator from "./ObjectManipulator";
-import ObjectPicker from "./ObjectPicker";
+import { ObjectManipulator } from "./ObjectManipulator";
+import { ObjectPicker } from "./ObjectPicker";

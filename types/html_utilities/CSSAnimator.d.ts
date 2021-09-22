@@ -1,4 +1,4 @@
-export default class CSSAnimator {
+export class CSSAnimator {
     constructor({ element, css_property, from, to, duration, value_prefix, value_suffix, easing_function, finished_callback }: {
         element: any;
         css_property: any;
@@ -27,4 +27,4 @@ export default class CSSAnimator {
     get is_animating(): boolean;
     set_current_state(state: any): void;
 }
-import Idle from "./css_animator_states/Idle";
+import { Idle } from "./css_animator_states/Idle";

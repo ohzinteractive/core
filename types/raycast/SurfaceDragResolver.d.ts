@@ -1,4 +1,4 @@
-export default class SurfaceDragResolver extends RaycastResolver {
+export class SurfaceDragResolver extends RaycastResolver {
     constructor(surface_mesh: any);
     _drag_started: boolean;
     _group_raycaster: GroupRaycaster;
@@ -9,5 +9,5 @@ export default class SurfaceDragResolver extends RaycastResolver {
     get drag_started(): boolean;
     update(): void;
 }
-import RaycastResolver from "./RaycastResolver";
-import GroupRaycaster from "./GroupRaycaster";
+import { RaycastResolver } from "./RaycastResolver";
+import { GroupRaycaster } from "./GroupRaycaster";

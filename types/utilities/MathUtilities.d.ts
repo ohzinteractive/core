@@ -1,4 +1,4 @@
-export default class MathUtilities {
+export class MathUtilities {
     static linear_map(value: any, from_range_start_value: any, from_range_end_value: any, to_range_start_value: any, to_range_end_value: any): any;
     static between(value: any, min: any, max: any): boolean;
     static mod(number: any, divisor: any): number;

@@ -1,4 +1,4 @@
-export default class TextGlyph {
+export class TextGlyph {
     constructor(offset: any, plane_bounds: any, atlas_bounds: any);
     scale: any;
     position: any;

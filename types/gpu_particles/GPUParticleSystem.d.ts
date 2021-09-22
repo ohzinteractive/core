@@ -1,4 +1,4 @@
-export default class GPUParticleSystem {
+export class GPUParticleSystem {
     attributes: any[];
     particles: any;
     set_from_geometry(geometry: any, material: any, init_attribute_uvs: any): void;

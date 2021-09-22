@@ -1,3 +1,3 @@
-export default class FXAAMaterial {
+export class FXAAMaterial {
     constructor(upsample: any);
 }

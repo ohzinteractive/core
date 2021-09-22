@@ -1,4 +1,4 @@
-export default class SDFText {
+export class SDFText {
     constructor(glyph_layout: any, text?: string);
     glyph_layout: any;
     glyphs: any[];

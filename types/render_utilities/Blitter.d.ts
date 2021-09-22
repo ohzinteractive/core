@@ -1,4 +1,6 @@
-export default class Blitter {
+import { BlitMaterial } from "../materials/BlitMaterial";
+
+export class Blitter {
     constructor(renderer: any);
     renderer: any;
     _blit_scene: any;
@@ -12,4 +14,3 @@ export default class Blitter {
     dispose(): void;
     __render(RT: any): void;
 }
-import BlitMaterial from "../materials/BlitMaterial";

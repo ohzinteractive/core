@@ -1,3 +1,3 @@
-export default class ClearAlphaMaterial {
+export class ClearAlphaMaterial {
     blending: any;
 }

@@ -1,10 +1,8 @@
-declare var _default: Input;
-export default _default;
-declare class Input {
-    left_mouse_button_clicked: boolean;
-    captured_NDC: {
+ export class Input {
+    static left_mouse_button_clicked: boolean;
+    static captured_NDC: {
         x: number;
         y: number;
     };
-    clear(): void;
+    static clear(): void;
 }

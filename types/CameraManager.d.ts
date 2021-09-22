@@ -1,8 +1,8 @@
-declare var _default: CameraManager;
-export default _default;
-declare class CameraManager {
-    init(): void;
-    _current: any;
-    set current(arg: any);
-    get current(): any;
+import { Camera } from "three";
+
+export class CameraManager {
+    static init(): void;
+    static _current: Camera;
+    static set current(arg: Camera);
+    static get current(): Camera;
 }

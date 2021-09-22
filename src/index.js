@@ -25,7 +25,6 @@ import UnrealBloomRender from './render_mode/UnrealBloomRender';
 import OrthographicCamera from './OrthographicCamera';
 import OS from './OS';
 import PerspectiveCamera from './PerspectiveCamera';
-import Primitives from './Primitives';
 import RenderLoop from './RenderLoop';
 import ResourceBatch from './resource_loader/ResourceBatch';
 import ResourceContainer from './ResourceContainer';
@@ -39,6 +38,12 @@ import ViewComponentManager from './view_components/ViewComponentManager';
 import ViewManager from './view_components/ViewManager';
 import ViewContext from './view_components/ViewContext';
 import TransitionTable from './view_components/transition/TransitionTable';
+
+import Arrow from './primitives/Arrow';
+import Cube from './primitives/Cube';
+import HorizontalPlane from './primitives/HorizontalPlane';
+import Sphere from './primitives/Sphere';
+import VerticalPlane from './primitives/VerticalPlane';
 
 import ArrayUtilities from './utilities/ArrayUtilities';
 import CameraUtilities from './utilities/CameraUtilities';
@@ -106,7 +111,6 @@ export {
   OrthographicCamera,
   OS,
   PerspectiveCamera,
-  Primitives,
   RenderLoop,
   ResourceBatch,
   ResourceContainer,
@@ -140,6 +144,12 @@ export {
   UIElement,
   SDFTextBatch,
   UpdatableMaterialMesh,
+
+  Arrow,
+  Cube,
+  HorizontalPlane,
+  Sphere,
+  VerticalPlane,
 
   ActionSequencer,
   ActionEvent,

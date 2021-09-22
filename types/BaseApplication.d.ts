@@ -1,4 +1,4 @@
-export default class BaseApplication {
+export class BaseApplication {
     on_post_start(): void;
     on_enter(): void;
     on_exit(): void;

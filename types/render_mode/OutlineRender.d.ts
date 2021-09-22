@@ -1,4 +1,4 @@
-export default class OutlineRender {
+export class OutlineRender {
     constructor(webgl: any);
     main_rt: any;
     rt1: any;

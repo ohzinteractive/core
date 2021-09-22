@@ -1,4 +1,4 @@
-export default class GroupRaycaster {
+export class GroupRaycaster {
     constructor(raycastee_group: any, raycast_resolver: any, camera: any);
     camera: any;
     raycast_resolver: any;
@@ -10,4 +10,4 @@ export default class GroupRaycaster {
     update(): void;
     set_state(new_state: any): void;
 }
-import IdleState from "./states/IdleState";
+import { IdleState } from "./states/IdleState";

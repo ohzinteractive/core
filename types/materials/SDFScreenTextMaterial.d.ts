@@ -1,4 +1,4 @@
-export default class SDFScreenTextMaterial extends BaseShaderMaterial {
+export class SDFScreenTextMaterial extends BaseShaderMaterial {
     constructor(texture: any);
     transparent: boolean;
     extensions: {
@@ -8,4 +8,4 @@ export default class SDFScreenTextMaterial extends BaseShaderMaterial {
     side: any;
     set_atlas_size(size: any): void;
 }
-import BaseShaderMaterial from "./BaseShaderMaterial";
+import { BaseShaderMaterial } from "./BaseShaderMaterial";

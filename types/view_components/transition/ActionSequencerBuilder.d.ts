@@ -1,4 +1,6 @@
-export default class ActionSequencerBuilder {
+import { ActionSequencer } from "ohzi-core";
+
+export class ActionSequencerBuilder {
     constructor(initial_state_data: any);
     initial_state_data: any;
     from_animation_sheet(animation_data: any, current_context: any, initial_context: any): ActionSequencer;
@@ -11,4 +13,3 @@ export default class ActionSequencerBuilder {
     }[];
     from_draw_io(xml: any, context: any): ActionSequencer;
 }
-import ActionSequencer from "../../action_sequencer/ActionSequencer";

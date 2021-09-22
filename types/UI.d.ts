@@ -1,17 +1,15 @@
-declare var _default: UI;
-export default _default;
-declare class UI {
-    init(): void;
-    ui_elements: any[];
-    _tmp_normalized_pos: any;
-    ss_scene: any;
-    ws_scene: any;
-    ss_camera: any;
-    delete_element(elem: any): void;
-    add_screen_space_element(elem: any): void;
-    add_world_space_element(elem: any): void;
-    update(): void;
-    render(renderer: any): void;
-    clear(): void;
-    current_clicked_element: any;
+ export class UI {
+    static init(): void;
+    static ui_elements: any[];
+    static _tmp_normalized_pos: any;
+    static ss_scene: any;
+    static ws_scene: any;
+    static ss_camera: any;
+    static delete_element(elem: any): void;
+    static add_screen_space_element(elem: any): void;
+    static add_world_space_element(elem: any): void;
+    static update(): void;
+    static render(renderer: any): void;
+    static clear(): void;
+    static current_clicked_element: any;
 }

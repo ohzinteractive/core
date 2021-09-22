@@ -1,4 +1,4 @@
-export default class UpdatableMaterialMesh {
+export class UpdatableMaterialMesh {
     constructor(geometry: any, material: any);
     onBeforeRender: () => void;
 }

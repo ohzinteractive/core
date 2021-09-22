@@ -1,4 +1,4 @@
-export default class SDFTextBatch {
+export class SDFTextBatch {
     constructor(font_layout: any, atlas_texture: any);
     text_elements: any[];
     font_layout: any;
@@ -9,4 +9,4 @@ export default class SDFTextBatch {
     update(force_update: any): void;
     dispose(): void;
 }
-import SDFText from "./SDFText";
+import { SDFText } from "./SDFText";

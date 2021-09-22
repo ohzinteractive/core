@@ -1,4 +1,4 @@
-export default class AudioClip {
+export class AudioClip {
     constructor(buffer: any, loop?: boolean, volume?: number);
     buffer: any;
     loop: boolean;

@@ -1,4 +1,4 @@
-export default class PlaneRaycaster {
+export class PlaneRaycaster {
     constructor(raycast_resolver: any);
     raycast_resolver: any;
     raycaster: any;

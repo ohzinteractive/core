@@ -1,4 +1,4 @@
-export default class GeometryBatch {
+export class GeometryBatch {
     constructor(geometry: any, batch_width: any);
     geometry: any;
     material: any;

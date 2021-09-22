@@ -1,4 +1,4 @@
-export default class DeferredPointLightMaterial extends BaseShaderMaterial {
+export class DeferredPointLightMaterial extends BaseShaderMaterial {
     constructor(intensity?: number);
     blending: any;
     depthWrite: boolean;
@@ -7,4 +7,4 @@ export default class DeferredPointLightMaterial extends BaseShaderMaterial {
     set_normal_depth_rt(rt: any): void;
     set_albedo_rt(rt: any): void;
 }
-import BaseShaderMaterial from "../../materials/BaseShaderMaterial";
+import { BaseShaderMaterial } from "../../materials/BaseShaderMaterial";

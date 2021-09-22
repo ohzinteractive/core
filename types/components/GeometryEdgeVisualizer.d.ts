@@ -1,4 +1,4 @@
-export default class GeometryEdgeVisualizer {
+export class GeometryEdgeVisualizer {
     constructor(geometry: any, line_color: any);
     hide_faces(): void;
 }

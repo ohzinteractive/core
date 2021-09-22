@@ -1,5 +1,6 @@
-export default class TextureLoader extends AbstractLoader {
+import { AbstractLoader } from "./AbstractLoader";
+
+export class TextureLoader extends AbstractLoader {
     constructor(resource_id: any, url: any, size: any);
     loader: any;
 }
-import AbstractLoader from "./AbstractLoader";

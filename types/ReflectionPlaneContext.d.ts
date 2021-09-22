@@ -1,8 +1,6 @@
-declare var _default: ReflectionPlaneContext;
-export default _default;
-declare class ReflectionPlaneContext {
-    init(): void;
-    target_geometry: any;
-    target_position: any;
-    set_target_geometry(geometry: any): void;
+ export class ReflectionPlaneContext {
+    static init(): void;
+    static target_geometry: any;
+    static target_position: any;
+    static set_target_geometry(geometry: any): void;
 }

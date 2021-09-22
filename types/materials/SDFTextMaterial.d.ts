@@ -1,4 +1,4 @@
-export default class SDFTextMaterial extends BaseShaderMaterial {
+export class SDFTextMaterial extends BaseShaderMaterial {
     constructor(texture: any);
     transparent: boolean;
     extensions: {
@@ -9,4 +9,4 @@ export default class SDFTextMaterial extends BaseShaderMaterial {
     set_atlas_size(size: any): void;
     set_boldness(value: any): void;
 }
-import BaseShaderMaterial from "./BaseShaderMaterial";
+import { BaseShaderMaterial } from "./BaseShaderMaterial";

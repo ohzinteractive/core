@@ -1,3 +1,3 @@
-export default class ObjectAxis {
+export class ObjectAxis {
     constructor(obj: any, size: any);
 }

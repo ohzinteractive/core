@@ -1,4 +1,4 @@
-export default class TransparencyMixRender {
+export class TransparencyMixRender {
     constructor(webgl: any);
     SSAA: number;
     main_rt: any;

@@ -1,5 +1,7 @@
-export default class FrustumPointFitter {
-    sphere: any;
+import { Sphere } from "three";
+
+export class FrustumPointFitter {
+    sphere: Sphere;
     fit_points(points: any, camera_quaternion: any, vertical_fov: any, aspect: any): any;
     apply_center_correction_to_pos(target_pos: any, points: any, camera_quaternion: any, up_plane: any, down_plane: any, left_plane: any, right_plane: any): void;
     get_vertical_correction(points: any, down_plane: any, up_plane: any, camera_quaternion: any): any;

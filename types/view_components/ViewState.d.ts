@@ -1,4 +1,4 @@
-export default class ViewState {
+export class ViewState {
     constructor(name: any);
     name: any;
     start(): void;

@@ -1,4 +1,6 @@
-export default class ViewStateTransitionHandler {
+import { ViewState } from "ohzi-core/types/view_components/ViewState";
+
+export class ViewStateTransitionHandler {
     constructor(transition_table: any);
     last_state: ViewState;
     current_state: ViewState;
@@ -12,4 +14,3 @@ export default class ViewStateTransitionHandler {
     set_state(state: any): void;
     set_initial_state_data(initial_state_data: any): void;
 }
-import ViewState from "../ViewState";

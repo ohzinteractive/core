@@ -1,4 +1,4 @@
-export default class GLTFLoader extends AbstractLoader {
+export class GLTFLoader extends AbstractLoader {
     constructor(resource_id: any, url: any, size: any);
     loader: any;
 }

@@ -1,3 +1,4 @@
-export default class OnRaycastExit extends BaseState {
+import { BaseState } from './BaseState';
+export class OnRaycastExit extends BaseState
+{
 }
-import BaseState from "./BaseState";

@@ -16,6 +16,17 @@ export default [
       glslify(),
       sourcemaps(),
       terser()
+    ],
+    external: [
+      'three',
+      'pit-js',
+      'three/examples/jsm/utils/BufferGeometryUtils.js',
+      'three/examples/jsm/loaders/GLTFLoader.js',
+      'three/examples/jsm/loaders/ColladaLoader.js',
+      'three/examples/jsm/loaders/OBJLoader.js',
+      'three/examples/jsm/loaders/RGBELoader.js',
+      'three/examples/jsm/loaders/HDRCubeTextureLoader.js',
+      'three/examples/jsm/loaders/DRACOLoader.js'
     ]
   }
 //   {

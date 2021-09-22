@@ -1,4 +1,4 @@
-export default class Pool {
+export class Pool {
     available: any[];
     busy: any[];
     preload(starting_pool_size: any): void;

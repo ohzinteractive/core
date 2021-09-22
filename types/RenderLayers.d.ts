@@ -1,4 +1,4 @@
-export default class RenderLayers {
+export class RenderLayers {
     static get opaque(): number;
     static get transparent(): number;
     static get outline(): number;

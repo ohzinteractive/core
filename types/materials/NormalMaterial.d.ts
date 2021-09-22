@@ -1,2 +1,2 @@
-export default class NormalMaterial {
+export class NormalMaterial {
 }

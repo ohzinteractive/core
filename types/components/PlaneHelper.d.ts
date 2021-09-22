@@ -1,4 +1,4 @@
-export default class PlaneHelper {
+export class PlaneHelper {
     constructor(scale?: number);
     renderOrder: number;
     update(): void;

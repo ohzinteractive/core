@@ -1,4 +1,4 @@
-export default class DrawIOAnimationSheet {
+export class DrawIOAnimationSheet {
     parse(xml_document: any): {
         animation_tracks: {
             attribute_name: string;

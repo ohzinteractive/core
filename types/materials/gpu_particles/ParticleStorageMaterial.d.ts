@@ -1,3 +1,3 @@
-export default class ParticleStorageMaterial {
+export class ParticleStorageMaterial {
     constructor(vert: any);
 }

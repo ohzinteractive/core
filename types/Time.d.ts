@@ -1,13 +1,11 @@
-declare var _default: Time;
-export default _default;
-declare class Time {
-    init(): void;
-    ___time: any;
-    __delta_time: any;
-    __elapsed_time: any;
-    __allocated_time: any;
-    get delta_time(): any;
-    get elapsed_time(): any;
-    get shader_time(): any;
-    __update(): void;
+ export class Time {
+    static init(): void;
+    static ___time: any;
+    static __delta_time: any;
+    static __elapsed_time: any;
+    static __allocated_time: any;
+    static get delta_time(): any;
+    static get elapsed_time(): any;
+    static get shader_time(): any;
+    static __update(): void;
 }

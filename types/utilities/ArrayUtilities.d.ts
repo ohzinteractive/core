@@ -1,4 +1,4 @@
-export default class ArrayUtilities {
+export class ArrayUtilities {
     static merge_from_to(source: any, target: any): void;
     static expand_vec3_array(array: any, size: any): void;
     static remove_elem(array: any, elem: any): void;

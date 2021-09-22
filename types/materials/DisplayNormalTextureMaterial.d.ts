@@ -1,4 +1,4 @@
-export default class DisplayNormalTextureMaterial extends BlitMaterial {
+export class DisplayNormalTextureMaterial extends BlitMaterial {
     constructor();
 }
-import BlitMaterial from "../materials/BlitMaterial";
+import { BlitMaterial } from "../materials/BlitMaterial";

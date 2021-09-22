@@ -1,4 +1,4 @@
-export default class OrthographicFrustumPointFitter {
+export class OrthographicFrustumPointFitter {
     fit_points(points: any, camera_quaternion: any, vertical_fov: any, aspect: any): {
         center: any;
         distance_to_center: number;

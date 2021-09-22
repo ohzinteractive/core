@@ -1,6 +1,6 @@
-declare var _default: ViewContext;
-export default _default;
-declare class ViewContext {
-    app: any;
-    set_app(app: any): void;
+import { BaseApplication } from "ohzi-core";
+
+ export class ViewContext {
+    static app: BaseApplication;
+    static set_app(app: any): void;
 }

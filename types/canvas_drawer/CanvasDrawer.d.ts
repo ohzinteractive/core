@@ -1,4 +1,4 @@
-export default class CanvasDrawer {
+export class CanvasDrawer {
     constructor(uses_dynamic_font: any);
     uses_dynamic_font: any;
     __textHeight: number;

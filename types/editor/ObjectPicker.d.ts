@@ -1,4 +1,4 @@
-export default class ObjectPicker {
+export class ObjectPicker {
     constructor(renderer: any, scene: any, camera: any);
     renderer: any;
     readback_buffer: Uint8Array;

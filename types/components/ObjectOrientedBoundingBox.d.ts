@@ -1,4 +1,4 @@
-export default class ObjectOrientedBoundingBox {
+export class ObjectOrientedBoundingBox {
     constructor(points: any);
     axis_to_world: any;
     world_to_axis: any;

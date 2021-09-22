@@ -1,4 +1,4 @@
-export default class ResourceBatch {
+export class ResourceBatch {
     constructor(batch_name: any);
     resource_loaders: any[];
     batch_name: any;

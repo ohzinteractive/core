@@ -1,3 +1,5 @@
-export default class OnMouseEnter extends UIElementState {
+import { UIElementState } from './UIElementState';
+
+export class OnMouseEnter extends UIElementState 
+{
 }
-import UIElementState from "./UIElementState";

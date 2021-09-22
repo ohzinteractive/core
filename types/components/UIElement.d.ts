@@ -1,4 +1,4 @@
-export default class UIElement {
+export class UIElement {
     constructor(vert: any, frag: any);
     is_clickable: boolean;
     position_strategy: WorldSpacePosition;
@@ -45,8 +45,8 @@ export default class UIElement {
     on_mouse_exit(): void;
     on_mouse_hover(): void;
 }
-import WorldSpacePosition from "../ui/ui_element_position/WorldSpacePosition";
-import OnIdle from "../ui/ui_element_state/OnIdle";
-import OnMouseEnter from "../ui/ui_element_state/OnMouseEnter";
-import OnMouseExit from "../ui/ui_element_state/OnMouseExit";
-import OnMouseHover from "../ui/ui_element_state/OnMouseHover";
+import { WorldSpacePosition } from "../ui/ui_element_position/WorldSpacePosition";
+import { OnIdle } from "../ui/ui_element_state/OnIdle";
+import { OnMouseEnter } from "../ui/ui_element_state/OnMouseEnter";
+import { OnMouseExit } from "../ui/ui_element_state/OnMouseExit";
+import { OnMouseHover } from "../ui/ui_element_state/OnMouseHover";

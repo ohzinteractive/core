@@ -1,15 +1,13 @@
-declare var _default: ModelUtilities;
-export default _default;
-declare class ModelUtilities {
-    get_mesh(scene: any, result_callback: any): void;
-    get_geometries(scene: any): any[];
-    assign_material(scene: any, material: any, name: any): void;
-    clone_animated_gltf(gltf: any): {
+ export class ModelUtilities {
+    static get_mesh(scene: any, result_callback: any): void;
+    static get_geometries(scene: any): any[];
+    static assign_material(scene: any, material: any, name: any): void;
+    static clone_animated_gltf(gltf: any): {
         animations: any;
         scene: any;
     };
-    set_shadow_config(scene: any, cast: any, receive: any): void;
-    __find_object(scene: any, object_name: any, result_callback: any): void;
-    get_object(scene: any, object_name: any): any;
-    get_object_by_type(scene: any, object_type: any): any;
+    static set_shadow_config(scene: any, cast: any, receive: any): void;
+    static __find_object(scene: any, object_name: any, result_callback: any): void;
+    static get_object(scene: any, object_name: any): any;
+    static get_object_by_type(scene: any, object_type: any): any;
 }

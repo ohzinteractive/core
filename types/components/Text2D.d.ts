@@ -1,4 +1,4 @@
-export default class Text2D extends WorldImage {
+export class Text2D extends WorldImage {
     constructor(text: any, font: any, color: any, pivot: any, is_static: any);
     simple_text_drawer: SimpleTextDrawer;
     canvas_texture: any;
@@ -9,5 +9,5 @@ export default class Text2D extends WorldImage {
     set text(arg: string);
     get text(): string;
 }
-import WorldImage from "./WorldImage";
-import SimpleTextDrawer from "../canvas_drawer/SimpleTextDrawer";
+import { WorldImage } from "./WorldImage";
+import { SimpleTextDrawer } from "../canvas_drawer/SimpleTextDrawer";

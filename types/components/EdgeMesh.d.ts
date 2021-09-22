@@ -1,4 +1,4 @@
-export default class EdgeMesh {
+export class EdgeMesh {
     constructor(buffer_geometry: any, thickness: any, color: any);
     edges_material: any;
     corners_material: any;

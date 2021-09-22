@@ -1,2 +1,3 @@
-export default class ViewPositionMaterial {
+export class ViewPositionMaterial
+{
 }

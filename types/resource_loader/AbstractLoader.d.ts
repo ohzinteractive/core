@@ -1,4 +1,4 @@
-export default class AbstractLoader {
+export class AbstractLoader {
     constructor(resource_id: any, url: any, size?: number);
     resource_id: any;
     url: any;

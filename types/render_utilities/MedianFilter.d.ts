@@ -1,4 +1,6 @@
-export default class MedianFilter {
+import { MedianFilterMaterial } from "../materials/MedianFilterMaterial";
+
+export class MedianFilter {
     constructor(renderer: any);
     RT: any;
     RT1: any;
@@ -6,4 +8,3 @@ export default class MedianFilter {
     filter(texture: any): any;
     get_size(tex: any): any;
 }
-import MedianFilterMaterial from "../materials/MedianFilterMaterial";

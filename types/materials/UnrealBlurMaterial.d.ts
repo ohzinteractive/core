@@ -1,4 +1,4 @@
-export default class UnrealBlurMaterial extends BlitMaterial {
+export class UnrealBlurMaterial extends BlitMaterial {
     constructor(kernel_radius: any);
 }
-import BlitMaterial from "../materials/BlitMaterial";
+import { BlitMaterial } from "../materials/BlitMaterial";

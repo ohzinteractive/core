@@ -1,4 +1,4 @@
-export default class ParticleAttribute {
+export class ParticleAttribute {
     constructor(attr_name: any);
     read: any;
     write: any;

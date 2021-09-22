@@ -1,4 +1,4 @@
-export default class ManipulatorHandle {
+export class ManipulatorHandle {
     constructor(direction: any, color: any);
     arrow_helper: any;
     box_collider: any;

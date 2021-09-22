@@ -1,4 +1,4 @@
-export default class ViewComponent {
+export class ViewComponent {
     constructor({ name, container }: {
         name: any;
         container: any;

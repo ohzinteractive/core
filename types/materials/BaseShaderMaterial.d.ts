@@ -1,3 +1,3 @@
-export default class BaseShaderMaterial {
+export class BaseShaderMaterial {
     constructor(vert: any, frag: any, uniforms: any);
 }

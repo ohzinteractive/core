@@ -1,4 +1,4 @@
-export default class RenderLoop {
+export class RenderLoop {
     constructor(target_application: any, graphics: any);
     _frame_id: number;
     target_application: any;

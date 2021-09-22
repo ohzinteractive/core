@@ -1,4 +1,4 @@
-export default class ObjectManipulator {
+export class ObjectManipulator {
     target_obj: any;
     up_handle: ManipulatorHandle;
     right_handle: ManipulatorHandle;
@@ -16,4 +16,4 @@ export default class ObjectManipulator {
     check_active_handle(): void;
     set_target(obj: any): void;
 }
-import ManipulatorHandle from "../editor/ManipulatorHandle";
+import { ManipulatorHandle } from "../editor/ManipulatorHandle";

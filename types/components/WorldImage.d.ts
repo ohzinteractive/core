@@ -1,4 +1,4 @@
-export default class WorldImage {
+export class WorldImage {
     constructor(texture: any, pivot: any);
     current_scale: number;
     tmp_bb_size: any;

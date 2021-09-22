@@ -1,4 +1,4 @@
-export default class ActionSequencer {
+export class ActionSequencer {
     constructor(context: any);
     elapsed_time: number;
     playing: boolean;

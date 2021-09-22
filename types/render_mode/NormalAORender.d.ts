@@ -1,4 +1,4 @@
-export default class NormalAORender extends BaseRender {
+export class NormalAORender extends BaseRender {
     ssao_mat: SSAOMaterial;
     ssao_compose_mat: SSAOComposeMaterial;
     debug_normals: DisplayNormalTextureMaterial;
@@ -9,8 +9,8 @@ export default class NormalAORender extends BaseRender {
     __update_uniforms(): void;
     __check_RT_size(): void;
 }
-import BaseRender from "../render_mode/BaseRender";
-import SSAOMaterial from "../materials/SSAOMaterial";
-import SSAOComposeMaterial from "../materials/SSAOComposeMaterial";
-import DisplayNormalTextureMaterial from "../materials/DisplayNormalTextureMaterial";
-import Blurrer from "../render_utilities/Blurrer";
+import { BaseRender } from "../render_mode/BaseRender";
+import { SSAOMaterial } from "../materials/SSAOMaterial";
+import { SSAOComposeMaterial } from "../materials/SSAOComposeMaterial";
+import { DisplayNormalTextureMaterial } from "../materials/DisplayNormalTextureMaterial";
+import { Blurrer } from "../render_utilities/Blurrer";

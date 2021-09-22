@@ -1,4 +1,4 @@
-export default class ApplicationView extends ViewState {
+export class ApplicationView extends ViewState {
     constructor({ name, url, container }: {
         name: any;
         url: any;

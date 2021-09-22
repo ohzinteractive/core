@@ -1,4 +1,4 @@
-export default class ClearColorMaterial {
+export class ClearColorMaterial {
     depthTest: boolean;
     depthFunc: any;
     set_color(col: any): void;
