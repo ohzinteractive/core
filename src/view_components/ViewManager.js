@@ -14,6 +14,8 @@ class ViewManager
   update()
   {
     this.transition_handler.update();
+
+    this.__set_views_opacities();
   }
 
   go_to_view(view_name, change_url = true, skip = false)
@@ -113,6 +115,14 @@ class ViewManager
   __change_browser_url(url)
   {
     window.history.pushState('', '', url);
+  }
+
+  __set_views_opacities()
+  {
+    for (let i = 0; i < this.views.length; i++)
+    {
+      this.views[i].set_opacity(this.transition_handler.current_state_data);
+    }
   }
 }
 

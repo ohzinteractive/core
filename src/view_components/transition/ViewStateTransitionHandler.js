@@ -18,6 +18,11 @@ export default class ViewStateTransitionHandler
 
   go_to_state(state, skip = false)
   {
+    if (this.transitioning)
+    {
+      this.__exit_last_state();
+    }
+
     this.last_state = this.current_state;
     this.current_state = state;
 
@@ -41,24 +46,16 @@ export default class ViewStateTransitionHandler
   {
     if (this.transitioning)
     {
-      this.action_sequencer.update(Time.delta_time);
-      this.last_state.update_exit_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
-      this.current_state.update_enter_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+      this.__update_transitions();
 
       if (this.action_sequencer.is_finished())
       {
         this.transitioning = false;
 
-        this.action_sequencer.update(Time.delta_time);
-        this.last_state.update_exit_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
-        this.current_state.update_enter_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+        this.__update_transitions();
 
-        if (this.last_state.name !== this.current_state.name)
-        {
-          this.last_state.hide();
-        }
+        this.__exit_last_state();
 
-        this.last_state.on_exit();
         this.current_state.on_enter();
       }
     }
@@ -77,5 +74,22 @@ export default class ViewStateTransitionHandler
   {
     Object.assign(this.initial_state_data, initial_state_data);
     Object.assign(this.current_state_data, initial_state_data);
+  }
+
+  __update_transitions()
+  {
+    this.action_sequencer.update(Time.delta_time);
+    this.last_state.update_exit_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+    this.current_state.update_enter_transition(this.current_state_data, this.action_sequencer.get_progress(), this.action_sequencer);
+  }
+
+  __exit_last_state()
+  {
+    if (this.last_state.name !== this.current_state.name)
+    {
+      this.last_state.hide();
+    }
+
+    this.last_state.on_exit();
   }
 }

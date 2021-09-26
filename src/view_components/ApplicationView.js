@@ -53,8 +53,8 @@ export default class ApplicationView extends ViewState
     this.container.classList.remove('before_exit');
   }
 
-  set_opacity(opacity)
+  set_opacity(current_state_data)
   {
-    this.container.style.opacity = opacity;
+    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
   }
 }
