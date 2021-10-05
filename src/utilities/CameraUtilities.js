@@ -15,8 +15,6 @@ class CameraUtilities
   init()
   {
     this.tmp_mat = new Matrix4();
-    this.tmp_vec = new Vector3(0, 0, 1);
-    this.tmp_vec2 = new Vector3(0, 0, 0);
     this.plane = new Plane();
     this.ray = new Ray();
 
@@ -27,47 +25,57 @@ class CameraUtilities
   get_up_dir(camera)
   {
     camera = camera || CameraManager.current;
-    this.tmp_vec.set(0, 1, 0);
-    this.tmp_vec.applyQuaternion(camera.quaternion);
+    const tmp_vec = new Vector3();
 
-    return this.tmp_vec;
+    tmp_vec.set(0, 1, 0);
+    tmp_vec.applyQuaternion(camera.quaternion);
+
+    return tmp_vec;
   }
 
   get_forward_dir(camera)
   {
     camera = camera || CameraManager.current;
-    this.tmp_vec.set(0, 0, -1);
-    this.tmp_vec.applyQuaternion(camera.quaternion);
+    const tmp_vec = new Vector3();
 
-    return this.tmp_vec;
+    tmp_vec.set(0, 0, -1);
+    tmp_vec.applyQuaternion(camera.quaternion);
+
+    return tmp_vec;
   }
 
   get_right_dir(camera)
   {
     camera = camera || CameraManager.current;
-    this.tmp_vec.set(1, 0, 0);
-    this.tmp_vec.applyQuaternion(camera.quaternion);
-    return this.tmp_vec;
+    const tmp_vec = new Vector3();
+
+    tmp_vec.set(1, 0, 0);
+    tmp_vec.applyQuaternion(camera.quaternion);
+    return tmp_vec;
   }
 
   unproject_mouse_position(NDC, camera)
   {
     camera = camera || CameraManager.current;
+    const tmp_vec = new Vector3();
+
     let v_fov = (camera.fov / 2) * Math.PI / 180;
     let h_fov = (2 * Math.atan(Math.tan(v_fov) * camera.aspect)) / 2;
 
     let distV = Math.tan(v_fov) * camera.far;
     let distH = Math.tan(h_fov) * camera.far;
 
-    this.tmp_vec.set(distH * NDC.x, distV * NDC.y, -camera.far).normalize();
+    tmp_vec.set(distH * NDC.x, distV * NDC.y, -camera.far).normalize();
 
-    return this.tmp_vec.applyQuaternion(camera.quaternion);
+    return tmp_vec.applyQuaternion(camera.quaternion);
   }
 
   get_plane_intersection(plane_position, plane_normal, NDC, camera)
   {
     camera = camera || CameraManager.current;
     NDC = NDC || Input.NDC;
+
+    const tmp_vec = new Vector3();
 
     this.plane.setFromNormalAndCoplanarPoint(plane_normal || this.get_forward_dir(camera), plane_position);
     if (camera.isPerspectiveCamera)
@@ -80,8 +88,8 @@ class CameraUtilities
       this.ray.set(camera.position, this.tmp_unproj);
     }
 
-    this.ray.intersectPlane(this.plane, this.tmp_vec2);
-    return this.tmp_vec2;
+    this.ray.intersectPlane(this.plane, tmp_vec);
+    return tmp_vec;
   }
 
   fit_points_on_camera(points, zoom_scale = 1)
@@ -164,23 +172,28 @@ class CameraUtilities
 
   get_html_screen_pos(object, camera)
   {
-    object.getWorldPosition(this.tmp_vec);
-    this.tmp_vec.project(camera);
+    camera = camera || CameraManager.current;
+    const tmp_vec = new Vector3();
 
-    this.tmp_vec.x = (this.tmp_vec.x * 0.5 + 0.5) * (Screen.width);
-    this.tmp_vec.y = (1 - (this.tmp_vec.y * 0.5 + 0.5)) * Screen.height;
-    return this.tmp_vec;
+    object.getWorldPosition(tmp_vec);
+    tmp_vec.project(camera);
+
+    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (Screen.width);
+    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * Screen.height;
+    return tmp_vec;
   }
 
   world_pos_to_screen(pos, camera)
   {
     camera = camera || CameraManager.current;
-    this.tmp_vec.copy(pos);
-    this.tmp_vec.project(camera);
+    const tmp_vec = new Vector3();
 
-    this.tmp_vec.x = (this.tmp_vec.x * 0.5 + 0.5) * (Screen.width);
-    this.tmp_vec.y = (1 - (this.tmp_vec.y * 0.5 + 0.5)) * Screen.height;
-    return this.tmp_vec;
+    tmp_vec.copy(pos);
+    tmp_vec.project(camera);
+
+    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (Screen.width);
+    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * Screen.height;
+    return tmp_vec;
   }
 
   update_projection(camera)
