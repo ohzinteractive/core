@@ -66,6 +66,7 @@ export default class AbstractLoader
 
   async on_progress(resource_container, response)
   {
+    const response_clone = response.clone();
     const reader = response.body.getReader();
 
     // Step 2: get total length
@@ -89,10 +90,10 @@ export default class AbstractLoader
       // console.log(`Received ${receivedLength} of ${contentLength}`);
     }
 
-    this.on_preloaded_finished(resource_container);
+    this.on_preloaded_finished(resource_container, response_clone);
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container, response)
   {
   }
 

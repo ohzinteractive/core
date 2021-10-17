@@ -14,6 +14,7 @@ import GLTFDRACOLoader from './GLTFDRACOLoader';
 import BasisLoader from './BasisLoader';
 import ResourceContainer from '../ResourceContainer';
 import FileLoader from './FileLoader';
+import VideoLoader from './VideoLoader';
 
 export default class ResourceBatch
 {
@@ -71,6 +72,11 @@ export default class ResourceBatch
   add_audio(resource_id, url, loop, volume, size)
   {
     this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume, size));
+  }
+
+  add_video(resource_id, url, size)
+  {
+    this.resource_loaders.push(new VideoLoader(resource_id, url, size));
   }
 
   add_json(resource_id, url, size)
