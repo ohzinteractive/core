@@ -1,40 +1,34 @@
 import AbstractLoader from './AbstractLoader';
 
-import { TextureLoader as THREETextureLoader } from 'three';
+import { Texture } from 'three';
 
 export default class TextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREETextureLoader();
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container, response)
   {
-    let ctx = this;
+    response.blob().then((blob) =>
+    {
+      const texture = new Texture();
 
-    this.loader.load(this.url, (image) =>
-    {
-      resource_container.set_resource(ctx.resource_id, ctx.url, image);
+      const url = URL.createObjectURL(blob);
 
-      ctx.__update_downloaded_bytes(1, 1);
-      ctx.__loading_ended();
-    },
-    (xhr) =>
-    {
-      // This is never called (See THREE.ImageLoader)
-      // if (xhr)
-      // {
-      //   let total = xhr.total || this.total_bytes;
-      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
-      // }
-    },
-    () =>
-    {
-      ctx.__set_error('Image could not  be loaded. Maybe wrong name or path, I don\'t know' + '¯\\_(ツ)_/¯');
-      ctx.__loading_ended();
-    }
-    );
+      const image = new Image();
+      image.src = url;
+      image.onload = () =>
+      {
+        texture.image = image;
+        texture.needsUpdate = true;
+      };
+
+      resource_container.set_resource(this.resource_id, this.url, texture);
+
+      this.__update_downloaded_bytes(1, 1);
+      this.__loading_ended();
+    });
   }
 }
