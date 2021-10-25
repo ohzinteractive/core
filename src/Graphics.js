@@ -144,14 +144,18 @@ class Graphics
 
   render_scene(scene)
   {
-    if (scene.on_before_render)
+    if (scene.on_pre_render)
     {
-      scene.on_before_render();
+      scene.on_pre_render();
     }
 
     if (scene.render)
     {
       scene.render();
+    }
+    else
+    {
+      this.render(scene, undefined);
     }
 
     if (scene.on_post_render)
