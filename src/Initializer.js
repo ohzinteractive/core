@@ -1,3 +1,4 @@
+import Browser from './Browser';
 import CameraManager from './CameraManager';
 import Capabilities from './Capabilities';
 import Configuration from './Configuration';
@@ -31,6 +32,7 @@ class Initializer
     GeometryBatcher.init();
     Input.init(app_container);
     OS.init();
+    Browser.init();
     ReflectionPlaneContext.init();
     ResourceContainer.init();
     SceneManager.init();

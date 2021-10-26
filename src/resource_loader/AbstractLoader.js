@@ -1,4 +1,4 @@
-import OS from '../OS';
+import Browser from '../Browser';
 import Validation from '../utilities/Validation';
 
 export default class AbstractLoader
@@ -51,7 +51,7 @@ export default class AbstractLoader
 
   load(resource_container)
   {
-    const cache = OS.is_safari ? 'no-cache' : 'default';
+    const cache = Browser.is_safari ? 'no-cache' : 'default';
 
     fetch(this.url, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.

@@ -6,6 +6,7 @@ import BaseRender from './render_mode/BaseRender';
 import BaseShaderMaterial from './materials/BaseShaderMaterial';
 import BasisLoader from './resource_loader/BasisLoader.js';
 import BlitMaterial from './materials/BlitMaterial';
+import Browser from './Browser';
 import CameraManager from './CameraManager';
 import Capabilities from './Capabilities';
 import CanvasDrawer from './canvas_drawer/CanvasDrawer';
@@ -92,6 +93,7 @@ export {
   BaseApplication,
   BaseShaderMaterial,
   BasisLoader,
+  Browser,
   CameraManager,
   Capabilities,
   CanvasDrawer,
