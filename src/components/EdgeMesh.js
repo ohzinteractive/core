@@ -3,7 +3,7 @@ import edge_line_frag from '../shaders/edges/edges.frag';
 import corners_vert from '../shaders/edges/corners.vert';
 import corners_frag from '../shaders/edges/corners.frag';
 
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { Object3D } from 'three';
 import { ShaderMaterial } from 'three';

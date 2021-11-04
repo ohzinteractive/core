@@ -1,5 +1,6 @@
 import GeometryBatch from './GeometryBatch';
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { Math as TMath } from 'three';
 import { BufferAttribute } from 'three';

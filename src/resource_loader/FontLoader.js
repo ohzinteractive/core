@@ -1,6 +1,6 @@
 import AbstractLoader from './AbstractLoader';
 
-import { FontLoader as TFontLoader } from 'three';
+import { FontLoader as TFontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
 export default class FontLoader extends AbstractLoader
 {
