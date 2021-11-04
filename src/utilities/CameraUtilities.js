@@ -1,6 +1,6 @@
 import CameraManager from '../CameraManager';
 import Input from '../Input';
-import MathUtilities from '../utilities/MathUtilities';
+import OMath from '../utilities/OMath';
 import Screen from '../Screen';
 
 import { Vector3 } from 'three';
@@ -100,7 +100,7 @@ class CameraUtilities
 
     let plane = new Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
 
-    let points_on_plane = MathUtilities.project_points_on_plane(points, plane);
+    let points_on_plane = OMath.project_points_on_plane(points, plane);
 
     let projected_points_center = new Vector3();
     let box =  new Box3().setFromPoints(points_on_plane);

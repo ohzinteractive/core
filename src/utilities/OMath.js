@@ -1,7 +1,7 @@
 import { Vector3 } from 'three';
 import { Math as TMath } from 'three';
 
-export default class MathUtilities
+export default class OMath
 {
   constructor()
   {}
@@ -71,6 +71,46 @@ export default class MathUtilities
   static equals(x1, x2)
   {
     return Math.abs(x1 - x2) < 0.000001;
+  }
+
+  static lerp(x, y, t)
+  {
+    return (1 - t) * x + t * y;
+  }
+
+  static clamp(value, min, max)
+  {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  static euclideanModulo(n, m)
+  {
+    return ((n % m) + m) % m;
+  }
+
+  static pingpong(x, length = 1)
+  {
+    return length - Math.abs(OMath.euclideanModulo(x, length * 2) - length);
+  }
+
+  static degToRad(degrees)
+  {
+    return degrees * (Math.PI / 180);
+  }
+
+  static radToDeg(radians)
+  {
+    return radians * (180 / Math.PI);
+  }
+
+  static deg_to_rad(degrees)
+  {
+    return degrees * (Math.PI / 180);
+  }
+
+  static rad_to_deg(radians)
+  {
+    return radians * (180 / Math.PI);
   }
 
   static perspective_divide(v)

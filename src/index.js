@@ -52,7 +52,7 @@ import EasingFunctions from './utilities/EasingFunctions';
 import FrustumPointFitter from './utilities/FrustumPointFitter';
 import GeometryUtilities from './utilities/GeometryUtilities';
 import ImageUtilities from './utilities/ImageUtilities';
-import MathUtilities from './utilities/MathUtilities';
+import OMath from './utilities/OMath';
 import MeshSampler from './utilities/MeshSampler';
 import ModelUtilities from './utilities/ModelUtilities';
 import ObjectUtilities from './utilities/ObjectUtilities';
@@ -85,6 +85,8 @@ import Blurrer from './render_utilities/Blurrer';
 import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
 
 import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import MeshBatcher from './static_batcher/MeshBatcher';
 
 export {
   AbstractLoader,
@@ -129,7 +131,7 @@ export {
   FrustumPointFitter,
   GeometryUtilities,
   ImageUtilities,
-  MathUtilities,
+  OMath,
   MeshSampler,
   ModelUtilities,
   ObjectUtilities,
@@ -169,5 +171,7 @@ export {
   PerspectiveFrustumPointFitter,
   OrthographicFrustumPointFitter,
 
-  DualFilteringBlurMaterial
+  DualFilteringBlurMaterial,
+  BufferGeometryUtils,
+  MeshBatcher
 };
