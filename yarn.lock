@@ -2272,10 +2272,10 @@ pify@^4.0.1:
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pit-js@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/pit-js/-/pit-js-1.5.0.tgz#2b157504aef4aa84e753387760ad3f855405dcee"
-  integrity sha512-KncCNWngVEspvkeP8RR6AyiwZWGTyaPvCfLYCttNLoBveZ0DVVyBu74YZ6UDQdQ5aDwd1SQ7ECBSjTtYCB20Gw==
+pit-js@1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/pit-js/-/pit-js-1.5.2.tgz#9822c3ef3d77fda71c9b10fb584a0f1d1af2ab59"
+  integrity sha512-XbzRP97x54jmwUecpJhmqcuL0ywSOYZtsGg7rtCsHMR3wkFYBxtS+Ug4N02I4Aq6R3wX4KdtaZSho/Ldrfr/3g==
 
 pkg-conf@^3.1.0:
   version "3.1.0"
@@ -2841,10 +2841,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@^0.128.0:
-  version "0.128.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.128.0.tgz#884dacca6a330e45600a09ec5439283f50b76aa6"
-  integrity sha512-i0ap/E+OaSfzw7bD1TtYnPo3VEplkl70WX5fZqZnfZsE3k3aSFudqrrC9ldFZfYFkn1zwDmBcdGfiIm/hnbyZA==
+three@^0.134.0:
+  version "0.134.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.134.0.tgz#d7ad4d85d050da0861bf39749b06ddfb5f17157f"
+  integrity sha512-LbBerg7GaSPjYtTOnu41AMp7tV6efUNR3p4Wk5NzkSsNTBuA5mDGOfwwZL1jhhVMLx9V20HolIUo0+U3AXehbg==
 
 through2@^0.6.3:
   version "0.6.5"

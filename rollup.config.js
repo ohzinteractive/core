@@ -26,7 +26,8 @@ export default [
       'three/examples/jsm/loaders/OBJLoader.js',
       'three/examples/jsm/loaders/RGBELoader.js',
       'three/examples/jsm/loaders/HDRCubeTextureLoader.js',
-      'three/examples/jsm/loaders/DRACOLoader.js'
+      'three/examples/jsm/loaders/DRACOLoader.js',
+      'three/examples/jsm/loaders/FontLoader.js'
     ]
   }
 //   {
