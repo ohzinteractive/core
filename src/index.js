@@ -65,6 +65,7 @@ import OrthographicFrustumPointFitter from './utilities/OrthographicFrustumPoint
 import Grid from './components/Grid';
 import Line from './components/Line';
 import Text2D from './components/Text2D';
+import WorldImage from './components/WorldImage';
 import UIElement from './components/UIElement';
 import UpdatableMaterialMesh from './components/UpdatableMaterialMesh';
 
@@ -148,6 +149,7 @@ export {
   UIElement,
   SDFTextBatch,
   UpdatableMaterialMesh,
+  WorldImage,
 
   Arrow,
   Cube,
