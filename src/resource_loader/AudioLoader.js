@@ -15,6 +15,18 @@ export default class AudioLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
+    if (!window.user_interaction_for_audio)
+    {
+      setTimeout(this.on_preloaded_finished.bind(this, resource_container), 100);
+    }
+    else
+    {
+      this.load_with_three_loader(resource_container);
+    }
+  }
+
+  load_with_three_loader(resource_container)
+  {
     let ctx = this;
 
     this.loader.load(this.url, (buffer) =>

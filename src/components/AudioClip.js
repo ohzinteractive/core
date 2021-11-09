@@ -16,7 +16,7 @@ export default class AudioClip
     this.audio = new THREEAudio(audio_listener);
     this.audio.setBuffer(this.buffer);
     this.audio.setLoop(this.loop);
-    this.audio.setVolume(this.volume);
+    this.audio.setVolume(this.loop ? 0 : this.volume);
   }
 
   play()
