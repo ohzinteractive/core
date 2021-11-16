@@ -1,54 +1,47 @@
 import AbstractLoader from './AbstractLoader';
 
 import AudioClip from '../components/AudioClip';
-import { AudioLoader as THREEAudioLoader } from 'three';
+
+import { AudioContext } from 'three';
 
 export default class AudioLoader extends AbstractLoader
 {
-  constructor(resource_id, url, loop = true, volume = 1, size)
+  constructor(resource_id, url, loop = true, volume = 0, size, positional = false)
   {
     super(resource_id, url, size);
-    this.loader = new THREEAudioLoader();
     this.loop = loop;
     this.volume = volume;
+    this.positional = positional;
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container, response)
   {
     if (!window.user_interaction_for_audio)
     {
-      setTimeout(this.on_preloaded_finished.bind(this, resource_container), 100);
+      setTimeout(this.on_preloaded_finished.bind(this, resource_container, response), 100);
     }
     else
     {
-      this.load_with_three_loader(resource_container);
+      this.instantiate_audio(resource_container, response);
     }
   }
 
-  load_with_three_loader(resource_container)
+  instantiate_audio(resource_container, response)
   {
-    let ctx = this;
-
-    this.loader.load(this.url, (buffer) =>
+    response.arrayBuffer().then((array_buffer) =>
     {
-      resource_container.set_resource(ctx.resource_id, ctx.url, new AudioClip(buffer, this.loop, this.volume));
+      const context = AudioContext.getContext();
+      context.decodeAudioData(array_buffer, (audio_buffer) =>
+      {
+        resource_container.set_resource(
+          this.resource_id,
+          this.url,
+          new AudioClip(audio_buffer, this.loop, this.volume, this.positional)
+        );
 
-      ctx.__update_downloaded_bytes(1, 1);
-      ctx.__loading_ended();
-    },
-    (xhr) =>
-    {
-      // if (xhr)
-      // {
-      //   let total = xhr.total || this.total_bytes;
-
-      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
-      // }
-    },
-    (error) =>
-    {
-      ctx.__set_error('Audio could not be loaded. Maybe wrong name or path, I don\'t know' + '¯\\_(ツ)_/¯', error);
-      ctx.__loading_ended();
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      });
     });
   }
 }

@@ -69,9 +69,9 @@ export default class ResourceBatch
     this.resource_loaders.push(new CubemapLoader(resource_id, url, size));
   }
 
-  add_audio(resource_id, url, loop, volume, size)
+  add_audio(resource_id, url, loop, volume, size, positional)
   {
-    this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume, size));
+    this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume, size, positional));
   }
 
   add_video(resource_id, url, size)
