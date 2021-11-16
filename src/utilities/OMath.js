@@ -147,4 +147,9 @@ export default class OMath
     col += arr[Math.floor(Math.random() * 16)];
     return col;
   }
+
+  static saturate(x)
+  {
+    return OMath.clamp(x, 0, 1);
+  }
 }

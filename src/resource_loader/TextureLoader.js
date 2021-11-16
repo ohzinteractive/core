@@ -19,16 +19,17 @@ export default class TextureLoader extends AbstractLoader
 
       const image = new Image();
       image.src = url;
+
       image.onload = () =>
       {
         texture.image = image;
         texture.needsUpdate = true;
+
+        resource_container.set_resource(this.resource_id, this.url, texture);
+
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
       };
-
-      resource_container.set_resource(this.resource_id, this.url, texture);
-
-      this.__update_downloaded_bytes(1, 1);
-      this.__loading_ended();
     });
   }
 }
