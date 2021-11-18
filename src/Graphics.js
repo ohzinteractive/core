@@ -82,6 +82,9 @@ class Graphics
     this.generateDepthNormalTexture = false;
 
     this.depth_and_normals_renderer = new DepthAndNormalsRenderer();
+
+    this.resize_observer = new ResizeObserver(this.on_resize.bind(this));
+    this.resize_observer.observe(this.canvas);
   }
 
   get dom_element()
@@ -105,8 +108,6 @@ class Graphics
 
   update()
   {
-    this.check_for_resize();
-
     if (this.generateDepthNormalTexture)
     {
       this.depth_and_normals_renderer.render(this);
@@ -196,22 +197,13 @@ class Graphics
       !!clear_stencil);
   }
 
-  check_for_resize()
+  on_resize(entries)
   {
-    let current_width   = this.canvas.clientWidth;
-    let current_height  = this.canvas.clientHeight;
-
-    if (
-      current_width  !== Screen.width  ||
-      current_height !== Screen.height ||
-      Configuration.dpr !== Screen.dpr
-    )
+    for (let entry of entries)
     {
-      let canvas_rect = this.canvas.getBoundingClientRect();
-
       Screen.dpr = Configuration.dpr;
-      Screen.update_position(canvas_rect.x, canvas_rect.y);
-      Screen.update_size(current_width, current_height);
+      Screen.update_position(entry.contentRect.x, entry.contentRect.y);
+      Screen.update_size(entry.contentRect.width, entry.contentRect.height);
 
       this.canvas.width  = Screen.render_width;
       this.canvas.height = Screen.render_height;
@@ -220,11 +212,6 @@ class Graphics
 
       this.__update_current_camera();
     }
-  }
-
-  on_resize()
-  {
-    console.error('Graphics.on_resize call no longer needed.');
   }
 
   material_pass(mat, dst)

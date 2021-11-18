@@ -21,7 +21,6 @@ export class Graphics {
     static __apply_override_material(scene: any, mat: any): void;
     static readback_RT(RT: any, buffer: any): void;
     static clear(RT: any, camera: any, clear_depth: any, clear_stencil: any): void;
-    static check_for_resize(): void;
     static on_resize(): void;
     static material_pass(mat: any, dst: any): void;
     static blit(src_RT: any, dst_RT: any, mat: any): void;
