@@ -10,6 +10,15 @@ class OS
       MAC: 'mac',
       WINDOWS: 'windows'
     };
+
+    this.is_mobile = !!(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|playbook|silk|BlackBerry|BB10|Windows Phone|Tizen|Bada|webOS|IEMobile|Opera Mini)/));
+    this.is_ipad = !!(navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+    this.is_ios = !!navigator.userAgent.match(/(iPhone|iPod|iPad)/) || this.is_ipad;
+
+    this.is_android = this.get_os() === this.operating_systems.ANDROID;
+    this.is_linux = this.get_os() === this.operating_systems.LINUX;
+    this.is_mac = this.get_os() === this.operating_systems.MAC;
+    this.is_windows = this.get_os() === this.operating_systems.WINDOWS;
   }
 
   get_os()
@@ -43,41 +52,6 @@ class OS
     }
 
     return os;
-  }
-
-  get is_android()
-  {
-    return this.get_os() === this.operating_systems.ANDROID;
-  }
-
-  get is_ios()
-  {
-    return navigator.userAgent.match(/(iPhone|iPod|iPad)/) || this.is_ipad;
-  }
-
-  get is_ipad()
-  {
-    return (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
-  }
-
-  get is_mobile()
-  {
-    return !!(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|playbook|silk|BlackBerry|BB10|Windows Phone|Tizen|Bada|webOS|IEMobile|Opera Mini)/));
-  }
-
-  get is_linux()
-  {
-    return this.get_os() === this.operating_systems.LINUX;
-  }
-
-  get is_mac()
-  {
-    return this.get_os() === this.operating_systems.MAC;
-  }
-
-  get is_windows()
-  {
-    return this.get_os() === this.operating_systems.WINDOWS;
   }
 }
 

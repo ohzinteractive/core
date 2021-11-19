@@ -61,8 +61,6 @@ export default class RenderLoop
   {
     if (this.is_running) return; // sanity check
 
-    this.graphics.check_for_resize();
-
     if (this.frames_passed === 0)
     {
       this.target_application.on_enter();

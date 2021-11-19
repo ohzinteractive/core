@@ -45,7 +45,7 @@ export * from './utilities/EasingFunctions';
 export * from './utilities/FrustumPointFitter';
 export * from './utilities/GeometryUtilities';
 export * from './utilities/ImageUtilities';
-export * from './utilities/MathUtilities';
+export * from './utilities/OMath';
 export * from './utilities/MeshSampler';
 export * from './utilities/ModelUtilities';
 export * from './utilities/ObjectUtilities';

@@ -1,4 +1,4 @@
-import {Vector3} from 'three';
+import { Vector3 } from 'three';
 class MeshSampler
 {
   constructor()
@@ -18,18 +18,16 @@ class MeshSampler
 
     let faces = [];
 
-    for (let i = 0; i < indices.count; i+=3)
+    for (let i = 0; i < indices.count; i += 3)
     {
-      let index_0 = indices.array[i+0];
-      let index_1 = indices.array[i+1];
-      let index_2 = indices.array[i+2];
-
+      let index_0 = indices.array[i + 0];
+      let index_1 = indices.array[i + 1];
+      let index_2 = indices.array[i + 2];
 
       let v1 = new Vector3();
       v1.x = vertices.getX(index_0);
       v1.y = vertices.getY(index_0);
       v1.z = vertices.getZ(index_0);
-
 
       let v2 = new Vector3();
       v2.x = vertices.getX(index_1);
@@ -41,21 +39,18 @@ class MeshSampler
       v3.y = vertices.getY(index_2);
       v3.z = vertices.getZ(index_2);
 
-
-
       let face = {
         a: v1,
         b: v2,
         c: v3
-      }
+      };
 
-      if(normals)
+      if (normals)
       {
         let n1 = new Vector3();
         n1.x = normals.getX(index_0);
         n1.y = normals.getY(index_0);
         n1.z = normals.getZ(index_0);
-
 
         let n2 = new Vector3();
         n2.x = normals.getX(index_1);
@@ -71,8 +66,7 @@ class MeshSampler
         face.normal = normal;
       }
 
-      faces.push(face)
-
+      faces.push(face);
 
       let area = this.get_face_area(face);
       min_area = Math.min(area, min_area);
