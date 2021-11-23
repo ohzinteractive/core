@@ -17,4 +17,7 @@ export default class BaseApplication
 
   on_pre_render()
   {}
+
+  on_frame_end()
+  {}
 }

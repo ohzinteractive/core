@@ -49,12 +49,14 @@ export default class RenderLoop
     Debug.render(this.graphics);             // render debug layer
 
     // ###### END  CYCLE #######
+
+    this._frame_id = requestAnimationFrame(this.update.bind(this));
+    this.target_application.on_frame_end();
+    this.frames_passed++;
+
     Input.clear();
     UI.clear();
     Debug.clear();
-
-    this._frame_id = requestAnimationFrame(this.update.bind(this));
-    this.frames_passed++;
   }
 
   start()
