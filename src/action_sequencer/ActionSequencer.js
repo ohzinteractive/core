@@ -6,7 +6,7 @@ export default class ActionSequencer
   constructor(context)
   {
     this.elapsed_time = -0.00001;
-
+    this.playback_speed = 1;
     this.playing = false;
 
     this.action_events = [];
@@ -52,8 +52,8 @@ export default class ActionSequencer
   {
     if (this.playing)
     {
-      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time);
-      this.elapsed_time = this.elapsed_time + delta_time;
+      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time * this.playback_speed);
+      this.elapsed_time = this.elapsed_time + delta_time * this.playback_speed;
     }
   }
 
