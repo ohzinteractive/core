@@ -55,6 +55,10 @@ export default class ApplicationView extends ViewState
 
   set_opacity(current_state_data)
   {
-    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    if (this.container.style.opacity > current_state_data[`${this.name}_opacity`] ||
+        this.container.style.opacity < current_state_data[`${this.name}_opacity`])
+    {
+      this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    }
   }
 }

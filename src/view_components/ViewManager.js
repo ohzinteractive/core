@@ -13,9 +13,9 @@ class ViewManager
 
   update()
   {
-    this.transition_handler.update();
-
     this.__set_views_opacities();
+
+    this.transition_handler.update();
   }
 
   go_to_view(view_name, change_url = true, skip = false)
