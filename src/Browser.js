@@ -29,10 +29,9 @@ class Browser
     case this.agent.indexOf('safari') > -1:
       this.browser_name = 'safari';
       break;
-    default:
-      this.browser_name = 'other';
-      break;
     }
+
+    console.log(this.browser_name);
   }
 
   get name()
