@@ -30,8 +30,6 @@ class Browser
       this.browser_name = 'safari';
       break;
     }
-
-    console.log(this.browser_name);
   }
 
   get name()
