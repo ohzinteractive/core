@@ -4,7 +4,6 @@ import ApplicationView from './view_components/ApplicationView';
 import BaseApplication from './BaseApplication';
 import BaseRender from './render_mode/BaseRender';
 import BaseShaderMaterial from './materials/BaseShaderMaterial';
-import BasisLoader from './resource_loader/BasisLoader.js';
 import BlitMaterial from './materials/BlitMaterial';
 import Browser from './Browser';
 import CameraManager from './CameraManager';
@@ -19,7 +18,6 @@ import EventManager from './EventManager';
 import Graphics from './Graphics';
 import Input from './Input';
 import Initializer from './Initializer';
-import JSONLoader from './resource_loader/JSONLoader';
 import NormalAORender from './render_mode/NormalAORender';
 import NormalRender from './render_mode/NormalRender';
 import UnrealBloomRender from './render_mode/UnrealBloomRender';
@@ -27,8 +25,6 @@ import OrthographicCamera from './OrthographicCamera';
 import OS from './OS';
 import PerspectiveCamera from './PerspectiveCamera';
 import RenderLoop from './RenderLoop';
-import ResourceBatch from './resource_loader/ResourceBatch';
-import ResourceContainer from './ResourceContainer';
 import SceneManager from './SceneManager';
 import Screen from './Screen';
 import SimpleTextDrawer from './canvas_drawer/SimpleTextDrawer';
@@ -89,13 +85,32 @@ import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import MeshBatcher from './static_batcher/MeshBatcher';
 
+import AudioLoader from './resource_loader/AudioLoader';
+import BasisLoader from './resource_loader/BasisLoader';
+import CubemapLoader from './resource_loader/CubemapLoader';
+import DAELoader from './resource_loader/DAELoader';
+import FileLoader from './resource_loader/FileLoader';
+import FontLoader from './resource_loader/FontLoader';
+import GLTFLoader from './resource_loader/GLTFLoader';
+import GLTFDRACOLoader from './resource_loader/GLTFDRACOLoader';
+import HDRCubeTextureLoader from './resource_loader/HDRCubeTextureLoader';
+import JSONLoader from './resource_loader/JSONLoader';
+import OBJLoader from './resource_loader/OBJLoader';
+import PointArrayLoader from './resource_loader/PointArrayLoader';
+import RGBETextureLoader from './resource_loader/RGBETextureLoader';
+import TextLoader from './resource_loader/TextLoader';
+import TextureLoader from './resource_loader/TextureLoader';
+import VideoLoader from './resource_loader/VideoLoader';
+
+import ResourceBatch from './resource_loader/ResourceBatch';
+import ResourceContainer from './ResourceContainer';
+
 export {
   AbstractLoader,
   ActionSequencerBuilder,
   ApplicationView,
   BaseApplication,
   BaseShaderMaterial,
-  BasisLoader,
   Browser,
   CameraManager,
   Capabilities,
@@ -109,7 +124,6 @@ export {
   Graphics,
   Input,
   Initializer,
-  JSONLoader,
   NormalAORender,
   NormalRender,
   UnrealBloomRender,
@@ -117,8 +131,6 @@ export {
   OS,
   PerspectiveCamera,
   RenderLoop,
-  ResourceBatch,
-  ResourceContainer,
   SceneManager,
   Screen,
   SimpleTextDrawer,
@@ -175,5 +187,25 @@ export {
 
   DualFilteringBlurMaterial,
   BufferGeometryUtils,
-  MeshBatcher
+  MeshBatcher,
+
+  AudioLoader,
+  BasisLoader,
+  CubemapLoader,
+  DAELoader,
+  FileLoader,
+  FontLoader,
+  GLTFLoader,
+  GLTFDRACOLoader,
+  HDRCubeTextureLoader,
+  JSONLoader,
+  OBJLoader,
+  PointArrayLoader,
+  RGBETextureLoader,
+  TextLoader,
+  TextureLoader,
+  VideoLoader,
+
+  ResourceBatch,
+  ResourceContainer
 };

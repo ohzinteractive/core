@@ -1,20 +1,4 @@
-import TextureLoader from './TextureLoader';
-import GLTFLoader from './GLTFLoader';
-import DAELoader from './DAELoader';
-import TextLoader from './TextLoader';
-import CubemapLoader from './CubemapLoader';
-import AudioLoader from './AudioLoader';
-import JSONLoader from './JSONLoader';
-import OBJLoader from './OBJLoader';
-import FontLoader from './FontLoader';
-import RGBETextureLoader from './RGBETextureLoader';
-import PointArrayLoader from './PointArrayLoader';
-import HDRCubeTextureLoader from './HDRCubeTextureLoader';
-import GLTFDRACOLoader from './GLTFDRACOLoader';
-import BasisLoader from './BasisLoader';
 import ResourceContainer from '../ResourceContainer';
-import FileLoader from './FileLoader';
-import VideoLoader from './VideoLoader';
 
 export default class ResourceBatch
 {
@@ -22,86 +6,6 @@ export default class ResourceBatch
   {
     this.resource_loaders = [];
     this.batch_name = batch_name || 'unnamed batch';
-  }
-
-  add_texture(resource_id, url, size)
-  {
-    this.resource_loaders.push(new TextureLoader(resource_id, url, size));
-  }
-
-  add_gltf(resource_id, url, size)
-  {
-    this.resource_loaders.push(new GLTFLoader(resource_id, url, size));
-  }
-
-  add_basis(resource_id, url, renderer, loader, size)
-  {
-    this.resource_loaders.push(new BasisLoader(resource_id, url, renderer, loader, size));
-  }
-
-  add_gltf_draco(resource_id, url, size)
-  {
-    this.resource_loaders.push(new GLTFDRACOLoader(resource_id, url, size));
-  }
-
-  add_dae(resource_id, url, size)
-  {
-    this.resource_loaders.push(new DAELoader(resource_id, url, size));
-  }
-
-  add_obj(resource_id, url, size)
-  {
-    this.resource_loaders.push(new OBJLoader(resource_id, url, size));
-  }
-
-  add_file(resource_id, url, size)
-  {
-    this.resource_loaders.push(new FileLoader(resource_id, url, size));
-  }
-
-  add_text(resource_id, url, size)
-  {
-    this.resource_loaders.push(new TextLoader(resource_id, url, size));
-  }
-
-  add_cubemap(resource_id, url, size)
-  {
-    this.resource_loaders.push(new CubemapLoader(resource_id, url, size));
-  }
-
-  add_audio(resource_id, url, loop, volume, size, positional)
-  {
-    this.resource_loaders.push(new AudioLoader(resource_id, url, loop, volume, size, positional));
-  }
-
-  add_video(resource_id, url, size)
-  {
-    this.resource_loaders.push(new VideoLoader(resource_id, url, size));
-  }
-
-  add_json(resource_id, url, size)
-  {
-    this.resource_loaders.push(new JSONLoader(resource_id, url, size));
-  }
-
-  add_point_array(resource_id, url, size)
-  {
-    this.resource_loaders.push(new PointArrayLoader(resource_id, url, size));
-  }
-
-  add_hdr(resource_id, url, size)
-  {
-    this.resource_loaders.push(new RGBETextureLoader(resource_id, url, size));
-  }
-
-  add_hdr_cubemap(resource_id, url, size)
-  {
-    this.resource_loaders.push(new HDRCubeTextureLoader(resource_id, url, size));
-  }
-
-  add_font(resource_id, url, size)
-  {
-    this.resource_loaders.push(new FontLoader(resource_id, url, size));
   }
 
   add_loader(loader)
