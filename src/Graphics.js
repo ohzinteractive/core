@@ -119,6 +119,8 @@ class Graphics
     {
       this.current_render_mode.render();
     }
+
+    Screen.update();
   }
 
   __update_current_camera()

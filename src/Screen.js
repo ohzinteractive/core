@@ -22,6 +22,11 @@ class Screen
     this.position.set(x, y);
   }
 
+  update()
+  {
+    this.size_changed = false;
+  }
+
   update_size(width, height)
   {
     this.width = width;
@@ -34,6 +39,8 @@ class Screen
 
     this.render_width = width * this.dpr;
     this.render_height = height * this.dpr;
+
+    this.size_changed = true;
   }
 
   apply_pixel_density_v2(vector2)
