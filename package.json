@@ -2,7 +2,6 @@
   "name": "ohzi-core",
   "version": "6.1.0",
   "description": "OHZI Core Library",
-  "module": "build/index.module.js",
   "source": "src/index.js",
   "types": "types/index.d.ts",
   "files": [
@@ -12,18 +11,12 @@
     "types",
     "package.json"
   ],
-  "targets": {
-    "module": {
-      "includeNodeModules": false
-    }
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "build": "rollup -c",
+    "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
     "fix-syntax": "standardx --fix",
-    "generate-types": "npx -p typescript tsc src/components/sdf_text/SDFTextBatch.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "repository": {
     "type": "git",
@@ -38,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/ohzinteractive/core/issues"
   },
-  "homepage": "https://github.com/ohzinteractive/core#readme",
+  "homepage": "https://github.com/ohzinteractive/core",
   "dependencies": {
     "pit-js": "1.7.0",
     "three": "^0.134.0"
