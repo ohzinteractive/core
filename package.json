@@ -34,7 +34,7 @@
   "homepage": "https://github.com/ohzinteractive/core",
   "dependencies": {
     "pit-js": "1.7.0",
-    "three": "^0.134.0"
+    "three": "^0.137.0"
   },
   "devDependencies": {
     "cross-var": "^1.1.0",
