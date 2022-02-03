@@ -179,14 +179,12 @@ export default class ActionSequencer
     for (let i = 0; i < keyframes.length; i++)
     {
       let keyframe = keyframes[i];
-      let difference = Math.min(
-        Math.abs(keyframe.from - time),
-        Math.abs(keyframe.to - time)
-      );
+      let middle_time = (keyframe.to - keyframe.from) / 2 + keyframe.from;
+      let distance_to_middle_time = Math.abs(time - middle_time);
 
-      if (difference < min_time)
+      if (distance_to_middle_time < min_time)
       {
-        min_time = difference;
+        min_time = distance_to_middle_time;
         closest = keyframe;
       }
     }
