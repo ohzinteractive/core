@@ -44,8 +44,9 @@ export default class ActionSequencer
 
   skip()
   {
-    this.elapsed_time = this.get_duration();
-    this.__play_clips(this.elapsed_time, this.elapsed_time + 0.01);
+    let duration = this.get_duration();
+    this.__play_clips(this.elapsed_time, duration + 0.0001);
+    this.elapsed_time = duration;
   }
 
   update(delta_time)
@@ -141,8 +142,8 @@ export default class ActionSequencer
   {
     for (let i = 0; i < this.action_events.length; i++)
     {
-      if (this.action_events[i].trigger_time >= from &&
-          this.action_events[i].trigger_time < to)
+      if (this.action_events[i].trigger_time > from - Number.EPSILON &&
+          this.action_events[i].trigger_time < to   + Number.EPSILON)
       {
         // console.log("Play event: " + this.action_events[i].action.constructor.name + " at "+  this.action_events[i].trigger_time);
         this.action_events[i].action.trigger();
