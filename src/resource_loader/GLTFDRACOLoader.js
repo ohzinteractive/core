@@ -13,6 +13,8 @@ export default class GLTFDRACOLoader extends AbstractLoader
 
     this.draco_loader.setDecoderPath(window.draco_decoder_path);
     this.draco_loader.setDecoderConfig({ type: 'js' });
+    this.draco_loader.setWorkerLimit(1);
+
     this.loader.setDRACOLoader(this.draco_loader);
   }
 
