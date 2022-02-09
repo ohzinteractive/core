@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "6.2.1",
+  "version": "6.2.2",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "types": "types/index.d.ts",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/ohzinteractive/core",
   "dependencies": {
-    "pit-js": "1.8.5",
+    "pit-js": "1.8.6",
     "three": "^0.137.0"
   },
   "devDependencies": {
