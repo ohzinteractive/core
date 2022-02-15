@@ -45,7 +45,7 @@ export default class GaussianBlurrer
 
     for (let i = 0; i < this.nMips; i++)
     {
-      let mat = this.separableBlurMaterials[i];
+      const mat = this.separableBlurMaterials[i];
 
       mat.set_direction(1, 0);
       Graphics.blit(inputRenderTarget, this.renderTargetsHorizontal[i], mat);
@@ -75,8 +75,8 @@ export default class GaussianBlurrer
 
     for (let i = 0; i < this.nMips; i++)
     {
-      let hor = new WebGLRenderTarget(1, 1, this.rt_pars);
-      let ver = new WebGLRenderTarget(1, 1, this.rt_pars);
+      const hor = new WebGLRenderTarget(1, 1, this.rt_pars);
+      const ver = new WebGLRenderTarget(1, 1, this.rt_pars);
 
       hor.texture.generateMipmaps = false;
       ver.texture.generateMipmaps = false;

@@ -49,8 +49,8 @@ export default class OMath
 
   static project_points_on_plane(points, plane)
   {
-    let projected_point = new Vector3();
-    let points_on_plane = [];
+    const projected_point = new Vector3();
+    const points_on_plane = [];
     for (let i = 0; i < points.length; i++)
     {
       plane.projectPoint(points[i], projected_point);
@@ -123,7 +123,7 @@ export default class OMath
 
   static points_average(points)
   {
-    let center = points[0].clone();
+    const center = points[0].clone();
     for (let i = 1; i < points.length; i++)
     {
       center.add(points[i]);
@@ -134,7 +134,7 @@ export default class OMath
 
   static get_random_color()
   {
-    let arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
+    const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'];
 
     let col = '#';
     col += arr[Math.floor(Math.random() * 16)];

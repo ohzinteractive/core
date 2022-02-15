@@ -4,7 +4,7 @@ export default class ScreenSpaceTextureMaterial extends BaseShaderMaterial
 {
   constructor(x, y, w, h)
   {
-    let vert = `
+    const vert = `
       uniform vec2 _ScreenSpacePosition;
       uniform vec2 _ScreenSize;
       uniform vec2 _TextureSize;
@@ -21,7 +21,7 @@ export default class ScreenSpaceTextureMaterial extends BaseShaderMaterial
         vUv = uv;
       }
     `;
-    let frag = `
+    const frag = `
       uniform sampler2D _MainTex;
       varying vec2 vUv;
 

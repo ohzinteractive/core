@@ -33,10 +33,10 @@ export default class ObjectEditor
   {
     if (Input.left_mouse_button_pressed)
     {
-      let x = this.object_picker.pick(Input.NDC, this.selectable_objects);
+      const x = this.object_picker.pick(Input.NDC, this.selectable_objects);
       if (x !== 0)
       {
-        let selected_obj = this.selectable_objects[x - 1];
+        const selected_obj = this.selectable_objects[x - 1];
         // this.object_manipulator.position.copy(selected_obj.position);
         this.object_manipulator.set_target(selected_obj);
       }

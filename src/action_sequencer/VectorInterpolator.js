@@ -13,7 +13,7 @@ export default class VectorInterpolator extends ActionInterpolator
 
   update(context, t)
   {
-    let tmp = this.from.clone();
+    const tmp = this.from.clone();
     tmp.lerp(this.to, this.easing_function(t));
     context[this.attribute_name].copy(tmp);
   }

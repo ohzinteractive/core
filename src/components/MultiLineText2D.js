@@ -17,7 +17,7 @@ export default class MultiLineText2D extends Object3D
 
     for (let i = 0; i < text_array.length; i++)
     {
-      let text2D = new Text2D(text_array[i], font, color, pivot);
+      const text2D = new Text2D(text_array[i], font, color, pivot);
       this.text_array.push(text2D);
       this.add(text2D);
     }

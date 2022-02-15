@@ -12,9 +12,9 @@ export default class ApplicationView extends ViewState
     this.container = container;
     this.url = url;
 
-    let transition_data = new DrawIOAnimationSheet().parse(ResourceContainer.get(`${name}_data`));
+    const transition_data = new DrawIOAnimationSheet().parse(ResourceContainer.get(`${name}_data`));
 
-    let transitions = [
+    const transitions = [
       {
         to: name,
         data: transition_data

@@ -35,8 +35,8 @@ export default class ParticleAttribute
 
   build_RT(particle_count)
   {
-    let resolution = this.calculate_resolution(particle_count);
-    let options = {
+    const resolution = this.calculate_resolution(particle_count);
+    const options = {
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
@@ -56,7 +56,7 @@ export default class ParticleAttribute
 
   swap_RT()
   {
-    let tmp = this.read;
+    const tmp = this.read;
     this.read = this.write;
     this.write = tmp;
   }
@@ -72,7 +72,7 @@ export default class ParticleAttribute
 
   render_geometry_to_RT(geometry, material, RT)
   {
-    let points = new Points(geometry, material);
+    const points = new Points(geometry, material);
     points.frustumCulled = false;
     // let scene = new Scene();
     // scene.add( points );

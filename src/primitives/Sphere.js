@@ -8,8 +8,8 @@ export default class Sphere extends Mesh
   {
     color = color || '#FF0000';
     radius = radius || 1;
-    let geometry = new SphereBufferGeometry(radius, 64, 64);
-    let material = new MeshBasicMaterial({ color: color });
+    const geometry = new SphereBufferGeometry(radius, 64, 64);
+    const material = new MeshBasicMaterial({ color: color });
     super(geometry, material);
   }
 }

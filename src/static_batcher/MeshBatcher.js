@@ -8,21 +8,21 @@ export default class MeshBatcher
 {
   batch(meshes, material)
   {
-    let max_texture_width = 2048;
+    const max_texture_width = 2048;
     // let texture_width  = meshes.length % max_texture_width;
     // let texture_height = Math.ceil(meshes.length / max_texture_width);
 
     // console.log("Store count: " + buffer_geometries.length + ", Texture size: " +texture_width);
 
-    let geometries = [];
-    let id_table = {};
+    const geometries = [];
+    const id_table = {};
 
-    let attr_mesh_id = [];
+    const attr_mesh_id = [];
 
     for (let i = 0; i < meshes.length; i++)
     {
-      let mesh = meshes[i];
-      let vertex_count = mesh.geometry.getAttribute('position').count;
+      const mesh = meshes[i];
+      const vertex_count = mesh.geometry.getAttribute('position').count;
 
       for (let count = 0; count < vertex_count; count++)
       {
@@ -41,9 +41,9 @@ export default class MeshBatcher
       }
     }
 
-    let buffer_geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
 
-    let buffer_attribute = new BufferAttribute(new Float32Array(attr_mesh_id), 1);
+    const buffer_attribute = new BufferAttribute(new Float32Array(attr_mesh_id), 1);
     buffer_geometry.setAttribute('mesh_id', buffer_attribute);
 
     return this.create_batched_mesh(id_table, buffer_geometry, material, max_texture_width);

@@ -6,7 +6,7 @@ export default class RGBFloatDataTexture extends CustomDataTexture
 {
   constructor(width, height)
   {
-    let data = new Float32Array(width * height * 3);
+    const data = new Float32Array(width * height * 3);
     super(data, width, height, RGBFormat, FloatType);
   }
 }

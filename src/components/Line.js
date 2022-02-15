@@ -11,14 +11,14 @@ export default class Line extends Mesh
 {
   constructor(points)
   {
-    let geometry = new BufferGeometry();
+    const geometry = new BufferGeometry();
     geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
     geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
     geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
     geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
     geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
 
-    let material = new ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms: {
         _Thickness: { value: 0.2 },
         _Length: { value: 0 },
@@ -43,11 +43,11 @@ export default class Line extends Mesh
 
   setup(points)
   {
-    let vertices = [];
-    let next_position = [];
-    let previous_position = [];
-    let orientation = [];
-    let coverage = [];
+    const vertices = [];
+    const next_position = [];
+    const previous_position = [];
+    const orientation = [];
+    const coverage = [];
     let accumulated_length = 0;
 
     for (let i = 0; i < points.length; i++)
@@ -62,7 +62,7 @@ export default class Line extends Mesh
       vertices.push(points[i].z);
       orientation.push(-1);
 
-      let next_point = this.__get_next_position(points, i);
+      const next_point = this.__get_next_position(points, i);
       next_position.push(next_point.x);
       next_position.push(next_point.y);
       next_position.push(next_point.z);
@@ -71,7 +71,7 @@ export default class Line extends Mesh
       next_position.push(next_point.y);
       next_position.push(next_point.z);
 
-      let previous_point = this.__get_previous_position(points, i);
+      const previous_point = this.__get_previous_position(points, i);
       previous_position.push(previous_point.x);
       previous_position.push(previous_point.y);
       previous_position.push(previous_point.z);
@@ -88,16 +88,16 @@ export default class Line extends Mesh
         accumulated_length += points[i].distanceTo(next_point);
       }
     }
-    let vertexList            = new Float32Array(vertices);
-    let nextPositionList      = new Float32Array(next_position);
-    let previousPositionList  = new Float32Array(previous_position);
-    let orientationList       = new Float32Array(orientation);
-    let coverageList          = new Float32Array(coverage);
+    const vertexList            = new Float32Array(vertices);
+    const nextPositionList      = new Float32Array(next_position);
+    const previousPositionList  = new Float32Array(previous_position);
+    const orientationList       = new Float32Array(orientation);
+    const coverageList          = new Float32Array(coverage);
 
-    let indices = [];
+    const indices = [];
     for (let i = 0; i < ((vertexList.length / 3) - 2) / 2; i++)
     {
-      let index = (i * 2) + 1;
+      const index = (i * 2) + 1;
       indices.push(index);
       indices.push(index + 1);
       indices.push(index - 1);

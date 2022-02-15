@@ -59,7 +59,7 @@ export default class ObjectManipulator extends Object3D
       this.tmp_local_pos.copy(this.position);
       this.target_obj.parent.worldToLocal(this.tmp_local_pos);
       this.target_obj.position.copy(this.tmp_local_pos);
-      let scope = this;
+      const scope = this;
       EventManager.fire_unit_position_updated({
         unit_id: scope.target_obj.name,
         position: scope.target_obj.position
@@ -69,8 +69,8 @@ export default class ObjectManipulator extends Object3D
 
   set_translation_axis(active_handle)
   {
-    let vertical = active_handle.get_normalized_screen_direction().dot(this.tmp_up_v2);
-    let horizontal = active_handle.get_normalized_screen_direction().dot(this.tmp_right_v2);
+    const vertical = active_handle.get_normalized_screen_direction().dot(this.tmp_up_v2);
+    const horizontal = active_handle.get_normalized_screen_direction().dot(this.tmp_right_v2);
 
     if (Math.abs(vertical) > Math.abs(horizontal))
     {

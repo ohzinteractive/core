@@ -13,10 +13,10 @@ export default class ActionSequencerBuilder
   from_animation_sheet(animation_data, current_context, initial_context)
   {
     initial_context = initial_context || this.initial_state_data;
-    let tracks = animation_data.animation_tracks;
-    let triggers = animation_data.triggers;
+    const tracks = animation_data.animation_tracks;
+    const triggers = animation_data.triggers;
 
-    let initial_tracks = this.state_to_tracks(this.initial_state_data);
+    const initial_tracks = this.state_to_tracks(this.initial_state_data);
 
     for (let i = 0; i < initial_tracks.length; i++)
     {
@@ -26,19 +26,19 @@ export default class ActionSequencerBuilder
       }
     }
 
-    let sequencer = new ActionSequencer(current_context);
+    const sequencer = new ActionSequencer(current_context);
 
     for (let i = 0; i < tracks.length; i++)
     {
-      let t = tracks[i];
-      let interpolator = new NumberInterpolator(t.attribute_name, current_context[t.attribute_name], t.to_value, t.easing_function);
+      const t = tracks[i];
+      const interpolator = new NumberInterpolator(t.attribute_name, current_context[t.attribute_name], t.to_value, t.easing_function);
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
     }
 
     for (let i = 0; i < triggers.length; i++)
     {
-      let t = triggers[i];
-      let action_event = new ActionEvent(t.name, t.method);
+      const t = triggers[i];
+      const action_event = new ActionEvent(t.name, t.method);
       sequencer.add_action_event(t.at_time, action_event);
     }
 
@@ -47,9 +47,9 @@ export default class ActionSequencerBuilder
 
   state_to_tracks(state)
   {
-    let tracks = [];
+    const tracks = [];
 
-    let keys = Object.keys(state);
+    const keys = Object.keys(state);
 
     for (let i = 0; i < keys.length; i++)
     {
@@ -67,22 +67,22 @@ export default class ActionSequencerBuilder
 
   from_draw_io(xml, context)
   {
-    let transition_data = (new DrawIOAnimationSheet()).parse(xml);
-    let tracks = transition_data.animation_tracks;
-    let triggers = transition_data.triggers;
-    let sequencer = new ActionSequencer(context);
+    const transition_data = (new DrawIOAnimationSheet()).parse(xml);
+    const tracks = transition_data.animation_tracks;
+    const triggers = transition_data.triggers;
+    const sequencer = new ActionSequencer(context);
 
     for (let i = 0; i < tracks.length; i++)
     {
-      let t = tracks[i];
-      let interpolator = new NumberInterpolator(t.attribute_name, context[t.attribute_name], t.to_value, t.easing_function);
+      const t = tracks[i];
+      const interpolator = new NumberInterpolator(t.attribute_name, context[t.attribute_name], t.to_value, t.easing_function);
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
     }
 
     for (let i = 0; i < triggers.length; i++)
     {
-      let t = triggers[i];
-      let action_event = new ActionEvent(t.name, t.method);
+      const t = triggers[i];
+      const action_event = new ActionEvent(t.name, t.method);
       sequencer.add_action_event(t.at_time, action_event);
     }
 

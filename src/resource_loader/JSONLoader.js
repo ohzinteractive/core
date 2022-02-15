@@ -13,7 +13,7 @@ export default class JSONLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    let ctx = this;
+    const ctx = this;
 
     this.loader.load(this.url, (data) =>
     {

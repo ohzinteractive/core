@@ -21,7 +21,7 @@ class ModelUtilities
 
   get_geometries(scene)
   {
-    let geometries = [];
+    const geometries = [];
 
     this.get_mesh(scene, (child) =>
     {
@@ -86,7 +86,7 @@ class ModelUtilities
       }
     });
 
-    for (let name in skinnedMeshes)
+    for (const name in skinnedMeshes)
     {
       const skinnedMesh = skinnedMeshes[name];
       const skeleton = skinnedMesh.skeleton;

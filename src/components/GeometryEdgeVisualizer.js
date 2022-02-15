@@ -12,7 +12,7 @@ export default class GeometryEdgeVisualizer extends Mesh
   {
     line_color = line_color || '#91EE91';
 
-    let material = new ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Color('#CC3333') },
         _LineColor: { value: new Color(line_color) },

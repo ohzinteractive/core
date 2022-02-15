@@ -22,7 +22,7 @@ export default class UnrealBloomComposeMaterial extends BlitMaterial
     this.uniforms.bloomFactors  = { value: [1.0, 0.8, 0.6, 0.4, 0.2] };
     this.uniforms.bloomRadius   = { value: 0.0 };
 
-    let bloomTintColors = [
+    const bloomTintColors = [
       new Color('#FFFFFF'),
       new Color('#FFFFFF'),
       new Color('#FFFFFF'),

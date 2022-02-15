@@ -13,7 +13,7 @@ export default class PointArrayLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    let ctx = this;
+    const ctx = this;
 
     this.loader.load(this.url, (text) =>
     {
@@ -40,20 +40,20 @@ export default class PointArrayLoader extends AbstractLoader
 
   parse_path(raw_data)
   {
-    let string_array = raw_data.split('\n');
+    const string_array = raw_data.split('\n');
 
     if (string_array[string_array.length - 1] === '')
     {
       string_array.pop();
     }
 
-    let positions = [];
+    const positions = [];
 
     for (let i = 0; i < string_array.length; i += 3)
     {
-      let x = parseFloat(string_array[i + 0]);
-      let y = parseFloat(string_array[i + 1]);
-      let z = parseFloat(string_array[i + 2]);
+      const x = parseFloat(string_array[i + 0]);
+      const y = parseFloat(string_array[i + 1]);
+      const z = parseFloat(string_array[i + 2]);
       positions.push(new THREEVector3(x, y, z));
     }
     return positions;

@@ -13,7 +13,7 @@ export default class WorldImage extends Mesh
   constructor(texture, pivot)
   {
     pivot = pivot || new Vector2(0, 0);
-    let material = new ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms: {
         _MainTex: { value: texture },
         _ScreenAligned: { value: 0 },
@@ -26,9 +26,9 @@ export default class WorldImage extends Mesh
       depthWrite: false,
       side: DoubleSide
     });
-    let geometry = new PlaneGeometry(1, 1, 1);
+    const geometry = new PlaneGeometry(1, 1, 1);
     geometry.translate(-pivot.x / 2, -pivot.y / 2, 0);
-    let current_scale = texture.image.width / texture.image.height;
+    const current_scale = texture.image.width / texture.image.height;
     geometry.scale(current_scale, 1, 1);
     super(geometry, material);
     this.current_scale = current_scale;
@@ -41,7 +41,7 @@ export default class WorldImage extends Mesh
   update_texture()
   {
     this.material.uniforms._MainTex.value.needsUpdate = true;
-    let img = this.material.uniforms._MainTex.value.image;
+    const img = this.material.uniforms._MainTex.value.image;
 
     this.geometry.scale(1 / this.current_scale, 1, 1);
     this.current_scale = img.width / img.height;

@@ -25,7 +25,7 @@ class UI
 
   delete_element(elem)
   {
-    let index = this.ui_elements.indexOf(elem);
+    const index = this.ui_elements.indexOf(elem);
     if (index > -1)
     {
       this.ui_elements.splice(index, 1);

@@ -18,7 +18,7 @@ export default class PlanarReflectionsRender extends BaseRender
   constructor()
   {
     super();
-    let color = 0.946;
+    const color = 0.946;
     this.plane_material_solid = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(color, color, color, 0.5) }
@@ -46,11 +46,11 @@ export default class PlanarReflectionsRender extends BaseRender
     this.gl = renderer.domElement.getContext('webgl');
     CameraManager.current.parent = SceneManager.current;
 
-    let plane_material_mask = new MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
+    const plane_material_mask = new MeshBasicMaterial({ color: CameraManager.current.clear_color, depthWrite: false });
     this.plane_mask = new Mesh(ReflectionPlaneContext.target_geometry, plane_material_mask);
     this.plane_solid = new Mesh(ReflectionPlaneContext.target_geometry, this.plane_material_solid);
 
-    let clear_color = CameraManager.current.clear_color;
+    const clear_color = CameraManager.current.clear_color;
     this.plane_material_solid.uniforms._Color.value.set(clear_color.r, clear_color.g, clear_color.b, 0.5);
 
     this.stencil_mask_scene.add(this.plane_mask);

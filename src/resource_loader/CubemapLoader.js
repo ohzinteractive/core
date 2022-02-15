@@ -21,7 +21,7 @@ export default class CubemapLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    let ctx = this;
+    const ctx = this;
 
     this.loader.load(this.urls, (image) =>
     {

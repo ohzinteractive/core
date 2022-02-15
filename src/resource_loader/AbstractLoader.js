@@ -70,7 +70,7 @@ export default class AbstractLoader
     const reader = response.body.getReader();
 
     // Step 2: get total length
-    let contentLength = +response.headers.get('Content-Length');
+    const contentLength = +response.headers.get('Content-Length');
 
     // Step 3: read the data
     let receivedLength = 0; // received that many bytes at the moment

@@ -17,17 +17,17 @@ export default class ManipulatorHandle extends Object3D
   {
     super();
 
-    let length = 10;
+    const length = 10;
     this.arrow_helper = new ArrowHelper(direction, new Vector3(0, 0, 0), length, color, undefined, 1);
     this.add(this.arrow_helper);
 
-    let collider_size = new Vector3();
+    const collider_size = new Vector3();
     collider_size.x = TMath.clamp(direction.x * length, 1, 30);
     collider_size.y = TMath.clamp(direction.y * length, 1, 30);
     collider_size.z = TMath.clamp(direction.z * length, 1, 30);
 
-    let geometry = new BoxGeometry(collider_size.x, collider_size.y, collider_size.z);
-    let material = new MeshBasicMaterial({ color: color, depthTest: false, depthWrite: false });
+    const geometry = new BoxGeometry(collider_size.x, collider_size.y, collider_size.z);
+    const material = new MeshBasicMaterial({ color: color, depthTest: false, depthWrite: false });
     material.visible = false;
     this.box_collider = new Mesh(geometry, material);
     this.box_collider.position.add(direction.clone().multiplyScalar(length * 0.5));

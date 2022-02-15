@@ -41,7 +41,7 @@ class Debug
 
   draw_arrow(origin, dir, color = 0xff0000)
   {
-    let arrow = new Arrow(color, dir.length(), dir.clone().normalize());
+    const arrow = new Arrow(color, dir.length(), dir.clone().normalize());
     arrow.position.copy(origin);
     SceneManager.current.add(arrow);
     return arrow;
@@ -49,7 +49,7 @@ class Debug
 
   draw_axis()
   {
-    let axis = new AxisHelper();
+    const axis = new AxisHelper();
     SceneManager.current.add(axis);
     return axis;
   }
@@ -88,13 +88,13 @@ class Debug
 
   draw_line(points, color = 0xff0000)
   {
-    let material = new LineBasicMaterial({
+    const material = new LineBasicMaterial({
       color: color
     });
 
-    let geometry = new BufferGeometry().setFromPoints(points);
+    const geometry = new BufferGeometry().setFromPoints(points);
 
-    let line = new Line(geometry, material);
+    const line = new Line(geometry, material);
     line.frustumCulled = false;
     SceneManager.current.add(line);
     return line;
@@ -106,7 +106,7 @@ class Debug
     color = color || 0xff0000;
     pos = pos || new Vector3();
 
-    let cube = new Cube(new Vector3(size, size, size), undefined, color);
+    const cube = new Cube(new Vector3(size, size, size), undefined, color);
     cube.position.copy(pos);
     SceneManager.current.add(cube);
     return cube;
@@ -114,11 +114,11 @@ class Debug
 
   draw_oriented_cube(from, to, height = 1, color = '#FF0000', depth = 0.1)
   {
-    let size = from.distanceTo(to);
-    let cube = new Cube(new Vector3(depth, height, size), undefined, color);
+    const size = from.distanceTo(to);
+    const cube = new Cube(new Vector3(depth, height, size), undefined, color);
 
-    let center = to.clone().sub(from).multiplyScalar(0.5);
-    let forward_dir = center.clone().normalize();
+    const center = to.clone().sub(from).multiplyScalar(0.5);
+    const forward_dir = center.clone().normalize();
     center.add(from);
 
     cube.position.copy(center);
@@ -136,8 +136,8 @@ class Debug
 
   draw_plane(width, height, color)
   {
-    let geometry = new PlaneBufferGeometry(width, height);
-    let material = new ShaderMaterial({
+    const geometry = new PlaneBufferGeometry(width, height);
+    const material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(0, 1, 0, 0.2) }
       },
@@ -147,7 +147,7 @@ class Debug
       depthWrite: false
     });
 
-    let plane = new Mesh(geometry, material);
+    const plane = new Mesh(geometry, material);
     plane.renderOrder = -10000;
     SceneManager.current.add(plane);
     return plane;
@@ -158,8 +158,8 @@ class Debug
     size = size || 1;
     color = color || 0xff0000;
 
-    let box = new Box3().setFromCenterAndSize(new Vector3(), new Vector3(size, size, size));
-    let helper = new Box3Helper(box, color);
+    const box = new Box3().setFromCenterAndSize(new Vector3(), new Vector3(size, size, size));
+    const helper = new Box3Helper(box, color);
     helper.position.copy(pos || new Vector3());
     return helper;
   }
@@ -170,7 +170,7 @@ class Debug
     color = color || 0xff0000;
     pos = pos || new Vector3();
 
-    let sphere = new Sphere(size, color);
+    const sphere = new Sphere(size, color);
     sphere.position.copy(pos);
     SceneManager.current.add(sphere);
     return sphere;
@@ -178,10 +178,10 @@ class Debug
 
   draw_point_array(input_points, open = false, color = 0xff0000)
   {
-    let catmull = new CatmullRomCurve3(input_points, open);
+    const catmull = new CatmullRomCurve3(input_points, open);
     catmull.updateArcLengths();
-    let points = catmull.getSpacedPoints(200);
-    let line_helper = this.draw_line(points, 0x00ff00);
+    const points = catmull.getSpacedPoints(200);
+    const line_helper = this.draw_line(points, 0x00ff00);
     // line_helper.position.y = 1.5;
     return line_helper;
   }
@@ -189,9 +189,9 @@ class Debug
   draw_sphere_helper(sphere, color)
   {
     color = color || 0xff0000;
-    let geometry = new SphereGeometry(sphere.radius, 32, 32);
-    let material = new MeshBasicMaterial({ color: color });
-    let sphere_mesh = new Mesh(geometry, material);
+    const geometry = new SphereGeometry(sphere.radius, 32, 32);
+    const material = new MeshBasicMaterial({ color: color });
+    const sphere_mesh = new Mesh(geometry, material);
     sphere_mesh.position.copy(sphere.center);
     SceneManager.current.add(sphere_mesh);
     return sphere_mesh;
@@ -199,8 +199,8 @@ class Debug
 
   draw_math_sphere(sphere)
   {
-    let geometry = new SphereGeometry(sphere.radius, 32, 32);
-    let material = new ShaderMaterial({
+    const geometry = new SphereGeometry(sphere.radius, 32, 32);
+    const material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(1, 0, 0, 0.2) }
       },
@@ -209,20 +209,20 @@ class Debug
       transparent: true
     });
     // var material = new MeshBasicMaterial( {color: 0xff0000, transparent = true} );
-    let sphere1 = new Mesh(geometry, material);
+    const sphere1 = new Mesh(geometry, material);
     sphere1.position.copy(sphere.center);
     SceneManager.current.add(sphere1);
   }
 
   draw_bounding_box(bb)
   {
-    let helper = new Box3Helper(bb, 0xffff00);
+    const helper = new Box3Helper(bb, 0xffff00);
     SceneManager.current.add(helper);
   }
 
   draw_curve(curve, options)
   {
-    let offset = new Vector3(0, 0, 0);
+    const offset = new Vector3(0, 0, 0);
     if (options)
     {
       offset.y = options.offset || 0;
@@ -236,7 +236,7 @@ class Debug
 
   draw_texture(tex, w, h)
   {
-    let mesh = new Mesh(new PlaneBufferGeometry(1, 1), new ScreenSpaceTextureMaterial());
+    const mesh = new Mesh(new PlaneBufferGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);
     this.scene.add(mesh);
 

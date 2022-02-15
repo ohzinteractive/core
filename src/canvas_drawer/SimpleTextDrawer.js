@@ -15,7 +15,7 @@ export default class SimpleTextDrawer extends CanvasDrawer
   {
     ctx.font = ctxOptions.font;
 
-    let text_size = this.get_text_size(text, ctxOptions.font);
+    const text_size = this.get_text_size(text, ctxOptions.font);
     // canvas.width = Math.ceilPowerOfTwo(text_size.x+this.text_margin.x*2);
     // canvas.height = Math.ceilPowerOfTwo(text_size.y+ this.text_margin.y*2);
     canvas.width = Math.ceil(text_size.x + this.text_margin.x * 2);

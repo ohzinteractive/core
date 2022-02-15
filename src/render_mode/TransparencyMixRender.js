@@ -47,7 +47,7 @@ export default class TransparencyMixRender
 
     this.fxaa_material = this.__get_fxaa_material();
 
-    let geometry = new PlaneGeometry(1, 1);
+    const geometry = new PlaneGeometry(1, 1);
     this.render_plane = new Mesh(geometry, this.mix_material);
     this.render_plane.frustumCulled = false;
 

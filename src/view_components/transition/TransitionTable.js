@@ -14,7 +14,7 @@ export default class TransitionTable
     {
       if (this.transitions[i].to === to_state)
       {
-        let action_sequencer = new ActionSequencerBuilder(this.initial_state_data).from_animation_sheet(this.transitions[i].data, current_context);
+        const action_sequencer = new ActionSequencerBuilder(this.initial_state_data).from_animation_sheet(this.transitions[i].data, current_context);
 
         return action_sequencer;
       }

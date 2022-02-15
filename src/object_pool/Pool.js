@@ -16,7 +16,7 @@ export default class Pool
 
   instantiate()
   {
-    let obj = this.__create();
+    const obj = this.__create();
     if (obj === undefined)
     {
       console.error('Class ' + this.constructor.name + ' does not implement __create() method correctly. It should return a new instance of the pooled object', obj);
@@ -39,7 +39,7 @@ export default class Pool
       this.instantiate();
     }
 
-    let obj = this.available.pop();
+    const obj = this.available.pop();
     this.busy.push(obj);
     obj.warm_up();
     return obj;
@@ -47,7 +47,7 @@ export default class Pool
 
   release(obj)
   {
-    let index = this.busy.indexOf(obj);
+    const index = this.busy.indexOf(obj);
     if (index > -1)
     {
       this.busy.splice(index, 1);

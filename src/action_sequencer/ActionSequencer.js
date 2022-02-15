@@ -18,7 +18,7 @@ export default class ActionSequencer
 
     this.channels = {};
 
-    let channel_names = Object.keys(context);
+    const channel_names = Object.keys(context);
     for (let i = 0; i < channel_names.length; i++)
     {
       this.channels[channel_names[i]] = [];
@@ -44,7 +44,7 @@ export default class ActionSequencer
 
   skip()
   {
-    let duration = this.get_duration();
+    const duration = this.get_duration();
     this.__play_clips(this.elapsed_time, duration + 0.0001);
     this.elapsed_time = duration;
   }
@@ -94,7 +94,7 @@ export default class ActionSequencer
   {
     if (use_dynamic_from_value)
     {
-      let keyframes = this.channels[interpolator.attribute_name];
+      const keyframes = this.channels[interpolator.attribute_name];
 
       if (keyframes === undefined)
       {
@@ -111,7 +111,7 @@ export default class ActionSequencer
       }
     }
 
-    let keyframe = {
+    const keyframe = {
       from: from,
       to: to,
       interpolator: interpolator
@@ -123,7 +123,7 @@ export default class ActionSequencer
 
   get_property_target_value(name)
   {
-    let keyframe = this.__get_nearest_keyframe(name, this.elapsed_time);
+    const keyframe = this.__get_nearest_keyframe(name, this.elapsed_time);
 
     if (this.elapsed_time < keyframe.from)
     {
@@ -149,12 +149,12 @@ export default class ActionSequencer
         this.action_events[i].action.trigger();
       }
     }
-    let channel_names = Object.keys(this.initial_context);
+    const channel_names = Object.keys(this.initial_context);
 
     for (let i = 0; i < channel_names.length; i++)
     {
-      let name = channel_names[i];
-      let keyframe = this.__get_nearest_keyframe(name, from);
+      const name = channel_names[i];
+      const keyframe = this.__get_nearest_keyframe(name, from);
       this.context[name] = this.evaluate_keyframe(keyframe, from);
     }
   }
@@ -176,12 +176,12 @@ export default class ActionSequencer
   {
     let closest = undefined;
     let min_time = 9999999;
-    let keyframes = this.channels[channel_name];
+    const keyframes = this.channels[channel_name];
     for (let i = 0; i < keyframes.length; i++)
     {
-      let keyframe = keyframes[i];
-      let middle_time = (keyframe.to - keyframe.from) / 2 + keyframe.from;
-      let distance_to_middle_time = Math.abs(time - middle_time);
+      const keyframe = keyframes[i];
+      const middle_time = (keyframe.to - keyframe.from) / 2 + keyframe.from;
+      const distance_to_middle_time = Math.abs(time - middle_time);
 
       if (distance_to_middle_time < min_time)
       {

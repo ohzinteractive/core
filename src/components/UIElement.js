@@ -147,7 +147,7 @@ export default class UIElement extends Mesh
     this.screen_pos_tmp.x += this.pixel_offset.x;
     this.screen_pos_tmp.y += this.pixel_offset.y;
 
-    let rect = new Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
+    const rect = new Box2().setFromCenterAndSize(this.screen_pos_tmp, this.get_size());
 
     this.mouse_pos_tmp.copy(normalized_mouse_pos);
     this.to_screen_position(this.mouse_pos_tmp);
@@ -163,7 +163,7 @@ export default class UIElement extends Mesh
 
   get_screen_space_position()
   {
-    let pos = this.cached_NDC_position.clone();
+    const pos = this.cached_NDC_position.clone();
     this.to_screen_position(pos);
     return pos;
   }

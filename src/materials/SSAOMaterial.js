@@ -28,12 +28,12 @@ export default class SSAOMaterial extends BlitMaterial
 
   __get_sample_kernel()
   {
-    let sample_kernel = [];
-    let kernel_size = 64;
+    const sample_kernel = [];
+    const kernel_size = 64;
 
     for (let i = 0; i < kernel_size; i++)
     {
-      let dir = new Vector3(Math.random() * 2 - 1,
+      const dir = new Vector3(Math.random() * 2 - 1,
         Math.random() * 2 - 1,
         Math.random());
       dir.normalize();
@@ -48,7 +48,7 @@ export default class SSAOMaterial extends BlitMaterial
 
   __get_rotation_kernel()
   {
-    let rotation_kernel = new Uint8Array(3 * 16);
+    const rotation_kernel = new Uint8Array(3 * 16);
     for (let i = 0; i < 16; i++)
     {
       rotation_kernel[i * 3 + 1] = Math.floor(Math.random() * 255);
@@ -56,7 +56,7 @@ export default class SSAOMaterial extends BlitMaterial
       rotation_kernel[i * 3 + 3] = 0;
     }
 
-    let rotation_texture = new DataTexture(rotation_kernel, 4, 4, RGBFormat);
+    const rotation_texture = new DataTexture(rotation_kernel, 4, 4, RGBFormat);
     rotation_texture.wrapS = RepeatWrapping;
     rotation_texture.wrapT = RepeatWrapping;
 

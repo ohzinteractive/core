@@ -20,7 +20,7 @@ class ViewManager
 
   go_to_view(view_name, change_url = true, skip = false)
   {
-    let v = this.get(view_name);
+    const v = this.get(view_name);
     this.transition_handler.go_to_state(v, skip);
 
     if (change_url)
@@ -58,7 +58,7 @@ class ViewManager
 
   set_view(view_name)
   {
-    let view = this.get(view_name);
+    const view = this.get(view_name);
 
     this.transition_handler.set_state(view);
   }

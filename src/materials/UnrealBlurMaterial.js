@@ -7,7 +7,7 @@ export default class UnrealBlurMaterial extends BlitMaterial
 {
   constructor(kernel_radius)
   {
-    let defines = {
+    const defines = {
       KERNEL_RADIUS: kernel_radius,
       SIGMA: kernel_radius
     };

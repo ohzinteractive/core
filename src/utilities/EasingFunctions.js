@@ -108,9 +108,13 @@ class EasingFunctions
 
   ease_in_out_expo(x)
   {
-    return x === 0 ? 0 : x === 1 ? 1 : x < 0.5
-      ? Math.pow(2, 20 * x - 10) / 2
-      : (2 - Math.pow(2, -20 * x + 10)) / 2;
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : x < 0.5
+          ? Math.pow(2, 20 * x - 10) / 2
+          : (2 - Math.pow(2, -20 * x + 10)) / 2;
   }
 
   ease_in_circ(x)
@@ -160,15 +164,22 @@ class EasingFunctions
 
   ease_out_elastic(x)
   {
-    return x === 0 ? 0 : x === 1 ? 1
-      : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * 2.0943950) + 1;
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * 2.0943950) + 1;
   }
 
   ease_in_out_elastic(x)
   {
-    return x === 0 ? 0 : x === 1 ? 1 : x < 0.5
-      ? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * 1.3962633)) / 2
-      : Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * 1.3962633) / 2 + 1;
+    return x === 0
+      ? 0
+      : x === 1
+        ? 1
+        : x < 0.5
+          ? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * 1.3962633)) / 2
+          : Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * 1.3962633) / 2 + 1;
   }
 
   ease_in_bounce(x)

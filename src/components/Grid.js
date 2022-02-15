@@ -11,7 +11,7 @@ export default class Grid extends Mesh
 {
   constructor()
   {
-    let material = new ShaderMaterial({
+    const material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Color('#919191') }
       },
@@ -22,9 +22,9 @@ export default class Grid extends Mesh
       depthWrite: false
     });
 
-    let plane_geometry = new PlaneBufferGeometry(100, 100, 100, 100);
+    const plane_geometry = new PlaneBufferGeometry(100, 100, 100, 100);
 
-    let non_indexed_geometry = GeometryUtilities.convert_to_non_indexed_geometry(plane_geometry);
+    const non_indexed_geometry = GeometryUtilities.convert_to_non_indexed_geometry(plane_geometry);
 
     super(non_indexed_geometry, material);
 

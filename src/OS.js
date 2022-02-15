@@ -23,11 +23,11 @@ class OS
 
   get_os()
   {
-    let userAgent = window.navigator.userAgent;
-    let platform = window.navigator.platform;
-    let macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
-    let windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
-    let iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+    const userAgent = window.navigator.userAgent;
+    const platform = window.navigator.platform;
+    const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'];
+    const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+    const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
     let os = null;
 
     if (macosPlatforms.indexOf(platform) !== -1)

@@ -33,7 +33,7 @@ class EventManager
 
   fire(event, payload)
   {
-    let queue = this.queue[event];
+    const queue = this.queue[event];
 
     if (queue === undefined)
     {

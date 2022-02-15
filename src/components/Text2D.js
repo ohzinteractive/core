@@ -8,13 +8,13 @@ export default class Text2D extends WorldImage
 {
   constructor(text, font, color, pivot, is_static)
   {
-    let simple_text_drawer = new SimpleTextDrawer(is_static);
+    const simple_text_drawer = new SimpleTextDrawer(is_static);
 
-    let draw_settings = {
+    const draw_settings = {
       font: font,
       font_color: color || '#000000'
     };
-    let canvas_texture = simple_text_drawer.draw_on_texture(text, draw_settings);
+    const canvas_texture = simple_text_drawer.draw_on_texture(text, draw_settings);
 
     canvas_texture.minFilter = LinearMipMapLinearFilter;
     canvas_texture.minFilter = LinearFilter;

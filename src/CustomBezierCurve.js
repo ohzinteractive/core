@@ -15,7 +15,7 @@ export default class CustomBezierCurve
 
   build(point_amount)
   {
-    let curve = [];
+    const curve = [];
     for (let i = 0; i < point_amount; i++)
     {
       curve.push(new Vector3().copy(this.get_point_at(i / point_amount)));
@@ -30,7 +30,7 @@ export default class CustomBezierCurve
       this.tmp_points[i].copy(this.original_points[i]);
     }
 
-    let tmp_vec = new Vector3();
+    const tmp_vec = new Vector3();
     for (let steps = this.tmp_points.length - 1; steps > 0; steps--)
     {
       for (let i = 0; i < steps; i++)

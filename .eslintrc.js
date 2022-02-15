@@ -7,9 +7,7 @@ module.exports = {
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
-    ViewApi: 'readonly',
-    $: 'readonly',
-    Cesium: 'readonly'
+    ViewApi: 'readonly'
   },
   parserOptions: {
     ecmaVersion: 2020,
@@ -36,14 +34,18 @@ module.exports = {
       'error',
       'never'
     ],
+    'no-use-before-define': ['error', { functions: true, classes: true, variables: true }],
+    'init-declarations': ['error', 'always'],
+    'prefer-const': ['error', {
+      destructuring: 'any',
+      ignoreReadBeforeAssign: false
+    }],
     camelcase: 0,
     'import/no-absolute-path': 0,
     'import/no-duplicates': 0,
     'linebreak-style': 0,
     'no-multi-spaces': 0,
-    'prefer-const': 0,
     'no-useless-constructor': 0,
-    'no-undef-init': 0,
-    'multiline-ternary': 0
+    'no-undef-init': 0
   }
 };

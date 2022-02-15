@@ -7,7 +7,7 @@ export default class ObjectOrientedBoundingBox
   constructor(points)
   {
     let degrees = 0;
-    let center = this.get_center(points);
+    const center = this.get_center(points);
     // console.log(points);
 
     let min = new Vector3(90000, 90000, 90000);
@@ -15,17 +15,17 @@ export default class ObjectOrientedBoundingBox
 
     for (let deg = 0; deg < 359; deg++)
     {
-      let local_min = new Vector3(100000, 100000, 100000);
-      let local_max = new Vector3(-100000, -100000, -100000);
+      const local_min = new Vector3(100000, 100000, 100000);
+      const local_max = new Vector3(-100000, -100000, -100000);
 
       for (let i = 0; i < points.length; i++)
       {
-        let store_pos = points[i].clone();
+        const store_pos = points[i].clone();
         // store_pos.set(points[i].x, points[i].z, points[i].y);
 
         store_pos.sub(center);
 
-        let quaternion = new Quaternion();
+        const quaternion = new Quaternion();
 
         quaternion.setFromAxisAngle(new Vector3(0, 1, 0), (deg / 359) * Math.PI * 2);
 
@@ -72,13 +72,13 @@ export default class ObjectOrientedBoundingBox
     this.max = max.clone();
     this.center = center;
 
-    let left_down   = min;
+    const left_down   = min;
     // let left_up     = min.clone().add(new Vector3(0, max.y - min.y, 0));
     // let right_up    = max;
-    let right_down  = min.clone().add(new Vector3(max.x - min.x, 0, 0));
+    const right_down  = min.clone().add(new Vector3(max.x - min.x, 0, 0));
 
-    let deep_left   = min.clone().add(new Vector3(0, 0, max.z - min.z));
-    let deep_right  = min.clone().add(new Vector3(max.x - min.x, 0, max.z - min.z));
+    const deep_left   = min.clone().add(new Vector3(0, 0, max.z - min.z));
+    const deep_right  = min.clone().add(new Vector3(max.x - min.x, 0, max.z - min.z));
 
     this.bounds = [];
     this.bounds[0] = left_down.clone();
@@ -106,7 +106,7 @@ export default class ObjectOrientedBoundingBox
 
   get_center(points)
   {
-    let v = new Vector3();
+    const v = new Vector3();
     for (let i = 0; i < points.length; i++)
     {
       v.add(points[i]);
@@ -117,7 +117,7 @@ export default class ObjectOrientedBoundingBox
 
   box_volume(min, max)
   {
-    let difference = max.clone().sub(min);
+    const difference = max.clone().sub(min);
     return Math.abs(difference.x * difference.y * difference.x);
   }
 
@@ -128,7 +128,7 @@ export default class ObjectOrientedBoundingBox
 
   is_inside_XZ(point)
   {
-    let pos = point.clone();
+    const pos = point.clone();
     pos.sub(this.center);
     pos.applyQuaternion(this.world_to_axis);
     if (pos.x > this.min.x &&
@@ -146,7 +146,7 @@ export default class ObjectOrientedBoundingBox
 
   closest_point_on_bounds(reference_point)
   {
-    let force = new Vector3();
+    const force = new Vector3();
     for (let i = 0; i < this.bounds.length - 1; i++)
     {
       let dir = this.bounds[i + 1].clone().sub(this.bounds[i]);
@@ -154,13 +154,13 @@ export default class ObjectOrientedBoundingBox
       dir.normalize();
       dir = new Vector3(dir.z, 0, -dir.x);
 
-      let dir_to_point = this.world_to_local(reference_point);
+      const dir_to_point = this.world_to_local(reference_point);
       dir_to_point.sub(this.bounds[i]);
       dir_to_point.y = 0;
 
       if (dir_to_point.clone().normalize().dot(dir) > 0)
       {
-        let dot = dir_to_point.clone().dot(dir);
+        const dot = dir_to_point.clone().dot(dir);
         force.add(dir.multiplyScalar(dot));
       }
     }
@@ -169,14 +169,14 @@ export default class ObjectOrientedBoundingBox
 
   world_to_local(point)
   {
-    let pos = point.clone().sub(this.center);
+    const pos = point.clone().sub(this.center);
     pos.applyQuaternion(this.world_to_axis);
     return pos;
   }
 
   local_to_world(point)
   {
-    let pos = point.clone();
+    const pos = point.clone();
     pos.applyQuaternion(this.axis_to_world);
     pos.add(this.center);
     return pos;
@@ -184,14 +184,14 @@ export default class ObjectOrientedBoundingBox
 
   local_to_world_dir(direction)
   {
-    let dir = direction.clone();
+    const dir = direction.clone();
     dir.applyQuaternion(this.axis_to_world);
     return dir;
   }
 
   get_corners()
   {
-    let corners = [];
+    const corners = [];
     for (let i = 0; i < this.bounds.length; i++)
     {
       corners.push(this.local_to_world(this.bounds[i]));

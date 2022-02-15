@@ -5,7 +5,7 @@ export default class UnrealComposeMaterial extends BlitMaterial
 {
   constructor(nMips)
   {
-    let defines = {
+    const defines = {
       NUM_MIPS: nMips
     };
     super(frag, undefined, defines);

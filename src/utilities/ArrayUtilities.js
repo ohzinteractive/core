@@ -10,7 +10,7 @@ export default class ArrayUtilities
 
   static expand_vec3_array(array, size)
   {
-    let items_left_count = size - array.length;
+    const items_left_count = size - array.length;
 
     for (let i = 0; i < items_left_count; i++)
     {
@@ -20,7 +20,7 @@ export default class ArrayUtilities
 
   static remove_elem(array, elem)
   {
-    let index = array.indexOf(elem);
+    const index = array.indexOf(elem);
     if (index > -1)
     {
       array.splice(index, 1);
@@ -44,8 +44,8 @@ export default class ArrayUtilities
 
   static object_values_to_array(obj)
   {
-    let ids = Object.keys(obj);
-    let arr = [];
+    const ids = Object.keys(obj);
+    const arr = [];
     for (let i = 0; i < ids.length; i++)
     {
       arr.push(obj[ids[i]]);

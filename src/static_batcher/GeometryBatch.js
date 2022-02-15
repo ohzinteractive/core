@@ -51,11 +51,11 @@ export default class GeometryBatch
 
   add_object_uniform_v3(uniform_name, default_value_v3)
   {
-    let src_tex       = this.__create_rgb_texture(this.batch_width);
-    let dst_tex       = this.__create_rgb_texture(this.batch_width);
-    let one_pixel_tex = this.__create_rgb_texture(1);
+    const src_tex       = this.__create_rgb_texture(this.batch_width);
+    const dst_tex       = this.__create_rgb_texture(this.batch_width);
+    const one_pixel_tex = this.__create_rgb_texture(1);
 
-    let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+    const new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
 
     if (default_value_v3)
     {
@@ -65,11 +65,11 @@ export default class GeometryBatch
 
   add_object_uniform_v4(uniform_name, default_value_v4)
   {
-    let src_tex       = this.__create_rgba_texture(this.batch_width);
-    let dst_tex       = this.__create_rgba_texture(this.batch_width);
-    let one_pixel_tex = this.__create_rgba_texture(1);
+    const src_tex       = this.__create_rgba_texture(this.batch_width);
+    const dst_tex       = this.__create_rgba_texture(this.batch_width);
+    const one_pixel_tex = this.__create_rgba_texture(1);
 
-    let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+    const new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
 
     if (default_value_v4)
     {
@@ -79,11 +79,11 @@ export default class GeometryBatch
 
   add_object_uniform_v4_float(uniform_name, default_value_v4)
   {
-    let src_tex       = this.__create_rgba_float_texture(this.batch_width);
-    let dst_tex       = this.__create_rgba_float_texture(this.batch_width);
-    let one_pixel_tex = this.__create_rgba_float_texture(1);
+    const src_tex       = this.__create_rgba_float_texture(this.batch_width);
+    const dst_tex       = this.__create_rgba_float_texture(this.batch_width);
+    const one_pixel_tex = this.__create_rgba_float_texture(1);
 
-    let new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
+    const new_data_tex = this.__add_data_texture(uniform_name, src_tex, dst_tex, one_pixel_tex);
 
     if (default_value_v4)
     {
@@ -93,8 +93,8 @@ export default class GeometryBatch
 
   set_object_uniform_v3(object_name, uniform_name, vector3, use_r, use_g, use_b)
   {
-    let obj_index = this.__get_object_index(object_name);
-    let data_texture = this.__get_data_texture(uniform_name);
+    const obj_index = this.__get_object_index(object_name);
+    const data_texture = this.__get_data_texture(uniform_name);
 
     this.__set_pixel_rgb(data_texture.src, obj_index, vector3, use_r, use_g, use_b);
     this.__set_pixel_rgb(data_texture.one_pixel, 0, vector3, use_r, use_g, use_b);
@@ -106,8 +106,8 @@ export default class GeometryBatch
 
   set_object_uniform_v4(object_name, uniform_name, vector4, use_r, use_g, use_b, use_a)
   {
-    let obj_index = this.__get_object_index(object_name);
-    let data_texture = this.__get_data_texture(uniform_name);
+    const obj_index = this.__get_object_index(object_name);
+    const data_texture = this.__get_data_texture(uniform_name);
 
     this.__set_pixel_rgba(data_texture.src, obj_index, vector4, use_r, use_g, use_b, use_a);
     this.__set_pixel_rgba(data_texture.one_pixel, 0, vector4, use_r, use_g, use_b, use_a);
@@ -165,7 +165,7 @@ export default class GeometryBatch
   __partial_texture_data_upload(renderer, texture_data)
   {
     // console.log("partial texture update"+ texture_data.name);
-    let index = texture_data.last_accessed_index;
+    const index = texture_data.last_accessed_index;
     if (index === -1)
     {
       return;
@@ -241,19 +241,19 @@ export default class GeometryBatch
 
   __create_rgb_texture(width)
   {
-    let data = new Uint8Array(3 * width * width);
+    const data = new Uint8Array(3 * width * width);
     return new DataTexture(data, width, width, RGBFormat);
   }
 
   __create_rgba_texture(width)
   {
-    let data = new Uint8Array(4 * width * width);
+    const data = new Uint8Array(4 * width * width);
     return new DataTexture(data, width, width, RGBAFormat);
   }
 
   __create_rgba_float_texture(width)
   {
-    let data = new Float32Array(4 * width * width);
+    const data = new Float32Array(4 * width * width);
     return new DataTexture(data, width, width, RGBAFormat, FloatType);
   }
 

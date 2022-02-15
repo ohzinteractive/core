@@ -19,7 +19,7 @@ export default class MedianFilterMaterial extends BlitMaterial
   {
     this.uniforms._SourceTex.value = tex;
 
-    let size = this.get_size(tex);
+    const size = this.get_size(tex);
     this.uniforms._SourceTexSize.value.copy(size);
   }
 

@@ -25,7 +25,7 @@ export default class MedianFilter
 
   filter(texture)
   {
-    let tex_size = this.get_size(texture);
+    const tex_size = this.get_size(texture);
     if (tex_size.x !== this.RT.width || tex_size.y !== this.RT.height)
     {
       this.RT.setSize(tex_size.x, tex_size.y);

@@ -59,8 +59,8 @@ export default class SDFText
 
   set_rotation(orientation = 0, tilt = 0) // 0..360, -90..0..90
   {
-    let new_orientation = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), (orientation / 360) * Math.PI * 2);
-    let new_tilt = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), (-tilt / 360) * Math.PI * 2);
+    const new_orientation = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), (orientation / 360) * Math.PI * 2);
+    const new_tilt = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), (-tilt / 360) * Math.PI * 2);
 
     this.quaternion.copy(new_orientation.multiply(new_tilt));
     this.matrix_is_dirty = true;
@@ -114,31 +114,31 @@ export default class SDFText
 
     for (let i = 0; i < text.length; i++)
     {
-      let unicode = text.charCodeAt(i);
-      let glyph = this.glyph_layout.find(element => element.unicode === unicode);
+      const unicode = text.charCodeAt(i);
+      const glyph = this.glyph_layout.find(element => element.unicode === unicode);
       if (glyph)
       {
         if (glyph.planeBounds)
         {
-          let text_glyph = new TextGlyph(cursor, glyph.planeBounds, glyph.atlasBounds);
+          const text_glyph = new TextGlyph(cursor, glyph.planeBounds, glyph.atlasBounds);
           this.glyphs.push(text_glyph);
         }
         cursor += glyph.advance;
       }
     }
 
-    let box2 = new Box2();
-    let first_glyph = this.glyphs[0];
+    const box2 = new Box2();
+    const first_glyph = this.glyphs[0];
     box2.setFromCenterAndSize(first_glyph.position.clone().add(new Vector2(first_glyph.scale.x / 2, first_glyph.scale.y / 2)), first_glyph.scale);
 
     for (let i = 1; i < this.glyphs.length; i++)
     {
-      let g = this.glyphs[i];
-      let box = new Box2().setFromCenterAndSize(g.position.clone().add(new Vector2(g.scale.x / 2, g.scale.y / 2)), g.scale);
+      const g = this.glyphs[i];
+      const box = new Box2().setFromCenterAndSize(g.position.clone().add(new Vector2(g.scale.x / 2, g.scale.y / 2)), g.scale);
       box2.union(box);
     }
 
-    let box2_size = new Vector2();
+    const box2_size = new Vector2();
     box2.getSize(box2_size);
     for (let i = 0; i < this.glyphs.length; i++)
     {

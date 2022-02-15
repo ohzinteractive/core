@@ -12,18 +12,18 @@ export default class Arrow extends Mesh
     color = color || '#FF0000';
     length = length || 1;
 
-    let cone_height = 0.4;
-    let cylinder_height = length - cone_height;
-    let cylinder_geo = new CylinderBufferGeometry(0.01, 0.01, cylinder_height, 32);
+    const cone_height = 0.4;
+    const cylinder_height = length - cone_height;
+    const cylinder_geo = new CylinderBufferGeometry(0.01, 0.01, cylinder_height, 32);
     cylinder_geo.translate(0, cylinder_height / 2, 0);
 
-    let cone_geometry = new ConeBufferGeometry(0.1, cone_height, 32);
+    const cone_geometry = new ConeBufferGeometry(0.1, cone_height, 32);
     cone_geometry.translate(0, cylinder_height + cone_height / 2, 0);
 
-    let buffer_geometry = BufferGeometryUtils.mergeBufferGeometries([cylinder_geo, cone_geometry]);
+    const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries([cylinder_geo, cone_geometry]);
     buffer_geometry.rotateX(3.14 / 2);
 
-    let material = new MeshBasicMaterial({ color: color });
+    const material = new MeshBasicMaterial({ color: color });
     super(buffer_geometry, material);
 
     if (dir)

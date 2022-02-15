@@ -26,10 +26,10 @@ export default class DeferredRender extends BaseRender
 
     this.scene_lights = new Scene();
 
-    let light_intensity = 1;
-    let light_brightest_component = 1;
-    let radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
-    let sphere = new Mesh(new SphereBufferGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
+    const light_intensity = 1;
+    const light_brightest_component = 1;
+    const radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
+    const sphere = new Mesh(new SphereBufferGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
     // sphere.position.y = 2;
     // this.scene_lights.add(sphere);
 
@@ -49,13 +49,13 @@ export default class DeferredRender extends BaseRender
     // sphere5.position.z = 2;
     // this.scene_lights.add(sphere5);
 
-    let light_row = 2;
-    let light_col = 2;
+    const light_row = 2;
+    const light_col = 2;
     for (let x = 0; x < light_row; x++)
     {
       for (let y = 0; y < light_col; y++)
       {
-        let clone = sphere.clone();
+        const clone = sphere.clone();
         clone.position.set(x * 2 - light_row / 2, 1, y * 2 - light_col / 2);
         this.scene_lights.add(clone);
       }
@@ -84,9 +84,9 @@ export default class DeferredRender extends BaseRender
 
     this.camera_inverse_proj_mat.getInverse(CameraManager.current.projectionMatrix);
 
-    let inverse_proj = this.camera_inverse_proj_mat;
-    let albedo_rt = this.main_rt;
-    let depth_normals_rt = Graphics.depth_normals_RT;
+    const inverse_proj = this.camera_inverse_proj_mat;
+    const albedo_rt = this.main_rt;
+    const depth_normals_rt = Graphics.depth_normals_RT;
     this.scene_lights.traverse((child) =>
     {
       if (child.material)

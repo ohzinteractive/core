@@ -16,26 +16,26 @@ export default class SDFTextBatch extends Mesh
 {
   constructor(font_layout, atlas_texture)
   {
-    let max_allocations = 2000;
+    const max_allocations = 2000;
 
-    let instanced_geometry = new InstancedBufferGeometry();
+    const instanced_geometry = new InstancedBufferGeometry();
     instanced_geometry.instanceCount = 0;
 
-    let geometry = new PlaneBufferGeometry(1, 1);
+    const geometry = new PlaneBufferGeometry(1, 1);
     geometry.translate(0.5, 0.5, 0);
     instanced_geometry.setAttribute('position',  new Float32BufferAttribute(geometry.getAttribute('position').array, 3));
     instanced_geometry.setAttribute('uv',        new Float32BufferAttribute(geometry.getAttribute('uv').array, 2));
     instanced_geometry.index = geometry.index;
 
-    let transformsCol0 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    let transformsCol1 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    let transformsCol2 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    let transformsCol3 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const transformsCol0 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const transformsCol1 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const transformsCol2 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const transformsCol3 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
 
-    let glyph_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    let plane_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const glyph_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const plane_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
 
-    let color = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    const color = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
 
     transformsCol0.usage  = DynamicDrawUsage;
     transformsCol1.usage  = DynamicDrawUsage;
@@ -71,7 +71,7 @@ export default class SDFTextBatch extends Mesh
 
   add_text(text_str)
   {
-    let elem = new SDFText(this.font_layout.glyphs, text_str);
+    const elem = new SDFText(this.font_layout.glyphs, text_str);
     this.text_elements.push(elem);
     return elem;
   }
@@ -84,15 +84,15 @@ export default class SDFTextBatch extends Mesh
 
   update(force_update)
   {
-    let glyph_bounds_atr = this.geometry.getAttribute('glyph_bounds');
-    let plane_bounds_atr = this.geometry.getAttribute('plane_bounds');
+    const glyph_bounds_atr = this.geometry.getAttribute('glyph_bounds');
+    const plane_bounds_atr = this.geometry.getAttribute('plane_bounds');
 
-    let transformsCol0 = this.geometry.getAttribute('transformsCol0');
-    let transformsCol1 = this.geometry.getAttribute('transformsCol1');
-    let transformsCol2 = this.geometry.getAttribute('transformsCol2');
-    let transformsCol3 = this.geometry.getAttribute('transformsCol3');
+    const transformsCol0 = this.geometry.getAttribute('transformsCol0');
+    const transformsCol1 = this.geometry.getAttribute('transformsCol1');
+    const transformsCol2 = this.geometry.getAttribute('transformsCol2');
+    const transformsCol3 = this.geometry.getAttribute('transformsCol3');
 
-    let color_atr = this.geometry.getAttribute('color');
+    const color_atr = this.geometry.getAttribute('color');
 
     let matrix_needs_update = force_update === true;
     let glyph_needs_update  = force_update === true;
@@ -101,7 +101,7 @@ export default class SDFTextBatch extends Mesh
     let glyph_count = 0;
     for (let i = 0; i < this.text_elements.length; i++)
     {
-      let text = this.text_elements[i];
+      const text = this.text_elements[i];
 
       if (text.matrix_is_dirty)
       {
@@ -121,15 +121,15 @@ export default class SDFTextBatch extends Mesh
         text.clear_color_dirty();
       }
 
-      let matrix = text.matrix;
-      let color = text.color;
-      let opacity = text.opacity;
+      const matrix = text.matrix;
+      const color = text.color;
+      const opacity = text.opacity;
 
       for (let glyph_i = 0; glyph_i < text.glyphs.length; glyph_i++)
       {
-        let glyph = text.glyphs[glyph_i];
+        const glyph = text.glyphs[glyph_i];
 
-        let buffer_i = glyph_count;
+        const buffer_i = glyph_count;
 
         glyph_bounds_atr.setXYZW(buffer_i, glyph.atlas_bounds.x, glyph.atlas_bounds.y, glyph.atlas_bounds.z, glyph.atlas_bounds.w);
         plane_bounds_atr.setXYZW(buffer_i, glyph.position.x, glyph.position.y, glyph.scale.x, glyph.scale.y);

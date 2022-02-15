@@ -10,7 +10,7 @@ class ViewComponentManager
 
   update()
   {
-    for (let component of this.enabled_components)
+    for (const component of this.enabled_components)
     {
       component.update(ViewManager.transition_handler.current_state_data);
     }

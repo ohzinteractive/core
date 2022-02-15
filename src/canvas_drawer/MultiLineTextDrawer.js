@@ -13,10 +13,10 @@ export default class MultiLineTextDrawer extends CanvasDrawer
   __draw(text_array, ctxOptions, canvas, ctx)
   {
     ctx.font = ctxOptions.font;
-    let text_size = new Vector2();
+    const text_size = new Vector2();
     for (let i = 0; i < text_array.length; i++)
     {
-      let new_size = this.get_text_size(text_array[i], ctxOptions.font);
+      const new_size = this.get_text_size(text_array[i], ctxOptions.font);
       console.log(new_size.clone());
       text_size.x = Math.max(text_size.x, new_size.x);
       text_size.y += Math.max(text_size.y, new_size.y);
@@ -39,7 +39,7 @@ export default class MultiLineTextDrawer extends CanvasDrawer
     ctx.textBaseline = 'middle';
     ctx.textAlignment = 'left';
 
-    let word_height = canvas.height / text_array.length;
+    const word_height = canvas.height / text_array.length;
     for (let i = 0; i < text_array.length; i++)
     {
       // let height = i / (text_array.length);

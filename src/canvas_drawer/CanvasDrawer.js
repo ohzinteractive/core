@@ -19,9 +19,9 @@ export default class CanvasDrawer
   {
     if (this.__textHeight == null || this.uses_dynamic_font)
     {
-      let body = document.getElementsByTagName('body')[0];
-      let dummy = document.createElement('div');
-      let dummyText = document.createTextNode('MÉqgOLAKTAL');
+      const body = document.getElementsByTagName('body')[0];
+      const dummy = document.createElement('div');
+      const dummyText = document.createTextNode('MÉqgOLAKTAL');
       dummy.appendChild(dummyText);
       dummy.setAttribute('style', `font:${fontStyle};position:absolute;top:0;left:0`);
       body.appendChild(dummy);
@@ -33,7 +33,7 @@ export default class CanvasDrawer
 
   get_text_size(text, font = '24px Arial')
   {
-    let size = new Vector2();
+    const size = new Vector2();
     this.ctx.font = font;
     size.x = Math.ceil(this.ctx.measureText(text).width);
     size.y = Math.ceil(this.getFontHeight(font));
@@ -51,8 +51,8 @@ export default class CanvasDrawer
 
   draw_on_texture(text, ctxOptions)
   {
-    let canvas = this.draw_canvas(text, ctxOptions);
-    let canvas_texture = new CanvasTexture(canvas, UVMapping,
+    const canvas = this.draw_canvas(text, ctxOptions);
+    const canvas_texture = new CanvasTexture(canvas, UVMapping,
       ClampToEdgeWrapping,
       ClampToEdgeWrapping,
       NearestFilter,
@@ -82,8 +82,8 @@ export default class CanvasDrawer
     }
     else
     {
-      let defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
-      for (let side in defaultRadius)
+      const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+      for (const side in defaultRadius)
       {
         radius[side] = radius[side] || defaultRadius[side];
       }

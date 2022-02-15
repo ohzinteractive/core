@@ -22,9 +22,9 @@ export default class Blitter
   {
     this._blit_quad.material = this._blit_material;
 
-    let src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
-    let src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
-    let src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+    const src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
+    const src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
+    const src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
 
     this._blit_quad.material.uniforms._MainTex.value = src_texture;
     this._blit_quad.material.uniforms._Resolution.value.set(src_width, src_height);
@@ -52,9 +52,9 @@ export default class Blitter
 
   blit_with_material(src, dst, mat)
   {
-    let src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
-    let src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
-    let src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+    const src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
+    const src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
+    const src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
 
     this._blit_quad.material = mat;
     this._blit_quad.material.uniforms._MainTex.value = src_texture;
@@ -89,7 +89,7 @@ export default class Blitter
   {
     RT = RT === undefined ? null : RT;
 
-    let current_rt = this.renderer.getRenderTarget();
+    const current_rt = this.renderer.getRenderTarget();
 
     this.renderer.setRenderTarget(RT === undefined ? null : RT);
     this.renderer.render(this._blit_scene, this._blit_camera);

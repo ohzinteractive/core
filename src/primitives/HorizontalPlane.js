@@ -11,7 +11,7 @@ export default class HorizontalPlane extends Mesh
     color = color || '#FF0000';
     material = material || new MeshBasicMaterial({ color: color });
 
-    let geometry = new PlaneBufferGeometry(width, height);
+    const geometry = new PlaneBufferGeometry(width, height);
     geometry.rotateX(-3.14 / 2);
     super(geometry, material);
   }

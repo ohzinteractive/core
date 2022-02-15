@@ -21,7 +21,7 @@ export default class BasisLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    let ctx = this;
+    const ctx = this;
 
     this.loader.load(this.url, (basis) =>
     {

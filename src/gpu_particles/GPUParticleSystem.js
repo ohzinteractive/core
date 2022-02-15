@@ -17,7 +17,7 @@ export default class GPUParticleSystem extends Object3D
     // let position = new ParticlePositionAttribute("_Position");
     if (init_attribute_uvs && geometry.getAttribute('storage_uv') === undefined)
     {
-      let uv_storage_attr = this.build_uv_storage_attribute(geometry.getAttribute('position').count);
+      const uv_storage_attr = this.build_uv_storage_attribute(geometry.getAttribute('position').count);
       geometry.setAttribute('storage_uv', uv_storage_attr);
     }
     // position.init_from_geometry(geometry);
@@ -25,7 +25,7 @@ export default class GPUParticleSystem extends Object3D
 
     // material.uniforms._Position.value = position.read.texture;
 
-    let points = new Points(geometry, material);
+    const points = new Points(geometry, material);
     points.frustumCulled = false;
     this.particles = points;
 
@@ -44,8 +44,8 @@ export default class GPUParticleSystem extends Object3D
 
   build_uv_storage_attribute(particle_count)
   {
-    let resolution = this.calculate_resolution(particle_count);
-    let uvs = new Float32Array(particle_count * 2);
+    const resolution = this.calculate_resolution(particle_count);
+    const uvs = new Float32Array(particle_count * 2);
     for (let i = 0, j = 0; i < particle_count * 2; i += 2, j++)
     {
       uvs[i] = ((j % resolution) / resolution) + (0.5 / resolution);

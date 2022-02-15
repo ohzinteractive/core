@@ -111,7 +111,7 @@ class KeyboardInput
       }
     }
 
-    let index = this.keys.indexOf(key);
+    const index = this.keys.indexOf(key);
     if (index > -1)
     {
       this.keys.splice(index, 1);

@@ -6,7 +6,7 @@ export default class UpdatableMaterialMesh extends Mesh
   {
     super(geometry, material);
 
-    let self = this;
+    const self = this;
 
     this.onBeforeRender = () =>
     {

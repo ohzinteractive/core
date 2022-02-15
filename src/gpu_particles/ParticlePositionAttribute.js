@@ -10,11 +10,11 @@ export default class ParticlePositionAttribute extends ParticleAttribute
 
   init_from_geometry(geometry)
   {
-    let pos_attr = geometry.getAttribute('position');
+    const pos_attr = geometry.getAttribute('position');
     this.read    = this.build_RT(pos_attr.count);
     this.write   = this.build_RT(pos_attr.count);
 
-    let mat = new PositionStorageMaterial();
+    const mat = new PositionStorageMaterial();
     this.render_geometry_to_RT(geometry, mat, this.read);
   }
 }

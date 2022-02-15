@@ -59,11 +59,11 @@ class CameraUtilities
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
 
-    let v_fov = (camera.fov / 2) * Math.PI / 180;
-    let h_fov = (2 * Math.atan(Math.tan(v_fov) * camera.aspect)) / 2;
+    const v_fov = (camera.fov / 2) * Math.PI / 180;
+    const h_fov = (2 * Math.atan(Math.tan(v_fov) * camera.aspect)) / 2;
 
-    let distV = Math.tan(v_fov) * camera.far;
-    let distH = Math.tan(h_fov) * camera.far;
+    const distV = Math.tan(v_fov) * camera.far;
+    const distH = Math.tan(h_fov) * camera.far;
 
     tmp_vec.set(distH * NDC.x, distV * NDC.y, -camera.far).normalize();
 
@@ -94,36 +94,36 @@ class CameraUtilities
 
   fit_points_on_camera(points, zoom_scale = 1)
   {
-    let points_sphere = new Sphere().setFromPoints(points);
-    let world_space_center = points_sphere.center;
-    let camera_forward = this.get_forward_dir(CameraManager.current).clone();
+    const points_sphere = new Sphere().setFromPoints(points);
+    const world_space_center = points_sphere.center;
+    const camera_forward = this.get_forward_dir(CameraManager.current).clone();
 
-    let plane = new Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
+    const plane = new Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
 
-    let points_on_plane = OMath.project_points_on_plane(points, plane);
+    const points_on_plane = OMath.project_points_on_plane(points, plane);
 
-    let projected_points_center = new Vector3();
+    const projected_points_center = new Vector3();
     let box =  new Box3().setFromPoints(points_on_plane);
     box.getCenter(projected_points_center);
 
-    let up = new Vector3(0, 1, 0).applyQuaternion(CameraManager.current.quaternion);
-    let right = up.clone().cross(camera_forward).normalize();
-    let mat = new Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x,
+    const up = new Vector3(0, 1, 0).applyQuaternion(CameraManager.current.quaternion);
+    const right = up.clone().cross(camera_forward).normalize();
+    const mat = new Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x,
       right.y, up.y, camera_forward.y, world_space_center.y,
       right.z, up.z, camera_forward.z, world_space_center.z,
       0,    0,                0,        1);
 
-    let inverse_mat = new Matrix4().getInverse(mat);
+    const inverse_mat = new Matrix4().getInverse(mat);
     for (let i = 0; i < points_on_plane.length; i++)
     {
       points_on_plane[i].applyMatrix4(inverse_mat);
     }
 
-    let size = new Vector3();
+    const size = new Vector3();
     box =  new Box3().setFromPoints(points_on_plane);
     box.getSize(size);
     size.multiplyScalar(zoom_scale);
-    let projected_center = new Vector3();
+    const projected_center = new Vector3();
     box.getCenter(projected_center);
 
     return {
@@ -134,11 +134,11 @@ class CameraUtilities
 
   get_zoom_to_fit_rect(width, height)
   {
-    let v_fov = (CameraManager.current.fov / 2) * Math.PI / 180;
-    let h_fov = (2 * Math.atan(Math.tan(v_fov) * CameraManager.current.aspect)) / 2;
+    const v_fov = (CameraManager.current.fov / 2) * Math.PI / 180;
+    const h_fov = (2 * Math.atan(Math.tan(v_fov) * CameraManager.current.aspect)) / 2;
 
-    let distV = height / Math.tan(v_fov);
-    let distH = width / Math.tan(h_fov);
+    const distV = height / Math.tan(v_fov);
+    const distH = width / Math.tan(h_fov);
 
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
@@ -149,9 +149,9 @@ class CameraUtilities
     {
       bb.getSize(this.tmp_size);
 
-      let obj_x = this.tmp_size.x;
-      let obj_y = this.tmp_size.y;
-      let object_aspect = obj_x / obj_y;
+      const obj_x = this.tmp_size.x;
+      const obj_y = this.tmp_size.y;
+      const object_aspect = obj_x / obj_y;
       if (Screen.aspect_ratio / object_aspect > 1)
       {
         return Screen.height / obj_y;
@@ -164,7 +164,7 @@ class CameraUtilities
     else
     {
       // return this.fit_points_on_camera([bb.min, bb.max], 1).zoom;
-      let size = new Vector3();
+      const size = new Vector3();
       bb.getSize(size);
       return this.get_zoom_to_fit_rect(size.x, size.y);
     }

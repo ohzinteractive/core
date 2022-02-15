@@ -14,7 +14,7 @@ export default class HDRCubeTextureLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    let ctx = this;
+    const ctx = this;
 
     this.loader.setPath(this.url)
       .setDataType(UnsignedByteType)

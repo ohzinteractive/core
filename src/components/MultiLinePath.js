@@ -11,7 +11,7 @@ export default class MultiLinePath extends Object3D
     this.paths = [];
     for (let i = 0; i < paths.length; i++)
     {
-      let line = new Line(paths[i], webgl);
+      const line = new Line(paths[i], webgl);
       this.paths.push = line;
       this.add(line);
     }

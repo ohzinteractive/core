@@ -201,7 +201,7 @@ class Graphics
 
   on_resize(entries)
   {
-    for (let entry of entries)
+    for (const entry of entries)
     {
       Screen.dpr = Configuration.dpr;
       Screen.update_position(entry.contentRect.x, entry.contentRect.y);
@@ -242,17 +242,17 @@ class Graphics
   {
     // const ctx = this;
 
-    let old_width = Screen.width;
-    let old_height = Screen.height;
+    const old_width = Screen.width;
+    const old_height = Screen.height;
 
-    let new_width = width;
-    let new_height = height;
+    const new_width = width;
+    const new_height = height;
 
-    let tile_width = 1024;
-    let tile_height = 1024;
+    const tile_width = 1024;
+    const tile_height = 1024;
 
-    let divisions_x = parseInt(Math.ceil(new_width / tile_width));
-    let divisions_y = parseInt(Math.ceil(new_height / tile_height));
+    const divisions_x = parseInt(Math.ceil(new_width / tile_width));
+    const divisions_y = parseInt(Math.ceil(new_height / tile_height));
 
     Screen.update_size(tile_width, tile_height);
 
@@ -260,8 +260,8 @@ class Graphics
 
     this._renderer.setSize(tile_width, tile_height, false);
 
-    let canvas_2d = document.createElement('canvas');
-    let ctx_2D = canvas_2d.getContext('2d');
+    const canvas_2d = document.createElement('canvas');
+    const ctx_2D = canvas_2d.getContext('2d');
 
     ctx_2D.canvas.width  = new_width;
     ctx_2D.canvas.height = new_height;
@@ -300,7 +300,7 @@ class Graphics
 
   download_screenshot(blob)
   {
-    let link = document.createElement('a');
+    const link = document.createElement('a');
     link.download = 'Snapshot.png';
 
     link.href = URL.createObjectURL(blob);

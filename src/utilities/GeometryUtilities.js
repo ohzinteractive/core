@@ -5,11 +5,11 @@ export default class GeometryUtilities
 {
   static convert_to_non_indexed_geometry(geometry_buffer)
   {
-    let indices = geometry_buffer.index;
-    let positions = geometry_buffer.getAttribute('position');
+    const indices = geometry_buffer.index;
+    const positions = geometry_buffer.getAttribute('position');
 
-    let bar_coordinates = [];
-    let vertices = [];
+    const bar_coordinates = [];
+    const vertices = [];
 
     for (let i = 0; i < indices.count; i += 3)
     {
@@ -43,7 +43,7 @@ export default class GeometryUtilities
       bar_coordinates.push(1);
     }
 
-    let geometry = new BufferGeometry();
+    const geometry = new BufferGeometry();
     // geometry.setAttribute('barycentric', new BufferAttribute( new Float32Array(bar_coordinates), 3 ));
     geometry.setAttribute('position', new BufferAttribute(new Float32Array(vertices), 3));
     GeometryUtilities.add_barycentric_attribute(geometry);
@@ -52,8 +52,8 @@ export default class GeometryUtilities
 
   static add_barycentric_attribute(non_indexed_geometry_buffer)
   {
-    let bar_coordinates = [];
-    let positions = non_indexed_geometry_buffer.getAttribute('position');
+    const bar_coordinates = [];
+    const positions = non_indexed_geometry_buffer.getAttribute('position');
 
     for (let i = 0; i < positions.count; i += 3)
     {
