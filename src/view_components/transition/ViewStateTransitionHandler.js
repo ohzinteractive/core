@@ -28,9 +28,10 @@ export default class ViewStateTransitionHandler
 
     this.last_state.before_exit();
     this.current_state.show();
-    this.current_state.before_enter();
 
     this.action_sequencer = this.transition_table.get(this.current_state.name, this.current_state_data);
+    this.current_state.before_enter();
+
     this.action_sequencer.play();
 
     this.transitioning = true;

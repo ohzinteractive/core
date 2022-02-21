@@ -165,6 +165,11 @@ export default class ActionSequencer
     return keyframe.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
   }
 
+  get_keyframes(channel_name)
+  {
+    return this.channels[channel_name];
+  }
+
   __linear_map_01(value,
     from_range_start_value,
     from_range_end_value)
