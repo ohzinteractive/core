@@ -10,6 +10,8 @@ class ViewComponentManager
 
   update()
   {
+    this.__set_components_opacities();
+
     for (const component of this.enabled_components)
     {
       component.update(ViewManager.transition_handler.current_state_data);
@@ -52,6 +54,14 @@ class ViewComponentManager
     }
     console.error('[ViewComponentManager.get] no component found for: ', component_name);
     return undefined;
+  }
+
+  __set_components_opacities()
+  {
+    for (let i = 0; i < this.components.length; i++)
+    {
+      this.components[i].set_opacity(ViewManager.transition_handler.current_state_data);
+    }
   }
 }
 

@@ -6,6 +6,7 @@ export default class ViewComponent
   {
     this.name = name;
     this.container = container;
+    this.hidden = true;
 
     ViewComponentManager.register_component(this);
   }
@@ -18,6 +19,8 @@ export default class ViewComponent
   {
     this.container.classList.remove('hidden');
     ViewComponentManager.enable_component(this);
+
+    this.hidden = false;
   }
 
   update()
@@ -28,10 +31,31 @@ export default class ViewComponent
   {
     this.container.classList.add('hidden');
     ViewComponentManager.disable_component(this);
+
+    this.hidden = true;
   }
 
-  set_opacity(opacity)
+  set_opacity(current_state_data)
   {
-    this.container.style.opacity = opacity;
+    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    this.toggle_hidden();
+  }
+
+  toggle_hidden()
+  {
+    if (this.container.style.opacity > 0.001)
+    {
+      if (this.hidden)
+      {
+        this.on_enter();
+      }
+    }
+    else
+    {
+      if (!this.hidden)
+      {
+        this.on_exit();
+      }
+    }
   }
 }
