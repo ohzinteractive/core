@@ -9,6 +9,8 @@ class ViewManager
 
     this.transition_table = new TransitionTable();
     this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
+
+    this.view_change_subscribers = [];
   }
 
   update()
@@ -26,6 +28,22 @@ class ViewManager
     if (change_url)
     {
       this.__change_browser_url(v.url);
+    }
+
+    this.notify_view_change(view_name);
+  }
+
+  subscribe_to_view_change(subscriber)
+  {
+    this.view_change_subscribers.push(subscriber);
+  }
+
+  notify_view_change(view_name)
+  {
+    for (let i = 0; i < this.view_change_subscribers.length; i++)
+    {
+      const subscriber = this.view_change_subscribers[i];
+      subscriber.on_view_change(view_name);
     }
   }
 
