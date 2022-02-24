@@ -25,17 +25,19 @@ class Graphics
     this.canvas_context = undefined;
     this.context_attributes = undefined;
 
-    this.context_attributes = context_attributes || {
+    this.context_attributes = {
       alpha: true,
       depth: true,
       desynchronized: false,
       stencil: false,
       antialias: false,
       premultipliedAlpha: true,
-      preserveDrawingBuffer: false,
+      preserveDrawingBuffer: true,
       powerPreference: 'high-performance',
       logarithmicDepthBuffer: false
     };
+
+    Object.assign(this.context_attributes, context_attributes);
 
     if (context_attributes.force_webgl2)
     {
@@ -57,6 +59,7 @@ class Graphics
       canvas: canvas,
       context: this.canvas_context
     });
+
     this._renderer.autoClear = false;
 
     this._renderer.setPixelRatio(1);
