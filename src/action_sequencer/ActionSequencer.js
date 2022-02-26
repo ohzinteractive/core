@@ -1,5 +1,6 @@
 
 import { Math as TMath } from 'three';
+import OMath from '../utilities/OMath';
 
 export default class ActionSequencer
 {
@@ -121,9 +122,9 @@ export default class ActionSequencer
     this.channels[interpolator.attribute_name].push(keyframe);
   }
 
-  get_property_target_value(name)
+  get_current_target_value(name)
   {
-    const keyframe = this.__get_nearest_keyframe(name, this.elapsed_time);
+    const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
 
     if (this.elapsed_time < keyframe.from)
     {
@@ -131,6 +132,21 @@ export default class ActionSequencer
     }
 
     return keyframe.interpolator.evaluate(1);
+  }
+
+  get_current_starting_value(name)
+  {
+    const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
+
+    return keyframe.interpolator.evaluate(0);
+  }
+
+  get_current_progress(name)
+  {
+    const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
+    const t = this.__linear_map_01(this.elapsed_time, keyframe.from, keyframe.to);
+
+    return keyframe.interpolator.easing_function(t);
   }
 
   get_duration()
@@ -154,7 +170,8 @@ export default class ActionSequencer
     for (let i = 0; i < channel_names.length; i++)
     {
       const name = channel_names[i];
-      const keyframe = this.__get_nearest_keyframe(name, from);
+      const keyframe = this.__get_current_keyframe(name, from);
+
       this.context[name] = this.evaluate_keyframe(keyframe, from);
     }
   }
@@ -162,6 +179,7 @@ export default class ActionSequencer
   evaluate_keyframe(keyframe, time)
   {
     this.tmp_t = this.__linear_map_01(time, keyframe.from, keyframe.to);
+
     return keyframe.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
   }
 
@@ -174,26 +192,40 @@ export default class ActionSequencer
     from_range_start_value,
     from_range_end_value)
   {
-    return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0;
+    return OMath.saturate(((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0);
   }
 
-  __get_nearest_keyframe(channel_name, time)
+  __get_current_keyframe(channel_name, time)
   {
-    let closest = undefined;
-    let min_time = 9999999;
+    let current = undefined;
+
     const keyframes = this.channels[channel_name];
+
     for (let i = 0; i < keyframes.length; i++)
     {
       const keyframe = keyframes[i];
-      const middle_time = (keyframe.to - keyframe.from) / 2 + keyframe.from;
-      const distance_to_middle_time = Math.abs(time - middle_time);
 
-      if (distance_to_middle_time < min_time)
+      if (time >= keyframe.from && time <= keyframe.to)
       {
-        min_time = distance_to_middle_time;
-        closest = keyframe;
+        current = keyframe;
+        return current;
       }
     }
-    return closest;
+
+    let min = Infinity;
+
+    for (let i = 0; i < keyframes.length; i++)
+    {
+      const keyframe = keyframes[i];
+      const distance = Math.abs(keyframe.to - time);
+
+      if (distance < min)
+      {
+        current = keyframe;
+        min = distance;
+      }
+    }
+
+    return current;
   }
 }
