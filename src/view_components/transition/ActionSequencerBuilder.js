@@ -31,7 +31,14 @@ export default class ActionSequencerBuilder
     for (let i = 0; i < tracks.length; i++)
     {
       const t = tracks[i];
-      const interpolator = new NumberInterpolator(t.attribute_name, current_context[t.attribute_name], t.to_value, t.easing_function);
+      const interpolator = new NumberInterpolator(
+        t.attribute_name,
+        current_context[t.attribute_name],
+        t.to_value,
+        t.initial,
+        t.easing_function
+      );
+
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
     }
 
@@ -58,6 +65,7 @@ export default class ActionSequencerBuilder
         from_time: 0,
         to_time: 1,
         to_value: state[keys[i]],
+        initial: true,
         easing_function: 'ease_in_out_cubic'
       });
     }
@@ -75,7 +83,14 @@ export default class ActionSequencerBuilder
     for (let i = 0; i < tracks.length; i++)
     {
       const t = tracks[i];
-      const interpolator = new NumberInterpolator(t.attribute_name, context[t.attribute_name], t.to_value, t.easing_function);
+      const interpolator = new NumberInterpolator(
+        t.attribute_name,
+        context[t.attribute_name],
+        t.to_value,
+        t.initial,
+        t.easing_function
+      );
+
       sequencer.add_action_interpolator(t.from_time, t.to_time, interpolator, true);
     }
 

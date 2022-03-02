@@ -3,13 +3,14 @@ import { Math as TMath } from 'three';
 
 export default class NumberInterpolator extends ActionInterpolator
 {
-  constructor(attribute_name, from = 0, to = 1, easing_function = 'linear')
+  constructor(attribute_name, from = 0, to = 1, initial = false, easing_function = 'linear')
   {
     super(easing_function);
 
     this.attribute_name = attribute_name;
     this.from = from;
     this.to = to;
+    this.initial = initial;
   }
 
   update(context, t)

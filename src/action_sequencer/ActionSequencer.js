@@ -188,6 +188,21 @@ export default class ActionSequencer
     return this.channels[channel_name];
   }
 
+  is_channel_redefined(channel_name)
+  {
+    for (let i = 0; i < this.channels[channel_name].length; i++)
+    {
+      const keyframe = this.channels[channel_name][i];
+
+      if (keyframe.interpolator.initial)
+      {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   __linear_map_01(value,
     from_range_start_value,
     from_range_end_value)
