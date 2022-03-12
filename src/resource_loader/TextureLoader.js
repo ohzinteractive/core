@@ -30,6 +30,11 @@ export default class TextureLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       };
+
+      image.onerror = () =>
+      {
+        console.error('Error loading texture. Maybe the resource is not an image?', this.url);
+      };
     });
   }
 }

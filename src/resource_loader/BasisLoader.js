@@ -4,19 +4,11 @@ import { sRGBEncoding } from 'three';
 
 export default class BasisLoader extends AbstractLoader
 {
-  constructor(resource_id, url, renderer, loader, size)
+  constructor(resource_id, url, loader, size)
   {
     super(resource_id, url, size);
 
     this.loader = loader;
-
-    this.loader.setWorkerLimit(1);
-
-    this.loader.setTranscoderPath(
-      'libs/basis/'
-    );
-
-    this.loader.detectSupport(renderer);
   }
 
   on_preloaded_finished(resource_container)
