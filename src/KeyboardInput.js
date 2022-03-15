@@ -27,7 +27,7 @@ class KeyboardInput
 
   on_key_up(e)
   {
-    this.release_keys();
+    this.release_key(e.key);
   }
 
   clear()
@@ -36,6 +36,18 @@ class KeyboardInput
     for (let i = 0; i < this.keys.length; i++)
     {
       this.keys[i].pressed = false;
+      this.keys[i].released = false;
+    }
+  }
+
+  release_key(key_name)
+  {
+    const key = this.keys.find(key => key.key_name === key_name);
+    if (key)
+    {
+      key.fired = false;
+      key.down = false;
+      key.released = true;
     }
   }
 
@@ -50,40 +62,54 @@ class KeyboardInput
     }
   }
 
-  press_key(key)
+  press_key(key_name)
   {
-    for (let i = 0; i < this.keys.length; i++)
+    // for (let i = 0; i < this.keys.length; i++)
+    // {
+    //   if (this.keys[i].key_name === key && !this.keys[i].fired)
+    //   {
+    //     this.keys[i].pressed = true;
+    //     this.keys[i].down = true;
+    //     this.keys[i].fired = true;
+    //   }
+    // }
+    const key = this.keys.find(key => key.key_name === key_name);
+    if (key)
     {
-      if (this.keys[i].key_name === key && !this.keys[i].fired)
-      {
-        this.keys[i].pressed = true;
-        this.keys[i].down = true;
-        this.keys[i].fired = true;
-      }
+      key.pressed = true;
+      key.down = true;
+      key.fired = true;
     }
   }
 
-  key_is_pressed(key)
+  is_key_pressed(key_name)
   {
-    for (let i = 0; i < this.keys.length; i++)
+    const key = this.keys.find(key => key.key_name === key_name);
+    if (key)
     {
-      if (this.keys[i].key_name === key)
-      {
-        return this.keys[i].pressed;
-      }
+      return key.pressed;
     }
     return false;
   }
 
-  key_is_down(key)
+  is_key_down(key_name)
   {
-    for (let i = 0; i < this.keys.length; i++)
+    const key = this.keys.find(key => key.key_name === key_name);
+    if (key)
     {
-      if (this.keys[i].key_name === key)
-      {
-        return this.keys[i].down;
-      }
+      return key.down;
     }
+    return false;
+  }
+
+  is_key_released(key_name)
+  {
+    const key = this.keys.find(key => key.key_name === key_name);
+    if (key)
+    {
+      return key.released;
+    }
+
     return false;
   }
 
@@ -94,9 +120,7 @@ class KeyboardInput
         key_name: key,
         pressed: false,
         down: false,
-        up: false,
         fired: false
-
       });
   }
 
