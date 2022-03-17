@@ -64,19 +64,13 @@ class KeyboardInput
 
   press_key(key_name)
   {
-    // for (let i = 0; i < this.keys.length; i++)
-    // {
-    //   if (this.keys[i].key_name === key && !this.keys[i].fired)
-    //   {
-    //     this.keys[i].pressed = true;
-    //     this.keys[i].down = true;
-    //     this.keys[i].fired = true;
-    //   }
-    // }
     const key = this.keys.find(key => key.key_name === key_name);
     if (key)
     {
-      key.pressed = true;
+      if (key.down === false)
+      {
+        key.pressed = true;
+      }
       key.down = true;
       key.fired = true;
     }
