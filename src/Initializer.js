@@ -22,7 +22,7 @@ class Initializer
   {
   }
 
-  init(canvas, app_container, context_attributes)
+  init(canvas, app_container, context_attributes, keyboard_input_container = document)
   {
     CameraManager.init();
     CameraUtilities.init();
@@ -30,7 +30,7 @@ class Initializer
     Configuration.init();
     EventManager.init();
     GeometryBatcher.init();
-    Input.init(app_container);
+    Input.init(app_container, keyboard_input_container);
     OS.init();
     Browser.init();
     ReflectionPlaneContext.init();
