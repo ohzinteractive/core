@@ -36,7 +36,7 @@ class Time
     this.__elapsed_time = this.___time.getElapsedTime();
 
     this.delta_buffer.shift();
-    this.delta_buffer.push(this.__raw_delta_time);
+    this.delta_buffer.push(this.__raw_delta_time < 0.32 ? this.__raw_delta_time : 0.032);
 
     this.__calculate_delta_time();
   }
