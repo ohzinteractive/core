@@ -26,6 +26,7 @@ import OS from './OS';
 import PerspectiveCamera from './PerspectiveCamera';
 import RenderLoop from './RenderLoop';
 import SceneManager from './SceneManager';
+import OScreen from './OScreen';
 import Screen from './Screen';
 import SimpleTextDrawer from './canvas_drawer/SimpleTextDrawer';
 import Time from './Time';
@@ -132,6 +133,7 @@ export {
   PerspectiveCamera,
   RenderLoop,
   SceneManager,
+  OScreen,
   Screen,
   SimpleTextDrawer,
   Time,

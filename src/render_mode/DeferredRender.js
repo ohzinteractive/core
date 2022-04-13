@@ -1,6 +1,6 @@
 import CameraManager from '../CameraManager';
 import SceneManager from '../SceneManager';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import BaseRender from '../render_mode/BaseRender';
 import DeferredRendererComposeMaterial from '../materials/DeferredRendererComposeMaterial';
 import Graphics from '../Graphics';
@@ -19,7 +19,7 @@ export default class DeferredRender extends BaseRender
     super();
 
     this.compose_mat = new DeferredRendererComposeMaterial();
-    this.main_rt = new WebGLRenderTarget(Screen.width, Screen.height, {
+    this.main_rt = new WebGLRenderTarget(OScreen.width, OScreen.height, {
       // magFilter: NearestFilter,
       // minFilter: NearestFilter
     });
@@ -104,9 +104,9 @@ export default class DeferredRender extends BaseRender
 
   __check_RT_size()
   {
-    if (this.main_rt.width !== Screen.width || this.main_rt.height !== Screen.height)
+    if (this.main_rt.width !== OScreen.width || this.main_rt.height !== OScreen.height)
     {
-      this.main_rt.setSize(Screen.width, Screen.height);
+      this.main_rt.setSize(OScreen.width, OScreen.height);
     }
   }
 }

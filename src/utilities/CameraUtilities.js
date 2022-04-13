@@ -1,7 +1,7 @@
 import CameraManager from '../CameraManager';
 import Input from '../Input';
 import OMath from '../utilities/OMath';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 
 import { Vector3 } from 'three';
 import { Matrix4 } from 'three';
@@ -152,13 +152,13 @@ class CameraUtilities
       const obj_x = this.tmp_size.x;
       const obj_y = this.tmp_size.y;
       const object_aspect = obj_x / obj_y;
-      if (Screen.aspect_ratio / object_aspect > 1)
+      if (OScreen.aspect_ratio / object_aspect > 1)
       {
-        return Screen.height / obj_y;
+        return OScreen.height / obj_y;
       }
       else
       {
-        return Screen.width / obj_x;
+        return OScreen.width / obj_x;
       }
     }
     else
@@ -178,8 +178,8 @@ class CameraUtilities
     object.getWorldPosition(tmp_vec);
     tmp_vec.project(camera);
 
-    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (Screen.width);
-    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * Screen.height;
+    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (OScreen.width);
+    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * OScreen.height;
     return tmp_vec;
   }
 
@@ -191,18 +191,18 @@ class CameraUtilities
     tmp_vec.copy(pos);
     tmp_vec.project(camera);
 
-    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (Screen.width);
-    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * Screen.height;
+    tmp_vec.x = (tmp_vec.x * 0.5 + 0.5) * (OScreen.width);
+    tmp_vec.y = (1 - (tmp_vec.y * 0.5 + 0.5)) * OScreen.height;
     return tmp_vec;
   }
 
   update_projection(camera)
   {
-    camera.left   = -Screen.width / 2;
-    camera.right  = Screen.width / 2;
-    camera.top    = Screen.height / 2;
-    camera.bottom = -Screen.height / 2;
-    camera.aspect = Screen.aspect_ratio;
+    camera.left   = -OScreen.width / 2;
+    camera.right  = OScreen.width / 2;
+    camera.top    = OScreen.height / 2;
+    camera.bottom = -OScreen.height / 2;
+    camera.aspect = OScreen.aspect_ratio;
     camera.updateProjectionMatrix(true);
   }
 }

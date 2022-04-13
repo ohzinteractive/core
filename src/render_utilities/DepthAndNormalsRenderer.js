@@ -1,5 +1,5 @@
 import CameraManager from '../CameraManager';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 
 import ClearDepthNormalMaterial from '../materials/ClearDepthNormalMaterial';
 import DepthNormalMaterial from '../materials/DepthNormalMaterial';
@@ -11,7 +11,7 @@ export default class DepthAndNormalsRenderer
 {
   constructor()
   {
-    this.RT = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
 
     this.clear_depth_normal_mat = new ClearDepthNormalMaterial(1, new Vector3(0, 0, 1));
     this.depth_normal_material = new DepthNormalMaterial();
@@ -32,9 +32,9 @@ export default class DepthAndNormalsRenderer
 
   __resize_RT_if_necessary()
   {
-    if (this.RT.width !== Screen.width || this.RT.height !== Screen.height)
+    if (this.RT.width !== OScreen.width || this.RT.height !== OScreen.height)
     {
-      this.RT.setSize(Screen.width, Screen.height);
+      this.RT.setSize(OScreen.width, OScreen.height);
     }
   }
 

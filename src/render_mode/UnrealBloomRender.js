@@ -1,4 +1,4 @@
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import BaseRender from '../render_mode/BaseRender';
 import UnrealBloomComposeMaterial from '../materials/UnrealBloomComposeMaterial';
 import AddMaterial from '../materials/AddMaterial';
@@ -28,8 +28,8 @@ export default class UnrealBloomRender extends BaseRender
   on_enter()
   {
     this.blurrer = new GaussianBlurrer();
-    this.main_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
-    this.blur_RT = new WebGLRenderTarget(Screen.render_width, Screen.render_height);
+    this.main_RT = new WebGLRenderTarget(OScreen.render_width, OScreen.render_height);
+    this.blur_RT = new WebGLRenderTarget(OScreen.render_width, OScreen.render_height);
 
     this.bloom_compose_mat = new UnrealBloomComposeMaterial(5);
     this.blurrer = new GaussianBlurrer(5);
@@ -100,10 +100,10 @@ export default class UnrealBloomRender extends BaseRender
 
   __check_RT_size()
   {
-    if (this.main_RT.width !== Screen.render_width || this.main_RT.height !== Screen.render_height)
+    if (this.main_RT.width !== OScreen.render_width || this.main_RT.height !== OScreen.render_height)
     {
-      this.main_RT.setSize(Screen.render_width, Screen.render_height);
-      this.blur_RT.setSize(Screen.render_width, Screen.render_height);
+      this.main_RT.setSize(OScreen.render_width, OScreen.render_height);
+      this.blur_RT.setSize(OScreen.render_width, OScreen.render_height);
     }
   }
 }

@@ -27,6 +27,7 @@ export * from './PerspectiveCamera';
 export * from './RenderLoop';
 export * from './SceneManager';
 export * from './Screen';
+export * from './OScreen';
 export * from './canvas_drawer/SimpleTextDrawer';
 export * from './Time';
 export * from './UI';

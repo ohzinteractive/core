@@ -1,5 +1,5 @@
 
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 
 import UIElementMaterial from '../materials/UIElementMaterial';
 
@@ -132,7 +132,7 @@ export default class UIElement extends Mesh
 
   update_state(normalized_mouse_pos)
   {
-    this.material.uniforms._ScreenSize.value.set(Screen.width, Screen.height);
+    this.material.uniforms._ScreenSize.value.set(OScreen.width, OScreen.height);
     this.get_size(this.material.uniforms._TextureSize.value);
 
     this.cached_NDC_position.copy(this.position_strategy.get_pos_NDC(this.position));
@@ -157,8 +157,8 @@ export default class UIElement extends Mesh
 
   to_screen_position(projected_pos)
   {
-    projected_pos.x = (projected_pos.x * 0.5 + 0.5) * Screen.width  + this.pixel_offset.x;
-    projected_pos.y = (projected_pos.y * 0.5 + 0.5) * Screen.height + this.pixel_offset.y;
+    projected_pos.x = (projected_pos.x * 0.5 + 0.5) * OScreen.width  + this.pixel_offset.x;
+    projected_pos.y = (projected_pos.y * 0.5 + 0.5) * OScreen.height + this.pixel_offset.y;
   }
 
   get_screen_space_position()
@@ -170,8 +170,8 @@ export default class UIElement extends Mesh
 
   set_screen_space_position(screen_pos)
   {
-    this.position.x = (screen_pos.x / Screen.width) * 2 - 1;
-    this.position.y = (screen_pos.y / Screen.height) * 2 - 1;
+    this.position.x = (screen_pos.x / OScreen.width) * 2 - 1;
+    this.position.y = (screen_pos.y / OScreen.height) * 2 - 1;
   }
 
   dispose()
@@ -180,7 +180,7 @@ export default class UIElement extends Mesh
     {
       this.material.uniforms._MainTex.value.dispose();
     }
-    Screen.remove_screen_material(this.material);
+    // Screen.remove_screen_material(this.material);
     this.geometry.dispose();
     this.material.dispose();
   }
@@ -189,11 +189,11 @@ export default class UIElement extends Mesh
   {
     if (vector2)
     {
-      return vector2.copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
+      return vector2.copy(this.texture_size).multiplyScalar(this.size / OScreen.dpr);
     }
     else
     {
-      return new Vector2().copy(this.texture_size).multiplyScalar(this.size / Screen.dpr);
+      return new Vector2().copy(this.texture_size).multiplyScalar(this.size / OScreen.dpr);
     }
   }
 

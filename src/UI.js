@@ -55,10 +55,10 @@ class UI
 
   update()
   {
-    // this.ss_camera.left     = -Screen.width / 2;
-    // this.ss_camera.right    = Screen.width / 2;
-    // this.ss_camera.top      = Screen.top / 2;
-    // this.ss_camera.right    = -Screen.bottom / 2;
+    // this.ss_camera.left     = -OScreen.width / 2;
+    // this.ss_camera.right    = OScreen.width / 2;
+    // this.ss_camera.top      = OScreen.top / 2;
+    // this.ss_camera.right    = -OScreen.bottom / 2;
     this.ss_camera.updateProjectionMatrix();
 
     this._tmp_normalized_pos.copy(Input.NDC);

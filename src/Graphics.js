@@ -1,6 +1,6 @@
 import Configuration from './Configuration';
 import BaseRender from './render_mode/BaseRender';
-import Screen from './Screen';
+import OScreen from './OScreen';
 import CameraManager from './CameraManager';
 import SceneManager from './SceneManager';
 import Capabilities from './Capabilities';
@@ -64,7 +64,7 @@ class Graphics
 
     this._renderer.setPixelRatio(1);
 
-    Screen.dpr = Configuration.dpr;
+    OScreen.dpr = Configuration.dpr;
 
     if (!this.is_webgl2)
     {
@@ -123,14 +123,14 @@ class Graphics
       this.current_render_mode.render();
     }
 
-    Screen.update();
+    OScreen.update();
   }
 
   __update_current_camera()
   {
     if (CameraManager.current)
     {
-      CameraManager.current.aspect = Screen.aspect_ratio;
+      CameraManager.current.aspect = OScreen.aspect_ratio;
       CameraManager.current.updateProjectionMatrix();
       CameraManager.current.updateMatrix();
       CameraManager.current.updateMatrixWorld(true);
@@ -206,14 +206,14 @@ class Graphics
   {
     for (const entry of entries)
     {
-      Screen.dpr = Configuration.dpr;
-      Screen.update_position(entry.contentRect.x, entry.contentRect.y);
-      Screen.update_size(entry.contentRect.width, entry.contentRect.height);
+      OScreen.dpr = Configuration.dpr;
+      OScreen.update_position(entry.contentRect.x, entry.contentRect.y);
+      OScreen.update_size(entry.contentRect.width, entry.contentRect.height);
 
-      this.canvas.width  = Screen.render_width;
-      this.canvas.height = Screen.render_height;
+      this.canvas.width  = OScreen.render_width;
+      this.canvas.height = OScreen.render_height;
 
-      this._renderer.setViewport(0, 0, Screen.render_width, Screen.render_height);
+      this._renderer.setViewport(0, 0, OScreen.render_width, OScreen.render_height);
 
       this.__update_current_camera();
     }
@@ -241,12 +241,12 @@ class Graphics
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
-  take_screenshot(blob_callback, width = Screen.width, height = Screen.height)
+  take_screenshot(blob_callback, width = OScreen.width, height = OScreen.height)
   {
     // const ctx = this;
 
-    const old_width = Screen.width;
-    const old_height = Screen.height;
+    const old_width = OScreen.width;
+    const old_height = OScreen.height;
 
     const new_width = width;
     const new_height = height;
@@ -257,7 +257,7 @@ class Graphics
     const divisions_x = parseInt(Math.ceil(new_width / tile_width));
     const divisions_y = parseInt(Math.ceil(new_height / tile_height));
 
-    Screen.update_size(tile_width, tile_height);
+    OScreen.update_size(tile_width, tile_height);
 
     this._renderer.setPixelRatio(1);
 
@@ -269,7 +269,7 @@ class Graphics
     ctx_2D.canvas.width  = new_width;
     ctx_2D.canvas.height = new_height;
 
-    CameraManager.current.aspect = Screen.aspect_ratio;
+    CameraManager.current.aspect = OScreen.aspect_ratio;
     CameraManager.current.updateMatrix();
     CameraManager.current.updateMatrixWorld(true);
 
@@ -278,11 +278,11 @@ class Graphics
       for (let y = 0; y < divisions_y; y++)
       {
         CameraManager.current.setViewOffset(new_width,             new_height,
-          Screen.width * x,         Screen.height * y,
-          Screen.width,            Screen.height);
+          OScreen.width * x,         OScreen.height * y,
+          OScreen.width,            OScreen.height);
         this.current_render_mode.render();
 
-        ctx_2D.drawImage(this._renderer.domElement, Screen.width * x, Screen.height * y);
+        ctx_2D.drawImage(this._renderer.domElement, OScreen.width * x, OScreen.height * y);
       }
     }
 
@@ -292,11 +292,11 @@ class Graphics
 
     CameraManager.current.clearViewOffset();
 
-    Screen.update_size(old_width, old_height);
+    OScreen.update_size(old_width, old_height);
     this._renderer.setPixelRatio(Configuration.dpr);
     this._renderer.setSize(old_width, old_height, false);
 
-    CameraManager.current.aspect = Screen.aspect_ratio;
+    CameraManager.current.aspect = OScreen.aspect_ratio;
     CameraManager.current.updateMatrix();
     CameraManager.current.updateMatrixWorld(true);
   }

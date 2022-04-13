@@ -1,4 +1,4 @@
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import RenderLayers from '../RenderLayers';
 import compose_frag from '../shaders/box_blur/compose.frag';
 import box_blur_frag from '../shaders/box_blur/box_blur.frag';
@@ -18,9 +18,9 @@ export default class OutlineRender
 {
   constructor(webgl)
   {
-    this.main_rt = new WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt1     = new WebGLRenderTarget(Screen.width, Screen.height);
-    this.rt2     = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.main_rt = new WebGLRenderTarget(OScreen.width, OScreen.height);
+    this.rt1     = new WebGLRenderTarget(OScreen.width, OScreen.height);
+    this.rt2     = new WebGLRenderTarget(OScreen.width, OScreen.height);
 
     this.compose_material    = this.__get_compose_material();
     this.copy_material       = this.__get_copy_material();
@@ -101,7 +101,7 @@ export default class OutlineRender
       uniforms: {
         _MainTex: { value: undefined },
         _SampleDir: { value: new Vector2() },
-        _Screen: { value: new Vector2(Screen.width, Screen.height) }
+        _Screen: { value: new Vector2(OScreen.width, OScreen.height) }
       },
       vertexShader: copy_vert,
       fragmentShader: box_blur_frag,
@@ -116,7 +116,7 @@ export default class OutlineRender
       uniforms: {
         _MainTex: { value: undefined },
         _Blur: { value: undefined },
-        _Screen: { value: new Vector2(Screen.width, Screen.height) }
+        _Screen: { value: new Vector2(OScreen.width, OScreen.height) }
       },
       vertexShader: copy_vert,
       fragmentShader: compose_frag,

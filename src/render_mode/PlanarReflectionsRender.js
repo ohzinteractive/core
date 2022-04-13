@@ -3,7 +3,7 @@ import basic_color_vert from '../shaders/basic_color/basic_color.vert';
 import SceneManager from '../SceneManager';
 import CameraManager from '../CameraManager';
 import ReflectionPlaneContext from '../ReflectionPlaneContext';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import BaseRender from '../render_mode/BaseRender';
 
 import { ShaderMaterial } from 'three';
@@ -65,7 +65,7 @@ export default class PlanarReflectionsRender extends BaseRender
   {
     if (CameraManager.current)
     {
-      CameraManager.current.aspect = Screen.aspect_ratio;
+      CameraManager.current.aspect = OScreen.aspect_ratio;
       CameraManager.current.updateProjectionMatrix();
       CameraManager.current.updateMatrix();
       CameraManager.current.updateMatrixWorld(true);

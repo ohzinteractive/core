@@ -5,7 +5,7 @@ import SceneManager from './SceneManager';
 import Cube from './primitives/Cube';
 import Sphere from './primitives/Sphere';
 import Arrow from './primitives/Arrow';
-import Screen from './Screen';
+import OScreen from './OScreen';
 import ScreenSpaceTextureMaterial from './materials/ScreenSpaceTextureMaterial';
 import { Vector3 } from 'three';
 import { LineBasicMaterial } from 'three';
@@ -248,7 +248,7 @@ class Debug
   {
     for (let i = 0; i < this.display_texture_meshes.length; i++)
     {
-      this.display_texture_meshes[i].material.set_screen_size(Screen.width, Screen.height);
+      this.display_texture_meshes[i].material.set_screen_size(OScreen.width, OScreen.height);
     }
     if (this.scene.children.length > 0)
     {

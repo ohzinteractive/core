@@ -1,4 +1,4 @@
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import RenderLayers from '../RenderLayers';
 import transparent_mix_vert from '../shaders/transparent_mix/transparent_mix.vert';
 import transparent_mix_frag from '../shaders/transparent_mix/transparent_mix.frag';
@@ -18,15 +18,15 @@ export default class TransparencyMixRender
   constructor(webgl)
   {
     this.SSAA = Configuration.use_ssaa ? 2 : 1;
-    this.main_rt   = new WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.opaque_rt = new WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.fxaa_rt   = new WebGLRenderTarget(Screen.width * this.SSAA, Screen.height * this.SSAA);
+    this.main_rt   = new WebGLRenderTarget(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.opaque_rt = new WebGLRenderTarget(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.fxaa_rt   = new WebGLRenderTarget(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
 
     this.mix_material = new ShaderMaterial({
       uniforms: {
         _OpaqueTex: { value: this.opaque_rt.texture },
         _TransparentTex: { value: this.main_rt.texture },
-        _Resolution: { value: new Vector2(Screen.width, Screen.height) },
+        _Resolution: { value: new Vector2(OScreen.width, OScreen.height) },
         _Opacity: { value: Configuration.transparency_amount }
       },
       vertexShader: transparent_mix_vert,
@@ -62,11 +62,11 @@ export default class TransparencyMixRender
 
   resize()
   {
-    this.main_rt.setSize(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.opaque_rt.setSize(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.fxaa_rt.setSize(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.fxaa_material.uniforms._Resolution.value.set(Screen.width * this.SSAA, Screen.height * this.SSAA);
-    this.mix_material.uniforms._Resolution.value.set(Screen.width * this.SSAA, Screen.height * this.SSAA);
+    this.main_rt.setSize(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.opaque_rt.setSize(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.fxaa_rt.setSize(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.fxaa_material.uniforms._Resolution.value.set(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
+    this.mix_material.uniforms._Resolution.value.set(OScreen.width * this.SSAA, OScreen.height * this.SSAA);
   }
 
   __get_fxaa_material()
@@ -74,7 +74,7 @@ export default class TransparencyMixRender
     return new ShaderMaterial({
       uniforms: {
         _MainTex: { value: this.fxaa_rt.texture },
-        _Resolution: { value: new Vector2(Screen.width * this.SSAA, Screen.height * this.SSAA) }
+        _Resolution: { value: new Vector2(OScreen.width * this.SSAA, OScreen.height * this.SSAA) }
       },
       vertexShader: transparent_mix_vert,
       fragmentShader: fxaa,

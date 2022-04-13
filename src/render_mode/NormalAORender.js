@@ -1,6 +1,6 @@
 import CameraManager from '../CameraManager';
 import SceneManager from '../SceneManager';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import BaseRender from '../render_mode/BaseRender';
 import Configuration from '../Configuration';
 import SSAOMaterial from '../materials/SSAOMaterial';
@@ -23,9 +23,9 @@ export default class NormalAORender extends BaseRender
 
     this.ssaa = Configuration.use_ssaa ? 2 : 1;
 
-    this.main_RT = new WebGLRenderTarget(Screen.width * this.ssaa, Screen.height * this.ssaa);
+    this.main_RT = new WebGLRenderTarget(OScreen.width * this.ssaa, OScreen.height * this.ssaa);
 
-    this.SSAO_RT = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.SSAO_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
 
     this.blurrer = new Blurrer();
     Graphics.generateDepthNormalTexture = true;
@@ -62,10 +62,10 @@ export default class NormalAORender extends BaseRender
 
   __check_RT_size()
   {
-    if (this.main_RT.width !== Screen.width * this.ssaa || this.main_RT.height !== Screen.height * this.ssaa)
+    if (this.main_RT.width !== OScreen.width * this.ssaa || this.main_RT.height !== OScreen.height * this.ssaa)
     {
-      this.main_RT.setSize(Screen.width * this.ssaa, Screen.height * this.ssaa);
-      this.SSAO_RT.setSize(Screen.width, Screen.height);
+      this.main_RT.setSize(OScreen.width * this.ssaa, OScreen.height * this.ssaa);
+      this.SSAO_RT.setSize(OScreen.width, OScreen.height);
     }
   }
 }

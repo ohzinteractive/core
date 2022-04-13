@@ -1,5 +1,5 @@
 import RenderLayers from '../RenderLayers';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 
 import { Color } from 'three';
 import { WebGLRenderTarget } from 'three';
@@ -16,7 +16,7 @@ export default class ObjectPicker
     this.camera_layers = camera.layers;
 
     this.clear_color = new Color('#000000');
-    this.picking_texture = new WebGLRenderTarget(Screen.width, Screen.height);
+    this.picking_texture = new WebGLRenderTarget(OScreen.width, OScreen.height);
     this.tmp_scene_auto_update = undefined;
 
     this.tmp_mouse_pos = new Vector2();
@@ -66,8 +66,8 @@ export default class ObjectPicker
   {
     this.tmp_mouse_pos.copy(mouse_NDC);
     this.tmp_mouse_pos.multiplyScalar(0.5);
-    this.tmp_mouse_pos.x = (this.tmp_mouse_pos.x + 0.5) * Screen.width;
-    this.tmp_mouse_pos.y = (this.tmp_mouse_pos.y + 0.5) * Screen.height;
+    this.tmp_mouse_pos.x = (this.tmp_mouse_pos.x + 0.5) * OScreen.width;
+    this.tmp_mouse_pos.y = (this.tmp_mouse_pos.y + 0.5) * OScreen.height;
     this.renderer.readRenderTargetPixels(this.picking_texture, this.tmp_mouse_pos.x, this.tmp_mouse_pos.y, 1, 1, this.readback_buffer);
 
     return (this.readback_buffer[2]) | (this.readback_buffer[1] << 8) | (this.readback_buffer[0] << 16);

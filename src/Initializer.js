@@ -7,10 +7,10 @@ import EventManager from './EventManager';
 import Graphics from './Graphics';
 import Input from './Input';
 import OS from './OS';
+import OScreen from './OScreen';
 import ReflectionPlaneContext from './ReflectionPlaneContext';
 import ResourceContainer from './ResourceContainer';
 import SceneManager from './SceneManager';
-import Screen from './Screen';
 import GeometryBatcher from './static_batcher/GeometryBatcher';
 import Time from './Time';
 import UI from './UI';
@@ -36,7 +36,7 @@ class Initializer
     ReflectionPlaneContext.init();
     ResourceContainer.init();
     SceneManager.init();
-    Screen.init();
+    OScreen.init();
     Time.init();
     UI.init();
 

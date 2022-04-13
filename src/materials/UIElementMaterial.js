@@ -5,13 +5,15 @@ import BaseShaderMaterial from '../materials/BaseShaderMaterial';
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
 
+import OScreen from '../OScreen';
+
 export default class UIElementMaterial extends BaseShaderMaterial
 {
   constructor(intensity = 1)
   {
     super(vert, frag, {
       _MainTex: { value: undefined },
-      _ScreenSize: { value: new Vector2(Screen.width, Screen.height) },
+      _ScreenSize: { value: new Vector2(OScreen.width, OScreen.height) },
       _TextureSize: { value: new Vector2() },
       _PixelOffset: { value: new Vector2(0, 0) },
       _NDC: { value: new Vector3() },

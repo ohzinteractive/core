@@ -1,6 +1,6 @@
 import CameraManager from '../CameraManager';
 import SceneManager from '../SceneManager';
-import Screen from '../Screen';
+import OScreen from '../OScreen';
 import ViewPositionMaterial from '../materials/ViewPositionMaterial';
 
 import { WebGLRenderTarget } from 'three';
@@ -11,21 +11,21 @@ export default class ViewPositionRenderer
 {
   constructor()
   {
-    this.RT = new WebGLRenderTarget(Screen.width, Screen.height, { type: FloatType });
+    this.RT = new WebGLRenderTarget(OScreen.width, OScreen.height, { type: FloatType });
     this.clear_color = new Color(0, 0, 0);
     this.render_pos_mat = new ViewPositionMaterial();
   }
 
   render(context, renderer)
   {
-    if (this.RT.width !== Screen.width || this.RT.height !== Screen.height)
+    if (this.RT.width !== OScreen.width || this.RT.height !== OScreen.height)
     {
-      this.RT.setSize(Screen.width, Screen.height);
+      this.RT.setSize(OScreen.width, OScreen.height);
     }
 
     if (CameraManager.current)
     {
-      CameraManager.current.aspect = Screen.aspect_ratio;
+      CameraManager.current.aspect = OScreen.aspect_ratio;
       CameraManager.current.updateProjectionMatrix();
       CameraManager.current.updateMatrix();
       CameraManager.current.updateMatrixWorld(true);
