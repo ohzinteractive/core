@@ -11,6 +11,8 @@ class ViewManager
     this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
 
     this.view_change_subscribers = [];
+
+    this.browser_title_suffix = '';
   }
 
   update()
@@ -28,6 +30,7 @@ class ViewManager
     if (change_url)
     {
       this.__change_browser_url(v.url);
+      this.__change_browser_title(v.url);
     }
 
     this.notify_view_change(view_name);
@@ -79,6 +82,11 @@ class ViewManager
     const view = this.get(view_name);
 
     this.transition_handler.set_state(view);
+  }
+
+  set_browser_title_suffix(title_suffix)
+  {
+    this.browser_title_suffix = title_suffix;
   }
 
   get_current_view()
@@ -135,12 +143,37 @@ class ViewManager
     window.history.pushState('', '', url);
   }
 
+  __change_browser_title(name)
+  {
+    const title = this.__capitalize(name);
+
+    document.title = title ? `${title} | ${this.browser_title_suffix}` : this.browser_title_suffix;
+  }
+
   __set_views_opacities()
   {
     for (let i = 0; i < this.views.length; i++)
     {
       this.views[i].set_opacity(this.transition_handler.current_state_data);
     }
+  }
+
+  __capitalize(string)
+  {
+    let aux_string = string.toUpperCase().replace('/', '');
+    aux_string = this.__snake_to_whitespace(aux_string);
+
+    return aux_string;
+  }
+
+  __snake_to_whitespace(string)
+  {
+    return string.replace(
+      /([-_][A-Z])/g,
+      (group) => group
+        .replace('-', ' ')
+        .replace('_', ' ')
+    );
   }
 }
 
