@@ -180,7 +180,7 @@ export default class UIElement extends Mesh
     {
       this.material.uniforms._MainTex.value.dispose();
     }
-    // Screen.remove_screen_material(this.material);
+    // OScreen.remove_screen_material(this.material);
     this.geometry.dispose();
     this.material.dispose();
   }

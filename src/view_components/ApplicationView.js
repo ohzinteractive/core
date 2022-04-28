@@ -1,5 +1,4 @@
 import ResourceContainer from '../ResourceContainer';
-import DrawIOAnimationSheet from './transition/DrawIOAnimationSheet';
 import ViewManager from './ViewManager';
 import ViewState from './ViewState';
 
@@ -12,7 +11,12 @@ export default class ApplicationView extends ViewState
     this.container = container;
     this.url = url;
 
-    const transition_data = new DrawIOAnimationSheet().parse(ResourceContainer.get(`${name}_data`));
+    let transition_data = ResourceContainer.get(`${name}_data`);
+
+    transition_data = transition_data || {
+      animation_tracks: [],
+      triggers: []
+    };
 
     const transitions = [
       {
