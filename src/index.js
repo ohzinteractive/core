@@ -100,6 +100,7 @@ import OBJLoader from './resource_loader/OBJLoader';
 import PointArrayLoader from './resource_loader/PointArrayLoader';
 import RGBETextureLoader from './resource_loader/RGBETextureLoader';
 import TextLoader from './resource_loader/TextLoader';
+import AsyncTextureLoader from './resource_loader/AsyncTextureLoader';
 import TextureLoader from './resource_loader/TextureLoader';
 import VideoLoader from './resource_loader/VideoLoader';
 
@@ -205,6 +206,7 @@ export {
   PointArrayLoader,
   RGBETextureLoader,
   TextLoader,
+  AsyncTextureLoader,
   TextureLoader,
   VideoLoader,
 
