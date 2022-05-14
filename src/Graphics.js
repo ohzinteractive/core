@@ -34,12 +34,14 @@ class Graphics
       premultipliedAlpha: true,
       preserveDrawingBuffer: true,
       powerPreference: 'high-performance',
-      logarithmicDepthBuffer: false
+      logarithmicDepthBuffer: false,
+      force_webgl2: true,
+      xr_enabled: false
     };
 
     Object.assign(this.context_attributes, context_attributes);
 
-    if (context_attributes.force_webgl2)
+    if (this.context_attributes.force_webgl2)
     {
       this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
                             canvas.getContext('webgl', this.context_attributes) ||
@@ -59,6 +61,11 @@ class Graphics
       canvas: canvas,
       context: this.canvas_context
     });
+
+    if (this.context_attributes.xr_enabled)
+    {
+      this._renderer.xr.enabled = true;
+    }
 
     this._renderer.autoClear = false;
 

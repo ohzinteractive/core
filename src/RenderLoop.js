@@ -12,8 +12,6 @@ export default class RenderLoop
   {
     target_application = target_application || new BaseApplication();
 
-    this._frame_id = -1;
-
     this.target_application = target_application;
     this.graphics = graphics;
 
@@ -50,7 +48,6 @@ export default class RenderLoop
 
     // ###### END  CYCLE #######
 
-    this._frame_id = requestAnimationFrame(this.update.bind(this));
     this.target_application.on_frame_end();
     this.frames_passed++;
 
@@ -69,7 +66,8 @@ export default class RenderLoop
     }
 
     this.is_running = true;
-    this.update();
+
+    this.graphics._renderer.setAnimationLoop(this.update.bind(this));
   }
 
   stop()
@@ -79,7 +77,7 @@ export default class RenderLoop
     this.is_running = false;
     this.target_application.on_exit();
 
-    cancelAnimationFrame(this._frame_id);
+    this.graphics._renderer.setAnimationLoop(null);
   }
 
   set_state(new_state)

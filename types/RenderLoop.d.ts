@@ -1,6 +1,5 @@
 export class RenderLoop {
     constructor(target_application: any, graphics: any);
-    _frame_id: number;
     target_application: any;
     graphics: any;
     is_running: boolean;
