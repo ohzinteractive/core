@@ -57,6 +57,36 @@ export default class ApplicationView extends ViewState
     this.container.classList.remove('before_exit');
   }
 
+  load_html_images()
+  {
+    const images = this.container.querySelectorAll('img');
+
+    for (let i = 0; i < images.length; i++)
+    {
+      const image = images[i];
+
+      if (image.dataset.src)
+      {
+        image.src = image.dataset.src;
+      }
+    }
+  }
+
+  load_html_videos()
+  {
+    const videos = this.container.querySelectorAll('video');
+
+    for (let i = 0; i < videos.length; i++)
+    {
+      const video = videos[i];
+
+      if (video.dataset.src)
+      {
+        video.src = video.dataset.src;
+      }
+    }
+  }
+
   set_opacity(current_state_data)
   {
     this.container.style.opacity = current_state_data[`${this.name}_opacity`];
