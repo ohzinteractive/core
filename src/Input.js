@@ -7,8 +7,9 @@ class Input extends InputController
   {
     super();
 
-    this.left_mouse_button_clicked = false;
+    this.clicked = false;
     this.captured_NDC = { x: 0, y: 0 };
+    this.current_NDC_delta = { x: 0, y: 0 };
 
     this.keyboard = new KeyboardInput();
   }
@@ -27,11 +28,36 @@ class Input extends InputController
     this.keyboard.dispose();
   }
 
+  update()
+  {
+    if (this.left_mouse_button_pressed)
+    {
+      this.captured_NDC.x = this.NDC.x;
+      this.captured_NDC.y = this.NDC.y;
+    }
+
+    if (this.left_mouse_button_down)
+    {
+      this.current_NDC_delta.x += Math.abs(this.NDC_delta.x);
+      this.current_NDC_delta.y += Math.abs(this.NDC_delta.y);
+    }
+
+    if (this.left_mouse_button_released)
+    {
+      if (this.current_NDC_delta.x < 0.001 || this.current_NDC_delta.y < 0.001)
+      {
+        this.clicked = true;
+      }
+
+      this.current_NDC_delta = { x: 0, y: 0 };
+    }
+  }
+
   clear()
   {
     super.clear();
 
-    this.left_mouse_button_clicked = false;
+    this.clicked = false;
 
     this.keyboard.clear();
   }

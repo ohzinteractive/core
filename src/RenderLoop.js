@@ -33,6 +33,8 @@ export default class RenderLoop
       this.target_application.on_post_start();
     }
 
+    Input.update();
+
     this.target_application.update();
     ViewManager.update();
     ViewComponentManager.update();
