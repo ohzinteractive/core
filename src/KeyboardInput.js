@@ -5,7 +5,8 @@ export default class KeyboardInput
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
 
-    this.keys = [];
+    this.keys = {};
+    this.keys_keys = [];
     this.container = container;
 
     this.container.addEventListener('keydown', this.on_key_down.bind(this), false);
@@ -33,16 +34,17 @@ export default class KeyboardInput
   clear()
   {
     this.ctrlz_pressed = false;
-    for (let i = 0; i < this.keys.length; i++)
+
+    for (let i = 0; i < this.keys_keys.length; i++)
     {
-      this.keys[i].pressed = false;
-      this.keys[i].released = false;
+      this.keys[this.keys_keys[i]].pressed = false;
+      this.keys[this.keys_keys[i]].released = false;
     }
   }
 
   release_key(key_name)
   {
-    const key = this.keys.find(key => key.key_name === key_name);
+    const key = this.keys[key_name];
     if (key)
     {
       key.fired = false;
@@ -55,16 +57,16 @@ export default class KeyboardInput
   {
     this.ctrlz_fired = false;
 
-    for (let i = 0; i < this.keys.length; i++)
+    for (let i = 0; i < this.keys_keys.length; i++)
     {
-      this.keys[i].fired = false;
-      this.keys[i].down = false;
+      this.keys[this.keys_keys[i]].fired = false;
+      this.keys[this.keys_keys[i]].down = false;
     }
   }
 
   press_key(key_name)
   {
-    const key = this.keys.find(key => key.key_name === key_name);
+    const key = this.keys[key_name];
     if (key)
     {
       if (key.down === false)
@@ -78,7 +80,7 @@ export default class KeyboardInput
 
   is_key_pressed(key_name)
   {
-    const key = this.keys.find(key => key.key_name === key_name);
+    const key = this.keys[key_name];
     if (key)
     {
       return key.pressed;
@@ -88,7 +90,7 @@ export default class KeyboardInput
 
   is_key_down(key_name)
   {
-    const key = this.keys.find(key => key.key_name === key_name);
+    const key = this.keys[key_name];
     if (key)
     {
       return key.down;
@@ -98,7 +100,7 @@ export default class KeyboardInput
 
   is_key_released(key_name)
   {
-    const key = this.keys.find(key => key.key_name === key_name);
+    const key = this.keys[key_name];
     if (key)
     {
       return key.released;
@@ -109,31 +111,20 @@ export default class KeyboardInput
 
   register_key(key)
   {
-    this.keys.push(
+    this.keys[key] =
       {
         key_name: key,
         pressed: false,
         down: false,
         fired: false
-      });
+      };
+
+    this.keys_keys = Object.keys(this.keys);
   }
 
   unregister_key(key_name)
   {
-    let key = undefined;
-    for (let i = 0; i < this.keys.length; i++)
-    {
-      if (this.keys[i].key_name === key_name)
-      {
-        key = this.keys[i];
-      }
-    }
-
-    const index = this.keys.indexOf(key);
-    if (index > -1)
-    {
-      this.keys.splice(index, 1);
-    }
+    delete this.keys[key_name];
   }
 
   dispose()

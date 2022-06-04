@@ -126,7 +126,7 @@ import { Vector2 } from "three";
     };
 
     /**
-     * Normalized [-1..1] device coordinates for mouse or primary touch (captured then left click is pressed), but in browser space (upper left corner maps to <-1,-1>).
+     * Normalized [-1..1] device coordinates for mouse or primary touch, captured when left click is pressed.
     */
     static captured_NDC: {
         x: number;
