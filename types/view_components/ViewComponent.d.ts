@@ -10,4 +10,6 @@ export class ViewComponent {
     update(): void;
     on_exit(): void;
     set_opacity(opacity: any): void;
+    load_html_images(): void;
+    load_html_videos(): void;
 }

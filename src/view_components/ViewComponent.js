@@ -1,3 +1,4 @@
+import HTMLUtilities from '../utilities/HTMLUtilities';
 import ViewComponentManager from './ViewComponentManager';
 
 export default class ViewComponent
@@ -57,5 +58,15 @@ export default class ViewComponent
         this.on_exit();
       }
     }
+  }
+
+  load_html_images()
+  {
+    HTMLUtilities.load_images(this.container);
+  }
+
+  load_html_videos()
+  {
+    HTMLUtilities.load_videos(this.container);
   }
 }

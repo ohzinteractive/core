@@ -1,4 +1,5 @@
 import ResourceContainer from '../ResourceContainer';
+import HTMLUtilities from '../utilities/HTMLUtilities';
 import ViewManager from './ViewManager';
 import ViewState from './ViewState';
 
@@ -59,32 +60,12 @@ export default class ApplicationView extends ViewState
 
   load_html_images()
   {
-    const images = this.container.querySelectorAll('img');
-
-    for (let i = 0; i < images.length; i++)
-    {
-      const image = images[i];
-
-      if (image.dataset.src)
-      {
-        image.src = image.dataset.src;
-      }
-    }
+    HTMLUtilities.load_images(this.container);
   }
 
   load_html_videos()
   {
-    const videos = this.container.querySelectorAll('video');
-
-    for (let i = 0; i < videos.length; i++)
-    {
-      const video = videos[i];
-
-      if (video.dataset.src)
-      {
-        video.src = video.dataset.src;
-      }
-    }
+    HTMLUtilities.load_videos(this.container);
   }
 
   set_opacity(current_state_data)

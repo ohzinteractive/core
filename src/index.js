@@ -48,6 +48,7 @@ import CameraUtilities from './utilities/CameraUtilities';
 import EasingFunctions from './utilities/EasingFunctions';
 import FrustumPointFitter from './utilities/FrustumPointFitter';
 import GeometryUtilities from './utilities/GeometryUtilities';
+import HTMLUtilities from './utilities/HTMLUtilities';
 import ImageUtilities from './utilities/ImageUtilities';
 import OMath from './utilities/OMath';
 import MeshSampler from './utilities/MeshSampler';
@@ -146,6 +147,7 @@ export {
   EasingFunctions,
   FrustumPointFitter,
   GeometryUtilities,
+  HTMLUtilities,
   ImageUtilities,
   OMath,
   MeshSampler,

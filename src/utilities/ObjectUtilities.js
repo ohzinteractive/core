@@ -1,9 +1,34 @@
 export default class ObjectUtilities
 {
-  constructor()
-  {}
+  static is_object(item)
+  {
+    return (item && typeof item === 'object' && !Array.isArray(item));
+  }
 
-  // Changes XML to JSON
+  static merge_deep(target, ...sources)
+  {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (ObjectUtilities.is_object(target) && ObjectUtilities.is_object(source))
+    {
+      for (const key in source)
+      {
+        if (ObjectUtilities.is_object(source[key]))
+        {
+          if (!target[key]) Object.assign(target, { [key]: {} });
+          ObjectUtilities.merge_deep(target[key], source[key]);
+        }
+        else
+        {
+          Object.assign(target, { [key]: source[key] });
+        }
+      }
+    }
+
+    return ObjectUtilities.merge_deep(target, ...sources);
+  }
+
   static xml_to_json(xml)
   {
     // Create the return object
