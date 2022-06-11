@@ -1,6 +1,6 @@
 import AbstractLoader from './AbstractLoader';
 
-import { sRGBEncoding } from 'three';
+// import { sRGBEncoding } from 'three';
 
 export default class BasisLoader extends AbstractLoader
 {
@@ -17,7 +17,7 @@ export default class BasisLoader extends AbstractLoader
 
     this.loader.load(this.url, (basis) =>
     {
-      basis.encoding = sRGBEncoding;
+      // basis.encoding = sRGBEncoding;
 
       resource_container.set_resource(ctx.resource_id, ctx.url, basis);
 

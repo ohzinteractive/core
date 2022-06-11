@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "6.13.0",
+  "version": "6.13.1",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
