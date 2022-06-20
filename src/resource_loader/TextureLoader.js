@@ -11,30 +11,38 @@ export default class TextureLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container, response)
   {
-    response.blob().then((blob) =>
+    if (!resource_container.resources_by_url[this.url])
     {
-      const texture = new Texture();
-
-      const url = URL.createObjectURL(blob);
-
-      const image = new Image();
-      image.src = url;
-
-      image.onload = () =>
+      response.blob().then((blob) =>
       {
-        texture.image = image;
-        texture.needsUpdate = true;
+        const texture = new Texture();
 
-        resource_container.set_resource(this.resource_id, this.url, texture);
+        const url = URL.createObjectURL(blob);
 
-        this.__update_downloaded_bytes(1, 1);
-        this.__loading_ended();
-      };
+        const image = new Image();
+        image.src = url;
 
-      image.onerror = () =>
-      {
-        console.error('Error loading texture. Maybe the resource is not an image?', this.url);
-      };
-    });
+        image.onload = () =>
+        {
+          texture.image = image;
+          texture.needsUpdate = true;
+
+          resource_container.set_resource(this.resource_id, this.url, texture);
+
+          this.__update_downloaded_bytes(1, 1);
+          this.__loading_ended();
+        };
+
+        image.onerror = () =>
+        {
+          console.error('Error loading texture. Maybe the resource is not an image?', this.url);
+        };
+      });
+    }
+    else
+    {
+      this.__update_downloaded_bytes(1, 1);
+      this.__loading_ended();
+    }
   }
 }

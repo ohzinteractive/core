@@ -12,28 +12,33 @@ export default class FileLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    const ctx = this;
-
-    this.loader.load(this.url, (gltf) =>
+    if (!resource_container.resources_by_url[this.url])
     {
-      resource_container.set_resource(ctx.resource_id, ctx.url, gltf);
+      this.loader.load(this.url, (file) =>
+      {
+        resource_container.set_resource(this.resource_id, this.url, file);
 
-      ctx.__update_downloaded_bytes(1, 1);
-      ctx.__loading_ended();
-    },
-    (xhr) =>
-    {
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      },
+      (xhr) =>
+      {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;
-      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      //   this.__update_downloaded_bytes(xhr.loaded, total);
       // }
-    },
-    (msg) =>
-    {
-      ctx.__set_error(msg);
-      ctx.__loading_ended();
+      },
+      (msg) =>
+      {
+        this.__set_error(msg);
+        this.__loading_ended();
+      });
     }
-    );
+    else
+    {
+      this.__update_downloaded_bytes(1, 1);
+      this.__loading_ended();
+    }
   }
 }

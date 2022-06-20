@@ -21,28 +21,33 @@ export default class CubemapLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    const ctx = this;
-
-    this.loader.load(this.urls, (image) =>
+    if (!resource_container.resources_by_url[this.url])
     {
-      resource_container.set_resource(ctx.resource_id, ctx.url, image);
+      this.loader.load(this.urls, (image) =>
+      {
+        resource_container.set_resource(this.resource_id, this.url, image);
 
-      ctx.__update_downloaded_bytes(1, 1);
-      ctx.__loading_ended();
-    },
-    (xhr) =>
-    {
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      },
+      (xhr) =>
+      {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;
-      //   ctx.__update_downloaded_bytes(xhr.loaded, total);
+      //   this.__update_downloaded_bytes(xhr.loaded, total);
       // }
-    },
-    (error) =>
-    {
-      ctx.__set_error('Image could not  be loaded. Maybe wrong name or path, I don\'t know' + '¯\\_(ツ)_/¯', error);
-      ctx.__loading_ended();
+      },
+      (error) =>
+      {
+        this.__set_error('Image could not  be loaded. Maybe wrong name or path, I don\'t know' + '¯\\_(ツ)_/¯', error);
+        this.__loading_ended();
+      });
     }
-    );
+    else
+    {
+      this.__update_downloaded_bytes(1, 1);
+      this.__loading_ended();
+    }
   }
 }

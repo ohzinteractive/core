@@ -9,12 +9,20 @@ export default class JSONLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container, response)
   {
-    response.json().then((json) =>
+    if (!resource_container.resources_by_url[this.url])
     {
-      resource_container.set_resource(this.resource_id, this.url, json);
+      response.json().then((json) =>
+      {
+        resource_container.set_resource(this.resource_id, this.url, json);
 
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      });
+    }
+    else
+    {
       this.__update_downloaded_bytes(1, 1);
       this.__loading_ended();
-    });
+    }
   }
 }

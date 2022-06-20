@@ -22,7 +22,15 @@ export default class AudioLoader extends AbstractLoader
     }
     else
     {
-      this.instantiate_audio(resource_container, response);
+      if (!resource_container.resources_by_url[this.url])
+      {
+        this.instantiate_audio(resource_container, response);
+      }
+      else
+      {
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      }
     }
   }
 
