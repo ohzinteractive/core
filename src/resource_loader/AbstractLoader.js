@@ -51,7 +51,7 @@ export default class AbstractLoader
 
   load(resource_container)
   {
-    if (!resource_container.resources_by_url[this.url])
+    if (resource_container.resources_by_url[this.url] === undefined)
     {
       const cache = Browser.is_safari ? 'no-cache' : 'default';
 
@@ -67,6 +67,8 @@ export default class AbstractLoader
     }
     else
     {
+      resource_container.set_resource(this.resource_id, this.url, resource_container.resources_by_url[this.url]);
+
       this.__update_downloaded_bytes(1, 1);
       this.__loading_ended();
     }

@@ -11,7 +11,7 @@ export default class AsyncTextureLoader extends AbstractLoader
 
   on_preloaded_finished(resource_container)
   {
-    if (!resource_container.resources_by_url[this.url])
+    if (resource_container.resources_by_url[this.url] === undefined)
     {
       const texture = new Texture();
       const image = new Image();
@@ -36,6 +36,8 @@ export default class AsyncTextureLoader extends AbstractLoader
     }
     else
     {
+      resource_container.set_resource(this.resource_id, this.url, resource_container.resources_by_url[this.url]);
+
       this.__update_downloaded_bytes(1, 1);
       this.__loading_ended();
     }
