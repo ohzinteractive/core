@@ -265,7 +265,7 @@ class Graphics
     const divisions_y = parseInt(Math.ceil(new_height / tile_height));
 
     OScreen.update_size(tile_width, tile_height);
-
+    const old_dpr = this._renderer.getPixelRatio();
     this._renderer.setPixelRatio(1);
 
     this._renderer.setSize(tile_width, tile_height, false);
@@ -300,7 +300,7 @@ class Graphics
     CameraManager.current.clearViewOffset();
 
     OScreen.update_size(old_width, old_height);
-    this._renderer.setPixelRatio(Configuration.dpr);
+    this._renderer.setPixelRatio(old_dpr);
     this._renderer.setSize(old_width, old_height, false);
 
     CameraManager.current.aspect = OScreen.aspect_ratio;
