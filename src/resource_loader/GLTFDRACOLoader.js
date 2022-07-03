@@ -1,21 +1,15 @@
 import AbstractLoader from './AbstractLoader';
 
 import * as THREEGLTFLoader from 'three/examples/jsm/loaders/GLTFLoader.js';
-import * as THREEDRACOLoader from 'three/examples/jsm/loaders/DRACOLoader.js';
 
 export default class GLTFDRACOLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  constructor(resource_id, url, loader, size)
   {
     super(resource_id, url, size);
     this.loader = new THREEGLTFLoader.GLTFLoader();
-    this.draco_loader = new THREEDRACOLoader.DRACOLoader();
 
-    this.draco_loader.setDecoderPath(window.draco_decoder_path);
-    this.draco_loader.setDecoderConfig({ type: 'js' });
-    this.draco_loader.setWorkerLimit(1);
-
-    this.loader.setDRACOLoader(this.draco_loader);
+    this.loader.setDRACOLoader(loader);
   }
 
   on_preloaded_finished(resource_container)
