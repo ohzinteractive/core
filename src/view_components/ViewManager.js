@@ -36,6 +36,15 @@ class ViewManager
     this.notify_view_change(view_name);
   }
 
+  go_to_scene(scene_name, change_url = false, skip = false)
+  {
+    const next_view = this.get(scene_name);
+    const transition_view = this.get('transition');
+
+    transition_view.set_next_view(next_view);
+    this.go_to_view(transition_view.name, change_url, skip);
+  }
+
   subscribe_to_view_change(subscriber)
   {
     this.view_change_subscribers.push(subscriber);
