@@ -2,15 +2,12 @@ import AbstractLoader from './AbstractLoader';
 
 import * as THREERGBELoader from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import { UnsignedByteType as THREEUnsignedByteType } from 'three';
-
 export default class RGBETextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
     this.loader = new THREERGBELoader.RGBELoader();
-    this.loader.setDataType(THREEUnsignedByteType);
   }
 
   on_preloaded_finished(resource_container)
