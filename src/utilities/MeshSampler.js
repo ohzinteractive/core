@@ -1,4 +1,5 @@
 import { Vector3 } from 'three';
+import { Vector2 } from 'three';
 class MeshSampler
 {
   constructor()
@@ -14,6 +15,8 @@ class MeshSampler
 
     const vertices = buffer_geometry.getAttribute('position');
     const normals = buffer_geometry.getAttribute('normal');
+    const tangents = buffer_geometry.getAttribute('tangent');
+    const uvs = buffer_geometry.getAttribute('uv');
     const indices  = buffer_geometry.index;
 
     const faces = [];
@@ -66,6 +69,45 @@ class MeshSampler
         face.normal = normal;
       }
 
+      if (tangents)
+      {
+        const n1 = new Vector3();
+        n1.x = tangents.getX(index_0);
+        n1.y = tangents.getY(index_0);
+        n1.z = tangents.getZ(index_0);
+
+        const n2 = new Vector3();
+        n2.x = tangents.getX(index_1);
+        n2.y = tangents.getY(index_1);
+        n2.z = tangents.getZ(index_1);
+
+        const n3 = new Vector3();
+        n3.x = tangents.getX(index_2);
+        n3.y = tangents.getY(index_2);
+        n3.z = tangents.getZ(index_2);
+
+        const tangent = n1.clone().add(n2).add(n3).normalize();
+        face.tangent = tangent;
+      }
+      if (uvs)
+      {
+        const uv_a = new Vector2();
+        uv_a.x = uvs.getX(index_0);
+        uv_a.y = uvs.getY(index_0);
+
+        const uv_b = new Vector2();
+        uv_b.x = uvs.getX(index_1);
+        uv_b.y = uvs.getY(index_1);
+
+        const uv_c = new Vector2();
+        uv_c.x = uvs.getX(index_2);
+        uv_c.y = uvs.getY(index_2);
+
+        face.uv_a = uv_a;
+        face.uv_b = uv_b;
+        face.uv_c = uv_c;
+      }
+
       faces.push(face);
 
       const area = this.get_face_area(face);
@@ -83,6 +125,9 @@ class MeshSampler
   {
     const sampled_points = [];
     const sampled_normals = [];
+    const sampled_tangents = [];
+    const sampled_uvs = [];
+
     for (let i = 0; i < faces.length; i++)
     {
       const face = faces[i];
@@ -95,8 +140,16 @@ class MeshSampler
       {
         sampled_normals.push(face.normal.clone());
       }
+      if (face.tangent)
+      {
+        sampled_tangents.push(face.tangent.clone());
+      }
+      if (face.uv_a)
+      {
+        sampled_uvs.push(this.sample_point_in_face(w1, w2, face.uv_a, face.uv_b, face.uv_c).clone());
+      }
     }
-    return { points: sampled_points, normals: sampled_normals };
+    return { points: sampled_points, normals: sampled_normals, tangents: sampled_tangents, uvs: sampled_uvs };
   }
 
   select_random_faces(faces, amount)
