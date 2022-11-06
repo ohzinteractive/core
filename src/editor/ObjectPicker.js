@@ -47,8 +47,8 @@ export default class ObjectPicker
 
     this.camera_layers = this.camera.layers.mask;
     this.camera.layers.set(RenderLayers.selectable);
-    this.tmp_scene_auto_update = this.scene.autoUpdate;
-    this.scene.autoUpdate = false;
+    this.tmp_scene_auto_update = this.scene.matrixWorldAutoUpdate;
+    this.scene.matrixWorldAutoUpdate = false;
   }
 
   __restore_scene(objects)
@@ -59,7 +59,7 @@ export default class ObjectPicker
       objects[i].restore_layer_state();
     }
     this.camera.layers.mask = this.camera_layers;
-    this.scene.autoUpdate = this.tmp_scene_auto_update;
+    this.scene.matrixWorldAutoUpdate = this.tmp_scene_auto_update;
   }
 
   __readback_id(mouse_NDC)

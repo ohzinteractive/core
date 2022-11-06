@@ -13,7 +13,7 @@ import { EdgesGeometry } from 'three';
 import { LineSegments } from 'three';
 import { LineBasicMaterial } from 'three';
 import { Vector3 } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 import { BufferAttribute } from 'three';
 
 export default class EdgeMesh extends Object3D
@@ -82,7 +82,7 @@ export default class EdgeMesh extends Object3D
     for (let i = 0; i < points.length; i += 2)
     {
       const dir = points[i + 1].clone().sub(points[i]).normalize();
-      const geometry = new PlaneBufferGeometry(1, 1);
+      const geometry = new PlaneGeometry(1, 1);
       const vertices = geometry.getAttribute('position');
       // top right
       vertices.array[0] = points[i].x;
@@ -122,7 +122,7 @@ export default class EdgeMesh extends Object3D
     const circle_buffer_geometries = [];
     for (let i = 0; i < geometry_vertices.count; i++)
     {
-      const plane_geometry = new PlaneBufferGeometry(1, 1);
+      const plane_geometry = new PlaneGeometry(1, 1);
       const plane_vertices = plane_geometry.getAttribute('position');
       const w_pos = [];
       for (let d = 0; d < plane_vertices.count; d++)

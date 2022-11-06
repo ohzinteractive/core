@@ -1,5 +1,5 @@
 import ActionInterpolator from './ActionInterpolator';
-import { Math as TMath } from 'three';
+import OMath from '../utilities/OMath';
 
 export default class NumberInterpolator extends ActionInterpolator
 {
@@ -15,11 +15,11 @@ export default class NumberInterpolator extends ActionInterpolator
 
   update(context, t)
   {
-    context[this.attribute_name] = TMath.lerp(this.from, this.to, this.easing_function(t));
+    context[this.attribute_name] = OMath.lerp(this.from, this.to, this.easing_function(t));
   }
 
   evaluate(t)
   {
-    return TMath.lerp(this.from, this.to, this.easing_function(t));
+    return OMath.lerp(this.from, this.to, this.easing_function(t));
   }
 }

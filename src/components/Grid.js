@@ -5,7 +5,7 @@ import GeometryUtilities from '../utilities/GeometryUtilities';
 import { Mesh } from 'three';
 import { ShaderMaterial } from 'three';
 import { Color } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 
 export default class Grid extends Mesh
 {
@@ -22,7 +22,7 @@ export default class Grid extends Mesh
       depthWrite: false
     });
 
-    const plane_geometry = new PlaneBufferGeometry(100, 100, 100, 100);
+    const plane_geometry = new PlaneGeometry(100, 100, 100, 100);
 
     const non_indexed_geometry = GeometryUtilities.convert_to_non_indexed_geometry(plane_geometry);
 

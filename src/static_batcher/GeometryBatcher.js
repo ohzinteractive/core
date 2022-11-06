@@ -2,8 +2,8 @@ import GeometryBatch from './GeometryBatch';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import { Math as TMath } from 'three';
 import { BufferAttribute } from 'three';
+import OMath from '../utilities/OMath';
 
 class GeometryBatcher
 {
@@ -15,7 +15,7 @@ class GeometryBatcher
   batch(buffer_geometries)
   {
     const attr_accessor_uvs = [];
-    const texture_width = TMath.ceilPowerOfTwo(Math.sqrt(buffer_geometries.length));
+    const texture_width = OMath.ceilPowerOfTwo(Math.sqrt(buffer_geometries.length));
     // console.log("Store count: " + buffer_geometries.length + ", Texture size: " +texture_width);
 
     this.__init_uv_array(attr_accessor_uvs, texture_width);

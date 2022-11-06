@@ -9,7 +9,7 @@ import { BoxGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 import { Mesh } from 'three';
 import { Raycaster } from 'three';
-import { Math as TMath } from 'three';
+import OMath from '../utilities/OMath';
 
 export default class ManipulatorHandle extends Object3D
 {
@@ -22,9 +22,9 @@ export default class ManipulatorHandle extends Object3D
     this.add(this.arrow_helper);
 
     const collider_size = new Vector3();
-    collider_size.x = TMath.clamp(direction.x * length, 1, 30);
-    collider_size.y = TMath.clamp(direction.y * length, 1, 30);
-    collider_size.z = TMath.clamp(direction.z * length, 1, 30);
+    collider_size.x = OMath.clamp(direction.x * length, 1, 30);
+    collider_size.y = OMath.clamp(direction.y * length, 1, 30);
+    collider_size.z = OMath.clamp(direction.z * length, 1, 30);
 
     const geometry = new BoxGeometry(collider_size.x, collider_size.y, collider_size.z);
     const material = new MeshBasicMaterial({ color: color, depthTest: false, depthWrite: false });

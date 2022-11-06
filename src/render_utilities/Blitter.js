@@ -2,7 +2,7 @@ import BlitMaterial from '../materials/BlitMaterial';
 
 import { Scene } from 'three';
 import { Mesh } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 import { OrthographicCamera } from 'three';
 
 export default class Blitter
@@ -13,7 +13,7 @@ export default class Blitter
     this._blit_scene = new Scene();
     this._blit_material = new BlitMaterial();
     this._blit_quad = new Mesh(
-      new PlaneBufferGeometry(1, 1), this._blit_material);
+      new PlaneGeometry(1, 1), this._blit_material);
     this._blit_scene.add(this._blit_quad);
     this._blit_camera = new OrthographicCamera(-1, 1, 1, -1, -10000, 10000);
   }

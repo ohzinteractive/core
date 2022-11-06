@@ -1,6 +1,6 @@
 import { Mesh } from 'three';
 import { MeshBasicMaterial } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 
 export default class HorizontalPlane extends Mesh
 {
@@ -11,7 +11,7 @@ export default class HorizontalPlane extends Mesh
     color = color || '#FF0000';
     material = material || new MeshBasicMaterial({ color: color });
 
-    const geometry = new PlaneBufferGeometry(width, height);
+    const geometry = new PlaneGeometry(width, height);
     geometry.rotateX(-3.14 / 2);
     super(geometry, material);
   }

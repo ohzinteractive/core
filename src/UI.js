@@ -13,11 +13,11 @@ class UI
     this.ui_elements = [];
     this._tmp_normalized_pos = new Vector2();
     this.ss_scene = new Scene();
-    this.ss_scene.autoUpdate = false;
+    this.ss_scene.matrixWorldAutoUpdate = false;
     this.ss_scene.frustumCulled = false;
 
     this.ws_scene = new Scene();
-    this.ws_scene.autoUpdate = false;
+    this.ws_scene.matrixWorldAutoUpdate = false;
     this.ws_scene.frustumCulled = false;
 
     this.ss_camera = new OrthographicCamera(-1, 1, 1, -1, -100, 100);

@@ -1,4 +1,5 @@
-import { Vector3, Plane, Quaternion, Sphere, Math as TMath, Line3 } from 'three';
+import { Vector3, Plane, Quaternion, Sphere, Line3 } from 'three';
+import OMath from './OMath';
 export default class PerspectiveFrustumPointFitter
 {
   constructor()
@@ -10,7 +11,7 @@ export default class PerspectiveFrustumPointFitter
   {
     this.sphere.setFromPoints(points);
 
-    const v_fov = TMath.degToRad(vertical_fov / 2);
+    const v_fov = OMath.degToRad(vertical_fov / 2);
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * aspect)) / 2;
 
     const up_plane_normal = this.get_up_plane_normal(camera_quaternion, v_fov);

@@ -1,5 +1,5 @@
 import { Mesh } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
 export default class VerticalPlane extends Mesh
@@ -11,7 +11,7 @@ export default class VerticalPlane extends Mesh
     color = color || '#FF0000';
     material = material || new MeshBasicMaterial({ color: color });
 
-    const geometry = new PlaneBufferGeometry(width, height);
+    const geometry = new PlaneGeometry(width, height);
     super(geometry, material);
   }
 }

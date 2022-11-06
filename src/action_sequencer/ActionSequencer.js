@@ -1,5 +1,4 @@
 
-import { Math as TMath } from 'three';
 import OMath from '../utilities/OMath';
 
 export default class ActionSequencer
@@ -61,19 +60,19 @@ export default class ActionSequencer
 
   set_progress(time)
   {
-    this.elapsed_time = TMath.clamp(time, 0, this.duration);
+    this.elapsed_time = OMath.clamp(time, 0, this.duration);
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
 
   set_normalized_progress(t)
   {
-    this.elapsed_time = TMath.clamp(t, 0, 1) * this.duration;
+    this.elapsed_time = OMath.clamp(t, 0, 1) * this.duration;
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
 
   get_progress()
   {
-    return TMath.clamp(this.elapsed_time / this.get_duration(), 0, 1);
+    return OMath.clamp(this.elapsed_time / this.get_duration(), 0, 1);
   }
 
   is_finished()
@@ -180,7 +179,7 @@ export default class ActionSequencer
   {
     this.tmp_t = this.__linear_map_01(time, keyframe.from, keyframe.to);
 
-    return keyframe.interpolator.evaluate(TMath.clamp(this.tmp_t, 0, 1));
+    return keyframe.interpolator.evaluate(OMath.clamp(this.tmp_t, 0, 1));
   }
 
   get_keyframes(channel_name)

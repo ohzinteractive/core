@@ -3,12 +3,11 @@ import frag from '../shaders/ssao/ssao.frag';
 import vert from '../shaders/ssao/ssao.vert';
 
 import { Matrix4 } from 'three';
-import { Math as TMath } from 'three';
 import { Vector3 } from 'three';
 import { DataTexture } from 'three';
 import { RGBFormat } from 'three';
 import { RepeatWrapping } from 'three';
-
+import OMath from '../utilities/OMath';
 export default class SSAOMaterial extends BlitMaterial
 {
   constructor()
@@ -38,7 +37,7 @@ export default class SSAOMaterial extends BlitMaterial
         Math.random());
       dir.normalize();
       let scale = i / kernel_size;
-      scale   = TMath.lerp(0.1, 1.0, scale * scale);
+      scale   = OMath.lerp(0.1, 1.0, scale * scale);
       dir.multiplyScalar(scale);
 
       sample_kernel.push(dir);

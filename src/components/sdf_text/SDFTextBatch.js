@@ -3,7 +3,7 @@ import SDFTextMaterial from '../../materials/SDFTextMaterial';
 import ArrayUtilities from '../../utilities/ArrayUtilities';
 
 import {
-  PlaneBufferGeometry,
+  PlaneGeometry,
   Mesh,
   Vector2,
   InstancedBufferGeometry,
@@ -21,7 +21,7 @@ export default class SDFTextBatch extends Mesh
     const instanced_geometry = new InstancedBufferGeometry();
     instanced_geometry.instanceCount = 0;
 
-    const geometry = new PlaneBufferGeometry(1, 1);
+    const geometry = new PlaneGeometry(1, 1);
     geometry.translate(0.5, 0.5, 0);
     instanced_geometry.setAttribute('position',  new Float32BufferAttribute(geometry.getAttribute('position').array, 3));
     instanced_geometry.setAttribute('uv',        new Float32BufferAttribute(geometry.getAttribute('uv').array, 2));

@@ -1,5 +1,4 @@
 import { Vector3 } from 'three';
-import { Math as TMath } from 'three';
 
 export default class OMath
 {
@@ -64,7 +63,7 @@ export default class OMath
   {
     for (let i = 0; i < 16; i++)
     {
-      target.elements[i] = TMath.lerp(from.elements[i], to.elements[i], t);
+      target.elements[i] = this.lerp(from.elements[i], to.elements[i], t);
     }
   }
 

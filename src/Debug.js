@@ -11,7 +11,7 @@ import { Vector3 } from 'three';
 import { LineBasicMaterial } from 'three';
 import { BufferGeometry } from 'three';
 import { Line } from 'three';
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 import { ShaderMaterial } from 'three';
 import { Vector4 } from 'three';
 import { Mesh } from 'three';
@@ -136,7 +136,7 @@ class Debug
 
   draw_plane(width, height, color)
   {
-    const geometry = new PlaneBufferGeometry(width, height);
+    const geometry = new PlaneGeometry(width, height);
     const material = new ShaderMaterial({
       uniforms: {
         _Color: { value: new Vector4(0, 1, 0, 0.2) }
@@ -236,7 +236,7 @@ class Debug
 
   draw_texture(tex, w, h)
   {
-    const mesh = new Mesh(new PlaneBufferGeometry(1, 1), new ScreenSpaceTextureMaterial());
+    const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);
     this.scene.add(mesh);
 
