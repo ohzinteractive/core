@@ -16,7 +16,7 @@ export default class ActionSequencerBuilder
     const tracks = animation_data.animation_tracks;
     const triggers = animation_data.triggers;
 
-    const initial_tracks = this.state_to_tracks(this.initial_state_data);
+    const initial_tracks = this.state_to_tracks(this.initial_state_data, this.get_longest_time(animation_data.animation_tracks));
 
     for (let i = 0; i < initial_tracks.length; i++)
     {
@@ -52,7 +52,7 @@ export default class ActionSequencerBuilder
     return sequencer;
   }
 
-  state_to_tracks(state)
+  state_to_tracks(state, longest_time)
   {
     const tracks = [];
 
@@ -63,7 +63,7 @@ export default class ActionSequencerBuilder
       tracks.push({
         attribute_name: keys[i],
         from_time: 0,
-        to_time: 1,
+        to_time: longest_time < 1 ? longest_time : 1,
         to_value: state[keys[i]],
         initial: true,
         easing_function: 'ease_in_out_cubic'
@@ -102,5 +102,21 @@ export default class ActionSequencerBuilder
     }
 
     return sequencer;
+  }
+
+  get_longest_time(tracks)
+  {
+    let longest_time = -1;
+
+    for (let i = 0; i < tracks.length; i++)
+    {
+      const track = tracks[i];
+
+      const track_time = track.to_time;
+
+      longest_time = track_time > longest_time ? track_time : longest_time;
+    }
+
+    return longest_time;
   }
 }
