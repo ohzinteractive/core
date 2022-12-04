@@ -1,17 +1,24 @@
 import frag from '../../shaders/gpu_particles/generic_storage.frag';
-import common_utils from '../../shaders/gpu_particles/common_utils.glsl';
-
 import { ShaderMaterial } from 'three';
-import { ShaderChunk } from 'three';
 import { NoBlending } from 'three';
 import { AlwaysDepth } from 'three';
 
 export default class ParticleStorageMaterial extends ShaderMaterial
 {
-  constructor(vert)
+  constructor()
   {
-    ShaderChunk.gpu_particles_utils = common_utils;
+    const vert = `
+      varying vec4 value;
+      attribute vec4 data;
 
+      void main()
+      {
+          gl_Position = vec4(position.xy * 2.0 - 1.0, 1.0,1.0);
+          gl_PointSize = 1.0;
+
+          value = data;
+      }
+    `;
     super({
       uniforms: {
 

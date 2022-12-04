@@ -1,87 +1,109 @@
 import { Object3D } from 'three';
 import { BufferAttribute } from 'three';
+import { PlaneGeometry } from 'three';
+import { Mesh } from 'three';
+import { BufferGeometry } from 'three';
+import { Scene } from 'three';
 import { Points } from 'three';
+import { InstancedBufferGeometry } from 'three';
+import { InstancedBufferAttribute } from 'three';
+import ParticleAttribute from './ParticleAttribute';
 
 export default class GPUParticleSystem extends Object3D
 {
-  constructor()
+  constructor(particle_count, material)
   {
     super();
     this.attributes = [];
 
-    this.particles = undefined;
-  }
+    this.mesh = this.build_point_mesh(particle_count, material);
+    this.add(this.mesh);
 
-  set_from_geometry(geometry, material, init_attribute_uvs)
-  {
-    // let position = new ParticlePositionAttribute("_Position");
-    if (init_attribute_uvs && geometry.getAttribute('storage_uv') === undefined)
-    {
-      const uv_storage_attr = this.build_uv_storage_attribute(geometry.getAttribute('position').count);
-      geometry.setAttribute('storage_uv', uv_storage_attr);
-    }
-    // position.init_from_geometry(geometry);
-    // this.attributes.push(position);
-
-    // material.uniforms._Position.value = position.read.texture;
-
-    const points = new Points(geometry, material);
-    points.frustumCulled = false;
-    this.particles = points;
-
-    this.add(points);
+    this.attribute_writter_mesh = this.build_attribute_writter_mesh(particle_count);
+    this.attribute_writter_scene = new Scene();
+    this.attribute_writter_scene.add(this.attribute_writter_mesh);
   }
 
   add_texture_attribute(buffer_attribute)
   {
-
+    this.attributes.push(buffer_attribute);
   }
 
-  add_attribute(name, buffer_attribute)
+  add_update_attribute_array(name, array, item_size)
   {
-
+    this.attribute_writter_mesh.geometry.setAttribute(name, new BufferAttribute(array, item_size, false));
   }
 
-  build_uv_storage_attribute(particle_count)
+  add_attribute_array(name, array, item_size)
   {
-    const resolution = this.calculate_resolution(particle_count);
-    const uvs = new Float32Array(particle_count * 2);
-    for (let i = 0, j = 0; i < particle_count * 2; i += 2, j++)
-    {
-      uvs[i] = ((j % resolution) / resolution) + (0.5 / resolution);
-      uvs[i + 1] = (Math.floor(j / resolution) / resolution) + (0.5 / resolution);
-    }
-
-    return new BufferAttribute(uvs, 2);
-  }
-
-  calculate_resolution(particle_count)
-  {
-    return Math.ceil(Math.sqrt(particle_count));
+    this.mesh.geometry.setAttribute(name, new InstancedBufferAttribute(array, item_size, false));
   }
 
   update()
   {
+    this.mesh.material.update();
     for (let i = 0; i < this.attributes.length; i++)
     {
-      this.attributes[i].update();
-    }
-  }
-
-  set_attribute_update_material(attribute_name, mat)
-  {
-    for (let i = 0; i < this.attributes.length; i++)
-    {
-      if (this.attributes[i].name === attribute_name)
-      {
-        this.attributes[i].update_material = mat;
-      }
+      this.attributes[i].update(this.attribute_writter_scene);
     }
   }
 
   dispose()
   {
-    this.particles.geometry.dispose();
-    this.particles.material.dispose();
+    this.mesh.geometry.dispose();
+    this.mesh.material.dispose();
+  }
+
+  build_point_mesh(instance_count = 1, material)
+  {
+    const geo = new PlaneGeometry();
+
+    const instanced_geo = new InstancedBufferGeometry();
+    instanced_geo.setAttribute('position', geo.getAttribute('position'));
+    instanced_geo.index = geo.index;
+
+    instanced_geo.setAttribute('storage_uv', this.build_uv_storage_attribute(instance_count));
+    instanced_geo.instanceCount = instance_count;
+    const mesh = new Mesh(instanced_geo, material);
+    mesh.frustumCulled = false;
+    return mesh;
+  }
+
+  build_attribute_writter_mesh(particle_count)
+  {
+    const { width, height } = ParticleAttribute.calculate_resolution(particle_count);
+
+    const uvs = new Float32Array(particle_count * 3);
+
+    for (let i = 0; i < particle_count; i++)
+    {
+      const x = i % width;
+      const y = Math.floor(i / width);
+      uvs[i * 3 + 0] = (x + 0.5) / width;
+      uvs[i * 3 + 1] = (y + 0.5) / height;
+      uvs[i * 3 + 2] = i;
+    }
+    const geo = new BufferGeometry();
+    geo.setAttribute('position', new BufferAttribute(uvs, 3, false));
+
+    const points = new Points(geo);
+    points.frustumCulled = false;
+    return points;
+  }
+
+  build_uv_storage_attribute(particle_count)
+  {
+    const { width, height } = ParticleAttribute.calculate_resolution(particle_count);
+
+    const uvs = new Float32Array(particle_count * 2);
+
+    for (let i = 0; i < particle_count; i++)
+    {
+      const x = i % width;
+      const y = Math.floor(i / width);
+      uvs[i * 2 + 0] = (x + 0.5) / width;
+      uvs[i * 2 + 1] = (y + 0.5) / height;
+    }
+    return new InstancedBufferAttribute(uvs, 2, false);
   }
 }

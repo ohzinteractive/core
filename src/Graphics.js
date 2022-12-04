@@ -7,6 +7,17 @@ import Capabilities from './Capabilities';
 import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
 import Blitter from './render_utilities/Blitter';
 
+import {
+  NearestFilter,
+  RGBAFormat,
+  LinearEncoding,
+  FloatType,
+  WebGLRenderTarget,
+  ShaderMaterial,
+  NoBlending,
+  AlwaysDepth
+} from 'three';
+
 import { WebGLRenderer } from 'three';
 
 class Graphics
@@ -87,7 +98,7 @@ class Graphics
     this.current_render_mode = this.no_render;
     Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
     Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
-    Capabilities.fp_textures_available = this._renderer.capabilities.floatVertexTextures;
+    Capabilities.fp_textures_available = this.is_floating_point_texture_available();
 
     this.generateDepthNormalTexture = false;
 
@@ -331,6 +342,48 @@ class Graphics
     this._renderer.dispose();
     this.current_render_mode.dispose();
     this.blitter.dispose();
+  }
+
+  is_floating_point_texture_available()
+  {
+    const RT = new WebGLRenderTarget(1, 1, {
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+      format: RGBAFormat,
+      encoding: LinearEncoding,
+      type: FloatType,
+      stencilBuffer: false,
+      depthBuffer: false
+    });
+
+    const vert = `
+      void main()
+      {
+        gl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);
+      }
+    `;
+    const frag = `
+      void main()
+      {
+        gl_FragColor = vec4(0.0, 4865.35, 0.0, 1.0);
+      }
+    `;
+
+    const mat = new ShaderMaterial({
+      vertexShader: vert,
+      fragmentShader: frag,
+      depthWrite: false,
+      blending: NoBlending,
+      depthTest: false,
+      depthFunc: AlwaysDepth
+    });
+
+    this.material_pass(mat, RT);
+
+    const output = new Float32Array(4);
+    this._renderer.readRenderTargetPixels(RT, 0, 0, 1, 1, output);
+
+    return Math.abs(output[1] - 4865.35) < 0.001;
   }
 }
 

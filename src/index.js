@@ -82,6 +82,8 @@ import DualFilteringBlurrer from './render_utilities/DualFilteringBlurrer';
 import Blurrer from './render_utilities/Blurrer';
 
 import GPUParticleSystem from './gpu_particles/GPUParticleSystem';
+import ParticleAttribute from './gpu_particles/ParticleAttribute';
+import ParticlePositionAttribute from './gpu_particles/ParticlePositionAttribute';
 
 import DualFilteringBlurMaterial from './materials/DualFilteringBlurMaterial';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -187,6 +189,8 @@ export {
   DualFilteringBlurrer,
 
   GPUParticleSystem,
+  ParticleAttribute,
+  ParticlePositionAttribute,
   PerspectiveFrustumPointFitter,
   OrthographicFrustumPointFitter,
 

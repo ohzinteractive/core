@@ -1,26 +1,23 @@
 import Graphics from '../Graphics';
 
-import { Scene } from 'three';
 import { NearestFilter } from 'three';
 import { RGBAFormat } from 'three';
 import { LinearEncoding } from 'three';
 import { HalfFloatType } from 'three';
 import { FloatType } from 'three';
 import { WebGLRenderTarget } from 'three';
-import { Points } from 'three';
+import Capabilities from '../Capabilities';
 
 export default class ParticleAttribute
 {
-  constructor(attr_name)
+  constructor(attr_name, update_material)
   {
     this.read = undefined;
     this.write = undefined;
 
     this.name = attr_name;
 
-    this.update_material = undefined;
-
-    this.update_scene = new Scene();
+    this.update_material = update_material;
   }
 
   init_from_geometry(geometry)
@@ -35,23 +32,25 @@ export default class ParticleAttribute
 
   build_RT(particle_count)
   {
-    const resolution = this.calculate_resolution(particle_count);
+    const resolution = ParticleAttribute.calculate_resolution(particle_count);
     const options = {
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
       encoding: LinearEncoding,
-      type: (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? HalfFloatType : FloatType,
+      type: Capabilities.fp_textures_available ? FloatType : HalfFloatType,
       stencilBuffer: false,
       depthBuffer: false
     };
 
-    return new WebGLRenderTarget(resolution, resolution, options);
+    return new WebGLRenderTarget(resolution.width, resolution.height, options);
   }
 
-  calculate_resolution(particle_count)
+  static calculate_resolution(particle_count)
   {
-    return Math.ceil(Math.sqrt(particle_count));
+    const width = Math.min(particle_count, 512);
+    const height = Math.max(1, Math.ceil(particle_count / width));
+    return { width, height };
   }
 
   swap_RT()
@@ -61,23 +60,33 @@ export default class ParticleAttribute
     this.write = tmp;
   }
 
-  update()
+  update(attribute_writter_scene)
   {
     if (this.update_material)
     {
-      Graphics.blit(this.read, this.write, this.update_material);
+      this.update_material.update();
+      attribute_writter_scene.children[0].material = this.update_material;
+      this.update_material.uniforms._MainTex.value = this.read.texture;
+      Graphics.render(attribute_writter_scene, undefined, this.write);
+      attribute_writter_scene.children[0].material = undefined;
+
       this.swap_RT();
     }
   }
 
-  render_geometry_to_RT(geometry, material, RT)
+  store_geometry_attribute_in_RT(attribute, RT, storage_material, attribute_writter_scene)
   {
-    const points = new Points(geometry, material);
-    points.frustumCulled = false;
-    // let scene = new Scene();
-    // scene.add( points );
-    this.update_scene.add(points);
-    Graphics.render(this.update_scene, undefined, RT);
-    // Graphics.render(scene, undefined, RT);
+    attribute_writter_scene.children[0].geometry.setAttribute('data', attribute);
+    attribute_writter_scene.children[0].material = storage_material;
+
+    Graphics.render(attribute_writter_scene, undefined, RT);
+
+    attribute_writter_scene.children[0].geometry.deleteAttribute('data');
+    attribute_writter_scene.children[0].material = undefined;
+  }
+
+  get_texture()
+  {
+    return this.read.texture;
   }
 }
