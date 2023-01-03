@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -19,7 +19,8 @@
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
     "fix-syntax": "standardx --fix",
-    "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types",
+    "upload": "yarn build && npm publish && yarn create-tag"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,9 @@
     "url": "https://github.com/ohzinteractive/core/issues"
   },
   "homepage": "https://github.com/ohzinteractive/core",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "pit-js": "1.9.1",
     "three": "0.148.0"
