@@ -1,7 +1,7 @@
-import { AbstractLoader } from 'ohzi-core';
-
 import { AudioContext } from 'three';
+
 import AudioClip from '../components/AudioClip';
+import AbstractLoader from './AbstractLoader';
 
 export default class AudioLoader extends AbstractLoader
 {

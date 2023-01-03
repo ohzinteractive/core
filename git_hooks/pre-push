@@ -25,8 +25,32 @@ published_version="v"$published_version
 
 if [ "$version" != "$published_version" ]
 then
-	echo "New version founded!"
-	yarn build && echo "Publishing ..." && npm publish && echo "Creating tag ..." && yarn create-tag
+	echo "New version founded. Building ..."
+	yarn build
+
+	if [ $? == "0" ]
+	then
+		echo "Publishing ..."
+		npm publish
+
+		if [ $? == "0" ]
+		then
+			echo "Creating tag ..."
+			yarn create-tag
+
+			if [ $? == "0" ]
+			then
+				exit 0
+			else
+				exit 1
+			fi
+		else
+			exit 1
+		fi
+	else
+		exit 1
+	fi
+else
+	exit 1
 fi
 
-exit 0

@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -40,7 +40,6 @@
     "three": "0.148.0"
   },
   "devDependencies": {
-    "buffer": "^6.0.3",
     "cross-var": "^1.1.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
