@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 
-export default class CustomBezierCurve
+class CustomBezierCurve
 {
   constructor(points)
   {
@@ -42,3 +42,5 @@ export default class CustomBezierCurve
     return this.tmp_points[0].clone();
   }
 }
+
+export { CustomBezierCurve };

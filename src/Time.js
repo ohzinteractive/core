@@ -54,4 +54,5 @@ class Time
   }
 }
 
-export default new Time();
+const time = new Time();
+export { time as Time };

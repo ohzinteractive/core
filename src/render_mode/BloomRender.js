@@ -1,16 +1,16 @@
 
-import BaseRender from '../render_mode/BaseRender';
-import BloomComposeMaterial from '../materials/BloomComposeMaterial';
+import { BaseRender } from '../render_mode/BaseRender';
+import { BloomComposeMaterial } from '../materials/BloomComposeMaterial';
 
 import { WebGLRenderTarget } from 'three';
 
-import Blurrer from '../render_utilities/Blurrer';
-import Graphics from '../Graphics';
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import OScreen from '../OScreen';
+import { Blurrer } from '../render_utilities/Blurrer';
+import { Graphics } from '../Graphics';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { OScreen } from '../OScreen';
 
-export default class BloomRender extends BaseRender
+class BloomRender extends BaseRender
 {
   constructor()
   {
@@ -59,3 +59,5 @@ export default class BloomRender extends BaseRender
     }
   }
 }
+
+export { BloomRender };

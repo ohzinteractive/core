@@ -1,4 +1,4 @@
-export default class ViewState
+class ViewState
 {
   constructor(name)
   {
@@ -52,3 +52,5 @@ export default class ViewState
   {
   }
 }
+
+export { ViewState };

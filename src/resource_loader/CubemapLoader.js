@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import { CubeTextureLoader as THREECubeTextureLoader } from 'three';
+import { CubeTextureLoader } from 'three';
 
-export default class CubemapLoader extends AbstractLoader
+class CubemapLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREECubeTextureLoader();
+    this.loader = new CubeTextureLoader();
     this.loader.setPath(url + '/');
     this.urls = [
       'px.png',
@@ -53,3 +53,5 @@ export default class CubemapLoader extends AbstractLoader
     }
   }
 }
+
+export { CubemapLoader };

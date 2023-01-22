@@ -1,10 +1,10 @@
-import Input from '../Input';
-import ObjectManipulator from './ObjectManipulator';
-import ObjectPicker from './ObjectPicker';
+import { Input } from '../Input';
+import { ObjectManipulator } from './ObjectManipulator';
+import { ObjectPicker } from './ObjectPicker';
 
 import { Raycaster } from 'three';
 
-export default class ObjectEditor
+class ObjectEditor
 {
   constructor(renderer, scene, camera)
   {
@@ -64,3 +64,5 @@ export default class ObjectEditor
     }
   }
 }
+
+export { ObjectEditor };

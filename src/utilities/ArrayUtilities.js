@@ -1,4 +1,4 @@
-export default class ArrayUtilities
+class ArrayUtilities
 {
   constructor()
   {}
@@ -53,3 +53,5 @@ export default class ArrayUtilities
     return arr;
   }
 }
+
+export { ArrayUtilities };

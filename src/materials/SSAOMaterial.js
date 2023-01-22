@@ -1,4 +1,5 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
+
 import frag from '../shaders/ssao/ssao.frag';
 import vert from '../shaders/ssao/ssao.vert';
 
@@ -7,8 +8,9 @@ import { Vector3 } from 'three';
 import { DataTexture } from 'three';
 import { RGBFormat } from 'three';
 import { RepeatWrapping } from 'three';
-import OMath from '../utilities/OMath';
-export default class SSAOMaterial extends BlitMaterial
+
+import { OMath } from '../utilities/OMath';
+class SSAOMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -63,3 +65,5 @@ export default class SSAOMaterial extends BlitMaterial
     return rotation_texture;
   }
 }
+
+export { SSAOMaterial };

@@ -1,8 +1,8 @@
-import RaycastResolver from './RaycastResolver';
-import GroupRaycaster from './GroupRaycaster';
-import Input from '../Input';
+import { RaycastResolver } from './RaycastResolver';
+import { GroupRaycaster } from './GroupRaycaster';
+import { Input } from '../Input';
 
-export default class SurfaceDragResolver extends RaycastResolver
+class SurfaceDragResolver extends RaycastResolver
 {
   constructor(surface_mesh)
   {
@@ -75,3 +75,5 @@ export default class SurfaceDragResolver extends RaycastResolver
     this._on_update();
   }
 }
+
+export { SurfaceDragResolver };

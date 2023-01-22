@@ -1,4 +1,4 @@
-export default class BaseState
+class BaseState
 {
   constructor()
   {
@@ -14,3 +14,5 @@ export default class BaseState
   on_exit(group_raycaster_context)
   {}
 }
+
+export { BaseState };

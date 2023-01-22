@@ -1,6 +1,6 @@
-import EasingFunctions from '../utilities/EasingFunctions';
+import { EasingFunctions } from '../utilities/EasingFunctions';
 
-export default class ActionInterpolator
+class ActionInterpolator
 {
   constructor(easing_function = 'linear')
   {
@@ -21,3 +21,5 @@ export default class ActionInterpolator
 
   }
 }
+
+export { ActionInterpolator };

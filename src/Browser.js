@@ -76,4 +76,5 @@ class Browser
   }
 }
 
-export default new Browser();
+const browser = new Browser();
+export { browser as Browser };

@@ -1,4 +1,4 @@
-import ViewManager from './ViewManager';
+import { ViewManager } from './ViewManager';
 
 class ViewComponentManager
 {
@@ -65,4 +65,5 @@ class ViewComponentManager
   }
 }
 
-export default new ViewComponentManager();
+const view_component_manager = new ViewComponentManager();
+export { view_component_manager as ViewComponentManager };

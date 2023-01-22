@@ -1,6 +1,6 @@
-import UIElementState from './UIElementState';
+import { UIElementState } from './UIElementState';
 
-export default class OnMouseEnter extends UIElementState
+class OnMouseEnter extends UIElementState
 {
   constructor()
   {
@@ -24,3 +24,5 @@ export default class OnMouseEnter extends UIElementState
     }
   }
 }
+
+export { OnMouseEnter };

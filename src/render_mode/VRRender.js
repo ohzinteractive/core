@@ -1,9 +1,9 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import BaseRender from '../render_mode/BaseRender';
-import Graphics from '../Graphics';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Graphics } from '../Graphics';
 
-export default class VRRender extends BaseRender
+class VRRender extends BaseRender
 {
   constructor()
   {
@@ -67,3 +67,5 @@ export default class VRRender extends BaseRender
     }
   }
 }
+
+export { VRRender };

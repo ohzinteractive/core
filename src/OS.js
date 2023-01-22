@@ -55,4 +55,5 @@ class OS
   }
 }
 
-export default new OS();
+const os = new OS();
+export { os as OS };

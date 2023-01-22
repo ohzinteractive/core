@@ -1,7 +1,7 @@
-import CustomDataTexture from './CustomDataTexture';
+import { CustomDataTexture } from './CustomDataTexture';
 import { RGBFormat } from 'three';
 
-export default class RGBDataTexture extends CustomDataTexture
+class RGBDataTexture extends CustomDataTexture
 {
   constructor(width, height)
   {
@@ -10,3 +10,5 @@ export default class RGBDataTexture extends CustomDataTexture
     this.multiplier = 255;
   }
 }
+
+export { RGBDataTexture };

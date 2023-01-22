@@ -1,6 +1,6 @@
-import ResourceContainer from '../ResourceContainer';
+import { ResourceContainer } from '../ResourceContainer';
 
-export default class ResourceBatch
+class ResourceBatch
 {
   constructor(batch_name)
   {
@@ -82,3 +82,5 @@ export default class ResourceBatch
     return total_bytes;
   }
 }
+
+export { ResourceBatch };

@@ -1,16 +1,16 @@
-import OScreen from '../OScreen';
-import BaseRender from '../render_mode/BaseRender';
-import UnrealBloomComposeMaterial from '../materials/UnrealBloomComposeMaterial';
-import AddMaterial from '../materials/AddMaterial';
+import { OScreen } from '../OScreen';
+import { BaseRender } from '../render_mode/BaseRender';
+import { UnrealBloomComposeMaterial } from '../materials/UnrealBloomComposeMaterial';
+import { AddMaterial } from '../materials/AddMaterial';
 
 import { WebGLRenderTarget } from 'three';
 
-import GaussianBlurrer from '../render_utilities/GaussianBlurrer';
-import Graphics from '../Graphics';
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
+import { GaussianBlurrer } from '../render_utilities/GaussianBlurrer';
+import { Graphics } from '../Graphics';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
 
-export default class UnrealBloomRender extends BaseRender
+class UnrealBloomRender extends BaseRender
 {
   constructor()
   {
@@ -107,3 +107,5 @@ export default class UnrealBloomRender extends BaseRender
     }
   }
 }
+
+export { UnrealBloomRender };

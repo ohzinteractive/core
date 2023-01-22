@@ -1,6 +1,6 @@
-import BaseShaderMaterial from './BaseShaderMaterial';
+import { BaseShaderMaterial } from './BaseShaderMaterial';
 import { Vector2 } from 'three';
-export default class ScreenSpaceTextureMaterial extends BaseShaderMaterial
+class ScreenSpaceTextureMaterial extends BaseShaderMaterial
 {
   constructor(x, y, w, h)
   {
@@ -63,3 +63,5 @@ export default class ScreenSpaceTextureMaterial extends BaseShaderMaterial
     this.uniforms._ScreenSize.value.set(w, h);
   }
 }
+
+export { ScreenSpaceTextureMaterial };

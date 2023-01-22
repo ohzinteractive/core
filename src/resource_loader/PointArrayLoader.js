@@ -1,14 +1,14 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import { Vector3 as THREEVector3 } from 'three';
-import { FileLoader as THREEFileLoader } from 'three';
+import { Vector3 } from 'three';
+import { FileLoader } from 'three';
 
-export default class PointArrayLoader extends AbstractLoader
+class PointArrayLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEFileLoader();
+    this.loader = new FileLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -61,10 +61,12 @@ export default class PointArrayLoader extends AbstractLoader
       const x = parseFloat(string_array[i + 0]);
       const y = parseFloat(string_array[i + 1]);
       const z = parseFloat(string_array[i + 2]);
-      positions.push(new THREEVector3(x, y, z));
+      positions.push(new Vector3(x, y, z));
     }
     return positions;
     // let curve = new THREE.CatmullRomCurve3(positions);
     // return curve.getPoints(100);
   }
 }
+
+export { PointArrayLoader };

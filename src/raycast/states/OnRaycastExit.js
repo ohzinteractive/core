@@ -1,7 +1,7 @@
-import BaseState from './BaseState';
-import IdleState from './IdleState';
+import { BaseState } from './BaseState';
+import { IdleState } from './IdleState';
 
-export default class OnRaycastExit extends BaseState
+class OnRaycastExit extends BaseState
 {
   constructor()
   {
@@ -14,3 +14,5 @@ export default class OnRaycastExit extends BaseState
     context.set_state(new IdleState());
   }
 }
+
+export { OnRaycastExit };

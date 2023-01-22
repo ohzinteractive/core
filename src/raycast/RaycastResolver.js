@@ -1,4 +1,4 @@
-export default class RaycastResolver
+class RaycastResolver
 {
   constructor()
   {
@@ -20,3 +20,5 @@ export default class RaycastResolver
     // console.log("on exit");
   }
 }
+
+export { RaycastResolver };

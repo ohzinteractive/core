@@ -1,12 +1,13 @@
-import AxisHelper from './components/AxisHelper';
-import basic_color_vert from './shaders/basic_color/basic_color.vert';
-import basic_color_frag from './shaders/basic_color/basic_color.frag';
-import SceneManager from './SceneManager';
-import Cube from './primitives/Cube';
-import Sphere from './primitives/Sphere';
-import Arrow from './primitives/Arrow';
-import OScreen from './OScreen';
-import ScreenSpaceTextureMaterial from './materials/ScreenSpaceTextureMaterial';
+import { AxisHelper } from './components/AxisHelper';
+
+import { SceneManager } from './SceneManager';
+import { Cube } from './primitives/Cube';
+import { Sphere } from './primitives/Sphere';
+import { Arrow } from './primitives/Arrow';
+import { OScreen } from './OScreen';
+import { ScreenSpaceTextureMaterial } from './materials/ScreenSpaceTextureMaterial';
+import { PerspectiveCamera } from './PerspectiveCamera';
+
 import { Vector3 } from 'three';
 import { LineBasicMaterial } from 'three';
 import { BufferGeometry } from 'three';
@@ -21,7 +22,9 @@ import { Scene } from 'three';
 import { CatmullRomCurve3 } from 'three';
 import { SphereGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
-import PerspectiveCamera from './PerspectiveCamera';
+
+import basic_color_vert from './shaders/basic_color/basic_color.vert';
+import basic_color_frag from './shaders/basic_color/basic_color.frag';
 
 class Debug
 {
@@ -257,4 +260,5 @@ class Debug
   }
 }
 
-export default new Debug();
+const debug = new Debug();
+export { debug as Debug };

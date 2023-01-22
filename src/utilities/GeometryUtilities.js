@@ -1,7 +1,7 @@
 import { BufferAttribute } from 'three';
 import { BufferGeometry } from 'three';
 
-export default class GeometryUtilities
+class GeometryUtilities
 {
   static convert_to_non_indexed_geometry(geometry_buffer)
   {
@@ -72,3 +72,5 @@ export default class GeometryUtilities
     non_indexed_geometry_buffer.setAttribute('barycentric', new BufferAttribute(new Float32Array(bar_coordinates), 3));
   }
 }
+
+export { GeometryUtilities };

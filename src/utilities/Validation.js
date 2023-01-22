@@ -1,4 +1,4 @@
-export default class Validation
+class Validation
 {
   constructor()
   {}
@@ -32,3 +32,5 @@ export default class Validation
     return true;
   }
 }
+
+export { Validation };

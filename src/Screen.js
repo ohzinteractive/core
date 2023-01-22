@@ -1,4 +1,4 @@
-import OScreen from './OScreen';
+import { OScreen } from './OScreen';
 
 class Screen
 {
@@ -51,4 +51,5 @@ class Screen
   }
 }
 
-export default new Screen();
+const screen = new Screen();
+export { screen as Screen };

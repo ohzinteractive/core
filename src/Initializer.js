@@ -1,20 +1,20 @@
-import Browser from './Browser';
-import CameraManager from './CameraManager';
-import Capabilities from './Capabilities';
-import Configuration from './Configuration';
-import Debug from './Debug';
-import EventManager from './EventManager';
-import Graphics from './Graphics';
-import Input from './Input';
-import OS from './OS';
-import OScreen from './OScreen';
-import ReflectionPlaneContext from './ReflectionPlaneContext';
-import ResourceContainer from './ResourceContainer';
-import SceneManager from './SceneManager';
-import GeometryBatcher from './static_batcher/GeometryBatcher';
-import Time from './Time';
-import UI from './UI';
-import CameraUtilities from './utilities/CameraUtilities';
+import { Browser } from './Browser';
+import { CameraManager } from './CameraManager';
+import { Capabilities } from './Capabilities';
+import { Configuration } from './Configuration';
+import { Debug } from './Debug';
+import { EventManager } from './EventManager';
+import { Graphics } from './Graphics';
+import { Input } from './Input';
+import { OS } from './OS';
+import { OScreen } from './OScreen';
+import { ReflectionPlaneContext } from './ReflectionPlaneContext';
+import { ResourceContainer } from './ResourceContainer';
+import { SceneManager } from './SceneManager';
+import { GeometryBatcher } from './static_batcher/GeometryBatcher';
+import { Time } from './Time';
+import { UI } from './UI';
+import { CameraUtilities } from './utilities/CameraUtilities';
 
 class Initializer
 {
@@ -54,4 +54,5 @@ class Initializer
   }
 }
 
-export default new Initializer();
+const initializer = new Initializer();
+export { initializer as Initializer };

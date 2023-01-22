@@ -1,9 +1,9 @@
-import GeometryBatch from './GeometryBatch';
+import { GeometryBatch } from './GeometryBatch';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { BufferAttribute } from 'three';
-import OMath from '../utilities/OMath';
+import { OMath } from '../utilities/OMath';
 
 class GeometryBatcher
 {
@@ -60,4 +60,5 @@ class GeometryBatcher
   }
 }
 
-export default new GeometryBatcher();
+const geometry_batcher = new GeometryBatcher();
+export { geometry_batcher as GeometryBatcher };

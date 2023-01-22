@@ -1,8 +1,8 @@
-import Line from '../Line';
+import { Line } from '../Line';
 
 import { Object3D } from 'three';
 
-export default class MultiLinePath extends Object3D
+class MultiLinePath extends Object3D
 {
   constructor(paths, webgl)
   {
@@ -17,3 +17,5 @@ export default class MultiLinePath extends Object3D
     }
   }
 }
+
+export { MultiLinePath };

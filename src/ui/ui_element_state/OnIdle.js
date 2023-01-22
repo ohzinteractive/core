@@ -1,6 +1,6 @@
-import UIElementState from './UIElementState';
+import { UIElementState } from './UIElementState';
 
-export default class OnIdle extends UIElementState
+class OnIdle extends UIElementState
 {
   constructor()
   {
@@ -15,3 +15,5 @@ export default class OnIdle extends UIElementState
     }
   }
 }
+
+export { OnIdle };

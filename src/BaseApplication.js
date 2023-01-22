@@ -1,4 +1,4 @@
-export default class BaseApplication
+class BaseApplication
 {
   on_post_start()
   {}
@@ -21,3 +21,5 @@ export default class BaseApplication
   on_frame_end()
   {}
 }
+
+export { BaseApplication };

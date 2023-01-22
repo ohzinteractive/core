@@ -1,12 +1,13 @@
 import vert from '../../shaders/deferred/point_light.vert';
 import frag from '../../shaders/deferred/point_light.frag';
-import BaseShaderMaterial from '../../materials/BaseShaderMaterial';
+
+import { BaseShaderMaterial } from '../../materials/BaseShaderMaterial';
 
 import { Matrix4 } from 'three';
 import { AdditiveBlending } from 'three';
 import { BackSide } from 'three';
 
-export default class DeferredPointLightMaterial extends BaseShaderMaterial
+class DeferredPointLightMaterial extends BaseShaderMaterial
 {
   constructor(intensity = 1)
   {
@@ -37,3 +38,5 @@ export default class DeferredPointLightMaterial extends BaseShaderMaterial
     this.uniforms._AlbedoTex.value = rt.texture;
   }
 }
+
+export { DeferredPointLightMaterial };

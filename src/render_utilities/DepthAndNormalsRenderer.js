@@ -1,13 +1,13 @@
-import CameraManager from '../CameraManager';
-import OScreen from '../OScreen';
+import { CameraManager } from '../CameraManager';
+import { OScreen } from '../OScreen';
 
-import ClearDepthNormalMaterial from '../materials/ClearDepthNormalMaterial';
-import DepthNormalMaterial from '../materials/DepthNormalMaterial';
+import { ClearDepthNormalMaterial } from '../materials/ClearDepthNormalMaterial';
+import { DepthNormalMaterial } from '../materials/DepthNormalMaterial';
 
 import { WebGLRenderTarget } from 'three';
 import { Vector3 } from 'three';
 
-export default class DepthAndNormalsRenderer
+class DepthAndNormalsRenderer
 {
   constructor()
   {
@@ -43,3 +43,5 @@ export default class DepthAndNormalsRenderer
     return this.RT;
   }
 }
+
+export { DepthAndNormalsRenderer };

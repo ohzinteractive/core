@@ -4,7 +4,7 @@ import { UVMapping } from 'three';
 import { ClampToEdgeWrapping } from 'three';
 import { NearestFilter } from 'three';
 
-export default class CanvasDrawer
+class CanvasDrawer
 {
   constructor(uses_dynamic_font)
   {
@@ -109,3 +109,5 @@ export default class CanvasDrawer
     }
   }
 }
+
+export { CanvasDrawer };

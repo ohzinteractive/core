@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREERGBELoader from 'three/examples/jsm/loaders/RGBELoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-export default class RGBETextureLoader extends AbstractLoader
+class RGBETextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREERGBELoader.RGBELoader();
+    this.loader = new RGBELoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class RGBETextureLoader extends AbstractLoader
     }
   }
 }
+
+export { RGBETextureLoader };

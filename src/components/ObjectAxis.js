@@ -1,9 +1,9 @@
-import Arrow from '../primitives/Arrow';
+import { Arrow } from '../primitives/Arrow';
 
 import { Object3D } from 'three';
 import { Vector3 } from 'three';
 
-export default class ObjectAxis extends Object3D
+class ObjectAxis extends Object3D
 {
   constructor(obj, size)
   {
@@ -18,3 +18,5 @@ export default class ObjectAxis extends Object3D
     this.add(new Arrow('#0000FF', size, forward));
   }
 }
+
+export { ObjectAxis };

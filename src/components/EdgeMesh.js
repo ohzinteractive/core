@@ -16,7 +16,7 @@ import { Vector3 } from 'three';
 import { PlaneGeometry } from 'three';
 import { BufferAttribute } from 'three';
 
-export default class EdgeMesh extends Object3D
+class EdgeMesh extends Object3D
 {
   constructor(buffer_geometry, thickness, color)
   {
@@ -149,3 +149,5 @@ export default class EdgeMesh extends Object3D
 
   }
 }
+
+export { EdgeMesh };

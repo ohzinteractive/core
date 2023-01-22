@@ -1,9 +1,9 @@
-import ActionSequencer from '../../action_sequencer/ActionSequencer';
-import NumberInterpolator from '../../action_sequencer/NumberInterpolator';
-import ActionEvent from '../../action_sequencer/ActionEvent';
-import DrawIOAnimationSheet from './DrawIOAnimationSheet';
+import { ActionSequencer } from '../../action_sequencer/ActionSequencer';
+import { NumberInterpolator } from '../../action_sequencer/NumberInterpolator';
+import { ActionEvent } from '../../action_sequencer/ActionEvent';
+import { DrawIOAnimationSheet } from './DrawIOAnimationSheet';
 
-export default class ActionSequencerBuilder
+class ActionSequencerBuilder
 {
   constructor(initial_state_data)
   {
@@ -120,3 +120,5 @@ export default class ActionSequencerBuilder
     return longest_time;
   }
 }
+
+export { ActionSequencerBuilder };

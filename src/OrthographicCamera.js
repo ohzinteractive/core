@@ -1,7 +1,7 @@
 import { Color } from 'three';
-import { OrthographicCamera as THREEOrthographicCamera } from 'three';
+import { OrthographicCamera as TOrthographicCamera } from 'three';
 
-export default class OrthographicCamera extends THREEOrthographicCamera
+class OrthographicCamera extends TOrthographicCamera
 {
   constructor(left, right, top, bottom, near, far)
   {
@@ -19,3 +19,5 @@ export default class OrthographicCamera extends THREEOrthographicCamera
     return this;
   }
 }
+
+export { OrthographicCamera };

@@ -1,8 +1,8 @@
-import CustomDataTexture from './CustomDataTexture';
+import { CustomDataTexture } from './CustomDataTexture';
 import { FloatType } from 'three';
 import { RGBFormat } from 'three';
 
-export default class RGBFloatDataTexture extends CustomDataTexture
+class RGBFloatDataTexture extends CustomDataTexture
 {
   constructor(width, height)
   {
@@ -10,3 +10,5 @@ export default class RGBFloatDataTexture extends CustomDataTexture
     super(data, width, height, RGBFormat, FloatType);
   }
 }
+
+export { RGBFloatDataTexture };

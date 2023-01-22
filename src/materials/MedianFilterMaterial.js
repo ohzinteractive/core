@@ -1,9 +1,10 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
+
 import frag from '../shaders/median_filter/median_filter.frag';
 
 import { Vector2 } from 'three';
 
-export default class MedianFilterMaterial extends BlitMaterial
+class MedianFilterMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -40,3 +41,5 @@ export default class MedianFilterMaterial extends BlitMaterial
     return new Vector2(1, 1);
   }
 }
+
+export { MedianFilterMaterial };

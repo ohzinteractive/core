@@ -1,4 +1,4 @@
-export default class StringUtilities
+class StringUtilities
 {
   constructor()
   {}
@@ -30,3 +30,5 @@ export default class StringUtilities
     );
   }
 }
+
+export { StringUtilities };

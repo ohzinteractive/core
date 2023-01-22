@@ -1,17 +1,17 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import OScreen from '../OScreen';
-import BaseRender from '../render_mode/BaseRender';
-import Configuration from '../Configuration';
-import SSAOMaterial from '../materials/SSAOMaterial';
-import SSAOComposeMaterial from '../materials/SSAOComposeMaterial';
-import DisplayNormalTextureMaterial from '../materials/DisplayNormalTextureMaterial';
-import Blurrer from '../render_utilities/Blurrer';
-import Graphics from '../Graphics';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { OScreen } from '../OScreen';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Configuration } from '../Configuration';
+import { SSAOMaterial } from '../materials/SSAOMaterial';
+import { SSAOComposeMaterial } from '../materials/SSAOComposeMaterial';
+import { DisplayNormalTextureMaterial } from '../materials/DisplayNormalTextureMaterial';
+import { Blurrer } from '../render_utilities/Blurrer';
+import { Graphics } from '../Graphics';
 
 import { WebGLRenderTarget } from 'three';
 
-export default class NormalAORender extends BaseRender
+class NormalAORender extends BaseRender
 {
   constructor()
   {
@@ -69,3 +69,5 @@ export default class NormalAORender extends BaseRender
     }
   }
 }
+
+export { NormalAORender };

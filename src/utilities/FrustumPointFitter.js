@@ -1,6 +1,6 @@
 import { Line3, Plane, Quaternion, Sphere, Vector3 } from 'three';
 
-export default class FrustumPointFitter
+class FrustumPointFitter
 {
   constructor()
   {
@@ -253,3 +253,5 @@ export default class FrustumPointFitter
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
 }
+
+export { FrustumPointFitter };

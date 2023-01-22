@@ -5,7 +5,7 @@ import { Vector3, Mesh } from 'three';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-export default class Arrow extends Mesh
+class Arrow extends Mesh
 {
   constructor(color, length, dir)
   {
@@ -55,3 +55,5 @@ export default class Arrow extends Mesh
     return this.scale.z;
   }
 }
+
+export { Arrow };

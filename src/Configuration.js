@@ -19,4 +19,5 @@ class Configuration
   }
 }
 
-export default new Configuration();
+const configuration = new Configuration();
+export { configuration as Configuration };

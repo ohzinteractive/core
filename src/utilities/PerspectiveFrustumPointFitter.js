@@ -1,6 +1,7 @@
 import { Vector3, Plane, Quaternion, Sphere, Line3 } from 'three';
-import OMath from './OMath';
-export default class PerspectiveFrustumPointFitter
+import { OMath } from './OMath';
+
+class PerspectiveFrustumPointFitter
 {
   constructor()
   {
@@ -249,3 +250,5 @@ export default class PerspectiveFrustumPointFitter
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
 }
+
+export { PerspectiveFrustumPointFitter };

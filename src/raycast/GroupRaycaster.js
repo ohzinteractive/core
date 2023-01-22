@@ -1,11 +1,11 @@
-import CameraManager from '../CameraManager';
-import Input from '../Input';
-import RaycastResolver from './RaycastResolver';
-import IdleState from './states/IdleState';
+import { CameraManager } from '../CameraManager';
+import { Input } from '../Input';
+import { RaycastResolver } from './RaycastResolver';
+import { IdleState } from './states/IdleState';
 
 import { Raycaster } from 'three';
 
-export default class GroupRaycaster
+class GroupRaycaster
 {
   constructor(raycastee_group, raycast_resolver, camera)
   {
@@ -39,3 +39,5 @@ export default class GroupRaycaster
     this.current_state.on_enter(this);
   }
 }
+
+export { GroupRaycaster };

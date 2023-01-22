@@ -1,11 +1,11 @@
-import Configuration from './Configuration';
-import BaseRender from './render_mode/BaseRender';
-import OScreen from './OScreen';
-import CameraManager from './CameraManager';
-import SceneManager from './SceneManager';
-import Capabilities from './Capabilities';
-import DepthAndNormalsRenderer from './render_utilities/DepthAndNormalsRenderer';
-import Blitter from './render_utilities/Blitter';
+import { Configuration } from './Configuration';
+import { BaseRender } from './render_mode/BaseRender';
+import { OScreen } from './OScreen';
+import { CameraManager } from './CameraManager';
+import { SceneManager } from './SceneManager';
+import { Capabilities } from './Capabilities';
+import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
+import { Blitter } from './render_utilities/Blitter';
 
 import {
   NearestFilter,
@@ -307,7 +307,7 @@ class Graphics
     }
 
     // transform the result canvas into a blob
-    // from them the callback turns into a ULR and download it
+    // } from them the callback turns into a ULR and download it
     ctx_2D.canvas.toBlob(blob_callback, 'image/png;base64;');
 
     CameraManager.current.clearViewOffset();
@@ -389,4 +389,5 @@ class Graphics
   }
 }
 
-export default new Graphics();
+const graphics = new Graphics();
+export { graphics as Graphics };

@@ -7,7 +7,7 @@ import { BufferGeometry } from 'three';
 import { ShaderMaterial } from 'three';
 import { Color } from 'three';
 
-export default class Line extends Mesh
+class Line extends Mesh
 {
   constructor(points)
   {
@@ -197,3 +197,5 @@ export default class Line extends Mesh
     this.material.uniforms._Color.value.copy(col);
   }
 }
+
+export { Line };

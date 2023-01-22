@@ -1,13 +1,14 @@
 import vert from '../shaders/ui_element/ui_element.vert';
 import frag from '../shaders/ui_element/ui_element.frag';
-import BaseShaderMaterial from '../materials/BaseShaderMaterial';
+
+import { BaseShaderMaterial } from '../materials/BaseShaderMaterial';
 
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
 
-import OScreen from '../OScreen';
+import { OScreen } from '../OScreen';
 
-export default class UIElementMaterial extends BaseShaderMaterial
+class UIElementMaterial extends BaseShaderMaterial
 {
   constructor(intensity = 1)
   {
@@ -25,3 +26,5 @@ export default class UIElementMaterial extends BaseShaderMaterial
     this.depthTest = false;
   }
 }
+
+export { UIElementMaterial };

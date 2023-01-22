@@ -11,4 +11,5 @@ class ViewContext
   }
 }
 
-export default new ViewContext();
+const view_context = new ViewContext();
+export { view_context as ViewContext };

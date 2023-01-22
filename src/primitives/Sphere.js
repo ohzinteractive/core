@@ -2,7 +2,7 @@ import { Mesh } from 'three';
 import { SphereBufferGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
-export default class Sphere extends Mesh
+class Sphere extends Mesh
 {
   constructor(radius, color)
   {
@@ -13,3 +13,5 @@ export default class Sphere extends Mesh
     super(geometry, material);
   }
 }
+
+export { Sphere };

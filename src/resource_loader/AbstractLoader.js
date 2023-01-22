@@ -1,7 +1,7 @@
-import Browser from '../Browser';
-import Validation from '../utilities/Validation';
+import { Browser } from '../Browser';
+import { Validation } from '../utilities/Validation';
 
-export default class AbstractLoader
+class AbstractLoader
 {
   constructor(resource_id, url, size = 1)
   {
@@ -112,3 +112,5 @@ export default class AbstractLoader
     console.error(data);
   }
 }
+
+export { AbstractLoader };

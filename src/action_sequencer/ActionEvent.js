@@ -1,6 +1,6 @@
-import ViewContext from '../view_components/ViewContext';
+import { ViewContext } from '../view_components/ViewContext';
 
-export default class ActionEvent
+class ActionEvent
 {
   constructor(name, method)
   {
@@ -13,3 +13,5 @@ export default class ActionEvent
     ViewContext.app[this.name][this.method]();
   }
 }
+
+export { ActionEvent };

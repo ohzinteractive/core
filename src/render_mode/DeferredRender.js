@@ -1,10 +1,10 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import OScreen from '../OScreen';
-import BaseRender from '../render_mode/BaseRender';
-import DeferredRendererComposeMaterial from '../materials/DeferredRendererComposeMaterial';
-import Graphics from '../Graphics';
-import DeferredPointLightMaterial from '../materials/deferred/DeferredPointLightMaterial';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { OScreen } from '../OScreen';
+import { BaseRender } from '../render_mode/BaseRender';
+import { DeferredRendererComposeMaterial } from '../materials/DeferredRendererComposeMaterial';
+import { Graphics } from '../Graphics';
+import { DeferredPointLightMaterial } from '../materials/deferred/DeferredPointLightMaterial';
 
 import { WebGLRenderTarget } from 'three';
 import { Scene } from 'three';
@@ -12,7 +12,7 @@ import { Mesh } from 'three';
 import { SphereBufferGeometry } from 'three';
 import { Matrix4 } from 'three';
 
-export default class DeferredRender extends BaseRender
+class DeferredRender extends BaseRender
 {
   constructor()
   {
@@ -110,3 +110,5 @@ export default class DeferredRender extends BaseRender
     }
   }
 }
+
+export { DeferredRender };

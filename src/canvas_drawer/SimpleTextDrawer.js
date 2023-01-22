@@ -1,9 +1,9 @@
 
-import CanvasDrawer from './CanvasDrawer';
+import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';
 
-export default class SimpleTextDrawer extends CanvasDrawer
+class SimpleTextDrawer extends CanvasDrawer
 {
   constructor()
   {
@@ -45,3 +45,5 @@ export default class SimpleTextDrawer extends CanvasDrawer
     }
   }
 }
+
+export { SimpleTextDrawer };

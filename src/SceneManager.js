@@ -41,4 +41,5 @@ class SceneManager
   }
 }
 
-export default new SceneManager();
+const scene_manager = new SceneManager();
+export { scene_manager as SceneManager };

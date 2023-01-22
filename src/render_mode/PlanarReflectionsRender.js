@@ -1,10 +1,11 @@
 import basic_color_frag from '../shaders/basic_color/basic_color.frag';
 import basic_color_vert from '../shaders/basic_color/basic_color.vert';
-import SceneManager from '../SceneManager';
-import CameraManager from '../CameraManager';
-import ReflectionPlaneContext from '../ReflectionPlaneContext';
-import OScreen from '../OScreen';
-import BaseRender from '../render_mode/BaseRender';
+
+import { SceneManager } from '../SceneManager';
+import { CameraManager } from '../CameraManager';
+import { ReflectionPlaneContext } from '../ReflectionPlaneContext';
+import { OScreen } from '../OScreen';
+import { BaseRender } from '../render_mode/BaseRender';
 
 import { ShaderMaterial } from 'three';
 import { Matrix4 } from 'three';
@@ -13,7 +14,7 @@ import { Scene } from 'three';
 import { MeshBasicMaterial } from 'three';
 import { Mesh } from 'three';
 
-export default class PlanarReflectionsRender extends BaseRender
+class PlanarReflectionsRender extends BaseRender
 {
   constructor()
   {
@@ -116,3 +117,5 @@ export default class PlanarReflectionsRender extends BaseRender
     CameraManager.current.matrixWorldInverse.copy(this.original_view_matrix);
   }
 }
+
+export { PlanarReflectionsRender };

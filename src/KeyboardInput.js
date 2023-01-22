@@ -1,4 +1,4 @@
-export default class KeyboardInput
+class KeyboardInput
 {
   init(container)
   {
@@ -133,3 +133,5 @@ export default class KeyboardInput
     this.container.removeEventListener('keyup', this.on_key_up.bind(this), false);
   }
 }
+
+export { KeyboardInput };

@@ -1,5 +1,5 @@
 
-export default class RenderOrder
+class RenderOrder
 {
   constructor()
   {
@@ -36,3 +36,5 @@ export default class RenderOrder
     return 900;
   }
 }
+
+export { RenderOrder };

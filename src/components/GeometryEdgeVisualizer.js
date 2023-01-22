@@ -1,12 +1,13 @@
 import edge_visualizer_frag from '../shaders/edge_visualizer/edge_visualizer.frag';
 import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer.vert';
-import GeometryUtilities from '../utilities/GeometryUtilities';
+
+import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
 import { Mesh } from 'three';
 import { Color } from 'three';
 import { ShaderMaterial } from 'three';
 
-export default class GeometryEdgeVisualizer extends Mesh
+class GeometryEdgeVisualizer extends Mesh
 {
   constructor(geometry, line_color)
   {
@@ -43,3 +44,5 @@ export default class GeometryEdgeVisualizer extends Mesh
     this.material.uniforms._Alpha.value = 0;
   }
 }
+
+export { GeometryEdgeVisualizer };

@@ -1,10 +1,11 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
+
 import frag from '../shaders/depth_normals/debug_normals.frag';
 import depth_normals_vert from '../shaders/ssao/ssao.vert';
 
 import { Matrix4 } from 'three';
 
-export default class DisplayNormalTextureMaterial extends BlitMaterial
+class DisplayNormalTextureMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -13,3 +14,5 @@ export default class DisplayNormalTextureMaterial extends BlitMaterial
     this.uniforms._InverseProjMatrix = { value: new Matrix4() };
   }
 }
+
+export { DisplayNormalTextureMaterial };

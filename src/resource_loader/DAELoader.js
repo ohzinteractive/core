@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEColladaLoader from 'three/examples/jsm/loaders/ColladaLoader.js';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 
-export default class DAELoader extends AbstractLoader
+class DAELoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEColladaLoader.ColladaLoader();
+    this.loader = new ColladaLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class DAELoader extends AbstractLoader
     }
   }
 }
+
+export { DAELoader };

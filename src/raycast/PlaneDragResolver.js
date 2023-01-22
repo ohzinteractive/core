@@ -1,8 +1,8 @@
-import PlaneRaycaster from './PlaneRaycaster';
-import PlaneRaycastResolver from './PlaneRaycastResolver';
-import Input from '../Input';
+import { PlaneRaycaster } from './PlaneRaycaster';
+import { PlaneRaycastResolver } from './PlaneRaycastResolver';
+import { Input } from '../Input';
 
-export default class PlaneDragResolver extends PlaneRaycastResolver
+class PlaneDragResolver extends PlaneRaycastResolver
 {
   constructor()
   {
@@ -87,3 +87,5 @@ export default class PlaneDragResolver extends PlaneRaycastResolver
     this.on_update();
   }
 }
+
+export { PlaneDragResolver };

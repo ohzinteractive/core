@@ -1,8 +1,8 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
 import { FontLoader as TFontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
-export default class FontLoader extends AbstractLoader
+class FontLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
@@ -44,3 +44,5 @@ export default class FontLoader extends AbstractLoader
     }
   }
 }
+
+export { FontLoader };

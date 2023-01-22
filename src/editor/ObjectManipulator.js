@@ -1,12 +1,12 @@
-import ManipulatorHandle from '../editor/ManipulatorHandle';
-import Input from '../Input';
-import EventManager from '../EventManager';
+import { ManipulatorHandle } from '../editor/ManipulatorHandle';
+import { Input } from '../Input';
+import { EventManager } from '../EventManager';
 
 import { Object3D } from 'three';
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
 
-export default class ObjectManipulator extends Object3D
+class ObjectManipulator extends Object3D
 {
   constructor()
   {
@@ -116,3 +116,5 @@ export default class ObjectManipulator extends Object3D
     obj.getWorldPosition(this.position);
   }
 }
+
+export { ObjectManipulator };

@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import { FileLoader as THREEFileLoader } from 'three';
+import { FileLoader as TFileLoader } from 'three';
 
-export default class FileLoader extends AbstractLoader
+class FileLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEFileLoader();
+    this.loader = new TFileLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class FileLoader extends AbstractLoader
     }
   }
 }
+
+export { FileLoader };

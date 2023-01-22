@@ -1,9 +1,9 @@
-import ResourceContainer from '../ResourceContainer';
-import HTMLUtilities from '../utilities/HTMLUtilities';
-import ViewManager from './ViewManager';
-import ViewState from './ViewState';
+import { ResourceContainer } from '../ResourceContainer';
+import { HTMLUtilities } from '../utilities/HTMLUtilities';
+import { ViewManager } from './ViewManager';
+import { ViewState } from './ViewState';
 
-export default class ApplicationView extends ViewState
+class ApplicationView extends ViewState
 {
   constructor({ name, url, container })
   {
@@ -73,3 +73,5 @@ export default class ApplicationView extends ViewState
     this.container.style.opacity = current_state_data[`${this.name}_opacity`];
   }
 }
+
+export { ApplicationView };

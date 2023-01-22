@@ -1,6 +1,6 @@
 import { DataTexture } from 'three';
 
-export default class CustomDataTexture extends DataTexture
+class CustomDataTexture extends DataTexture
 {
   constructor(data, width, height, format, type)
   {
@@ -49,3 +49,5 @@ export default class CustomDataTexture extends DataTexture
     this.needsUpdate = true;
   }
 }
+
+export { CustomDataTexture };

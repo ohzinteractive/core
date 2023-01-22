@@ -1,11 +1,11 @@
 
-import PlaneRaycastResolver from './PlaneRaycastResolver';
-import CameraUtilities from '../utilities/CameraUtilities';
+import { PlaneRaycastResolver } from './PlaneRaycastResolver';
+import { CameraUtilities } from '../utilities/CameraUtilities';
 
 import { Raycaster } from 'three';
 import { Vector3 } from 'three';
 
-export default class PlaneRaycaster
+class PlaneRaycaster
 {
   constructor(raycast_resolver)
   {
@@ -21,3 +21,5 @@ export default class PlaneRaycaster
     this.raycast_resolver.on_hover(this.current_intersected_point);
   }
 }
+
+export { PlaneRaycaster };

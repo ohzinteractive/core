@@ -1,7 +1,7 @@
 import { Color } from 'three';
-import { PerspectiveCamera as THREEPerspectiveCamera } from 'three';
+import { PerspectiveCamera as TPerspectiveCamera } from 'three';
 
-export default class PerspectiveCamera extends THREEPerspectiveCamera
+class PerspectiveCamera extends TPerspectiveCamera
 {
   constructor(fov, aspect, near, far)
   {
@@ -19,3 +19,5 @@ export default class PerspectiveCamera extends THREEPerspectiveCamera
     return this;
   }
 }
+
+export { PerspectiveCamera };

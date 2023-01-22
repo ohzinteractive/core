@@ -1,6 +1,6 @@
-import Input from './Input';
-import CameraManager from './CameraManager';
-import Graphics from './Graphics';
+import { Input } from './Input';
+import { CameraManager } from './CameraManager';
+import { Graphics } from './Graphics';
 
 import { Vector2 } from 'three';
 import { Scene } from 'three';
@@ -87,4 +87,5 @@ class UI
   }
 }
 
-export default new UI();
+const ui = new UI();
+export { ui as UI };

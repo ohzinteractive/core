@@ -1,11 +1,12 @@
-import BaseShaderMaterial from './BaseShaderMaterial';
+import { BaseShaderMaterial } from './BaseShaderMaterial';
+
 import frag from '../shaders/sdf_text/sdf_text.frag';
 import vert from '../shaders/sdf_text/sdf_text.vert';
 
 import { Vector2, DoubleSide, LinearFilter } from 'three';
-import OMath from '../utilities/OMath';
+import { OMath } from '../utilities/OMath';
 
-export default class SDFTextMaterial extends BaseShaderMaterial
+class SDFTextMaterial extends BaseShaderMaterial
 {
   constructor(texture)
   {
@@ -36,3 +37,5 @@ export default class SDFTextMaterial extends BaseShaderMaterial
     this.uniforms._Boldness.value = OMath.lerp(0.5, 0.2, value);
   }
 }
+
+export { SDFTextMaterial };

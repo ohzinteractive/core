@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEGLTFLoader from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader as TGLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-export default class GLTFLoader extends AbstractLoader
+class GLTFLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEGLTFLoader.GLTFLoader();
+    this.loader = new TGLTFLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -45,3 +45,5 @@ export default class GLTFLoader extends AbstractLoader
     }
   }
 }
+
+export { GLTFLoader };

@@ -6,7 +6,7 @@ import { BufferGeometry } from 'three';
 import { Vector3 } from 'three';
 import { Line } from 'three';
 
-export default class AxisHelper extends Object3D
+class AxisHelper extends Object3D
 {
   constructor(scale = 1.0)
   {
@@ -56,3 +56,5 @@ export default class AxisHelper extends Object3D
   {
   }
 }
+
+export { AxisHelper };

@@ -1,10 +1,10 @@
-import WorldImage from './WorldImage';
-import SimpleTextDrawer from '../canvas_drawer/SimpleTextDrawer';
+import { WorldImage } from './WorldImage';
+import { SimpleTextDrawer } from '../canvas_drawer/SimpleTextDrawer';
 
 import { LinearMipMapLinearFilter } from 'three';
 import { LinearFilter } from 'three';
 
-export default class Text2D extends WorldImage
+class Text2D extends WorldImage
 {
   constructor(text, font, color, pivot, is_static)
   {
@@ -37,3 +37,5 @@ export default class Text2D extends WorldImage
     return 'not implemented';
   }
 }
+
+export { Text2D };

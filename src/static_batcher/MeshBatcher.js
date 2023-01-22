@@ -1,10 +1,10 @@
-import BatchedMesh from './BatchedMesh';
+import { BatchedMesh } from './BatchedMesh';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { BufferAttribute } from 'three';
 
-export default class MeshBatcher
+class MeshBatcher
 {
   batch(meshes, material)
   {
@@ -54,3 +54,5 @@ export default class MeshBatcher
     return new BatchedMesh(id_table, buffer_geometry, material, max_texture_width);
   }
 }
+
+export { MeshBatcher };

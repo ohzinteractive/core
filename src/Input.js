@@ -1,5 +1,5 @@
 import { InputController } from 'pit-js';
-import KeyboardInput from './KeyboardInput';
+import { KeyboardInput } from './KeyboardInput';
 
 class Input extends InputController
 {
@@ -63,4 +63,5 @@ class Input extends InputController
   }
 }
 
-export default new Input();
+const input = new Input();
+export { input as Input };

@@ -1,4 +1,4 @@
-export default class Pool
+class Pool
 {
   constructor()
   {
@@ -71,3 +71,5 @@ export default class Pool
     console.error('__create not implemented');
   }
 }
+
+export { Pool };

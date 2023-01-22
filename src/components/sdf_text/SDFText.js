@@ -1,7 +1,7 @@
 import { Vector3, Quaternion, Matrix4, Color, Box2, Vector2 } from 'three';
-import TextGlyph from './TextGlyph';
+import { TextGlyph } from './TextGlyph';
 
-export default class SDFText
+class SDFText
 {
   constructor(glyph_layout, text = '')
   {
@@ -152,3 +152,5 @@ export default class SDFText
     this.glyph_is_dirty = true;
   }
 }
+
+export { SDFText };

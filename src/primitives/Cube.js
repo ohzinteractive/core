@@ -3,7 +3,7 @@ import { Vector3, Mesh } from 'three';
 import { BoxGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
-export default class Cube extends Mesh
+class Cube extends Mesh
 {
   constructor(size, segments, color)
   {
@@ -15,3 +15,5 @@ export default class Cube extends Mesh
     super(geometry, material);
   }
 }
+
+export { Cube };

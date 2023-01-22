@@ -1,8 +1,8 @@
-import CanvasDrawer from './CanvasDrawer';
+import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';
 
-export default class MultiLineTextDrawer extends CanvasDrawer
+class MultiLineTextDrawer extends CanvasDrawer
 {
   constructor()
   {
@@ -47,3 +47,5 @@ export default class MultiLineTextDrawer extends CanvasDrawer
     }
   }
 }
+
+export { MultiLineTextDrawer };

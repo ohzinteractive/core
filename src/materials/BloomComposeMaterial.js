@@ -1,9 +1,9 @@
-import BlitMaterial from './BlitMaterial';
-import frag from '../shaders/bloom/bloom_compose_frag';
-import cheap_frag from '../shaders/bloom/cheap_bloom_compose_frag';
+import { BlitMaterial } from './BlitMaterial';
+import { frag } from '../shaders/bloom/bloom_compose_frag';
+import { cheap_frag } from '../shaders/bloom/cheap_bloom_compose_frag';
 import { CustomBlending, OneFactor } from 'three';
 
-export default class BloomComposeMaterial extends BlitMaterial
+class BloomComposeMaterial extends BlitMaterial
 {
   constructor(alpha_blending)
   {
@@ -20,3 +20,5 @@ export default class BloomComposeMaterial extends BlitMaterial
     }
   }
 }
+
+export { BloomComposeMaterial };

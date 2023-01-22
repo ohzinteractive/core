@@ -1,7 +1,9 @@
-import BlitMaterial from './BlitMaterial';
+import { BlitMaterial } from './BlitMaterial';
+
 import frag from '../shaders/luminosity_high_pass/luminosity_high_pass.frag';
+
 import { Color } from 'three';
-export default class LuminosityHighPassMaterial extends BlitMaterial
+class LuminosityHighPassMaterial extends BlitMaterial
 {
   constructor(kernel_radius)
   {
@@ -13,3 +15,5 @@ export default class LuminosityHighPassMaterial extends BlitMaterial
     this.uniforms.defaultOpacity      = { value: 0.0 };
   }
 }
+
+export { LuminosityHighPassMaterial };

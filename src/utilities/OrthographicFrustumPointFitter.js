@@ -1,6 +1,6 @@
 import { Vector3, Box3 } from 'three';
 
-export default class OrthographicFrustumPointFitter
+class OrthographicFrustumPointFitter
 {
   constructor()
   {
@@ -45,3 +45,5 @@ export default class OrthographicFrustumPointFitter
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
 }
+
+export { OrthographicFrustumPointFitter };

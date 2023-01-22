@@ -1,9 +1,10 @@
 import frag from '../../shaders/gpu_particles/generic_storage.frag';
+
 import { ShaderMaterial } from 'three';
 import { NoBlending } from 'three';
 import { AlwaysDepth } from 'three';
 
-export default class ParticleStorageMaterial extends ShaderMaterial
+class ParticleStorageMaterial extends ShaderMaterial
 {
   constructor()
   {
@@ -32,3 +33,5 @@ export default class ParticleStorageMaterial extends ShaderMaterial
     });
   }
 }
+
+export { ParticleStorageMaterial };

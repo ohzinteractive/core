@@ -1,4 +1,4 @@
-export default class ObjectUtilities
+class ObjectUtilities
 {
   static is_object(item)
   {
@@ -78,3 +78,5 @@ export default class ObjectUtilities
     return obj;
   }
 }
+
+export { ObjectUtilities };

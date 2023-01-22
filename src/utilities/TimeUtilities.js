@@ -1,4 +1,4 @@
-export default class TimeUtilities
+class TimeUtilities
 {
   constructor()
   {}
@@ -20,3 +20,5 @@ export default class TimeUtilities
     return hours + minutes + seconds;
   }
 }
+
+export { TimeUtilities };

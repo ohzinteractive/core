@@ -1,8 +1,8 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
 // import { sRGBEncoding } from 'three';
 
-export default class BasisLoader extends AbstractLoader
+class BasisLoader extends AbstractLoader
 {
   constructor(resource_id, url, loader, size)
   {
@@ -47,3 +47,5 @@ export default class BasisLoader extends AbstractLoader
     }
   }
 }
+
+export { BasisLoader };

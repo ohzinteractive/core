@@ -1,9 +1,9 @@
-import Text2D from './Text2D';
+import { Text2D } from './Text2D';
 
 import { Object3D } from 'three';
 import { Vector2 } from 'three';
 
-export default class MultiLineText2D extends Object3D
+class MultiLineText2D extends Object3D
 {
   constructor(text_array, font, color, pivot, is_static)
   {
@@ -60,3 +60,5 @@ export default class MultiLineText2D extends Object3D
     return 1;
   }
 }
+
+export { MultiLineText2D };

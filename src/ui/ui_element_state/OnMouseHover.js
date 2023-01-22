@@ -1,6 +1,6 @@
-import UIElementState from './UIElementState';
+import { UIElementState } from './UIElementState';
 
-export default class OnMouseHover extends UIElementState
+class OnMouseHover extends UIElementState
 {
   constructor()
   {
@@ -29,3 +29,5 @@ export default class OnMouseHover extends UIElementState
     ui_element.on_mouse_hover();
   }
 }
+
+export { OnMouseHover };

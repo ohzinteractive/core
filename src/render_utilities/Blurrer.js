@@ -1,9 +1,9 @@
-import BoxBlurMaterial from '../materials/BoxBlurMaterial';
-import Graphics from '../Graphics';
+import { BoxBlurMaterial } from '../materials/BoxBlurMaterial';
+import { Graphics } from '../Graphics';
 
 import { WebGLRenderTarget } from 'three';
 
-export default class Blurrer
+class Blurrer
 {
   constructor(renderer)
   {
@@ -27,3 +27,5 @@ export default class Blurrer
     // return this.RT2;
   }
 }
+
+export { Blurrer };

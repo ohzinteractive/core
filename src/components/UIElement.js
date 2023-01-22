@@ -1,15 +1,15 @@
 
-import OScreen from '../OScreen';
+import { OScreen } from '../OScreen';
 
-import UIElementMaterial from '../materials/UIElementMaterial';
+import { UIElementMaterial } from '../materials/UIElementMaterial';
 
-import ScreenSpacePosition from '../ui/ui_element_position/ScreenSpacePosition';
-import WorldSpacePosition from '../ui/ui_element_position/WorldSpacePosition';
+import { ScreenSpacePosition } from '../ui/ui_element_position/ScreenSpacePosition';
+import { WorldSpacePosition } from '../ui/ui_element_position/WorldSpacePosition';
 
-import OnIdle from '../ui/ui_element_state/OnIdle';
-import OnMouseEnter from '../ui/ui_element_state/OnMouseEnter';
-import OnMouseExit from '../ui/ui_element_state/OnMouseExit';
-import OnMouseHover from '../ui/ui_element_state/OnMouseHover';
+import { OnIdle } from '../ui/ui_element_state/OnIdle';
+import { OnMouseEnter } from '../ui/ui_element_state/OnMouseEnter';
+import { OnMouseExit } from '../ui/ui_element_state/OnMouseExit';
+import { OnMouseHover } from '../ui/ui_element_state/OnMouseHover';
 
 import { Mesh } from 'three';
 import { PlaneGeometry } from 'three';
@@ -18,7 +18,7 @@ import { Vector3 } from 'three';
 import { NearestFilter } from 'three';
 import { Box2 } from 'three';
 
-export default class UIElement extends Mesh
+class UIElement extends Mesh
 {
   constructor(vert, frag)
   {
@@ -206,3 +206,5 @@ export default class UIElement extends Mesh
   on_mouse_hover()
   {}
 }
+
+export { UIElement };

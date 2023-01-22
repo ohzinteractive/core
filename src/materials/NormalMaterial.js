@@ -3,7 +3,7 @@ import vert from '../shaders/normal/normal.vert';
 
 import { ShaderMaterial } from 'three';
 
-export default class NormalMaterial extends ShaderMaterial
+class NormalMaterial extends ShaderMaterial
 {
   constructor()
   {
@@ -15,3 +15,5 @@ export default class NormalMaterial extends ShaderMaterial
     });
   }
 }
+
+export { NormalMaterial };

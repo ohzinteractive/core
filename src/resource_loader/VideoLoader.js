@@ -1,6 +1,6 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-export default class VideoLoader extends AbstractLoader
+class VideoLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
@@ -28,3 +28,5 @@ export default class VideoLoader extends AbstractLoader
     }
   }
 }
+
+export { VideoLoader };

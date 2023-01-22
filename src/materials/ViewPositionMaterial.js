@@ -3,7 +3,7 @@ import vert from '../shaders/write_view_position/write_view_position.vert';
 
 import { ShaderMaterial } from 'three';
 
-export default class ViewPositionMaterial extends ShaderMaterial
+class ViewPositionMaterial extends ShaderMaterial
 {
   constructor()
   {
@@ -15,3 +15,5 @@ export default class ViewPositionMaterial extends ShaderMaterial
     });
   }
 }
+
+export { ViewPositionMaterial };

@@ -71,4 +71,5 @@ class OScreen
   }
 }
 
-export default new OScreen();
+const oscreen = new OScreen();
+export { oscreen as OScreen };

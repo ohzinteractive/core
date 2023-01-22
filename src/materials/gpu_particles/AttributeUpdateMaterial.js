@@ -1,13 +1,15 @@
-import BlitMaterial from '../../materials/BlitMaterial';
-import frag from '../../shaders/gpu_particles/update/basic_update.frag';
-import Time from '../../Time';
+import { BlitMaterial } from '../../materials/BlitMaterial';
 
-import common_utils from '../../shaders/gpu_particles/common_utils';
+import frag from '../../shaders/gpu_particles/update/basic_update.frag';
+
+import { Time } from '../../Time';
+
+import { common_utils } from '../../shaders/gpu_particles/common_utils';
 
 import { Vector2 } from 'three';
 import { ShaderChunk } from 'three';
 
-export default class AttributeUpdateMaterial extends BlitMaterial
+class AttributeUpdateMaterial extends BlitMaterial
 {
   constructor(custom_frag)
   {
@@ -31,3 +33,5 @@ export default class AttributeUpdateMaterial extends BlitMaterial
     this.multiplier = val;
   }
 }
+
+export { AttributeUpdateMaterial };

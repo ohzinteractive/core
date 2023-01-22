@@ -1,14 +1,14 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEHDRCubeTextureLoader from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
+import { HDRCubeTextureLoader as THDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
 import { UnsignedByteType } from 'three';
 
-export default class HDRCubeTextureLoader extends AbstractLoader
+class HDRCubeTextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEHDRCubeTextureLoader.HDRCubeTextureLoader();
+    this.loader = new THDRCubeTextureLoader();
     this.url_suffix = ['/px.hdr', '/nx.hdr', '/py.hdr', '/ny.hdr', '/pz.hdr', '/nz.hdr'];
   }
 
@@ -48,3 +48,5 @@ export default class HDRCubeTextureLoader extends AbstractLoader
     }
   }
 }
+
+export { HDRCubeTextureLoader };

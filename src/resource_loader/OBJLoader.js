@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEOBJLoader from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OBJLoader as TOBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
-export default class OBJLoader extends AbstractLoader
+class OBJLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEOBJLoader.OBJLoader();
+    this.loader = new TOBJLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class OBJLoader extends AbstractLoader
     }
   }
 }
+
+export { OBJLoader };

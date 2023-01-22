@@ -1,11 +1,11 @@
-import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
+import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
 import { Mesh } from 'three';
 import { Shape } from 'three';
 import { ShapeBufferGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
-export default class Shape2D extends Mesh
+class Shape2D extends Mesh
 {
   constructor(points_2D, show_edges)
   {
@@ -40,3 +40,5 @@ export default class Shape2D extends Mesh
     geometry.computeVertexNormals();
   }
 }
+
+export { Shape2D };

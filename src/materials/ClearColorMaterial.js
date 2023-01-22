@@ -1,8 +1,8 @@
-import BlitMaterial from 'js/core/materials/BlitMaterial';
-import frag from 'js/core/shaders/clear/clear_color';
+import { BlitMaterial } from 'js/core/materials/BlitMaterial';
+import { frag } from 'js/core/shaders/clear/clear_color';
 import { LessEqualDepth, Color } from 'three';
 
-export default class ClearColorMaterial extends BlitMaterial
+class ClearColorMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -29,3 +29,5 @@ export default class ClearColorMaterial extends BlitMaterial
     this.uniforms._Opacity.value = value;
   }
 }
+
+export { ClearColorMaterial };

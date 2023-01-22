@@ -1,10 +1,11 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
+
 import frag from '../shaders/deferred/deferred_compose.frag';
 import vert from '../shaders/deferred/blit_copy.vert';
 
 import { Matrix4 } from 'three';
 
-export default class DeferredRendererComposeMaterial extends BlitMaterial
+class DeferredRendererComposeMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -30,3 +31,5 @@ export default class DeferredRendererComposeMaterial extends BlitMaterial
     this.uniforms._InverseProjMatrix.value.getInverse(mat4);
   }
 }
+
+export { DeferredRendererComposeMaterial };

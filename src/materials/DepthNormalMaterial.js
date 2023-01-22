@@ -3,7 +3,7 @@ import frag from '../shaders/depth_normals/depth_normals.frag';
 
 import { ShaderMaterial } from 'three';
 
-export default class DepthNormalMaterial extends ShaderMaterial
+class DepthNormalMaterial extends ShaderMaterial
 {
   constructor()
   {
@@ -26,3 +26,5 @@ export default class DepthNormalMaterial extends ShaderMaterial
     return this.uniforms._FarPlane.value;
   }
 }
+
+export { DepthNormalMaterial };

@@ -1,13 +1,14 @@
 import grid_frag from '../shaders/grid/grid.frag';
 import grid_vert from '../shaders/grid/grid.vert';
-import GeometryUtilities from '../utilities/GeometryUtilities';
+
+import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
 import { Mesh } from 'three';
 import { ShaderMaterial } from 'three';
 import { Color } from 'three';
 import { PlaneGeometry } from 'three';
 
-export default class Grid extends Mesh
+class Grid extends Mesh
 {
   constructor()
   {
@@ -31,3 +32,5 @@ export default class Grid extends Mesh
     this.rotation.x = -3.14 / 2;
   }
 }
+
+export { Grid };

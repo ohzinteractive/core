@@ -1,4 +1,4 @@
-export default class HTMLUtilities
+class HTMLUtilities
 {
   static load_images(container)
   {
@@ -42,3 +42,5 @@ export default class HTMLUtilities
     }
   }
 }
+
+export { HTMLUtilities };

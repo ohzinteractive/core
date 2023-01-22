@@ -158,4 +158,5 @@ class ModelUtilities
   }
 }
 
-export default new ModelUtilities();
+const model_utilities = new ModelUtilities();
+export { model_utilities as ModelUtilities };

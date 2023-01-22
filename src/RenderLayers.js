@@ -1,5 +1,5 @@
 
-export default class RenderLayers
+class RenderLayers
 {
   constructor()
   {
@@ -26,3 +26,5 @@ export default class RenderLayers
     return 3;
   }
 }
+
+export { RenderLayers };

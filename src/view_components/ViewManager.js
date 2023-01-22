@@ -1,5 +1,5 @@
-import TransitionTable from './transition/TransitionTable';
-import ViewStateTransitionHandler from './transition/ViewStateTransitionHandler';
+import { TransitionTable } from './transition/TransitionTable';
+import { ViewStateTransitionHandler } from './transition/ViewStateTransitionHandler';
 
 class ViewManager
 {
@@ -186,4 +186,5 @@ class ViewManager
   }
 }
 
-export default new ViewManager();
+const view_manager = new ViewManager();
+export { view_manager as ViewManager };

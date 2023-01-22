@@ -1,10 +1,10 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import BaseRender from '../render_mode/BaseRender';
-import Graphics from '../Graphics';
-import NormalMaterial from '../materials/NormalMaterial';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Graphics } from '../Graphics';
+import { NormalMaterial } from '../materials/NormalMaterial';
 
-export default class DebugNormalsRender extends BaseRender
+class DebugNormalsRender extends BaseRender
 {
   constructor()
   {
@@ -18,3 +18,5 @@ export default class DebugNormalsRender extends BaseRender
     Graphics.render(SceneManager.current, CameraManager.current, undefined, new NormalMaterial());
   }
 }
+
+export { DebugNormalsRender };

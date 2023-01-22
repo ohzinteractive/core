@@ -1,7 +1,7 @@
 
-import OMath from '../utilities/OMath';
+import { OMath } from '../utilities/OMath';
 
-export default class ActionSequencer
+class ActionSequencer
 {
   constructor(context)
   {
@@ -243,3 +243,5 @@ export default class ActionSequencer
     return current;
   }
 }
+
+export { ActionSequencer };

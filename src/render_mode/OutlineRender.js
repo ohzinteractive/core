@@ -1,5 +1,6 @@
-import OScreen from '../OScreen';
-import RenderLayers from '../RenderLayers';
+import { OScreen } from '../OScreen';
+import { RenderLayers } from '../RenderLayers';
+
 import compose_frag from '../shaders/box_blur/compose.frag';
 import box_blur_frag from '../shaders/box_blur/box_blur.frag';
 import copy_frag from '../shaders/copy/copy.frag';
@@ -14,7 +15,7 @@ import { ShaderMaterial } from 'three';
 import { Vector2 } from 'three';
 import { Vector4 } from 'three';
 
-export default class OutlineRender
+class OutlineRender
 {
   constructor(webgl)
   {
@@ -152,3 +153,5 @@ export default class OutlineRender
     webgl._renderer.autoClear = true;
   }
 }
+
+export { OutlineRender };

@@ -8,4 +8,5 @@ class Capabilities
   }
 }
 
-export default new Capabilities();
+const capabilities = new Capabilities();
+export { capabilities as Capabilities };

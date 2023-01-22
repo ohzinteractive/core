@@ -6,7 +6,7 @@ import { RGBAFormat } from 'three';
 import { RGBFormat } from 'three';
 import { FloatType } from 'three';
 
-export default class GeometryBatch
+class GeometryBatch
 {
   constructor(geometry, batch_width)
   {
@@ -310,3 +310,5 @@ export default class GeometryBatch
     }
   }
 }
+
+export { GeometryBatch };

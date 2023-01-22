@@ -202,4 +202,5 @@ class MeshSampler
   }
 }
 
-export default new MeshSampler();
+const mesh_sampler = new MeshSampler();
+export { mesh_sampler as MeshSampler };

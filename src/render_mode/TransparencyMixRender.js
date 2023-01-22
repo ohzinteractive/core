@@ -1,10 +1,12 @@
-import OScreen from '../OScreen';
-import RenderLayers from '../RenderLayers';
+import { OScreen } from '../OScreen';
+import { RenderLayers } from '../RenderLayers';
+
 import transparent_mix_vert from '../shaders/transparent_mix/transparent_mix.vert';
 import transparent_mix_frag from '../shaders/transparent_mix/transparent_mix.frag';
 import copy_frag from '../shaders/transparent_mix/copy.frag';
 import fxaa from '../shaders/anti_aliasing/fxaa.frag';
-import Configuration from '../Configuration';
+
+import { Configuration } from '../Configuration';
 
 import { Mesh } from 'three';
 import { WebGLRenderTarget } from 'three';
@@ -13,7 +15,7 @@ import { Vector2 } from 'three';
 import { PlaneGeometry } from 'three';
 import { Scene } from 'three';
 
-export default class TransparencyMixRender
+class TransparencyMixRender
 {
   constructor(webgl)
   {
@@ -141,3 +143,5 @@ export default class TransparencyMixRender
     webgl._renderer.autoClear = true;
   }
 }
+
+export { TransparencyMixRender };

@@ -1,9 +1,9 @@
 import { AudioContext } from 'three';
 
-import AudioClip from '../components/AudioClip';
-import AbstractLoader from './AbstractLoader';
+import { AudioClip } from '../components/AudioClip';
+import { AbstractLoader } from './AbstractLoader';
 
-export default class AudioLoader extends AbstractLoader
+class AudioLoader extends AbstractLoader
 {
   constructor(resource_id, url, loop = true, volume = 0, size, positional = false)
   {
@@ -74,3 +74,5 @@ export default class AudioLoader extends AbstractLoader
     });
   }
 }
+
+export { AudioLoader };

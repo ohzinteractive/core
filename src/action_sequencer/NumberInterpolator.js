@@ -1,7 +1,7 @@
-import ActionInterpolator from './ActionInterpolator';
-import OMath from '../utilities/OMath';
+import { ActionInterpolator } from './ActionInterpolator';
+import { OMath } from '../utilities/OMath';
 
-export default class NumberInterpolator extends ActionInterpolator
+class NumberInterpolator extends ActionInterpolator
 {
   constructor(attribute_name, from = 0, to = 1, initial = false, easing_function = 'linear')
   {
@@ -23,3 +23,5 @@ export default class NumberInterpolator extends ActionInterpolator
     return OMath.lerp(this.from, this.to, this.easing_function(t));
   }
 }
+
+export { NumberInterpolator };

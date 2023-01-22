@@ -1,6 +1,6 @@
 import { Vector2 } from 'three';
 
-export default class ScreenSpacePosition
+class ScreenSpacePosition
 {
   constructor()
   {
@@ -12,3 +12,5 @@ export default class ScreenSpacePosition
     return this.tmp_vec.set(position.x, position.y);
   }
 }
+
+export { ScreenSpacePosition };

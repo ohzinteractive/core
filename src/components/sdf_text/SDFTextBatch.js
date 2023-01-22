@@ -1,6 +1,6 @@
-import SDFText from './SDFText';
-import SDFTextMaterial from '../../materials/SDFTextMaterial';
-import ArrayUtilities from '../../utilities/ArrayUtilities';
+import { SDFText } from './SDFText';
+import { SDFTextMaterial } from '../../materials/SDFTextMaterial';
+import { ArrayUtilities } from '../../utilities/ArrayUtilities';
 
 import {
   PlaneGeometry,
@@ -12,7 +12,7 @@ import {
   DynamicDrawUsage
 } from 'three';
 
-export default class SDFTextBatch extends Mesh
+class SDFTextBatch extends Mesh
 {
   constructor(font_layout, atlas_texture)
   {
@@ -191,3 +191,5 @@ export default class SDFTextBatch extends Mesh
     this.material.dispose();
   }
 }
+
+export { SDFTextBatch };

@@ -1,10 +1,10 @@
 import { Mesh } from 'three';
-import RGBDataTexture from '../data_textures/RGBDataTexture';
-import RGBADataTexture from '../data_textures/RGBADataTexture';
-import RGBFloatDataTexture from '../data_textures/RGBFloatDataTexture';
-import RGBAFloatDataTexture from '../data_textures/RGBAFloatDataTexture';
+import { RGBDataTexture } from '../data_textures/RGBDataTexture';
+import { RGBADataTexture } from '../data_textures/RGBADataTexture';
+import { RGBFloatDataTexture } from '../data_textures/RGBFloatDataTexture';
+import { RGBAFloatDataTexture } from '../data_textures/RGBAFloatDataTexture';
 
-export default class BatchedMesh extends Mesh
+class BatchedMesh extends Mesh
 {
   constructor(id_table, geometry, material, max_texture_width)
   {
@@ -52,3 +52,5 @@ export default class BatchedMesh extends Mesh
     this.material.uniforms[uniform_name].set_rgba(this.get_mesh_index(mesh_name), r, g, b, a);
   }
 }
+
+export { BatchedMesh };

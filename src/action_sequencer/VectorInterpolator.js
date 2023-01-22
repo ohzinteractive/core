@@ -1,6 +1,6 @@
-import ActionInterpolator from './ActionInterpolator';
+import { ActionInterpolator } from './ActionInterpolator';
 
-export default class VectorInterpolator extends ActionInterpolator
+class VectorInterpolator extends ActionInterpolator
 {
   constructor(attribute_name, from = 0, to = 1, easing_function = 'linear')
   {
@@ -18,3 +18,5 @@ export default class VectorInterpolator extends ActionInterpolator
     context[this.attribute_name].copy(tmp);
   }
 }
+
+export { VectorInterpolator };

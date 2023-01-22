@@ -1,9 +1,9 @@
-import MedianFilterMaterial from '../materials/MedianFilterMaterial';
-import Graphics from '../Graphics';
+import { MedianFilterMaterial } from '../materials/MedianFilterMaterial';
+import { Graphics } from '../Graphics';
 
 import { WebGLRenderTarget, Vector2, RGBAFormat, FloatType, NearestFilter } from 'three';
 
-export default class MedianFilter
+class MedianFilter
 {
   constructor(renderer)
   {
@@ -64,3 +64,5 @@ export default class MedianFilter
     return new Vector2(1, 1);
   }
 }
+
+export { MedianFilter };

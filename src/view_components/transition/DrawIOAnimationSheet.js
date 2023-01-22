@@ -1,4 +1,4 @@
-export default class DrawIOAnimationSheet
+class DrawIOAnimationSheet
 {
   constructor()
   {
@@ -88,3 +88,5 @@ export default class DrawIOAnimationSheet
     return x_pos === null ? 0 : parseFloat(x_pos);
   }
 }
+
+export { DrawIOAnimationSheet };

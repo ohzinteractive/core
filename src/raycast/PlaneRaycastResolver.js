@@ -1,4 +1,4 @@
-export default class PlaneRaycastResolver
+class PlaneRaycastResolver
 {
   constructor()
   {
@@ -20,3 +20,5 @@ export default class PlaneRaycastResolver
     // console.log("on exit");
   }
 }
+
+export { PlaneRaycastResolver };

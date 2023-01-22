@@ -28,4 +28,5 @@ class CameraManager
   }
 }
 
-export default new CameraManager();
+const camera_manager = new CameraManager();
+export { camera_manager as CameraManager };

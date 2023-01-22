@@ -1,7 +1,7 @@
-import CameraManager from '../CameraManager';
-import Input from '../Input';
-import OMath from '../utilities/OMath';
-import OScreen from '../OScreen';
+import { CameraManager } from '../CameraManager';
+import { Input } from '../Input';
+import { OMath } from '../utilities/OMath';
+import { OScreen } from '../OScreen';
 
 import { Vector3 } from 'three';
 import { Matrix4 } from 'three';
@@ -207,4 +207,5 @@ class CameraUtilities
   }
 }
 
-export default new CameraUtilities();
+const camera_utilities = new CameraUtilities();
+export { camera_utilities as CameraUtilities };

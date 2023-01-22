@@ -1,7 +1,8 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
+
 import frag from '../shaders/unreal_blur/unreal_compose.frag';
 
-export default class UnrealComposeMaterial extends BlitMaterial
+class UnrealComposeMaterial extends BlitMaterial
 {
   constructor(nMips)
   {
@@ -22,3 +23,5 @@ export default class UnrealComposeMaterial extends BlitMaterial
     this.uniforms.bloomRadius     = { value: 0.0 };
   }
 }
+
+export { UnrealComposeMaterial };

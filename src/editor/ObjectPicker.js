@@ -1,11 +1,11 @@
-import RenderLayers from '../RenderLayers';
-import OScreen from '../OScreen';
+import { RenderLayers } from '../RenderLayers';
+import { OScreen } from '../OScreen';
 
 import { Color } from 'three';
 import { WebGLRenderTarget } from 'three';
 import { Vector2 } from 'three';
 
-export default class ObjectPicker
+class ObjectPicker
 {
   constructor(renderer, scene, camera)
   {
@@ -73,3 +73,5 @@ export default class ObjectPicker
     return (this.readback_buffer[2]) | (this.readback_buffer[1] << 8) | (this.readback_buffer[0] << 16);
   }
 }
+
+export { ObjectPicker };

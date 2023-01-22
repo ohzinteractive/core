@@ -1,8 +1,8 @@
-import DualFilteringBlurMaterial from '../materials/DualFilteringBlurMaterial';
-import AlphaFilterMaterial from '../materials/AlphaFilterMaterial';
-import Graphics from '../Graphics';
+import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
+import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
+import { Graphics } from '../Graphics';
 import { WebGLRenderTarget } from 'three';
-export default class DualFilteringBlurrer
+class DualFilteringBlurrer
 {
   constructor(use_alpha_mask)
   {
@@ -54,3 +54,5 @@ export default class DualFilteringBlurrer
     }
   }
 }
+
+export { DualFilteringBlurrer };

@@ -2,7 +2,7 @@
 import { Object3D } from 'three';
 import { Vector3 } from 'three';
 
-export default class BaseObject extends Object3D
+class BaseObject extends Object3D
 {
   constructor()
   {
@@ -43,3 +43,5 @@ export default class BaseObject extends Object3D
     }
   }
 }
+
+export { BaseObject };

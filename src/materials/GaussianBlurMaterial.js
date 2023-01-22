@@ -1,8 +1,10 @@
-import BlitMaterial from './BlitMaterial';
+import { BlitMaterial } from './BlitMaterial';
+
 import frag from '../shaders/gaussian_blur/gaussian_blur.frag';
+
 import { Vector2 } from 'three';
 
-export default class GaussianBlurMaterial extends BlitMaterial
+class GaussianBlurMaterial extends BlitMaterial
 {
   constructor(kernel_radius)
   {
@@ -26,3 +28,5 @@ export default class GaussianBlurMaterial extends BlitMaterial
     this.uniforms.direction.value.set(x, y);
   }
 }
+
+export { GaussianBlurMaterial };

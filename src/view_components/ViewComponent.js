@@ -1,7 +1,7 @@
-import HTMLUtilities from '../utilities/HTMLUtilities';
-import ViewComponentManager from './ViewComponentManager';
+import { HTMLUtilities } from '../utilities/HTMLUtilities';
+import { ViewComponentManager } from './ViewComponentManager';
 
-export default class ViewComponent
+class ViewComponent
 {
   constructor({ name, container })
   {
@@ -70,3 +70,5 @@ export default class ViewComponent
     HTMLUtilities.load_videos(this.container);
   }
 }
+
+export { ViewComponent };

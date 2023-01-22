@@ -1,6 +1,6 @@
 import { Vector2, Vector4 } from 'three';
 
-export default class TextGlyph
+class TextGlyph
 {
   constructor(offset, plane_bounds, atlas_bounds)
   {
@@ -13,3 +13,5 @@ export default class TextGlyph
     this.atlas_bounds = new Vector4(atlas_bounds.left, atlas_bounds.right, atlas_bounds.top, atlas_bounds.bottom);
   }
 }
+
+export { TextGlyph };

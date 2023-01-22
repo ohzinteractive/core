@@ -1,6 +1,6 @@
 import { Vector3 } from 'three';
 
-export default class OMath
+class OMath
 {
   constructor()
   {}
@@ -152,3 +152,5 @@ export default class OMath
     return OMath.clamp(x, 0, 1);
   }
 }
+
+export { OMath };

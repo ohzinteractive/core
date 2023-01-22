@@ -1,5 +1,5 @@
-import CameraManager from '../CameraManager';
-import Input from '../Input';
+import { CameraManager } from '../CameraManager';
+import { Input } from '../Input';
 
 import { ArrowHelper } from 'three';
 import { Vector2 } from 'three';
@@ -9,9 +9,9 @@ import { BoxGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 import { Mesh } from 'three';
 import { Raycaster } from 'three';
-import OMath from '../utilities/OMath';
+import { OMath } from '../utilities/OMath';
 
-export default class ManipulatorHandle extends Object3D
+class ManipulatorHandle extends Object3D
 {
   constructor(direction, color)
   {
@@ -68,3 +68,5 @@ export default class ManipulatorHandle extends Object3D
     return this.tmp_v2.copy(this.tmp_p2).normalize();
   }
 }
+
+export { ManipulatorHandle };

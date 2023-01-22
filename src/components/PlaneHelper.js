@@ -4,7 +4,7 @@ import { MeshBasicMaterial } from 'three';
 import { PlaneGeometry } from 'three';
 import { Mesh } from 'three';
 
-export default class PlaneHelper extends Object3D
+class PlaneHelper extends Object3D
 {
   constructor(scale = 1.0)
   {
@@ -34,3 +34,5 @@ export default class PlaneHelper extends Object3D
 
   }
 }
+
+export { PlaneHelper };

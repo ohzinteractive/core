@@ -3,7 +3,7 @@ import frag from '../../shaders/gpu_particles/visualize/visualize.frag';
 
 import { ShaderMaterial } from 'three';
 
-export default class BasicParticleMaterial extends ShaderMaterial
+class BasicParticleMaterial extends ShaderMaterial
 {
   constructor()
   {
@@ -21,3 +21,5 @@ export default class BasicParticleMaterial extends ShaderMaterial
     });
   }
 }
+
+export { BasicParticleMaterial };

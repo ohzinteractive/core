@@ -147,4 +147,5 @@ class EventManager
   }
 }
 
-export default new EventManager();
+const event_manager = new EventManager();
+export { event_manager as EventManager };

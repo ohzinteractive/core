@@ -1,4 +1,4 @@
-export default class UIElementState
+class UIElementState
 {
   constructor()
   {
@@ -16,3 +16,5 @@ export default class UIElementState
   on_exit(ui_element)
   {}
 }
+
+export { UIElementState };

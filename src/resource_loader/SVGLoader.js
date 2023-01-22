@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREESVGLoader from 'three/examples/jsm/loaders/SVGLoader.js';
+import { SVGLoader as TSVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
 
-export default class SVGLoader extends AbstractLoader
+class SVGLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREESVGLoader.SVGLoader();
+    this.loader = new TSVGLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class SVGLoader extends AbstractLoader
     }
   }
 }
+
+export { SVGLoader };

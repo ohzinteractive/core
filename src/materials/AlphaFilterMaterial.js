@@ -1,7 +1,8 @@
-import BlitMaterial from './BlitMaterial';
+import { BlitMaterial } from './BlitMaterial';
+
 import frag from '../shaders/dual_filter_blur/alpha_filter.frag';
 
-export default class AlphaFilterMaterial extends BlitMaterial
+class AlphaFilterMaterial extends BlitMaterial
 {
   constructor(use_alpha_mask, upsample)
   {
@@ -18,3 +19,5 @@ export default class AlphaFilterMaterial extends BlitMaterial
     return this.uniforms._Offset.value;
   }
 }
+
+export { AlphaFilterMaterial };

@@ -1,7 +1,7 @@
 import { Audio as TAudio } from 'three';
 import { PositionalAudio as TPositionalAudio } from 'three';
 
-export default class AudioClip
+class AudioClip
 {
   constructor(buffer, loop = true, volume = 1, positional = false)
   {
@@ -53,3 +53,5 @@ export default class AudioClip
     return this.audio.isPlaying;
   }
 }
+
+export { AudioClip };

@@ -2,7 +2,7 @@
 import { Vector3 } from 'three';
 import { Quaternion } from 'three';
 
-export default class ObjectOrientedBoundingBox
+class ObjectOrientedBoundingBox
 {
   constructor(points)
   {
@@ -199,3 +199,5 @@ export default class ObjectOrientedBoundingBox
     return corners;
   }
 }
+
+export { ObjectOrientedBoundingBox };

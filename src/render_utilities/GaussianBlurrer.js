@@ -1,10 +1,10 @@
-import GaussianBlurMaterial from '../materials/GaussianBlurMaterial';
-import LuminosityHighPassMaterial from '../materials/LuminosityHighPassMaterial';
-import Graphics from '../Graphics';
+import { GaussianBlurMaterial } from '../materials/GaussianBlurMaterial';
+import { LuminosityHighPassMaterial } from '../materials/LuminosityHighPassMaterial';
+import { Graphics } from '../Graphics';
 
 import { WebGLRenderTarget, LinearFilter, RGBAFormat } from 'three';
 
-export default class GaussianBlurrer
+class GaussianBlurrer
 {
   constructor(nMips = 5)
   {
@@ -144,3 +144,5 @@ export default class GaussianBlurrer
     this.renderTargetsVertical.length = 0;
   }
 }
+
+export { GaussianBlurrer };

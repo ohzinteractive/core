@@ -1,4 +1,4 @@
-import Graphics from '../Graphics';
+import { Graphics } from '../Graphics';
 
 import { NearestFilter } from 'three';
 import { RGBAFormat } from 'three';
@@ -6,9 +6,9 @@ import { LinearEncoding } from 'three';
 import { HalfFloatType } from 'three';
 import { FloatType } from 'three';
 import { WebGLRenderTarget } from 'three';
-import Capabilities from '../Capabilities';
+import { Capabilities } from '../Capabilities';
 
-export default class ParticleAttribute
+class ParticleAttribute
 {
   constructor(attr_name, update_material)
   {
@@ -90,3 +90,5 @@ export default class ParticleAttribute
     return this.read.texture;
   }
 }
+
+export { ParticleAttribute };

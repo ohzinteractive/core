@@ -4,7 +4,7 @@ import basic_frag from '../shaders/basic_color/basic_color.frag';
 import { ShaderMaterial } from 'three';
 import { Color } from 'three';
 
-export default class BaseShaderMaterial extends ShaderMaterial
+class BaseShaderMaterial extends ShaderMaterial
 {
   constructor(vert, frag, uniforms)
   {
@@ -17,3 +17,5 @@ export default class BaseShaderMaterial extends ShaderMaterial
     });
   }
 }
+
+export { BaseShaderMaterial };

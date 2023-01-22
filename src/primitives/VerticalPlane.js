@@ -2,7 +2,7 @@ import { Mesh } from 'three';
 import { PlaneGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
-export default class VerticalPlane extends Mesh
+class VerticalPlane extends Mesh
 {
   constructor(width, height, color, material)
   {
@@ -15,3 +15,5 @@ export default class VerticalPlane extends Mesh
     super(geometry, material);
   }
 }
+
+export { VerticalPlane };

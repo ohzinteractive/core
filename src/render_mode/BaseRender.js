@@ -1,4 +1,4 @@
-export default class BaseRender
+class BaseRender
 {
   constructor()
   {
@@ -30,3 +30,5 @@ export default class BaseRender
 
   }
 }
+
+export { BaseRender };

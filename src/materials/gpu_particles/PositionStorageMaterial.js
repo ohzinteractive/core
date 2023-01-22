@@ -1,6 +1,6 @@
-import ParticleStorageMaterial from '../../materials/gpu_particles/ParticleStorageMaterial';
+import { ParticleStorageMaterial } from '../../materials/gpu_particles/ParticleStorageMaterial';
 
-export default class PositionStorageMaterial extends ParticleStorageMaterial
+class PositionStorageMaterial extends ParticleStorageMaterial
 {
   constructor()
   {
@@ -9,7 +9,6 @@ export default class PositionStorageMaterial extends ParticleStorageMaterial
       varying vec4 value;
 
       attribute vec2 storage_uv;
-      
 
       void main()
       {
@@ -18,8 +17,10 @@ export default class PositionStorageMaterial extends ParticleStorageMaterial
 
           value = vec4(position.xyz, 1.0);
       }
-      
+
     `;
     super(vert);
   }
 }
+
+export { PositionStorageMaterial };

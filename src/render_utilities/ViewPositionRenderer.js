@@ -1,13 +1,13 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import OScreen from '../OScreen';
-import ViewPositionMaterial from '../materials/ViewPositionMaterial';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { OScreen } from '../OScreen';
+import { ViewPositionMaterial } from '../materials/ViewPositionMaterial';
 
 import { WebGLRenderTarget } from 'three';
 import { FloatType } from 'three';
 import { Color } from 'three';
 
-export default class ViewPositionRenderer
+class ViewPositionRenderer
 {
   constructor()
   {
@@ -46,3 +46,5 @@ export default class ViewPositionRenderer
     return this.RT;
   }
 }
+
+export { ViewPositionRenderer };

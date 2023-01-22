@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEGLTFLoader from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-export default class GLTFDRACOLoader extends AbstractLoader
+class GLTFDRACOLoader extends AbstractLoader
 {
   constructor(resource_id, url, loader, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEGLTFLoader.GLTFLoader();
+    this.loader = new GLTFLoader();
 
     this.loader.setDRACOLoader(loader);
   }
@@ -46,3 +46,5 @@ export default class GLTFDRACOLoader extends AbstractLoader
     }
   }
 }
+
+export { GLTFDRACOLoader };

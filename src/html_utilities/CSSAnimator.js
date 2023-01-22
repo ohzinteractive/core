@@ -1,8 +1,8 @@
-import Animating from './css_animator_states/Animating';
-import Idle from './css_animator_states/Idle';
-import EasingFunctions from '../utilities/EasingFunctions';
+import { Animating } from './css_animator_states/Animating';
+import { Idle } from './css_animator_states/Idle';
+import { EasingFunctions } from '../utilities/EasingFunctions';
 
-export default class CSSAnimator
+class CSSAnimator
 {
   constructor({
     element,
@@ -62,3 +62,5 @@ export default class CSSAnimator
     this.current_state.on_enter(this);
   }
 }
+
+export { CSSAnimator };

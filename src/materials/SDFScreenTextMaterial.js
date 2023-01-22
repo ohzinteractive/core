@@ -1,10 +1,11 @@
-import BaseShaderMaterial from './BaseShaderMaterial';
+import { BaseShaderMaterial } from './BaseShaderMaterial';
+
 import frag from '../shaders/sdf_text/sdf_screen_text.frag';
 import vert from '../shaders/sdf_text/sdf_screen_text.vert';
 
 import { Vector2, DoubleSide, LinearFilter } from 'three';
 
-export default class SDFScreenTextMaterial extends BaseShaderMaterial
+class SDFScreenTextMaterial extends BaseShaderMaterial
 {
   constructor(texture)
   {
@@ -29,3 +30,5 @@ export default class SDFScreenTextMaterial extends BaseShaderMaterial
     this.uniforms._AtlasSize.value.copy(size);
   }
 }
+
+export { SDFScreenTextMaterial };

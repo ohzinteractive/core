@@ -6,7 +6,7 @@ import { Vector2 } from 'three';
 import { NoBlending } from 'three';
 import { AlwaysDepth } from 'three';
 
-export default class BlitMaterial extends ShaderMaterial
+class BlitMaterial extends ShaderMaterial
 {
   constructor(frag_shader, vert_shader, defines)
   {
@@ -26,3 +26,5 @@ export default class BlitMaterial extends ShaderMaterial
     });
   }
 }
+
+export { BlitMaterial };

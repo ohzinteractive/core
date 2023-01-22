@@ -1,11 +1,11 @@
-import BlitMaterial from '../materials/BlitMaterial';
+import { BlitMaterial } from '../materials/BlitMaterial';
 
 import { Scene } from 'three';
 import { Mesh } from 'three';
 import { PlaneGeometry } from 'three';
 import { OrthographicCamera } from 'three';
 
-export default class Blitter
+class Blitter
 {
   constructor(renderer)
   {
@@ -97,3 +97,5 @@ export default class Blitter
     this.renderer.setRenderTarget(current_rt);
   }
 }
+
+export { Blitter };

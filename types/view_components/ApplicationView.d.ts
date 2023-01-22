@@ -17,4 +17,4 @@ export class ApplicationView extends ViewState {
     load_html_images(): void;
     load_html_videos(): void;
 }
-import ViewState from "./ViewState";
+import { ViewState } from "./ViewState";

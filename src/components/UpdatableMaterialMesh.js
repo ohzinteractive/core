@@ -1,6 +1,6 @@
 import { Mesh } from 'three';
 
-export default class UpdatableMaterialMesh extends Mesh
+class UpdatableMaterialMesh extends Mesh
 {
   constructor(geometry, material)
   {
@@ -14,3 +14,5 @@ export default class UpdatableMaterialMesh extends Mesh
     };
   }
 }
+
+export { UpdatableMaterialMesh };

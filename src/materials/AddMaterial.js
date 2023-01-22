@@ -1,7 +1,8 @@
-import BlitMaterial from './BlitMaterial';
+import { BlitMaterial } from './BlitMaterial';
+
 import frag from '../shaders/add/add.frag';
 
-export default class AddMaterial extends BlitMaterial
+class AddMaterial extends BlitMaterial
 {
   constructor(nMips)
   {
@@ -15,3 +16,5 @@ export default class AddMaterial extends BlitMaterial
     this.uniforms._SecondTex.value = tex;
   }
 }
+
+export { AddMaterial };

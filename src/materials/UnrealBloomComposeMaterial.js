@@ -1,7 +1,9 @@
-import BlitMaterial from './BlitMaterial';
+import { BlitMaterial } from './BlitMaterial';
+
 import frag from '../shaders/gaussian_blur/unreal_bloom_compose.frag';
+
 import { Color } from 'three';
-export default class UnrealBloomComposeMaterial extends BlitMaterial
+class UnrealBloomComposeMaterial extends BlitMaterial
 {
   constructor(nMips)
   {
@@ -93,3 +95,5 @@ export default class UnrealBloomComposeMaterial extends BlitMaterial
     this.uniforms.bloomTintColors.value[4].set(col_string);
   }
 }
+
+export { UnrealBloomComposeMaterial };

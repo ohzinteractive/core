@@ -1,9 +1,9 @@
-import CameraManager from '../../CameraManager';
+import { CameraManager } from '../../CameraManager';
 
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
 
-export default class WorldSpacePosition
+class WorldSpacePosition
 {
   constructor()
   {
@@ -19,3 +19,5 @@ export default class WorldSpacePosition
     return this.tmp_vec2.set(this.tmp_vec3.x, this.tmp_vec3.y);
   }
 }
+
+export { WorldSpacePosition };

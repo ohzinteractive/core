@@ -1,11 +1,11 @@
-import GeometryEdgeVisualizer from './GeometryEdgeVisualizer';
+import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
 import { Mesh } from 'three';
 import { Shape } from 'three';
 import { ExtrudeBufferGeometry } from 'three';
 import { MeshNormalMaterial } from 'three';
 
-export default class Shape3D extends Mesh
+class Shape3D extends Mesh
 {
   constructor(points_2D, show_edges, height)
   {
@@ -36,3 +36,5 @@ export default class Shape3D extends Mesh
     }
   }
 }
+
+export { Shape3D };

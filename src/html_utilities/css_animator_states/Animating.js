@@ -1,8 +1,8 @@
-import Time from '../../Time';
-import Idle from './Idle';
+import { Time } from '../../Time';
+import { Idle } from './Idle';
 
-import OMath from '../../utilities/OMath';
-export default class Animating
+import { OMath } from '../../utilities/OMath';
+class Animating
 {
   constructor()
   {
@@ -42,3 +42,5 @@ export default class Animating
 
   }
 }
+
+export { Animating };

@@ -1,9 +1,9 @@
 import { BufferAttribute } from 'three';
 
-import ParticleAttribute from '../gpu_particles/ParticleAttribute';
-import ParticleStorageMaterial from '../materials/gpu_particles/ParticleStorageMaterial';
+import { ParticleAttribute } from '../gpu_particles/ParticleAttribute';
+import { ParticleStorageMaterial } from '../materials/gpu_particles/ParticleStorageMaterial';
 
-export default class ParticlePositionAttribute extends ParticleAttribute
+class ParticlePositionAttribute extends ParticleAttribute
 {
   constructor(update_material)
   {
@@ -38,3 +38,5 @@ export default class ParticlePositionAttribute extends ParticleAttribute
     this.store_geometry_attribute_in_RT(new BufferAttribute(arr, 4), this.read, mat, attribute_writter_scene);
   }
 }
+
+export { ParticlePositionAttribute };

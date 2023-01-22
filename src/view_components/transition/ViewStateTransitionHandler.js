@@ -1,7 +1,7 @@
-import Time from '../../Time';
-import ViewState from '../ViewState';
+import { Time } from '../../Time';
+import { ViewState } from '../ViewState';
 
-export default class ViewStateTransitionHandler
+class ViewStateTransitionHandler
 {
   constructor(transition_table)
   {
@@ -94,3 +94,5 @@ export default class ViewStateTransitionHandler
     this.last_state.on_exit();
   }
 }
+
+export { ViewStateTransitionHandler };

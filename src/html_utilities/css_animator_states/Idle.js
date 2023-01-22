@@ -1,4 +1,4 @@
-export default class Idle
+class Idle
 {
   constructor()
   {
@@ -23,3 +23,5 @@ export default class Idle
 
   }
 }
+
+export { Idle };

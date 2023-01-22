@@ -1,12 +1,12 @@
-import Time from './Time';
-import Input from './Input';
-import UI from './UI';
-import Debug from './Debug';
-import BaseApplication from './BaseApplication';
-import ViewManager from './view_components/ViewManager';
-import ViewComponentManager from './view_components/ViewComponentManager';
+import { Time } from './Time';
+import { Input } from './Input';
+import { UI } from './UI';
+import { Debug } from './Debug';
+import { BaseApplication } from './BaseApplication';
+import { ViewManager } from './view_components/ViewManager';
+import { ViewComponentManager } from './view_components/ViewComponentManager';
 
-export default class RenderLoop
+class RenderLoop
 {
   constructor(target_application, graphics)
   {
@@ -95,3 +95,5 @@ export default class RenderLoop
     this.frames_passed = 0;
   }
 }
+
+export { RenderLoop };

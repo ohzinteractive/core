@@ -1,8 +1,8 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
 import { Texture } from 'three';
 
-export default class AsyncTextureLoader extends AbstractLoader
+class AsyncTextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
@@ -43,3 +43,5 @@ export default class AsyncTextureLoader extends AbstractLoader
     }
   }
 }
+
+export { AsyncTextureLoader };

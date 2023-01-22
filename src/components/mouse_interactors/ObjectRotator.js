@@ -1,11 +1,11 @@
-import RaycastResolver from '../../raycast/RaycastResolver';
-import GroupRaycaster from '../../raycast/GroupRaycaster';
-import Input from '../../Input';
+import { RaycastResolver } from '../../raycast/RaycastResolver';
+import { GroupRaycaster } from '../../raycast/GroupRaycaster';
+import { Input } from '../../Input';
 
 import { Vector3 } from 'three';
 import { Quaternion } from 'three';
 
-export default class ObjectRotator extends RaycastResolver
+class ObjectRotator extends RaycastResolver
 {
   constructor(object)
   {
@@ -59,3 +59,5 @@ export default class ObjectRotator extends RaycastResolver
     }
   }
 }
+
+export { ObjectRotator };

@@ -8,7 +8,7 @@ import { DoubleSide } from 'three';
 import { PlaneGeometry } from 'three';
 import { Vector3 } from 'three';
 
-export default class WorldImage extends Mesh
+class WorldImage extends Mesh
 {
   constructor(texture, pivot)
   {
@@ -89,3 +89,5 @@ export default class WorldImage extends Mesh
     this.material.dispose();
   }
 }
+
+export { WorldImage };

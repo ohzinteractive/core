@@ -1,6 +1,6 @@
-import ActionSequencerBuilder from './ActionSequencerBuilder';
+import { ActionSequencerBuilder } from './ActionSequencerBuilder';
 
-export default class TransitionTable
+class TransitionTable
 {
   constructor()
   {
@@ -52,3 +52,5 @@ export default class TransitionTable
     this.initial_state_data = initial_state_data;
   }
 }
+
+export { TransitionTable };

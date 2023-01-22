@@ -1,9 +1,9 @@
-import CameraManager from '../CameraManager';
-import SceneManager from '../SceneManager';
-import BaseRender from '../render_mode/BaseRender';
-import Graphics from '../Graphics';
+import { CameraManager } from '../CameraManager';
+import { SceneManager } from '../SceneManager';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Graphics } from '../Graphics';
 
-export default class NormalRender extends BaseRender
+class NormalRender extends BaseRender
 {
   constructor()
   {
@@ -34,3 +34,5 @@ export default class NormalRender extends BaseRender
     }
   }
 }
+
+export { NormalRender };

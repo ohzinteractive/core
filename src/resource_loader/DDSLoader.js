@@ -1,13 +1,13 @@
-import AbstractLoader from './AbstractLoader';
+import { AbstractLoader } from './AbstractLoader';
 
-import * as THREEDDSLoader from 'three/examples/jsm/loaders/DDSLoader.js';
+import { DDSLoader as TDDSLoader } from 'three/examples/jsm/loaders/DDSLoader.js';
 
-export default class DDSLoader extends AbstractLoader
+class DDSLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
     super(resource_id, url, size);
-    this.loader = new THREEDDSLoader.DDSLoader();
+    this.loader = new TDDSLoader();
   }
 
   on_preloaded_finished(resource_container)
@@ -44,3 +44,5 @@ export default class DDSLoader extends AbstractLoader
     }
   }
 }
+
+export { DDSLoader };

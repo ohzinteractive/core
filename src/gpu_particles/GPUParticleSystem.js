@@ -7,9 +7,9 @@ import { Scene } from 'three';
 import { Points } from 'three';
 import { InstancedBufferGeometry } from 'three';
 import { InstancedBufferAttribute } from 'three';
-import ParticleAttribute from './ParticleAttribute';
+import { ParticleAttribute } from './ParticleAttribute';
 
-export default class GPUParticleSystem extends Object3D
+class GPUParticleSystem extends Object3D
 {
   constructor(particle_count, material)
   {
@@ -107,3 +107,5 @@ export default class GPUParticleSystem extends Object3D
     return new InstancedBufferAttribute(uvs, 2, false);
   }
 }
+
+export { GPUParticleSystem };
