@@ -20,6 +20,7 @@ import Input from './Input';
 import Initializer from './Initializer';
 import NormalAORender from './render_mode/NormalAORender';
 import NormalRender from './render_mode/NormalRender';
+import VRRender from './render_mode/VRRender';
 import UnrealBloomRender from './render_mode/UnrealBloomRender';
 import OrthographicCamera from './OrthographicCamera';
 import OS from './OS';
@@ -131,6 +132,7 @@ export {
   Initializer,
   NormalAORender,
   NormalRender,
+  VRRender,
   UnrealBloomRender,
   OrthographicCamera,
   OS,

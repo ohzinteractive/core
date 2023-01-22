@@ -3,6 +3,8 @@ class CameraManager
   init()
   {
     this._current = undefined;
+    // VR Spectator
+    this._spectator = undefined;
   }
 
   set current(camera)
@@ -13,6 +15,16 @@ class CameraManager
   get current()
   {
     return this._current;
+  }
+
+  set spectator(camera)
+  {
+    this._spectator = camera;
+  }
+
+  get spectator()
+  {
+    return this._spectator;
   }
 }
 

@@ -77,8 +77,10 @@ class Graphics
     {
       this._renderer.xr.enabled = true;
     }
-
-    this._renderer.autoClear = false;
+    else
+    {
+      this._renderer.autoClear = false;
+    }
 
     this._renderer.setPixelRatio(1);
 
