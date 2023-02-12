@@ -18,7 +18,7 @@ import { ViewState } from "ohzi-core/types/view_components/ViewState";
     static get(view_name: any): any;
     static get_view_by_url(url: any): void;
     static get_by_url(url: any): any;
-    static set_initial_state_data(initial_state_data: any): void;
+    static set_default_state_data(default_state_data: any): void;
     static __change_browser_url(url: any): void;
 }
 

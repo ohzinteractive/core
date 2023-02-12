@@ -8,7 +8,7 @@ class ViewStateTransitionHandler
     this.last_state = new ViewState();
     this.current_state = new ViewState();
 
-    this.initial_state_data = {};
+    this.default_state_data = {};
     this.current_state_data = {};
 
     this.transition_table = transition_table;
@@ -71,10 +71,10 @@ class ViewStateTransitionHandler
     this.current_state = state;
   }
 
-  set_initial_state_data(initial_state_data)
+  set_default_state_data(default_state_data)
   {
-    Object.assign(this.initial_state_data, initial_state_data);
-    Object.assign(this.current_state_data, initial_state_data);
+    Object.assign(this.default_state_data, default_state_data);
+    Object.assign(this.current_state_data, default_state_data);
   }
 
   __update_transitions()

@@ -5,18 +5,18 @@ import { DrawIOAnimationSheet } from './DrawIOAnimationSheet';
 
 class ActionSequencerBuilder
 {
-  constructor(initial_state_data)
+  constructor(default_state_data)
   {
-    this.initial_state_data = initial_state_data;
+    this.default_state_data = default_state_data;
   }
 
   from_animation_sheet(animation_data, current_context, initial_context)
   {
-    initial_context = initial_context || this.initial_state_data;
+    initial_context = initial_context || this.default_state_data;
     const tracks = animation_data.animation_tracks;
     const triggers = animation_data.triggers;
 
-    const initial_tracks = this.state_to_tracks(this.initial_state_data, this.get_longest_time(animation_data.animation_tracks));
+    const initial_tracks = this.state_to_tracks(this.default_state_data, this.get_longest_time(animation_data.animation_tracks));
 
     for (let i = 0; i < initial_tracks.length; i++)
     {

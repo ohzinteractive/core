@@ -141,10 +141,10 @@ class ViewManager
     return undefined;
   }
 
-  set_initial_state_data(initial_state_data)
+  set_default_state_data(default_state_data)
   {
-    this.transition_table.set_initial_state_data(initial_state_data);
-    this.transition_handler.set_initial_state_data(initial_state_data);
+    this.transition_table.set_default_state_data(default_state_data);
+    this.transition_handler.set_default_state_data(default_state_data);
   }
 
   __change_browser_url(url)
