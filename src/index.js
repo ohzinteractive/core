@@ -5,6 +5,9 @@ import { BaseApplication } from './BaseApplication';
 import { BaseRender } from './render_mode/BaseRender';
 import { BaseShaderMaterial } from './materials/BaseShaderMaterial';
 import { BlitMaterial } from './materials/BlitMaterial';
+import { AddMaterial } from './materials/AddMaterial';
+import { UnrealBloomComposeMaterial } from './materials/UnrealBloomComposeMaterial';
+
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
@@ -145,6 +148,8 @@ export {
   Time,
   UI,
   BlitMaterial,
+  AddMaterial,
+  UnrealBloomComposeMaterial,
   BaseRender,
   ArrayUtilities,
   CameraUtilities,
