@@ -1,10 +1,13 @@
- export class ViewComponentManager {
-    static components: any[];
-    static enabled_components: Set<any>;
-    static update(): void;
-    static register_component(component: any): void;
-    static enable_component(component: any): void;
-    static disable_component(component: any): void;
-    static get_component_by_name(component_name: any): void;
-    static get(component_name: any): any;
+export { view_component_manager as ViewComponentManager };
+declare const view_component_manager: ViewComponentManager;
+declare class ViewComponentManager {
+    components: any[];
+    enabled_components: Set<any>;
+    update(): void;
+    register_component(component: any): void;
+    enable_component(component: any): void;
+    disable_component(component: any): void;
+    get_component_by_name(component_name: any): void;
+    get(component_name: any): any;
+    __set_components_opacities(): void;
 }

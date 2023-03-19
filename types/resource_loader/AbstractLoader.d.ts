@@ -13,6 +13,6 @@ export class AbstractLoader {
     print_error(): void;
     load(resource_container: any): void;
     on_progress(resource_container: any, response: any): Promise<void>;
-    on_preloaded_finished(resource_container: any): void;
+    on_preloaded_finished(resource_container: any, response: any): void;
     __on_error(data: any): void;
 }

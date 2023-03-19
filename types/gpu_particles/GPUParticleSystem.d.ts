@@ -1,12 +1,15 @@
 export class GPUParticleSystem {
+    constructor(particle_count: any, material: any);
     attributes: any[];
-    particles: any;
-    set_from_geometry(geometry: any, material: any, init_attribute_uvs: any): void;
+    mesh: any;
+    attribute_writter_mesh: any;
+    attribute_writter_scene: any;
     add_texture_attribute(buffer_attribute: any): void;
-    add_attribute(name: any, buffer_attribute: any): void;
-    build_uv_storage_attribute(particle_count: any): any;
-    calculate_resolution(particle_count: any): number;
+    add_update_attribute_array(name: any, array: any, item_size: any): void;
+    add_attribute_array(name: any, array: any, item_size: any): void;
     update(): void;
-    set_attribute_update_material(attribute_name: any, mat: any): void;
     dispose(): void;
+    build_point_mesh(instance_count: number, material: any): any;
+    build_attribute_writter_mesh(particle_count: any): any;
+    build_uv_storage_attribute(particle_count: any): any;
 }

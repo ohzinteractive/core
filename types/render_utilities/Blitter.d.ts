@@ -1,5 +1,3 @@
-import { BlitMaterial } from "../materials/BlitMaterial";
-
 export class Blitter {
     constructor(renderer: any);
     renderer: any;
@@ -14,3 +12,4 @@ export class Blitter {
     dispose(): void;
     __render(RT: any): void;
 }
+import { BlitMaterial } from "../materials/BlitMaterial";

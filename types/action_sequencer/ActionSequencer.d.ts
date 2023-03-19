@@ -1,6 +1,7 @@
 export class ActionSequencer {
     constructor(context: any);
     elapsed_time: number;
+    playback_speed: number;
     playing: boolean;
     action_events: any[];
     context: any;
@@ -15,16 +16,18 @@ export class ActionSequencer {
     update(delta_time: any): void;
     set_progress(time: any): void;
     set_normalized_progress(t: any): void;
-    get_progress(): any;
+    get_progress(): number;
     is_finished(): boolean;
     add_action_event(trigger_time: any, action: any): void;
     add_action_interpolator(from: any, to: any, interpolator: any, use_dynamic_from_value?: boolean): void;
-    get_current_starting_value(name: string): number;
-    get_current_target_value(name: string): number;
-    get_current_progress(name: string): number;
+    get_current_target_value(name: any): any;
+    get_current_starting_value(name: any): any;
+    get_current_progress(name: any): any;
     get_duration(): number;
     __play_clips(from: any, to: any): void;
     evaluate_keyframe(keyframe: any, time: any): any;
+    get_keyframes(channel_name: any): any;
+    is_channel_redefined(channel_name: any): boolean;
     __linear_map_01(value: any, from_range_start_value: any, from_range_end_value: any): number;
-    __get_nearest_keyframe(channel_name: any, time: any): any;
+    __get_current_keyframe(channel_name: any, time: any): any;
 }

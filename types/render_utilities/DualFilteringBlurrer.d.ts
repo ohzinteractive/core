@@ -1,6 +1,3 @@
-import { DualFilteringBlurMaterial } from "../materials/DualFilteringBlurMaterial";
-import { AlphaFilterMaterial } from "../materials/AlphaFilterMaterial";
-
 export class DualFilteringBlurrer {
     constructor(use_alpha_mask: any);
     current_width: number;
@@ -16,4 +13,5 @@ export class DualFilteringBlurrer {
     blur(RT: any): void;
     check_RT_resize(width: any, height: any): void;
 }
-
+import { DualFilteringBlurMaterial } from "../materials/DualFilteringBlurMaterial";
+import { AlphaFilterMaterial } from "../materials/AlphaFilterMaterial";

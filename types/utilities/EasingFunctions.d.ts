@@ -1,4 +1,4 @@
- export class EasingFunctions {
+export class EasingFunctions {
     static linear(x: any): any;
     static triangular(x: any): number;
     static ease_in_sine(x: any): number;

@@ -5,4 +5,5 @@ export class BaseApplication {
     update(): void;
     on_post_render(): void;
     on_pre_render(): void;
+    on_frame_end(): void;
 }

@@ -1,8 +1,10 @@
- export class ResourceContainer {
-    static init(): void;
-    static resources: {};
-    static resources_by_url: {};
-    static set_resource(name: any, url: any, resource: any): void;
-    static get_resource(name: any): any;
-    static get(name: any): any;
+export { resource_container as ResourceContainer };
+declare const resource_container: ResourceContainer;
+declare class ResourceContainer {
+    init(): void;
+    resources: {};
+    resources_by_url: {};
+    set_resource(name: any, url: any, resource: any): void;
+    get_resource(name: any): any;
+    get(name: any): any;
 }

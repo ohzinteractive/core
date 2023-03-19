@@ -1,6 +1,6 @@
-import { BaseApplication } from "ohzi-core";
-
- export class ViewContext {
-    static app: BaseApplication;
-    static set_app(app: any): void;
+export { view_context as ViewContext };
+declare const view_context: ViewContext;
+declare class ViewContext {
+    app: any;
+    set_app(app: any): void;
 }

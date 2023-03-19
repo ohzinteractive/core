@@ -1,5 +1,3 @@
-import { BaseRender } from '../render_mode/BaseRender';
-
-export class DebugNormalsRender extends BaseRender
-{
+export class DebugNormalsRender extends BaseRender {
 }
+import { BaseRender } from "../render_mode/BaseRender";

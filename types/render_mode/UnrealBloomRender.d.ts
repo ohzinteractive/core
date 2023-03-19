@@ -4,6 +4,7 @@ export class UnrealBloomRender extends BaseRender {
     blur_RT: any;
     blurrer: GaussianBlurrer;
     add_mat: AddMaterial;
+    on_enter(): void;
     set_bloom_strength(val: any): void;
     set_bloom_radius(val: any): void;
     set_tint_color_0(col_string: any): void;

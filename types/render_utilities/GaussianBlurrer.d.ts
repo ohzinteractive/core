@@ -1,5 +1,3 @@
-import { LuminosityHighPassMaterial } from "../materials/LuminosityHighPassMaterial";
-
 export class GaussianBlurrer {
     constructor(nMips?: number);
     current_width: number;
@@ -25,3 +23,4 @@ export class GaussianBlurrer {
     dispose_materials(): void;
     dispose_RT(): void;
 }
+import { LuminosityHighPassMaterial } from "../materials/LuminosityHighPassMaterial";

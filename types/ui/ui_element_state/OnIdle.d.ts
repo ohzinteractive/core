@@ -1,5 +1,3 @@
-import { UIElementState } from './UIElementState';
-
-export class OnIdle extends UIElementState
-{
+export class OnIdle extends UIElementState {
 }
+import { UIElementState } from "./UIElementState";

@@ -13,5 +13,4 @@ export class UnrealBloomComposeMaterial extends BlitMaterial {
     set_tint_color_3(col_string: any): void;
     set_tint_color_4(col_string: any): void;
 }
-
 import { BlitMaterial } from "./BlitMaterial";

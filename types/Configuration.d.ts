@@ -1,6 +1,8 @@
- export class Configuration {
-    static init(parameters?: {}): void;
-    static dpr: number;
-    static app: {};
-    static from_json(json: any): void;
+export { configuration as Configuration };
+declare const configuration: Configuration;
+declare class Configuration {
+    init(parameters?: {}): void;
+    dpr: number;
+    app: {};
+    from_json(json: any): void;
 }

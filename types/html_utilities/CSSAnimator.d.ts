@@ -7,7 +7,7 @@ export class CSSAnimator {
         duration?: number;
         value_prefix?: string;
         value_suffix?: string;
-        easing_function?: (x: any) => number;
+        easing_function?: typeof EasingFunctions.ease_in_out_cubic;
         finished_callback?: () => void;
     });
     element: any;
@@ -17,7 +17,7 @@ export class CSSAnimator {
     value_prefix: string;
     value_suffix: string;
     duration: number;
-    easing_function: (x: any) => number;
+    easing_function: typeof EasingFunctions.ease_in_out_cubic;
     finished_callback: () => void;
     current_state: Idle;
     animate(): void;
@@ -27,4 +27,5 @@ export class CSSAnimator {
     get is_animating(): boolean;
     set_current_state(state: any): void;
 }
+import { EasingFunctions } from "../utilities/EasingFunctions";
 import { Idle } from "./css_animator_states/Idle";

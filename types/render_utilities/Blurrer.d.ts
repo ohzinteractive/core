@@ -1,5 +1,3 @@
-import { BoxBlurMaterial } from "../materials/BoxBlurMaterial";
-
 export class Blurrer {
     constructor(renderer: any);
     RT1: any;
@@ -7,3 +5,4 @@ export class Blurrer {
     box_blur_mat: BoxBlurMaterial;
     blur(RT: any): void;
 }
+import { BoxBlurMaterial } from "../materials/BoxBlurMaterial";

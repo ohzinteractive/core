@@ -1,8 +1,13 @@
 import { Camera } from "three";
 
-export class CameraManager {
-    static init(): void;
-    static _current: Camera;
-    static set current(arg: Camera);
-    static get current(): Camera;
+export { camera_manager as CameraManager };
+declare const camera_manager: CameraManager;
+declare class CameraManager {
+    init(): void;
+    _current: Camera;
+    _spectator: Camera;
+    set current(arg: any);
+    get current(): any;
+    set spectator(arg: any);
+    get spectator(): any;
 }

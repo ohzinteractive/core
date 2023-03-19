@@ -13,8 +13,8 @@ export class ApplicationView extends ViewState {
     before_exit(): void;
     on_exit(): void;
     update(): void;
-    set_opacity(opacity: any): void;
     load_html_images(): void;
     load_html_videos(): void;
+    set_opacity(current_state_data: any): void;
 }
 import { ViewState } from "./ViewState";
