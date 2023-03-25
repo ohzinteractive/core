@@ -4,6 +4,7 @@ declare class Browser {
     init(): void;
     browser_name: string;
     agent: string;
+    version: number;
     get name(): string;
     get is_safari(): boolean;
     get is_chrome(): boolean;
@@ -12,4 +13,5 @@ declare class Browser {
     get has_webm(): boolean;
     get has_hvec(): boolean;
     get preferred_video_extension(): "webm" | "hvec.mp4" | "mp4";
+    get_version(): number;
 }

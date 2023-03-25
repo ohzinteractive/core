@@ -64,7 +64,7 @@ class Browser
 
   get has_webm()
   {
-    return this.is_chrome || this.is_firefox || this.is_edge_chromium;
+    return !!(this.is_chrome || this.is_firefox || this.is_edge_chromium);
   }
 
   get has_hvec()
@@ -98,7 +98,7 @@ class Browser
     if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
     version = M.join(' ');
 
-    return version.split(' ')[1];
+    return Number(version.split(' ')[1]);
   }
 }
 

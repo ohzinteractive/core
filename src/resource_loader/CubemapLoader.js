@@ -4,18 +4,18 @@ import { CubeTextureLoader } from 'three';
 
 class CubemapLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  constructor(resource_id, url, extension, size)
   {
     super(resource_id, url, size);
     this.loader = new CubeTextureLoader();
     this.loader.setPath(url + '/');
     this.urls = [
-      'px.png',
-      'nx.png',
-      'py.png',
-      'ny.png',
-      'pz.png',
-      'nz.png'
+      `px.${extension}`,
+      `nx.${extension}`,
+      `py.${extension}`,
+      `ny.${extension}`,
+      `pz.${extension}`,
+      `nz.${extension}`
     ];
   }
 
