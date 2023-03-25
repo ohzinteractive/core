@@ -1,6 +1,7 @@
 import { AbstractLoader } from './AbstractLoader';
 
 import { Texture } from 'three';
+import { Browser } from '../Browser';
 
 class AsyncTextureLoader extends AbstractLoader
 {
@@ -10,6 +11,18 @@ class AsyncTextureLoader extends AbstractLoader
   }
 
   on_preloaded_finished(resource_container)
+  {
+    if (Browser.is_safari && Browser.version < 15)
+    {
+      this.load_with_old_method(resource_container);
+    }
+    else
+    {
+      this.load_with_new_method(resource_container);
+    }
+  }
+
+  load_with_old_method(resource_container)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -33,6 +46,43 @@ class AsyncTextureLoader extends AbstractLoader
       {
         console.error('Error loading texture. Maybe the resource is not an image?', this.url, this.original_url);
       };
+    }
+    else
+    {
+      resource_container.set_resource(this.resource_id, this.url, resource_container.resources_by_url[this.url]);
+
+      this.__update_downloaded_bytes(1, 1);
+      this.__loading_ended();
+    }
+  }
+
+  load_with_new_method(resource_container)
+  {
+    if (resource_container.resources_by_url[this.url] === undefined)
+    {
+      const fetchOptions = {};
+      fetchOptions.credentials = 'same-origin';
+      // fetchOptions.headers = this.requestHeader;
+
+      fetch(this.url, fetchOptions).then((res) =>
+      {
+        return res.blob();
+      }).then((blob) =>
+      {
+        return createImageBitmap(blob, { colorSpaceConversion: 'none' });
+      }).then((imageBitmap) =>
+      {
+        const texture = new Texture(imageBitmap);
+        texture.needsUpdate = true;
+
+        resource_container.set_resource(this.resource_id, this.url, texture);
+
+        this.__update_downloaded_bytes(1, 1);
+        this.__loading_ended();
+      }).catch(function(e)
+      {
+        console.error(e);
+      });
     }
     else
     {

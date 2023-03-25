@@ -33,6 +33,8 @@ class Browser
       this.browser_name = 'other';
       break;
     }
+
+    this.version = this.get_version();
   }
 
   get name()
@@ -73,6 +75,30 @@ class Browser
   get preferred_video_extension()
   {
     return this.has_webm ? 'webm' : this.has_hvec ? 'hvec.mp4' : 'mp4';
+  }
+
+  get_version()
+  {
+    const ua = navigator.userAgent;
+    let tem = '';
+    let version = 0;
+
+    let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if (/trident/i.test(M[1]))
+    {
+      tem =  /\brv[ :]+(\d+)/g.exec(ua) || [];
+      version =  'IE ' + (tem[1] || '');
+    }
+    if (M[1] === 'Chrome')
+    {
+      tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+      if (tem != null) version = tem.slice(1).join(' ').replace('OPR', 'Opera');
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+    version = M.join(' ');
+
+    return version.split(' ')[1];
   }
 }
 
