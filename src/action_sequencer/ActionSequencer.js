@@ -6,7 +6,7 @@ class ActionSequencer
   constructor(context)
   {
     this.elapsed_time = -0.00001;
-    this.playback_speed = 1;
+    this.playback_speed = this.__get_playback_speed();
     this.playing = false;
 
     this.action_events = [];
@@ -241,6 +241,22 @@ class ActionSequencer
     }
 
     return current;
+  }
+
+  __get_playback_speed()
+  {
+    const url_params = new URLSearchParams(window.location.search);
+
+    const transitions_velocity = url_params.get('transitions_velocity');
+
+    if (transitions_velocity)
+    {
+      return Number(transitions_velocity);
+    }
+    else
+    {
+      return 1;
+    }
   }
 }
 
