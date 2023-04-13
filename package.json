@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "9.5.1",
+  "version": "9.5.2",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -43,7 +43,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "pit-js": "2.0.0",
+    "pit-js": "2.0.1",
     "three": "0.148.0"
   },
   "devDependencies": {
@@ -54,5 +54,13 @@
     "rollup-plugin-terser": "^7.0.2",
     "standardx": "^7.0.0",
     "typescript": "^4.4.3"
-  }
+  },
+  "standardx": {
+    "ignore": [
+      "/pit/"
+    ]
+  },
+  "workspaces": [
+    "pit"
+  ]
 }
