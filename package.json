@@ -13,9 +13,19 @@
     "package.json"
   ],
   "scripts": {
+    "preinstall": "yarn setup-submodules && yarn update-submodules && yarn config-hooks",
+    "setup-submodules": "yarn setup-pit-submodule ",
+    "setup-pit-submodule": "git submodule update --init pit",
+
+    "update-submodules": "yarn update-pit",
+    "update-pit": "node update_submodule.mjs pit-js pit",
+
+    "config-hooks": "yarn config-core-hooks && yarn config-submodule-hooks",
+    "config-core-hooks": "git config core.hooksPath git_hooks",
+    "config-submodule-hooks": "yarn config-pit-hooks",
+    "config-pit-hooks": "cd pit && git config core.hooksPath git_hooks && cd ..",
+
     "build": "rollup -c",
-    "preinstall": "yarn config-hooks",
-    "config-hooks": "git config core.hooksPath git_hooks",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
     "fix-syntax": "standardx --fix",
