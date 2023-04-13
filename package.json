@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "9.4.2",
+  "version": "9.5.0",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -20,7 +20,10 @@
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
     "fix-syntax": "standardx --fix",
     "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types",
-    "upload": "yarn build && npm publish && yarn create-tag"
+    "upload": "yarn build && npm publish && yarn create-tag",
+    "create-view": "node ./tasks/create_view/create_view.mjs",
+    "create-component": "node ./tasks/create_component/create_component.mjs",
+    "calculate-assets-sizes": "node ./tasks/assets/calculate_sizes.mjs"
   },
   "repository": {
     "type": "git",

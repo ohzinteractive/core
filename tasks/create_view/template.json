@@ -1,0 +1,13 @@
+{
+  "animation_tracks": [
+    {
+      "attribute_name": "template_opacity",
+      "type": "track",
+      "from_time": 0,
+      "to_time": 1,
+      "to_value": 1,
+      "easing_function": "ease_in_out_cubic"
+    }
+  ],
+  "triggers": []
+}
