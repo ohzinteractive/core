@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "9.5.0",
+  "version": "9.5.1",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -43,7 +43,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "pit-js": "1.9.1",
+    "pit-js": "2.0.0",
     "three": "0.148.0"
   },
   "devDependencies": {
