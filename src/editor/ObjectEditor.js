@@ -1,4 +1,3 @@
-import { Input } from '../Input';
 import { ObjectManipulator } from './ObjectManipulator';
 import { ObjectPicker } from './ObjectPicker';
 
@@ -6,7 +5,7 @@ import { Raycaster } from 'three';
 
 class ObjectEditor
 {
-  constructor(renderer, scene, camera)
+  constructor(renderer, scene, camera, input)
   {
     this.raycaster = new Raycaster();
 
@@ -16,6 +15,7 @@ class ObjectEditor
 
     this.scene = scene;
     this.camera = camera;
+    this.input = input;
 
     this.selectable_objects = [];
 
@@ -31,9 +31,9 @@ class ObjectEditor
 
   update()
   {
-    if (Input.left_mouse_button_pressed)
+    if (this.input.left_mouse_button_pressed)
     {
-      const x = this.object_picker.pick(Input.NDC, this.selectable_objects);
+      const x = this.object_picker.pick(this.input.NDC, this.selectable_objects);
       if (x !== 0)
       {
         const selected_obj = this.selectable_objects[x - 1];

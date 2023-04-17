@@ -1,5 +1,4 @@
 import { Time } from './Time';
-import { Input } from './Input';
 import { UI } from './UI';
 import { Debug } from './Debug';
 import { BaseApplication } from './BaseApplication';
@@ -8,12 +7,13 @@ import { ViewComponentManager } from './view_components/ViewComponentManager';
 
 class RenderLoop
 {
-  constructor(target_application, graphics)
+  constructor(target_application, graphics, input)
   {
     target_application = target_application || new BaseApplication();
 
     this.target_application = target_application;
     this.graphics = graphics;
+    this.input = input;
 
     this.is_running = false;
     this.frames_passed = 0;
@@ -33,7 +33,7 @@ class RenderLoop
       this.target_application.on_post_start();
     }
 
-    Input.update();
+    this.input.update();
 
     this.target_application.update();
     ViewManager.update();
@@ -53,7 +53,7 @@ class RenderLoop
     this.target_application.on_frame_end();
     this.frames_passed++;
 
-    Input.clear();
+    this.input.clear();
     UI.clear();
     Debug.clear();
   }

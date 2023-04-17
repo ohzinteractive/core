@@ -1,4 +1,3 @@
-import { Input } from './Input';
 import { CameraManager } from './CameraManager';
 import { Graphics } from './Graphics';
 
@@ -8,8 +7,9 @@ import { OrthographicCamera } from 'three';
 
 class UI
 {
-  init()
+  init(input)
   {
+    this.input = input;
     this.ui_elements = [];
     this._tmp_normalized_pos = new Vector2();
     this.ss_scene = new Scene();
@@ -61,7 +61,7 @@ class UI
     // this.ss_camera.right    = -OScreen.bottom / 2;
     this.ss_camera.updateProjectionMatrix();
 
-    this._tmp_normalized_pos.copy(Input.NDC);
+    this._tmp_normalized_pos.copy(this.input.NDC);
     for (let i = 0; i < this.ui_elements.length; i++)
     {
       this.ui_elements[i].update_state(this._tmp_normalized_pos);

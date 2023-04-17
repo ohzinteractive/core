@@ -5,7 +5,6 @@ import { Configuration } from './Configuration';
 import { Debug } from './Debug';
 import { EventManager } from './EventManager';
 import { Graphics } from './Graphics';
-import { Input } from './Input';
 import { OS } from './OS';
 import { OScreen } from './OScreen';
 import { ReflectionPlaneContext } from './ReflectionPlaneContext';
@@ -22,15 +21,15 @@ class Initializer
   {
   }
 
-  init(canvas, app_container, context_attributes, keyboard_input_container = document)
+  init(canvas, context_attributes, input)
   {
     CameraManager.init();
-    CameraUtilities.init();
+    CameraUtilities.init(input);
     Capabilities.init();
     Configuration.init();
     EventManager.init();
     GeometryBatcher.init();
-    Input.init(app_container, keyboard_input_container);
+
     OS.init();
     Browser.init();
     ReflectionPlaneContext.init();
@@ -38,7 +37,7 @@ class Initializer
     SceneManager.init();
     OScreen.init();
     Time.init();
-    UI.init();
+    UI.init(input);
 
     Graphics.init(canvas, context_attributes);
     Debug.init();
@@ -47,7 +46,6 @@ class Initializer
   dispose(render_loop)
   {
     Graphics.dispose();
-    Input.dispose();
     SceneManager.dispose();
 
     render_loop.dispose();

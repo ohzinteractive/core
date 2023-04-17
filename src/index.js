@@ -19,7 +19,7 @@ import { Debug } from './Debug';
 import { DebugNormalsRender } from './render_mode/DebugNormalsRender';
 import { EventManager } from './EventManager';
 import { Graphics } from './Graphics';
-import { Input } from './Input';
+import { KeyboardInput } from './KeyboardInput';
 import { Initializer } from './Initializer';
 import { NormalAORender } from './render_mode/NormalAORender';
 import { NormalRender } from './render_mode/NormalRender';
@@ -131,7 +131,7 @@ export {
   DebugNormalsRender,
   EventManager,
   Graphics,
-  Input,
+  KeyboardInput,
   Initializer,
   NormalAORender,
   NormalRender,

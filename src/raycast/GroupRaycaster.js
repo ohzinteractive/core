@@ -1,5 +1,4 @@
 import { CameraManager } from '../CameraManager';
-import { Input } from '../Input';
 import { RaycastResolver } from './RaycastResolver';
 import { IdleState } from './states/IdleState';
 
@@ -7,11 +6,12 @@ import { Raycaster } from 'three';
 
 class GroupRaycaster
 {
-  constructor(raycastee_group, raycast_resolver, camera)
+  constructor(raycastee_group, raycast_resolver, camera, input)
   {
     this.camera = camera || CameraManager.current;
     this.raycast_resolver = raycast_resolver || new RaycastResolver();
     this.raycastee_group = raycastee_group || [];
+    this.input = input;
 
     this.raycaster = new Raycaster();
     this.current_state = new IdleState();
@@ -25,7 +25,7 @@ class GroupRaycaster
 
   update()
   {
-    this.raycaster.setFromCamera(Input.NDC, this.camera);
+    this.raycaster.setFromCamera(this.input.NDC, this.camera);
     this.current_intersections = this.raycaster.intersectObjects(this.raycastee_group);
     this.current_state.update(this);
   }

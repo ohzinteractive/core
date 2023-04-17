@@ -1,5 +1,4 @@
 import { CameraManager } from '../CameraManager';
-import { Input } from '../Input';
 
 import { ArrowHelper } from 'three';
 import { Vector2 } from 'three';
@@ -13,9 +12,11 @@ import { OMath } from '../utilities/OMath';
 
 class ManipulatorHandle extends Object3D
 {
-  constructor(direction, color)
+  constructor(direction, color, input)
   {
     super();
+
+    this.input = input;
 
     const length = 10;
     this.arrow_helper = new ArrowHelper(direction, new Vector3(0, 0, 0), length, color, undefined, 1);
@@ -47,7 +48,7 @@ class ManipulatorHandle extends Object3D
 
   is_mouse_over()
   {
-    this.raycaster.setFromCamera(Input.NDC, CameraManager.current);
+    this.raycaster.setFromCamera(this.input.NDC, CameraManager.current);
     this.raycast_result = this.raycaster.intersectObject(this.box_collider);
     if (this.raycast_result.length > 0)
     {

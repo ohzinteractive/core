@@ -1,14 +1,15 @@
 import { PlaneRaycaster } from './PlaneRaycaster';
 import { PlaneRaycastResolver } from './PlaneRaycastResolver';
-import { Input } from '../Input';
 
 class PlaneDragResolver extends PlaneRaycastResolver
 {
-  constructor()
+  constructor(input)
   {
     super();
     this._drag_started = false;
     this._plane_raycaster = new PlaneRaycaster(this);
+
+    this.input = input;
   }
 
   // @virtual
@@ -38,13 +39,13 @@ class PlaneDragResolver extends PlaneRaycastResolver
   // @virtual
   on_drag_button_pressed()
   {
-    return Input.left_mouse_button_pressed;
+    return this.input.left_mouse_button_pressed;
   }
 
   // @virtual
   on_drag_button_released()
   {
-    return Input.left_mouse_button_released;
+    return this.input.left_mouse_button_released;
   }
 
   on_hover(intersection_point)

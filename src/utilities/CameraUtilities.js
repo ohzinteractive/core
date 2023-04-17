@@ -1,5 +1,4 @@
 import { CameraManager } from '../CameraManager';
-import { Input } from '../Input';
 import { OMath } from '../utilities/OMath';
 import { OScreen } from '../OScreen';
 
@@ -12,7 +11,7 @@ import { Box3 } from 'three';
 
 class CameraUtilities
 {
-  init()
+  init(input)
   {
     this.tmp_mat = new Matrix4();
     this.plane = new Plane();
@@ -20,6 +19,8 @@ class CameraUtilities
 
     this.tmp_size = new Vector3();
     this.tmp_unproj = new Vector3();
+
+    this.input = input;
   }
 
   get_up_dir(camera)
@@ -73,7 +74,7 @@ class CameraUtilities
   get_plane_intersection(plane_position, plane_normal, NDC, camera)
   {
     camera = camera || CameraManager.current;
-    NDC = NDC || Input.NDC;
+    NDC = NDC || this.input.NDC;
 
     const tmp_vec = new Vector3();
 

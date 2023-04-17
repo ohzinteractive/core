@@ -53,7 +53,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "pit-js": "2.1.1",
     "three": "0.148.0"
   },
   "devDependencies": {
@@ -69,8 +68,5 @@
     "ignore": [
       "/pit/"
     ]
-  },
-  "workspaces": [
-    "pit"
-  ]
+  }
 }

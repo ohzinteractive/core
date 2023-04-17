@@ -1,15 +1,16 @@
 import { RaycastResolver } from '../../raycast/RaycastResolver';
 import { GroupRaycaster } from '../../raycast/GroupRaycaster';
-import { Input } from '../../Input';
 
 import { Vector3 } from 'three';
 import { Quaternion } from 'three';
 
 class ObjectRotator extends RaycastResolver
 {
-  constructor(object)
+  constructor(object, input)
   {
     super();
+
+    this.input = input;
 
     this.is_mouse_over = false;
     this.rotation_active = false;
@@ -37,21 +38,21 @@ class ObjectRotator extends RaycastResolver
   {
     this.group_raycaster.update();
 
-    if (this.is_mouse_over && Input.left_mouse_button_down)
+    if (this.is_mouse_over && this.input.left_mouse_button_down)
     {
       this.rotation_active = true;
     }
 
     // left button no longer being pressed
-    if (!Input.left_mouse_button_down)
+    if (!this.input.left_mouse_button_down)
     {
       this.rotation_active = false;
     }
 
     if (this.rotation_active)
     {
-      const rot_x = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Input.NDC_delta.x);
-      const rot_y = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Input.NDC_delta.y);
+      const rot_x = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), this.input.NDC_delta.x);
+      const rot_y = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), this.input.NDC_delta.y);
 
       this.object.quaternion.multiply(rot_x);
       rot_y.multiply(this.object.quaternion);

@@ -1,6 +1,5 @@
 import { RaycastResolver } from './RaycastResolver';
 import { GroupRaycaster } from './GroupRaycaster';
-import { Input } from '../Input';
 
 class SurfaceDragResolver extends RaycastResolver
 {
@@ -42,7 +41,7 @@ class SurfaceDragResolver extends RaycastResolver
 
   on_hover(intersected_object, intersection_data)
   {
-    if (Input.left_mouse_button_released && this._drag_started)
+    if (this.input.left_mouse_button_released && this._drag_started)
     {
       this._drag_started = false;
       this.on_drag_end();
@@ -53,7 +52,7 @@ class SurfaceDragResolver extends RaycastResolver
       this.on_drag_move(intersection_data.point);
     }
 
-    if (Input.left_mouse_button_pressed)
+    if (this.input.left_mouse_button_pressed)
     {
       this.on_drag_start(intersection_data.point);
       this._drag_started = true;

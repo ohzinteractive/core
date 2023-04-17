@@ -1,5 +1,4 @@
 import { ManipulatorHandle } from '../editor/ManipulatorHandle';
-import { Input } from '../Input';
 import { EventManager } from '../EventManager';
 
 import { Object3D } from 'three';
@@ -8,9 +7,10 @@ import { Vector3 } from 'three';
 
 class ObjectManipulator extends Object3D
 {
-  constructor()
+  constructor(input)
   {
     super();
+    this.input = input;
     this.target_obj = undefined;
 
     this.up_handle = new ManipulatorHandle(new Vector3(0, 1, 0), 0x00ff00);
@@ -46,14 +46,14 @@ class ObjectManipulator extends Object3D
       this.tmp_displacement_vector.copy(this.active_handle.direction);
       if (this.use_vertical_translation)
       {
-        this.tmp_displacement_vector.multiplyScalar(-Input.NDC_delta.y);
+        this.tmp_displacement_vector.multiplyScalar(-this.input.NDC_delta.y);
       }
       else
       {
-        this.tmp_displacement_vector.multiplyScalar(Input.NDC_delta.x);
+        this.tmp_displacement_vector.multiplyScalar(this.input.NDC_delta.x);
       }
 
-      this.tmp_displacement_vector.multiplyScalar(Input.NDC_delta.length() * 250 * this.translation_sign);
+      this.tmp_displacement_vector.multiplyScalar(this.input.NDC_delta.length() * 250 * this.translation_sign);
       this.position.add(this.tmp_displacement_vector);
 
       this.tmp_local_pos.copy(this.position);
@@ -86,7 +86,7 @@ class ObjectManipulator extends Object3D
 
   check_active_handle()
   {
-    if (Input.left_mouse_button_down && this.active_handle === undefined)
+    if (this.input.left_mouse_button_down && this.active_handle === undefined)
     {
       if (this.right_handle.is_mouse_over())
       {
@@ -103,7 +103,7 @@ class ObjectManipulator extends Object3D
       }
     }
 
-    if (Input.left_mouse_button_released)
+    if (this.input.left_mouse_button_released)
     {
       this.active_handle = undefined;
     }
