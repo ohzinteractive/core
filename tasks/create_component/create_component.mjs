@@ -317,12 +317,7 @@ class ComponentCreator
 
   snake_to_camelcase(string)
   {
-    return string.replace(
-      /([-_][a-z])/g,
-      (group) => group.toUpperCase()
-        .replace('-', '')
-        .replace('_', '')
-    );
+    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
   }
 }
 
