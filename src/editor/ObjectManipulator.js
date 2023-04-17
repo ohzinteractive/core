@@ -13,9 +13,9 @@ class ObjectManipulator extends Object3D
     this.input = input;
     this.target_obj = undefined;
 
-    this.up_handle = new ManipulatorHandle(new Vector3(0, 1, 0), 0x00ff00);
-    this.right_handle = new ManipulatorHandle(new Vector3(1, 0, 0), 0xff0000);
-    this.forward_handle = new ManipulatorHandle(new Vector3(0, 0, 1), 0x0000ff);
+    this.up_handle = new ManipulatorHandle(new Vector3(0, 1, 0), 0x00ff00, input);
+    this.right_handle = new ManipulatorHandle(new Vector3(1, 0, 0), 0xff0000, input);
+    this.forward_handle = new ManipulatorHandle(new Vector3(0, 0, 1), 0x0000ff, input);
 
     this.add(this.up_handle);
     this.add(this.right_handle);

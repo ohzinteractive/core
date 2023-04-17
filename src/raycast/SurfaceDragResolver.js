@@ -3,11 +3,13 @@ import { GroupRaycaster } from './GroupRaycaster';
 
 class SurfaceDragResolver extends RaycastResolver
 {
-  constructor(surface_mesh)
+  constructor(surface_mesh, input)
   {
     super();
     this._drag_started = false;
-    this._group_raycaster = new GroupRaycaster([surface_mesh], this);
+    this._group_raycaster = new GroupRaycaster([surface_mesh], this, undefined, input);
+
+    this.input = input;
   }
 
   // @virtual

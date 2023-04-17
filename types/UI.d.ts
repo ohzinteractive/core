@@ -1,7 +1,8 @@
 export { ui as UI };
 declare const ui: UI;
 declare class UI {
-    init(): void;
+    init(input: any): void;
+    input: any;
     ui_elements: any[];
     _tmp_normalized_pos: any;
     ss_scene: any;

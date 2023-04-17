@@ -16,7 +16,7 @@ class ObjectRotator extends RaycastResolver
     this.rotation_active = false;
 
     this.object = object;
-    this.group_raycaster = new GroupRaycaster([object], this);
+    this.group_raycaster = new GroupRaycaster([object], this, undefined, this.input);
   }
 
   on_enter(intersected_object)

@@ -10,7 +10,7 @@ class ObjectEditor
     this.raycaster = new Raycaster();
 
     this.selected_object = undefined;
-    this.object_manipulator = new ObjectManipulator();
+    this.object_manipulator = new ObjectManipulator(input);
     this.object_picker = new ObjectPicker(renderer, scene, camera);
 
     this.scene = scene;

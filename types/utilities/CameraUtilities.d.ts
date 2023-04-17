@@ -1,12 +1,13 @@
 export { camera_utilities as CameraUtilities };
 declare const camera_utilities: CameraUtilities;
 declare class CameraUtilities {
-    init(): void;
+    init(input: any): void;
     tmp_mat: any;
     plane: any;
     ray: any;
     tmp_size: any;
     tmp_unproj: any;
+    input: any;
     get_up_dir(camera: any): any;
     get_forward_dir(camera: any): any;
     get_right_dir(camera: any): any;

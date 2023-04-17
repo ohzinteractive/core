@@ -1,5 +1,5 @@
 export class SurfaceDragResolver extends RaycastResolver {
-    constructor(surface_mesh: any);
+    constructor(surface_mesh: any, input: any);
     _drag_started: boolean;
     _group_raycaster: GroupRaycaster;
     on_drag_start(contact_point: any): void;

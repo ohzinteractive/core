@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "9.6.0",
+  "version": "10.0.0",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -13,18 +13,8 @@
     "package.json"
   ],
   "scripts": {
-    "preinstall": "yarn setup-submodules && yarn update-submodules && yarn config-hooks",
-    "setup-submodules": "yarn setup-pit-submodule ",
-    "setup-pit-submodule": "git submodule update --init pit",
-
-    "update-submodules": "yarn update-pit",
-    "update-pit": "node update_submodule.mjs pit-js pit",
-
-    "config-hooks": "yarn config-core-hooks && yarn config-submodule-hooks",
-    "config-core-hooks": "git config core.hooksPath git_hooks",
-    "config-submodule-hooks": "yarn config-pit-hooks",
-    "config-pit-hooks": "cd pit && git config core.hooksPath git_hooks && cd ..",
-
+    "preinstall": "yarn config-hooks",
+    "config-hooks": "git config core.hooksPath git_hooks",
     "build": "rollup -c",
     "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
     "update-version": "cross-var echo \"v$npm_package_version\" > .version",
@@ -63,10 +53,5 @@
     "rollup-plugin-terser": "^7.0.2",
     "standardx": "^7.0.0",
     "typescript": "^4.4.3"
-  },
-  "standardx": {
-    "ignore": [
-      "/pit/"
-    ]
   }
 }
