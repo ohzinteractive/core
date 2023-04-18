@@ -8,6 +8,8 @@ import { Plane } from 'three';
 import { Ray } from 'three';
 import { Sphere } from 'three';
 import { Box3 } from 'three';
+import { PerspectiveFrustumPointFitter } from './PerspectiveFrustumPointFitter';
+import { OrthographicFrustumPointFitter } from './OrthographicFrustumPointFitter';
 
 class CameraUtilities
 {
@@ -205,6 +207,72 @@ class CameraUtilities
     camera.bottom = -OScreen.height / 2;
     camera.aspect = OScreen.aspect_ratio;
     camera.updateProjectionMatrix(true);
+  }
+
+  fit_bounding_box_points(camera, bb, scale = 1)
+  {
+    const dir = new Vector3();
+    dir.copy(bb.max).sub(bb.min);
+
+    const p1 = bb.min.clone();
+
+    const p2 = p1.clone().add(new Vector3(dir.x, 0, 0));
+    const p3 = p1.clone().add(new Vector3(0, dir.y, 0));
+    const p4 = p1.clone().add(new Vector3(0, 0, dir.z));
+
+    const p5 = p1.clone().add(new Vector3(dir.x, 0, dir.z));
+    const p6 = p1.clone().add(new Vector3(0, dir.y, dir.z));
+    const p7 = bb.max.clone();
+    const p8 = p1.clone().add(new Vector3(dir.x, dir.y, 0));
+    return this.fit_points(camera, [p1, p2, p3, p4, p5, p6, p7, p8], scale);
+  }
+
+  fit_points(camera, points, zoom_scale = 1)
+  {
+    if (camera.isPerspectiveCamera)
+    {
+      const camera_forward_dir = new Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      const camera_backward_dir = camera_forward_dir.clone().multiplyScalar(-1);
+
+      const fitter = new PerspectiveFrustumPointFitter();
+
+      const aspect_ratio = OScreen.aspect_ratio;
+
+      const camera_pos = fitter.fit_points(points, camera.quaternion, camera.fov * zoom_scale, aspect_ratio);
+      const box = new Box3().setFromPoints(points);
+      const center = new Vector3();
+      box.getCenter(center);
+
+      const reference_position_plane = new Plane().setFromNormalAndCoplanarPoint(camera_backward_dir, center);
+
+      const camera_ray = new Ray(camera_pos, camera_forward_dir);
+
+      const reference_position = new Vector3();
+      camera_ray.intersectPlane(reference_position_plane, reference_position);
+
+      const zoom = camera_pos.distanceTo(reference_position);
+
+      return {
+        zoom: zoom,
+        reference_position: reference_position,
+        camera_position: camera_pos
+      };
+    }
+    else
+    {
+      const fitter = new OrthographicFrustumPointFitter();
+      const result = fitter.fit_points(points, this.reference_rotation, camera.fov * zoom_scale, OScreen.aspect_ratio);
+
+      this.reference_position.copy(result.center);
+      this.reference_zoom = result.distance_to_center;
+
+      const forward = new Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
+      return {
+        zoom: result.distance_to_center,
+        reference_position: result.center,
+        camera_position: forward.multiplyScalar(result.distance_to_center)
+      };
+    }
   }
 }
 
