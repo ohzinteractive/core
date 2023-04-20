@@ -380,8 +380,8 @@ class ViewCreator
 
   capitalize(string)
   {
-    let aux_string = this.capitalize_first_letter(string);
-    aux_string = this.snake_to_camelcase(aux_string);
+    let aux_string = this.snake_to_camelcase(string);
+    aux_string = this.capitalize_first_letter(aux_string);
 
     return aux_string;
   }
