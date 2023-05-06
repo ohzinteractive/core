@@ -45,7 +45,7 @@ class ActionSequencerBuilder
     for (let i = 0; i < triggers.length; i++)
     {
       const t = triggers[i];
-      const action_event = new ActionEvent(t.name, t.method);
+      const action_event = new ActionEvent(t.name, t.method, t.args);
       sequencer.add_action_event(t.at_time, action_event);
     }
 
