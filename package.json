@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -44,6 +44,11 @@
   },
   "dependencies": {
     "three": "0.148.0"
+  },
+  "standardx": {
+    "ignore": [
+      "rollup.config.js"
+    ]
   },
   "devDependencies": {
     "cross-var": "^1.1.0",

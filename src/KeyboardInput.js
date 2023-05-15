@@ -20,15 +20,16 @@ class KeyboardInput
       this.ctrlz_pressed = true;
       this.ctrlz_fired = true;
     }
-    if (e.key)
+
+    if (e.code)
     {
-      this.press_key(e.key);
+      this.press_key(e.code);
     }
   }
 
   on_key_up(e)
   {
-    this.release_key(e.key);
+    this.release_key(e.code);
   }
 
   clear()
