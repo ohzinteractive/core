@@ -22,7 +22,7 @@ import { WebGLRenderer } from 'three';
 
 class Graphics
 {
-  init(canvas, context_attributes)
+  init(canvas, core_attributes, context_attributes, threejs_attributes)
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -36,23 +36,34 @@ class Graphics
     this.canvas_context = undefined;
     this.context_attributes = undefined;
 
-    this.context_attributes = {
-      alpha: true,
-      depth: true,
-      desynchronized: false,
-      stencil: false,
-      antialias: false,
-      premultipliedAlpha: true,
-      preserveDrawingBuffer: true,
-      powerPreference: 'high-performance',
-      logarithmicDepthBuffer: false,
+    this.core_attributes = {
       force_webgl2: true,
       xr_enabled: false
     };
 
+    this.context_attributes = {
+      alpha: true,
+      antialias: false,
+      depth: true,
+      desynchronized: false,
+      failIfMajorPerformanceCaveat: false,
+      powerPreference: 'high-performance',
+      premultipliedAlpha: true,
+      preserveDrawingBuffer: true,
+      stencil: false
+    };
+
+    this.threejs_attributes = {
+      logarithmicDepthBuffer: false
+    };
+
+    Object.assign(this.core_attributes, core_attributes);
     Object.assign(this.context_attributes, context_attributes);
 
-    if (this.context_attributes.force_webgl2)
+    Object.assign(this.threejs_attributes, this.context_attributes);
+    Object.assign(this.threejs_attributes, threejs_attributes);
+
+    if (this.core_attributes.force_webgl2)
     {
       this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
                             canvas.getContext('webgl', this.context_attributes) ||
@@ -68,12 +79,12 @@ class Graphics
 
     // console.log(`Using WebGL ${this.is_webgl2 ? 2 : 1}`);
 
-    this._renderer = new WebGLRenderer({
-      canvas: canvas,
-      context: this.canvas_context
-    });
+    this.threejs_attributes.canvas = canvas;
+    this.threejs_attributes.context = this.canvas_context;
 
-    if (this.context_attributes.xr_enabled)
+    this._renderer = new WebGLRenderer(this.threejs_attributes);
+
+    if (this.core_attributes.xr_enabled)
     {
       this._renderer.xr.enabled = true;
     }

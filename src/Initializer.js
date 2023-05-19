@@ -21,7 +21,7 @@ class Initializer
   {
   }
 
-  init(canvas, context_attributes, input)
+  init(input)
   {
     CameraManager.init();
     CameraUtilities.init(input);
@@ -39,7 +39,6 @@ class Initializer
     Time.init();
     UI.init(input);
 
-    Graphics.init(canvas, context_attributes);
     Debug.init();
   }
 
