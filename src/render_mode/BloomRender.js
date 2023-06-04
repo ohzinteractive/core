@@ -28,8 +28,8 @@ class BloomRender extends BaseRender
   {
     this.blurrer = new Blurrer();
     // this.blurrer = new DualFilteringBlurrer()
-    this.main_RT = new WebGLRenderTarget(OScreen.render_width, OScreen.render_height);
-    this.blur_RT = new WebGLRenderTarget(OScreen.render_width, OScreen.render_height);
+    this.main_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
+    this.blur_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
   }
 
   render()
@@ -52,10 +52,10 @@ class BloomRender extends BaseRender
 
   __check_RT_size()
   {
-    if (this.main_RT.width !== OScreen.render_width || this.main_RT.height !== OScreen.render_height)
+    if (this.main_RT.width !== OScreen.width || this.main_RT.height !== OScreen.height)
     {
-      this.main_RT.setSize(OScreen.render_width, OScreen.render_height);
-      this.blur_RT.setSize(OScreen.render_width, OScreen.render_height);
+      this.main_RT.setSize(OScreen.width, OScreen.height);
+      this.blur_RT.setSize(OScreen.width, OScreen.height);
     }
   }
 }
