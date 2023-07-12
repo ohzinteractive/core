@@ -17,18 +17,14 @@ class TemplateScene extends AbstractScene
   constructor()
   {
     super({
-      name: Sections.TEMPLATE,
-      scene_objects: template_objects,
-      scene_textures: template_textures,
-      scene_sounds: template_sounds,
-      scene_high_objects: template_high_objects,
-      scene_high_textures: template_high_textures,
-      scene_high_sounds: template_high_sounds
+      name: Sections.TEMPLATE
     });
   }
 
   init()
   {
+    this.set_assets(template_objects, template_textures, template_sounds);
+
     if (window.debug_mode)
     {
       this.add(Debug.draw_axis());
@@ -43,6 +39,8 @@ class TemplateScene extends AbstractScene
 
   on_assets_ready()
   {
+    this.set_high_assets(template_high_objects, template_high_textures, template_high_sounds);
+
     super.on_assets_ready();
   }
 
