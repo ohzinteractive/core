@@ -46,6 +46,21 @@ class Time
     return this.__frame_interpolation_t;
   }
 
+  get fdt()
+  {
+    return this.fixed_delta_time;
+  }
+
+  get dt()
+  {
+    return this.delta_time;
+  }
+
+  get sdt()
+  {
+    return this.smooth_delta_time;
+  }
+
   __set_frame_interpolation(value)
   {
     this.__frame_interpolation_t = value;
