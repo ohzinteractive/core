@@ -3,11 +3,12 @@ import { OMath } from '../utilities/OMath';
 
 class ActionSequencer
 {
-  constructor(context)
+  constructor(context = {})
   {
+    this.previous_elapsed_time = -0.00001;
     this.elapsed_time = -0.00001;
     this.playback_speed = this.__get_playback_speed();
-    this.playing = false;
+    this.playing = true;
 
     this.action_events = [];
     this.context = context;
@@ -53,19 +54,22 @@ class ActionSequencer
   {
     if (this.playing)
     {
-      this.__play_clips(this.elapsed_time, this.elapsed_time + delta_time * this.playback_speed);
-      this.elapsed_time = this.elapsed_time + delta_time * this.playback_speed;
+      this.previous_elapsed_time = this.elapsed_time;
+      this.elapsed_time += delta_time * this.playback_speed;
+      this.__play_clips(this.previous_elapsed_time, this.elapsed_time);
     }
   }
 
   set_progress(time)
   {
+    this.previous_elapsed_time = this.elapsed_time;
     this.elapsed_time = OMath.clamp(time, 0, this.duration);
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
 
   set_normalized_progress(t)
   {
+    this.previous_elapsed_time = this.elapsed_time;
     this.elapsed_time = OMath.clamp(t, 0, 1) * this.duration;
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
@@ -155,14 +159,9 @@ class ActionSequencer
 
   __play_clips(from, to)
   {
-    for (let i = 0; i < this.action_events.length; i++)
+    if (this.elapsed_time > this.previous_elapsed_time)
     {
-      if (this.action_events[i].trigger_time > from - Number.EPSILON &&
-          this.action_events[i].trigger_time < to   + Number.EPSILON)
-      {
-        // console.log("Play event: " + this.action_events[i].action.constructor.name + " at "+  this.action_events[i].trigger_time);
-        this.action_events[i].action.trigger();
-      }
+      this.__play_events(this.previous_elapsed_time, this.elapsed_time);
     }
     const channel_names = Object.keys(this.initial_context);
 
@@ -172,6 +171,19 @@ class ActionSequencer
       const keyframe = this.__get_current_keyframe(name, from);
 
       this.context[name] = this.evaluate_keyframe(keyframe, from);
+    }
+  }
+
+  __play_events(from, to)
+  {
+    for (let i = 0; i < this.action_events.length; i++)
+    {
+      const trigger_time = this.action_events[i].trigger_time;
+      if (OMath.between(trigger_time, from, to))
+      {
+        console.log('Play event: ' + this.action_events[i].action.constructor.name + ' at ' +  this.action_events[i].trigger_time);
+        this.action_events[i].action.trigger();
+      }
     }
   }
 
