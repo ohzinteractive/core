@@ -25,6 +25,7 @@ import { MeshBasicMaterial } from 'three';
 
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
+import { CameraManager } from './CameraManager';
 
 class Debug
 {
@@ -38,22 +39,22 @@ class Debug
 
     this.ctx = undefined;
     this.scene = new Scene();
-    this.camera = new PerspectiveCamera();
-    // this.camera.clear_alpha = 0;
+    this.camera = new PerspectiveCamera(60, OScreen.aspect_ratio, 0.1, 1000);
+    this.camera.clear_alpha = 0;
   }
 
   draw_arrow(origin, dir, color = 0xff0000)
   {
     const arrow = new Arrow(color, dir.length(), dir.clone().normalize());
     arrow.position.copy(origin);
-    SceneManager.current.add(arrow);
+    this.scene.add(arrow);
     return arrow;
   }
 
   draw_axis()
   {
     const axis = new AxisHelper();
-    SceneManager.current.add(axis);
+    this.scene.add(axis);
     return axis;
   }
 
@@ -99,7 +100,7 @@ class Debug
 
     const line = new Line(geometry, material);
     line.frustumCulled = false;
-    SceneManager.current.add(line);
+    this.scene.add(line);
     return line;
   }
 
@@ -111,7 +112,7 @@ class Debug
 
     const cube = new Cube(new Vector3(size, size, size), undefined, color);
     cube.position.copy(pos);
-    SceneManager.current.add(cube);
+    this.scene.add(cube);
     return cube;
   }
 
@@ -133,7 +134,7 @@ class Debug
     // cube.quaternion.setFromRotationMatrix(new Matrix4().makeBasis(right,up,forward));
     cube.quaternion.setFromUnitVectors(new Vector3(0, 0, -1), forward_dir);
 
-    SceneManager.current.add(cube);
+    this.scene.add(cube);
     return cube;
   }
 
@@ -152,7 +153,7 @@ class Debug
 
     const plane = new Mesh(geometry, material);
     plane.renderOrder = -10000;
-    SceneManager.current.add(plane);
+    this.scene.add(plane);
     return plane;
   }
 
@@ -175,7 +176,7 @@ class Debug
 
     const sphere = new Sphere(size, color);
     sphere.position.copy(pos);
-    SceneManager.current.add(sphere);
+    this.scene.add(sphere);
     return sphere;
   }
 
@@ -255,7 +256,7 @@ class Debug
     }
     if (this.scene.children.length > 0)
     {
-      graphics.render(this.scene, this.camera);
+      graphics.render(this.scene, CameraManager.current);
     }
   }
 }
