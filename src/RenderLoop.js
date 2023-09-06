@@ -17,6 +17,8 @@ class RenderLoop
 
     this.is_running = false;
     this.frames_passed = 0;
+
+    this.time_accumulator = 0;
   }
 
   update()
@@ -35,7 +37,17 @@ class RenderLoop
 
     this.input.update();
 
+    this.time_accumulator += Time.delta_time;
+
+    while (this.time_accumulator > Time.fixed_delta_time)
+    {
+      this.target_application.fixed_update();
+      this.time_accumulator -= Time.fixed_delta_time;
+    }
+    Time.__set_frame_interpolation(this.time_accumulator / Time.fixed_delta_time);
+
     this.target_application.update();
+
     ViewManager.update();
     ViewComponentManager.update();
 

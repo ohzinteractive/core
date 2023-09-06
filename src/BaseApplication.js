@@ -12,6 +12,9 @@ class BaseApplication
   update()
   {}
 
+  fixed_update()
+  {}
+
   on_post_render()
   {}
 
