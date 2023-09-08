@@ -15,11 +15,21 @@ class ViewManager
     this.browser_title_suffix = '';
   }
 
+  before_update()
+  {
+    this.transition_handler.before_update();
+  }
+
   update()
   {
     this.transition_handler.update();
 
     this.__set_views_opacities();
+  }
+
+  fixed_update()
+  {
+    this.transition_handler.fixed_update();
   }
 
   go_to_view(view_name, change_url = true, skip = false)

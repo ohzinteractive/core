@@ -9,6 +9,9 @@ class BaseApplication
   on_exit()
   {}
 
+  before_update()
+  {}
+
   update()
   {}
 

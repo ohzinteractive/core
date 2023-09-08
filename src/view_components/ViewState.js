@@ -25,7 +25,15 @@ class ViewState
   {
   }
 
+  before_update()
+  {
+  }
+
   update()
+  {
+  }
+
+  fixed_update()
   {
   }
 

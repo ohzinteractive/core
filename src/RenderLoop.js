@@ -39,9 +39,13 @@ class RenderLoop
 
     this.time_accumulator += Time.delta_time;
 
+    this.target_application.before_update();
+    ViewManager.before_update();
+
     while (this.time_accumulator > Time.fixed_delta_time)
     {
       this.target_application.fixed_update();
+      ViewManager.fixed_update();
       this.time_accumulator -= Time.fixed_delta_time;
     }
     Time.__set_frame_interpolation(this.time_accumulator / Time.fixed_delta_time);

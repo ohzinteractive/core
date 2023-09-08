@@ -66,6 +66,16 @@ class ViewStateTransitionHandler
     }
   }
 
+  before_update()
+  {
+    this.current_state.before_update();
+  }
+
+  fixed_update()
+  {
+    this.current_state.fixed_update();
+  }
+
   set_state(state)
   {
     this.current_state = state;
