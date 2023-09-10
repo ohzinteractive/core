@@ -22,4 +22,15 @@ declare class CameraUtilities {
     get_html_screen_pos(object: any, camera: any): any;
     world_pos_to_screen(pos: any, camera: any): any;
     update_projection(camera: any): void;
+    fit_bounding_box_points(camera: any, bb: any, scale?: number): {
+        zoom: any;
+        reference_position: any;
+        camera_position: any;
+    };
+    fit_points(camera: any, points: any, zoom_scale?: number): {
+        zoom: any;
+        reference_position: any;
+        camera_position: any;
+    };
+    reference_zoom: number;
 }

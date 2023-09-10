@@ -1,10 +1,11 @@
 export class ActionSequencer {
-    constructor(context: any);
+    constructor(context?: {});
+    previous_elapsed_time: number;
     elapsed_time: number;
     playback_speed: number;
     playing: boolean;
     action_events: any[];
-    context: any;
+    context: {};
     initial_context: any;
     tmp_t: number;
     channels: {};
@@ -25,6 +26,7 @@ export class ActionSequencer {
     get_current_progress(name: any): any;
     get_duration(): number;
     __play_clips(from: any, to: any): void;
+    __play_events(from: any, to: any): void;
     evaluate_keyframe(keyframe: any, time: any): any;
     get_keyframes(channel_name: any): any;
     is_channel_redefined(channel_name: any): boolean;

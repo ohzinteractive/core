@@ -6,7 +6,9 @@ declare class ViewManager {
     transition_handler: ViewStateTransitionHandler;
     view_change_subscribers: any[];
     browser_title_suffix: string;
+    before_update(): void;
     update(): void;
+    fixed_update(): void;
     go_to_view(view_name: any, change_url?: boolean, skip?: boolean): void;
     go_to_scene(scene_name: any, change_url?: boolean, skip?: boolean): void;
     subscribe_to_view_change(subscriber: any): void;
@@ -32,4 +34,3 @@ declare class ViewManager {
 import { TransitionTable } from "./transition/TransitionTable";
 import { ViewStateTransitionHandler } from "./transition/ViewStateTransitionHandler";
 import { ViewState } from "./ViewState";
-

@@ -7,13 +7,16 @@ class Browser
     this.agent = window.navigator.userAgent.toLowerCase();
 
     // vr specific
-    this.vrBrowserKeywords = ['OculusBrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream'];
-    this.vrBrowser = this.vrBrowserKeywords.find(keyword => this.agent.includes(keyword));
+    this.vr_browser_keywords = ['oculusbrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream'];
+    this.vr_browser_name = this.vr_browser_keywords.find(keyword => this.agent.includes(keyword));
     // Check for WebXR support (indicating VR capabilities)
-    this.hasWebXRSupport = 'xr' in navigator;
+    this.has_web_xr_support = 'xr' in navigator;
 
     switch (true)
     {
+    case this.vr_browser_name !== undefined && this.has_web_xr_support:
+      this.browser_name = this.vr_browser_name;
+      break;
     case this.agent.indexOf('edge') > -1:
       this.browser_name = 'edge_ie';
       break;
@@ -34,9 +37,6 @@ class Browser
       break;
     case this.agent.indexOf('safari') > -1:
       this.browser_name = 'safari';
-      break;
-    case this.vrBrowser && this.hasWebXRSupport:
-      this.browser_name = this.vrBrowser;
       break;
     default:
       this.browser_name = 'other';
@@ -73,7 +73,7 @@ class Browser
 
   get is_vr()
   {
-    return  this.vrBrowserKeywords.includes(this.browser_name);
+    return  this.vr_browser_keywords.includes(this.browser_name);
   }
 
   get has_webm()

@@ -1,7 +1,7 @@
 export { graphics as Graphics };
 declare const graphics: Graphics;
 declare class Graphics {
-    init(canvas: any, context_attributes: any): void;
+    init(canvas: any, core_attributes: any, context_attributes: any, threejs_attributes: any): void;
     _renderer: any;
     blitter: Blitter;
     canvas: any;
@@ -13,16 +13,21 @@ declare class Graphics {
     canvas_context: any;
     context_attributes: {
         alpha: boolean;
+        antialias: boolean;
         depth: boolean;
         desynchronized: boolean;
-        stencil: boolean;
-        antialias: boolean;
+        failIfMajorPerformanceCaveat: boolean;
+        powerPreference: string;
         premultipliedAlpha: boolean;
         preserveDrawingBuffer: boolean;
-        powerPreference: string;
-        logarithmicDepthBuffer: boolean;
+        stencil: boolean;
+    };
+    core_attributes: {
         force_webgl2: boolean;
         xr_enabled: boolean;
+    };
+    threejs_attributes: {
+        logarithmicDepthBuffer: boolean;
     };
     resize_observer: ResizeObserver;
     get dom_element(): any;

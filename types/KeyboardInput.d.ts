@@ -3,7 +3,7 @@ export class KeyboardInput {
     ctrlz_pressed: boolean;
     ctrlz_fired: boolean;
     keys: {};
-    keys_keys: any[];
+    keys_keys: any[] | string[];
     container: any;
     on_key_down(e: any): void;
     on_key_up(e: any): void;
