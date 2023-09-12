@@ -5,7 +5,7 @@ import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
 
 class AsyncTextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
+  constructor(resource_id, url, size, flipY = false, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
 
