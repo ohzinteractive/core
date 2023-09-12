@@ -1,18 +1,22 @@
+import { Browser } from '../Browser';
 import { AbstractLoader } from './AbstractLoader';
 
-import { Texture } from 'three';
-import { Browser } from '../Browser';
+import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
 
 class AsyncTextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  constructor(resource_id, url, size, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
+
+    this.colorSpaceConversion = colorSpaceConversion;
+    this.premultiplyAlpha = premultiplyAlpha;
+    this.flipY = flipY;
   }
 
   on_preloaded_finished(resource_container)
   {
-    if (Browser.is_safari && Browser.version < 15)
+    if (Browser.is_safari) // && Browser.version < 15
     {
       this.load_with_old_method(resource_container);
     }
@@ -34,6 +38,9 @@ class AsyncTextureLoader extends AbstractLoader
       image.onload = () =>
       {
         texture.image = image;
+        texture.flipY = this.flipY;
+        texture.premultiplyAlpha = this.premultiplyAlpha;
+        texture.colorSpace = this.colorSpaceConversion ? SRGBColorSpace : NoColorSpace;
         texture.needsUpdate = true;
 
         resource_container.set_resource(this.resource_id, this.url, texture);
@@ -69,7 +76,11 @@ class AsyncTextureLoader extends AbstractLoader
         return res.blob();
       }).then((blob) =>
       {
-        return createImageBitmap(blob, { colorSpaceConversion: 'none' });
+        return createImageBitmap(blob, {
+          colorSpaceConversion: this.colorSpaceConversion ? 'default' : 'none',
+          imageOrientation: this.flipY ? 'flipY' : 'none',
+          premultiplyAlpha: this.premultiplyAlpha ? 'premultiply' : 'none'
+        });
       }).then((imageBitmap) =>
       {
         const texture = new Texture(imageBitmap);
