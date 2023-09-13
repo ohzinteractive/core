@@ -5,7 +5,7 @@ import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
 
 class AsyncTextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size, flipY = false, premultiplyAlpha = false, colorSpaceConversion = true)
+  constructor(resource_id, url, size, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
 
@@ -84,6 +84,9 @@ class AsyncTextureLoader extends AbstractLoader
       }).then((imageBitmap) =>
       {
         const texture = new Texture(imageBitmap);
+        texture.flipY = this.flipY;
+        texture.premultiplyAlpha = this.premultiplyAlpha;
+        texture.colorSpace = this.colorSpaceConversion ? SRGBColorSpace : NoColorSpace;
         texture.needsUpdate = true;
 
         resource_container.set_resource(this.resource_id, this.url, texture);
