@@ -7,7 +7,7 @@ class Browser
     this.agent = window.navigator.userAgent.toLowerCase();
 
     // vr specific
-    this.vr_browser_keywords = ['oculusbrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream'];
+    this.vr_browser_keywords = ['oculusbrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream', 'wolvic'];
     this.vr_browser_name = this.vr_browser_keywords.find(keyword => this.agent.includes(keyword));
     // Check for WebXR support (indicating VR capabilities)
     this.has_web_xr_support = 'xr' in navigator;
