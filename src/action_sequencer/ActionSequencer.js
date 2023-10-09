@@ -3,11 +3,11 @@ import { OMath } from '../utilities/OMath';
 
 class ActionSequencer
 {
-  constructor(context = {})
+  constructor(context = {}, transitions_velocity)
   {
     this.previous_elapsed_time = -0.00001;
     this.elapsed_time = -0.00001;
-    this.playback_speed = this.__get_playback_speed();
+    this.playback_speed = this.__get_playback_speed(transitions_velocity);
     this.playing = true;
 
     this.action_events = [];
@@ -255,12 +255,8 @@ class ActionSequencer
     return current;
   }
 
-  __get_playback_speed()
+  __get_playback_speed(transitions_velocity)
   {
-    const url_params = new URLSearchParams(window.location.search);
-
-    const transitions_velocity = url_params.get('transitions_velocity');
-
     if (transitions_velocity)
     {
       return Number(transitions_velocity);

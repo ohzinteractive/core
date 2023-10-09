@@ -1,21 +1,21 @@
-import { Configuration } from './Configuration';
-import { BaseRender } from './render_mode/BaseRender';
-import { OScreen } from './OScreen';
 import { CameraManager } from './CameraManager';
-import { SceneManager } from './SceneManager';
 import { Capabilities } from './Capabilities';
-import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
+import { Configuration } from './Configuration';
+import { OScreen } from './OScreen';
+import { SceneManager } from './SceneManager';
+import { BaseRender } from './render_mode/BaseRender';
 import { Blitter } from './render_utilities/Blitter';
+import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
 
 import {
-  NearestFilter,
-  RGBAFormat,
-  LinearEncoding,
+  AlwaysDepth,
   FloatType,
-  WebGLRenderTarget,
-  ShaderMaterial,
+  LinearEncoding,
+  NearestFilter,
   NoBlending,
-  AlwaysDepth
+  RGBAFormat,
+  ShaderMaterial,
+  WebGLRenderTarget
 } from 'three';
 
 import { WebGLRenderer } from 'three';
@@ -109,6 +109,7 @@ class Graphics
     this.no_render = new BaseRender();
 
     this.current_render_mode = this.no_render;
+
     Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
     Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
     Capabilities.fp_textures_available = this.is_floating_point_texture_available();
@@ -116,9 +117,6 @@ class Graphics
     this.generateDepthNormalTexture = false;
 
     this.depth_and_normals_renderer = new DepthAndNormalsRenderer();
-
-    this.resize_observer = new ResizeObserver(this.on_resize.bind(this));
-    this.resize_observer.observe(this.canvas);
   }
 
   get dom_element()

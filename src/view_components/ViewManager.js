@@ -132,12 +132,6 @@ class ViewManager
     return undefined;
   }
 
-  get_view_by_url(url)
-  {
-    console.warn('DEPRECATED. Use ViewManager.get_by_url instead');
-    this.get_by_url(url);
-  }
-
   get_by_url(url)
   {
     for (let i = 0; i < this.views.length; i++)
@@ -155,6 +149,11 @@ class ViewManager
   {
     this.transition_table.set_default_state_data(default_state_data);
     this.transition_handler.set_default_state_data(default_state_data);
+  }
+
+  set_transitions_velocity(transitions_velocity)
+  {
+    this.transition_table.set_transitions_velocity(transitions_velocity);
   }
 
   __change_browser_url(url)

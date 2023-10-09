@@ -1,5 +1,5 @@
 import { SceneManager } from 'ohzi-core';
-import { SceneController } from '../../components/SceneController';
+import { HomeScene } from '../../app/js/scenes/HomeScene';
 
 class TemplateSceneController
 {
@@ -10,7 +10,7 @@ class TemplateSceneController
   // This method is called one time at the beginning of the app execution.
   start()
   {
-    this.scene = SceneController.home_scene;
+    this.scene = HomeScene;
   }
 
   // This method is called one time before the transition to this section is started.

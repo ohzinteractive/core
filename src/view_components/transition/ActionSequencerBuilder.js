@@ -1,6 +1,6 @@
+import { ActionEvent } from '../../action_sequencer/ActionEvent';
 import { ActionSequencer } from '../../action_sequencer/ActionSequencer';
 import { NumberInterpolator } from '../../action_sequencer/NumberInterpolator';
-import { ActionEvent } from '../../action_sequencer/ActionEvent';
 import { DrawIOAnimationSheet } from './DrawIOAnimationSheet';
 
 class ActionSequencerBuilder
@@ -10,7 +10,7 @@ class ActionSequencerBuilder
     this.default_state_data = default_state_data;
   }
 
-  from_animation_sheet(animation_data, current_context, initial_context)
+  from_animation_sheet(animation_data, current_context, initial_context, transitions_velocity)
   {
     initial_context = initial_context || this.default_state_data;
     const tracks = animation_data.animation_tracks;
@@ -26,7 +26,7 @@ class ActionSequencerBuilder
       }
     }
 
-    const sequencer = new ActionSequencer(current_context);
+    const sequencer = new ActionSequencer(current_context, transitions_velocity);
 
     for (let i = 0; i < tracks.length; i++)
     {

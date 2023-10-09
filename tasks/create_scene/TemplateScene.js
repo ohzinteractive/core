@@ -3,12 +3,12 @@ import { AbstractScene } from './common/AbstractScene';
 
 import { Sections } from '../views/Sections';
 
-import { template_objects } from '../../data/assets/template/template_objects';
-import { template_textures } from '../../data/assets/template/template_textures';
-import { template_sounds } from '../../data/assets/template/template_sounds';
 import { template_high_objects } from '../../data/assets/template/high/template_high_objects';
-import { template_high_textures } from '../../data/assets/template/high/template_high_textures';
 import { template_high_sounds } from '../../data/assets/template/high/template_high_sounds';
+import { template_high_textures } from '../../data/assets/template/high/template_high_textures';
+import { template_objects } from '../../data/assets/template/template_objects';
+import { template_sounds } from '../../data/assets/template/template_sounds';
+import { template_textures } from '../../data/assets/template/template_textures';
 
 import { Debug, Grid } from 'ohzi-core';
 
@@ -21,11 +21,11 @@ class TemplateScene extends AbstractScene
     });
   }
 
-  init()
+  init(debug_mode)
   {
     this.set_assets(template_objects, template_textures, template_sounds);
 
-    if (window.debug_mode)
+    if (debug_mode)
     {
       this.add(Debug.draw_axis());
       this.add(new Grid());
@@ -50,4 +50,5 @@ class TemplateScene extends AbstractScene
   }
 }
 
-export { TemplateScene };
+const template_scene = new TemplateScene();
+export { template_scene as TemplateScene };

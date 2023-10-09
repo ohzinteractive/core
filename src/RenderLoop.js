@@ -1,19 +1,18 @@
+import { BaseApplication } from './BaseApplication';
+import { Debug } from './Debug';
 import { Time } from './Time';
 import { UI } from './UI';
-import { Debug } from './Debug';
-import { BaseApplication } from './BaseApplication';
-import { ViewManager } from './view_components/ViewManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
+import { ViewManager } from './view_components/ViewManager';
 
 class RenderLoop
 {
-  constructor(target_application, graphics, input)
+  constructor(target_application, graphics)
   {
     target_application = target_application || new BaseApplication();
 
     this.target_application = target_application;
     this.graphics = graphics;
-    this.input = input;
 
     this.is_running = false;
     this.frames_passed = 0;
@@ -34,8 +33,6 @@ class RenderLoop
     {
       this.target_application.on_post_start();
     }
-
-    this.input.update();
 
     this.time_accumulator += Time.delta_time;
 
@@ -69,7 +66,6 @@ class RenderLoop
     this.target_application.on_frame_end();
     this.frames_passed++;
 
-    this.input.clear();
     UI.clear();
     Debug.clear();
   }

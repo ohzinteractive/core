@@ -1,10 +1,10 @@
 
 class Browser
 {
-  init()
+  init(opr, chrome)
   {
     this.browser_name = '';
-    this.agent = window.navigator.userAgent.toLowerCase();
+    this.agent = navigator.userAgent.toLowerCase();
 
     // vr specific
     this.vr_browser_keywords = ['oculusbrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream', 'wolvic'];
@@ -23,10 +23,10 @@ class Browser
     case this.agent.indexOf('edg') > -1:
       this.browser_name = 'edge_chromium';
       break;
-    case this.agent.indexOf('opr') > -1 && !!window.opr:
+    case this.agent.indexOf('opr') > -1 && !!opr:
       this.browser_name = 'opera';
       break;
-    case this.agent.indexOf('chrome') > -1 && !!window.chrome:
+    case this.agent.indexOf('chrome') > -1 && !!chrome:
       this.browser_name = 'chrome';
       break;
     case this.agent.indexOf('trident') > -1:

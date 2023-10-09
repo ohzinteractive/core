@@ -21,7 +21,7 @@ class Initializer
   {
   }
 
-  init(input)
+  init(input, window_params)
   {
     CameraManager.init();
     CameraUtilities.init(input);
@@ -31,7 +31,7 @@ class Initializer
     GeometryBatcher.init();
 
     OS.init();
-    Browser.init();
+    Browser.init(window_params.opr, window_params.chrome);
     ReflectionPlaneContext.init();
     ResourceContainer.init();
     SceneManager.init();
@@ -42,12 +42,10 @@ class Initializer
     Debug.init();
   }
 
-  dispose(render_loop)
+  dispose()
   {
     Graphics.dispose();
     SceneManager.dispose();
-
-    render_loop.dispose();
   }
 }
 
