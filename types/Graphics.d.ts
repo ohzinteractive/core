@@ -29,7 +29,6 @@ declare class Graphics {
     threejs_attributes: {
         logarithmicDepthBuffer: boolean;
     };
-    resize_observer: ResizeObserver;
     get dom_element(): any;
     get depth_normals_RT(): any;
     set_state(new_state: any): void;

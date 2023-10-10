@@ -1,5 +1,5 @@
 export class ActionSequencer {
-    constructor(context?: {});
+    constructor(context: {}, transitions_velocity: any);
     previous_elapsed_time: number;
     elapsed_time: number;
     playback_speed: number;
@@ -32,5 +32,5 @@ export class ActionSequencer {
     is_channel_redefined(channel_name: any): boolean;
     __linear_map_01(value: any, from_range_start_value: any, from_range_end_value: any): number;
     __get_current_keyframe(channel_name: any, time: any): any;
-    __get_playback_speed(): number;
+    __get_playback_speed(transitions_velocity: any): number;
 }

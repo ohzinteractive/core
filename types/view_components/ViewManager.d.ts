@@ -1,7 +1,7 @@
 export { view_manager as ViewManager };
 declare const view_manager: ViewManager;
 declare class ViewManager {
-    views: ViewState[];
+    views: any[];
     transition_table: TransitionTable;
     transition_handler: ViewStateTransitionHandler;
     view_change_subscribers: any[];
@@ -22,9 +22,9 @@ declare class ViewManager {
     get_current_view(): import("./ViewState").ViewState;
     get_view_by_name(view_name: any): void;
     get(view_name: any): any;
-    get_view_by_url(url: any): void;
     get_by_url(url: any): any;
     set_default_state_data(default_state_data: any): void;
+    set_transitions_velocity(transitions_velocity: any): void;
     __change_browser_url(url: any): void;
     __change_browser_title(name: any): void;
     __set_views_opacities(): void;
@@ -33,4 +33,3 @@ declare class ViewManager {
 }
 import { TransitionTable } from "./transition/TransitionTable";
 import { ViewStateTransitionHandler } from "./transition/ViewStateTransitionHandler";
-import { ViewState } from "./ViewState";

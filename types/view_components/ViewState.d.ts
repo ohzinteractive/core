@@ -11,7 +11,6 @@ export class ViewState {
     fixed_update(): void;
     update_enter_transition(global_view_data: any, transition_progress: any, action_sequencer: any): void;
     update_exit_transition(global_view_data: any, transition_progress: any, action_sequencer: any): void;
-    update_transition(global_view_data: any, transition_progress: any, action_sequencer: any): void;
     before_exit(): void;
     on_exit(): void;
 }

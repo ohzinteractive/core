@@ -1,7 +1,7 @@
 export class ActionSequencerBuilder {
     constructor(default_state_data: any);
     default_state_data: any;
-    from_animation_sheet(animation_data: any, current_context: any, initial_context: any): ActionSequencer;
+    from_animation_sheet(animation_data: any, current_context: any, initial_context: any, transitions_velocity: any): ActionSequencer;
     state_to_tracks(state: any, longest_time: any): {
         attribute_name: string;
         from_time: number;

@@ -1,10 +1,9 @@
-export class ApplicationView extends ViewState {
-    constructor({ name, url, container }: {
+export class ApplicationViewController extends ViewState {
+    constructor({ name, url, transition_data }: {
         name: any;
         url: any;
-        container: any;
+        transition_data: any;
     });
-    container: any;
     url: any;
     set_opacity(current_state_data: any): void;
 }

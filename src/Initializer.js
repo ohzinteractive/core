@@ -1,4 +1,3 @@
-import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
 import { Configuration } from './Configuration';
@@ -21,7 +20,7 @@ class Initializer
   {
   }
 
-  init(input, window_params)
+  init(input)
   {
     CameraManager.init();
     CameraUtilities.init(input);
@@ -31,7 +30,6 @@ class Initializer
     GeometryBatcher.init();
 
     OS.init();
-    Browser.init(window_params.opr, window_params.chrome);
     ReflectionPlaneContext.init();
     ResourceContainer.init();
     SceneManager.init();

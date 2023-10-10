@@ -1,7 +1,7 @@
 export { browser as Browser };
 declare const browser: Browser;
 declare class Browser {
-    init(): void;
+    init(opr: any, chrome: any): void;
     browser_name: string;
     agent: string;
     vr_browser_keywords: string[];

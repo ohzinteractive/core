@@ -1,8 +1,7 @@
 export class RenderLoop {
-    constructor(target_application: any, graphics: any, input: any);
+    constructor(target_application: any, graphics: any);
     target_application: any;
     graphics: any;
-    input: any;
     is_running: boolean;
     frames_passed: number;
     time_accumulator: number;
