@@ -6,6 +6,6 @@ export class ApplicationView extends ViewState {
     });
     container: any;
     url: any;
-    set_opacity(current_state_data: any): void;
+    set_opacity(opacity: any): void;
 }
 import { ViewState } from "./ViewState";

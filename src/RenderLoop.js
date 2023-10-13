@@ -2,8 +2,9 @@ import { BaseApplication } from './BaseApplication';
 import { Debug } from './Debug';
 import { Time } from './Time';
 import { UI } from './UI';
+import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
-import { ViewManager } from './view_components/ViewManager';
+import { ViewControllerManager } from './view_components/ViewControllerManager';
 
 class RenderLoop
 {
@@ -26,6 +27,7 @@ class RenderLoop
     {
       return;
     }
+
     Time.__update();
 
     // ###### START CYCLE ######
@@ -37,19 +39,23 @@ class RenderLoop
     this.time_accumulator += Time.delta_time;
 
     this.target_application.before_update();
-    ViewManager.before_update();
+    TransitionManager.before_update();
 
     while (this.time_accumulator > Time.fixed_delta_time)
     {
       this.target_application.fixed_update();
-      ViewManager.fixed_update();
+      TransitionManager.fixed_update();
+
       this.time_accumulator -= Time.fixed_delta_time;
     }
+
     Time.__set_frame_interpolation(this.time_accumulator / Time.fixed_delta_time);
 
     this.target_application.update();
+    TransitionManager.update();
+    ViewControllerManager.update();
 
-    ViewManager.update();
+    // TODO: volar de aca, pertenece al main
     ViewComponentManager.update();
 
     this.target_application.on_pre_render();
@@ -57,6 +63,7 @@ class RenderLoop
     this.graphics.update();     // render scene
     UI.update();                // update after new camera matrix has been calculated
     UI.render(this.graphics);   // render ui layer on top
+
     this.target_application.on_post_render();
 
     Debug.render(this.graphics);             // render debug layer
@@ -64,6 +71,7 @@ class RenderLoop
     // ###### END  CYCLE #######
 
     this.target_application.on_frame_end();
+
     this.frames_passed++;
 
     UI.clear();

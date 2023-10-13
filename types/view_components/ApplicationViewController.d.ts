@@ -5,6 +5,7 @@ export class ApplicationViewController extends ViewState {
         transition_data: any;
     });
     url: any;
+    current_opacity: number;
     set_opacity(current_state_data: any): void;
 }
 import { ViewState } from "./ViewState";

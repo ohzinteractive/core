@@ -1,4 +1,5 @@
-import { ViewManager } from './ViewManager';
+import { TransitionManager } from './TransitionManager';
+import { ViewControllerManager } from './ViewControllerManager';
 import { ViewState } from './ViewState';
 import { WorkerToMain } from './WorkerToMain';
 
@@ -22,8 +23,10 @@ class ApplicationViewController extends ViewState
       }
     ];
 
-    ViewManager.register_view(this);
-    ViewManager.add_transitions(transitions);
+    this.current_opacity = 0;
+
+    ViewControllerManager.register_view_controller(this);
+    TransitionManager.add_transitions(transitions);
   }
 
   show()
@@ -44,6 +47,11 @@ class ApplicationViewController extends ViewState
   before_exit()
   {
     WorkerToMain.push(`${this.name}_view.before_exit`);
+  }
+
+  on_exit()
+  {
+    WorkerToMain.push(`${this.name}_view.on_exit`);
   }
 
   hide()
@@ -72,7 +80,14 @@ class ApplicationViewController extends ViewState
 
   set_opacity(current_state_data)
   {
-    WorkerToMain.push(`${this.name}_view.set_opacity`, [current_state_data]);
+    const opacity = current_state_data[`${this.name}_opacity`];
+
+    if (this.current_opacity > opacity || this.current_opacity < opacity)
+    {
+      this.current_opacity = opacity;
+
+      WorkerToMain.push(`${this.name}_view.set_opacity`, [opacity]);
+    }
   }
 }
 

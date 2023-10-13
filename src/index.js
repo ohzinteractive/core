@@ -33,14 +33,16 @@ import { UnrealBloomRender } from './render_mode/UnrealBloomRender';
 import { VRRender } from './render_mode/VRRender';
 import { RenderLoop } from './RenderLoop';
 import { SceneManager } from './SceneManager';
-import { Screen } from './Screen';
 import { Time } from './Time';
 import { UI } from './UI';
 import { DrawIOAnimationSheet } from './view_components/transition/DrawIOAnimationSheet';
 import { TransitionTable } from './view_components/transition/TransitionTable';
+import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponent } from './view_components/ViewComponent';
+import { ViewComponentController } from './view_components/ViewComponentController';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
 import { ViewContext } from './view_components/ViewContext';
+import { ViewControllerManager } from './view_components/ViewControllerManager';
 import { ViewManager } from './view_components/ViewManager';
 
 import { Arrow } from './primitives/Arrow';
@@ -117,16 +119,12 @@ import { ResourceBatch } from './resource_loader/ResourceBatch';
 import { ResourceContainer } from './ResourceContainer';
 
 export {
-  AbstractLoader, ActionEvent,
-  ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ApplicationViewController, ArrayUtilities, Arrow, AsyncTextureLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities, Configuration,
-  CSSAnimator, Cube, CubemapLoader,
-  DAELoader, Debug,
-  DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, EventManager, FileLoader,
+  AbstractLoader, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ApplicationViewController, ArrayUtilities, Arrow, AsyncTextureLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities, Configuration,
+  CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, EventManager, FileLoader,
   FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HorizontalPlane, HTMLUtilities,
   ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, MedianFilter, MeshBatcher, MeshSampler,
-  ModelUtilities, NormalAORender,
-  NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
+  ModelUtilities, NormalAORender, NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RenderLoop, ResourceBatch,
-  ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
-  ViewComponentManager, ViewContext, ViewManager, VRRender, WorkerToMain, WorldImage
+  ResourceContainer, RGBETextureLoader, SceneManager, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent, ViewComponentController,
+  ViewComponentManager, ViewContext, ViewControllerManager, ViewManager, VRRender, WorkerToMain, WorldImage
 };

@@ -7,7 +7,6 @@ declare class ViewComponentManager {
     register_component(component: any): void;
     enable_component(component: any): void;
     disable_component(component: any): void;
-    get_component_by_name(component_name: any): void;
     get(component_name: any): any;
     __set_components_opacities(): void;
 }

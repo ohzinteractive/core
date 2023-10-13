@@ -1,5 +1,3 @@
-import { HTMLUtilities } from '../utilities/HTMLUtilities';
-import { ViewComponentManager } from './ViewComponentManager';
 
 class ViewComponent
 {
@@ -7,9 +5,8 @@ class ViewComponent
   {
     this.name = name;
     this.container = container;
-    this.hidden = true;
 
-    ViewComponentManager.register_component(this);
+    this.hidden = true;
   }
 
   start()
@@ -19,7 +16,6 @@ class ViewComponent
   on_enter()
   {
     this.container.classList.remove('hidden');
-    ViewComponentManager.enable_component(this);
 
     this.hidden = false;
   }
@@ -31,14 +27,14 @@ class ViewComponent
   on_exit()
   {
     this.container.classList.add('hidden');
-    ViewComponentManager.disable_component(this);
 
     this.hidden = true;
   }
 
-  set_opacity(current_state_data)
+  set_opacity(opacity)
   {
-    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    this.container.style.opacity = opacity;
+
     this.toggle_hidden();
   }
 
@@ -58,16 +54,6 @@ class ViewComponent
         this.on_exit();
       }
     }
-  }
-
-  load_html_images()
-  {
-    HTMLUtilities.load_images(this.container);
-  }
-
-  load_html_videos()
-  {
-    HTMLUtilities.load_videos(this.container);
   }
 }
 

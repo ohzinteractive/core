@@ -1,3 +1,4 @@
+import { ViewManager } from './ViewManager';
 import { ViewState } from './ViewState';
 
 class ApplicationView extends ViewState
@@ -8,6 +9,8 @@ class ApplicationView extends ViewState
 
     this.container = container;
     this.url = url;
+
+    ViewManager.register_view(this);
   }
 
   show()
@@ -38,9 +41,9 @@ class ApplicationView extends ViewState
     this.container.classList.remove('before_exit');
   }
 
-  set_opacity(current_state_data)
+  set_opacity(opacity)
   {
-    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    this.container.style.opacity = opacity;
   }
 }
 

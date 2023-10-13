@@ -1,5 +1,6 @@
-import { ViewManager } from './ViewManager';
+import { TransitionManager } from './TransitionManager';
 
+// TODO: ver que hacer con esto
 class ViewComponentManager
 {
   constructor()
@@ -14,7 +15,7 @@ class ViewComponentManager
 
     for (const component of this.enabled_components)
     {
-      component.update(ViewManager.transition_handler.current_state_data);
+      component.update(TransitionManager.current_state_data);
     }
   }
 
@@ -25,22 +26,12 @@ class ViewComponentManager
 
   enable_component(component)
   {
-    // const component_to_enable = this.get_component_by_name(component_name);
-
     this.enabled_components.add(component);
   }
 
   disable_component(component)
   {
-    // const component_to_disable = this.get_component_by_name(component_name);
-
     this.enabled_components.delete(component);
-  }
-
-  get_component_by_name(component_name)
-  {
-    console.warn('DEPRECATED. Use ViewComponentManager.get instead');
-    this.get(component_name);
   }
 
   get(component_name)
@@ -60,7 +51,7 @@ class ViewComponentManager
   {
     for (let i = 0; i < this.components.length; i++)
     {
-      this.components[i].set_opacity(ViewManager.transition_handler.current_state_data);
+      this.components[i].set_opacity(TransitionManager.current_state_data);
     }
   }
 }
