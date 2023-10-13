@@ -41,7 +41,6 @@ import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponent } from './view_components/ViewComponent';
 import { ViewComponentController } from './view_components/ViewComponentController';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
-import { ViewContext } from './view_components/ViewContext';
 import { ViewControllerManager } from './view_components/ViewControllerManager';
 import { ViewManager } from './view_components/ViewManager';
 
@@ -126,5 +125,5 @@ export {
   ModelUtilities, NormalAORender, NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RenderLoop, ResourceBatch,
   ResourceContainer, RGBETextureLoader, SceneManager, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent, ViewComponentController,
-  ViewComponentManager, ViewContext, ViewControllerManager, ViewManager, VRRender, WorkerToMain, WorldImage
+  ViewComponentManager, ViewControllerManager, ViewManager, VRRender, WorkerToMain, WorldImage
 };

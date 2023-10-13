@@ -1,4 +1,3 @@
-import { ViewContext } from '../view_components/ViewContext';
 
 class ActionEvent
 {
@@ -11,7 +10,7 @@ class ActionEvent
 
   trigger()
   {
-    ViewContext.app[this.name][this.method](...this.args.split(','));
+    ViewApi.application[this.name][this.method](...this.args.split(','));
   }
 }
 

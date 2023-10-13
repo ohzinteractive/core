@@ -4,7 +4,7 @@ class ViewManager
   constructor()
   {
     this.views = [];
-    this.offscreen_manager = undefined;
+    this.main_to_worker = undefined;
 
     this.browser_title_suffix = '';
   }
@@ -19,7 +19,7 @@ class ViewManager
       this.__change_browser_title(v.url);
     }
 
-    this.offscreen_manager.post('go_to_view_controller', { view_controller_name: view_name, skip });
+    this.main_to_worker.post('go_to_view_controller', { view_controller_name: view_name, skip });
   }
 
   go_to_scene(scene_name, change_url = false, skip = false)
@@ -67,9 +67,9 @@ class ViewManager
     this.views.push(view);
   }
 
-  set_offscreen_manager(offscreen_manager)
+  set_main_to_worker(main_to_worker)
   {
-    this.offscreen_manager = offscreen_manager;
+    this.main_to_worker = main_to_worker;
   }
 
   __change_browser_url(url)
