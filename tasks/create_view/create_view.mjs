@@ -14,6 +14,7 @@ class ViewCreator
     const js_transition_path = path.join(js_folder, `${this.capitalize(name)}TransitionController.js`);
     const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.js`);
     const js_view_path = path.join(js_folder, `${this.capitalize(name)}View.js`);
+    const js_view_controller_path = path.join(js_folder, `${this.capitalize(name)}ViewController.js`);
 
     const transition_data_path = path.join('..', 'app', 'data', 'transitions', `${name}.json`);
 
@@ -26,6 +27,7 @@ class ViewCreator
     this.__copy_template_js(js_folder, js_transition_path, name, 'TransitionController');
     this.__copy_template_js(js_folder, js_scene_path, name, 'SceneController');
     this.__copy_template_js(js_folder, js_view_path, name, 'View');
+    this.__copy_template_js(js_folder, js_view_controller_path, name, 'ViewController');
 
     this.__copy_template_data(transition_data_path, name);
     this.__copy_template_pug(pug_folder, pug_path, name);
@@ -345,7 +347,7 @@ class ViewCreator
 
     const options_3 = {
       files: path,
-      from: 'template',
+      from: /template/g,
       to: name.replace(/_/g, '-')
     };
 

@@ -88,5 +88,4 @@ class ViewControllerManager
   }
 }
 
-const view_controller_manager = new ViewControllerManager();
-export { view_controller_manager as ViewControllerManager };
+export { ViewControllerManager };

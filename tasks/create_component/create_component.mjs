@@ -12,7 +12,8 @@ class ComponentCreator
   {
     const js_folder = path.join('..', 'app', 'js', 'view_components', name);
 
-    const js_view_path = path.join(js_folder, `${this.capitalize(name)}Component.js`);
+    const js_component_path = path.join(js_folder, `${this.capitalize(name)}Component.js`);
+    const js_component_controller_path = path.join(js_folder, `${this.capitalize(name)}ComponentController.js`);
 
     const pug_folder = path.join('..', 'app', 'views', 'components', name);
     const pug_path = path.join(pug_folder, `${name}.pug`);
@@ -20,8 +21,8 @@ class ComponentCreator
     const scss_folder = path.join('..', 'app', 'css', 'components', name);
     const scss_path = path.join(scss_folder, `_${name}.scss`);
 
-    this.__copy_template_js(js_folder, js_view_path, name, 'Component');
-    this.__copy_template_js(js_folder, js_view_path, name, 'ComponentController');
+    this.__copy_template_js(js_folder, js_component_path, name, 'Component');
+    this.__copy_template_js(js_folder, js_component_controller_path, name, 'ComponentController');
 
     this.__copy_template_pug(pug_folder, pug_path, name);
     this.__copy_template_scss(scss_folder, scss_path, name);
@@ -278,7 +279,7 @@ class ComponentCreator
 
     const options_3 = {
       files: path,
-      from: 'template',
+      from: /template/g,
       to: name.replace(/_/g, '-')
     };
 

@@ -1,5 +1,6 @@
 export class AsyncTextureLoader extends AbstractLoader {
     constructor(resource_id: any, url: any, size: any, flipY?: boolean, premultiplyAlpha?: boolean, colorSpaceConversion?: boolean);
+    original_url: string;
     colorSpaceConversion: boolean;
     premultiplyAlpha: boolean;
     flipY: boolean;

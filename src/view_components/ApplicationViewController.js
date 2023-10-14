@@ -1,5 +1,5 @@
 import { TransitionManager } from './TransitionManager';
-import { ViewControllerManager } from './ViewControllerManager';
+import { VCManager } from './VCManager';
 import { ViewState } from './ViewState';
 import { WorkerToMain } from './WorkerToMain';
 
@@ -25,7 +25,7 @@ class ApplicationViewController extends ViewState
 
     this.current_opacity = 0;
 
-    ViewControllerManager.register_view_controller(this);
+    VCManager.register_view_controller(this);
     TransitionManager.add_transitions(transitions);
   }
 

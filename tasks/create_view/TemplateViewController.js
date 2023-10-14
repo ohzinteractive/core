@@ -6,7 +6,7 @@ import { TemplateTransitionController } from './TemplateTransitionController';
 import template_data from '../../../data/transitions/template.json';
 import { CommonViewController } from '../common/CommonViewController';
 
-class TemplateView extends CommonViewController
+class TemplateViewController extends CommonViewController
 {
   constructor()
   {
@@ -92,4 +92,4 @@ class TemplateView extends CommonViewController
   }
 }
 
-export { TemplateView };
+export { TemplateViewController };

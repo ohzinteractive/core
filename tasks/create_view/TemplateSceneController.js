@@ -1,5 +1,5 @@
-import { SceneManager } from 'ohzi-core';
-import { HomeScene } from '../../app/js/scenes/HomeScene';
+import { SceneManager, VCManager } from 'ohzi-core';
+import { Sections } from '../Sections';
 
 class TemplateSceneController
 {
@@ -9,7 +9,7 @@ class TemplateSceneController
 
   start()
   {
-    this.scene = HomeScene;
+    this.scene = VCManager.get(Sections.HOME).scene;
   }
 
   before_enter()
