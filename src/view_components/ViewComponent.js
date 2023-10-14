@@ -1,3 +1,4 @@
+import { ViewComponentManager } from './ViewComponentManager';
 
 class ViewComponent
 {
@@ -6,7 +7,9 @@ class ViewComponent
     this.name = name;
     this.container = container;
 
-    this.hidden = true;
+    // this.hidden = true;
+
+    ViewComponentManager.register_component(this);
   }
 
   start()
@@ -17,7 +20,9 @@ class ViewComponent
   {
     this.container.classList.remove('hidden');
 
-    this.hidden = false;
+    // this.hidden = false;
+
+    ViewComponentManager.enable_component(this);
   }
 
   update()
@@ -28,32 +33,14 @@ class ViewComponent
   {
     this.container.classList.add('hidden');
 
-    this.hidden = true;
+    // this.hidden = true;
+
+    ViewComponentManager.disable_component(this);
   }
 
   set_opacity(opacity)
   {
     this.container.style.opacity = opacity;
-
-    this.toggle_hidden();
-  }
-
-  toggle_hidden()
-  {
-    if (this.container.style.opacity > 0.001)
-    {
-      if (this.hidden)
-      {
-        this.on_enter();
-      }
-    }
-    else
-    {
-      if (!this.hidden)
-      {
-        this.on_exit();
-      }
-    }
   }
 }
 

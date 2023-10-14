@@ -1,4 +1,4 @@
-import { ViewComponentManager } from './ViewComponentManager';
+import { ViewComponentControllerManager } from './ViewComponentControllerManager';
 import { WorkerToMain } from './WorkerToMain';
 
 class ViewComponentController
@@ -8,8 +8,9 @@ class ViewComponentController
     this.name = name;
 
     this.current_opacity = 0;
+    this.hidden = true;
 
-    ViewComponentManager.register_component(this);
+    ViewComponentControllerManager.register_component_controller(this);
   }
 
   start()
@@ -18,19 +19,23 @@ class ViewComponentController
 
   on_enter()
   {
-    ViewComponentManager.enable_component(this);
-    WorkerToMain.push(`${this.name}_view.on_enter`);
+    ViewComponentControllerManager.enable_component_controller(this);
+    WorkerToMain.push(`${this.name}_component.on_enter`);
+
+    this.hidden = false;
   }
 
   update()
   {
-    WorkerToMain.push(`${this.name}_view.update`);
+    WorkerToMain.push(`${this.name}_component.update`);
   }
 
   on_exit()
   {
-    ViewComponentManager.disable_component(this);
-    WorkerToMain.push(`${this.name}_view.on_exit`);
+    ViewComponentControllerManager.disable_component_controller(this);
+    WorkerToMain.push(`${this.name}_component.on_exit`);
+
+    this.hidden = true;
   }
 
   set_opacity(current_state_data)
@@ -41,7 +46,26 @@ class ViewComponentController
     {
       this.current_opacity = opacity;
 
-      WorkerToMain.push(`${this.name}_view.set_opacity`, [opacity]);
+      WorkerToMain.push(`${this.name}_component.set_opacity`, [opacity]);
+      this.toggle_hidden();
+    }
+  }
+
+  toggle_hidden()
+  {
+    if (this.current_opacity > 0.0001)
+    {
+      if (this.hidden)
+      {
+        this.on_enter();
+      }
+    }
+    else
+    {
+      if (!this.hidden)
+      {
+        this.on_exit();
+      }
     }
   }
 }

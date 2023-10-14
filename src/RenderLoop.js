@@ -3,7 +3,7 @@ import { Debug } from './Debug';
 import { Time } from './Time';
 import { UI } from './UI';
 import { TransitionManager } from './view_components/TransitionManager';
-import { ViewComponentManager } from './view_components/ViewComponentManager';
+import { ViewComponentControllerManager } from './view_components/ViewComponentControllerManager';
 import { ViewControllerManager } from './view_components/ViewControllerManager';
 
 class RenderLoop
@@ -52,11 +52,10 @@ class RenderLoop
     Time.__set_frame_interpolation(this.time_accumulator / Time.fixed_delta_time);
 
     this.target_application.update();
+
     TransitionManager.update();
     ViewControllerManager.update();
-
-    // TODO: volar de aca, pertenece al main
-    ViewComponentManager.update();
+    ViewComponentControllerManager.update();
 
     this.target_application.on_pre_render();
 

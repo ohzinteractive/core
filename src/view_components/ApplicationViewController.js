@@ -66,6 +66,7 @@ class ApplicationViewController extends ViewState
 
   fixed_update()
   {
+    // TODO: Evaluate if a fixed update is necessary on the main thread
   }
 
   update_enter_transition(global_view_data, transition_progress, action_sequencer)

@@ -1,6 +1,5 @@
 import { TransitionManager } from './TransitionManager';
 
-// TODO: ver que hacer con esto
 class ViewComponentManager
 {
   constructor()

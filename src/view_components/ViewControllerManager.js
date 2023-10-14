@@ -48,18 +48,18 @@ class ViewControllerManager
     return undefined;
   }
 
-  get_by_url(url)
-  {
-    for (let i = 0; i < this.view_controllers.length; i++)
-    {
-      if (this.view_controllers[i].url === url)
-      {
-        return this.view_controllers[i];
-      }
-    }
-    console.error('[ViewControllerManager.get_by_url] no view controller found for: ', url);
-    return undefined;
-  }
+  // get_by_url(url)
+  // {
+  //   for (let i = 0; i < this.view_controllers.length; i++)
+  //   {
+  //     if (this.view_controllers[i].url === url)
+  //     {
+  //       return this.view_controllers[i];
+  //     }
+  //   }
+  //   console.error('[ViewControllerManager.get_by_url] no view controller found for: ', url);
+  //   return undefined;
+  // }
 
   __set_view_controllers_opacities()
   {

@@ -37,6 +37,7 @@ class ViewCreator
     this.__update_general_loader_file(name);
     this.__update_sections_file(name);
     this.__update_mainapp_file(name);
+    this.__update_sharedapp_file(name);
   }
 
   __update_default_data_file(name)
@@ -152,6 +153,46 @@ class ViewCreator
     const options_3 = {
       files: file_path,
       from: 'home_view.start();',
+      to: new_section_start
+    };
+
+    try
+    {
+      replace.sync(options_1);
+      replace.sync(options_2);
+      replace.sync(options_3);
+      console.log('\x1b[33m', `${file_path} Modified`);
+    }
+    catch (error)
+    {
+      console.error('Error occurred:', error);
+    }
+  }
+
+  __update_sharedapp_file(name)
+  {
+    const new_import = `HomeViewController';\nimport { ${this.capitalize(name)}ViewController } from './views/${name}/${this.capitalize(name)}ViewController';`;
+    const file_path = path.join('..', 'app', 'js', 'SharedApplication.js');
+
+    const options_1 = {
+      files: file_path,
+      from: 'HomeViewController\';',
+      to: new_import
+    };
+
+    const new_section = `HomeViewController();\n    this.${name.toLowerCase()}_view_controller = new ${this.capitalize(name)}ViewController();`;
+
+    const options_2 = {
+      files: file_path,
+      from: 'HomeViewController();',
+      to: new_section
+    };
+
+    const new_section_start = `home_view_controller.start();\n    this.${name.toLowerCase()}_view_controller.start();`;
+
+    const options_3 = {
+      files: file_path,
+      from: 'home_view_controller.start();',
       to: new_section_start
     };
 

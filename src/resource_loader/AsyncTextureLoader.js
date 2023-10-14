@@ -9,6 +9,8 @@ class AsyncTextureLoader extends AbstractLoader
   {
     super(resource_id, url, size);
 
+    this.original_url = '';
+
     this.colorSpaceConversion = colorSpaceConversion;
     this.premultiplyAlpha = premultiplyAlpha;
     this.flipY = flipY;
@@ -51,7 +53,7 @@ class AsyncTextureLoader extends AbstractLoader
 
       image.onerror = () =>
       {
-        console.error('Error loading texture. Maybe the resource is not an image?', this.url, this.original_url);
+        console.error('The source image could not be decoded.', this.original_url);
       };
     }
     else
@@ -93,9 +95,9 @@ class AsyncTextureLoader extends AbstractLoader
 
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
-      }).catch(function(e)
+      }).catch((e) =>
       {
-        console.error(e);
+        console.error(e, this.original_url);
       });
     }
     else

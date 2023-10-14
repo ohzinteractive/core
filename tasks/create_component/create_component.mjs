@@ -21,6 +21,7 @@ class ComponentCreator
     const scss_path = path.join(scss_folder, `_${name}.scss`);
 
     this.__copy_template_js(js_folder, js_view_path, name, 'Component');
+    this.__copy_template_js(js_folder, js_view_path, name, 'ComponentController');
 
     this.__copy_template_pug(pug_folder, pug_path, name);
     this.__copy_template_scss(scss_folder, scss_path, name);
@@ -30,6 +31,7 @@ class ComponentCreator
     this.__update_application_scss_file(name);
     this.__update_components_file(name);
     this.__update_mainapp_file(name);
+    this.__update_sharedapp_file(name);
   }
 
   __update_default_data_file(name)
@@ -122,6 +124,46 @@ class ComponentCreator
     const options_3 = {
       files: file_path,
       from: `${this.capitalize(name)}Component();`,
+      to: new_section_start
+    };
+
+    try
+    {
+      replace.sync(options_1);
+      replace.sync(options_2);
+      replace.sync(options_3);
+      console.log('\x1b[33m', `${file_path} Modified`);
+    }
+    catch (error)
+    {
+      console.error('Error occurred:', error);
+    }
+  }
+
+  __update_sharedapp_file(name)
+  {
+    const new_import = `HomeViewController';\nimport { ${this.capitalize(name)}ComponentController } from './view_components/${name}/${this.capitalize(name)}ComponentController';`;
+    const file_path = path.join('..', 'app', 'js', 'SharedApplication.js');
+
+    const options_1 = {
+      files: file_path,
+      from: 'HomeViewController\';',
+      to: new_import
+    };
+
+    const new_section = `__COMPONENT_CONTROLLERS__\n    this.${name.toLowerCase()}_component_controller = new ${this.capitalize(name)}ComponentController();`;
+
+    const options_2 = {
+      files: file_path,
+      from: '__COMPONENT_CONTROLLERS__',
+      to: new_section
+    };
+
+    const new_section_start = `${this.capitalize(name)}ComponentController();\n    this.${name.toLowerCase()}_component_controller.start();`;
+
+    const options_3 = {
+      files: file_path,
+      from: `${this.capitalize(name)}ComponentController();`,
       to: new_section_start
     };
 
