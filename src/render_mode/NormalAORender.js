@@ -1,19 +1,18 @@
 import { CameraManager } from '../CameraManager';
-import { SceneManager } from '../SceneManager';
-import { OScreen } from '../OScreen';
-import { BaseRender } from '../render_mode/BaseRender';
-import { Configuration } from '../Configuration';
-import { SSAOMaterial } from '../materials/SSAOMaterial';
-import { SSAOComposeMaterial } from '../materials/SSAOComposeMaterial';
-import { DisplayNormalTextureMaterial } from '../materials/DisplayNormalTextureMaterial';
-import { Blurrer } from '../render_utilities/Blurrer';
 import { Graphics } from '../Graphics';
+import { OScreen } from '../OScreen';
+import { SceneManager } from '../SceneManager';
+import { DisplayNormalTextureMaterial } from '../materials/DisplayNormalTextureMaterial';
+import { SSAOComposeMaterial } from '../materials/SSAOComposeMaterial';
+import { SSAOMaterial } from '../materials/SSAOMaterial';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Blurrer } from '../render_utilities/Blurrer';
 
 import { WebGLRenderTarget } from 'three';
 
 class NormalAORender extends BaseRender
 {
-  constructor()
+  constructor(use_ssaa = false)
   {
     super();
 
@@ -21,7 +20,7 @@ class NormalAORender extends BaseRender
     this.ssao_compose_mat = new SSAOComposeMaterial();
     this.debug_normals = new DisplayNormalTextureMaterial();
 
-    this.ssaa = Configuration.use_ssaa ? 2 : 1;
+    this.ssaa = use_ssaa ? 2 : 1;
 
     this.main_RT = new WebGLRenderTarget(OScreen.width * this.ssaa, OScreen.height * this.ssaa);
 

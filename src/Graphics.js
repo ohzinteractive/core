@@ -1,6 +1,5 @@
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
-import { Configuration } from './Configuration';
 import { OScreen } from './OScreen';
 import { SceneManager } from './SceneManager';
 import { BaseRender } from './render_mode/BaseRender';
@@ -22,7 +21,7 @@ import { WebGLRenderer } from 'three';
 
 class Graphics
 {
-  init(canvas, core_attributes, context_attributes, threejs_attributes)
+  init({ canvas, core_attributes, context_attributes, threejs_attributes, dpr })
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -93,9 +92,8 @@ class Graphics
       this._renderer.autoClear = false;
     }
 
+    OScreen.dpr = dpr;
     this._renderer.setPixelRatio(1);
-
-    OScreen.dpr = Configuration.dpr;
 
     if (!this.is_webgl2)
     {
@@ -231,11 +229,13 @@ class Graphics
       !!clear_stencil);
   }
 
-  on_resize(entries)
+  on_resize(entries, dpr)
   {
     for (const entry of entries)
     {
-      OScreen.dpr = Configuration.dpr;
+      OScreen.dpr = dpr;
+      // this._renderer.setPixelRatio(dpr);
+
       OScreen.update_position(entry.contentRect.x, entry.contentRect.y);
       OScreen.update_size(entry.contentRect.width, entry.contentRect.height);
 

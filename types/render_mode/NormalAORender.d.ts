@@ -1,4 +1,5 @@
 export class NormalAORender extends BaseRender {
+    constructor(use_ssaa?: boolean);
     ssao_mat: SSAOMaterial;
     ssao_compose_mat: SSAOComposeMaterial;
     debug_normals: DisplayNormalTextureMaterial;
