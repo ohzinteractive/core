@@ -1,5 +1,6 @@
 import { SceneManager, VCManager } from 'ohzi-core';
 import { Sections } from '../Sections';
+// import { TemplateScene } from '../../scenes/TemplateScene';
 
 class TemplateSceneController
 {
@@ -9,12 +10,22 @@ class TemplateSceneController
 
   start()
   {
+    // Use this line to reuse HomeScene
     this.scene = VCManager.get(Sections.HOME).scene;
+
+    // Use this line to use own scene
+    // this.scene = new TemplateScene();
+  }
+
+  show()
+  {
+    this.scene.setup_camera();
+
+    SceneManager.current = this.scene;
   }
 
   before_enter()
   {
-    SceneManager.current = this.scene;
   }
 
   on_enter()

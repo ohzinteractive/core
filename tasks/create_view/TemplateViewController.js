@@ -20,6 +20,11 @@ class TemplateViewController extends CommonViewController
     this.transition_controller = new TemplateTransitionController();
   }
 
+  get scene()
+  {
+    return this.scene_controller.scene;
+  }
+
   start()
   {
     super.start();
@@ -32,6 +37,7 @@ class TemplateViewController extends CommonViewController
   {
     super.show();
 
+    this.scene_controller.show();
     this.transition_controller.show();
   }
 
