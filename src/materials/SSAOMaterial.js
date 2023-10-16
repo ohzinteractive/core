@@ -3,11 +3,7 @@ import { BlitMaterial } from '../materials/BlitMaterial';
 import frag from '../shaders/ssao/ssao.frag';
 import vert from '../shaders/ssao/ssao.vert';
 
-import { Matrix4 } from 'three';
-import { Vector3 } from 'three';
-import { DataTexture } from 'three';
-import { RGBFormat } from 'three';
-import { RepeatWrapping } from 'three';
+import { DataTexture, Matrix4, RGBAFormat, RepeatWrapping, Vector3 } from 'three';
 
 import { OMath } from '../utilities/OMath';
 class SSAOMaterial extends BlitMaterial
@@ -57,7 +53,7 @@ class SSAOMaterial extends BlitMaterial
       rotation_kernel[i * 3 + 3] = 0;
     }
 
-    const rotation_texture = new DataTexture(rotation_kernel, 4, 4, RGBFormat);
+    const rotation_texture = new DataTexture(rotation_kernel, 4, 4, RGBAFormat);
     rotation_texture.wrapS = RepeatWrapping;
     rotation_texture.wrapT = RepeatWrapping;
 

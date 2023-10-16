@@ -1,6 +1,4 @@
-import { Mesh } from 'three';
-import { SphereBufferGeometry } from 'three';
-import { MeshBasicMaterial } from 'three';
+import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
 
 class Sphere extends Mesh
 {
@@ -8,7 +6,7 @@ class Sphere extends Mesh
   {
     color = color || '#FF0000';
     radius = radius || 1;
-    const geometry = new SphereBufferGeometry(radius, 64, 64);
+    const geometry = new SphereGeometry(radius, 64, 64);
     const material = new MeshBasicMaterial({ color: color });
     super(geometry, material);
   }

@@ -1,7 +1,4 @@
-import { CylinderBufferGeometry } from 'three';
-import { ConeBufferGeometry } from 'three';
-import { MeshBasicMaterial } from 'three';
-import { Vector3, Mesh } from 'three';
+import { ConeGeometry, CylinderGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
@@ -14,10 +11,10 @@ class Arrow extends Mesh
 
     const cone_height = 0.4;
     const cylinder_height = length - cone_height;
-    const cylinder_geo = new CylinderBufferGeometry(0.01, 0.01, cylinder_height, 32);
+    const cylinder_geo = new CylinderGeometry(0.01, 0.01, cylinder_height, 32);
     cylinder_geo.translate(0, cylinder_height / 2, 0);
 
-    const cone_geometry = new ConeBufferGeometry(0.1, cone_height, 32);
+    const cone_geometry = new ConeGeometry(0.1, cone_height, 32);
     cone_geometry.translate(0, cylinder_height + cone_height / 2, 0);
 
     const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries([cylinder_geo, cone_geometry]);
