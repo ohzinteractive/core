@@ -48,7 +48,7 @@
   },
   "standardx": {
     "ignore": [
-      "rollup.config.js"
+      "rollup.config.mjs"
     ]
   },
   "devDependencies": {
