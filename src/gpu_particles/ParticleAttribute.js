@@ -1,11 +1,6 @@
 import { Graphics } from '../Graphics';
 
-import { NearestFilter } from 'three';
-import { RGBAFormat } from 'three';
-import { LinearEncoding } from 'three';
-import { HalfFloatType } from 'three';
-import { FloatType } from 'three';
-import { WebGLRenderTarget } from 'three';
+import { FloatType, HalfFloatType, LinearSRGBColorSpace, NearestFilter, RGBAFormat, WebGLRenderTarget } from 'three';
 import { Capabilities } from '../Capabilities';
 
 class ParticleAttribute
@@ -37,7 +32,7 @@ class ParticleAttribute
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
-      encoding: LinearEncoding,
+      colorSpace: LinearSRGBColorSpace,
       type: Capabilities.fp_textures_available ? FloatType : HalfFloatType,
       stencilBuffer: false,
       depthBuffer: false

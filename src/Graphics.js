@@ -9,7 +9,7 @@ import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRende
 import {
   AlwaysDepth,
   FloatType,
-  LinearEncoding,
+  LinearSRGBColorSpace,
   NearestFilter,
   NoBlending,
   RGBAFormat,
@@ -361,7 +361,7 @@ class Graphics
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
-      encoding: LinearEncoding,
+      colorSpace: LinearSRGBColorSpace,
       type: FloatType,
       stencilBuffer: false,
       depthBuffer: false
