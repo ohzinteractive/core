@@ -3,7 +3,6 @@ export class AudioLoader extends AbstractLoader {
     loop: boolean;
     volume: number;
     positional: boolean;
-    on_preloaded_finished(resource_container: any): void;
     instantiate_audio(resource_container: any): void;
 }
 import { AbstractLoader } from "./AbstractLoader";

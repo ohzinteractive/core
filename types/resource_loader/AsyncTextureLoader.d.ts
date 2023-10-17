@@ -4,7 +4,6 @@ export class AsyncTextureLoader extends AbstractLoader {
     colorSpaceConversion: boolean;
     premultiplyAlpha: boolean;
     flipY: boolean;
-    on_preloaded_finished(resource_container: any): void;
     load_with_old_method(resource_container: any): void;
     load_with_new_method(resource_container: any): void;
 }

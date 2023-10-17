@@ -29,11 +29,6 @@ class ApplicationViewController extends ViewState
     TransitionManager.add_transitions(transitions);
   }
 
-  show()
-  {
-    WorkerToMain.push(`${this.name}_view.show`);
-  }
-
   before_enter()
   {
     WorkerToMain.push(`${this.name}_view.before_enter`);
@@ -52,11 +47,6 @@ class ApplicationViewController extends ViewState
   on_exit()
   {
     WorkerToMain.push(`${this.name}_view.on_exit`);
-  }
-
-  hide()
-  {
-    WorkerToMain.push(`${this.name}_view.hide`);
   }
 
   update()

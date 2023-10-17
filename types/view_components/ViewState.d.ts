@@ -2,8 +2,6 @@ export class ViewState {
     constructor(name: any);
     name: any;
     start(): void;
-    show(): void;
-    hide(): void;
     before_enter(): void;
     on_enter(): void;
     before_update(): void;

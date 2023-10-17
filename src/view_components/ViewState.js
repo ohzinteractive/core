@@ -9,14 +9,6 @@ class ViewState
   {
   }
 
-  show()
-  {
-  }
-
-  hide()
-  {
-  }
-
   before_enter()
   {
   }

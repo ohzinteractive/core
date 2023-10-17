@@ -13,7 +13,7 @@ class ApplicationView extends ViewState
     ViewManager.register_view(this);
   }
 
-  show()
+  before_enter()
   {
     this.container.classList.add('before_enter');
     this.container.classList.remove('before_exit');
@@ -34,7 +34,7 @@ class ApplicationView extends ViewState
     this.container.classList.remove('hidden');
   }
 
-  hide()
+  on_exit()
   {
     this.container.classList.add('hidden');
     this.container.classList.remove('before_enter');

@@ -17,11 +17,6 @@ class TemplateView extends CommonView
     super.start();
   }
 
-  show()
-  {
-    super.show();
-  }
-
   before_enter()
   {
     super.before_enter();
