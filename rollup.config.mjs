@@ -1,6 +1,5 @@
+import terser from '@rollup/plugin-terser';
 import glslify from 'rollup-plugin-glslify';
-import sourcemaps from 'rollup-plugin-sourcemaps';
-import { terser } from 'rollup-plugin-terser';
 
 export default [
   {
@@ -14,7 +13,6 @@ export default [
     ],
     plugins: [
       glslify(),
-      sourcemaps(),
       terser()
     ],
     external: [
