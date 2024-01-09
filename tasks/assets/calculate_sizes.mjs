@@ -14,6 +14,8 @@ class CalculateSizes
     {
       const files = await fs.promises.readdir(folder);
 
+      const exclude_folders = this.get_exclude_folders(process.argv[2]);
+
       for (const file of files)
       {
         // Get the full paths
@@ -27,7 +29,7 @@ class CalculateSizes
           // Save size in .env file
           if (!file.startsWith('_') && !file.startsWith('.'))
           {
-            const split_path = file_path.split('/');
+            const split_path = file_path.split(path.sep);
             split_path.shift();
 
             const file_name = split_path.pop();
@@ -45,14 +47,32 @@ class CalculateSizes
         }
         else if (stat.isDirectory())
         {
-          this.read_folder(file_path);
+          const split_path = file_path.split(path.sep);
+          const folder_name = split_path.pop();
+
+          if (!exclude_folders.includes(folder_name))
+          {
+            this.read_folder(file_path);
+          }
         }
       }
     }
     catch (e)
     {
-      console.error('We\'ve thrown! Whoops!', e);
+      console.error('Error:', e);
     }
+  }
+
+  get_exclude_folders(exclude_folders_string)
+  {
+    let exclude_folders = [];
+
+    if (exclude_folders_string)
+    {
+      exclude_folders = exclude_folders_string.split(',');
+    }
+
+    return exclude_folders;
   }
 
   wrong_file_name(file_name)
