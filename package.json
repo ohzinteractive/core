@@ -16,8 +16,7 @@
     "preinstall": "yarn config-hooks",
     "config-hooks": "git config core.hooksPath git_hooks",
     "build": "rollup -c",
-    "create-tag": "cross-var git tag -a \"v$npm_package_version\" -m \"Release Version $npm_package_version\" && cross-var git push origin \"v$npm_package_version\"",
-    "update-version": "cross-var echo \"v$npm_package_version\" > .version",
+    "create-tag": "node tasks/app/create_tag.mjs",
     "fix-syntax": "standardx --fix",
     "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types",
     "upload": "yarn build && npm publish && yarn create-tag",
@@ -52,7 +51,6 @@
     ]
   },
   "devDependencies": {
-    "cross-var": "^1.1.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
