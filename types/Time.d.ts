@@ -18,6 +18,11 @@ declare class Time {
     get fdt(): number;
     get dt(): any;
     get sdt(): any;
+    to_json(): {
+        elapsed_time: any;
+        delta_time: any;
+        smooth_delta_time: any;
+    };
     __set_frame_interpolation(value: any): void;
     __update(): void;
     __calculate_smooth_delta_time(): void;
