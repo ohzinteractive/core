@@ -1,22 +1,16 @@
 
 class Browser
 {
-  init()
+  async init()
   {
     this.browser_name = '';
     this.agent = window.navigator.userAgent.toLowerCase();
 
-    // vr specific
-    this.vr_browser_keywords = ['oculusbrowser', 'oculus', 'vive', 'rift', 'windowsmr', 'cardboard', 'daydream', 'wolvic'];
-    this.vr_browser_name = this.vr_browser_keywords.find(keyword => this.agent.includes(keyword));
-    // Check for WebXR support (indicating VR capabilities)
     this.has_web_xr_support = 'xr' in navigator;
+    this.is_vr = this.has_web_xr_support && await navigator.xr.isSessionSupported('immersive-vr');
 
     switch (true)
     {
-    case this.vr_browser_name !== undefined && this.has_web_xr_support:
-      this.browser_name = this.vr_browser_name;
-      break;
     case this.agent.indexOf('edge') > -1:
       this.browser_name = 'edge_ie';
       break;
@@ -69,11 +63,6 @@ class Browser
   get is_edge_chromium()
   {
     return this.browser_name === 'edge_chromium';
-  }
-
-  get is_vr()
-  {
-    return  this.vr_browser_keywords.includes(this.browser_name);
   }
 
   get has_webm()
