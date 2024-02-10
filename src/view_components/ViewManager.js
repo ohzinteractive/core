@@ -19,7 +19,7 @@ class ViewManager
       this.__change_browser_title(v.url);
     }
 
-    this.main_to_worker.post('go_to_view_controller', { view_controller_name: view_name, skip });
+    this.main_to_worker.push('go_to_view_controller', [view_name, skip]);
   }
 
   go_to_scene(scene_name, change_url = false, skip = false)
