@@ -1,5 +1,4 @@
-import { Vector2 } from 'three';
-import { Clock } from 'three';
+import { Clock, Vector2 } from 'three';
 
 class Time
 {
@@ -59,6 +58,19 @@ class Time
   get sdt()
   {
     return this.smooth_delta_time;
+  }
+
+  to_json()
+  {
+    const data = {
+
+      elapsed_time: this.elapsed_time,
+      delta_time: this.delta_time,
+      smooth_delta_time: this.smooth_delta_time
+
+    };
+
+    return data;
   }
 
   __set_frame_interpolation(value)
