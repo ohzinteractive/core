@@ -40,6 +40,7 @@ import { TransitionManager } from './view_components/TransitionManager';
 import { VCManager } from './view_components/VCManager';
 import { ViewComponent } from './view_components/ViewComponent';
 import { ViewComponentController } from './view_components/ViewComponentController';
+import { ViewComponentControllerManager } from './view_components/ViewComponentControllerManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
 import { ViewManager } from './view_components/ViewManager';
 
@@ -123,6 +124,5 @@ export {
   ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, MedianFilter, MeshBatcher, MeshSampler,
   ModelUtilities, NormalAORender, NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RenderLoop, ResourceBatch,
-  ResourceContainer, RGBETextureLoader, SceneManager, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VCManager, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent, ViewComponentController,
-  ViewComponentManager, ViewManager, VRRender, WorkerToMain, WorldImage
+  ResourceContainer, RGBETextureLoader, SceneManager, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VCManager, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent, ViewComponentController, ViewComponentControllerManager, ViewComponentManager, ViewManager, VRRender, WorkerToMain, WorldImage
 };
