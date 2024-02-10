@@ -1,7 +1,7 @@
 {
   "name": "ohzi-core",
   "sideEffects": false,
-  "version": "11.1.1",
+  "version": "11.1.2",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -34,7 +34,7 @@
     "ohzi",
     "core"
   ],
-  "author": "OHZI Interactive",
+  "author": "OHZI Interactive Studio",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ohzinteractive/core/issues"
