@@ -1,21 +1,21 @@
-import { Configuration } from './Configuration';
-import { BaseRender } from './render_mode/BaseRender';
-import { OScreen } from './OScreen';
 import { CameraManager } from './CameraManager';
-import { SceneManager } from './SceneManager';
 import { Capabilities } from './Capabilities';
-import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
+import { Configuration } from './Configuration';
+import { OScreen } from './OScreen';
+import { SceneManager } from './SceneManager';
+import { BaseRender } from './render_mode/BaseRender';
 import { Blitter } from './render_utilities/Blitter';
+import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
 
 import {
-  NearestFilter,
-  RGBAFormat,
-  LinearEncoding,
+  AlwaysDepth,
   FloatType,
-  WebGLRenderTarget,
-  ShaderMaterial,
+  NearestFilter,
   NoBlending,
-  AlwaysDepth
+  NoColorSpace,
+  RGBAFormat,
+  ShaderMaterial,
+  WebGLRenderTarget
 } from 'three';
 
 import { WebGLRenderer } from 'three';
@@ -363,7 +363,7 @@ class Graphics
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
-      encoding: LinearEncoding,
+      colorSpace: NoColorSpace,
       type: FloatType,
       stencilBuffer: false,
       depthBuffer: false
