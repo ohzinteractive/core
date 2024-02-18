@@ -41,7 +41,7 @@ class MeshBatcher
       }
     }
 
-    const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    const buffer_geometry = BufferGeometryUtils.mergeGeometries(geometries);
 
     const buffer_attribute = new BufferAttribute(new Float32Array(attr_mesh_id), 1);
     buffer_geometry.setAttribute('mesh_id', buffer_attribute);

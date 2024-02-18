@@ -1,10 +1,4 @@
-import { Vector2 } from 'three';
-import { ShaderMaterial } from 'three';
-import { Mesh } from 'three';
-import { DataTexture } from 'three';
-import { RGBAFormat } from 'three';
-import { RGBFormat } from 'three';
-import { FloatType } from 'three';
+import { DataTexture, FloatType, Mesh, RGBAFormat, ShaderMaterial, Vector2 } from 'three';
 
 class GeometryBatch
 {
@@ -242,7 +236,7 @@ class GeometryBatch
   __create_rgb_texture(width)
   {
     const data = new Uint8Array(3 * width * width);
-    return new DataTexture(data, width, width, RGBFormat);
+    return new DataTexture(data, width, width, RGBAFormat);
   }
 
   __create_rgba_texture(width)

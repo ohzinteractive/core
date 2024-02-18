@@ -36,7 +36,7 @@ class GeometryBatcher
     }
 
     const buffer_attribute = new BufferAttribute(new Float32Array(attr_accessor_uvs), 2);
-    const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries(buffer_geometries);
+    const buffer_geometry = BufferGeometryUtils.mergeGeometries(buffer_geometries);
     buffer_geometry.setAttribute('attr_accessor_uv', buffer_attribute);
 
     this.batches.push(new GeometryBatch(buffer_geometry, texture_width));

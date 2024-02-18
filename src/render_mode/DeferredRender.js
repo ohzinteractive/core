@@ -1,16 +1,12 @@
 import { CameraManager } from '../CameraManager';
-import { SceneManager } from '../SceneManager';
-import { OScreen } from '../OScreen';
-import { BaseRender } from '../render_mode/BaseRender';
-import { DeferredRendererComposeMaterial } from '../materials/DeferredRendererComposeMaterial';
 import { Graphics } from '../Graphics';
+import { OScreen } from '../OScreen';
+import { SceneManager } from '../SceneManager';
+import { DeferredRendererComposeMaterial } from '../materials/DeferredRendererComposeMaterial';
 import { DeferredPointLightMaterial } from '../materials/deferred/DeferredPointLightMaterial';
+import { BaseRender } from '../render_mode/BaseRender';
 
-import { WebGLRenderTarget } from 'three';
-import { Scene } from 'three';
-import { Mesh } from 'three';
-import { SphereBufferGeometry } from 'three';
-import { Matrix4 } from 'three';
+import { Matrix4, Mesh, Scene, SphereGeometry, WebGLRenderTarget } from 'three';
 
 class DeferredRender extends BaseRender
 {
@@ -29,7 +25,7 @@ class DeferredRender extends BaseRender
     const light_intensity = 1;
     const light_brightest_component = 1;
     const radius_needed_for_intensity = Math.sqrt(4 * light_intensity * (light_brightest_component * (256.0 / 5.0))) / (2 * light_intensity);
-    const sphere = new Mesh(new SphereBufferGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
+    const sphere = new Mesh(new SphereGeometry(radius_needed_for_intensity), new DeferredPointLightMaterial(light_intensity));
     // sphere.position.y = 2;
     // this.scene_lights.add(sphere);
 

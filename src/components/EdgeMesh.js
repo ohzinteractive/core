@@ -1,20 +1,11 @@
-import edge_line_vert from '../shaders/edges/edges.vert';
-import edge_line_frag from '../shaders/edges/edges.frag';
-import corners_vert from '../shaders/edges/corners.vert';
 import corners_frag from '../shaders/edges/corners.frag';
+import corners_vert from '../shaders/edges/corners.vert';
+import edge_line_frag from '../shaders/edges/edges.frag';
+import edge_line_vert from '../shaders/edges/edges.vert';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import { Object3D } from 'three';
-import { ShaderMaterial } from 'three';
-import { Color } from 'three';
-import { Mesh } from 'three';
-import { EdgesGeometry } from 'three';
-import { LineSegments } from 'three';
-import { LineBasicMaterial } from 'three';
-import { Vector3 } from 'three';
-import { PlaneGeometry } from 'three';
-import { BufferAttribute } from 'three';
+import { BufferAttribute, Color, EdgesGeometry, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
 
 class EdgeMesh extends Object3D
 {
@@ -114,7 +105,7 @@ class EdgeMesh extends Object3D
       buffer_geometries.push(geometry);
     }
 
-    return BufferGeometryUtils.mergeBufferGeometries(buffer_geometries);
+    return BufferGeometryUtils.mergeGeometries(buffer_geometries);
   }
 
   __get_corners_geometry(geometry_vertices)
@@ -135,7 +126,7 @@ class EdgeMesh extends Object3D
       plane_geometry.setAttribute('w_pos', new BufferAttribute(pos_array, 3));
       circle_buffer_geometries.push(plane_geometry);
     }
-    return BufferGeometryUtils.mergeBufferGeometries(circle_buffer_geometries);
+    return BufferGeometryUtils.mergeGeometries(circle_buffer_geometries);
   }
 
   set_visible(boolean)
