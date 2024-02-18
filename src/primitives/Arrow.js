@@ -17,7 +17,7 @@ class Arrow extends Mesh
     const cone_geometry = new ConeGeometry(0.1, cone_height, 32);
     cone_geometry.translate(0, cylinder_height + cone_height / 2, 0);
 
-    const buffer_geometry = BufferGeometryUtils.mergeBufferGeometries([cylinder_geo, cone_geometry]);
+    const buffer_geometry = BufferGeometryUtils.mergeGeometries([cylinder_geo, cone_geometry]);
     buffer_geometry.rotateX(3.14 / 2);
 
     const material = new MeshBasicMaterial({ color: color });
