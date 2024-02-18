@@ -2,6 +2,7 @@ import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
 import { OScreen } from './OScreen';
 import { SceneManager } from './SceneManager';
+
 import { BaseRender } from './render_mode/BaseRender';
 import { Blitter } from './render_utilities/Blitter';
 import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
@@ -173,6 +174,30 @@ class Graphics
       camera || CameraManager.current);
 
     this.__apply_override_material(scene, undefined);
+  }
+
+  compile(scene, camera, RT, override_mat)
+  {
+    this.__apply_override_material(scene, override_mat);
+
+    this._renderer.setRenderTarget(RT === undefined ? null : RT);
+    this._renderer.compile(scene  || SceneManager.current,
+      camera || CameraManager.current);
+
+    this.__apply_override_material(scene, undefined);
+  }
+
+  async compile_async(scene, camera, RT, override_mat, target_scene)
+  {
+    this.__apply_override_material(scene, override_mat);
+
+    this._renderer.setRenderTarget(RT === undefined ? null : RT);
+    const promise = this._renderer.compileAsync(scene  || SceneManager.current,
+      camera || CameraManager.current, target_scene);
+
+    this.__apply_override_material(scene, undefined);
+
+    return promise;
   }
 
   render_scene(scene)
