@@ -1,4 +1,3 @@
-import { EventManager } from './EventManager';
 
 class ResourceContainer
 {
@@ -21,8 +20,6 @@ class ResourceContainer
       this.resources[name] = resource;
       this.resources_by_url[url] = resource;
     }
-
-    EventManager.fire_resource_loaded({ name: name, value: resource });
   }
 
   get_resource(name)

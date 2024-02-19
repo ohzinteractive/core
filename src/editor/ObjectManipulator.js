@@ -1,9 +1,6 @@
 import { ManipulatorHandle } from '../editor/ManipulatorHandle';
-import { EventManager } from '../EventManager';
 
-import { Object3D } from 'three';
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
+import { Object3D, Vector2, Vector3 } from 'three';
 
 class ObjectManipulator extends Object3D
 {
@@ -59,11 +56,6 @@ class ObjectManipulator extends Object3D
       this.tmp_local_pos.copy(this.position);
       this.target_obj.parent.worldToLocal(this.tmp_local_pos);
       this.target_obj.position.copy(this.tmp_local_pos);
-      const scope = this;
-      EventManager.fire_unit_position_updated({
-        unit_id: scope.target_obj.name,
-        position: scope.target_obj.position
-      });
     }
   }
 
