@@ -1,5 +1,6 @@
-import { CommonView } from '../common/CommonView';
+import { template_high_sounds } from '../../../data/assets/template/high/template_high_sounds';
 import { Sections, SectionsURLs } from '../Sections';
+import { CommonView } from '../common/CommonView';
 
 class TemplateView extends CommonView
 {
@@ -10,11 +11,15 @@ class TemplateView extends CommonView
       url: SectionsURLs.TEMPLATE,
       container: document.querySelector('.template')
     });
+
+    this.sounds_data = template_high_sounds;
   }
 
   start()
   {
     super.start();
+
+    // AudioManager.setup_sounds_names([...this.sounds_data]);
   }
 
   before_enter()
