@@ -1,10 +1,10 @@
 
 class Browser
 {
-  async init()
+  async init(opr, chrome)
   {
     this.browser_name = '';
-    this.agent = window.navigator.userAgent.toLowerCase();
+    this.agent = navigator.userAgent.toLowerCase();
 
     this.has_web_xr_support = 'xr' in navigator;
     this.is_vr = this.has_web_xr_support && await navigator.xr.isSessionSupported('immersive-vr');
@@ -17,10 +17,10 @@ class Browser
     case this.agent.indexOf('edg') > -1:
       this.browser_name = 'edge_chromium';
       break;
-    case this.agent.indexOf('opr') > -1 && !!window.opr:
+    case this.agent.indexOf('opr') > -1 && !!opr:
       this.browser_name = 'opera';
       break;
-    case this.agent.indexOf('chrome') > -1 && !!window.chrome:
+    case this.agent.indexOf('chrome') > -1 && !!chrome:
       this.browser_name = 'chrome';
       break;
     case this.agent.indexOf('trident') > -1:
