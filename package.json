@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "10.6.9",
+  "version": "10.6.10",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -23,6 +23,7 @@
     "create-view": "node ./tasks/create_view/create_view.mjs",
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
     "create-component": "node ./tasks/create_component/create_component.mjs",
+    "create-transition": "node ./tasks/create_transition/create_transition.mjs",
     "calculate-assets-sizes": "node ./tasks/assets/calculate_sizes.mjs"
   },
   "repository": {
