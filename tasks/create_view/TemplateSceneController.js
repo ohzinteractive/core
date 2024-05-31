@@ -10,10 +10,10 @@ class TemplateSceneController
 
   start()
   {
-    // Use this line to reuse HomeScene
+    // Use this to reuse HomeScene
     this.scene = VCManager.get(Sections.HOME).scene;
 
-    // Use this line to use own scene
+    // Use this to use own scene
     // this.scene = new TemplateScene();
   }
 
