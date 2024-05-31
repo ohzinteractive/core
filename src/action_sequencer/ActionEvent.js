@@ -1,3 +1,4 @@
+import { WorkerToMain } from '../view_components/WorkerToMain';
 
 class ActionEvent
 {
@@ -10,7 +11,7 @@ class ActionEvent
 
   trigger()
   {
-    ViewApi.application[this.name][this.method](...this.args.split(','));
+    WorkerToMain.push(`${this.name}.${this.method}`, this.args.split(','));
   }
 }
 

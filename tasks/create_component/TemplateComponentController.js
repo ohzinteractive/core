@@ -6,7 +6,7 @@ class TemplateComponentController extends ViewComponentController
   constructor()
   {
     super({
-      name: Components.HEADER
+      name: Components.TEMPLATE
     });
   }
 
