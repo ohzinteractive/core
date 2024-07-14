@@ -7,8 +7,13 @@ export default [
     input: './src/index.js',
     output: [
       {
-        file: 'build/index.module.mjs',
+        file: 'build/index.mjs',
         format: 'es',
+        sourcemap: true
+      },
+      {
+        file: 'build/index.js',
+        format: 'commonjs',
         sourcemap: true
       }
     ],

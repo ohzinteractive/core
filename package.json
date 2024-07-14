@@ -1,9 +1,10 @@
 {
   "name": "ohzi-core",
-  "version": "10.8.0",
+  "version": "10.8.1",
   "description": "OHZI Core Library",
   "source": "src/index.js",
-  "module": "build/index.module.mjs",
+  "main": "build/index.js",
+  "module": "build/index.mjs",
   "types": "types/index.d.ts",
   "files": [
     "build",
@@ -12,6 +13,12 @@
     "types",
     "package.json"
   ],
+   "exports": {
+    ".": {
+      "import": "./build/index.esm.js",
+      "require": "./build/index.js"
+    }
+  },
   "scripts": {
     "preinstall": "yarn config-hooks",
     "start": "rollup -w -c",
