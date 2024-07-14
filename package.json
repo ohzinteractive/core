@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "10.8.1",
+  "version": "10.8.2",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "main": "build/index.js",
@@ -15,7 +15,7 @@
   ],
    "exports": {
     ".": {
-      "import": "./build/index.esm.js",
+      "import": "./build/index.mjs",
       "require": "./build/index.js"
     }
   },
