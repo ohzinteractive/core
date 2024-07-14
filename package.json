@@ -1,9 +1,9 @@
 {
   "name": "ohzi-core",
-  "version": "10.7.2",
+  "version": "10.8.0",
   "description": "OHZI Core Library",
   "source": "src/index.js",
-  "module": "build/index.module.js",
+  "module": "build/index.module.mjs",
   "types": "types/index.d.ts",
   "files": [
     "build",
@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "preinstall": "yarn config-hooks",
+    "start": "rollup -w -c",
     "config-hooks": "git config core.hooksPath git_hooks",
     "build": "rollup -c",
     "create-tag": "node tasks/app/create_tag.mjs",
@@ -43,11 +44,11 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "three": "0.161.0"
+    "three": "0.166.0"
   },
   "standardx": {
     "ignore": [
-      "rollup.config.js"
+      "rollup.config.mjs"
     ]
   },
   "devDependencies": {
