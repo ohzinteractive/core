@@ -10,11 +10,6 @@ export default [
         file: 'build/index.mjs',
         format: 'es',
         sourcemap: true
-      },
-      {
-        file: 'build/index.js',
-        format: 'commonjs',
-        sourcemap: true
       }
     ],
     plugins: [
