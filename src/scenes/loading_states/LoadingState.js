@@ -5,7 +5,7 @@ import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
 import { CompilatorManager } from './CompilatorManager';
 
-class SceneLoadingState
+export class LoadingState
 {
   constructor(scene, { SceneCompilator, TexturesCompilator, AudiosCompilator })
   {
@@ -104,5 +104,3 @@ class SceneLoadingState
     return this.compilator_manager.is_finished();
   }
 }
-
-export { SceneLoadingState };

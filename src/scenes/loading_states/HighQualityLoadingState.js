@@ -1,6 +1,6 @@
-import { SceneLoadingState } from './SceneLoadingState';
+import { LoadingState } from './LoadingState';
 
-class HighQualityAssetsState extends SceneLoadingState
+export class HighQualityLoadingState extends LoadingState
 {
   on_enter()
   {
@@ -26,5 +26,3 @@ class HighQualityAssetsState extends SceneLoadingState
     }
   }
 }
-
-export { HighQualityAssetsState };

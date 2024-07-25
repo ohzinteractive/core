@@ -1,4 +1,4 @@
-export class SceneLoadingState {
+export class LoadingState {
     constructor(scene: any, { SceneCompilator, TexturesCompilator, AudiosCompilator }: {
         SceneCompilator: any;
         TexturesCompilator: any;

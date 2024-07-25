@@ -1,6 +1,6 @@
-import { SceneLoadingState } from './SceneLoadingState';
+import { LoadingState } from './LoadingState';
 
-class RegularAssetsState extends SceneLoadingState
+export class RegularLoadingState extends LoadingState
 {
   constructor(scene, compilators)
   {
@@ -39,5 +39,3 @@ class RegularAssetsState extends SceneLoadingState
     }
   }
 }
-
-export { RegularAssetsState };

@@ -7,10 +7,10 @@ export class AbstractScene {
     is_loaded: boolean;
     is_high_loaded: boolean;
     loading_states: {
-        regular: RegularAssetsState;
-        high: HighQualityAssetsState;
+        regular: RegularLoadingState;
+        high: HighQualityLoadingState;
     };
-    current_loading_state: SceneLoadingState;
+    current_loading_state: LoadingState;
     get loading_progress(): number;
     init(): void;
     load(): void;
@@ -26,6 +26,6 @@ export class AbstractScene {
     on_assets_compiled(): void;
     on_high_quality_assets_ready(): void;
 }
-import { RegularAssetsState } from "./loading_states/RegularAssetsState";
-import { HighQualityAssetsState } from "./loading_states/HighQualityAssetsState";
-import { SceneLoadingState } from "./loading_states/SceneLoadingState";
+import { RegularLoadingState } from "./loading_states/RegularLoadingState";
+import { HighQualityLoadingState } from "./loading_states/HighQualityLoadingState";
+import { LoadingState } from "./loading_states/LoadingState";

@@ -1,9 +1,9 @@
 import { Scene } from 'three';
 // import { AvatarSystem } from '../../components/avatar/AvatarSystem';
 
-import { HighQualityAssetsState } from './loading_states/HighQualityAssetsState';
-import { RegularAssetsState } from './loading_states/RegularAssetsState';
-import { SceneLoadingState } from './loading_states/SceneLoadingState';
+import { HighQualityLoadingState } from './loading_states/HighQualityLoadingState';
+import { LoadingState } from './loading_states/LoadingState';
+import { RegularLoadingState } from './loading_states/RegularLoadingState';
 
 class AbstractScene extends Scene
 {
@@ -17,11 +17,11 @@ class AbstractScene extends Scene
     this.is_high_loaded = false;
 
     this.loading_states = {
-      regular: new RegularAssetsState(this, compilators),
-      high: new HighQualityAssetsState(this, compilators)
+      regular: new RegularLoadingState(this, compilators),
+      high: new HighQualityLoadingState(this, compilators)
     };
 
-    this.current_loading_state = new SceneLoadingState(this, compilators);
+    this.current_loading_state = new LoadingState(this, compilators);
     this.set_loading_state(this.loading_states.regular);
   }
 

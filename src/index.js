@@ -6,9 +6,9 @@ import { UnrealBloomComposeMaterial } from './materials/UnrealBloomComposeMateri
 import { BaseRender } from './render_mode/BaseRender';
 import { AbstractLoader } from './resource_loader/AbstractLoader';
 import { AbstractScene } from './scenes/AbstractScene';
-import { HighQualityAssetsState } from './scenes/loading_states/HighQualityAssetsState';
-import { RegularAssetsState } from './scenes/loading_states/RegularAssetsState';
-import { SceneLoadingState } from './scenes/loading_states/SceneLoadingState';
+import { HighQualityLoadingState } from './scenes/loading_states/HighQualityLoadingState';
+import { LoadingState } from './scenes/loading_states/LoadingState';
+import { RegularLoadingState } from './scenes/loading_states/RegularLoadingState';
 import { ApplicationView } from './view_components/ApplicationView';
 import { ActionSequencerBuilder } from './view_components/transition/ActionSequencerBuilder';
 
@@ -125,11 +125,11 @@ import { ResourceContainer } from './ResourceContainer';
 export {
   AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities, Configuration,
   CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, EventManager, FileLoader,
-  FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HighQualityAssetsState, HorizontalPlane, HTMLUtilities,
-  ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, MedianFilter, MeshBatcher, MeshSampler,
+  FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
+  ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshBatcher, MeshSampler,
   ModelUtilities, NormalAORender,
   NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
-  ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularAssetsState, RenderLoop, ResourceBatch,
-  ResourceContainer, RGBETextureLoader, SceneLoadingState, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+  ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
+  ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
   ViewComponentManager, ViewContext, ViewManager, VRRender, WorldImage
 };
