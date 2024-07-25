@@ -1,7 +1,6 @@
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
-import { Configuration } from './Configuration';
 import { Debug } from './Debug';
 import { EventManager } from './EventManager';
 import { Graphics } from './Graphics';
@@ -26,7 +25,6 @@ class Initializer
     CameraManager.init();
     CameraUtilities.init(input);
     Capabilities.init();
-    Configuration.init();
     EventManager.init();
     GeometryBatcher.init();
 

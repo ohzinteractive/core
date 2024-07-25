@@ -1,6 +1,5 @@
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
-import { Configuration } from './Configuration';
 import { OScreen } from './OScreen';
 import { SceneManager } from './SceneManager';
 
@@ -11,9 +10,9 @@ import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRende
 import {
   AlwaysDepth,
   FloatType,
+  LinearSRGBColorSpace,
   NearestFilter,
   NoBlending,
-  NoColorSpace,
   RGBAFormat,
   ShaderMaterial,
   WebGLRenderTarget
@@ -23,7 +22,7 @@ import { WebGLRenderer } from 'three';
 
 class Graphics
 {
-  init(canvas, core_attributes, context_attributes, threejs_attributes)
+  init({ canvas, core_attributes, context_attributes, threejs_attributes, dpr })
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -94,9 +93,8 @@ class Graphics
       this._renderer.autoClear = false;
     }
 
+    OScreen.dpr = dpr;
     this._renderer.setPixelRatio(1);
-
-    OScreen.dpr = Configuration.dpr;
 
     if (!this.is_webgl2)
     {
@@ -110,6 +108,7 @@ class Graphics
     this.no_render = new BaseRender();
 
     this.current_render_mode = this.no_render;
+
     Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
     Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
     Capabilities.fp_textures_available = this.is_floating_point_texture_available();
@@ -117,9 +116,6 @@ class Graphics
     this.generateDepthNormalTexture = false;
 
     this.depth_and_normals_renderer = new DepthAndNormalsRenderer();
-
-    this.resize_observer = new ResizeObserver(this.on_resize.bind(this));
-    this.resize_observer.observe(this.canvas);
   }
 
   get dom_element()
@@ -258,11 +254,13 @@ class Graphics
       !!clear_stencil);
   }
 
-  on_resize(entries)
+  on_resize(entries, dpr)
   {
     for (const entry of entries)
     {
-      OScreen.dpr = Configuration.dpr;
+      OScreen.dpr = dpr;
+      // this._renderer.setPixelRatio(dpr);
+
       OScreen.update_position(entry.contentRect.x, entry.contentRect.y);
       OScreen.update_size(entry.contentRect.width, entry.contentRect.height);
 
@@ -388,7 +386,7 @@ class Graphics
       minFilter: NearestFilter,
       magFilter: NearestFilter,
       format: RGBAFormat,
-      colorSpace: NoColorSpace,
+      colorSpace: LinearSRGBColorSpace,
       type: FloatType,
       stencilBuffer: false,
       depthBuffer: false
