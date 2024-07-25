@@ -9,19 +9,19 @@ class ViewState
   {
   }
 
-  show()
-  {
-  }
-
-  hide()
-  {
-  }
-
   before_enter()
   {
   }
 
   on_enter()
+  {
+  }
+
+  before_exit()
+  {
+  }
+
+  on_exit()
   {
   }
 
@@ -49,14 +49,6 @@ class ViewState
 
   // Deprecated
   update_transition(global_view_data, transition_progress, action_sequencer)
-  {
-  }
-
-  before_exit()
-  {
-  }
-
-  on_exit()
   {
   }
 }

@@ -1,4 +1,4 @@
-import { ViewManager } from './ViewManager';
+import { TransitionManager } from './TransitionManager';
 
 class ViewComponentManager
 {
@@ -14,7 +14,7 @@ class ViewComponentManager
 
     for (const component of this.enabled_components)
     {
-      component.update(ViewManager.transition_handler.current_state_data);
+      component.update(TransitionManager.current_state_data);
     }
   }
 
@@ -60,7 +60,7 @@ class ViewComponentManager
   {
     for (let i = 0; i < this.components.length; i++)
     {
-      this.components[i].set_opacity(ViewManager.transition_handler.current_state_data);
+      this.components[i].set_opacity(TransitionManager.current_state_data);
     }
   }
 }

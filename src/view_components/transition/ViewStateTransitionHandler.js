@@ -27,11 +27,9 @@ class ViewStateTransitionHandler
     this.current_state = state;
 
     this.last_state.before_exit();
-    this.current_state.show();
-
-    this.action_sequencer = this.transition_table.get(this.last_state.name, this.current_state.name, this.current_state_data);
     this.current_state.before_enter();
 
+    this.action_sequencer = this.transition_table.get(this.last_state.name, this.current_state.name, this.current_state_data);
     this.action_sequencer.play();
 
     this.transitioning = true;
@@ -96,10 +94,10 @@ class ViewStateTransitionHandler
 
   __exit_last_state()
   {
-    if (this.last_state.name !== this.current_state.name)
-    {
-      this.last_state.hide();
-    }
+    // if (this.last_state.name !== this.current_state.name)
+    // {
+    //   this.last_state.hide();
+    // }
 
     this.last_state.on_exit();
   }

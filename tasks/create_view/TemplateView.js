@@ -29,16 +29,10 @@ class TemplateView extends CommonView
     this.transition_controller.start();
   }
 
-  show()
-  {
-    super.show();
-
-    this.scene_controller.show();
-    this.transition_controller.show();
-  }
-
   before_enter()
   {
+    super.before_enter();
+
     this.scene_controller.before_enter();
     this.transition_controller.before_enter();
   }
@@ -61,6 +55,8 @@ class TemplateView extends CommonView
 
   on_exit()
   {
+    super.on_exit();
+
     this.scene_controller.on_exit();
     this.transition_controller.on_exit();
   }

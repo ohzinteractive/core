@@ -1,5 +1,4 @@
-import { TransitionTable } from './transition/TransitionTable';
-import { ViewStateTransitionHandler } from './transition/ViewStateTransitionHandler';
+import { TransitionManager } from './TransitionManager';
 
 class ViewManager
 {
@@ -7,35 +6,17 @@ class ViewManager
   {
     this.views = [];
 
-    this.transition_table = new TransitionTable();
-    this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
-
-    this.view_change_subscribers = [];
-
     this.browser_title_suffix = '';
-  }
-
-  before_update()
-  {
-    this.transition_handler.before_update();
   }
 
   update()
   {
-    this.transition_handler.update();
-
     this.__set_views_opacities();
-  }
-
-  fixed_update()
-  {
-    this.transition_handler.fixed_update();
   }
 
   go_to_view(view_name, change_url = true, skip = false)
   {
     const v = this.get(view_name);
-    this.transition_handler.go_to_state(v, skip);
 
     if (change_url)
     {
@@ -43,7 +24,7 @@ class ViewManager
       this.__change_browser_title(v.url);
     }
 
-    this.notify_view_change(view_name);
+    TransitionManager.go_to_state(v, skip);
   }
 
   go_to_scene(scene_name, change_url = false, skip = false)
@@ -53,20 +34,6 @@ class ViewManager
 
     transition_view.set_next_view(next_view);
     this.go_to_view(transition_view.name, change_url, skip);
-  }
-
-  subscribe_to_view_change(subscriber)
-  {
-    this.view_change_subscribers.push(subscriber);
-  }
-
-  notify_view_change(view_name)
-  {
-    for (let i = 0; i < this.view_change_subscribers.length; i++)
-    {
-      const subscriber = this.view_change_subscribers[i];
-      subscriber.on_view_change(view_name);
-    }
   }
 
   register_view(view)
@@ -86,21 +53,11 @@ class ViewManager
     return false;
   }
 
-  add_transitions(transitions)
-  {
-    this.transition_table.add_transitions(transitions);
-  }
-
-  set_transitions(transitions)
-  {
-    this.transition_table.set_transitions(transitions);
-  }
-
   set_view(view_name)
   {
     const view = this.get(view_name);
 
-    this.transition_handler.set_state(view);
+    TransitionManager.set_state(view);
   }
 
   set_browser_title_suffix(title_suffix)
@@ -110,7 +67,7 @@ class ViewManager
 
   get_current_view()
   {
-    return this.transition_handler.current_state;
+    return TransitionManager.get_current_state();
   }
 
   get_view_by_name(view_name)
@@ -151,12 +108,6 @@ class ViewManager
     return undefined;
   }
 
-  set_default_state_data(default_state_data)
-  {
-    this.transition_table.set_default_state_data(default_state_data);
-    this.transition_handler.set_default_state_data(default_state_data);
-  }
-
   __change_browser_url(url)
   {
     window.history.pushState('', '', url);
@@ -173,7 +124,7 @@ class ViewManager
   {
     for (let i = 0; i < this.views.length; i++)
     {
-      this.views[i].set_opacity(this.transition_handler.current_state_data);
+      this.views[i].set_opacity(TransitionManager.current_state_data);
     }
   }
 

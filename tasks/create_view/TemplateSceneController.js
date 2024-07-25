@@ -18,15 +18,11 @@ class TemplateSceneController
     // this.scene = new TemplateScene();
   }
 
-  show()
+  before_enter()
   {
     this.scene.setup_camera();
 
     SceneManager.current = this.scene;
-  }
-
-  before_enter()
-  {
   }
 
   on_enter()

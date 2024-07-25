@@ -1,5 +1,5 @@
 import { ResourceContainer } from '../ResourceContainer';
-import { HTMLUtilities } from '../utilities/HTMLUtilities';
+import { TransitionManager } from './TransitionManager';
 import { ViewManager } from './ViewManager';
 import { ViewState } from './ViewState';
 
@@ -11,6 +11,8 @@ class ApplicationView extends ViewState
 
     this.container = container;
     this.url = url;
+
+    this.current_opacity = 0;
 
     let transition_data = ResourceContainer.get(`${name}_data`);
 
@@ -27,10 +29,10 @@ class ApplicationView extends ViewState
     ];
 
     ViewManager.register_view(this);
-    ViewManager.add_transitions(transitions);
+    TransitionManager.add_transitions(transitions);
   }
 
-  show()
+  before_enter()
   {
     this.container.classList.add('before_enter');
     this.container.classList.remove('before_exit');
@@ -51,26 +53,23 @@ class ApplicationView extends ViewState
     this.container.classList.remove('hidden');
   }
 
-  hide()
+  on_exit()
   {
     this.container.classList.add('hidden');
     this.container.classList.remove('before_enter');
     this.container.classList.remove('before_exit');
   }
 
-  load_html_images()
-  {
-    HTMLUtilities.load_images(this.container);
-  }
-
-  load_html_videos()
-  {
-    HTMLUtilities.load_videos(this.container);
-  }
-
   set_opacity(current_state_data)
   {
-    this.container.style.opacity = current_state_data[`${this.name}_opacity`];
+    const opacity = current_state_data[`${this.name}_opacity`];
+
+    if (this.current_opacity > opacity || this.current_opacity < opacity)
+    {
+      this.current_opacity = opacity;
+
+      this.container.style.opacity = this.current_opacity;
+    }
   }
 }
 

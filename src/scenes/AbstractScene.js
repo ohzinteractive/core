@@ -22,7 +22,7 @@ class AbstractScene extends Scene
     };
 
     this.current_loading_state = new LoadingState(this, compilators);
-    this.set_loading_state(this.loading_states.regular);
+    // this.set_loading_state(this.loading_states.regular);
   }
 
   get loading_progress()

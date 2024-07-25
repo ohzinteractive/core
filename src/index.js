@@ -120,6 +120,7 @@ import { AsyncObjectsLoader } from './loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from './loaders/AsyncTexturesLoader';
 import { ResourceBatch } from './resource_loader/ResourceBatch';
 import { ResourceContainer } from './ResourceContainer';
+import { TransitionManager } from './view_components/TransitionManager';
 
 export {
   AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities,
@@ -129,6 +130,6 @@ export {
   ModelUtilities, NormalAORender,
   NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
-  ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+  ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
   ViewComponentManager, ViewContext, ViewManager, VRRender, WorldImage
 };
