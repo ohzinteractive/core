@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import replace from 'replace-in-file';
 
 class SceneCreator
@@ -33,48 +33,48 @@ class SceneCreator
     this.__copy_template_data(data_high_folder, 'template_high_sounds', high_sounds_data_path, name);
     this.__copy_template_data(data_high_folder, 'template_high_textures', high_textures_data_path, name);
 
-    this.__update_scene_controller_file(name);
+    // this.__update_scene_controller_file(name);
   }
 
-  __update_scene_controller_file(name)
-  {
-    const new_import = `HomeScene';\nimport { ${this.capitalize(name)}Scene } from '../scenes/${this.capitalize(name)}Scene';`;
-    const file_path = path.join('..', 'app', 'js', 'components', 'SceneController.js');
+  // __update_scene_controller_file(name)
+  // {
+  //   const new_import = `HomeScene';\nimport { ${this.capitalize(name)}Scene } from '../scenes/${this.capitalize(name)}Scene';`;
+  //   const file_path = path.join('..', 'app', 'js', 'components', 'SceneController.js');
 
-    const options_1 = {
-      files: file_path,
-      from: 'HomeScene\';',
-      to: new_import
-    };
+  //   const options_1 = {
+  //     files: file_path,
+  //     from: 'HomeScene\';',
+  //     to: new_import
+  //   };
 
-    const new_section = `HomeScene();\n    this.${name.toLowerCase()}_scene = new ${this.capitalize(name)}Scene();`;
+  //   const new_section = `HomeScene();\n    this.${name.toLowerCase()}_scene = new ${this.capitalize(name)}Scene();`;
 
-    const options_2 = {
-      files: file_path,
-      from: 'HomeScene();',
-      to: new_section
-    };
+  //   const options_2 = {
+  //     files: file_path,
+  //     from: 'HomeScene();',
+  //     to: new_section
+  //   };
 
-    const new_section_start = `this.scenes = [\n      this.${name.toLowerCase()}_scene,`;
+  //   const new_section_start = `this.scenes = [\n      this.${name.toLowerCase()}_scene,`;
 
-    const options_3 = {
-      files: file_path,
-      from: 'this.scenes = [',
-      to: new_section_start
-    };
+  //   const options_3 = {
+  //     files: file_path,
+  //     from: 'this.scenes = [',
+  //     to: new_section_start
+  //   };
 
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      replace.sync(options_3);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
+  //   try
+  //   {
+  //     replace.sync(options_1);
+  //     replace.sync(options_2);
+  //     replace.sync(options_3);
+  //     console.log('\x1b[33m', `${file_path} Modified`);
+  //   }
+  //   catch (error)
+  //   {
+  //     console.error('Error occurred:', error);
+  //   }
+  // }
 
   __copy_template_js(js_folder, view_path, name, file_type)
   {

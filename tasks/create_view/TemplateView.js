@@ -18,6 +18,11 @@ class TemplateView extends CommonView
     this.transition_controller = new TemplateTransitionController();
   }
 
+  get scene()
+  {
+    return this.scene_controller.scene;
+  }
+
   // This method is called one time at the beginning of the app execution.
   start()
   {
@@ -29,6 +34,7 @@ class TemplateView extends CommonView
   {
     super.show();
 
+    this.scene_controller.show();
     this.transition_controller.show();
   }
 
