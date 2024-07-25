@@ -1,0 +1,70 @@
+
+import { AsyncTextureLoader } from '../resource_loader/AsyncTextureLoader';
+import { BasisLoader } from '../resource_loader/BasisLoader';
+import { CubemapLoader } from '../resource_loader/CubemapLoader';
+import { RGBETextureLoader } from '../resource_loader/RGBETextureLoader';
+import { ResourceContainer } from '../ResourceContainer';
+import { AsyncAbstractLoader } from './AsyncAbstractLoader';
+
+class AsyncTexturesLoader extends AsyncAbstractLoader
+{
+  constructor(scene_name, assets, worker)
+  {
+    super(scene_name, assets, worker);
+  }
+
+  // Called from parent
+  __setup_loaders()
+  {
+    const loaders = [];
+
+    for (let i = 0; i < this.assets.length; i++)
+    {
+      const asset_data = this.assets[i];
+
+      switch (asset_data.kind)
+      {
+      case 'regular':
+        loaders.push(new AsyncTextureLoader(
+          asset_data.name,
+          asset_data.url,
+          asset_data.size
+        ));
+
+        break;
+      case 'basis':
+        loaders.push(new BasisLoader(
+          asset_data.name,
+          asset_data.url,
+          ResourceContainer.get('basis_loader'),
+          asset_data.size
+        ));
+
+        break;
+      case 'hdr':
+        loaders.push(new RGBETextureLoader(
+          asset_data.name,
+          asset_data.url,
+          asset_data.size
+        ));
+
+        break;
+      case 'cubemap':
+        loaders.push(new CubemapLoader(
+          asset_data.name,
+          asset_data.url,
+          asset_data.extension,
+          asset_data.size
+        ));
+
+        break;
+      default:
+        break;
+      }
+    }
+
+    return loaders;
+  }
+}
+
+export { AsyncTexturesLoader };

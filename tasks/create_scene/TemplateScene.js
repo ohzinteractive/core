@@ -1,5 +1,5 @@
 
-import { AbstractScene } from './common/AbstractScene';
+import { CommonScene } from './common/CommonScene';
 
 import { Settings } from '../Settings';
 import { Sections } from '../views/Sections';
@@ -13,7 +13,7 @@ import { template_textures } from '../../data/assets/template/template_textures'
 
 import { Debug, Grid } from 'ohzi-core';
 
-class TemplateScene extends AbstractScene
+class TemplateScene extends CommonScene
 {
   constructor()
   {

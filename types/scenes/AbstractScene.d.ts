@@ -1,0 +1,31 @@
+export class AbstractScene {
+    constructor({ name, compilators }: {
+        name: any;
+        compilators: any;
+    });
+    name: any;
+    is_loaded: boolean;
+    is_high_loaded: boolean;
+    loading_states: {
+        regular: RegularAssetsState;
+        high: HighQualityAssetsState;
+    };
+    current_loading_state: SceneLoadingState;
+    get loading_progress(): number;
+    init(): void;
+    load(): void;
+    get_objects(): any[];
+    dispose_cpu(): void;
+    dispose(): void;
+    set_assets(scene_objects: any, scene_textures: any, scene_sounds: any): void;
+    set_high_assets(scene_objects: any, scene_textures: any, scene_sounds: any): void;
+    set_loading_state(state: any): void;
+    update_loading_state(): void;
+    update(): void;
+    on_assets_ready(): void;
+    on_assets_compiled(): void;
+    on_high_quality_assets_ready(): void;
+}
+import { RegularAssetsState } from "./loading_states/RegularAssetsState";
+import { HighQualityAssetsState } from "./loading_states/HighQualityAssetsState";
+import { SceneLoadingState } from "./loading_states/SceneLoadingState";
