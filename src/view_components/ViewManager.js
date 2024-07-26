@@ -89,12 +89,6 @@ class ViewManager
     return undefined;
   }
 
-  get_view_by_url(url)
-  {
-    console.warn('DEPRECATED. Use ViewManager.get_by_url instead');
-    this.get_by_url(url);
-  }
-
   get_by_url(url)
   {
     for (let i = 0; i < this.views.length; i++)

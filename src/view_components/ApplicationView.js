@@ -1,11 +1,10 @@
-import { ResourceContainer } from '../ResourceContainer';
 import { TransitionManager } from './TransitionManager';
 import { ViewManager } from './ViewManager';
 import { ViewState } from './ViewState';
 
 class ApplicationView extends ViewState
 {
-  constructor({ name, url, container })
+  constructor({ name, url, container, transition_data })
   {
     super(name);
 
@@ -13,8 +12,6 @@ class ApplicationView extends ViewState
     this.url = url;
 
     this.current_opacity = 0;
-
-    let transition_data = ResourceContainer.get(`${name}_data`);
 
     transition_data = transition_data || {
       animation_tracks: [],

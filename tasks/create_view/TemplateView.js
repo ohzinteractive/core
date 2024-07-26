@@ -4,6 +4,8 @@ import { Sections, SectionsURLs } from '../Sections';
 import { TemplateSceneController } from './TemplateSceneController';
 import { TemplateTransitionController } from './TemplateTransitionController';
 
+import template_data from '../../../data/transitions/template.json';
+
 class TemplateView extends CommonView
 {
   constructor()
@@ -11,7 +13,8 @@ class TemplateView extends CommonView
     super({
       name: Sections.TEMPLATE,
       url: SectionsURLs.TEMPLATE,
-      container: document.querySelector('.template')
+      container: document.querySelector('.template'),
+      transition_data: template_data
     });
 
     this.scene_controller = new TemplateSceneController();

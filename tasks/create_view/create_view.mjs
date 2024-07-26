@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import replace from 'replace-in-file';
 
 class ViewCreator
@@ -116,18 +116,9 @@ class ViewCreator
       to: new_import
     };
 
-    const new_data = `__SECTIONS_DATA__\n    ResourceContainer.set_resource('${name}_data', 'data/${name}.json', ${name}_data);`;
-
-    const options_2 = {
-      files: file_path,
-      from: '__SECTIONS_DATA__',
-      to: new_data
-    };
-
     try
     {
       replace.sync(options_1);
-      replace.sync(options_2);
 
       console.log('\x1b[33m', `${file_path} Modified`);
     }
