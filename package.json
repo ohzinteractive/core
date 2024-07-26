@@ -5,6 +5,7 @@
   "source": "src/index.js",
   "module": "build/index.mjs",
   "types": "types/index.d.ts",
+  "sideEffects": false,
   "files": [
     "build",
     "LICENSE",
@@ -34,7 +35,7 @@
     "ohzi",
     "core"
   ],
-  "author": "OHZI Interactive",
+  "author": "OHZI Interactive Studio",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ohzinteractive/core/issues"

@@ -3,11 +3,13 @@ import { AbstractLoader } from './AbstractLoader';
 
 import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
 
-class AsyncTextureLoader extends AbstractLoader
+export class AsyncTextureLoader extends AbstractLoader
 {
   constructor(resource_id, url, size, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
+
+    this.original_url = '';
 
     this.colorSpaceConversion = colorSpaceConversion;
     this.premultiplyAlpha = premultiplyAlpha;
@@ -51,7 +53,7 @@ class AsyncTextureLoader extends AbstractLoader
 
       image.onerror = () =>
       {
-        console.error('Error loading texture. Maybe the resource is not an image?', this.url, this.original_url);
+        console.error('The source image could not be decoded.', this.original_url);
       };
     }
     else
@@ -93,9 +95,9 @@ class AsyncTextureLoader extends AbstractLoader
 
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
-      }).catch(function(e)
+      }).catch((e) =>
       {
-        console.error(e);
+        console.error(e, this.original_url);
       });
     }
     else
@@ -107,5 +109,3 @@ class AsyncTextureLoader extends AbstractLoader
     }
   }
 }
-
-export { AsyncTextureLoader };

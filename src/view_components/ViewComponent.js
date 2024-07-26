@@ -1,7 +1,6 @@
-import { HTMLUtilities } from '../utilities/HTMLUtilities';
 import { ViewComponentManager } from './ViewComponentManager';
 
-class ViewComponent
+export class ViewComponent
 {
   constructor({ name, container })
   {
@@ -59,16 +58,4 @@ class ViewComponent
       }
     }
   }
-
-  load_html_images()
-  {
-    HTMLUtilities.load_images(this.container);
-  }
-
-  load_html_videos()
-  {
-    HTMLUtilities.load_videos(this.container);
-  }
 }
-
-export { ViewComponent };

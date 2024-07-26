@@ -1,5 +1,5 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import replace from 'replace-in-file';
 
 class ComponentCreator
@@ -237,7 +237,7 @@ class ComponentCreator
 
     const options_3 = {
       files: path,
-      from: 'template',
+      from: /template/g,
       to: name.replace(/_/g, '-')
     };
 

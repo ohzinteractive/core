@@ -1,4 +1,3 @@
-import { Vector3 } from 'three';
 
 class OMath
 {
@@ -48,8 +47,11 @@ class OMath
 
   static project_points_on_plane(points, plane)
   {
-    const projected_point = new Vector3();
+    const projected_point = points[0].clone();
+    projected_point.set(0, 0, 0);
+
     const points_on_plane = [];
+
     for (let i = 0; i < points.length; i++)
     {
       plane.projectPoint(points[i], projected_point);

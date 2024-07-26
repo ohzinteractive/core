@@ -304,7 +304,7 @@ class ViewCreator
 
     const options_3 = {
       files: path,
-      from: 'template',
+      from: /template/g,
       to: name.replace(/_/g, '-')
     };
 
