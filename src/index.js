@@ -18,7 +18,6 @@ import { CanvasDrawer } from './canvas_drawer/CanvasDrawer';
 import { SimpleTextDrawer } from './canvas_drawer/SimpleTextDrawer';
 import { Capabilities } from './Capabilities';
 import { Debug } from './Debug';
-import { EventManager } from './EventManager';
 import { Graphics } from './Graphics';
 import { CSSAnimator } from './html_utilities/CSSAnimator';
 import { Initializer } from './Initializer';
@@ -123,7 +122,7 @@ import { TransitionManager } from './view_components/TransitionManager';
 
 export {
   AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities,
-  CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, EventManager, FileLoader,
+  CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
   FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
   ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshBatcher, MeshSampler,
   ModelUtilities, NormalAORender,
