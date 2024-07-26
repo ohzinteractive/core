@@ -41,7 +41,6 @@ import { DrawIOAnimationSheet } from './view_components/transition/DrawIOAnimati
 import { TransitionTable } from './view_components/transition/TransitionTable';
 import { ViewComponent } from './view_components/ViewComponent';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
-import { ViewContext } from './view_components/ViewContext';
 import { ViewManager } from './view_components/ViewManager';
 
 import { Arrow } from './primitives/Arrow';
@@ -131,5 +130,5 @@ export {
   NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
   ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
-  ViewComponentManager, ViewContext, ViewManager, VRRender, WorldImage
+  ViewComponentManager, ViewManager, VRRender, WorldImage
 };
