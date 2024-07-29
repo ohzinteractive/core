@@ -1,6 +1,6 @@
-import { AbstractLoader } from './AbstractLoader';
+import { AbstractLoader } from '../../resource_loader/AbstractLoader';
 
-class AssetLoader extends AbstractLoader
+export class AssetLoader extends AbstractLoader
 {
   constructor(resource_id, url, size)
   {
@@ -20,5 +20,3 @@ class AssetLoader extends AbstractLoader
     });
   }
 }
-
-export { AssetLoader };

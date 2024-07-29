@@ -37,7 +37,7 @@ class AsyncAbstractLoader
         if (asset_loader.has_error)
         {
           // Restore original url so the error message make more sense
-          // asset_loader.url = asset_loader.original_url;
+          asset_loader.url = asset_loader.original_url;
 
           asset_loader.print_error();
         }

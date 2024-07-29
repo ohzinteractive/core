@@ -1,7 +1,5 @@
-import { Browser } from '../Browser';
-import { Validation } from '../utilities/Validation';
 
-class AbstractLoader
+export class AbstractLoader
 {
   constructor(resource_id, url, size = 1)
   {
@@ -17,8 +15,8 @@ class AbstractLoader
 
   __update_downloaded_bytes(loaded, total)
   {
-    loaded = Validation.is_number(loaded) ? loaded : 1;
-    total  = Validation.is_number(total)  ? total  : 1;
+    loaded = this.is_number(loaded) ? loaded : 1;
+    total  = this.is_number(total)  ? total  : 1;
 
     this.loaded_bytes = loaded;
 
@@ -53,7 +51,7 @@ class AbstractLoader
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      const cache = Browser.is_safari ? 'no-cache' : 'default';
+      const cache = 'default';
 
       fetch(this.url, {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -100,7 +98,15 @@ class AbstractLoader
       // console.log(`Received ${receivedLength} of ${contentLength}`);
     }
 
-    this.on_preloaded_finished(resource_container, response_clone);
+    if (response.ok)
+    {
+      this.on_preloaded_finished(resource_container, response_clone);
+    }
+    else
+    {
+      this.__set_error(`${response.status}: ${response.statusText}`);
+      this.__loading_ended();
+    }
   }
 
   on_preloaded_finished(resource_container, response)
@@ -111,6 +117,19 @@ class AbstractLoader
   {
     console.error(data);
   }
-}
 
-export { AbstractLoader };
+  is_int(n)
+  {
+    return Number(n) === n && n % 1 === 0;
+  }
+
+  is_float(n)
+  {
+    return Number(n) === n && n % 1 !== 0;
+  }
+
+  is_number(n)
+  {
+    return this.is_int(n) || this.is_float(n);
+  }
+}
