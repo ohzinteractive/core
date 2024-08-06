@@ -17,8 +17,8 @@ export class AbstractScene {
     get_objects(): any[];
     dispose_cpu(): void;
     dispose(): void;
-    set_assets(scene_objects: any, scene_textures: any, scene_sounds: any): void;
-    set_high_assets(scene_objects: any, scene_textures: any, scene_sounds: any): void;
+    set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any): void;
+    set_high_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any): void;
     set_loading_state(state: any): void;
     update_loading_state(): void;
     update(): void;
@@ -26,6 +26,7 @@ export class AbstractScene {
     on_assets_compiled(): void;
     on_high_quality_assets_ready(): void;
 }
-import { RegularLoadingState } from "./loading_states/RegularLoadingState";
 import { HighQualityLoadingState } from "./loading_states/HighQualityLoadingState";
 import { LoadingState } from "./loading_states/LoadingState";
+import { RegularLoadingState } from "./loading_states/RegularLoadingState";
+

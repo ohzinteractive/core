@@ -112,14 +112,14 @@ class AbstractScene extends Scene
     // AvatarSystem.component_container.component_instancer.data_texture.data = new Float32Array(4);
   }
 
-  set_assets(scene_objects, scene_textures, scene_sounds)
+  set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data)
   {
-    this.loading_states.regular.set_assets(scene_objects, scene_textures, scene_sounds);
+    this.loading_states.regular.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_high_assets(scene_objects, scene_textures, scene_sounds)
+  set_high_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data)
   {
-    this.loading_states.high.set_assets(scene_objects, scene_textures, scene_sounds);
+    this.loading_states.high.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
   set_loading_state(state)

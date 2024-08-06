@@ -21,11 +21,15 @@ export class LoadingState
     this.callback_called = false;
   }
 
-  set_assets(scene_objects, scene_textures, scene_sounds)
+  set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders = [], custom_compilators = [], custom_data = [])
   {
     this.scene_objects = scene_objects;
     this.scene_textures = scene_textures;
     this.scene_sounds = scene_sounds;
+
+    this.custom_loaders = custom_loaders;
+    this.custom_compilators = custom_compilators;
+    this.custom_data = custom_data;
   }
 
   get loading_progress()
@@ -80,6 +84,13 @@ export class LoadingState
     const audios_loader = new AsyncAudiosLoader(this.scene.name, this.scene_sounds, assets_worker);
     this.loaders.push(audios_loader);
     compilators.push(new this.AudiosCompilator(audios_loader.get_assets_names()));
+
+    for (let i = 0; i < this.custom_loaders.length; i++)
+    {
+      const loader = new this.custom_loaders[i](this.scene.name, this.custom_data[i], assets_worker);
+      this.loaders.push(loader);
+      compilators.push(new this.custom_compilators[i](loader.get_assets_names()));
+    }
 
     this.compilator_manager = new CompilatorManager(compilators);
   }

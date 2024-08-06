@@ -12,6 +12,4 @@ export class ViewComponent {
     on_exit(): void;
     set_opacity(current_state_data: any): void;
     toggle_hidden(): void;
-    load_html_images(): void;
-    load_html_videos(): void;
 }

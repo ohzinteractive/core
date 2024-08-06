@@ -11,10 +11,13 @@ export class LoadingState {
     loaders: any[];
     compilators: any[];
     callback_called: boolean;
-    set_assets(scene_objects: any, scene_textures: any, scene_sounds: any): void;
+    set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders?: any[], custom_compilators?: any[], custom_data?: any[]): void;
     scene_objects: any;
     scene_textures: any;
     scene_sounds: any;
+    custom_loaders: any[];
+    custom_compilators: any[];
+    custom_data: any[];
     get loading_progress(): number;
     load(): void;
     on_enter(): void;

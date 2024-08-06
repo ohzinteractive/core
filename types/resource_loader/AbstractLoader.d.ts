@@ -15,4 +15,7 @@ export class AbstractLoader {
     on_progress(resource_container: any, response: any): Promise<void>;
     on_preloaded_finished(resource_container: any, response: any): void;
     __on_error(data: any): void;
+    is_int(n: any): boolean;
+    is_float(n: any): boolean;
+    is_number(n: any): boolean;
 }

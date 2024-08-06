@@ -7,16 +7,19 @@ class JSONLoader extends AbstractLoader
     super(resource_id, url, size);
   }
 
-  on_preloaded_finished(resource_container, response)
+  on_preloaded_finished(resource_container)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      response.json().then((json) =>
+      fetch(this.url).then((response) =>
       {
-        resource_container.set_resource(this.resource_id, this.url, json);
+        response.json().then((json) =>
+        {
+          resource_container.set_resource(this.resource_id, this.url, json);
 
-        this.__update_downloaded_bytes(1, 1);
-        this.__loading_ended();
+          this.__update_downloaded_bytes(1, 1);
+          this.__loading_ended();
+        });
       });
     }
     else
