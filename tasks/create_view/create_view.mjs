@@ -86,7 +86,7 @@ class ViewCreator
   __update_index_pug_file(name)
   {
     const new_data = `__SECTIONS__\n      include views/${name}/${name}`;
-    const file_path = path.join('..', 'app', 'index.pug');
+    const file_path = path.join('..', 'index.pug');
 
     const options = {
       files: file_path,

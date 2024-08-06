@@ -80,7 +80,7 @@ class ComponentCreator
   __update_index_pug_file(name)
   {
     const new_data = `__COMPONENTS__\n      include views/components/${name}/${name}`;
-    const file_path = path.join('..', 'app', 'index.pug');
+    const file_path = path.join('..', 'index.pug');
 
     const options = {
       files: file_path,
