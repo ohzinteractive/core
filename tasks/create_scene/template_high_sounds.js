@@ -4,7 +4,7 @@ const template_high_sounds = [
   //   url: 'sounds/background.mp3',
   //   loop: true,
   //   volume: 0.05,
-  //   size: process.env['sounds-background.mp3']
+  //   size: import.meta.env['sounds-background.mp3']
   // },
   // {
   //   name: 'pigeons_loop',
@@ -12,7 +12,7 @@ const template_high_sounds = [
   //   positional: true,
   //   loop: true,
   //   volume: 1,
-  //   size: process.env['sounds-pigeons_loop.mp3']
+  //   size: import.meta.env['sounds-pigeons_loop.mp3']
   // }
 ];
 
