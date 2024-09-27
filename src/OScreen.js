@@ -4,13 +4,13 @@ class OScreen
 {
   init()
   {
-    this.width = 1;
-    this.height = 1;
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
 
     this.position = new Vector2();
 
-    this.render_width = 1;
-    this.render_height = 1;
+    this.render_width = window.innerWidth;
+    this.render_height = window.innerHeight;
     this.width_height = new Vector2(this.width, this.height);
 
     this.dpr = 1;

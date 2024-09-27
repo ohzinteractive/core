@@ -33,7 +33,6 @@ import { UnrealBloomRender } from './render_mode/UnrealBloomRender';
 import { VRRender } from './render_mode/VRRender';
 import { RenderLoop } from './RenderLoop';
 import { SceneManager } from './SceneManager';
-import { Screen } from './Screen';
 import { Time } from './Time';
 import { UI } from './UI';
 import { DrawIOAnimationSheet } from './view_components/transition/DrawIOAnimationSheet';
@@ -128,6 +127,6 @@ export {
   ModelUtilities, NormalAORender,
   NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
   ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
-  ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+  ResourceContainer, RGBETextureLoader, SceneManager, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
   ViewComponentManager, ViewManager, VRRender, WorldImage
 };
