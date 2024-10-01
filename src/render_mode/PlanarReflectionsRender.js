@@ -7,7 +7,7 @@ import { ReflectionPlaneContext } from '../ReflectionPlaneContext';
 import { OScreen } from '../OScreen';
 import { BaseRender } from '../render_mode/BaseRender';
 
-import { Material, ShaderMaterial } from 'three';
+import { ShaderMaterial } from 'three';
 import { Matrix4 } from 'three';
 import { Vector4 } from 'three';
 import { Scene } from 'three';
