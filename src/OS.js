@@ -1,4 +1,4 @@
-
+// @ts-check
 class OS
 {
   init()

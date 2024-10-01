@@ -1,7 +1,10 @@
+// @ts-check
+// @ts-ignore
 import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
+// @ts-ignore
 import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
 
-import { Mesh } from 'three';
+import { Mesh, Texture } from 'three'; // eslint-disable-line no-unused-vars
 import { Vector2 } from 'three';
 import { ShaderMaterial } from 'three';
 import { DoubleSide } from 'three';
@@ -10,6 +13,10 @@ import { Vector3 } from 'three';
 
 class WorldImage extends Mesh
 {
+  /**
+   * @param {Texture} texture
+   * @param {Vector2} [pivot]
+   */
   constructor(texture, pivot)
   {
     pivot = pivot || new Vector2(0, 0);
@@ -36,6 +43,7 @@ class WorldImage extends Mesh
 
     this.tmp_bb_size = new Vector3();
     this.geometry.boundingBox.getSize(this.tmp_bb_size);
+    this.material = material;
   }
 
   update_texture()
@@ -57,7 +65,7 @@ class WorldImage extends Mesh
 
   set size(value)
   {
-    this.scale.set(value, value, value);
+    this.scale.copy(value);
     this.material.uniforms._Scale.value = value;
   }
 

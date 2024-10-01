@@ -1,4 +1,4 @@
-
+// @ts-check
 class Browser
 {
   async init()
@@ -17,9 +17,11 @@ class Browser
     case this.agent.indexOf('edg') > -1:
       this.browser_name = 'edge_chromium';
       break;
+    // @ts-ignore
     case this.agent.indexOf('opr') > -1 && !!window.opr:
       this.browser_name = 'opera';
       break;
+    // @ts-ignore
     case this.agent.indexOf('chrome') > -1 && !!window.chrome:
       this.browser_name = 'chrome';
       break;
@@ -55,6 +57,11 @@ class Browser
     return this.browser_name === 'chrome';
   }
 
+  get is_firefox()
+  {
+    return this.browser_name === 'firefox';
+  }
+
   get is_edge()
   {
     return this.browser_name === 'edge_ie';
@@ -83,8 +90,8 @@ class Browser
   get_version()
   {
     const ua = navigator.userAgent;
-    let tem = '';
-    let version = 0;
+    let tem = [];
+    let version = '0';
 
     let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
 

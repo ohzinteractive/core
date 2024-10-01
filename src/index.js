@@ -1,3 +1,4 @@
+// @ts-check
 import { BaseApplication } from './BaseApplication';
 import { AddMaterial } from './materials/AddMaterial';
 import { BaseShaderMaterial } from './materials/BaseShaderMaterial';

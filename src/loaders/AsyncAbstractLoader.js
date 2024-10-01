@@ -1,7 +1,13 @@
+// @ts-check
 import { ResourceContainer } from '../ResourceContainer';
 
 class AsyncAbstractLoader
 {
+  /**
+   * @param {string} name
+   * @param {any[]} assets
+   * @param {Worker} worker
+   */
   constructor(name, assets, worker)
   {
     this.resource_container = ResourceContainer;
@@ -106,6 +112,9 @@ class AsyncAbstractLoader
     this.worker.postMessage({ type: 'assets', loader_name: this.name, data: this.assets });
   }
 
+  /**
+   * @param {MessageEvent} e
+   */
   on_message(e)
   {
     const message = e.data;
@@ -118,6 +127,9 @@ class AsyncAbstractLoader
     }
   }
 
+  /**
+   * @param {any} resources
+   */
   __on_assets_loaded(resources)
   {
     this.worker.removeEventListener('message', this.bound_on_message);
@@ -135,9 +147,13 @@ class AsyncAbstractLoader
     }
   }
 
+  /**
+   * @returns {any[]}
+   */
   __setup_loaders()
   {
     console.warn('Not implemented');
+    return [];
   }
 }
 

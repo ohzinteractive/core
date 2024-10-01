@@ -1,14 +1,22 @@
+// @ts-check
 import { WorldImage } from './WorldImage';
 import { SimpleTextDrawer } from '../canvas_drawer/SimpleTextDrawer';
 
-import { LinearMipMapLinearFilter } from 'three';
+import { LinearMipMapLinearFilter, Vector2 } from 'three'; // eslint-disable-line no-unused-vars
 import { LinearFilter } from 'three';
 
 class Text2D extends WorldImage
 {
-  constructor(text, font, color, pivot, is_static)
+  /**
+   * @param {string} text
+   * @param {string} font
+   * @param {string | Number} color
+   * @param {Vector2} pivot
+   * @param {boolean} [is_static]
+   */
+  constructor(text, font, color, pivot, is_static) // eslint-disable-line no-unused-vars
   {
-    const simple_text_drawer = new SimpleTextDrawer(is_static);
+    const simple_text_drawer = new SimpleTextDrawer();
 
     const draw_settings = {
       font: font,

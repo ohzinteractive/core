@@ -1,3 +1,4 @@
+// @ts-check
 import { Text2D } from './Text2D';
 
 import { Object3D } from 'three';
@@ -5,7 +6,14 @@ import { Vector2 } from 'three';
 
 class MultiLineText2D extends Object3D
 {
-  constructor(text_array, font, color, pivot, is_static)
+  /**
+   * @param {string[]} text_array
+   * @param {string} [font]
+   * @param {string | number} [color]
+   * @param {Vector2} [pivot]
+   * @param {boolean} [is_static]
+   */
+  constructor(text_array, font, color, pivot, is_static) // eslint-disable-line no-unused-vars
   {
     super();
 
@@ -45,11 +53,14 @@ class MultiLineText2D extends Object3D
   {
     for (let i = 0; i < this.text_array.length; i++)
     {
-      this.text_array[i].size = value;
+      this.text_array[i].size.set(value, value, value);
     }
     this.update_text_positions();
   }
 
+  /**
+   * @returns {string[]}
+   */
   get texts()
   {
     return [];

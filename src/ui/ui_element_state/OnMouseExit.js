@@ -1,3 +1,5 @@
+// @ts-check
+import { UIElement } from '../../components/UIElement'; // eslint-disable-line no-unused-vars
 import { UIElementState } from './UIElementState';
 
 class OnMouseExit extends UIElementState
@@ -7,6 +9,9 @@ class OnMouseExit extends UIElementState
     super();
   }
 
+  /**
+   * @param {UIElement} ui_element
+   */
   on_enter(ui_element)
   {
     ui_element.on_mouse_exit();

@@ -1,8 +1,16 @@
+// @ts-check
+import { Vector3 } from 'three';
 import { ActionInterpolator } from './ActionInterpolator';
 
 class VectorInterpolator extends ActionInterpolator
 {
-  constructor(attribute_name, from = 0, to = 1, easing_function = 'linear')
+  /**
+   * @param {string} attribute_name
+   * @param {Vector3} [from]
+   * @param {Vector3} [to]
+   * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} [easing_function]
+   */
+  constructor(attribute_name, from = new Vector3(), to = new Vector3(1, 1, 1), easing_function = 'linear')
   {
     super(easing_function);
 
@@ -11,6 +19,10 @@ class VectorInterpolator extends ActionInterpolator
     this.to = to;
   }
 
+  /**
+   * @param {any} context
+   * @param {number} t
+   */
   update(context, t)
   {
     const tmp = this.from.clone();

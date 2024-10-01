@@ -1,6 +1,11 @@
-
+// @ts-check
 class ActionEvent
 {
+  /**
+   * @param {string} name
+   * @param {string} method
+   * @param {string} args
+   */
   constructor(name, method, args)
   {
     this.name = name;

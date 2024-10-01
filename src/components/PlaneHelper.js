@@ -1,4 +1,4 @@
-
+// @ts-check
 import { Object3D } from 'three';
 import { MeshBasicMaterial } from 'three';
 import { PlaneGeometry } from 'three';

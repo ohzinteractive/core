@@ -1,6 +1,10 @@
+// @ts-check
+import { BaseApplication } from './BaseApplication'; // eslint-disable-line no-unused-vars
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
 import { OScreen } from './OScreen';
+import { OrthographicCamera } from './OrthographicCamera'; // eslint-disable-line no-unused-vars
+import { PerspectiveCamera } from './PerspectiveCamera'; // eslint-disable-line no-unused-vars
 import { SceneManager } from './SceneManager';
 
 import { BaseRender } from './render_mode/BaseRender';
@@ -15,13 +19,22 @@ import {
   NoBlending,
   RGBAFormat,
   ShaderMaterial,
-  WebGLRenderTarget
+  WebGLRenderTarget,
+  Material, Object3D, Scene // eslint-disable-line no-unused-vars
 } from 'three';
 
 import { WebGLRenderer } from 'three';
 
 class Graphics
 {
+  /**
+   * @param {Object} options
+   * @param {HTMLCanvasElement} options.canvas
+   * @param {Record<string, any>} options.core_attributes
+   * @param {Record<string, any>} options.context_attributes
+   * @param {Record<string, any>} options.threejs_attributes
+   * @param {number} options.dpr
+   */
   init({ canvas, core_attributes, context_attributes, threejs_attributes, dpr })
   {
     this._renderer = undefined;
@@ -53,6 +66,7 @@ class Graphics
       stencil: false
     };
 
+    /** @type {Record<string, any>} */
     this.threejs_attributes = {
       logarithmicDepthBuffer: false
     };
@@ -128,6 +142,9 @@ class Graphics
     return this.depth_and_normals_renderer.render_target;
   }
 
+  /**
+   * @param {BaseRender} new_state
+   */
   set_state(new_state)
   {
     // console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
@@ -165,6 +182,12 @@ class Graphics
     }
   }
 
+  /**
+   * @param {Scene} [scene]
+   * @param {PerspectiveCamera | OrthographicCamera} [camera]
+   * @param {WebGLRenderTarget} [RT]
+   * @param {Material} [override_mat]
+   */
   render(scene, camera, RT, override_mat)
   {
     this.__apply_override_material(scene, override_mat);
@@ -176,6 +199,12 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
+  /**
+   * @param {Scene} scene
+   * @param {PerspectiveCamera} camera
+   * @param {WebGLRenderTarget} RT
+   * @param {Material} override_mat
+   */
   compile(scene, camera, RT, override_mat)
   {
     this.__apply_override_material(scene, override_mat);
@@ -187,6 +216,14 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
+  /**
+   * @param {Scene} scene
+   * @param {PerspectiveCamera} camera
+   * @param {WebGLRenderTarget} RT
+   * @param {Material} override_mat
+   * @param {Scene} target_scene
+   * @returns {Promise<Object3D>}
+   */
   async compile_async(scene, camera, RT, override_mat, target_scene)
   {
     this.__apply_override_material(scene, override_mat);
@@ -200,28 +237,36 @@ class Graphics
     return promise;
   }
 
+  /**
+   * @param {BaseApplication | Scene | {render:()=>void}} scene
+   */
   render_scene(scene)
   {
-    if (scene.on_pre_render)
+    if ('on_pre_render' in scene)
     {
       scene.on_pre_render();
     }
 
-    if (scene.render)
+    if ('render' in scene)
     {
       scene.render();
     }
     else
     {
+      // @ts-ignore
       this.render(scene, undefined);
     }
 
-    if (scene.on_post_render)
+    if ('on_post_render' in scene)
     {
       scene.on_post_render();
     }
   }
 
+  /**
+   * @param {Scene} scene
+   * @param {Material} mat
+   */
   __apply_override_material(scene, mat)
   {
     mat = mat === undefined ? null : mat;
@@ -235,11 +280,21 @@ class Graphics
     }
   }
 
+  /**
+   * @param {WebGLRenderTarget} RT
+   * @param {import('three').TypedArray} buffer
+   */
   readback_RT(RT, buffer)
   {
     this._renderer.readRenderTargetPixels(RT, 0, 0, RT.width, RT.height, buffer);
   }
 
+  /**
+   * @param {WebGLRenderTarget} RT
+   * @param {PerspectiveCamera} camera
+   * @param {boolean} clear_depth
+   * @param {boolean} clear_stencil
+   */
   clear(RT, camera, clear_depth, clear_stencil)
   {
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
@@ -254,6 +309,10 @@ class Graphics
       !!clear_stencil);
   }
 
+  /**
+   * @param {ResizeObserverEntry[]} entries
+   * @param {number} dpr
+   */
   on_resize(entries, dpr)
   {
     for (const entry of entries)
@@ -273,11 +332,20 @@ class Graphics
     }
   }
 
+  /**
+   * @param {Material} mat
+   * @param {WebGLRenderTarget} dst
+   */
   material_pass(mat, dst)
   {
     this.blitter.material_pass(mat, dst);
   }
 
+  /**
+   * @param {WebGLRenderTarget} src_RT
+   * @param {WebGLRenderTarget} dst_RT
+   * @param {Material} mat
+   */
   blit(src_RT, dst_RT, mat)
   {
     if (mat)
@@ -290,11 +358,20 @@ class Graphics
     }
   }
 
+  /**
+   * @param {WebGLRenderTarget} dst_RT
+   * @param {Material} mat
+   */
   blit_clear_with_material(dst_RT, mat)
   {
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
+  /**
+   * @param {BlobCallback} blob_callback
+   * @param {number} width
+   * @param {number} height
+   */
   take_screenshot(blob_callback, width = OScreen.width, height = OScreen.height)
   {
     // const ctx = this;
@@ -308,8 +385,8 @@ class Graphics
     const tile_width = 1024;
     const tile_height = 1024;
 
-    const divisions_x = parseInt(Math.ceil(new_width / tile_width));
-    const divisions_y = parseInt(Math.ceil(new_height / tile_height));
+    const divisions_x = Math.ceil(new_width / tile_width);
+    const divisions_y = Math.ceil(new_height / tile_height);
 
     OScreen.update_size(tile_width, tile_height);
     const old_dpr = this._renderer.getPixelRatio();
@@ -355,6 +432,9 @@ class Graphics
     CameraManager.current.updateMatrixWorld(true);
   }
 
+  /**
+   * @param {Blob} blob
+   */
   download_screenshot(blob)
   {
     const link = document.createElement('a');

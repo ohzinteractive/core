@@ -1,3 +1,4 @@
+// @ts-check
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
@@ -12,6 +13,7 @@ import { GeometryBatcher } from './static_batcher/GeometryBatcher';
 import { Time } from './Time';
 import { UI } from './UI';
 import { CameraUtilities } from './utilities/CameraUtilities';
+import { RenderLoop } from './index'; // eslint-disable-line no-unused-vars
 
 class Initializer
 {
@@ -38,6 +40,9 @@ class Initializer
     Debug.init();
   }
 
+  /**
+   * @param {RenderLoop} render_loop
+   */
   dispose(render_loop)
   {
     Graphics.dispose();

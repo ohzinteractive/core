@@ -1,3 +1,4 @@
+// @ts-check
 import { Vector2 } from 'three';
 import { Clock } from 'three';
 
@@ -61,6 +62,9 @@ class Time
     return this.smooth_delta_time;
   }
 
+  /**
+   * @param {number} value
+   */
   __set_frame_interpolation(value)
   {
     this.__frame_interpolation_t = value;

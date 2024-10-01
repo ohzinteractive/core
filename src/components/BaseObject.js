@@ -1,5 +1,5 @@
-
-import { Object3D } from 'three';
+// @ts-check
+import { Mesh, Object3D } from 'three'; // eslint-disable-line no-unused-vars
 import { Vector3 } from 'three';
 
 class BaseObject extends Object3D
@@ -16,6 +16,9 @@ class BaseObject extends Object3D
     return this.___temp_w_pos;
   }
 
+  /**
+   * @param {Object3D | Mesh} obj
+   */
   deep_dispose(obj)
   {
     if (obj !== null)
@@ -24,13 +27,13 @@ class BaseObject extends Object3D
       {
         this.deep_dispose(obj.children[i]);
       }
-      if (obj.geometry)
+      if ('geometry' in obj)
       {
         obj.geometry.dispose();
       }
-      if (obj.material)
+      if ('material' in obj)
       {
-        if (obj.material.map)
+        if ('map' in obj.material)
         {
           obj.material.map.dispose();
         }

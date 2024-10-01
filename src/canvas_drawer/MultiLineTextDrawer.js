@@ -1,3 +1,4 @@
+// @ts-check
 import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';
@@ -10,6 +11,12 @@ class MultiLineTextDrawer extends CanvasDrawer
     this.text_margin = new Vector2(2, 0);
   }
 
+  /**
+   * @param {string[]} text_array
+   * @param {any} [ctxOptions]
+   * @param {HTMLCanvasElement} [canvas]
+   * @param {CanvasRenderingContext2D} [ctx]
+   */
   __draw(text_array, ctxOptions, canvas, ctx)
   {
     ctx.font = ctxOptions.font;
@@ -37,7 +44,7 @@ class MultiLineTextDrawer extends CanvasDrawer
     ctx.font = ctxOptions.font;
     ctx.fillStyle = ctxOptions.font_color;
     ctx.textBaseline = 'middle';
-    ctx.textAlignment = 'left';
+    ctx.textAlign = 'left';
 
     const word_height = canvas.height / text_array.length;
     for (let i = 0; i < text_array.length; i++)

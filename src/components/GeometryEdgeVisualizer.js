@@ -1,14 +1,21 @@
+// @ts-check
+// @ts-ignore
 import edge_visualizer_frag from '../shaders/edge_visualizer/edge_visualizer.frag';
+// @ts-ignore
 import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer.vert';
 
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
-import { Mesh } from 'three';
+import { BufferGeometry, Mesh } from 'three'; // eslint-disable-line no-unused-vars
 import { Color } from 'three';
 import { ShaderMaterial } from 'three';
 
 class GeometryEdgeVisualizer extends Mesh
 {
+  /**
+   * @param {BufferGeometry} geometry
+   * @param {string | number} [line_color]
+   */
   constructor(geometry, line_color)
   {
     line_color = line_color || '#91EE91';
@@ -23,6 +30,7 @@ class GeometryEdgeVisualizer extends Mesh
       },
       vertexShader: edge_visualizer_vert,
       fragmentShader: edge_visualizer_frag,
+      // @ts-ignore
       extensions: { derivatives: true },
       transparent: true,
       depthWrite: false
@@ -37,6 +45,7 @@ class GeometryEdgeVisualizer extends Mesh
     GeometryUtilities.add_barycentric_attribute(non_indexed_geometry);
 
     super(non_indexed_geometry, material);
+    this.material = material;
   }
 
   hide_faces()

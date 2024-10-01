@@ -43,9 +43,9 @@ module.exports = {
     camelcase: 0,
     'import/no-absolute-path': 0,
     'import/no-duplicates': 0,
-    'import/no-default-export': [
-      'error'
-    ],
+    // 'import/no-default-export': [
+    //   'error'
+    // ],
     'linebreak-style': 0,
     'no-multi-spaces': 0,
     'no-useless-constructor': 0,

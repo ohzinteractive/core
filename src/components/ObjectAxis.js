@@ -1,3 +1,4 @@
+// @ts-check
 import { Arrow } from '../primitives/Arrow';
 
 import { Object3D } from 'three';
@@ -5,6 +6,10 @@ import { Vector3 } from 'three';
 
 class ObjectAxis extends Object3D
 {
+  /**
+   * @param {Object3D} obj
+   * @param {number} [size]
+   */
   constructor(obj, size)
   {
     super();

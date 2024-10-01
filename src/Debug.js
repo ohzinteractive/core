@@ -1,3 +1,4 @@
+// @ts-check
 import { AxisHelper } from './components/AxisHelper';
 
 import { SceneManager } from './SceneManager';
@@ -5,10 +6,11 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { Arrow } from './primitives/Arrow';
 import { OScreen } from './OScreen';
+import { Graphics } from './Graphics'; // eslint-disable-line no-unused-vars
 import { ScreenSpaceTextureMaterial } from './materials/ScreenSpaceTextureMaterial';
 import { PerspectiveCamera } from './PerspectiveCamera';
 
-import { Vector3 } from 'three';
+import { RenderTarget, Texture, Vector2, Vector3, WebGLRenderer } from 'three'; // eslint-disable-line no-unused-vars
 import { LineBasicMaterial } from 'three';
 import { BufferGeometry } from 'three';
 import { Line } from 'three';
@@ -22,8 +24,9 @@ import { Scene } from 'three';
 import { CatmullRomCurve3 } from 'three';
 import { SphereGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
-
+// @ts-ignore
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
+// @ts-ignore
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
 import { CameraManager } from './CameraManager';
 
@@ -35,6 +38,7 @@ class Debug
     this.Vector3_zero = new Vector3(0, 0, 0);
     this.canvas_renderer = undefined;
 
+    /** @type { Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[] } */
     this.display_texture_meshes = [];
 
     this.ctx = undefined;
@@ -43,6 +47,12 @@ class Debug
     this.camera.clear_alpha = 0;
   }
 
+  /**
+   * @param {Vector3} origin
+   * @param {Vector3} dir
+   * @param {number | string} color
+   * @returns {Arrow}
+   */
   draw_arrow(origin, dir, color = 0xff0000)
   {
     const arrow = new Arrow(color, dir.length(), dir.clone().normalize());
@@ -58,11 +68,20 @@ class Debug
     return axis;
   }
 
+  /**
+   * @param {RenderTarget} RT
+   */
   set_debug_RT(RT)
   {
     this.rt_debug = RT;
   }
 
+  /**
+   * @param {Vector2 | Vector3} position_2d
+   * @param {number} width
+   * @param {number} height
+   * @param {number | string} color
+   */
   draw_rectangle(position_2d, width, height, color)
   {
     width  = width || 100;
@@ -80,6 +99,11 @@ class Debug
     }
   }
 
+  /**
+   * @param {Vector3 | Vector2} from
+   * @param {Vector3 | Vector2} to
+   * @param {number | string} color
+   */
   draw_line_2D(from, to, color)
   {
     this.ctx.strokeStyle =  color || 'rgba(255, 0, 0, 1)';
@@ -90,6 +114,11 @@ class Debug
     this.ctx.stroke();
   }
 
+  /**
+   * @param {Vector3[]} points
+   * @param {number | string} color
+   * @returns {Line}
+   */
   draw_line(points, color = 0xff0000)
   {
     const material = new LineBasicMaterial({
@@ -104,6 +133,12 @@ class Debug
     return line;
   }
 
+  /**
+   * @param {Vector3} pos
+   * @param {number} size
+   * @param {number | string} color
+   * @returns {Cube}
+   */
   draw_cube(pos, size, color)
   {
     size = size || 1;
@@ -116,6 +151,14 @@ class Debug
     return cube;
   }
 
+  /**
+   * @param {Vector3} from
+   * @param {Vector3} to
+   * @param {number} height
+   * @param {number | string} color
+   * @param {number} depth
+   * @returns {Cube}
+   */
   draw_oriented_cube(from, to, height = 1, color = '#FF0000', depth = 0.1)
   {
     const size = from.distanceTo(to);
@@ -138,7 +181,14 @@ class Debug
     return cube;
   }
 
-  draw_plane(width, height, color)
+  /**
+   *
+   * @param {number} [width]
+   * @param {number} [height]
+   * @param {number | string} [color]
+   * @returns
+   */
+  draw_plane(width, height, color) // eslint-disable-line no-unused-vars
   {
     const geometry = new PlaneGeometry(width, height);
     const material = new ShaderMaterial({
@@ -157,6 +207,12 @@ class Debug
     return plane;
   }
 
+  /**
+   * @param {Vector3} pos
+   * @param {number} size
+   * @param {number | string} color
+   * @returns {Box3Helper}
+   */
   draw_empty_cube(pos, size, color)
   {
     size = size || 1;
@@ -168,6 +224,12 @@ class Debug
     return helper;
   }
 
+  /**
+   * @param {Vector3} pos
+   * @param {number} size
+   * @param {number | string} color
+   * @returns {Sphere}
+   */
   draw_sphere(pos, size, color)
   {
     size = size || 1;
@@ -180,7 +242,14 @@ class Debug
     return sphere;
   }
 
-  draw_point_array(input_points, open = false, color = 0xff0000)
+  /**
+   *
+   * @param {Vector3[]} input_points
+   * @param {boolean} open
+   * @param {number | string} color
+   * @returns {Line}
+   */
+  draw_point_array(input_points, open = false, color = 0xff0000) // eslint-disable-line no-unused-vars
   {
     const catmull = new CatmullRomCurve3(input_points, open);
     catmull.updateArcLengths();
@@ -190,6 +259,11 @@ class Debug
     return line_helper;
   }
 
+  /**
+   * @param {Sphere} sphere
+   * @param {number | string} color
+   * @returns {Mesh}
+   */
   draw_sphere_helper(sphere, color)
   {
     color = color || 0xff0000;
@@ -201,6 +275,9 @@ class Debug
     return sphere_mesh;
   }
 
+  /**
+   * @param {Sphere} sphere
+   */
   draw_math_sphere(sphere)
   {
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
@@ -218,12 +295,20 @@ class Debug
     SceneManager.current.add(sphere1);
   }
 
+  /**
+   * @param {Box3} bb
+   */
   draw_bounding_box(bb)
   {
     const helper = new Box3Helper(bb, 0xffff00);
     SceneManager.current.add(helper);
   }
 
+  /**
+   * @param {Vector3[]} curve
+   * @param {object} options
+   * @param {number} options.offset
+   */
   draw_curve(curve, options)
   {
     const offset = new Vector3(0, 0, 0);
@@ -234,10 +319,16 @@ class Debug
 
     for (let i = 0; i < curve.length - 1; i++)
     {
-      this.draw_line(curve[i].clone().add(offset), curve[i + 1].clone().add(offset));
+      this.draw_line([curve[i].clone().add(offset), curve[i + 1].clone().add(offset)]);
     }
   }
 
+  /**
+   * @param {Texture} tex
+   * @param {number} w
+   * @param {number} h
+   * @returns {Mesh}
+   */
   draw_texture(tex, w, h)
   {
     const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
@@ -248,6 +339,9 @@ class Debug
     return mesh;
   }
 
+  /**
+   * @param {Graphics} graphics
+   */
   render(graphics)
   {
     for (let i = 0; i < this.display_texture_meshes.length; i++)
