@@ -1,4 +1,4 @@
-export class BatchedMesh {
+export class BatchedMesh extends Mesh<import("three").BufferGeometry<import("three").NormalBufferAttributes>, import("three").Material | import("three").Material[], import("three").Object3DEventMap> {
     constructor(id_table: any, geometry: any, material: any, max_texture_width: any);
     id_table: any;
     batched_count: number;
@@ -13,3 +13,4 @@ export class BatchedMesh {
     set_rgb_value(uniform_name: any, mesh_name: any, r: any, g: any, b: any): void;
     set_rgba_value(uniform_name: any, mesh_name: any, r: any, g: any, b: any, a: any): void;
 }
+import { Mesh } from "three/src/objects/Mesh";

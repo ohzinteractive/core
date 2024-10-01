@@ -5,12 +5,12 @@ export class SDFText {
     glyph_is_dirty: boolean;
     matrix_is_dirty: boolean;
     color_is_dirty: boolean;
-    position: any;
-    quaternion: any;
-    scale: any;
-    matrix: any;
-    color: any;
-    pivot_point: any;
+    position: Vector3;
+    quaternion: Quaternion;
+    scale: Vector3;
+    matrix: Matrix4;
+    color: Color;
+    pivot_point: Vector2;
     __opacity: number;
     __text: string;
     set text(arg: string);
@@ -28,3 +28,8 @@ export class SDFText {
     update_glyphs(): void;
     __generate_glyphs(text: any): void;
 }
+import { Vector3 } from "three/src/math/Vector3";
+import { Quaternion } from "three/src/math/Quaternion";
+import { Matrix4 } from "three/src/math/Matrix4";
+import { Color } from "three/src/math/Color";
+import { Vector2 } from "three/src/math/Vector2";

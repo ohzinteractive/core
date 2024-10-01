@@ -1,7 +1,7 @@
 export class UnrealBloomRender extends BaseRender {
     bloom_compose_mat: UnrealBloomComposeMaterial;
-    main_RT: any;
-    blur_RT: any;
+    main_RT: WebGLRenderTarget<import("three").Texture>;
+    blur_RT: WebGLRenderTarget<import("three").Texture>;
     blurrer: GaussianBlurrer;
     add_mat: AddMaterial;
     on_enter(): void;
@@ -16,5 +16,6 @@ export class UnrealBloomRender extends BaseRender {
 }
 import { BaseRender } from "../render_mode/BaseRender";
 import { UnrealBloomComposeMaterial } from "../materials/UnrealBloomComposeMaterial";
+import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
 import { GaussianBlurrer } from "../render_utilities/GaussianBlurrer";
 import { AddMaterial } from "../materials/AddMaterial";

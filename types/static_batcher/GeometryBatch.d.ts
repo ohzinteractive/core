@@ -1,13 +1,13 @@
 export class GeometryBatch {
     constructor(geometry: any, batch_width: any);
     geometry: any;
-    material: any;
+    material: ShaderMaterial;
     uniforms: {};
     batch_width: any;
     data_textures: any[];
     object_names: any;
-    zero_offset: any;
-    write_offset: any;
+    zero_offset: Vector2;
+    write_offset: Vector2;
     uniform_dirty_count: number;
     tmp_uploaded_data_count: number;
     init(object_names: any, vert_shader: any, frag_shader: any): void;
@@ -22,16 +22,20 @@ export class GeometryBatch {
     get_uniform_dirty_count(): number;
     __full_texture_data_upload(renderer: any, texture_data: any): void;
     __partial_texture_data_upload(renderer: any, texture_data: any): void;
-    get_mesh(): any;
+    get_mesh(): Mesh<any, ShaderMaterial, import("three").Object3DEventMap>;
     __set_pixel_rgb(data_texture: any, index: any, vector3: any, use_r: any, use_g: any, use_b: any): void;
     __set_pixel_rgba(data_texture: any, index: any, vector4: any, use_r: any, use_g: any, use_b: any, use_a: any): void;
     __flood_data_texture_rgb(data_texture: any, v3: any): void;
     __flood_data_texture_rgba(data_texture: any, v4: any): void;
-    __create_rgb_texture(width: any): any;
-    __create_rgba_texture(width: any): any;
-    __create_rgba_float_texture(width: any): any;
+    __create_rgb_texture(width: any): DataTexture;
+    __create_rgba_texture(width: any): DataTexture;
+    __create_rgba_float_texture(width: any): DataTexture;
     __get_data_texture(uniform_name: any): any;
     __get_object_index(name: any): number;
     __add_data_texture(uniform_name: any, src_texture: any, dst_texture: any, one_pixel_text: any): any;
     dispose(): void;
 }
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
+import { Vector2 } from "three/src/math/Vector2";
+import { Mesh } from "three/src/objects/Mesh";
+import { DataTexture } from "three/src/textures/DataTexture";

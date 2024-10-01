@@ -1,20 +1,65 @@
 export class KeyboardInput {
-    init(container: any): void;
+    /**
+     * @param {HTMLElement} container
+     */
+    init(container: HTMLElement): void;
     ctrlz_pressed: boolean;
     ctrlz_fired: boolean;
-    keys: {};
-    keys_keys: any[] | string[];
-    container: any;
-    on_key_down(e: any): void;
-    on_key_up(e: any): void;
+    /**
+     * @type {{[key:string]:{key_name: string, pressed: boolean, down: boolean, fired: boolean, released: boolean}}}
+     */
+    keys: {
+        [key: string]: {
+            key_name: string;
+            pressed: boolean;
+            down: boolean;
+            fired: boolean;
+            released: boolean;
+        };
+    };
+    /** @type {string[]} */
+    keys_keys: string[];
+    container: HTMLElement;
+    /**
+     * @param {KeyboardEvent} e
+     */
+    on_key_down(e: KeyboardEvent): void;
+    /**
+     * @param {KeyboardEvent} e
+     */
+    on_key_up(e: KeyboardEvent): void;
     clear(): void;
-    release_key(key_name: any): void;
+    /**
+     * @param {string} key_name
+     */
+    release_key(key_name: string): void;
     release_keys(): void;
-    press_key(key_name: any): void;
-    is_key_pressed(key_name: any): any;
-    is_key_down(key_name: any): any;
-    is_key_released(key_name: any): any;
-    register_key(key: any): void;
-    unregister_key(key_name: any): void;
+    /**
+     * @param {string} key_name
+     */
+    press_key(key_name: string): void;
+    /**
+     * @param {string} key_name
+     * @returns {boolean}
+     */
+    is_key_pressed(key_name: string): boolean;
+    /**
+     * @param {string} key_name
+     * @returns {boolean}
+     */
+    is_key_down(key_name: string): boolean;
+    /**
+     * @param {string} key_name
+     * @returns {boolean}
+     */
+    is_key_released(key_name: string): boolean;
+    /**
+     * @param {string} key
+     */
+    register_key(key: string): void;
+    /**
+     * @param {string} key_name
+     */
+    unregister_key(key_name: string): void;
     dispose(): void;
 }

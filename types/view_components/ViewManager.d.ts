@@ -1,7 +1,7 @@
 export { view_manager as ViewManager };
 declare const view_manager: ViewManager;
 declare class ViewManager {
-    views: ViewState[];
+    views: any[];
     browser_title_suffix: string;
     update(): void;
     go_to_view(view_name: any, change_url?: boolean, skip?: boolean): void;
@@ -20,4 +20,3 @@ declare class ViewManager {
     __capitalize(string: any): any;
     __snake_to_whitespace(string: any): any;
 }
-import { ViewState } from "./ViewState";

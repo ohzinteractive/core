@@ -2,21 +2,36 @@ export { oscreen as OScreen };
 declare const oscreen: OScreen;
 declare class OScreen {
     init(): void;
-    width: any;
-    height: any;
-    position: any;
+    width: number;
+    height: number;
+    position: Vector2;
     render_width: number;
     render_height: number;
-    width_height: any;
+    width_height: Vector2;
     dpr: number;
-    pixel_size: any;
-    update_position(x: any, y: any): void;
+    pixel_size: Vector2;
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    update_position(x: number, y: number): void;
     update(): void;
     size_changed: boolean;
-    update_size(width: any, height: any): void;
-    apply_pixel_density_v2(vector2: any): any;
-    apply_pixel_density(value: any): number;
-    get_pixel_size(): any;
+    /**
+     * @param {number} width
+     * @param {number} height
+     */
+    update_size(width: number, height: number): void;
+    /**
+     * @param {Vector2} vector2
+     */
+    apply_pixel_density_v2(vector2: Vector2): Vector2;
+    /**
+     * @param {number} value
+     */
+    apply_pixel_density(value: number): number;
+    get_pixel_size(): Vector2;
     get aspect_ratio(): number;
     get portrait(): boolean;
 }
+import { Vector2 } from "three/src/math/Vector2";

@@ -8,11 +8,11 @@ export class GaussianBlurrer {
     nMips: number;
     kernelSizeArray: number[];
     rt_pars: {
-        minFilter: any;
-        magFilter: any;
-        format: any;
+        minFilter: 1006;
+        magFilter: 1006;
+        format: 1023;
     };
-    renderTargetBright: any;
+    renderTargetBright: WebGLRenderTarget<import("three").Texture>;
     luminosity_high_pass_mat: LuminosityHighPassMaterial;
     blur(RT: any, use_luminosity_high_pass: any): void;
     get_blurred_texture(): any;
@@ -23,4 +23,5 @@ export class GaussianBlurrer {
     dispose_materials(): void;
     dispose_RT(): void;
 }
+import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
 import { LuminosityHighPassMaterial } from "../materials/LuminosityHighPassMaterial";

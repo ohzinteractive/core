@@ -1,9 +1,18 @@
 export class NumberInterpolator extends ActionInterpolator {
-    constructor(attribute_name: any, from?: number, to?: number, initial?: boolean, easing_function?: string);
-    attribute_name: any;
+    /**
+     * @param {string} attribute_name
+     * @param {number} [from]
+     * @param {number} [to]
+     * @param {boolean} [initial]
+     * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} [easing_function]
+     */
+    constructor(attribute_name: string, from?: number, to?: number, initial?: boolean, easing_function?: import('../utilities/EasingFunctions').EasingFunctionType | Function);
     from: number;
     to: number;
     initial: boolean;
-    evaluate(t: any): number;
+    /**
+     * @param {number} t
+     */
+    evaluate(t: number): number;
 }
 import { ActionInterpolator } from "./ActionInterpolator";

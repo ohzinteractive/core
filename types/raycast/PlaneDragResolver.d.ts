@@ -2,6 +2,7 @@ export class PlaneDragResolver extends PlaneRaycastResolver {
     constructor(input: any);
     _drag_started: boolean;
     _plane_raycaster: PlaneRaycaster;
+    input: any;
     on_drag_start(contact_point: any): void;
     on_drag_move(contact_point: any): void;
     on_drag_end(): void;
