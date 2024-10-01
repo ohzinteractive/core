@@ -1,8 +1,13 @@
-
+// @ts-check
 import { OMath } from '../utilities/OMath';
+import { ActionEvent } from './ActionEvent'; // eslint-disable-line no-unused-vars
+import { ActionInterpolator } from './ActionInterpolator'; // eslint-disable-line no-unused-vars
 
 class ActionSequencer
 {
+  /**
+   * @param {any} [context]
+   */
   constructor(context = {})
   {
     this.previous_elapsed_time = -0.00001;
@@ -10,6 +15,7 @@ class ActionSequencer
     this.playback_speed = this.__get_playback_speed();
     this.playing = true;
 
+    /** @type {{action:ActionEvent, trigger_time:number }[]} */
     this.action_events = [];
     this.context = context;
 
@@ -17,6 +23,7 @@ class ActionSequencer
 
     this.tmp_t = 0;
 
+    /** @type {{[key:string]:any[]}} */
     this.channels = {};
 
     const channel_names = Object.keys(context);
@@ -50,6 +57,9 @@ class ActionSequencer
     this.elapsed_time = duration;
   }
 
+  /**
+   * @param {number} delta_time
+   */
   update(delta_time)
   {
     if (this.playing)
@@ -60,6 +70,9 @@ class ActionSequencer
     }
   }
 
+  /**
+   * @param {number} time
+   */
   set_progress(time)
   {
     this.previous_elapsed_time = this.elapsed_time;
@@ -67,6 +80,9 @@ class ActionSequencer
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
 
+  /**
+   * @param {number} t
+   */
   set_normalized_progress(t)
   {
     this.previous_elapsed_time = this.elapsed_time;
@@ -84,6 +100,10 @@ class ActionSequencer
     return this.elapsed_time > this.get_duration();
   }
 
+  /**
+   * @param {number} trigger_time
+   * @param {ActionEvent} action
+   */
   add_action_event(trigger_time, action)
   {
     this.action_events.push({
@@ -94,6 +114,12 @@ class ActionSequencer
     this.duration = Math.max(this.duration, trigger_time);
   }
 
+  /**
+   * @param {number} from
+   * @param {number} to
+   * @param {ActionInterpolator} interpolator
+   * @param {boolean} [use_dynamic_from_value]
+   */
   add_action_interpolator(from, to, interpolator, use_dynamic_from_value = false)
   {
     if (use_dynamic_from_value)
@@ -125,6 +151,9 @@ class ActionSequencer
     this.channels[interpolator.attribute_name].push(keyframe);
   }
 
+  /**
+   * @param {string} name
+   */
   get_current_target_value(name)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
@@ -137,6 +166,9 @@ class ActionSequencer
     return keyframe.interpolator.evaluate(1);
   }
 
+  /**
+   * @param {string} name
+   */
   get_current_starting_value(name)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
@@ -144,6 +176,9 @@ class ActionSequencer
     return keyframe.interpolator.evaluate(0);
   }
 
+  /**
+   * @param {string} name
+   */
   get_current_progress(name)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
@@ -157,7 +192,11 @@ class ActionSequencer
     return this.duration;
   }
 
-  __play_clips(from, to)
+  /**
+   * @param {number} from
+   * @param {number} to
+   */
+  __play_clips(from, to) // eslint-disable-line no-unused-vars
   {
     if (this.elapsed_time > this.previous_elapsed_time)
     {
@@ -174,6 +213,10 @@ class ActionSequencer
     }
   }
 
+  /**
+   * @param {number} from
+   * @param {number} to
+   */
   __play_events(from, to)
   {
     for (let i = 0; i < this.action_events.length; i++)
@@ -187,6 +230,10 @@ class ActionSequencer
     }
   }
 
+  /**
+   * @param {any} keyframe
+   * @param {number} time
+   */
   evaluate_keyframe(keyframe, time)
   {
     this.tmp_t = this.__linear_map_01(time, keyframe.from, keyframe.to);
@@ -194,11 +241,17 @@ class ActionSequencer
     return keyframe.interpolator.evaluate(OMath.clamp(this.tmp_t, 0, 1));
   }
 
+  /**
+   * @param {string} channel_name
+   */
   get_keyframes(channel_name)
   {
     return this.channels[channel_name];
   }
 
+  /**
+   * @param {string} channel_name
+   */
   is_channel_redefined(channel_name)
   {
     for (let i = 0; i < this.channels[channel_name].length; i++)
@@ -214,6 +267,12 @@ class ActionSequencer
     return true;
   }
 
+  /**
+   * @param {number} value
+   * @param {number} from_range_start_value
+   * @param {number} from_range_end_value
+   * @returns {number}
+   */
   __linear_map_01(value,
     from_range_start_value,
     from_range_end_value)
@@ -221,6 +280,10 @@ class ActionSequencer
     return OMath.saturate(((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0);
   }
 
+  /**
+   * @param {string} channel_name
+   * @param {number} time
+   */
   __get_current_keyframe(channel_name, time)
   {
     let current = undefined;

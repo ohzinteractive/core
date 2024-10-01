@@ -5,11 +5,12 @@ declare class Browser {
     browser_name: string;
     agent: string;
     has_web_xr_support: boolean;
-    is_vr: any;
+    is_vr: boolean;
     version: number;
     get name(): string;
     get is_safari(): boolean;
     get is_chrome(): boolean;
+    get is_firefox(): boolean;
     get is_edge(): boolean;
     get is_edge_chromium(): boolean;
     get has_webm(): boolean;

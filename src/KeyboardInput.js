@@ -1,11 +1,19 @@
+// @ts-check
 class KeyboardInput
 {
+  /**
+   * @param {HTMLElement} container
+   */
   init(container)
   {
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
 
+    /**
+     * @type {{[key:string]:{key_name: string, pressed: boolean, down: boolean, fired: boolean, released: boolean}}}
+     */
     this.keys = {};
+    /** @type {string[]} */
     this.keys_keys = [];
     this.container = container;
 
@@ -13,6 +21,9 @@ class KeyboardInput
     this.container.addEventListener('keyup', this.on_key_up.bind(this), false);
   }
 
+  /**
+   * @param {KeyboardEvent} e
+   */
   on_key_down(e)
   {
     if (e.keyCode === 90 && e.ctrlKey && !this.ctrlz_fired)
@@ -27,6 +38,9 @@ class KeyboardInput
     }
   }
 
+  /**
+   * @param {KeyboardEvent} e
+   */
   on_key_up(e)
   {
     this.release_key(e.code);
@@ -43,6 +57,9 @@ class KeyboardInput
     }
   }
 
+  /**
+   * @param {string} key_name
+   */
   release_key(key_name)
   {
     const key = this.keys[key_name];
@@ -65,6 +82,9 @@ class KeyboardInput
     }
   }
 
+  /**
+   * @param {string} key_name
+   */
   press_key(key_name)
   {
     const key = this.keys[key_name];
@@ -79,6 +99,10 @@ class KeyboardInput
     }
   }
 
+  /**
+   * @param {string} key_name
+   * @returns {boolean}
+   */
   is_key_pressed(key_name)
   {
     const key = this.keys[key_name];
@@ -89,6 +113,10 @@ class KeyboardInput
     return false;
   }
 
+  /**
+   * @param {string} key_name
+   * @returns {boolean}
+   */
   is_key_down(key_name)
   {
     const key = this.keys[key_name];
@@ -99,6 +127,10 @@ class KeyboardInput
     return false;
   }
 
+  /**
+   * @param {string} key_name
+   * @returns {boolean}
+   */
   is_key_released(key_name)
   {
     const key = this.keys[key_name];
@@ -110,6 +142,9 @@ class KeyboardInput
     return false;
   }
 
+  /**
+   * @param {string} key
+   */
   register_key(key)
   {
     this.keys[key] =
@@ -117,12 +152,16 @@ class KeyboardInput
         key_name: key,
         pressed: false,
         down: false,
-        fired: false
+        fired: false,
+        released: false
       };
 
     this.keys_keys = Object.keys(this.keys);
   }
 
+  /**
+   * @param {string} key_name
+   */
   unregister_key(key_name)
   {
     delete this.keys[key_name];

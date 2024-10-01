@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/three": "0.166.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",

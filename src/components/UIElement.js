@@ -1,4 +1,4 @@
-
+// @ts-check
 import { OScreen } from '../OScreen';
 
 import { UIElementMaterial } from '../materials/UIElementMaterial';
@@ -11,21 +11,29 @@ import { OnMouseEnter } from '../ui/ui_element_state/OnMouseEnter';
 import { OnMouseExit } from '../ui/ui_element_state/OnMouseExit';
 import { OnMouseHover } from '../ui/ui_element_state/OnMouseHover';
 
-import { Mesh } from 'three';
+import { Mesh, Texture } from 'three'; // eslint-disable-line no-unused-vars
 import { PlaneGeometry } from 'three';
 import { Vector2 } from 'three';
 import { Vector3 } from 'three';
 import { NearestFilter } from 'three';
 import { Box2 } from 'three';
+import { UIElementState } from '../ui/ui_element_state/UIElementState'; // eslint-disable-line no-unused-vars
 
 class UIElement extends Mesh
 {
-  constructor(vert, frag)
+  /**
+   * @param {string} [vert]
+   * @param {string} [frag]
+   */
+  constructor(vert, frag) // eslint-disable-line no-unused-vars
   {
-    super(new PlaneGeometry(1, 1), new UIElementMaterial());
+    const material = new UIElementMaterial();
+    super(new PlaneGeometry(1, 1), material);
+    this.material = material;
 
     this.is_clickable = false;
 
+    /** @type {WorldSpacePosition | ScreenSpacePosition} */
     this.position_strategy = new WorldSpacePosition();
     this.current_state = new OnIdle();
 
@@ -54,6 +62,9 @@ class UIElement extends Mesh
     this.pixel_offset = new Vector2();
   }
 
+  /**
+   * @param {number} value
+   */
   set_render_order(value)
   {
     this.renderOrder = value;
@@ -64,12 +75,18 @@ class UIElement extends Mesh
     return this.material.uniforms._PivotPoint.value;
   }
 
+  /**
+   * @param {Vector2} offset
+   */
   set_pixel_offset(offset)
   {
     this.pixel_offset.copy(offset);
     this.material.uniforms._PixelOffset.value.copy(offset);
   }
 
+  /**
+   *@param {UIElementState} new_state
+   */
   set_state(new_state)
   {
     this.current_state.on_exit(this);
@@ -77,6 +94,7 @@ class UIElement extends Mesh
     this.current_state.on_enter(this);
   }
 
+  // @ts-ignore
   get position()
   {
     return this._position;
@@ -117,6 +135,9 @@ class UIElement extends Mesh
     this.position_strategy = new ScreenSpacePosition();
   }
 
+  /**
+   * @param {Texture} texture
+   */
   set_texture(texture)
   {
     texture.minFilter = NearestFilter;
@@ -130,6 +151,9 @@ class UIElement extends Mesh
     this.visible = true;
   }
 
+  /**
+   * @param {Vector2} normalized_mouse_pos
+   */
   update_state(normalized_mouse_pos)
   {
     this.material.uniforms._ScreenSize.value.set(OScreen.width, OScreen.height);
@@ -140,6 +164,9 @@ class UIElement extends Mesh
     this.current_state.update(this, normalized_mouse_pos);
   }
 
+  /**
+   * @param {Vector2} normalized_mouse_pos
+   */
   is_mouse_over(normalized_mouse_pos)
   {
     this.screen_pos_tmp.copy(this.cached_NDC_position);
@@ -155,6 +182,9 @@ class UIElement extends Mesh
     return rect.containsPoint(this.mouse_pos_tmp);
   }
 
+  /**
+   * @param {Vector2} projected_pos
+   */
   to_screen_position(projected_pos)
   {
     projected_pos.x = (projected_pos.x * 0.5 + 0.5) * OScreen.width  + this.pixel_offset.x;
@@ -168,6 +198,9 @@ class UIElement extends Mesh
     return pos;
   }
 
+  /**
+   * @param {Vector2} screen_pos
+   */
   set_screen_space_position(screen_pos)
   {
     this.position.x = (screen_pos.x / OScreen.width) * 2 - 1;
@@ -185,6 +218,9 @@ class UIElement extends Mesh
     this.material.dispose();
   }
 
+  /**
+   * @param {Vector2} [vector2]
+   */
   get_size(vector2)
   {
     if (vector2)

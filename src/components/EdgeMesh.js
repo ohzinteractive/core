@@ -1,14 +1,25 @@
+// @ts-check
+// @ts-ignore
 import corners_frag from '../shaders/edges/corners.frag';
+// @ts-ignore
 import corners_vert from '../shaders/edges/corners.vert';
+// @ts-ignore
 import edge_line_frag from '../shaders/edges/edges.frag';
+// @ts-ignore
 import edge_line_vert from '../shaders/edges/edges.vert';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import { BufferAttribute, Color, EdgesGeometry, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
+// eslint-disable-next-line no-unused-vars
+import { BufferAttribute, BufferGeometry, Color, EdgesGeometry, InterleavedBufferAttribute, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
 
 class EdgeMesh extends Object3D
 {
+  /**
+   * @param {BufferGeometry} buffer_geometry
+   * @param {number} [thickness]
+   * @param {string} [color]
+   */
   constructor(buffer_geometry, thickness, color)
   {
     super();
@@ -48,6 +59,10 @@ class EdgeMesh extends Object3D
     this.add(this.corners_mesh);
   }
 
+  /**
+   * @param {BufferGeometry} cube_geometry
+   * @returns {Vector3[]}
+   */
   __get_edges(cube_geometry)
   {
     const edges = new EdgesGeometry(cube_geometry);
@@ -62,11 +77,17 @@ class EdgeMesh extends Object3D
     return points;
   }
 
-  update(TIME)
+  /**
+   * @param {number} TIME
+   */
+  update(TIME) // eslint-disable-line no-unused-vars
   {
 
   }
 
+  /**
+   * @param {Vector3[]} points
+   */
   __get_edges_geometry(points)
   {
     const buffer_geometries = [];
@@ -108,6 +129,10 @@ class EdgeMesh extends Object3D
     return BufferGeometryUtils.mergeGeometries(buffer_geometries);
   }
 
+  /**
+   * @param {BufferAttribute | InterleavedBufferAttribute} geometry_vertices
+   * @returns {BufferGeometry}
+   */
   __get_corners_geometry(geometry_vertices)
   {
     const circle_buffer_geometries = [];
@@ -129,6 +154,9 @@ class EdgeMesh extends Object3D
     return BufferGeometryUtils.mergeGeometries(circle_buffer_geometries);
   }
 
+  /**
+   * @param {boolean} boolean
+   */
   set_visible(boolean)
   {
     this.edges_mesh.visible = boolean;

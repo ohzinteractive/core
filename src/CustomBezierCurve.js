@@ -1,7 +1,11 @@
+// @ts-check
 import { Vector3 } from 'three';
 
 class CustomBezierCurve
 {
+  /**
+   * @param {Vector3[]} points
+   */
   constructor(points)
   {
     this.original_points = [];
@@ -13,6 +17,10 @@ class CustomBezierCurve
     }
   }
 
+  /**
+   * @param {number} point_amount
+   * @returns {Vector3[]}
+   */
   build(point_amount)
   {
     const curve = [];
@@ -23,6 +31,10 @@ class CustomBezierCurve
     return curve;
   }
 
+  /**
+   * @param {number} t
+   * @returns {Vector3}
+   */
   get_point_at(t)
   {
     for (let i = 0; i < this.original_points.length; i++)

@@ -1,4 +1,4 @@
-export class AbstractScene {
+export class AbstractScene extends Scene {
     constructor({ name, compilators }: {
         name: any;
         compilators: any;
@@ -26,7 +26,7 @@ export class AbstractScene {
     on_assets_compiled(): void;
     on_high_quality_assets_ready(): void;
 }
+import { Scene } from "three/src/scenes/Scene";
+import { RegularLoadingState } from "./loading_states/RegularLoadingState";
 import { HighQualityLoadingState } from "./loading_states/HighQualityLoadingState";
 import { LoadingState } from "./loading_states/LoadingState";
-import { RegularLoadingState } from "./loading_states/RegularLoadingState";
-

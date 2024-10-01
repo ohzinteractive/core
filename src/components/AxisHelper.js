@@ -1,4 +1,4 @@
-
+// @ts-check
 import { Object3D } from 'three';
 import { LineBasicMaterial } from 'three';
 import { AlwaysDepth } from 'three';

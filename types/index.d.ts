@@ -21,6 +21,7 @@ import { BasisLoader } from "./resource_loader/BasisLoader";
 import { BlitMaterial } from "./materials/BlitMaterial";
 import { Blurrer } from "./render_utilities/Blurrer";
 import { Browser } from "./Browser";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { CameraManager } from "./CameraManager";
 import { CameraUtilities } from "./utilities/CameraUtilities";
 import { CanvasDrawer } from "./canvas_drawer/CanvasDrawer";

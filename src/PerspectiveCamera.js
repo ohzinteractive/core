@@ -1,8 +1,15 @@
+// @ts-check
 import { Color } from 'three';
 import { PerspectiveCamera as TPerspectiveCamera } from 'three';
 
 class PerspectiveCamera extends TPerspectiveCamera
 {
+  /**
+   * @param {number} fov
+   * @param {number} aspect
+   * @param {number} near
+   * @param {number} far
+   */
   constructor(fov, aspect, near, far)
   {
     super(fov, aspect, near, far);
@@ -11,6 +18,10 @@ class PerspectiveCamera extends TPerspectiveCamera
     this.clear_alpha = 1;
   }
 
+  /**
+   * @param {PerspectiveCamera} camera
+   * @returns {this}
+   */
   copy(camera)
   {
     super.copy(camera);

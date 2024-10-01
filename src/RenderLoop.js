@@ -1,3 +1,4 @@
+// @ts-check
 import { BaseApplication } from './BaseApplication';
 import { Debug } from './Debug';
 import { Time } from './Time';
@@ -5,9 +6,14 @@ import { UI } from './UI';
 import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
 import { ViewManager } from './view_components/ViewManager';
+import { Graphics, KeyboardInput } from './index'; // eslint-disable-line no-unused-vars
 
 class RenderLoop
 {
+  /**
+   * @param {BaseApplication} target_application
+   * @param {Graphics} graphics
+   */
   constructor(target_application, graphics, input)
   {
     target_application = target_application || new BaseApplication();
@@ -101,6 +107,9 @@ class RenderLoop
     this.graphics._renderer.setAnimationLoop(null);
   }
 
+  /**
+   * @param {BaseApplication} new_state
+   */
   set_state(new_state)
   {
     this.target_application.on_exit(this);

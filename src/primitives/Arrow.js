@@ -1,9 +1,15 @@
+// @ts-check
 import { ConeGeometry, CylinderGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 class Arrow extends Mesh
 {
+  /**
+   * @param {string | number} [color]
+   * @param {number} [length]
+   * @param {Vector3} [dir]
+   */
   constructor(color, length, dir)
   {
     color = color || '#FF0000';

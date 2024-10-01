@@ -1,7 +1,10 @@
+// @ts-check
+// @ts-ignore
 import line_vs from '../shaders/basic_line/basic_line.vert';
+// @ts-ignore
 import line_fs from '../shaders/basic_line/basic_line.frag';
 
-import { Mesh } from 'three';
+import { Mesh, Vector3 } from 'three'; // eslint-disable-line no-unused-vars
 import { BufferAttribute } from 'three';
 import { BufferGeometry } from 'three';
 import { ShaderMaterial } from 'three';
@@ -9,6 +12,9 @@ import { Color } from 'three';
 
 class Line extends Mesh
 {
+  /**
+   * @param {Vector3[]} [points]
+   */
   constructor(points)
   {
     const geometry = new BufferGeometry();
@@ -29,18 +35,22 @@ class Line extends Mesh
       fragmentShader: line_fs,
       transparent: true,
       depthWrite: false,
+      // @ts-ignore
       extensions: { derivatives: true }
 
     });
 
     super(geometry, material);
-
+    this.material = material;
     if (points)
     {
       this.setup(points);
     }
   }
 
+  /**
+   * @param {Vector3[]} points
+   */
   setup(points)
   {
     const vertices = [];
@@ -108,11 +118,11 @@ class Line extends Mesh
     }
 
     this.geometry.setIndex(indices);
-    this.geometry.getAttribute('position').copy(new BufferAttribute(vertexList, 3));
-    this.geometry.getAttribute('next_position').copy(new BufferAttribute(nextPositionList, 3));
-    this.geometry.getAttribute('previous_position').copy(new BufferAttribute(previousPositionList, 3));
-    this.geometry.getAttribute('orientation').copy(new BufferAttribute(orientationList, 1));
-    this.geometry.getAttribute('coverage').copy(new BufferAttribute(coverageList, 1));
+    /** @type {BufferAttribute} */(this.geometry.getAttribute('position')).copy(new BufferAttribute(vertexList, 3));
+    /** @type {BufferAttribute} */(this.geometry.getAttribute('next_position')).copy(new BufferAttribute(nextPositionList, 3));
+    /** @type {BufferAttribute} */(this.geometry.getAttribute('previous_position')).copy(new BufferAttribute(previousPositionList, 3));
+    /** @type {BufferAttribute} */(this.geometry.getAttribute('orientation')).copy(new BufferAttribute(orientationList, 1));
+    /** @type {BufferAttribute} */(this.geometry.getAttribute('coverage')).copy(new BufferAttribute(coverageList, 1));
 
     this.geometry.getAttribute('position').needsUpdate = true;
     this.geometry.getAttribute('next_position').needsUpdate = true;
@@ -122,6 +132,7 @@ class Line extends Mesh
 
     this.material.uniforms._Length.value = accumulated_length;
     this._length = accumulated_length;
+    this.accumulated_length = accumulated_length;
   }
 
   set thickness(value)
@@ -134,6 +145,11 @@ class Line extends Mesh
     return this.material.uniforms._Thickness.value;
   }
 
+  /**
+   * @param {Vector3[]} points
+   * @param {number} i
+   * @returns {Vector3}
+   */
   __get_previous_position(points, i)
   {
     if (i === 0)
@@ -146,6 +162,11 @@ class Line extends Mesh
     }
   }
 
+  /**
+   * @param {Vector3[]} points
+   * @param {number} i
+   * @returns {Vector3}
+   */
   __get_next_position(points, i)
   {
     if (i === points.length - 1)
@@ -192,6 +213,9 @@ class Line extends Mesh
     return this.material.uniforms._Color.value;
   }
 
+  /**
+   * @param {Color} col
+   */
   copy_color(col)
   {
     this.material.uniforms._Color.value.copy(col);

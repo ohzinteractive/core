@@ -6,16 +6,16 @@ export class OMath {
     static project_points_on_plane(points: any, plane: any): any[];
     static matrix4_lerp(from: any, to: any, target: any, t: any): void;
     static equals(x1: any, x2: any): boolean;
-    static lerp(x: number, y: number, t: number): number;
-    static clamp(value: number, min: number, max: number): number;
-    static euclideanModulo(n: number, m: number): number;
-    static pingpong(x: number, length: number): number;
-    static degToRad(degrees: number): number;
-    static deg_to_rad(degrees: number): number;
-    static radToDeg(radians: number): number;
-    static rad_to_deg(radians: number): number;
+    static lerp(x: any, y: any, t: any): number;
+    static clamp(value: any, min: any, max: any): number;
+    static euclideanModulo(n: any, m: any): number;
+    static pingpong(x: any, length?: number): number;
+    static degToRad(degrees: any): number;
+    static radToDeg(radians: any): number;
+    static deg_to_rad(degrees: any): number;
+    static rad_to_deg(radians: any): number;
     static perspective_divide(v: any): any;
     static points_average(points: any): any;
     static get_random_color(): string;
-    static saturate(x: number): number;
+    static saturate(x: any): number;
 }

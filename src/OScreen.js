@@ -1,3 +1,4 @@
+// @ts-check
 import { Vector2 } from 'three';
 
 class OScreen
@@ -17,6 +18,10 @@ class OScreen
     this.pixel_size = new Vector2(1 / this.width, 1 / this.height);
   }
 
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
   update_position(x, y)
   {
     this.position.set(x, y);
@@ -27,6 +32,10 @@ class OScreen
     this.size_changed = false;
   }
 
+  /**
+   * @param {number} width
+   * @param {number} height
+   */
   update_size(width, height)
   {
     this.width = width;
@@ -43,6 +52,9 @@ class OScreen
     this.size_changed = true;
   }
 
+  /**
+   * @param {Vector2} vector2
+   */
   apply_pixel_density_v2(vector2)
   {
     vector2.multiplyScalar(1 / this.dpr);
@@ -50,6 +62,9 @@ class OScreen
     return vector2;
   }
 
+  /**
+   * @param {number} value
+   */
   apply_pixel_density(value)
   {
     return value * (1 / this.dpr);

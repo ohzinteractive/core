@@ -1,9 +1,12 @@
-
+// @ts-check
 import { Vector3 } from 'three';
 import { Quaternion } from 'three';
 
 class ObjectOrientedBoundingBox
 {
+  /**
+   * @param {Vector3[]} points
+   */
   constructor(points)
   {
     let degrees = 0;
@@ -104,6 +107,9 @@ class ObjectOrientedBoundingBox
     //   Debug.draw_line(center.clone().add(deep_left),center.clone().add(deep_right));
   }
 
+  /**
+   * @param {Vector3[]} points
+   */
   get_center(points)
   {
     const v = new Vector3();
@@ -115,6 +121,10 @@ class ObjectOrientedBoundingBox
     return v;
   }
 
+  /**
+   * @param {Vector3} min
+   * @param {Vector3} max
+   */
   box_volume(min, max)
   {
     const difference = max.clone().sub(min);
@@ -126,6 +136,9 @@ class ObjectOrientedBoundingBox
     return this.max.clone().sub(this.min);
   }
 
+  /**
+   * @param {Vector3} point
+   */
   is_inside_XZ(point)
   {
     const pos = point.clone();
@@ -144,6 +157,9 @@ class ObjectOrientedBoundingBox
     }
   }
 
+  /**
+   * @param {Vector3} reference_point
+   */
   closest_point_on_bounds(reference_point)
   {
     const force = new Vector3();
@@ -167,6 +183,9 @@ class ObjectOrientedBoundingBox
     return this.local_to_world_dir(force);
   }
 
+  /**
+   * @param {Vector3} point
+   */
   world_to_local(point)
   {
     const pos = point.clone().sub(this.center);
@@ -174,6 +193,9 @@ class ObjectOrientedBoundingBox
     return pos;
   }
 
+  /**
+   * @param {Vector3} point
+   */
   local_to_world(point)
   {
     const pos = point.clone();
@@ -182,6 +204,9 @@ class ObjectOrientedBoundingBox
     return pos;
   }
 
+  /**
+   * @param {Vector3} direction
+   */
   local_to_world_dir(direction)
   {
     const dir = direction.clone();

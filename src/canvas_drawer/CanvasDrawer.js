@@ -1,3 +1,4 @@
+// @ts-check
 import { CanvasTexture } from 'three';
 import { Vector2 } from 'three';
 import { UVMapping } from 'three';
@@ -6,9 +7,12 @@ import { NearestFilter } from 'three';
 
 class CanvasDrawer
 {
+  /**
+   * @param {boolean} [uses_dynamic_font]
+   */
   constructor(uses_dynamic_font)
   {
-    this.uses_dynamic_font = uses_dynamic_font;
+    this.uses_dynamic_font = !!uses_dynamic_font;
     this.__textHeight = null;
 
     this.canvas = document.createElement('canvas');
@@ -31,6 +35,10 @@ class CanvasDrawer
     return this.__textHeight;
   }
 
+  /**
+   * @param {string} text
+   * @param {string} font
+   */
   get_text_size(text, font = '24px Arial')
   {
     const size = new Vector2();
@@ -40,6 +48,10 @@ class CanvasDrawer
     return size;
   }
 
+  /**
+   * @param {string} text
+   * @param {any} [ctxOptions]
+   */
   draw_canvas(text, ctxOptions = {})
   {
     ctxOptions.font = ctxOptions.font || '24px Arial';
@@ -49,6 +61,10 @@ class CanvasDrawer
     return this.canvas;
   }
 
+  /**
+   * @param {string} text
+   * @param {any} [ctxOptions]
+   */
   draw_on_texture(text, ctxOptions)
   {
     const canvas = this.draw_canvas(text, ctxOptions);
@@ -57,15 +73,31 @@ class CanvasDrawer
       ClampToEdgeWrapping,
       NearestFilter,
       NearestFilter);
-    canvas_texture.generateMipMaps = false;
+    canvas_texture.generateMipmaps = false;
     canvas_texture.needsUpdate = true;
 
     return canvas_texture;
   }
 
-  __draw(text, ctxOptions)
+  /**
+   * @param {string[] | string} text
+   * @param {any} [ctxOptions]
+   * @param {HTMLCanvasElement} [canvas]
+   * @param {CanvasRenderingContext2D} [ctx]
+   */
+  __draw(text, ctxOptions, canvas, ctx) // eslint-disable-line no-unused-vars
   {}
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx
+   * @param {number} x
+   * @param {number} y
+   * @param {number} width
+   * @param {number} height
+   * @param {number | {tl:number, tr:number, br:number, bl:number}} radius
+   * @param {boolean} fill
+   * @param {boolean} stroke
+   */
   roundRect(ctx, x, y, width, height, radius, fill, stroke)
   {
     if (typeof stroke === 'undefined')
@@ -85,7 +117,8 @@ class CanvasDrawer
       const defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
       for (const side in defaultRadius)
       {
-        radius[side] = radius[side] || defaultRadius[side];
+        const _side = /** @type {keyof typeof defaultRadius} */ (side);
+        radius[_side] = radius[_side] || defaultRadius[_side];
       }
     }
     ctx.beginPath();

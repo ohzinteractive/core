@@ -1,4 +1,7 @@
+// @ts-check
+// @ts-ignore
 import grid_frag from '../shaders/grid/grid.frag';
+// @ts-ignore
 import grid_vert from '../shaders/grid/grid.vert';
 
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
@@ -18,6 +21,7 @@ class Grid extends Mesh
       },
       vertexShader: grid_vert,
       fragmentShader: grid_frag,
+      // @ts-ignore
       extensions: { derivatives: true },
       transparent: true,
       depthWrite: false

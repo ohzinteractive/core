@@ -1,16 +1,21 @@
+// @ts-check
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
-import { Mesh } from 'three';
+import { Mesh, Vector2 } from 'three'; // eslint-disable-line no-unused-vars
 import { Shape } from 'three';
-import { ShapeBufferGeometry } from 'three';
+import { ShapeGeometry } from 'three';
 import { MeshBasicMaterial } from 'three';
 
 class Shape2D extends Mesh
 {
+  /**
+   * @param {Vector2[]} points_2D
+   * @param {boolean} show_edges
+   */
   constructor(points_2D, show_edges)
   {
     const shape = new Shape(points_2D);
-    const geometry = new ShapeBufferGeometry(shape);
+    const geometry = new ShapeGeometry(shape);
     geometry.rotateX(3.14 / 2);
 
     const material = new MeshBasicMaterial({ color: 0xff0000 });
@@ -26,6 +31,9 @@ class Shape2D extends Mesh
     }
   }
 
+  /**
+   * @param {ShapeGeometry} geometry
+   */
   invert_normals(geometry)
   {
     const indices = geometry.index.array;
