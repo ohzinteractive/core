@@ -2,7 +2,6 @@
 import { BaseApplication } from './BaseApplication';
 import { Debug } from './Debug';
 import { Time } from './Time';
-import { UI } from './UI';
 import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
 import { ViewManager } from './view_components/ViewManager';
@@ -67,19 +66,15 @@ class RenderLoop
     this.target_application.on_pre_render();
 
     this.graphics.update();     // render scene
-    UI.update();                // update after new camera matrix has been calculated
-    UI.render(this.graphics);   // render ui layer on top
     this.target_application.on_post_render();
 
     Debug.render(this.graphics);             // render debug layer
 
     // ###### END  CYCLE #######
-
     this.target_application.on_frame_end();
     this.frames_passed++;
 
     this.input.clear();
-    UI.clear();
     Debug.clear();
   }
 
