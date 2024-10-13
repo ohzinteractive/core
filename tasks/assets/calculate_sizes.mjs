@@ -35,14 +35,15 @@ class CalculateSizes
             const file_name = split_path.pop();
             const parent = split_path.pop();
 
-            const normalized_path = parent ? [parent, file_name].join('-') : file_name;
+            let normalized_path = parent ? [parent, file_name].join('_') : file_name;
+            normalized_path = normalized_path.replace(/\./g, '_').toUpperCase();
 
             if (this.wrong_file_name(file_name))
             {
               console.log(`\x1b[33m Wrong name format found: ${file_name} \x1b[0m`);
             }
 
-            this.logger.write(`${normalized_path}=${stat.size}\n`);
+            this.logger.write(`OHZI_${normalized_path}=${stat.size}\n`);
           }
         }
         else if (stat.isDirectory())
