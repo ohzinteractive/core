@@ -5,7 +5,7 @@ import frag from '../shaders/luminosity_high_pass/luminosity_high_pass.frag';
 import { Color } from 'three';
 class LuminosityHighPassMaterial extends BlitMaterial
 {
-  constructor(kernel_radius)
+  constructor(use_half_float)
   {
     super(frag);
 
@@ -13,6 +13,13 @@ class LuminosityHighPassMaterial extends BlitMaterial
     this.uniforms.smoothWidth         = { value: 0.01 };
     this.uniforms.defaultColor        = { value: new Color('#000000') };
     this.uniforms.defaultOpacity      = { value: 0.0 };
+
+    this.defines.USE_LINEAR_COLOR_SPACE = true;
+  }
+
+  set_threshold(value_01)
+  {
+    this.uniforms.luminosityThreshold.value = value_01;
   }
 }
 

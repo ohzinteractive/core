@@ -85,13 +85,13 @@ class Blitter
     this._blit_quad.material.dispose();
   }
 
-  __render(RT)
+  __render(dst_RT)
   {
-    RT = RT === undefined ? null : RT;
+    const RT = dst_RT === undefined ? null : dst_RT;
 
     const current_rt = this.renderer.getRenderTarget();
 
-    this.renderer.setRenderTarget(RT === undefined ? null : RT);
+    this.renderer.setRenderTarget(RT);
     this.renderer.render(this._blit_scene, this._blit_camera);
 
     this.renderer.setRenderTarget(current_rt);

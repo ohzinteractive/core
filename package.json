@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "12.2.1",
+  "version": "12.3.0",
   "description": "OHZI Interactive Core Library",
   "source": "src/index.js",
   "module": "build/index.mjs",

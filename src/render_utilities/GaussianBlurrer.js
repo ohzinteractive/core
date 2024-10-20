@@ -2,11 +2,11 @@ import { GaussianBlurMaterial } from '../materials/GaussianBlurMaterial';
 import { LuminosityHighPassMaterial } from '../materials/LuminosityHighPassMaterial';
 import { Graphics } from '../Graphics';
 
-import { WebGLRenderTarget, LinearFilter, RGBAFormat } from 'three';
+import { WebGLRenderTarget, LinearFilter, RGBAFormat, HalfFloatType, UnsignedByteType, SRGBColorSpace, LinearSRGBColorSpace } from 'three';
 
 class GaussianBlurrer
 {
-  constructor(nMips = 5)
+  constructor(use_half_float = false)
   {
     this.current_width = 1;
     this.current_height = 1;
@@ -14,10 +14,16 @@ class GaussianBlurrer
     this.separableBlurMaterials = [];
     this.renderTargetsHorizontal = [];
     this.renderTargetsVertical = [];
-
-    this.nMips = nMips;
+    this.use_half_float = use_half_float;
+    this.nMips = 5;
     this.kernelSizeArray = [3, 5, 7, 9, 11];
-    this.rt_pars = { minFilter: LinearFilter, magFilter: LinearFilter, format: RGBAFormat };
+    this.rt_pars = {
+      minFilter: LinearFilter,
+      magFilter: LinearFilter,
+      format: RGBAFormat,
+      type: use_half_float ? HalfFloatType : UnsignedByteType,
+      colorSpace: use_half_float ? LinearSRGBColorSpace : SRGBColorSpace
+    };
 
     this.renderTargetBright = new WebGLRenderTarget(1, 1, this.rt_pars);
     this.renderTargetBright.texture.generateMipmaps = false;
@@ -25,23 +31,20 @@ class GaussianBlurrer
     this.init_materials();
     this.init_RT();
 
-    this.luminosity_high_pass_mat = new LuminosityHighPassMaterial();
+    this.luminosity_high_pass_mat = new LuminosityHighPassMaterial(use_half_float);
   }
 
   blur(RT, use_luminosity_high_pass)
   {
     this.resize_RT(RT.width, RT.height);
 
+    let inputRenderTarget = RT;
+
     if (use_luminosity_high_pass)
     {
       Graphics.blit(RT, this.renderTargetBright, this.luminosity_high_pass_mat);
+      inputRenderTarget = this.renderTargetBright;
     }
-    else
-    {
-      Graphics.blit(RT, this.renderTargetBright);
-    }
-
-    let inputRenderTarget = this.renderTargetBright;
 
     for (let i = 0; i < this.nMips; i++)
     {
@@ -81,6 +84,9 @@ class GaussianBlurrer
       hor.texture.generateMipmaps = false;
       ver.texture.generateMipmaps = false;
 
+      hor.texture.colorSpace = this.rt_pars.colorSpace;
+      ver.texture.colorSpace = this.rt_pars.colorSpace;
+
       this.renderTargetsHorizontal.push(hor);
       this.renderTargetsVertical.push(ver);
     }
@@ -112,14 +118,27 @@ class GaussianBlurrer
     }
   }
 
-  init_materials(texture_width, texture_height)
+  init_materials()
   {
     this.dispose_materials();
 
     for (let i = 0; i < this.nMips; i++)
     {
-      this.separableBlurMaterials.push(new GaussianBlurMaterial(this.kernelSizeArray[i]));
+      this.separableBlurMaterials.push(new GaussianBlurMaterial(this.kernelSizeArray[i], this.use_half_float));
     }
+  }
+
+  set_radius(value)
+  {
+    for (let i = 0; i < this.separableBlurMaterials.length; i++)
+    {
+      this.separableBlurMaterials[i].set_radius(value);
+    }
+  }
+
+  set_luminosity_threshold(value)
+  {
+    this.luminosity_high_pass_mat.set_threshold(value);
   }
 
   dispose_materials()

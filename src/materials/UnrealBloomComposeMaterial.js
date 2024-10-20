@@ -5,7 +5,7 @@ import frag from '../shaders/gaussian_blur/unreal_bloom_compose.frag';
 import { Color } from 'three';
 class UnrealBloomComposeMaterial extends BlitMaterial
 {
-  constructor(nMips)
+  constructor(nMips, use_linear_color_space = false)
   {
     super(frag, undefined, {
       NUM_MIPS: nMips
@@ -22,8 +22,9 @@ class UnrealBloomComposeMaterial extends BlitMaterial
 
     this.uniforms.bloomStrength = { value: 1.0 };
     this.uniforms.bloomFactors  = { value: [1.0, 0.8, 0.6, 0.4, 0.2] };
-    this.uniforms.bloomRadius   = { value: 0.0 };
+    this.uniforms.bloomRadius   = { value: 1.0 };
 
+    this.defines.USE_LINEAR_COLOR_SPACE = use_linear_color_space;
     const bloomTintColors = [
       new Color('#FFFFFF'),
       new Color('#FFFFFF'),
