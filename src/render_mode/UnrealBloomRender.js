@@ -12,7 +12,7 @@ import { SceneManager } from '../SceneManager';
 
 class UnrealBloomRender extends BaseRender
 {
-  constructor(use_antialiasing, use_half_float, use_hight_luminosity_pass)
+  constructor(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)
   {
     super();
 
@@ -26,6 +26,7 @@ class UnrealBloomRender extends BaseRender
       minFilter: NearestFilter,
       magFilter: NearestFilter
     };
+    this.use_rendering_size = use_rendering_size;
     this.main_RT = new WebGLRenderTarget(1, 1, rt_settings);
     this.main_RT.texture.colorSpace = LinearSRGBColorSpace;
     this.main_RT.texture.minFilter = NearestFilter;
@@ -110,9 +111,11 @@ class UnrealBloomRender extends BaseRender
 
   __check_RT_size()
   {
-    if (this.main_RT.width !== OScreen.width || this.main_RT.height !== OScreen.height)
+    const width = this.use_rendering_size ? OScreen.render_width : OScreen.width;
+    const height = this.use_rendering_size ? OScreen.render_height : OScreen.height;
+    if (this.main_RT.width !== width || this.main_RT.height !== height)
     {
-      this.main_RT.setSize(OScreen.width, OScreen.height);
+      this.main_RT.setSize(width, height);
     }
   }
 }
