@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "10.6.10",
+  "version": "10.6.11",
   "description": "OHZI Core Library",
   "source": "src/index.js",
   "module": "build/index.module.js",
@@ -44,7 +44,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "three": "0.148.0"
+    "three": "0.149.0"
   },
   "standardx": {
     "ignore": [
