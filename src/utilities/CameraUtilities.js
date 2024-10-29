@@ -87,11 +87,14 @@ class CameraUtilities
     }
     else
     {
-      this.tmp_unproj.set(NDC.x, NDC.y, 1).unproject(camera);
-      this.ray.set(camera.position, this.tmp_unproj);
+      const pos = new Vector3(NDC.x * camera.right, NDC.y * camera.top, 0);
+      pos.applyQuaternion(camera.quaternion);
+      pos.add(camera.position);
+      const dir = new Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+      this.ray.set(pos, dir);
     }
-
     this.ray.intersectPlane(this.plane, tmp_vec);
+
     return tmp_vec;
   }
 
