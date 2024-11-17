@@ -80,7 +80,7 @@ export class AsyncTextureLoader extends AbstractLoader
       {
         return createImageBitmap(blob, {
           colorSpaceConversion: this.colorSpaceConversion ? 'default' : 'none',
-          imageOrientation: this.flipY ? 'flipY' : 'none',
+          imageOrientation: this.flipY ? 'flipY' : 'from-image',
           premultiplyAlpha: this.premultiplyAlpha ? 'premultiply' : 'none'
         });
       }).then((imageBitmap) =>
