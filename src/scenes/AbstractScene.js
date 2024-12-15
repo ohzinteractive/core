@@ -13,6 +13,7 @@ class AbstractScene extends Scene
 
     this.name = name;
 
+    this.initialized = false;
     this.is_loaded = false;
     this.is_high_loaded = false;
 
@@ -32,11 +33,15 @@ class AbstractScene extends Scene
 
   init()
   {
+    this.initialized = true;
   }
 
   load()
   {
-    this.init();
+    if (!this.initialized)
+    {
+      this.init();
+    }
 
     this.set_loading_state(this.loading_states.regular);
     this.current_loading_state.load();
@@ -92,6 +97,8 @@ class AbstractScene extends Scene
     });
 
     // AvatarSystem.component_container.component_instancer.data_texture.data = new Float32Array(4);
+
+    this.initialized = false;
   }
 
   dispose()
@@ -110,6 +117,8 @@ class AbstractScene extends Scene
       }
     });
     // AvatarSystem.component_container.component_instancer.data_texture.data = new Float32Array(4);
+
+    this.initialized = false;
   }
 
   set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data)
