@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "12.5.0",
+  "version": "12.5.1",
   "description": "OHZI Interactive Core Library",
   "source": "src/index.js",
   "module": "build/index.mjs",
@@ -24,8 +24,7 @@
     "upload": "yarn build && npm publish && yarn create-tag",
     "create-view": "node ./tasks/create_view/create_view.mjs",
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
-    "create-component": "node ./tasks/create_component/create_component.mjs",
-    "calculate-assets-sizes": "node ./tasks/assets/calculate_sizes.mjs"
+    "create-component": "node ./tasks/create_component/create_component.mjs"
   },
   "repository": {
     "type": "git",
