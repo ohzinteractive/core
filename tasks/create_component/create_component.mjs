@@ -11,7 +11,6 @@ class ComponentCreator
   create_component(name)
   {
     const js_folder = path.join('..', 'app', 'js', 'view_components', name);
-    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.js`);
     const js_view_path = path.join(js_folder, `${this.capitalize(name)}Component.js`);
 
     const pug_folder = path.join('..', 'app', 'views', 'components', name);
@@ -20,7 +19,6 @@ class ComponentCreator
     const scss_folder = path.join('..', 'app', 'css', 'components', name);
     const scss_path = path.join(scss_folder, `_${name}.scss`);
 
-    this.__copy_template_js(js_folder, js_scene_path, name, 'SceneController');
     this.__copy_template_js(js_folder, js_view_path, name, 'Component');
 
     this.__copy_template_pug(pug_folder, pug_path, name);
@@ -79,7 +77,7 @@ class ComponentCreator
 
   __update_index_pug_file(name)
   {
-    const new_data = `__COMPONENTS__\n      include views/components/${name}/${name}`;
+    const new_data = `__COMPONENTS__\n      include app/views/components/${name}/${name}`;
     const file_path = path.join('..', 'index.pug');
 
     const options = {
