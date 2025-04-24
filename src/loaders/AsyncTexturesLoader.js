@@ -1,10 +1,9 @@
+import { CubemapLoader, ResourceContainer, RGBETextureLoader } from 'ohzi-core';
 
-import { AsyncTextureLoader } from '../resource_loader/AsyncTextureLoader';
-import { BasisLoader } from '../resource_loader/BasisLoader';
-import { CubemapLoader } from '../resource_loader/CubemapLoader';
-import { RGBETextureLoader } from '../resource_loader/RGBETextureLoader';
-import { ResourceContainer } from '../ResourceContainer';
+import { HDRCubeTextureLoader } from 'ohzi-core';
 import { AsyncAbstractLoader } from './AsyncAbstractLoader';
+import { AsyncTextureLoader } from './AsyncTextureLoader';
+import { BasisLoader } from './BasisLoader';
 
 class AsyncTexturesLoader extends AsyncAbstractLoader
 {
@@ -28,7 +27,10 @@ class AsyncTexturesLoader extends AsyncAbstractLoader
         loaders.push(new AsyncTextureLoader(
           asset_data.name,
           asset_data.url,
-          asset_data.size
+          asset_data.size,
+          asset_data.flipY,
+          asset_data.premultiplyAlpha,
+          asset_data.colorSpaceConversion
         ));
 
         break;
@@ -51,6 +53,14 @@ class AsyncTexturesLoader extends AsyncAbstractLoader
         break;
       case 'cubemap':
         loaders.push(new CubemapLoader(
+          asset_data.name,
+          asset_data.url,
+          asset_data.extension,
+          asset_data.size
+        ));
+        break;
+      case 'cubemap_hdr':
+        loaders.push(new HDRCubeTextureLoader(
           asset_data.name,
           asset_data.url,
           asset_data.extension,
