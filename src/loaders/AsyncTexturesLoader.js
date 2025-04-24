@@ -1,9 +1,9 @@
-import { CubemapLoader, ResourceContainer, RGBETextureLoader } from 'ohzi-core';
-
-import { HDRCubeTextureLoader } from 'ohzi-core';
+import { AsyncTextureLoader } from '../resource_loader/AsyncTextureLoader';
+import { BasisLoader } from '../resource_loader/BasisLoader';
+import { CubemapLoader } from '../resource_loader/CubemapLoader';
+import { RGBETextureLoader } from '../resource_loader/RGBETextureLoader';
+import { ResourceContainer } from '../ResourceContainer';
 import { AsyncAbstractLoader } from './AsyncAbstractLoader';
-import { AsyncTextureLoader } from './AsyncTextureLoader';
-import { BasisLoader } from './BasisLoader';
 
 class AsyncTexturesLoader extends AsyncAbstractLoader
 {
