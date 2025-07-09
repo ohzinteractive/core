@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "12.6.0",
+  "version": "12.7.0",
   "description": "OHZI Interactive Core Library",
   "source": "src/index.js",
   "module": "build/index.mjs",
@@ -44,7 +44,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "three": "0.166.0"
+    "three": "0.175.0"
   },
   "standardx": {
     "ignore": [

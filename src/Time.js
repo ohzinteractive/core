@@ -11,11 +11,10 @@ class Time
 
   init()
   {
-    this.___time = new Clock();
+    this.__previous_elapsed_time = -1;
     this.__delta_time = 0;
     this.__smooth_delta_time = 0;
     this.__elapsed_time = 0;
-    this.__allocated_time = new Vector2(0, 0);
     this.__frame_interpolation_t = 0;
     this.fixed_delta_time = 1 / 30;
   }
@@ -33,13 +32,6 @@ class Time
   get smooth_delta_time()
   {
     return this.__smooth_delta_time;
-  }
-
-  get shader_time()
-  {
-    this.__allocated_time.x = this.delta_time;
-    this.__allocated_time.y = this.elapsed_time;
-    return  this.__allocated_time;
   }
 
   get frame_interpolation()
@@ -70,15 +62,24 @@ class Time
     this.__frame_interpolation_t = value;
   }
 
-  __update()
+  /**
+   * @param {number} elapsed_time
+   */
+  __update(elapsed_time)
   {
-    this.__delta_time = this.___time.getDelta();
-    this.__elapsed_time = this.___time.getElapsedTime();
+    if (this.__previous_elapsed_time < 0)
+    {
+      this.__previous_elapsed_time = elapsed_time;
+    }
+    this.__delta_time = (elapsed_time - this.__previous_elapsed_time) / 1000;
+    this.__elapsed_time = elapsed_time / 1000;
 
     this.__delta_buffer.shift();
     this.__delta_buffer.push(this.delta_time < 0.32 ? this.delta_time : 0.032);
 
     this.__calculate_smooth_delta_time();
+
+    this.__previous_elapsed_time = elapsed_time;
   }
 
   __calculate_smooth_delta_time()

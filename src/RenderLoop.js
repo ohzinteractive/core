@@ -27,13 +27,16 @@ class RenderLoop
     this.time_accumulator = 0;
   }
 
-  update()
+  /**
+   * @param {number} elapsed_time
+   */
+  update(elapsed_time)
   {
     if (!this.is_running)
     {
       return;
     }
-    Time.__update();
+    Time.__update(elapsed_time);
 
     // ###### START CYCLE ######
     if (this.frames_passed === 1)
