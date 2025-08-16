@@ -333,6 +333,26 @@ class ActionSequencer
       return 1;
     }
   }
+
+  /**
+   * @param {string} name
+   * @param {number} value
+   */
+  set_initial_value_on_channel(name, value)
+  {
+    const keyframes = this.get_keyframes(name);
+    keyframes[0].interpolator.from = value;
+  }
+
+  /**
+   * @param {string} name
+   * @param {number} value
+   */
+  set_final_value_on_channel(name, value)
+  {
+    const keyframes = this.get_keyframes(name);
+    keyframes[keyframes.length - 1].interpolator.to = value;
+  }
 }
 
 export { ActionSequencer };

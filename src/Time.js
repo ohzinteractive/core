@@ -1,6 +1,4 @@
 // @ts-check
-import { Vector2 } from 'three';
-import { Clock } from 'three';
 
 class Time
 {

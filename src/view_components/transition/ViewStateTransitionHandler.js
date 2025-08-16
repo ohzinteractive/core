@@ -27,10 +27,11 @@ class ViewStateTransitionHandler
     this.current_state = state;
 
     this.last_state.before_exit();
-    this.current_state.before_enter();
 
     this.action_sequencer = this.transition_table.get(this.last_state.name, this.current_state.name, this.current_state_data);
     this.action_sequencer.play();
+
+    this.current_state.before_enter(this.action_sequencer);
 
     this.transitioning = true;
 
@@ -55,7 +56,7 @@ class ViewStateTransitionHandler
 
         this.__exit_last_state();
 
-        this.current_state.on_enter();
+        this.current_state.on_enter(this.action_sequencer);
       }
     }
     else
@@ -66,7 +67,7 @@ class ViewStateTransitionHandler
 
   before_update()
   {
-    this.current_state.before_update();
+    this.current_state.before_update(this.action_sequencer);
   }
 
   fixed_update()
