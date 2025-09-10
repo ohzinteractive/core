@@ -10,6 +10,8 @@ class ViewCreator
 
   create_view(name)
   {
+    name = this.__sanitize_name(name);
+
     const js_folder = path.join('..', 'app', 'js', 'views', name);
     const js_transition_path = path.join(js_folder, `${this.capitalize(name)}TransitionController.js`);
     const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.js`);
@@ -37,6 +39,11 @@ class ViewCreator
     this.__update_general_loader_file(name);
     this.__update_sections_file(name);
     this.__update_mainapp_file(name);
+  }
+
+  __sanitize_name(name)
+  {
+    return name.trim().toLowerCase().replace(/-/g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
   }
 
   __update_default_data_file(name)
@@ -85,7 +92,7 @@ class ViewCreator
 
   __update_index_pug_file(name)
   {
-    const new_data = `__SECTIONS__\n      include views/${name}/${name}`;
+    const new_data = `__SECTIONS__\n      include app/views/${name}/${name}`;
     const file_path = path.join('..', 'index.pug');
 
     const options = {
@@ -304,11 +311,23 @@ class ViewCreator
 
     const options_3 = {
       files: path,
+      from: /template_data/g,
+      to: `${name}_data`
+    };
+
+    const options_4 = {
+      files: path,
+      from: /template.json/g,
+      to: `${name}.json`
+    };
+
+    const options_5 = {
+      files: path,
       from: /template/g,
       to: name.replace(/_/g, '-')
     };
 
-    const options_4 = {
+    const options_6 = {
       files: path,
       from: /template_opacity/g,
       to: `${name}_opacity`
@@ -320,6 +339,8 @@ class ViewCreator
       replace.sync(options_2);
       replace.sync(options_3);
       replace.sync(options_4);
+      replace.sync(options_5);
+      replace.sync(options_6);
 
       console.log('\x1b[32m', `${path} Created`);
     }
