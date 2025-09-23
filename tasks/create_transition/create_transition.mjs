@@ -22,11 +22,11 @@ class TransitionCreator
     const file_path = path.join('..', 'app', 'js', 'views', to_view_name.toLowerCase(), `${this.capitalize(to_view_name)}TransitionController.js`);
     const json_name = `${from_view_name.toLowerCase()}_to_${to_view_name.toLowerCase()}`;
 
-    const view_manager_import = 'import { ViewManager } from \'ohzi-core\';';
+    const view_manager_import = 'import { TransitionManager } from \'ohzi-core\';';
 
     const options_1 = {
       files: file_path,
-      from: '// import { ViewManager } from \'ohzi-core\';',
+      from: '// import { TransitionManager } from \'ohzi-core\';',
       to: view_manager_import
     };
 
@@ -47,7 +47,7 @@ class TransitionCreator
     };
 
     const new_data = `// __CUSTOM_TRANSITIONS__
-    ViewManager.add_transitions([
+    TransitionManager.add_transitions([
       {
         from: Sections.${from_view_name.toUpperCase()},
         to: Sections.${to_view_name.toUpperCase()},
