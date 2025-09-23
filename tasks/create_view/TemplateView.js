@@ -6,7 +6,7 @@ import { TemplateTransitionController } from './TemplateTransitionController';
 
 import template_data from '../../../data/transitions/template.json';
 
-class TemplateView extends CommonView
+export class TemplateView extends CommonView
 {
   constructor()
   {
@@ -82,5 +82,3 @@ class TemplateView extends CommonView
     this.transition_controller.update_exit_transition(global_view_data, transition_progress, action_sequencer);
   }
 }
-
-export { TemplateView };

@@ -3,7 +3,7 @@ import { Sections } from '../Sections';
 
 // import { TemplateScene } from '../../scenes/TemplateScene';
 
-class TemplateSceneController
+export class TemplateSceneController
 {
   constructor()
   {
@@ -51,5 +51,3 @@ class TemplateSceneController
   {
   }
 }
-
-export { TemplateSceneController };
