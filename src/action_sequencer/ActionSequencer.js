@@ -224,7 +224,7 @@ class ActionSequencer
       const trigger_time = this.action_events[i].trigger_time;
       if (OMath.between(trigger_time, from, to))
       {
-        console.log('Play event: ' + this.action_events[i].action.constructor.name + ' at ' +  this.action_events[i].trigger_time);
+        // console.log('Play event: ' + this.action_events[i].action.constructor.name + ' at ' +  this.action_events[i].trigger_time);
         this.action_events[i].action.trigger();
       }
     }
