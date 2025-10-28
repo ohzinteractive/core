@@ -20,7 +20,7 @@ export class TemplateSceneController
 
   before_enter()
   {
-    this.scene.setup_camera();
+    // this.scene.setup_camera();
 
     SceneManager.current = this.scene;
   }
