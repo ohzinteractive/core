@@ -28,6 +28,8 @@ export class TemplateView extends CommonView
 
   start()
   {
+    super.start();
+
     this.scene_controller.start();
     this.transition_controller.start();
   }
