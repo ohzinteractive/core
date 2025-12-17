@@ -1,10 +1,5 @@
-// @ts-check
-import { BaseApplication } from './BaseApplication'; // eslint-disable-line no-unused-vars
 import { CameraManager } from './CameraManager';
-import { Capabilities } from './Capabilities';
 import { OScreen } from './OScreen';
-import { OrthographicCamera } from './OrthographicCamera'; // eslint-disable-line no-unused-vars
-import { PerspectiveCamera } from './PerspectiveCamera'; // eslint-disable-line no-unused-vars
 import { SceneManager } from './SceneManager';
 
 import { BaseRender } from './render_mode/BaseRender';
@@ -20,22 +15,14 @@ import {
   RGBAFormat,
   ShaderMaterial,
   WebGLRenderTarget,
-  Material, Object3D, Scene // eslint-disable-line no-unused-vars
+  WebGLRenderer
 } from 'three';
 
-import { WebGLRenderer } from 'three';
+import { Capabilities } from './Capabilities';
 
 class Graphics
 {
-  /**
-   * @param {Object} options
-   * @param {HTMLCanvasElement} options.canvas
-   * @param {Record<string, any>} options.core_attributes
-   * @param {Record<string, any>} options.context_attributes
-   * @param {Record<string, any>} options.threejs_attributes
-   * @param {number} options.dpr
-   */
-  init({ canvas, core_attributes, context_attributes, threejs_attributes, dpr })
+  init({ core_attributes, renderer_attributes = {}, dpr })
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -45,58 +32,13 @@ class Graphics
     this.generateDepthNormalTexture = false;
     this.depth_and_normals_renderer = undefined;
 
-    this.is_webgl2 = false;
-    this.canvas_context = undefined;
-    this.context_attributes = undefined;
-
     this.core_attributes = {
-      force_webgl2: true,
       xr_enabled: false
     };
 
-    this.context_attributes = {
-      alpha: true,
-      antialias: false,
-      depth: true,
-      desynchronized: false,
-      failIfMajorPerformanceCaveat: false,
-      powerPreference: 'high-performance',
-      premultipliedAlpha: true,
-      preserveDrawingBuffer: true,
-      stencil: false
-    };
-
-    /** @type {Record<string, any>} */
-    this.threejs_attributes = {
-      logarithmicDepthBuffer: false
-    };
-
     Object.assign(this.core_attributes, core_attributes);
-    Object.assign(this.context_attributes, context_attributes);
 
-    Object.assign(this.threejs_attributes, this.context_attributes);
-    Object.assign(this.threejs_attributes, threejs_attributes);
-
-    if (this.core_attributes.force_webgl2)
-    {
-      this.canvas_context = canvas.getContext('webgl2', this.context_attributes) ||
-                            canvas.getContext('webgl', this.context_attributes) ||
-                            canvas.getContext('experimental-webgl', this.context_attributes);
-    }
-    else
-    {
-      this.canvas_context = canvas.getContext('webgl', this.context_attributes) ||
-                            canvas.getContext('experimental-webgl', this.context_attributes);
-    }
-
-    this.is_webgl2 = this.canvas_context.constructor.name === 'WebGL2RenderingContext';
-
-    // console.log(`Using WebGL ${this.is_webgl2 ? 2 : 1}`);
-
-    this.threejs_attributes.canvas = canvas;
-    this.threejs_attributes.context = this.canvas_context;
-
-    this._renderer = new WebGLRenderer(this.threejs_attributes);
+    this._renderer = new WebGLRenderer(renderer_attributes);
 
     if (this.core_attributes.xr_enabled)
     {
@@ -109,11 +51,6 @@ class Graphics
 
     OScreen.dpr = dpr;
     this._renderer.setPixelRatio(1);
-
-    if (!this.is_webgl2)
-    {
-      this._renderer.extensions.get('ANGLE_instanced_arrays');
-    }
 
     this.blitter = new Blitter(this._renderer);
 
@@ -142,9 +79,6 @@ class Graphics
     return this.depth_and_normals_renderer.render_target;
   }
 
-  /**
-   * @param {BaseRender} new_state
-   */
   set_state(new_state)
   {
     // console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
@@ -182,12 +116,6 @@ class Graphics
     }
   }
 
-  /**
-   * @param {Scene} [scene]
-   * @param {PerspectiveCamera | OrthographicCamera} [camera]
-   * @param {WebGLRenderTarget} [RT]
-   * @param {Material} [override_mat]
-   */
   render(scene, camera, RT, override_mat)
   {
     this.__apply_override_material(scene, override_mat);
@@ -199,12 +127,6 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
-  /**
-   * @param {Scene} scene
-   * @param {PerspectiveCamera} camera
-   * @param {WebGLRenderTarget} RT
-   * @param {Material} override_mat
-   */
   compile(scene, camera, RT, override_mat)
   {
     this.__apply_override_material(scene, override_mat);
@@ -216,14 +138,6 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
-  /**
-   * @param {Scene} scene
-   * @param {PerspectiveCamera} camera
-   * @param {WebGLRenderTarget} RT
-   * @param {Material} override_mat
-   * @param {Scene} target_scene
-   * @returns {Promise<Object3D>}
-   */
   async compile_async(scene, camera, RT, override_mat, target_scene)
   {
     this.__apply_override_material(scene, override_mat);
@@ -237,9 +151,6 @@ class Graphics
     return promise;
   }
 
-  /**
-   * @param {BaseApplication | Scene | {render:()=>void}} scene
-   */
   render_scene(scene)
   {
     if ('on_pre_render' in scene)
@@ -263,10 +174,6 @@ class Graphics
     }
   }
 
-  /**
-   * @param {Scene} scene
-   * @param {Material} mat
-   */
   __apply_override_material(scene, mat)
   {
     mat = mat === undefined ? null : mat;
@@ -280,21 +187,11 @@ class Graphics
     }
   }
 
-  /**
-   * @param {WebGLRenderTarget} RT
-   * @param {import('three').TypedArray} buffer
-   */
   readback_RT(RT, buffer)
   {
     this._renderer.readRenderTargetPixels(RT, 0, 0, RT.width, RT.height, buffer);
   }
 
-  /**
-   * @param {WebGLRenderTarget} RT
-   * @param {PerspectiveCamera} camera
-   * @param {boolean} clear_depth
-   * @param {boolean} clear_stencil
-   */
   clear(RT, camera, clear_depth, clear_stencil)
   {
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
@@ -309,10 +206,6 @@ class Graphics
       !!clear_stencil);
   }
 
-  /**
-   * @param {ResizeObserverEntry[]} entries
-   * @param {number} dpr
-   */
   on_resize(entries, dpr)
   {
     for (const entry of entries)
@@ -332,20 +225,11 @@ class Graphics
     }
   }
 
-  /**
-   * @param {Material} mat
-   * @param {WebGLRenderTarget} dst
-   */
   material_pass(mat, dst)
   {
     this.blitter.material_pass(mat, dst);
   }
 
-  /**
-   * @param {WebGLRenderTarget} src_RT
-   * @param {WebGLRenderTarget} dst_RT
-   * @param {Material} mat
-   */
   blit(src_RT, dst_RT, mat)
   {
     if (mat)
@@ -358,20 +242,11 @@ class Graphics
     }
   }
 
-  /**
-   * @param {WebGLRenderTarget} dst_RT
-   * @param {Material} mat
-   */
   blit_clear_with_material(dst_RT, mat)
   {
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
-  /**
-   * @param {BlobCallback} blob_callback
-   * @param {number} width
-   * @param {number} height
-   */
   take_screenshot(blob_callback, width = OScreen.width, height = OScreen.height)
   {
     // const ctx = this;
@@ -432,9 +307,6 @@ class Graphics
     CameraManager.current.updateMatrixWorld(true);
   }
 
-  /**
-   * @param {Blob} blob
-   */
   download_screenshot(blob)
   {
     const link = document.createElement('a');

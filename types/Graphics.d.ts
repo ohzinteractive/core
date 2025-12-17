@@ -3,28 +3,22 @@ declare const graphics: Graphics;
 declare class Graphics {
     /**
      * @param {Object} options
-     * @param {HTMLCanvasElement} options.canvas
      * @param {Record<string, any>} options.core_attributes
-     * @param {Record<string, any>} options.context_attributes
-     * @param {Record<string, any>} options.threejs_attributes
+     * @param {Record<string, any>} options.renderer_attributes
      * @param {number} options.dpr
      */
-    init({ canvas, core_attributes, context_attributes, threejs_attributes, dpr }: {
-        canvas: HTMLCanvasElement;
+    init({ core_attributes, renderer_attributes, dpr }: {
         core_attributes: Record<string, any>;
-        context_attributes: Record<string, any>;
-        threejs_attributes: Record<string, any>;
+        renderer_attributes: Record<string, any>;
         dpr: number;
     }): void;
     _renderer: WebGLRenderer;
     blitter: Blitter;
-    canvas: HTMLCanvasElement;
     no_render: BaseRender;
     current_render_mode: BaseRender;
     generateDepthNormalTexture: boolean;
     depth_and_normals_renderer: DepthAndNormalsRenderer;
     is_webgl2: boolean;
-    canvas_context: RenderingContext;
     context_attributes: {
         alpha: boolean;
         antialias: boolean;
@@ -41,7 +35,6 @@ declare class Graphics {
         xr_enabled: boolean;
     };
     /** @type {Record<string, any>} */
-    threejs_attributes: Record<string, any>;
     get dom_element(): HTMLCanvasElement;
     get depth_normals_RT(): WebGLRenderTarget<import("three").Texture>;
     /**
@@ -130,14 +123,15 @@ declare class Graphics {
     dispose(): void;
     is_floating_point_texture_available(): boolean;
 }
+import { Object3D } from "three/src/core/Object3D";
+import { Material } from "three/src/materials/Material";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
-import { Blitter } from "./render_utilities/Blitter";
-import { BaseRender } from "./render_mode/BaseRender";
-import { DepthAndNormalsRenderer } from "./render_utilities/DepthAndNormalsRenderer";
 import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
 import { Scene } from "three/src/scenes/Scene";
-import { PerspectiveCamera } from "./PerspectiveCamera";
-import { OrthographicCamera } from "./OrthographicCamera";
-import { Material } from "three/src/materials/Material";
-import { Object3D } from "three/src/core/Object3D";
 import { BaseApplication } from "./BaseApplication";
+import { OrthographicCamera } from "./OrthographicCamera";
+import { PerspectiveCamera } from "./PerspectiveCamera";
+import { BaseRender } from "./render_mode/BaseRender";
+import { Blitter } from "./render_utilities/Blitter";
+import { DepthAndNormalsRenderer } from "./render_utilities/DepthAndNormalsRenderer";
+
