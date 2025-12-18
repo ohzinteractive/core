@@ -6,7 +6,7 @@ import { Vector2 } from 'three';
 
 class GaussianBlurMaterial extends BlitMaterial
 {
-  constructor(kernel_radius, use_half_float)
+  constructor(kernel_radius)
   {
     super(frag, undefined, {
       KERNEL_RADIUS: kernel_radius,
