@@ -1,6 +1,5 @@
-// @ts-check
 import { Color } from 'three';
-import { attribute, fwidth, min, mix, smoothstep, uniform, vec3 } from 'three/tsl';
+import { attribute, fwidth, min, mix, smoothstep, uniform, vec3 } from 'three/src/nodes/TSL';
 
 /**
  * Grid shader material using TSL (Three.js Shading Language)
