@@ -1,31 +1,42 @@
 // @ts-check
-// @ts-ignore
-import grid_frag from '../shaders/grid/grid.frag';
-// @ts-ignore
-import grid_vert from '../shaders/grid/grid.vert';
-
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
-import { Mesh } from 'three';
-import { ShaderMaterial } from 'three';
-import { Color } from 'three';
-import { PlaneGeometry } from 'three';
+import { Color, Mesh, PlaneGeometry } from 'three';
+import { attribute, fwidth, min, mix, smoothstep, uniform, vec3 } from 'three/tsl';
+import { MeshBasicNodeMaterial } from 'three/webgpu';
 
 class Grid extends Mesh
 {
   constructor()
   {
-    const material = new ShaderMaterial({
-      uniforms: {
-        _Color: { value: new Color('#919191') }
-      },
-      vertexShader: grid_vert,
-      fragmentShader: grid_frag,
-      // @ts-ignore
-      extensions: { derivatives: true },
+    const gridColor = uniform(new Color('#4a4a4a'));
+
+    // Get barycentric attribute
+    const barycentric = attribute('barycentric', 'vec3');
+
+    // Edge factor function (TSL equivalent of the GLSL function)
+    const edgeFactor = (baryc) =>
+    {
+      const d = fwidth(baryc);
+      const a3 = smoothstep(vec3(0.0), d.mul(1.5), baryc);
+      return min(min(a3.x, a3.y), a3.z);
+    };
+
+    // Apply edge detection
+    const vBarycentric = barycentric.add(vec3(1.0, 1.0, 0.0));
+    const alpha = edgeFactor(vBarycentric);
+
+    // Mix color and apply alpha
+    const finalColor = mix(gridColor, vec3(0.0), alpha);
+    const finalAlpha = alpha.oneMinus().mul(0.2);
+
+    const material = new MeshBasicNodeMaterial({
       transparent: true,
       depthWrite: false
     });
+
+    material.colorNode = finalColor;
+    material.opacityNode = finalAlpha;
 
     const plane_geometry = new PlaneGeometry(100, 100, 100, 100);
 
