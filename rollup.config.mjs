@@ -18,6 +18,9 @@ export default [
       terser()
     ],
     external: [
+      'three/nodes',
+      'tree/tsl',
+      'three/webgpu',
       'three',
       'pit-js',
       'three/examples/jsm/utils/BufferGeometryUtils.js',

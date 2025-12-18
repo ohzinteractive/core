@@ -14,11 +14,10 @@ import {
   NoBlending,
   RGBAFormat,
   ShaderMaterial,
-  WebGLRenderTarget,
-  WebGLRenderer
+  WebGLRenderTarget
 } from 'three';
 
-import { Capabilities } from './Capabilities';
+import { WebGPURenderer } from 'three/webgpu';
 
 class Graphics
 {
@@ -38,7 +37,7 @@ class Graphics
 
     Object.assign(this.core_attributes, core_attributes);
 
-    this._renderer = new WebGLRenderer(renderer_attributes);
+    this._renderer = new WebGPURenderer(renderer_attributes);
 
     if (this.core_attributes.xr_enabled)
     {
@@ -60,9 +59,9 @@ class Graphics
 
     this.current_render_mode = this.no_render;
 
-    Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
-    Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
-    Capabilities.fp_textures_available = this.is_floating_point_texture_available();
+    // Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
+    // Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
+    // Capabilities.fp_textures_available = this.is_floating_point_texture_available();
 
     this.generateDepthNormalTexture = false;
 
@@ -220,6 +219,8 @@ class Graphics
       this.canvas.height = OScreen.render_height;
 
       this._renderer.setViewport(0, 0, OScreen.render_width, OScreen.render_height);
+
+      this._renderer.setSize(window.innerWidth, window.innerHeight);
 
       this.__update_current_camera();
     }
