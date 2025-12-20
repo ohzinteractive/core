@@ -1,4 +1,3 @@
-// @ts-check
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { createGridShader } from '../shaders/grid/grid.tsl.js';
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
