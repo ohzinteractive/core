@@ -20,7 +20,7 @@
     "config-hooks": "git config core.hooksPath git_hooks",
     "build": "rollup -c",
     "create-tag": "node tasks/app/create_tag.mjs",
-    "fix-syntax": "standardx --fix",
+    "fix-syntax": "npx eslint --fix",
     "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types",
     "upload": "yarn build && npm publish && yarn create-tag",
     "create-view": "node ./tasks/create_view/create_view.mjs",
