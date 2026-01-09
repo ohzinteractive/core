@@ -4,7 +4,8 @@
   "compilerOptions": {
     // Tells TypeScript to read JS files, as
     // normally they are ignored as source files
-    "allowJs": true,
+    "allowJs": false,
+    "strict": false,
     // Generate d.ts files
     "declaration": true,
     // This compiler run should
@@ -13,6 +14,7 @@
     // Types should go into this directory.
     // Removing this would place the .d.ts files
     // next to the .js files
+    "lib": ["es2021", "dom"],
     "outDir": "types",
     "noImplicitAny": true,
     "module": "esnext",

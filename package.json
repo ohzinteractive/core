@@ -2,6 +2,7 @@
   "name": "ohzi-core",
   "version": "13.0.0",
   "description": "OHZI Interactive Core Library",
+  "type": "module",
   "source": "src/index.js",
   "module": "build/index.mjs",
   "types": "types/index.d.ts",
@@ -55,11 +56,16 @@
   "devDependencies": {
     "@types/node": "^25.0.3",
     "@types/three": "0.182.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^10.1.8",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
-    "standardx": "^7.0.0",
-    "typescript": "^4.4.3"
+    "ts-migrate": "^0.1.35",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.18.2"
   }
 }
