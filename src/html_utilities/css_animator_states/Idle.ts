@@ -3,7 +3,6 @@ class Idle
   constructor()
   {
   }
-
   
   get is_animating()
   {

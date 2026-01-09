@@ -1,4 +1,3 @@
-
 import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three';
 
 class Cube extends Mesh

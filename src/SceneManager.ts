@@ -1,4 +1,3 @@
-
 import { Mesh, Scene } from 'three';
 
 class SceneManager
@@ -24,7 +23,6 @@ class SceneManager
   {
     return this._current;
   }
-
   
   set current(scene)
   {

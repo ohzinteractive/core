@@ -1,6 +1,6 @@
-
 import { BaseApplication } from './BaseApplication';
 import { Debug } from './Debug';
+import type { Graphics } from './Graphics';
 import { Time } from './Time';
 import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
@@ -8,17 +8,14 @@ import { ViewManager } from './view_components/ViewManager';
 
 class RenderLoop
 {
-  frames_passed: any;
-  graphics: any;
+  frames_passed: number;
+  graphics: typeof Graphics;
   input: any;
-  is_running: any;
-  target_application: any;
-  time_accumulator: any;
-  /**
-   * @param {BaseApplication} target_application
-   * @param {Graphics} graphics
-   */
-  constructor(target_application: any, graphics: any, input: any)
+  is_running: boolean;
+  target_application: BaseApplication;
+  time_accumulator: number;
+
+  constructor(target_application: BaseApplication, graphics: typeof Graphics, input: any)
   {
     target_application = target_application || new BaseApplication();
 
@@ -32,10 +29,7 @@ class RenderLoop
     this.time_accumulator = 0;
   }
 
-  /**
-   * @param {number} elapsed_time
-   */
-  update(elapsed_time: any)
+  update(elapsed_time: number)
   {
     if (!this.is_running)
     {
@@ -92,7 +86,7 @@ class RenderLoop
 
     if (this.frames_passed === 0)
     {
-      this.target_application.on_enter();
+      this.target_application.on_enter(this);
     }
 
     this.is_running = true;
@@ -105,15 +99,12 @@ class RenderLoop
     if (this.is_running === false) return; // sanity check
 
     this.is_running = false;
-    this.target_application.on_exit();
+    this.target_application.on_exit(this);
 
     this.graphics._renderer.setAnimationLoop(null);
   }
 
-  /**
-   * @param {BaseApplication} new_state
-   */
-  set_state(new_state: any)
+  set_state(new_state: BaseApplication)
   {
     this.target_application.on_exit(this);
     this.target_application = new_state;

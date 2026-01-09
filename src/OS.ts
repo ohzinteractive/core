@@ -1,4 +1,3 @@
-
 class OS
 {
   is_android: any;

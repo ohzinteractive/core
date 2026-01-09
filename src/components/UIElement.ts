@@ -1,4 +1,3 @@
-
 import { OScreen } from '../OScreen';
 
 import { UIElementMaterial } from '../materials/UIElementMaterial';
@@ -49,7 +48,6 @@ class UIElement extends Mesh
     this.position_strategy = new WorldSpacePosition();
     this.current_state = new OnIdle();
 
-
     this._on_idle_state = new OnIdle();
     this._on_enter_state = new OnMouseEnter();
     this._on_exit_state = new OnMouseExit();
@@ -80,7 +78,6 @@ class UIElement extends Mesh
   {
     this.renderOrder = value;
   }
-
   
   get pivot_point()
   {

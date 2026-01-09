@@ -1,4 +1,4 @@
-import { RenderLoop } from './RenderLoop';
+import type { RenderLoop } from './RenderLoop';
 
 class BaseApplication
 {

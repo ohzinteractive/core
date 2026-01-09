@@ -1,4 +1,3 @@
-
 import { GLTFDRACOLoader } from '../resource_loader/GLTFDRACOLoader';
 import { GLTFLoader } from '../resource_loader/GLTFLoader';
 import { ResourceContainer } from '../ResourceContainer';

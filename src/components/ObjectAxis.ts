@@ -1,4 +1,3 @@
-
 import { Arrow } from '../primitives/Arrow';
 
 import { Object3D, Vector3 } from 'three';

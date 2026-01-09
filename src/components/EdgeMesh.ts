@@ -1,4 +1,3 @@
-
 import corners_frag from '../shaders/edges/corners.frag';
 import corners_vert from '../shaders/edges/corners.vert';
 import edge_line_frag from '../shaders/edges/edges.frag';
@@ -6,7 +5,8 @@ import edge_line_vert from '../shaders/edges/edges.vert';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import { BufferAttribute, BufferGeometry, Color, EdgesGeometry, InterleavedBufferAttribute, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
+import type { BufferGeometry} from 'three';
+import { BufferAttribute, Color, EdgesGeometry, InterleavedBufferAttribute, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
 
 class EdgeMesh extends Object3D
 {

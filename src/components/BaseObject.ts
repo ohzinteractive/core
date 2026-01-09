@@ -1,4 +1,3 @@
-
 import { Mesh, Object3D, Vector3 } from 'three';
 
 class BaseObject extends Object3D

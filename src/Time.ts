@@ -1,5 +1,3 @@
-
-
 class Time
 {
   __delta_buffer: any;

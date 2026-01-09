@@ -1,4 +1,3 @@
-
 class RenderOrder
 {
   constructor()

@@ -1,4 +1,3 @@
-
 import { CameraUtilities } from '../utilities/CameraUtilities';
 import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 

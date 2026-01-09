@@ -1,4 +1,3 @@
-
 import { Line } from './Line';
 
 import { Object3D, Vector3 } from 'three';

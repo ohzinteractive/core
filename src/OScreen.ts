@@ -1,4 +1,3 @@
-
 import { Vector2 } from 'three';
 
 class OScreen
@@ -83,13 +82,11 @@ class OScreen
   {
     return this.pixel_size;
   }
-
   
   get aspect_ratio()
   {
     return this.width / this.height;
   }
-
   
   get portrait()
   {

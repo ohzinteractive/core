@@ -1,4 +1,4 @@
-import { ResourceContainer } from "./ResourceContainer";
+import type { ResourceContainer } from "./ResourceContainer";
 
 class ResourceBatch
 {
@@ -25,7 +25,6 @@ class ResourceBatch
       this.resource_loaders[i].load(this.resource_container);
     }
   }
-
   
   get loading_finished()
   {
@@ -36,7 +35,6 @@ class ResourceBatch
     }
     return finished;
   }
-
   
   get has_errors()
   {

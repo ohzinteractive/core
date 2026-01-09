@@ -1,4 +1,3 @@
-
 import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';

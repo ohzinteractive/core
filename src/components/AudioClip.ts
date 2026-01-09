@@ -1,4 +1,3 @@
-
 import { AudioListener, Audio as TAudio, PositionalAudio as TPositionalAudio } from 'three';
 
 class AudioClip

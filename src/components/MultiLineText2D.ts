@@ -1,4 +1,3 @@
-
 import { Text2D } from './Text2D';
 
 import { Object3D, Vector2 } from 'three';

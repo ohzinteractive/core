@@ -1,8 +1,8 @@
-
 import { SimpleTextDrawer } from '../canvas_drawer/SimpleTextDrawer';
 import { WorldImage } from './WorldImage';
 
-import { LinearFilter, LinearMipMapLinearFilter, Vector2 } from 'three';
+import type { Vector2 } from 'three';
+import { LinearFilter, LinearMipMapLinearFilter } from 'three';
 
 class Text2D extends WorldImage
 {
@@ -10,7 +10,7 @@ class Text2D extends WorldImage
   draw_settings: any;
   simple_text_drawer: any;
 
-  constructor(text: string, font: string, color: string | Number, pivot: Vector2) 
+  constructor(text: string, font: string, color: string | number, pivot: Vector2) 
   {
     const simple_text_drawer = new SimpleTextDrawer();
 

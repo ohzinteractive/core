@@ -70,7 +70,6 @@ class PlaneDragResolver extends PlaneRaycastResolver
       this._drag_started = true;
     }
   }
-
   
   get drag_started()
   {

@@ -1,4 +1,3 @@
-
 class Capabilities
 {
   fp_textures_available: any;

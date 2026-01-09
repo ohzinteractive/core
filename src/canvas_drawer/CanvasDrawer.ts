@@ -1,4 +1,3 @@
-
 import { CanvasTexture, ClampToEdgeWrapping, NearestFilter, UVMapping, Vector2 } from 'three';
 
 class CanvasDrawer

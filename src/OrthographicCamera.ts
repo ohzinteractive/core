@@ -1,4 +1,3 @@
-
 import { Color, OrthographicCamera as TOrthographicCamera } from 'three';
 
 class OrthographicCamera extends TOrthographicCamera

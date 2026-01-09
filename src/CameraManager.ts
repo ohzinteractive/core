@@ -1,4 +1,3 @@
-
 import { PerspectiveCamera } from './PerspectiveCamera';
 
 class CameraManager

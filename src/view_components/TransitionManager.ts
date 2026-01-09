@@ -10,13 +10,11 @@ class TransitionManager
     this.transition_table = new TransitionTable();
     this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
   }
-
   
   get action_sequencer()
   {
     return this.transition_handler.action_sequencer;
   }
-
   
   get current_state_data()
   {

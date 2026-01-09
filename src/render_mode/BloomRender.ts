@@ -1,4 +1,3 @@
-
 import { BloomComposeMaterial } from '../materials/BloomComposeMaterial';
 import { BaseRender } from '../render_mode/BaseRender';
 

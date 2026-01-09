@@ -1,4 +1,3 @@
-
 import { ResourceContainer } from '../ResourceContainer';
 
 class AsyncAbstractLoader

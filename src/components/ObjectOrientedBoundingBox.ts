@@ -1,4 +1,3 @@
-
 import { Quaternion, Vector3 } from 'three';
 
 class ObjectOrientedBoundingBox

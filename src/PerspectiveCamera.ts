@@ -1,4 +1,3 @@
-
 import { Color, PerspectiveCamera as TPerspectiveCamera } from 'three';
 
 class PerspectiveCamera extends TPerspectiveCamera

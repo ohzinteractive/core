@@ -3,7 +3,7 @@ import { Graphics } from './Graphics';
 
 import { Scene, Vector2 } from 'three';
 import { OrthographicCamera } from './OrthographicCamera';
-import { UIElement } from './components/UIElement';
+import type { UIElement } from './components/UIElement';
 
 class UI
 {

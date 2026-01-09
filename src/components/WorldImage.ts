@@ -1,4 +1,3 @@
-
 import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
 import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
 
@@ -7,8 +6,8 @@ import { DoubleSide, Mesh, PlaneGeometry, ShaderMaterial, Vector2, Vector3 } fro
 
 class WorldImage extends Mesh
 {
-  current_scale: any;
-  tmp_bb_size: any;
+  current_scale: number;
+  tmp_bb_size: Vector3;
   material: ShaderMaterial;
 
   constructor(texture: Texture, pivot: Vector2)
@@ -52,13 +51,7 @@ class WorldImage extends Mesh
     this.geometry.computeBoundingBox();
     this.geometry.boundingBox.getSize(this.tmp_bb_size);
   }
-
   
-
-
-  
-
-
   get size()
   {
     return this.tmp_bb_size.clone().multiplyScalar(this.scale.x);

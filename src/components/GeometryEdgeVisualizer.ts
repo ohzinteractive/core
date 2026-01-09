@@ -1,10 +1,10 @@
-
 import edge_visualizer_frag from '../shaders/edge_visualizer/edge_visualizer.frag';
 import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer.vert';
 
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
-import { BufferGeometry, Color, Mesh, ShaderMaterial } from 'three';
+import type { BufferGeometry} from 'three';
+import { Color, Mesh, ShaderMaterial } from 'three';
 
 class GeometryEdgeVisualizer extends Mesh
 {

@@ -1,4 +1,3 @@
-
 import { AlwaysDepth, BufferGeometry, Line, LineBasicMaterial, Object3D, Vector3 } from 'three';
 
 class AxisHelper extends Object3D

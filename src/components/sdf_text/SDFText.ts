@@ -109,7 +109,6 @@ class SDFText
     this.__opacity = op;
     this.color_is_dirty = true;
   }
-
   
   get opacity()
   {

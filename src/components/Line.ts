@@ -1,8 +1,8 @@
-
 import line_fs from '../shaders/basic_line/basic_line.frag';
 import line_vs from '../shaders/basic_line/basic_line.vert';
 
-import { BufferAttribute, BufferGeometry, Color, Mesh, ShaderMaterial, Vector3 } from 'three';
+import type { Vector3 } from 'three';
+import { BufferAttribute, BufferGeometry, Color, Mesh, ShaderMaterial } from 'three';
 
 class Line extends Mesh
 {

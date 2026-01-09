@@ -1,5 +1,5 @@
-
-import { BufferGeometry, Vector3 } from 'three';
+import type { BufferGeometry} from 'three';
+import { Vector3 } from 'three';
 
 class ReflectionPlaneContext
 {
@@ -11,7 +11,6 @@ class ReflectionPlaneContext
     this.target_geometry = undefined;
     this.target_position = new Vector3();
   }
-
 
   set_target_geometry(geometry: any)
   {

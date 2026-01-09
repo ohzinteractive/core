@@ -1,4 +1,3 @@
-
 import { Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
 
 class PlaneHelper extends Object3D

@@ -1,5 +1,5 @@
-
-import { BufferGeometry, Material, Mesh } from 'three';
+import type { BufferGeometry, Material} from 'three';
+import { Mesh } from 'three';
 
 class UpdatableMaterialMesh extends Mesh
 {

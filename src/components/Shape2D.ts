@@ -1,4 +1,3 @@
-
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
 import { Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from 'three';

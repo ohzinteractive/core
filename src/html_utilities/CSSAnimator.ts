@@ -60,7 +60,6 @@ class CSSAnimator
   {
     this.current_state.update(this);
   }
-
   
   get is_animating()
   {

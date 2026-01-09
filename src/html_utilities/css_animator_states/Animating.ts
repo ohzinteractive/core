@@ -11,7 +11,6 @@ class Animating
     this.t = 0;
     this.easing_function_t = 0;
   }
-
   
   get is_animating()
   {

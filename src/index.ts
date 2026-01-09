@@ -1,4 +1,3 @@
-
 import { BaseApplication } from './BaseApplication';
 import { AddMaterial } from './materials/AddMaterial';
 import { BaseShaderMaterial } from './materials/BaseShaderMaterial';
@@ -132,4 +131,3 @@ export {
     ResourceContainer, RGBETextureLoader, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
     ViewComponentManager, ViewManager, VRRender, WorldImage
 };
-

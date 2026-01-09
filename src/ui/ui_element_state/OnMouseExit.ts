@@ -1,4 +1,3 @@
-
 import { UIElement } from '../../components/UIElement';
 import { UIElementState } from './UIElementState';
 

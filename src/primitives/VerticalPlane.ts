@@ -1,4 +1,3 @@
-
 import { Material, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 class VerticalPlane extends Mesh

@@ -1,4 +1,3 @@
-
 import { AsyncAudiosLoader } from '../../loaders/AsyncAudiosLoader';
 import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
@@ -49,7 +48,6 @@ export class LoadingState
     this.custom_compilators = custom_compilators;
     this.custom_data = custom_data;
   }
-
   
   get loading_progress()
   {

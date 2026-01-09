@@ -1,4 +1,3 @@
-
 import { OMath } from '../utilities/OMath';
 import { ActionInterpolator } from './ActionInterpolator';
 

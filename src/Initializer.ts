@@ -1,4 +1,3 @@
-
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';

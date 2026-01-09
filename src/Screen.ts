@@ -1,5 +1,4 @@
-
-import { Vector2 } from 'three';
+import type { Vector2 } from 'three';
 import { OScreen } from './OScreen';
 
 class Screen
@@ -25,7 +24,6 @@ class Screen
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     OScreen.update();
   }
-
 
   update_size(width: number, height: number)
   {

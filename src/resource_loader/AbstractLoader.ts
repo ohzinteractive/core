@@ -1,4 +1,3 @@
-
 export class AbstractLoader
 {
   resource_id: any;
