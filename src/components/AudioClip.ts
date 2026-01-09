@@ -1,16 +1,20 @@
-// @ts-check
-import { AudioListener, Audio as TAudio } from 'three'; // eslint-disable-line no-unused-vars
-import { PositionalAudio as TPositionalAudio } from 'three';
+
+import { AudioListener, Audio as TAudio, PositionalAudio as TPositionalAudio } from 'three';
 
 class AudioClip
 {
+  audio: any;
+  buffer: any;
+  loop: any;
+  positional: any;
+  volume: any;
   /**
    * @param {AudioBuffer} buffer
    * @param {boolean} [loop]
    * @param {number} [volume]
    * @param {boolean} [positional]
    */
-  constructor(buffer, loop = true, volume = 1, positional = false)
+  constructor(buffer: any, loop = true, volume = 1, positional = false)
   {
     this.buffer = buffer;
     this.loop = loop;
@@ -23,7 +27,7 @@ class AudioClip
   /**
    * @param {AudioListener} audio_listener
    */
-  init(audio_listener)
+  init(audio_listener: any)
   {
     if (this.positional)
     {

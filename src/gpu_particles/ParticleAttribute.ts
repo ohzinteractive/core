@@ -5,7 +5,11 @@ import { Capabilities } from '../Capabilities';
 
 class ParticleAttribute
 {
-  constructor(attr_name, update_material)
+  name: any;
+  read: any;
+  update_material: any;
+  write: any;
+  constructor(attr_name: any, update_material: any)
   {
     this.read = undefined;
     this.write = undefined;
@@ -15,17 +19,17 @@ class ParticleAttribute
     this.update_material = update_material;
   }
 
-  init_from_geometry(geometry)
+  init_from_geometry(geometry: any)
   {
     // overrided by inheritance
   }
 
-  init_from_attribute(particle_attribute)
+  init_from_attribute(particle_attribute: any)
   {
 
   }
 
-  build_RT(particle_count)
+  build_RT(particle_count: any)
   {
     const resolution = ParticleAttribute.calculate_resolution(particle_count);
     const options = {
@@ -41,7 +45,7 @@ class ParticleAttribute
     return new WebGLRenderTarget(resolution.width, resolution.height, options);
   }
 
-  static calculate_resolution(particle_count)
+  static calculate_resolution(particle_count: any)
   {
     const width = Math.min(particle_count, 512);
     const height = Math.max(1, Math.ceil(particle_count / width));
@@ -55,7 +59,7 @@ class ParticleAttribute
     this.write = tmp;
   }
 
-  update(attribute_writter_scene)
+  update(attribute_writter_scene: any)
   {
     if (this.update_material)
     {
@@ -69,7 +73,7 @@ class ParticleAttribute
     }
   }
 
-  store_geometry_attribute_in_RT(attribute, RT, storage_material, attribute_writter_scene)
+  store_geometry_attribute_in_RT(attribute: any, RT: any, storage_material: any, attribute_writter_scene: any)
   {
     attribute_writter_scene.children[0].geometry.setAttribute('data', attribute);
     attribute_writter_scene.children[0].material = storage_material;

@@ -1,23 +1,17 @@
-// @ts-check
-// @ts-ignore
-import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
-// @ts-ignore
-import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
 
-import { Mesh, Texture } from 'three'; // eslint-disable-line no-unused-vars
-import { Vector2 } from 'three';
-import { ShaderMaterial } from 'three';
-import { DoubleSide } from 'three';
-import { PlaneGeometry } from 'three';
-import { Vector3 } from 'three';
+import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
+import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
+
+import type { Texture } from 'three';
+import { DoubleSide, Mesh, PlaneGeometry, ShaderMaterial, Vector2, Vector3 } from 'three';
 
 class WorldImage extends Mesh
 {
-  /**
-   * @param {Texture} texture
-   * @param {Vector2} [pivot]
-   */
-  constructor(texture, pivot)
+  current_scale: any;
+  tmp_bb_size: any;
+  material: ShaderMaterial;
+
+  constructor(texture: Texture, pivot: Vector2)
   {
     pivot = pivot || new Vector2(0, 0);
     const material = new ShaderMaterial({
@@ -35,6 +29,7 @@ class WorldImage extends Mesh
     });
     const geometry = new PlaneGeometry(1, 1, 1);
     geometry.translate(-pivot.x / 2, -pivot.y / 2, 0);
+    // @ts-expect-error -- threejs issue
     const current_scale = texture.image.width / texture.image.height;
     geometry.scale(current_scale, 1, 1);
     super(geometry, material);
@@ -57,6 +52,12 @@ class WorldImage extends Mesh
     this.geometry.computeBoundingBox();
     this.geometry.boundingBox.getSize(this.tmp_bb_size);
   }
+
+  
+
+
+  
+
 
   get size()
   {

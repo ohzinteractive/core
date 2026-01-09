@@ -1,16 +1,14 @@
-// @ts-check
-import { CanvasTexture } from 'three';
-import { Vector2 } from 'three';
-import { UVMapping } from 'three';
-import { ClampToEdgeWrapping } from 'three';
-import { NearestFilter } from 'three';
+
+import { CanvasTexture, ClampToEdgeWrapping, NearestFilter, UVMapping, Vector2 } from 'three';
 
 class CanvasDrawer
 {
-  /**
-   * @param {boolean} [uses_dynamic_font]
-   */
-  constructor(uses_dynamic_font)
+  __textHeight: any;
+  canvas: any;
+  ctx: any;
+  uses_dynamic_font: any;
+
+  constructor(uses_dynamic_font?: boolean)
   {
     this.uses_dynamic_font = !!uses_dynamic_font;
     this.__textHeight = null;
@@ -39,7 +37,7 @@ class CanvasDrawer
    * @param {string} text
    * @param {string} font
    */
-  get_text_size(text, font = '24px Arial')
+  get_text_size(text: any, font = '24px Arial')
   {
     const size = new Vector2();
     this.ctx.font = font;
@@ -52,9 +50,11 @@ class CanvasDrawer
    * @param {string} text
    * @param {any} [ctxOptions]
    */
-  draw_canvas(text, ctxOptions = {})
+  draw_canvas(text: any, ctxOptions = {})
   {
+    // @ts-expect-error -- IGNORE --
     ctxOptions.font = ctxOptions.font || '24px Arial';
+    // @ts-expect-error -- IGNORE --
     ctxOptions.font_color = ctxOptions.font_color || '#000000';
 
     this.__draw(text, ctxOptions, this.canvas, this.ctx);
@@ -65,7 +65,7 @@ class CanvasDrawer
    * @param {string} text
    * @param {any} [ctxOptions]
    */
-  draw_on_texture(text, ctxOptions)
+  draw_on_texture(text: any, ctxOptions: any)
   {
     const canvas = this.draw_canvas(text, ctxOptions);
     const canvas_texture = new CanvasTexture(canvas, UVMapping,
@@ -85,7 +85,7 @@ class CanvasDrawer
    * @param {HTMLCanvasElement} [canvas]
    * @param {CanvasRenderingContext2D} [ctx]
    */
-  __draw(text, ctxOptions, canvas, ctx) // eslint-disable-line no-unused-vars
+  __draw(text: any, ctxOptions: any, canvas: any, ctx: any) 
   {}
 
   /**
@@ -98,7 +98,7 @@ class CanvasDrawer
    * @param {boolean} fill
    * @param {boolean} stroke
    */
-  roundRect(ctx, x, y, width, height, radius, fill, stroke)
+  roundRect(ctx: any, x: any, y: any, width: any, height: any, radius: any, fill: any, stroke: any)
   {
     if (typeof stroke === 'undefined')
     {
@@ -118,6 +118,7 @@ class CanvasDrawer
       for (const side in defaultRadius)
       {
         const _side = /** @type {keyof typeof defaultRadius} */ (side);
+        // @ts-expect-error -- IGNORE --
         radius[_side] = radius[_side] || defaultRadius[_side];
       }
     }

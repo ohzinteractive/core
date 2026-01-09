@@ -1,12 +1,11 @@
-import basic_vert from '../shaders/basic_color/basic_color.vert';
 import basic_frag from '../shaders/basic_color/basic_color.frag';
+import basic_vert from '../shaders/basic_color/basic_color.vert';
 
-import { ShaderMaterial } from 'three';
-import { Color } from 'three';
+import { Color, ShaderMaterial } from 'three';
 
 class BaseShaderMaterial extends ShaderMaterial
 {
-  constructor(vert, frag, uniforms)
+  constructor(vert: any, frag: any, uniforms: any)
   {
     super({
       vertexShader: vert   || basic_vert,

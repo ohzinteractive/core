@@ -3,10 +3,17 @@ import { ViewState } from '../ViewState';
 
 class ViewStateTransitionHandler
 {
-  constructor(transition_table)
+  action_sequencer: any;
+  current_state: any;
+  current_state_data: any;
+  default_state_data: any;
+  last_state: any;
+  transition_table: any;
+  transitioning: any;
+  constructor(transition_table: any)
   {
-    this.last_state = new ViewState();
-    this.current_state = new ViewState();
+    this.last_state = new ViewState('last_initial');
+    this.current_state = new ViewState('current_initial');
 
     this.default_state_data = {};
     this.current_state_data = {};
@@ -16,7 +23,7 @@ class ViewStateTransitionHandler
     this.transitioning = false;
   }
 
-  go_to_state(state, skip = false)
+  go_to_state(state: any, skip = false)
   {
     if (this.transitioning)
     {
@@ -74,12 +81,12 @@ class ViewStateTransitionHandler
     this.current_state.fixed_update();
   }
 
-  set_state(state)
+  set_state(state: any)
   {
     this.current_state = state;
   }
 
-  set_default_state_data(default_state_data)
+  set_default_state_data(default_state_data: any)
   {
     Object.assign(this.default_state_data, default_state_data);
     Object.assign(this.current_state_data, default_state_data);

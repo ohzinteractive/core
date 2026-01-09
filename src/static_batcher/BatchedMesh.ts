@@ -1,12 +1,20 @@
+import type { ShaderMaterial } from 'three';
 import { Mesh } from 'three';
-import { RGBDataTexture } from '../data_textures/RGBDataTexture';
 import { RGBADataTexture } from '../data_textures/RGBADataTexture';
-import { RGBFloatDataTexture } from '../data_textures/RGBFloatDataTexture';
 import { RGBAFloatDataTexture } from '../data_textures/RGBAFloatDataTexture';
+import { RGBDataTexture } from '../data_textures/RGBDataTexture';
+import { RGBFloatDataTexture } from '../data_textures/RGBFloatDataTexture';
 
 class BatchedMesh extends Mesh
 {
-  constructor(id_table, geometry, material, max_texture_width)
+  batch_height: any;
+  batch_width: any;
+  batched_count: any;
+  id_table: any;
+  max_texture_width: any;
+  material: ShaderMaterial;
+
+  constructor(id_table: any, geometry: any, material: ShaderMaterial, max_texture_width: any)
   {
     super(geometry, material);
 
@@ -17,39 +25,41 @@ class BatchedMesh extends Mesh
     this.batch_height = Math.ceil(this.batched_count / max_texture_width);
   }
 
-  attach_rgb_texture(uniform_name)
+  attach_rgb_texture(uniform_name: any)
   {
     this.material.uniforms[uniform_name].value = new RGBDataTexture(this.batch_width, this.batch_height);
   }
 
-  attach_rgba_texture(uniform_name)
+  attach_rgba_texture(uniform_name: any)
   {
     this.material.uniforms[uniform_name].value = new RGBADataTexture(this.batch_width, this.batch_height);
   }
 
-  attach_rgb_float_texture(uniform_name)
+  attach_rgb_float_texture(uniform_name: any)
   {
     this.material.uniforms[uniform_name].value = new RGBFloatDataTexture(this.batch_width, this.batch_height);
   }
 
-  attach_rgba_float_texture(uniform_name)
+  attach_rgba_float_texture(uniform_name: any)
   {
     this.material.uniforms[uniform_name].value = new RGBAFloatDataTexture(this.batch_width, this.batch_height);
   }
 
-  get_mesh_index(name)
+  get_mesh_index(name: any)
   {
     return this.id_table[name];
   }
 
-  set_rgb_value(uniform_name, mesh_name, r, g, b)
+  set_rgb_value(uniform_name: any, mesh_name: any, r: any, g: any, b: any)
   {
-    this.material.uniforms[uniform_name].set_rgb(this.get_mesh_index(mesh_name), r, g, b);
+    // @ts-expect-error -- IGNORE --
+    this.material.uniforms[uniform_name]?.set_rgb(this.get_mesh_index(mesh_name), r, g, b);
   }
 
-  set_rgba_value(uniform_name, mesh_name, r, g, b, a)
+  set_rgba_value(uniform_name: any, mesh_name: any, r: any, g: any, b: any, a: any)
   {
-    this.material.uniforms[uniform_name].set_rgba(this.get_mesh_index(mesh_name), r, g, b, a);
+    // @ts-expect-error -- IGNORE --
+    this.material.uniforms[uniform_name]?.set_rgba(this.get_mesh_index(mesh_name), r, g, b, a);
   }
 }
 

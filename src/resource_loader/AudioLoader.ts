@@ -5,7 +5,11 @@ import { AbstractLoader } from './AbstractLoader';
 
 class AudioLoader extends AbstractLoader
 {
-  constructor(resource_id, url, loop = true, volume = 0, size, positional = false)
+  loop: boolean;
+  volume: number;
+  positional: boolean;
+
+  constructor(resource_id: any, url: any, loop = true, volume = 0, size: any, positional = false)
   {
     super(resource_id, url, size);
     this.loop = loop;
@@ -13,7 +17,7 @@ class AudioLoader extends AbstractLoader
     this.positional = positional;
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container: any)
   {
     // if (!window.user_interaction_for_audio)
     // {
@@ -35,7 +39,7 @@ class AudioLoader extends AbstractLoader
     // }
   }
 
-  instantiate_audio(resource_container)
+  instantiate_audio(resource_container: any)
   {
     const context = AudioContext.getContext();
 

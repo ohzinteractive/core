@@ -1,10 +1,21 @@
-import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
-import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
-import { Graphics } from '../Graphics';
 import { WebGLRenderTarget } from 'three';
+import { Graphics } from '../Graphics';
+import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
+import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
 class DualFilteringBlurrer
 {
-  constructor(use_alpha_mask)
+  RT0: any;
+  RT1: any;
+  RT2: any;
+  RT3: any;
+  RT4: any;
+  alpha_filter_mat: any;
+  current_height: any;
+  current_width: any;
+  downscale_blur_mat: any;
+  upscale_blur_mat: any;
+  
+  constructor(use_alpha_mask: any)
   {
     this.current_width  = 1;
     this.current_height = 1;
@@ -20,7 +31,7 @@ class DualFilteringBlurrer
     this.alpha_filter_mat = new AlphaFilterMaterial();
   }
 
-  blur(RT)
+  blur(RT: any)
   {
     this.check_RT_resize(RT.width, RT.height);
     Graphics.blit(RT,       this.RT1, this.alpha_filter_mat);
@@ -40,7 +51,7 @@ class DualFilteringBlurrer
     // return this.RT2;
   }
 
-  check_RT_resize(width, height)
+  check_RT_resize(width: any, height: any)
   {
     if (this.current_width !== width || this.current_height !== height)
     {

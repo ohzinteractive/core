@@ -1,8 +1,11 @@
-// @ts-check
-import { PerspectiveCamera } from './PerspectiveCamera'; // eslint-disable-line no-unused-vars
+
+import { PerspectiveCamera } from './PerspectiveCamera';
 
 class CameraManager
 {
+  _current: any;
+  _spectator: any;
+
   init()
   {
     this._current = undefined;

@@ -1,7 +1,7 @@
 import { CameraManager } from '../CameraManager';
+import { Graphics } from '../Graphics';
 import { SceneManager } from '../SceneManager';
 import { BaseRender } from '../render_mode/BaseRender';
-import { Graphics } from '../Graphics';
 
 class VRRender extends BaseRender
 {

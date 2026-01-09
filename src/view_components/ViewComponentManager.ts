@@ -2,6 +2,8 @@ import { TransitionManager } from './TransitionManager';
 
 class ViewComponentManager
 {
+  components: any;
+  enabled_components: any;
   constructor()
   {
     this.components = [];
@@ -18,32 +20,32 @@ class ViewComponentManager
     }
   }
 
-  register_component(component)
+  register_component(component: any)
   {
     this.components.push(component);
   }
 
-  enable_component(component)
+  enable_component(component: any)
   {
     // const component_to_enable = this.get_component_by_name(component_name);
 
     this.enabled_components.add(component);
   }
 
-  disable_component(component)
+  disable_component(component: any)
   {
     // const component_to_disable = this.get_component_by_name(component_name);
 
     this.enabled_components.delete(component);
   }
 
-  get_component_by_name(component_name)
+  get_component_by_name(component_name: any)
   {
     console.warn('DEPRECATED. Use ViewComponentManager.get instead');
     this.get(component_name);
   }
 
-  get(component_name)
+  get(component_name: any)
   {
     for (let i = 0; i < this.components.length; i++)
     {

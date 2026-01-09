@@ -1,21 +1,24 @@
 import basic_color_frag from '../shaders/basic_color/basic_color.frag';
 import basic_color_vert from '../shaders/basic_color/basic_color.vert';
 
-import { SceneManager } from '../SceneManager';
 import { CameraManager } from '../CameraManager';
-import { ReflectionPlaneContext } from '../ReflectionPlaneContext';
 import { OScreen } from '../OScreen';
+import { ReflectionPlaneContext } from '../ReflectionPlaneContext';
 import { BaseRender } from '../render_mode/BaseRender';
+import { SceneManager } from '../SceneManager';
 
-import { ShaderMaterial } from 'three';
-import { Matrix4 } from 'three';
-import { Vector4 } from 'three';
-import { Scene } from 'three';
-import { MeshBasicMaterial } from 'three';
-import { Mesh } from 'three';
+import { Matrix4, Mesh, MeshBasicMaterial, Scene, ShaderMaterial, Vector4 } from 'three';
 
 class PlanarReflectionsRender extends BaseRender
 {
+  gl: any;
+  inverted_view_matrix: any;
+  original_view_matrix: any;
+  plane_mask: any;
+  plane_material_solid: any;
+  plane_solid: any;
+  reflection_matrix: any;
+  stencil_mask_scene: any;
   constructor()
   {
     super();
@@ -42,7 +45,7 @@ class PlanarReflectionsRender extends BaseRender
     this.gl = undefined;
   }
 
-  on_enter(context, renderer)
+  on_enter(context: any, renderer: any)
   {
     this.gl = renderer.domElement.getContext('webgl');
     CameraManager.current.parent = SceneManager.current;
@@ -62,7 +65,7 @@ class PlanarReflectionsRender extends BaseRender
     renderer.autoClear = false;
   }
 
-  render(context, renderer)
+  render(renderer: any)
   {
     if (CameraManager.current)
     {
@@ -87,7 +90,7 @@ class PlanarReflectionsRender extends BaseRender
     }
   }
 
-  __render_stencil_mask(renderer, gl)
+  __render_stencil_mask(renderer: any, gl: any)
   {
     // RENDER MASK
     gl.enable(gl.STENCIL_TEST);
@@ -97,7 +100,7 @@ class PlanarReflectionsRender extends BaseRender
     renderer.render(this.stencil_mask_scene, CameraManager.current);
   }
 
-  __render_reflected_scene(renderer, gl)
+  __render_reflected_scene(renderer: any, gl: any)
   {
     // // RENDER REFLECTION
     gl.stencilFunc(gl.EQUAL, 1, 1);

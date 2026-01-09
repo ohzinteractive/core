@@ -12,7 +12,17 @@ import { OMath } from '../utilities/OMath';
 
 class ManipulatorHandle extends Object3D
 {
-  constructor(direction, color, input)
+  arrow_helper: any;
+  box_collider: any;
+  direction: any;
+  half_unit_vec: any;
+  input: any;
+  raycast_result: any;
+  raycaster: any;
+  tmp_p1: any;
+  tmp_p2: any;
+  tmp_v2: any;
+  constructor(direction: any, color: any, input: any)
   {
     super();
 

@@ -7,7 +7,16 @@ import { Vector2 } from 'three';
 
 class ObjectPicker
 {
-  constructor(renderer, scene, camera)
+  camera: any;
+  camera_layers: any;
+  clear_color: any;
+  picking_texture: any;
+  readback_buffer: any;
+  renderer: any;
+  scene: any;
+  tmp_mouse_pos: any;
+  tmp_scene_auto_update: any;
+  constructor(renderer: any, scene: any, camera: any)
   {
     this.renderer = renderer;
     this.readback_buffer = new Uint8Array(4);
@@ -22,7 +31,7 @@ class ObjectPicker
     this.tmp_mouse_pos = new Vector2();
   }
 
-  pick(mouse_NDC, objects)
+  pick(mouse_NDC: any, objects: any)
   {
     this.__prepare_scene(objects);
     this.renderer.setRenderTarget(this.picking_texture);
@@ -36,7 +45,7 @@ class ObjectPicker
     return this.__readback_id(mouse_NDC);
   }
 
-  __prepare_scene(objects)
+  __prepare_scene(objects: any)
   {
     for (let i = 0; i < objects.length; i++)
     {
@@ -51,7 +60,7 @@ class ObjectPicker
     this.scene.matrixWorldAutoUpdate = false;
   }
 
-  __restore_scene(objects)
+  __restore_scene(objects: any)
   {
     for (let i = 0; i < objects.length; i++)
     {
@@ -62,7 +71,7 @@ class ObjectPicker
     this.scene.matrixWorldAutoUpdate = this.tmp_scene_auto_update;
   }
 
-  __readback_id(mouse_NDC)
+  __readback_id(mouse_NDC: any)
   {
     this.tmp_mouse_pos.copy(mouse_NDC);
     this.tmp_mouse_pos.multiplyScalar(0.5);

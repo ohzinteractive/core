@@ -1,13 +1,16 @@
 class ResourceLoaderChecker
 {
-  constructor(batch)
+  batch: any;
+  on_resources_loaded: any;
+  timeout: any;
+  constructor(batch: any)
   {
     this.batch = batch;
     this.on_resources_loaded = undefined;
     this.timeout = 10;
   }
 
-  setup(on_resources_loaded, timeout = 10)
+  setup(on_resources_loaded: any, timeout = 10)
   {
     this.on_resources_loaded = on_resources_loaded;
     this.timeout = timeout;

@@ -3,7 +3,10 @@ import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 
 class PlaneDragResolver extends PlaneRaycastResolver
 {
-  constructor(input)
+  _drag_started: any;
+  _plane_raycaster: any;
+  input: any;
+  constructor(input: any)
   {
     super();
     this._drag_started = false;
@@ -13,13 +16,13 @@ class PlaneDragResolver extends PlaneRaycastResolver
   }
 
   // @virtual
-  on_drag_start(contact_point)
+  on_drag_start(contact_point: any)
   {
     // console.log("on_drag_start");
   }
 
   // @virtual
-  on_drag_move(contact_point)
+  on_drag_move(contact_point: any)
   {
     // console.log("on_drag_move");
   }
@@ -48,7 +51,7 @@ class PlaneDragResolver extends PlaneRaycastResolver
     return this.input.left_mouse_button_released;
   }
 
-  on_hover(intersection_point)
+  on_hover(intersection_point: any)
   {
     if (this.on_drag_button_released() && this._drag_started)
     {
@@ -68,6 +71,7 @@ class PlaneDragResolver extends PlaneRaycastResolver
     }
   }
 
+  
   get drag_started()
   {
     return this._drag_started;
@@ -82,7 +86,7 @@ class PlaneDragResolver extends PlaneRaycastResolver
     }
   }
 
-  update(reference_position, plane_normal)
+  update(reference_position: any, plane_normal: any)
   {
     this._plane_raycaster.update(reference_position, plane_normal);
     this.on_update();

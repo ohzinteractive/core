@@ -1,11 +1,9 @@
-import vert from '../../shaders/deferred/point_light.vert';
 import frag from '../../shaders/deferred/point_light.frag';
+import vert from '../../shaders/deferred/point_light.vert';
 
 import { BaseShaderMaterial } from '../../materials/BaseShaderMaterial';
 
-import { Matrix4 } from 'three';
-import { AdditiveBlending } from 'three';
-import { BackSide } from 'three';
+import { AdditiveBlending, BackSide, Matrix4 } from 'three';
 
 class DeferredPointLightMaterial extends BaseShaderMaterial
 {
@@ -23,17 +21,17 @@ class DeferredPointLightMaterial extends BaseShaderMaterial
     this.side = BackSide;
   }
 
-  set_inverse_proj_matrix(mat4)
+  set_inverse_proj_matrix(mat4: any)
   {
     this.uniforms._InverseProjMatrix.value.copy(mat4);
   }
 
-  set_normal_depth_rt(rt)
+  set_normal_depth_rt(rt: any)
   {
     this.uniforms._NormalDepthTex.value = rt.texture;
   }
 
-  set_albedo_rt(rt)
+  set_albedo_rt(rt: any)
   {
     this.uniforms._AlbedoTex.value = rt.texture;
   }

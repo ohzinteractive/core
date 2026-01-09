@@ -4,7 +4,7 @@ import { RGBAFormat } from 'three';
 
 class RGBAFloatDataTexture extends CustomDataTexture
 {
-  constructor(width, height)
+  constructor(width: any, height: any)
   {
     const data = new Float32Array(width * height * 4);
     super(data, width, height, RGBAFormat, FloatType);

@@ -4,7 +4,7 @@ import frag from '../shaders/unreal_blur/unreal_compose.frag';
 
 class UnrealComposeMaterial extends BlitMaterial
 {
-  constructor(nMips)
+  constructor(nMips: any)
   {
     const defines = {
       NUM_MIPS: nMips

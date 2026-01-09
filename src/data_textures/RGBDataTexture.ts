@@ -3,7 +3,7 @@ import { CustomDataTexture } from './CustomDataTexture';
 
 class RGBDataTexture extends CustomDataTexture
 {
-  constructor(width, height)
+  constructor(width: any, height: any)
   {
     const data = new Uint8Array(width * height * 3);
     super(data, width, height, RGBAFormat);

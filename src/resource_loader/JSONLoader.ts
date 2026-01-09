@@ -2,12 +2,14 @@ import { AbstractLoader } from './AbstractLoader';
 
 class JSONLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  resource_id: any;
+  url: any;
+  constructor(resource_id: any, url: any, size: any)
   {
     super(resource_id, url, size);
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {

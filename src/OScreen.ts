@@ -1,8 +1,17 @@
-// @ts-check
+
 import { Vector2 } from 'three';
 
 class OScreen
 {
+  dpr: any;
+  height: any;
+  pixel_size: any;
+  position: any;
+  render_height: any;
+  render_width: any;
+  size_changed: any;
+  width: any;
+  width_height: any;
   init()
   {
     this.width = 1;
@@ -22,7 +31,7 @@ class OScreen
    * @param {number} x
    * @param {number} y
    */
-  update_position(x, y)
+  update_position(x: any, y: any)
   {
     this.position.set(x, y);
   }
@@ -36,7 +45,7 @@ class OScreen
    * @param {number} width
    * @param {number} height
    */
-  update_size(width, height)
+  update_size(width: any, height: any)
   {
     this.width = width;
     this.height = height;
@@ -55,7 +64,7 @@ class OScreen
   /**
    * @param {Vector2} vector2
    */
-  apply_pixel_density_v2(vector2)
+  apply_pixel_density_v2(vector2: any)
   {
     vector2.multiplyScalar(1 / this.dpr);
 
@@ -65,7 +74,7 @@ class OScreen
   /**
    * @param {number} value
    */
-  apply_pixel_density(value)
+  apply_pixel_density(value: any)
   {
     return value * (1 / this.dpr);
   }
@@ -75,11 +84,13 @@ class OScreen
     return this.pixel_size;
   }
 
+  
   get aspect_ratio()
   {
     return this.width / this.height;
   }
 
+  
   get portrait()
   {
     return this.width < this.height;

@@ -1,14 +1,19 @@
+import { ResourceContainer } from "./ResourceContainer";
 
 class ResourceBatch
 {
-  constructor(batch_name, resource_container)
+  resource_loaders: Array<any>;
+  batch_name: string;
+  resource_container: ResourceContainer;
+
+  constructor(batch_name: string, resource_container: ResourceContainer)
   {
     this.resource_loaders = [];
     this.batch_name = batch_name || 'unnamed batch';
     this.resource_container = resource_container;
   }
 
-  add_loader(loader)
+  add_loader(loader: any)
   {
     this.resource_loaders.push(loader);
   }
@@ -21,6 +26,7 @@ class ResourceBatch
     }
   }
 
+  
   get loading_finished()
   {
     let finished = true;
@@ -31,6 +37,7 @@ class ResourceBatch
     return finished;
   }
 
+  
   get has_errors()
   {
     let has_error = false;

@@ -1,26 +1,21 @@
-// @ts-check
-// @ts-ignore
+
 import corners_frag from '../shaders/edges/corners.frag';
-// @ts-ignore
 import corners_vert from '../shaders/edges/corners.vert';
-// @ts-ignore
 import edge_line_frag from '../shaders/edges/edges.frag';
-// @ts-ignore
 import edge_line_vert from '../shaders/edges/edges.vert';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-// eslint-disable-next-line no-unused-vars
 import { BufferAttribute, BufferGeometry, Color, EdgesGeometry, InterleavedBufferAttribute, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
 
 class EdgeMesh extends Object3D
 {
-  /**
-   * @param {BufferGeometry} buffer_geometry
-   * @param {number} [thickness]
-   * @param {string} [color]
-   */
-  constructor(buffer_geometry, thickness, color)
+  corners_material: ShaderMaterial;
+  corners_mesh: Mesh;
+  edges_material: ShaderMaterial;
+  edges_mesh: Mesh;
+
+  constructor(buffer_geometry: BufferGeometry, thickness: number, color: string)
   {
     super();
     thickness = thickness || 0.1;
@@ -63,7 +58,7 @@ class EdgeMesh extends Object3D
    * @param {BufferGeometry} cube_geometry
    * @returns {Vector3[]}
    */
-  __get_edges(cube_geometry)
+  __get_edges(cube_geometry: any)
   {
     const edges = new EdgesGeometry(cube_geometry);
     const line = new LineSegments(edges, new LineBasicMaterial());
@@ -80,7 +75,7 @@ class EdgeMesh extends Object3D
   /**
    * @param {number} TIME
    */
-  update(TIME) // eslint-disable-line no-unused-vars
+  update(TIME: any) 
   {
 
   }
@@ -88,7 +83,7 @@ class EdgeMesh extends Object3D
   /**
    * @param {Vector3[]} points
    */
-  __get_edges_geometry(points)
+  __get_edges_geometry(points: any)
   {
     const buffer_geometries = [];
     for (let i = 0; i < points.length; i += 2)
@@ -133,7 +128,7 @@ class EdgeMesh extends Object3D
    * @param {BufferAttribute | InterleavedBufferAttribute} geometry_vertices
    * @returns {BufferGeometry}
    */
-  __get_corners_geometry(geometry_vertices)
+  __get_corners_geometry(geometry_vertices: any)
   {
     const circle_buffer_geometries = [];
     for (let i = 0; i < geometry_vertices.count; i++)
@@ -157,7 +152,7 @@ class EdgeMesh extends Object3D
   /**
    * @param {boolean} boolean
    */
-  set_visible(boolean)
+  set_visible(boolean: any)
   {
     this.edges_mesh.visible = boolean;
     this.corners_mesh.visible = boolean;

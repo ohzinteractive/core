@@ -2,6 +2,8 @@ import { TransitionManager } from './TransitionManager';
 
 class ViewManager
 {
+  browser_title_suffix: any;
+  views: any;
   constructor()
   {
     this.views = [];
@@ -14,7 +16,7 @@ class ViewManager
     this.__set_views_opacities();
   }
 
-  go_to_view(view_name, change_url = true, skip = false)
+  go_to_view(view_name: any, change_url = true, skip = false)
   {
     const v = this.get(view_name);
 
@@ -27,7 +29,7 @@ class ViewManager
     TransitionManager.go_to_state(v, skip);
   }
 
-  go_to_scene(scene_name, change_url = false, skip = false)
+  go_to_scene(scene_name: any, change_url = false, skip = false)
   {
     const next_view = this.get(scene_name);
     const transition_view = this.get('transition');
@@ -36,12 +38,12 @@ class ViewManager
     this.go_to_view(transition_view.name, change_url, skip);
   }
 
-  register_view(view)
+  register_view(view: any)
   {
     this.views.push(view);
   }
 
-  has_view(view_name)
+  has_view(view_name: any)
   {
     for (let i = 0; i < this.views.length; i++)
     {
@@ -53,14 +55,14 @@ class ViewManager
     return false;
   }
 
-  set_view(view_name)
+  set_view(view_name: any)
   {
     const view = this.get(view_name);
 
     TransitionManager.set_state(view);
   }
 
-  set_browser_title_suffix(title_suffix)
+  set_browser_title_suffix(title_suffix: any)
   {
     this.browser_title_suffix = title_suffix;
   }
@@ -70,13 +72,13 @@ class ViewManager
     return TransitionManager.get_current_state();
   }
 
-  get_view_by_name(view_name)
+  get_view_by_name(view_name: any)
   {
     console.warn('DEPRECATED. Use ViewManager.get instead');
     this.get(view_name);
   }
 
-  get(view_name)
+  get(view_name: any)
   {
     for (let i = 0; i < this.views.length; i++)
     {
@@ -89,7 +91,7 @@ class ViewManager
     return undefined;
   }
 
-  get_by_url(url)
+  get_by_url(url: any)
   {
     for (let i = 0; i < this.views.length; i++)
     {
@@ -102,12 +104,12 @@ class ViewManager
     return undefined;
   }
 
-  __change_browser_url(url)
+  __change_browser_url(url: any)
   {
     window.history.pushState('', '', url);
   }
 
-  __change_browser_title(name)
+  __change_browser_title(name: any)
   {
     const title = this.__capitalize(name);
 
@@ -122,7 +124,7 @@ class ViewManager
     }
   }
 
-  __capitalize(string)
+  __capitalize(string: any)
   {
     let aux_string = string.toUpperCase().replace('/', '');
     aux_string = this.__snake_to_whitespace(aux_string);
@@ -130,11 +132,11 @@ class ViewManager
     return aux_string;
   }
 
-  __snake_to_whitespace(string)
+  __snake_to_whitespace(string: any)
   {
     return string.replace(
       /([-_][A-Z])/g,
-      (group) => group
+      (group: any) => group
         .replace('-', ' ')
         .replace('_', ' ')
     );

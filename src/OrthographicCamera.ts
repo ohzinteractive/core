@@ -1,9 +1,10 @@
-// @ts-check
-import { Color } from 'three';
-import { OrthographicCamera as TOrthographicCamera } from 'three';
+
+import { Color, OrthographicCamera as TOrthographicCamera } from 'three';
 
 class OrthographicCamera extends TOrthographicCamera
 {
+  clear_alpha: any;
+  clear_color: any;
   /**
    * @param {number} left
    * @param {number} right
@@ -12,7 +13,7 @@ class OrthographicCamera extends TOrthographicCamera
    * @param {number} near
    * @param {number} far
    */
-  constructor(left, right, top, bottom, near, far)
+  constructor(left: any, right: any, top: any, bottom: any, near: any, far: any)
   {
     super(left, right, top, bottom, near, far);
 
@@ -24,7 +25,7 @@ class OrthographicCamera extends TOrthographicCamera
    * @param {OrthographicCamera} camera
    * @returns {this}
    */
-  copy(camera)
+  copy(camera: any)
   {
     super.copy(camera);
     this.clear_color.copy(camera.clear_color);

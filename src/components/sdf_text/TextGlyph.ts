@@ -2,7 +2,10 @@ import { Vector2, Vector4 } from 'three';
 
 class TextGlyph
 {
-  constructor(offset, plane_bounds, atlas_bounds)
+  atlas_bounds: any;
+  position: any;
+  scale: any;
+  constructor(offset: any, plane_bounds: any, atlas_bounds: any)
   {
     const width   = plane_bounds.right - plane_bounds.left;
     const height  = plane_bounds.top   - plane_bounds.bottom;

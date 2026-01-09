@@ -5,18 +5,22 @@ import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
 
 export class AsyncTextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
+  original_url: string;
+  colorSpaceConversion: boolean;
+  premultiplyAlpha: boolean;
+  flipY: boolean;
+
+  constructor(resource_id: any, url: any, size: any, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
 
     this.original_url = '';
-
     this.colorSpaceConversion = colorSpaceConversion;
     this.premultiplyAlpha = premultiplyAlpha;
     this.flipY = flipY;
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container: any)
   {
     if (Browser.is_safari) // && Browser.version < 15
     {
@@ -28,7 +32,7 @@ export class AsyncTextureLoader extends AbstractLoader
     }
   }
 
-  load_with_old_method(resource_container)
+  load_with_old_method(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -65,11 +69,11 @@ export class AsyncTextureLoader extends AbstractLoader
     }
   }
 
-  load_with_new_method(resource_container)
+  load_with_new_method(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      const fetchOptions = {};
+      const fetchOptions: RequestInit = {};
       fetchOptions.credentials = 'same-origin';
       // fetchOptions.headers = this.requestHeader;
 

@@ -7,7 +7,7 @@ class IdleState extends BaseState
     super();
   }
 
-  update(context)
+  update(context: any)
   {
     if (context.current_intersections.length > 0)
     {

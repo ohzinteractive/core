@@ -7,11 +7,11 @@ class OnRaycastHover extends BaseState
     super();
   }
 
-  on_enter(context)
+  on_enter(context: any)
   {
   }
 
-  update(context)
+  update(context: any)
   {
     if (context.current_intersections.length > 0)
     {

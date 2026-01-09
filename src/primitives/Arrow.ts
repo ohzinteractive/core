@@ -1,16 +1,17 @@
-// @ts-check
+
 import { ConeGeometry, CylinderGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 class Arrow extends Mesh
 {
+  _dir: any;
   /**
    * @param {string | number} [color]
    * @param {number} [length]
    * @param {Vector3} [dir]
    */
-  constructor(color, length, dir)
+  constructor(color: any, length: any, dir: any)
   {
     color = color || '#FF0000';
     length = length || 1;
@@ -37,22 +38,26 @@ class Arrow extends Mesh
     this._dir = dir;
   }
 
+  
   set dir(dir)
   {
     this.quaternion.setFromUnitVectors(new Vector3(0, 0, 1), dir);
     this._dir = dir;
   }
 
+  
   get dir()
   {
     return this._dir;
   }
 
+  
   set length(value)
   {
     this.scale.z = value;
   }
 
+  
   get length()
   {
     return this.scale.z;

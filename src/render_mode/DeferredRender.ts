@@ -10,6 +10,10 @@ import { Matrix4, Mesh, Scene, SphereGeometry, WebGLRenderTarget } from 'three';
 
 class DeferredRender extends BaseRender
 {
+  camera_inverse_proj_mat: any;
+  compose_mat: any;
+  main_rt: any;
+  scene_lights: any;
   constructor()
   {
     super();
@@ -83,8 +87,7 @@ class DeferredRender extends BaseRender
     const inverse_proj = this.camera_inverse_proj_mat;
     const albedo_rt = this.main_rt;
     const depth_normals_rt = Graphics.depth_normals_RT;
-    this.scene_lights.traverse((child) =>
-    {
+    this.scene_lights.traverse((child: any) => {
       if (child.material)
       {
         child.material.set_inverse_proj_matrix(inverse_proj);

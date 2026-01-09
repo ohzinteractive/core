@@ -11,7 +11,11 @@ import { ParticleAttribute } from './ParticleAttribute';
 
 class GPUParticleSystem extends Object3D
 {
-  constructor(particle_count, material)
+  attribute_writter_mesh: any;
+  attribute_writter_scene: any;
+  attributes: any;
+  mesh: any;
+  constructor(particle_count: any, material: any)
   {
     super();
     this.attributes = [];
@@ -24,17 +28,17 @@ class GPUParticleSystem extends Object3D
     this.attribute_writter_scene.add(this.attribute_writter_mesh);
   }
 
-  add_texture_attribute(buffer_attribute)
+  add_texture_attribute(buffer_attribute: any)
   {
     this.attributes.push(buffer_attribute);
   }
 
-  add_update_attribute_array(name, array, item_size)
+  add_update_attribute_array(name: any, array: any, item_size: any)
   {
     this.attribute_writter_mesh.geometry.setAttribute(name, new BufferAttribute(array, item_size, false));
   }
 
-  add_attribute_array(name, array, item_size)
+  add_attribute_array(name: any, array: any, item_size: any)
   {
     this.mesh.geometry.setAttribute(name, new InstancedBufferAttribute(array, item_size, false));
   }
@@ -54,7 +58,7 @@ class GPUParticleSystem extends Object3D
     this.mesh.material.dispose();
   }
 
-  build_point_mesh(instance_count = 1, material)
+  build_point_mesh(instance_count = 1, material: any)
   {
     const geo = new PlaneGeometry();
 
@@ -69,7 +73,7 @@ class GPUParticleSystem extends Object3D
     return mesh;
   }
 
-  build_attribute_writter_mesh(particle_count)
+  build_attribute_writter_mesh(particle_count: any)
   {
     const { width, height } = ParticleAttribute.calculate_resolution(particle_count);
 
@@ -91,7 +95,7 @@ class GPUParticleSystem extends Object3D
     return points;
   }
 
-  build_uv_storage_attribute(particle_count)
+  build_uv_storage_attribute(particle_count: any)
   {
     const { width, height } = ParticleAttribute.calculate_resolution(particle_count);
 

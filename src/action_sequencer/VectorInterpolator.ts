@@ -1,4 +1,4 @@
-// @ts-check
+
 import { Vector3 } from 'three';
 import { ActionInterpolator } from './ActionInterpolator';
 
@@ -10,7 +10,7 @@ class VectorInterpolator extends ActionInterpolator
    * @param {Vector3} [to]
    * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} [easing_function]
    */
-  constructor(attribute_name, from = new Vector3(), to = new Vector3(1, 1, 1), easing_function = 'linear')
+  constructor(attribute_name: any, from = new Vector3(), to = new Vector3(1, 1, 1), easing_function = 'linear')
   {
     super(easing_function);
 
@@ -23,7 +23,7 @@ class VectorInterpolator extends ActionInterpolator
    * @param {any} context
    * @param {number} t
    */
-  update(context, t)
+  update(context: any, t: any)
   {
     const tmp = this.from.clone();
     tmp.lerp(this.to, this.easing_function(t));

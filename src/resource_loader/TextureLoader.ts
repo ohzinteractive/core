@@ -4,17 +4,16 @@ import { Texture } from 'three';
 
 class TextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  constructor(resource_id: any, url: any, size: any)
   {
     super(resource_id, url, size);
   }
 
-  on_preloaded_finished(resource_container, response)
+  on_preloaded_finished(resource_container: any, response: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      response.blob().then((blob) =>
-      {
+      response.blob().then((blob: any) => {
         const texture = new Texture();
 
         const url = URL.createObjectURL(blob);

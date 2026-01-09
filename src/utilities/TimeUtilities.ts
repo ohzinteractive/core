@@ -4,7 +4,7 @@ class TimeUtilities
   {}
 
   // Converts a time string (00:00:00.45) into miliseconds
-  time_str_to_ms(time_str)
+  time_str_to_ms(time_str: any)
   {
     time_str = time_str.split(':');
 

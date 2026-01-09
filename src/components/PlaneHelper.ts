@@ -1,8 +1,5 @@
-// @ts-check
-import { Object3D } from 'three';
-import { MeshBasicMaterial } from 'three';
-import { PlaneGeometry } from 'three';
-import { Mesh } from 'three';
+
+import { Mesh, MeshBasicMaterial, Object3D, PlaneGeometry } from 'three';
 
 class PlaneHelper extends Object3D
 {

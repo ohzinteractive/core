@@ -19,6 +19,7 @@ class PositionStorageMaterial extends ParticleStorageMaterial
       }
 
     `;
+    
     super(vert);
   }
 }

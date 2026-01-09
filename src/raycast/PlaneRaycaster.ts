@@ -1,13 +1,15 @@
 
-import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 import { CameraUtilities } from '../utilities/CameraUtilities';
+import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 
-import { Raycaster } from 'three';
-import { Vector3 } from 'three';
+import { Raycaster, Vector3 } from 'three';
 
 class PlaneRaycaster
 {
-  constructor(raycast_resolver)
+  current_intersected_point: any;
+  raycast_resolver: any;
+  raycaster: any;
+  constructor(raycast_resolver: any)
   {
     this.raycast_resolver = raycast_resolver || new PlaneRaycastResolver();
 
@@ -15,7 +17,7 @@ class PlaneRaycaster
     this.current_intersected_point = new Vector3();
   }
 
-  update(reference_position, plane_normal)
+  update(reference_position: any, plane_normal: any)
   {
     this.current_intersected_point.copy(CameraUtilities.get_plane_intersection(reference_position, plane_normal));
     this.raycast_resolver.on_hover(this.current_intersected_point);

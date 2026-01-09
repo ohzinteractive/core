@@ -1,14 +1,20 @@
-// @ts-check
+
 import { ResourceContainer } from '../ResourceContainer';
 
 class AsyncAbstractLoader
 {
+  assets: any;
+  assets_loaders: any;
+  bound_on_message: any;
+  name: any;
+  resource_container: any;
+  worker: any;
   /**
    * @param {string} name
    * @param {any[]} assets
    * @param {Worker} worker
    */
-  constructor(name, assets, worker)
+  constructor(name: any, assets: any, worker: any)
   {
     this.resource_container = ResourceContainer;
     this.assets = assets;
@@ -99,7 +105,7 @@ class AsyncAbstractLoader
   static create_worker()
   {
     const worker = new Worker(
-      new URL('./assets_loader/AsyncAssetsLoaderWorker.js', import.meta.url),
+      new URL('./assets_loader/AsyncAssetsLoaderWorker.ts', import.meta.url),
       { name: 'OHZI - AssetLoader', type: 'module' });
 
     return worker;
@@ -115,7 +121,7 @@ class AsyncAbstractLoader
   /**
    * @param {MessageEvent} e
    */
-  on_message(e)
+  on_message(e: any)
   {
     const message = e.data;
 
@@ -130,7 +136,7 @@ class AsyncAbstractLoader
   /**
    * @param {any} resources
    */
-  __on_assets_loaded(resources)
+  __on_assets_loaded(resources: any)
   {
     this.worker.removeEventListener('message', this.bound_on_message);
 
@@ -150,7 +156,7 @@ class AsyncAbstractLoader
   /**
    * @returns {any[]}
    */
-  __setup_loaders()
+  __setup_loaders(): any[]
   {
     console.warn('Not implemented');
     return [];

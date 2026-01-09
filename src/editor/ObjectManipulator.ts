@@ -4,7 +4,19 @@ import { Object3D, Vector2, Vector3 } from 'three';
 
 class ObjectManipulator extends Object3D
 {
-  constructor(input)
+  active_handle: any;
+  forward_handle: any;
+  input: any;
+  right_handle: any;
+  target_obj: any;
+  tmp_displacement_vector: any;
+  tmp_local_pos: any;
+  tmp_right_v2: any;
+  tmp_up_v2: any;
+  translation_sign: any;
+  up_handle: any;
+  use_vertical_translation: any;
+  constructor(input: any)
   {
     super();
     this.input = input;
@@ -59,7 +71,7 @@ class ObjectManipulator extends Object3D
     }
   }
 
-  set_translation_axis(active_handle)
+  set_translation_axis(active_handle: any)
   {
     const vertical = active_handle.get_normalized_screen_direction().dot(this.tmp_up_v2);
     const horizontal = active_handle.get_normalized_screen_direction().dot(this.tmp_right_v2);
@@ -101,7 +113,7 @@ class ObjectManipulator extends Object3D
     }
   }
 
-  set_target(obj)
+  set_target(obj: any)
   {
     this.target_obj = obj;
     this.visible = true;

@@ -1,17 +1,12 @@
-// @ts-check
-import { ActionInterpolator } from './ActionInterpolator';
+
 import { OMath } from '../utilities/OMath';
+import { ActionInterpolator } from './ActionInterpolator';
 
 class NumberInterpolator extends ActionInterpolator
 {
-  /**
-   * @param {string} attribute_name
-   * @param {number} [from]
-   * @param {number} [to]
-   * @param {boolean} [initial]
-   * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} [easing_function]
-   */
-  constructor(attribute_name, from = 0, to = 1, initial = false, easing_function = 'linear')
+  initial: boolean;
+
+  constructor(attribute_name: any, from: number = 0, to: number = 1, initial: boolean = false, easing_function: string = 'linear')
   {
     super(easing_function);
 
@@ -25,7 +20,7 @@ class NumberInterpolator extends ActionInterpolator
    * @param {any} context
    * @param {number} t
    */
-  update(context, t)
+  update(context: any, t: any)
   {
     context[this.attribute_name] = OMath.lerp(this.from, this.to, this.easing_function(t));
   }
@@ -33,7 +28,7 @@ class NumberInterpolator extends ActionInterpolator
   /**
    * @param {number} t
    */
-  evaluate(t)
+  evaluate(t: any)
   {
     return OMath.lerp(this.from, this.to, this.easing_function(t));
   }

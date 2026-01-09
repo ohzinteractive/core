@@ -1,19 +1,24 @@
-// @ts-check
+
 import { BaseApplication } from './BaseApplication';
 import { Debug } from './Debug';
 import { Time } from './Time';
 import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
 import { ViewManager } from './view_components/ViewManager';
-import { Graphics, KeyboardInput } from './index'; // eslint-disable-line no-unused-vars
 
 class RenderLoop
 {
+  frames_passed: any;
+  graphics: any;
+  input: any;
+  is_running: any;
+  target_application: any;
+  time_accumulator: any;
   /**
    * @param {BaseApplication} target_application
    * @param {Graphics} graphics
    */
-  constructor(target_application, graphics, input)
+  constructor(target_application: any, graphics: any, input: any)
   {
     target_application = target_application || new BaseApplication();
 
@@ -30,7 +35,7 @@ class RenderLoop
   /**
    * @param {number} elapsed_time
    */
-  update(elapsed_time)
+  update(elapsed_time: any)
   {
     if (!this.is_running)
     {
@@ -108,7 +113,7 @@ class RenderLoop
   /**
    * @param {BaseApplication} new_state
    */
-  set_state(new_state)
+  set_state(new_state: any)
   {
     this.target_application.on_exit(this);
     this.target_application = new_state;

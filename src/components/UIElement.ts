@@ -1,4 +1,4 @@
-// @ts-check
+
 import { OScreen } from '../OScreen';
 
 import { UIElementMaterial } from '../materials/UIElementMaterial';
@@ -11,21 +11,33 @@ import { OnMouseEnter } from '../ui/ui_element_state/OnMouseEnter';
 import { OnMouseExit } from '../ui/ui_element_state/OnMouseExit';
 import { OnMouseHover } from '../ui/ui_element_state/OnMouseHover';
 
-import { Mesh, Texture } from 'three'; // eslint-disable-line no-unused-vars
-import { PlaneGeometry } from 'three';
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
-import { NearestFilter } from 'three';
-import { Box2 } from 'three';
-import { UIElementState } from '../ui/ui_element_state/UIElementState'; // eslint-disable-line no-unused-vars
+import { Box2, Mesh, NearestFilter, PlaneGeometry, Texture, Vector2 } from 'three';
+import { UIElementState } from '../ui/ui_element_state/UIElementState';
 
 class UIElement extends Mesh
 {
+  _on_enter_state: any;
+  _on_exit_state: any;
+  _on_hover_state: any;
+  _on_idle_state: any;
+  cached_NDC_position: any;
+  current_state: any;
+  is_clickable: any;
+  mouse_pos_tmp: any;
+  on_enter: any;
+  on_exit: any;
+  on_hover: any;
+  pixel_offset: any;
+  position_strategy: any;
+  screen_pos_tmp: any;
+  size: any;
+  texture_size: any;
+  material: UIElementMaterial;
   /**
    * @param {string} [vert]
    * @param {string} [frag]
    */
-  constructor(vert, frag) // eslint-disable-line no-unused-vars
+  constructor(vert: any, frag: any) 
   {
     const material = new UIElementMaterial();
     super(new PlaneGeometry(1, 1), material);
@@ -37,7 +49,6 @@ class UIElement extends Mesh
     this.position_strategy = new WorldSpacePosition();
     this.current_state = new OnIdle();
 
-    this._position = new Vector3();
 
     this._on_idle_state = new OnIdle();
     this._on_enter_state = new OnMouseEnter();
@@ -65,11 +76,12 @@ class UIElement extends Mesh
   /**
    * @param {number} value
    */
-  set_render_order(value)
+  set_render_order(value: any)
   {
     this.renderOrder = value;
   }
 
+  
   get pivot_point()
   {
     return this.material.uniforms._PivotPoint.value;
@@ -78,7 +90,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} offset
    */
-  set_pixel_offset(offset)
+  set_pixel_offset(offset: any)
   {
     this.pixel_offset.copy(offset);
     this.material.uniforms._PixelOffset.value.copy(offset);
@@ -87,19 +99,13 @@ class UIElement extends Mesh
   /**
    *@param {UIElementState} new_state
    */
-  set_state(new_state)
+  set_state(new_state: any)
   {
     this.current_state.on_exit(this);
     this.current_state = new_state;
     this.current_state.on_enter(this);
   }
-
-  // @ts-ignore
-  get position()
-  {
-    return this._position;
-  }
-
+  
   set use_depth(boolean)
   {
     this.material.depthTest = boolean;
@@ -114,7 +120,7 @@ class UIElement extends Mesh
   {
     this.material.uniforms._DepthOffset.value = value;
   }
-
+  
   get depth_offset()
   {
     return this.material.uniforms._DepthOffset.value;
@@ -138,7 +144,7 @@ class UIElement extends Mesh
   /**
    * @param {Texture} texture
    */
-  set_texture(texture)
+  set_texture(texture: any)
   {
     texture.minFilter = NearestFilter;
     texture.magFilter = NearestFilter;
@@ -154,7 +160,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} normalized_mouse_pos
    */
-  update_state(normalized_mouse_pos)
+  update_state(normalized_mouse_pos: any)
   {
     this.material.uniforms._ScreenSize.value.set(OScreen.width, OScreen.height);
     this.get_size(this.material.uniforms._TextureSize.value);
@@ -167,7 +173,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} normalized_mouse_pos
    */
-  is_mouse_over(normalized_mouse_pos)
+  is_mouse_over(normalized_mouse_pos: any)
   {
     this.screen_pos_tmp.copy(this.cached_NDC_position);
     this.to_screen_position(this.screen_pos_tmp);
@@ -185,7 +191,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} projected_pos
    */
-  to_screen_position(projected_pos)
+  to_screen_position(projected_pos: any)
   {
     projected_pos.x = (projected_pos.x * 0.5 + 0.5) * OScreen.width  + this.pixel_offset.x;
     projected_pos.y = (projected_pos.y * 0.5 + 0.5) * OScreen.height + this.pixel_offset.y;
@@ -201,7 +207,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} screen_pos
    */
-  set_screen_space_position(screen_pos)
+  set_screen_space_position(screen_pos: any)
   {
     this.position.x = (screen_pos.x / OScreen.width) * 2 - 1;
     this.position.y = (screen_pos.y / OScreen.height) * 2 - 1;
@@ -221,7 +227,7 @@ class UIElement extends Mesh
   /**
    * @param {Vector2} [vector2]
    */
-  get_size(vector2)
+  get_size(vector2?: any)
   {
     if (vector2)
     {

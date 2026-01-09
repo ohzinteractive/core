@@ -1,18 +1,19 @@
-// @ts-check
-import { BufferGeometry, Vector3 } from 'three'; // eslint-disable-line
+
+import { BufferGeometry, Vector3 } from 'three';
 
 class ReflectionPlaneContext
 {
+  target_geometry: BufferGeometry;
+  target_position: Vector3;
+
   init()
   {
     this.target_geometry = undefined;
     this.target_position = new Vector3();
   }
 
-  /**
-   * @param {BufferGeometry} geometry
-   */
-  set_target_geometry(geometry)
+
+  set_target_geometry(geometry: any)
   {
     this.target_geometry = geometry;
   }

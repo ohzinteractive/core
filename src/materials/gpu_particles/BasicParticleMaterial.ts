@@ -1,5 +1,5 @@
-import vert from '../../shaders/gpu_particles/visualize/visualize.vert';
 import frag from '../../shaders/gpu_particles/visualize/visualize.frag';
+import vert from '../../shaders/gpu_particles/visualize/visualize.vert';
 
 import { ShaderMaterial } from 'three';
 

@@ -1,9 +1,23 @@
-import { Vector3, Quaternion, Matrix4, Color, Box2, Vector2 } from 'three';
+import { Box2, Color, Matrix4, Quaternion, Vector2, Vector3 } from 'three';
 import { TextGlyph } from './TextGlyph';
 
 class SDFText
 {
-  constructor(glyph_layout, text = '')
+  __opacity: any;
+  __text: any;
+  color: Color;
+  color_is_dirty: boolean;
+  glyph_is_dirty: boolean;
+  glyph_layout: any;
+  glyphs: any;
+  matrix: Matrix4;
+  matrix_is_dirty: boolean;
+  pivot_point: Vector2;
+  position: Vector3;
+  quaternion: Quaternion;
+  scale: Vector3;
+
+  constructor(glyph_layout: any, text = '')
   {
     this.glyph_layout = glyph_layout;
 
@@ -66,25 +80,25 @@ class SDFText
     this.matrix_is_dirty = true;
   }
 
-  set_position(pos)
+  set_position(pos: Vector3)
   {
     this.position.copy(pos);
     this.matrix_is_dirty = true;
   }
 
-  set_size(size)
+  set_size(size: number)
   {
     this.scale.set(size, size, size);
     this.matrix_is_dirty = true;
   }
 
-  set_color(col)
+  set_color(col: Color)
   {
     this.color.set(col);
     this.color_is_dirty = true;
   }
 
-  set_pivot(pivot)
+  set_pivot(pivot: Vector2)
   {
     this.pivot_point.copy(pivot);
     this.update_glyphs();
@@ -96,6 +110,7 @@ class SDFText
     this.color_is_dirty = true;
   }
 
+  
   get opacity()
   {
     return this.__opacity;
@@ -106,7 +121,7 @@ class SDFText
     this.__generate_glyphs(this.text);
   }
 
-  __generate_glyphs(text)
+  __generate_glyphs(text: any)
   {
     let cursor = 0;
 
@@ -115,7 +130,7 @@ class SDFText
     for (let i = 0; i < text.length; i++)
     {
       const unicode = text.charCodeAt(i);
-      const glyph = this.glyph_layout.find(element => element.unicode === unicode);
+      const glyph = this.glyph_layout.find((element: any) => element.unicode === unicode);
       if (glyph)
       {
         if (glyph.planeBounds)

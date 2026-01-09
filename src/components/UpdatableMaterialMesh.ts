@@ -1,13 +1,9 @@
-// @ts-check
-import { BufferGeometry, Material, Mesh } from 'three'; // eslint-disable-line no-unused-vars
+
+import { BufferGeometry, Material, Mesh } from 'three';
 
 class UpdatableMaterialMesh extends Mesh
 {
-  /**
-   * @param {BufferGeometry} geometry
-   * @param {Material} material
-   */
-  constructor(geometry, material)
+  constructor(geometry: BufferGeometry, material: Material)
   {
     super(geometry, material);
     this.material = material;

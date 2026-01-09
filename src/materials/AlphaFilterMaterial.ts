@@ -4,7 +4,7 @@ import frag from '../shaders/dual_filter_blur/alpha_filter.frag';
 
 class AlphaFilterMaterial extends BlitMaterial
 {
-  constructor(use_alpha_mask, upsample)
+  constructor()
   {
     super(frag);
   }
@@ -13,7 +13,7 @@ class AlphaFilterMaterial extends BlitMaterial
   {
     this.uniforms._Offset.value = value;
   }
-
+  
   get offset()
   {
     return this.uniforms._Offset.value;

@@ -6,7 +6,7 @@ import { BufferAttribute } from 'three';
 
 class MeshBatcher
 {
-  batch(meshes, material)
+  batch(meshes: any, material: any)
   {
     const max_texture_width = 2048;
     // let texture_width  = meshes.length % max_texture_width;
@@ -15,7 +15,7 @@ class MeshBatcher
     // console.log("Store count: " + buffer_geometries.length + ", Texture size: " +texture_width);
 
     const geometries = [];
-    const id_table = {};
+    const id_table: { [key: string]: number } = {};
 
     const attr_mesh_id = [];
 
@@ -49,7 +49,7 @@ class MeshBatcher
     return this.create_batched_mesh(id_table, buffer_geometry, material, max_texture_width);
   }
 
-  create_batched_mesh(id_table, buffer_geometry, material, max_texture_width)
+  create_batched_mesh(id_table: any, buffer_geometry: any, material: any, max_texture_width: any)
   {
     return new BatchedMesh(id_table, buffer_geometry, material, max_texture_width);
   }

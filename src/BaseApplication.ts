@@ -1,21 +1,14 @@
-import { RenderLoop } from './RenderLoop'; // eslint-disable-line no-unused-vars
+import { RenderLoop } from './RenderLoop';
 
-// @ts-check
 class BaseApplication
 {
   on_post_start()
   {}
 
-  /**
-    * @param {RenderLoop} [loop]
-   */
-  on_enter(loop) // eslint-disable-line no-unused-vars
+  on_enter(loop: RenderLoop) 
   {}
 
-  /**
-    * @param {RenderLoop} [loop]
-   */
-  on_exit(loop) // eslint-disable-line no-unused-vars
+  on_exit(loop: RenderLoop) 
   {}
 
   before_update()

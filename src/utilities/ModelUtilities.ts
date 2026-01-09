@@ -1,39 +1,34 @@
-import { Mesh } from 'three';
-import { BufferGeometry } from 'three';
-import { Skeleton } from 'three';
+import { Mesh, Skeleton } from 'three';
 
 class ModelUtilities
 {
-  get_mesh(scene, result_callback)
+  get_mesh(scene: any, result_callback: any)
   {
-    scene.traverse((child) =>
-    {
+    scene.traverse((child: any) => {
       if (child instanceof Mesh)
       {
         if (child.geometry)
         {
-          child.geometry = new BufferGeometry().fromGeometry(child.geometry);
+          child.geometry = child.geometry.clone()
         }
         result_callback(child);
       }
     });
   }
 
-  get_geometries(scene)
+  get_geometries(scene: any)
   {
-    const geometries = [];
+    const geometries: any = [];
 
-    this.get_mesh(scene, (child) =>
-    {
+    this.get_mesh(scene, (child: any) => {
       geometries.push(child.geometry);
     });
     return geometries;
   }
 
-  assign_material(scene, material, name)
+  assign_material(scene: any, material: any, name: any)
   {
-    scene.traverse((child) =>
-    {
+    scene.traverse((child: any) => {
       if (child instanceof Mesh)
       {
         // assign to all if no name is given
@@ -53,28 +48,26 @@ class ModelUtilities
     });
   }
 
-  clone_animated_gltf(gltf)
+  clone_animated_gltf(gltf: any)
   {
     const clone = {
       animations: gltf.animations,
       scene: gltf.scene.clone(true)
     };
 
-    const skinnedMeshes = {};
+    const skinnedMeshes: { [key: string]: any } = {};
 
-    gltf.scene.traverse(node =>
-    {
+    gltf.scene.traverse((node: any) => {
       if (node.isSkinnedMesh)
       {
         skinnedMeshes[node.name] = node;
       }
     });
 
-    const cloneBones = {};
-    const cloneSkinnedMeshes = {};
+    const cloneBones: { [key: string]: any } = {};
+    const cloneSkinnedMeshes: { [key: string]: any } = {};
 
-    clone.scene.traverse(node =>
-    {
+    clone.scene.traverse((node: any) => {
       if (node.isBone)
       {
         cloneBones[node.name] = node;
@@ -108,10 +101,9 @@ class ModelUtilities
     return clone;
   }
 
-  set_shadow_config(scene, cast, receive)
+  set_shadow_config(scene: any, cast: any, receive: any)
   {
-    scene.traverse((child) =>
-    {
+    scene.traverse((child: any) => {
       if (child instanceof Mesh)
       {
         child.castShadow = cast;
@@ -120,10 +112,9 @@ class ModelUtilities
     });
   }
 
-  __find_object(scene, object_name, result_callback)
+  __find_object(scene: any, object_name: any, result_callback: any)
   {
-    scene.traverse((obj) =>
-    {
+    scene.traverse((obj: any) => {
       if (obj.name === object_name)
       {
         result_callback(obj);
@@ -131,24 +122,23 @@ class ModelUtilities
     });
   }
 
-  get_object(scene, object_name)
+  get_object(scene: any, object_name: any): any
   {
     let object = undefined;
-    scene.traverse((obj) =>
-    {
+    scene.traverse((obj: any) => {
       if (obj.name === object_name)
       {
         object = obj;
       }
     });
+
     return object;
   }
 
-  get_object_by_type(scene, object_type)
+  get_object_by_type(scene: any, object_type: any): any
   {
     let object = undefined;
-    scene.traverse((obj) =>
-    {
+    scene.traverse((obj: any) => {
       if (obj.constructor.name === object_type)
       {
         object = obj;

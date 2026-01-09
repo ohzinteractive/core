@@ -5,17 +5,17 @@ class BaseRender
 
   }
 
-  render()
+  render(renderer?: any)
   {
 
   }
 
-  on_enter(context, renderer)
+  on_enter(context: any, renderer: any)
   {
 
   }
 
-  on_exit(context, renderer)
+  on_exit(context: any, renderer: any)
   {
 
   }

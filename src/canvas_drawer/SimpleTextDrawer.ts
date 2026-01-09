@@ -1,10 +1,11 @@
-// @ts-check
+
 import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';
 
 class SimpleTextDrawer extends CanvasDrawer
 {
+  text_margin: any;
   constructor()
   {
     super();
@@ -17,7 +18,7 @@ class SimpleTextDrawer extends CanvasDrawer
    * @param {HTMLCanvasElement} [canvas]
    * @param {CanvasRenderingContext2D} [ctx]
    */
-  __draw(text, ctxOptions, canvas, ctx)
+  __draw(text: any, ctxOptions: any, canvas: any, ctx: any)
   {
     ctx.font = ctxOptions.font;
 

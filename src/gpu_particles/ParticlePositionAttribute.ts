@@ -5,12 +5,14 @@ import { ParticleStorageMaterial } from '../materials/gpu_particles/ParticleStor
 
 class ParticlePositionAttribute extends ParticleAttribute
 {
-  constructor(update_material)
+  read: any;
+  write: any;
+  constructor(update_material: any)
   {
     super('_Position', update_material);
   }
 
-  store_geometry(geometry, attribute_writter_scene)
+  store_geometry(geometry: any, attribute_writter_scene: any)
   {
     const pos_attr = geometry.getAttribute('position');
     this.read    = this.build_RT(pos_attr.count);
@@ -20,7 +22,7 @@ class ParticlePositionAttribute extends ParticleAttribute
     this.store_geometry_attribute_in_RT(geometry.getAttribute('position'), this.read, mat, attribute_writter_scene);
   }
 
-  store_positions(positions, attribute_writter_scene)
+  store_positions(positions: any, attribute_writter_scene: any)
   {
     this.read    = this.build_RT(positions.length);
     this.write   = this.build_RT(positions.length);

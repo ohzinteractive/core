@@ -4,11 +4,13 @@ import { OScreen } from '../OScreen';
 import { ClearDepthNormalMaterial } from '../materials/ClearDepthNormalMaterial';
 import { DepthNormalMaterial } from '../materials/DepthNormalMaterial';
 
-import { WebGLRenderTarget } from 'three';
-import { Vector3 } from 'three';
+import { Vector3, WebGLRenderTarget } from 'three';
 
 class DepthAndNormalsRenderer
 {
+  RT: any;
+  clear_depth_normal_mat: any;
+  depth_normal_material: any;
   constructor()
   {
     this.RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
@@ -17,7 +19,7 @@ class DepthAndNormalsRenderer
     this.depth_normal_material = new DepthNormalMaterial();
   }
 
-  render(graphics)
+  render(graphics: any)
   {
     this.__resize_RT_if_necessary();
 

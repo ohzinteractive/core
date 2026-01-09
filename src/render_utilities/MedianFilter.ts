@@ -5,7 +5,10 @@ import { WebGLRenderTarget, Vector2, RGBAFormat, FloatType, NearestFilter } from
 
 class MedianFilter
 {
-  constructor(renderer)
+  RT: any;
+  RT1: any;
+  median_filter_mat: any;
+  constructor(renderer: any)
   {
     this.RT = new WebGLRenderTarget(1, 1, {
       type: FloatType,
@@ -23,7 +26,7 @@ class MedianFilter
     this.median_filter_mat = new MedianFilterMaterial();
   }
 
-  filter(texture)
+  filter(texture: any)
   {
     const tex_size = this.get_size(texture);
     if (tex_size.x !== this.RT.width || tex_size.y !== this.RT.height)
@@ -47,7 +50,7 @@ class MedianFilter
     return this.RT;
   }
 
-  get_size(tex)
+  get_size(tex: any)
   {
     if (tex.isVideoTexture)
     {

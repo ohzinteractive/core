@@ -11,7 +11,7 @@ class AddMaterial extends BlitMaterial
     this.uniforms._SecondTex = { value: undefined };
   }
 
-  set_add_texture(tex)
+  set_add_texture(tex: any)
   {
     this.uniforms._SecondTex.value = tex;
   }

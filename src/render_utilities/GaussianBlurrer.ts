@@ -1,11 +1,22 @@
+import { Graphics } from '../Graphics';
 import { GaussianBlurMaterial } from '../materials/GaussianBlurMaterial';
 import { LuminosityHighPassMaterial } from '../materials/LuminosityHighPassMaterial';
-import { Graphics } from '../Graphics';
 
-import { WebGLRenderTarget, LinearFilter, RGBAFormat, HalfFloatType, UnsignedByteType, SRGBColorSpace, LinearSRGBColorSpace } from 'three';
+import { HalfFloatType, LinearFilter, LinearSRGBColorSpace, RGBAFormat, SRGBColorSpace, UnsignedByteType, WebGLRenderTarget } from 'three';
 
 class GaussianBlurrer
 {
+  current_height: any;
+  current_width: any;
+  kernelSizeArray: any;
+  luminosity_high_pass_mat: any;
+  nMips: any;
+  renderTargetBright: any;
+  renderTargetsHorizontal: any;
+  renderTargetsVertical: any;
+  rt_pars: any;
+  separableBlurMaterials: any;
+  use_half_float: any;
   constructor(use_half_float = false)
   {
     this.current_width = 1;
@@ -34,7 +45,7 @@ class GaussianBlurrer
     this.luminosity_high_pass_mat = new LuminosityHighPassMaterial(use_half_float);
   }
 
-  blur(RT, use_luminosity_high_pass)
+  blur(RT: any, use_luminosity_high_pass: any)
   {
     this.resize_RT(RT.width, RT.height);
 
@@ -92,7 +103,7 @@ class GaussianBlurrer
     }
   }
 
-  resize_RT(texture_width, texture_height)
+  resize_RT(texture_width: any, texture_height: any)
   {
     if (this.current_width === texture_width && this.current_height === texture_height)
     {
@@ -124,11 +135,11 @@ class GaussianBlurrer
 
     for (let i = 0; i < this.nMips; i++)
     {
-      this.separableBlurMaterials.push(new GaussianBlurMaterial(this.kernelSizeArray[i], this.use_half_float));
+      this.separableBlurMaterials.push(new GaussianBlurMaterial(this.kernelSizeArray[i]));
     }
   }
 
-  set_radius(value)
+  set_radius(value: any)
   {
     for (let i = 0; i < this.separableBlurMaterials.length; i++)
     {
@@ -136,7 +147,7 @@ class GaussianBlurrer
     }
   }
 
-  set_luminosity_threshold(value)
+  set_luminosity_threshold(value: any)
   {
     this.luminosity_high_pass_mat.set_threshold(value);
   }

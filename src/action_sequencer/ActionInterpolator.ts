@@ -1,18 +1,20 @@
-// @ts-check
-import { Vector3 } from 'three'; // eslint-disable-line no-unused-vars
+import { Vector3 } from 'three';
 import { EasingFunctions } from '../utilities/EasingFunctions';
 
 class ActionInterpolator
 {
-  /**
-   * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} easing_function
-   */
+  attribute_name: any;
+  easing_function: any;
+  from: any;
+  to: any;
+
   constructor(easing_function = 'linear')
   {
     this.easing_function = undefined;
 
     if (typeof easing_function === 'string')
     {
+      // @ts-expect-error -- IGNORE ---
       this.easing_function = EasingFunctions[easing_function];
     }
     else
@@ -31,7 +33,7 @@ class ActionInterpolator
    * @param {any} context
    * @param {number} t
    */
-  update(context, t) // eslint-disable-line no-unused-vars
+  update(context: any, t: any) 
   {
   }
 }

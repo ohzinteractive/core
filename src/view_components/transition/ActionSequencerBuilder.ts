@@ -1,16 +1,17 @@
+import { ActionEvent } from '../../action_sequencer/ActionEvent';
 import { ActionSequencer } from '../../action_sequencer/ActionSequencer';
 import { NumberInterpolator } from '../../action_sequencer/NumberInterpolator';
-import { ActionEvent } from '../../action_sequencer/ActionEvent';
 import { DrawIOAnimationSheet } from './DrawIOAnimationSheet';
 
 class ActionSequencerBuilder
 {
-  constructor(default_state_data)
+  default_state_data: any;
+  constructor(default_state_data: any)
   {
     this.default_state_data = default_state_data;
   }
 
-  from_animation_sheet(animation_data, current_context, initial_context)
+  from_animation_sheet(animation_data: any, current_context: any, initial_context?: any)
   {
     initial_context = initial_context || this.default_state_data;
     const tracks = animation_data.animation_tracks;
@@ -20,7 +21,7 @@ class ActionSequencerBuilder
 
     for (let i = 0; i < initial_tracks.length; i++)
     {
-      if (tracks.find(element => element.attribute_name === initial_tracks[i].attribute_name) === undefined)
+      if (tracks.find((element: any) => element.attribute_name === initial_tracks[i].attribute_name) === undefined)
       {
         tracks.push(initial_tracks[i]);
       }
@@ -52,7 +53,7 @@ class ActionSequencerBuilder
     return sequencer;
   }
 
-  state_to_tracks(state, longest_time)
+  state_to_tracks(state: any, longest_time: any)
   {
     const tracks = [];
 
@@ -73,7 +74,7 @@ class ActionSequencerBuilder
     return tracks;
   }
 
-  from_draw_io(xml, context)
+  from_draw_io(xml: any, context: any)
   {
     const transition_data = (new DrawIOAnimationSheet()).parse(xml);
     const tracks = transition_data.animation_tracks;
@@ -87,7 +88,7 @@ class ActionSequencerBuilder
         t.attribute_name,
         context[t.attribute_name],
         t.to_value,
-        t.initial,
+        false,
         t.easing_function
       );
 
@@ -104,7 +105,7 @@ class ActionSequencerBuilder
     return sequencer;
   }
 
-  get_longest_time(tracks)
+  get_longest_time(tracks: any)
   {
     let longest_time = -1;
 

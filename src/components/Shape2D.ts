@@ -1,10 +1,7 @@
-// @ts-check
+
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
-import { Mesh, Vector2 } from 'three'; // eslint-disable-line no-unused-vars
-import { Shape } from 'three';
-import { ShapeGeometry } from 'three';
-import { MeshBasicMaterial } from 'three';
+import { Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from 'three';
 
 class Shape2D extends Mesh
 {
@@ -12,7 +9,7 @@ class Shape2D extends Mesh
    * @param {Vector2[]} points_2D
    * @param {boolean} show_edges
    */
-  constructor(points_2D, show_edges)
+  constructor(points_2D: any, show_edges: any)
   {
     const shape = new Shape(points_2D);
     const geometry = new ShapeGeometry(shape);
@@ -34,7 +31,7 @@ class Shape2D extends Mesh
   /**
    * @param {ShapeGeometry} geometry
    */
-  invert_normals(geometry)
+  invert_normals(geometry: any)
   {
     const indices = geometry.index.array;
     for (let i = 0; i < indices.length; i += 3)

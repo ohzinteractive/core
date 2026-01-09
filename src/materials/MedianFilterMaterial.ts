@@ -16,7 +16,7 @@ class MedianFilterMaterial extends BlitMaterial
     this.uniforms._SourceTexSize = { value: new Vector2(1, 1) };
   }
 
-  set_texture(tex)
+  set_texture(tex: any)
   {
     this.uniforms._SourceTex.value = tex;
 
@@ -24,7 +24,7 @@ class MedianFilterMaterial extends BlitMaterial
     this.uniforms._SourceTexSize.value.copy(size);
   }
 
-  get_size(tex)
+  get_size(tex: any)
   {
     if (tex.isVideoTexture)
     {

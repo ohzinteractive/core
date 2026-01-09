@@ -4,21 +4,22 @@ class Idle
   {
   }
 
+  
   get is_animating()
   {
     return false;
   }
 
-  on_enter(view)
+  on_enter(view: any)
   {
 
   }
 
-  update(view)
+  update(view: any)
   {
   }
 
-  on_exit(view)
+  on_exit(view: any)
   {
 
   }

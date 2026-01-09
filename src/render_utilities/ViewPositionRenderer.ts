@@ -1,14 +1,15 @@
 import { CameraManager } from '../CameraManager';
-import { SceneManager } from '../SceneManager';
 import { OScreen } from '../OScreen';
+import { SceneManager } from '../SceneManager';
 import { ViewPositionMaterial } from '../materials/ViewPositionMaterial';
 
-import { WebGLRenderTarget } from 'three';
-import { FloatType } from 'three';
-import { Color } from 'three';
+import { Color, FloatType, WebGLRenderTarget } from 'three';
 
 class ViewPositionRenderer
 {
+  RT: any;
+  clear_color: any;
+  render_pos_mat: any;
   constructor()
   {
     this.RT = new WebGLRenderTarget(OScreen.width, OScreen.height, { type: FloatType });
@@ -16,7 +17,7 @@ class ViewPositionRenderer
     this.render_pos_mat = new ViewPositionMaterial();
   }
 
-  render(context, renderer)
+  render(context: any, renderer: any)
   {
     if (this.RT.width !== OScreen.width || this.RT.height !== OScreen.height)
     {

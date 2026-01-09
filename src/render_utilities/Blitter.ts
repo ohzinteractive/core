@@ -1,13 +1,15 @@
 import { BlitMaterial } from '../materials/BlitMaterial';
 
-import { Scene } from 'three';
-import { Mesh } from 'three';
-import { PlaneGeometry } from 'three';
-import { OrthographicCamera } from 'three';
+import { Mesh, OrthographicCamera, PlaneGeometry, Scene } from 'three';
 
 class Blitter
 {
-  constructor(renderer)
+  _blit_camera: any;
+  _blit_material: any;
+  _blit_quad: any;
+  _blit_scene: any;
+  renderer: any;
+  constructor(renderer: any)
   {
     this.renderer = renderer;
     this._blit_scene = new Scene();
@@ -18,7 +20,7 @@ class Blitter
     this._blit_camera = new OrthographicCamera(-1, 1, 1, -1, -10000, 10000);
   }
 
-  blit(src, dst)
+  blit(src: any, dst: any)
   {
     this._blit_quad.material = this._blit_material;
 
@@ -41,7 +43,7 @@ class Blitter
     this.__render(dst);
   }
 
-  material_pass(mat, dst)
+  material_pass(mat: any, dst: any)
   {
     this._blit_quad.material = mat;
     // this._blit_quad.material.uniforms._MainTex.value = undefined;
@@ -50,7 +52,7 @@ class Blitter
     this.__render(dst);
   }
 
-  blit_with_material(src, dst, mat)
+  blit_with_material(src: any, dst: any, mat: any)
   {
     const src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
     const src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
@@ -72,7 +74,7 @@ class Blitter
     this.__render(dst);
   }
 
-  blit_clear_with_material(dst_RT, mat)
+  blit_clear_with_material(dst_RT: any, mat: any)
   {
     this._blit_quad.material = mat;
 
@@ -85,7 +87,7 @@ class Blitter
     this._blit_quad.material.dispose();
   }
 
-  __render(dst_RT)
+  __render(dst_RT: any)
   {
     const RT = dst_RT === undefined ? null : dst_RT;
 

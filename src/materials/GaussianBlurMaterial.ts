@@ -6,7 +6,7 @@ import { Vector2 } from 'three';
 
 class GaussianBlurMaterial extends BlitMaterial
 {
-  constructor(kernel_radius)
+  constructor(kernel_radius: any)
   {
     super(frag, undefined, {
       KERNEL_RADIUS: kernel_radius,
@@ -20,13 +20,13 @@ class GaussianBlurMaterial extends BlitMaterial
     this.defines.USE_LINEAR_COLOR_SPACE = true;
   }
 
-  set_size(w, h)
+  set_size(w: any, h: any)
   {
     this.uniforms.texSize.value.x = w;
     this.uniforms.texSize.value.y = h;
   }
 
-  set_direction(x, y)
+  set_direction(x: any, y: any)
   {
     this.uniforms.direction.value.set(x, y);
   }

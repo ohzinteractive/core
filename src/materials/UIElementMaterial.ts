@@ -1,10 +1,9 @@
-import vert from '../shaders/ui_element/ui_element.vert';
 import frag from '../shaders/ui_element/ui_element.frag';
+import vert from '../shaders/ui_element/ui_element.vert';
 
 import { BaseShaderMaterial } from '../materials/BaseShaderMaterial';
 
-import { Vector2 } from 'three';
-import { Vector3 } from 'three';
+import { Vector2, Vector3 } from 'three';
 
 import { OScreen } from '../OScreen';
 

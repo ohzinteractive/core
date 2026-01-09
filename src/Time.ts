@@ -1,7 +1,15 @@
-// @ts-check
+
 
 class Time
 {
+  __delta_buffer: any;
+  __delta_time: any;
+  __elapsed_time: any;
+  __frame_interpolation_t: any;
+  __previous_elapsed_time: any;
+  __smooth_delta_time: any;
+  fixed_delta_time: any;
+  
   constructor()
   {
     this.__delta_buffer = [0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016];
@@ -26,12 +34,12 @@ class Time
   {
     return this.__delta_time;
   }
-
+  
   get smooth_delta_time()
   {
     return this.__smooth_delta_time;
   }
-
+  
   get frame_interpolation()
   {
     return this.__frame_interpolation_t;
@@ -52,18 +60,12 @@ class Time
     return this.smooth_delta_time;
   }
 
-  /**
-   * @param {number} value
-   */
-  __set_frame_interpolation(value)
+  __set_frame_interpolation(value: number)
   {
     this.__frame_interpolation_t = value;
   }
 
-  /**
-   * @param {number} elapsed_time
-   */
-  __update(elapsed_time)
+  __update(elapsed_time: number)
   {
     if (this.__previous_elapsed_time < 0)
     {

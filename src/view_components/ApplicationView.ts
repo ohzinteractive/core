@@ -4,7 +4,16 @@ import { ViewState } from './ViewState';
 
 class ApplicationView extends ViewState
 {
-  constructor({ name, url, container, transition_data })
+  container: any;
+  current_opacity: any;
+  name: any;
+  url: any;
+  constructor({
+    name,
+    url,
+    container,
+    transition_data
+  }: any)
   {
     super(name);
 
@@ -57,7 +66,7 @@ class ApplicationView extends ViewState
     this.container.classList.remove('before_exit');
   }
 
-  set_opacity(current_state_data)
+  set_opacity(current_state_data: any)
   {
     const opacity = current_state_data[`${this.name}_opacity`];
 

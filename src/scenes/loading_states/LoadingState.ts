@@ -1,13 +1,31 @@
-import { ResourceContainer } from 'ohzi-core';
 
 import { AsyncAudiosLoader } from '../../loaders/AsyncAudiosLoader';
 import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
+import { ResourceContainer } from '../../ResourceContainer';
 import { CompilatorManager } from './CompilatorManager';
 
 export class LoadingState
 {
-  constructor(scene, { SceneCompilator, TexturesCompilator, AudiosCompilator })
+  AudiosCompilator: any;
+  SceneCompilator: any;
+  TexturesCompilator: any;
+  callback_called: any;
+  compilator_manager: any;
+  compilators: any;
+  custom_compilators: any;
+  custom_data: any;
+  custom_loaders: any;
+  loaders: any;
+  scene: any;
+  scene_objects: any;
+  scene_sounds: any;
+  scene_textures: any;
+  constructor(scene: any, {
+    SceneCompilator,
+    TexturesCompilator,
+    AudiosCompilator
+  }: any)
   {
     this.scene = scene;
 
@@ -21,7 +39,7 @@ export class LoadingState
     this.callback_called = false;
   }
 
-  set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders = [], custom_compilators = [], custom_data = [])
+  set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any[] = [], custom_compilators: any[] = [], custom_data: any[] = [])
   {
     this.scene_objects = scene_objects;
     this.scene_textures = scene_textures;
@@ -32,6 +50,7 @@ export class LoadingState
     this.custom_data = custom_data;
   }
 
+  
   get loading_progress()
   {
     let progress = 0;

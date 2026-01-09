@@ -1,23 +1,26 @@
 import { OScreen } from '../OScreen';
 import { RenderLayers } from '../RenderLayers';
 
-import compose_frag from '../shaders/box_blur/compose.frag';
+import background_frag from '../shaders/basic_color/basic_color.frag';
 import box_blur_frag from '../shaders/box_blur/box_blur.frag';
+import compose_frag from '../shaders/box_blur/compose.frag';
 import copy_frag from '../shaders/copy/copy.frag';
 import copy_vert from '../shaders/copy/copy.vert';
-import background_frag from '../shaders/basic_color/basic_color.frag';
 
-import { WebGLRenderTarget } from 'three';
-import { Mesh } from 'three';
-import { PlaneGeometry } from 'three';
-import { Scene } from 'three';
-import { ShaderMaterial } from 'three';
-import { Vector2 } from 'three';
-import { Vector4 } from 'three';
+import { Mesh, PlaneGeometry, Scene, ShaderMaterial, Vector2, Vector4, WebGLRenderTarget } from 'three';
 
 class OutlineRender
 {
-  constructor(webgl)
+  background_material: any;
+  box_blur_material: any;
+  compose_material: any;
+  copy_material: any;
+  copy_plane: any;
+  copy_scene: any;
+  main_rt: any;
+  rt1: any;
+  rt2: any;
+  constructor(webgl: any)
   {
     this.main_rt = new WebGLRenderTarget(OScreen.width, OScreen.height);
     this.rt1     = new WebGLRenderTarget(OScreen.width, OScreen.height);
@@ -34,7 +37,7 @@ class OutlineRender
     this.copy_scene.add(this.copy_plane);
   }
 
-  resize(w, h)
+  resize(w: any, h: any)
   {
     this.main_rt.setSize(w, h);
     this.rt1.setSize(w, h);
@@ -43,7 +46,7 @@ class OutlineRender
     this.compose_material.uniforms._Screen.value.set(w, h);
   }
 
-  render(webgl)
+  render(webgl: any)
   {
     webgl.camera.updateMatrix();
     webgl.camera.updateMatrixWorld();
@@ -122,10 +125,7 @@ class OutlineRender
       vertexShader: copy_vert,
       fragmentShader: compose_frag,
       depthTest: false,
-      depthWrite: false,
-      extensions: {
-        derivatives: true
-      }
+      depthWrite: false
     });
   }
 
@@ -143,12 +143,12 @@ class OutlineRender
     });
   }
 
-  on_enter(webgl)
+  on_enter(webgl: any)
   {
     webgl._renderer.autoClear = false;
   }
 
-  on_exit(webgl)
+  on_exit(webgl: any)
   {
     webgl._renderer.autoClear = true;
   }

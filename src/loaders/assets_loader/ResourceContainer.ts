@@ -1,14 +1,17 @@
 
 class ResourceContainer
 {
-  constructor(name)
+  name: any;
+  resources: any;
+  resources_by_url: any;
+  constructor(name: any)
   {
     this.name = name;
     this.resources = {};
     this.resources_by_url = {};
   }
 
-  set_resource(name, url, resource)
+  set_resource(name: any, url: any, resource: any)
   {
     const urls = Object.keys(this.resources_by_url);
 
@@ -23,12 +26,12 @@ class ResourceContainer
     }
   }
 
-  get_resource(name)
+  get_resource(name: any)
   {
     return this.resources[name];
   }
 
-  get(name)
+  get(name: any)
   {
     return this.resources[name];
   }

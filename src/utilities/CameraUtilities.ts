@@ -1,19 +1,23 @@
 import { CameraManager } from '../CameraManager';
-import { OMath } from '../utilities/OMath';
 import { OScreen } from '../OScreen';
+import { OMath } from '../utilities/OMath';
 
-import { Vector3 } from 'three';
-import { Matrix4 } from 'three';
-import { Plane } from 'three';
-import { Ray } from 'three';
-import { Sphere } from 'three';
-import { Box3 } from 'three';
-import { PerspectiveFrustumPointFitter } from './PerspectiveFrustumPointFitter';
+import { Box3, Matrix4, Plane, Ray, Sphere, Vector3 } from 'three';
 import { OrthographicFrustumPointFitter } from './OrthographicFrustumPointFitter';
+import { PerspectiveFrustumPointFitter } from './PerspectiveFrustumPointFitter';
 
 class CameraUtilities
 {
-  init(input)
+  input: any;
+  plane: any;
+  ray: any;
+  reference_position: any;
+  reference_rotation: any;
+  reference_zoom: any;
+  tmp_mat: any;
+  tmp_size: any;
+  tmp_unproj: any;
+  init(input: any)
   {
     this.tmp_mat = new Matrix4();
     this.plane = new Plane();
@@ -25,7 +29,7 @@ class CameraUtilities
     this.input = input;
   }
 
-  get_up_dir(camera)
+  get_up_dir(camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -36,7 +40,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  get_forward_dir(camera)
+  get_forward_dir(camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -47,7 +51,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  get_right_dir(camera)
+  get_right_dir(camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -57,7 +61,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  unproject_mouse_position(NDC, camera)
+  unproject_mouse_position(NDC: any, camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -73,7 +77,7 @@ class CameraUtilities
     return tmp_vec.applyQuaternion(camera.quaternion);
   }
 
-  get_plane_intersection(plane_position, plane_normal, NDC, camera)
+  get_plane_intersection(plane_position: any, plane_normal: any, NDC?: any, camera?: any)
   {
     camera = camera || CameraManager.current;
     NDC = NDC || this.input.NDC;
@@ -98,7 +102,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  fit_points_on_camera(points, zoom_scale = 1)
+  fit_points_on_camera(points: any, zoom_scale = 1)
   {
     const points_sphere = new Sphere().setFromPoints(points);
     const world_space_center = points_sphere.center;
@@ -119,7 +123,7 @@ class CameraUtilities
       right.z, up.z, camera_forward.z, world_space_center.z,
       0,    0,                0,        1);
 
-    const inverse_mat = new Matrix4().getInverse(mat);
+    const inverse_mat = mat.invert();
     for (let i = 0; i < points_on_plane.length; i++)
     {
       points_on_plane[i].applyMatrix4(inverse_mat);
@@ -138,7 +142,7 @@ class CameraUtilities
     };
   }
 
-  get_zoom_to_fit_rect(width, height)
+  get_zoom_to_fit_rect(width: any, height: any)
   {
     const v_fov = (CameraManager.current.fov / 2) * Math.PI / 180;
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * CameraManager.current.aspect)) / 2;
@@ -149,7 +153,7 @@ class CameraUtilities
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
 
-  get_zoom_to_fit_box(bb, camera)
+  get_zoom_to_fit_box(bb: any, camera: any)
   {
     if (camera.isOrthographicCamera)
     {
@@ -176,7 +180,7 @@ class CameraUtilities
     }
   }
 
-  get_html_screen_pos(object, camera)
+  get_html_screen_pos(object: any, camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -189,7 +193,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  world_pos_to_screen(pos, camera)
+  world_pos_to_screen(pos: any, camera: any)
   {
     camera = camera || CameraManager.current;
     const tmp_vec = new Vector3();
@@ -202,7 +206,7 @@ class CameraUtilities
     return tmp_vec;
   }
 
-  update_projection(camera)
+  update_projection(camera: any)
   {
     camera.left   = -OScreen.width / 2;
     camera.right  = OScreen.width / 2;
@@ -212,7 +216,7 @@ class CameraUtilities
     camera.updateProjectionMatrix(true);
   }
 
-  fit_bounding_box_points(camera, bb, scale = 1)
+  fit_bounding_box_points(camera: any, bb: any, scale = 1)
   {
     const dir = new Vector3();
     dir.copy(bb.max).sub(bb.min);
@@ -230,7 +234,7 @@ class CameraUtilities
     return this.fit_points(camera, [p1, p2, p3, p4, p5, p6, p7, p8], scale);
   }
 
-  fit_points(camera, points, zoom_scale = 1)
+  fit_points(camera: any, points: any, zoom_scale = 1)
   {
     if (camera.isPerspectiveCamera)
     {

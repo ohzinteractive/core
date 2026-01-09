@@ -1,4 +1,4 @@
-import { Scene } from 'three';
+import { Mesh, Scene } from 'three';
 // import { AvatarSystem } from '../../components/avatar/AvatarSystem';
 
 import { HighQualityLoadingState } from './loading_states/HighQualityLoadingState';
@@ -7,7 +7,15 @@ import { RegularLoadingState } from './loading_states/RegularLoadingState';
 
 class AbstractScene extends Scene
 {
-  constructor({ name, compilators })
+  current_loading_state: any;
+  initialized: any;
+  is_high_loaded: any;
+  is_loaded: any;
+  loading_states: any;
+  constructor({
+    name,
+    compilators
+  }: any)
   {
     super();
 
@@ -26,6 +34,7 @@ class AbstractScene extends Scene
     // this.set_loading_state(this.loading_states.regular);
   }
 
+  
   get loading_progress()
   {
     return this.current_loading_state.loading_progress;
@@ -49,11 +58,11 @@ class AbstractScene extends Scene
 
   get_objects()
   {
-    const objects = [];
+    const objects: any = [];
 
     this.traverse(child =>
     {
-      if (child.geometry)
+      if (child instanceof Mesh && child.geometry)
       {
         objects.push(child);
 
@@ -75,7 +84,7 @@ class AbstractScene extends Scene
   {
     this.traverse(child =>
     {
-      if (child.geometry)
+      if (child instanceof Mesh && child.geometry)
       {
         child.geometry.attributes.position.array = new Float32Array(3);
         if (child.geometry.attributes.normal)
@@ -105,7 +114,7 @@ class AbstractScene extends Scene
   {
     this.traverse(child =>
     {
-      if (child.material)
+      if (child instanceof Mesh && child.material)
       {
         if (child.material.map)
         {
@@ -121,17 +130,17 @@ class AbstractScene extends Scene
     this.initialized = false;
   }
 
-  set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data)
+  set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any)
   {
     this.loading_states.regular.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_high_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data)
+  set_high_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any)
   {
     this.loading_states.high.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_loading_state(state)
+  set_loading_state(state: any)
   {
     this.current_loading_state.on_exit();
     this.current_loading_state = state;

@@ -5,13 +5,13 @@ class BaseState
 
   }
 
-  update(group_raycaster_context)
+  update(group_raycaster_context: any)
   {}
 
-  on_enter(group_raycaster_context)
+  on_enter(group_raycaster_context: any)
   {}
 
-  on_exit(group_raycaster_context)
+  on_exit(group_raycaster_context: any)
   {}
 }
 

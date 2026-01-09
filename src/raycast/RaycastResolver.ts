@@ -5,12 +5,12 @@ class RaycastResolver
 
   }
 
-  on_enter(intersected_object)
+  on_enter(intersected_object: any)
   {
     // console.log("on enter");
   }
 
-  on_hover(intersected_object)
+  on_hover(intersected_object: any)
   {
     // console.log("on hover");
   }

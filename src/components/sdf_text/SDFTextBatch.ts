@@ -1,20 +1,26 @@
-import { SDFText } from './SDFText';
 import { SDFTextMaterial } from '../../materials/SDFTextMaterial';
 import { ArrayUtilities } from '../../utilities/ArrayUtilities';
+import { SDFText } from './SDFText';
 
 import {
-  PlaneGeometry,
-  Mesh,
-  Vector2,
-  InstancedBufferGeometry,
-  InstancedBufferAttribute,
+  DynamicDrawUsage,
   Float32BufferAttribute,
-  DynamicDrawUsage
+  InstancedBufferAttribute,
+  InstancedBufferGeometry,
+  Mesh,
+  PlaneGeometry,
+  Vector2
 } from 'three';
 
 class SDFTextBatch extends Mesh
 {
-  constructor(font_layout, atlas_texture)
+  font_layout: any;
+  max_allocations: any;
+  text_elements: any;
+  material: SDFTextMaterial;
+  geometry: InstancedBufferGeometry;
+
+  constructor(font_layout: any, atlas_texture: any)
   {
     const max_allocations = 2000;
 
@@ -64,25 +70,25 @@ class SDFTextBatch extends Mesh
     this.frustumCulled = false;
   }
 
-  set_boldness(value)
+  set_boldness(value: any)
   {
     this.material.set_boldness(value);
   }
 
-  add_text(text_str)
+  add_text(text_str: any)
   {
     const elem = new SDFText(this.font_layout.glyphs, text_str);
     this.text_elements.push(elem);
     return elem;
   }
 
-  remove_text(text_elem)
+  remove_text(text_elem: any)
   {
     ArrayUtilities.remove_elem(this.text_elements, text_elem);
     this.update(true);
   }
 
-  update(force_update)
+  update(force_update: any)
   {
     const glyph_bounds_atr = this.geometry.getAttribute('glyph_bounds');
     const plane_bounds_atr = this.geometry.getAttribute('plane_bounds');

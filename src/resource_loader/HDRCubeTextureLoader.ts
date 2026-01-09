@@ -4,7 +4,10 @@ import { HDRCubeTextureLoader as THDRCubeTextureLoader } from 'three/examples/js
 
 class HDRCubeTextureLoader extends AbstractLoader
 {
-  constructor(resource_id, url, extension, size)
+  loader: THDRCubeTextureLoader;
+  urls: string[];
+
+  constructor(resource_id: any, url: any, extension: any, size: any)
   {
     super(resource_id, url, size);
     this.loader = new THDRCubeTextureLoader();
@@ -20,27 +23,24 @@ class HDRCubeTextureLoader extends AbstractLoader
     ];
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      this.loader.load(this.urls, (hdr) =>
-      {
+      this.loader.load(this.urls, (hdr: any) => {
         resource_container.set_resource(this.resource_id, this.url, hdr);
 
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr) =>
-      {
+      (xhr: any) => {
         // if (xhr)
         // {
         //   let total = xhr.total || this.total_bytes;
         //   this.__update_downloaded_bytes(xhr.loaded, total);
         // }
       },
-      (msg) =>
-      {
+      (msg: any) => {
         this.__set_error(msg + '\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource');
         this.__loading_ended();
       });

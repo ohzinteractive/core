@@ -4,22 +4,25 @@ import { Idle } from './Idle';
 import { OMath } from '../../utilities/OMath';
 class Animating
 {
+  easing_function_t: any;
+  t: any;
   constructor()
   {
     this.t = 0;
     this.easing_function_t = 0;
   }
 
+  
   get is_animating()
   {
     return true;
   }
 
-  on_enter(animator)
+  on_enter(animator: any)
   {
   }
 
-  update(animator)
+  update(animator: any)
   {
     this.t += Time.delta_time / animator.duration;
 
@@ -37,7 +40,7 @@ class Animating
     }
   }
 
-  on_exit(view)
+  on_exit(view: any)
   {
 
   }

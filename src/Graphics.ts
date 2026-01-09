@@ -21,7 +21,20 @@ import { WebGPURenderer } from 'three/webgpu';
 
 class Graphics
 {
-  init({ core_attributes, renderer_attributes = {}, dpr })
+  _renderer: any;
+  blitter: any;
+  canvas: any;
+  core_attributes: any;
+  current_render_mode: any;
+  depth_and_normals_renderer: any;
+  generateDepthNormalTexture: any;
+  no_render: any;
+  
+  init({
+    core_attributes,
+    renderer_attributes = {},
+    dpr
+  }: any)
   {
     this._renderer = undefined;
     this.blitter = undefined;
@@ -78,7 +91,7 @@ class Graphics
     return this.depth_and_normals_renderer.render_target;
   }
 
-  set_state(new_state)
+  set_state(new_state: any)
   {
     // console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
 
@@ -115,18 +128,18 @@ class Graphics
     }
   }
 
-  render(scene, camera, RT, override_mat)
+  render(scene?: any, camera?: any, RT?: any, override_mat?: any)
   {
     this.__apply_override_material(scene, override_mat);
 
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
-    this._renderer.render(scene  || SceneManager.current,
+    this._renderer.render(scene || SceneManager.current,
       camera || CameraManager.current);
 
     this.__apply_override_material(scene, undefined);
   }
 
-  compile(scene, camera, RT, override_mat)
+  compile(scene: any, camera: any, RT: any, override_mat: any)
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -137,7 +150,7 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
-  async compile_async(scene, camera, RT, override_mat, target_scene)
+  async compile_async(scene: any, camera: any, RT: any, override_mat: any, target_scene: any)
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -150,7 +163,7 @@ class Graphics
     return promise;
   }
 
-  render_scene(scene)
+  render_scene(scene: any)
   {
     if ('on_pre_render' in scene)
     {
@@ -163,7 +176,6 @@ class Graphics
     }
     else
     {
-      // @ts-ignore
       this.render(scene, undefined);
     }
 
@@ -173,7 +185,7 @@ class Graphics
     }
   }
 
-  __apply_override_material(scene, mat)
+  __apply_override_material(scene: any, mat: any)
   {
     mat = mat === undefined ? null : mat;
     if (scene)
@@ -186,12 +198,12 @@ class Graphics
     }
   }
 
-  readback_RT(RT, buffer)
+  readback_RT(RT: any, buffer: any)
   {
     this._renderer.readRenderTargetPixels(RT, 0, 0, RT.width, RT.height, buffer);
   }
 
-  clear(RT, camera, clear_depth, clear_stencil)
+  clear(RT: any, camera: any, clear_depth: any, clear_stencil: any)
   {
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
 
@@ -205,7 +217,7 @@ class Graphics
       !!clear_stencil);
   }
 
-  on_resize(entries, dpr)
+  on_resize(entries: any, dpr: any)
   {
     for (const entry of entries)
     {
@@ -226,12 +238,12 @@ class Graphics
     }
   }
 
-  material_pass(mat, dst)
+  material_pass(mat: any, dst: any)
   {
     this.blitter.material_pass(mat, dst);
   }
 
-  blit(src_RT, dst_RT, mat)
+  blit(src_RT: any, dst_RT: any, mat?: any)
   {
     if (mat)
     {
@@ -243,12 +255,12 @@ class Graphics
     }
   }
 
-  blit_clear_with_material(dst_RT, mat)
+  blit_clear_with_material(dst_RT: any, mat: any)
   {
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
-  take_screenshot(blob_callback, width = OScreen.width, height = OScreen.height)
+  take_screenshot(blob_callback: any, width = OScreen.width, height = OScreen.height)
   {
     // const ctx = this;
 
@@ -308,7 +320,7 @@ class Graphics
     CameraManager.current.updateMatrixWorld(true);
   }
 
-  download_screenshot(blob)
+  download_screenshot(blob: any)
   {
     const link = document.createElement('a');
     link.download = 'Snapshot.png';

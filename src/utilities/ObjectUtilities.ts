@@ -1,11 +1,11 @@
 class ObjectUtilities
 {
-  static is_object(item)
+  static is_object(item: any)
   {
     return (item && typeof item === 'object' && !Array.isArray(item));
   }
 
-  static merge_deep(target, ...sources)
+  static merge_deep(target: any, ...sources: any[]): any
   {
     if (!sources.length) return target;
     const source = sources.shift();
@@ -29,10 +29,10 @@ class ObjectUtilities
     return ObjectUtilities.merge_deep(target, ...sources);
   }
 
-  static xml_to_json(xml)
+  static xml_to_json(xml: any)
   {
     // Create the return object
-    let obj = {};
+    let obj: { [key: string]: any } = {};
 
     if (xml.nodeType === 1)
     { // element

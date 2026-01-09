@@ -2,7 +2,8 @@ import { LoadingState } from './LoadingState';
 
 export class RegularLoadingState extends LoadingState
 {
-  constructor(scene, compilators)
+  on_assets_ready_called: any;
+  constructor(scene: any, compilators: any)
   {
     super(scene, compilators);
 

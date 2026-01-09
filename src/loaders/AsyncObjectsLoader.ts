@@ -1,4 +1,4 @@
-// @ts-check
+
 import { GLTFDRACOLoader } from '../resource_loader/GLTFDRACOLoader';
 import { GLTFLoader } from '../resource_loader/GLTFLoader';
 import { ResourceContainer } from '../ResourceContainer';
@@ -11,7 +11,7 @@ class AsyncObjectsLoader extends AsyncAbstractLoader
    * @param {any[]} assets
    * @param {Worker} worker
    */
-  constructor(scene_name, assets, worker)
+  constructor(scene_name: any, assets: any, worker: any)
   {
     super(scene_name, assets, worker);
   }

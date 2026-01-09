@@ -1,9 +1,13 @@
-import { RaycastResolver } from './RaycastResolver';
 import { GroupRaycaster } from './GroupRaycaster';
+import { RaycastResolver } from './RaycastResolver';
 
 class SurfaceDragResolver extends RaycastResolver
 {
-  constructor(surface_mesh, input)
+  _drag_started: any;
+  _group_raycaster: any;
+  input: any;
+  
+  constructor(surface_mesh: any, input: any)
   {
     super();
     this._drag_started = false;
@@ -13,13 +17,13 @@ class SurfaceDragResolver extends RaycastResolver
   }
 
   // @virtual
-  on_drag_start(contact_point)
+  on_drag_start(contact_point: any)
   {
     // console.log("on_drag_start");
   }
 
   // @virtual
-  on_drag_move(contact_point)
+  on_drag_move(contact_point: any)
   {
     // console.log("on_drag_move");
   }
@@ -35,14 +39,17 @@ class SurfaceDragResolver extends RaycastResolver
   {
 
   }
-
+  
   get drag_started()
   {
     return this._drag_started;
   }
 
-  on_hover(intersected_object, intersection_data)
+  on_hover(intersected_object: any)
   {
+    // Extract intersection data from the intersected object or use a different approach
+    const intersection_data = intersected_object; // Adjust this based on your data structure
+    
     if (this.input.left_mouse_button_released && this._drag_started)
     {
       this._drag_started = false;

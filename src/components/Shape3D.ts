@@ -1,10 +1,7 @@
-// @ts-check
+
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
-import { Mesh, Vector2 } from 'three'; // eslint-disable-line no-unused-vars
-import { Shape } from 'three';
-import { ExtrudeGeometry } from 'three';
-import { MeshNormalMaterial } from 'three';
+import { ExtrudeGeometry, Mesh, MeshNormalMaterial, Shape, Vector2 } from 'three';
 
 class Shape3D extends Mesh
 {
@@ -13,7 +10,7 @@ class Shape3D extends Mesh
    * @param {boolean} show_edges
    * @param {number} [height]
    */
-  constructor(points_2D, show_edges, height)
+  constructor(points_2D: any, show_edges: any, height: any)
   {
     const shape = new Shape(points_2D);
     height = height || 1;

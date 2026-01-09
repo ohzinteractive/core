@@ -15,6 +15,15 @@ import basic_color_vert from './shaders/basic_color/basic_color.vert';
 
 class Debug
 {
+  Vector3_one: any;
+  Vector3_zero: any;
+  camera: any;
+  canvas_renderer: any;
+  ctx: any;
+  display_texture_meshes: any;
+  rt_debug: any;
+  scene: any;
+  
   init()
   {
     this.Vector3_one = new Vector3(1, 1, 1);
@@ -30,7 +39,7 @@ class Debug
     this.camera.clear_alpha = 0;
   }
 
-  draw_arrow(origin, dir, color = 0xff0000)
+  draw_arrow(origin: any, dir: any, color = 0xff0000)
   {
     const arrow = new Arrow(color, dir.length(), dir.clone().normalize());
     arrow.position.copy(origin);
@@ -45,12 +54,12 @@ class Debug
     return axis;
   }
 
-  set_debug_RT(RT)
+  set_debug_RT(RT: any)
   {
     this.rt_debug = RT;
   }
 
-  draw_rectangle(position_2d, width, height, color)
+  draw_rectangle(position_2d: any, width: any, height: any, color: any)
   {
     width  = width || 100;
     height = height || 100;
@@ -67,7 +76,7 @@ class Debug
     }
   }
 
-  draw_line_2D(from, to, color)
+  draw_line_2D(from: any, to: any, color: any)
   {
     this.ctx.strokeStyle =  color || 'rgba(255, 0, 0, 1)';
     this.ctx.beginPath();
@@ -77,7 +86,7 @@ class Debug
     this.ctx.stroke();
   }
 
-  draw_line(points, color = 0xff0000)
+  draw_line(points: any, color = 0xff0000)
   {
     const material = new LineBasicMaterial({
       color: color
@@ -91,7 +100,7 @@ class Debug
     return line;
   }
 
-  draw_cube(pos, size, color)
+  draw_cube(pos: any, size: any, color: any)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -103,7 +112,7 @@ class Debug
     return cube;
   }
 
-  draw_oriented_cube(from, to, height = 1, color = '#FF0000', depth = 0.1)
+  draw_oriented_cube(from: any, to: any, height = 1, color = '#FF0000', depth = 0.1)
   {
     const size = from.distanceTo(to);
     const cube = new Cube(new Vector3(depth, height, size), undefined, color);
@@ -125,7 +134,7 @@ class Debug
     return cube;
   }
 
-  draw_plane(width, height, color) // eslint-disable-line no-unused-vars
+  draw_plane(width: any, height: any, color: any) 
   {
     const geometry = new PlaneGeometry(width, height);
     const material = new ShaderMaterial({
@@ -144,7 +153,7 @@ class Debug
     return plane;
   }
 
-  draw_empty_cube(pos, size, color)
+  draw_empty_cube(pos: any, size: any, color: any)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -155,7 +164,7 @@ class Debug
     return helper;
   }
 
-  draw_sphere(pos, size, color)
+  draw_sphere(pos: any, size: any, color: any)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -167,7 +176,7 @@ class Debug
     return sphere;
   }
 
-  draw_point_array(input_points, open = false, color = 0xff0000) // eslint-disable-line no-unused-vars
+  draw_point_array(input_points: any, open = false, color = 0xff0000) 
   {
     const catmull = new CatmullRomCurve3(input_points, open);
     catmull.updateArcLengths();
@@ -177,7 +186,7 @@ class Debug
     return line_helper;
   }
 
-  draw_sphere_helper(sphere, color)
+  draw_sphere_helper(sphere: any, color: any)
   {
     color = color || 0xff0000;
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
@@ -188,7 +197,7 @@ class Debug
     return sphere_mesh;
   }
 
-  draw_math_sphere(sphere)
+  draw_math_sphere(sphere: any)
   {
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
     const material = new ShaderMaterial({
@@ -205,13 +214,13 @@ class Debug
     SceneManager.current.add(sphere1);
   }
 
-  draw_bounding_box(bb)
+  draw_bounding_box(bb: any)
   {
     const helper = new Box3Helper(bb, 0xffff00);
     SceneManager.current.add(helper);
   }
 
-  draw_curve(curve, options)
+  draw_curve(curve: any, options: any)
   {
     const offset = new Vector3(0, 0, 0);
     if (options)
@@ -225,7 +234,7 @@ class Debug
     }
   }
 
-  draw_texture(tex, w, h)
+  draw_texture(tex: any, w: any, h: any)
   {
     const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);
@@ -235,7 +244,7 @@ class Debug
     return mesh;
   }
 
-  render(graphics)
+  render(graphics: any)
   {
     for (let i = 0; i < this.display_texture_meshes.length; i++)
     {

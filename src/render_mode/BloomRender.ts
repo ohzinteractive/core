@@ -1,22 +1,27 @@
 
-import { BaseRender } from '../render_mode/BaseRender';
 import { BloomComposeMaterial } from '../materials/BloomComposeMaterial';
+import { BaseRender } from '../render_mode/BaseRender';
 
 import { WebGLRenderTarget } from 'three';
 
-import { Blurrer } from '../render_utilities/Blurrer';
-import { Graphics } from '../Graphics';
 import { CameraManager } from '../CameraManager';
-import { SceneManager } from '../SceneManager';
+import { Graphics } from '../Graphics';
 import { OScreen } from '../OScreen';
+import { Blurrer } from '../render_utilities/Blurrer';
+import { SceneManager } from '../SceneManager';
 
 class BloomRender extends BaseRender
 {
+  bloom_compose_mat: any;
+  blur_RT: any;
+  blurrer: any;
+  main_RT: any;
   constructor()
   {
     super();
 
     this.bloom_compose_mat = new BloomComposeMaterial();
+    // @ts-expect-error -- DEBUG --
     window.bloom_mat = this.bloom_compose_mat;
 
     this.main_RT = undefined;

@@ -3,17 +3,21 @@ import { ViewStateTransitionHandler } from './transition/ViewStateTransitionHand
 
 class TransitionManager
 {
+  transition_handler: any;
+  transition_table: any;
   constructor()
   {
     this.transition_table = new TransitionTable();
     this.transition_handler = new ViewStateTransitionHandler(this.transition_table);
   }
 
+  
   get action_sequencer()
   {
     return this.transition_handler.action_sequencer;
   }
 
+  
   get current_state_data()
   {
     return this.transition_handler.current_state_data;
@@ -24,7 +28,7 @@ class TransitionManager
     return this.transition_handler.current_state;
   }
 
-  go_to_state(state, skip = false)
+  go_to_state(state: any, skip = false)
   {
     this.transition_handler.go_to_state(state, skip);
   }
@@ -44,28 +48,28 @@ class TransitionManager
     this.transition_handler.fixed_update();
   }
 
-  add_transitions(transitions)
+  add_transitions(transitions: any)
   {
     this.transition_table.add_transitions(transitions);
   }
 
-  set_transitions(transitions)
+  set_transitions(transitions: any)
   {
     this.transition_table.set_transitions(transitions);
   }
 
-  set_state(state)
+  set_state(state: any)
   {
     this.transition_handler.set_state(state);
   }
 
-  set_default_state_data(default_state_data)
+  set_default_state_data(default_state_data: any)
   {
     this.transition_table.set_default_state_data(default_state_data);
     this.transition_handler.set_default_state_data(default_state_data);
   }
 
-  set_transitions_velocity(transitions_velocity)
+  set_transitions_velocity(transitions_velocity: any)
   {
     this.transition_table.set_transitions_velocity(transitions_velocity);
   }

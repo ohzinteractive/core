@@ -6,7 +6,12 @@ import { Quaternion } from 'three';
 
 class ObjectRotator extends RaycastResolver
 {
-  constructor(object, input)
+  group_raycaster: any;
+  input: any;
+  is_mouse_over: any;
+  object: any;
+  rotation_active: any;
+  constructor(object: any, input: any)
   {
     super();
 
@@ -19,7 +24,7 @@ class ObjectRotator extends RaycastResolver
     this.group_raycaster = new GroupRaycaster([object], this, undefined, this.input);
   }
 
-  on_enter(intersected_object)
+  on_enter(intersected_object: any)
   {
     this.is_mouse_over = true;
   }

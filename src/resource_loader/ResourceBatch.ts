@@ -2,18 +2,21 @@ import { ResourceContainer } from '../ResourceContainer';
 
 class ResourceBatch
 {
-  constructor(batch_name)
+  resource_loaders: any[];
+  batch_name: string;
+
+  constructor(batch_name: any)
   {
     this.resource_loaders = [];
     this.batch_name = batch_name || 'unnamed batch';
   }
 
-  add_loader(loader)
+  add_loader(loader: any)
   {
     this.resource_loaders.push(loader);
   }
 
-  load(resource_container)
+  load(resource_container: any)
   {
     for (let i = 0; i < this.resource_loaders.length; i++)
     {
@@ -30,7 +33,7 @@ class ResourceBatch
     }
     return finished;
   }
-
+  
   get has_errors()
   {
     let has_error = false;

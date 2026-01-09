@@ -1,6 +1,8 @@
 class ViewState
 {
-  constructor(name)
+  name: any;
+  
+  constructor(name: any)
   {
     this.name = name;
   }
@@ -37,11 +39,11 @@ class ViewState
   {
   }
 
-  update_enter_transition(global_view_data, transition_progress, action_sequencer)
+  update_enter_transition(global_view_data: any, transition_progress: any, action_sequencer: any)
   {
   }
 
-  update_exit_transition(global_view_data, transition_progress, action_sequencer)
+  update_exit_transition(global_view_data: any, transition_progress: any, action_sequencer: any)
   {
   }
 }

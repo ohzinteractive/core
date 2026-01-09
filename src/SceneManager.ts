@@ -1,8 +1,9 @@
-// @ts-check
-import { Scene, Mesh } from 'three'; // eslint-disable-line no-unused-vars
+
+import { Mesh, Scene } from 'three';
 
 class SceneManager
 {
+  _current: any;
   init()
   {
     this._current = new Scene();
@@ -12,17 +13,19 @@ class SceneManager
   /**
    * @param {string} name
    */
-  add_scene(name) // eslint-disable-line no-unused-vars
+  add_scene(name: any) 
   {
 
   }
 
   /** @type {Scene} */
+  
   get current()
   {
     return this._current;
   }
 
+  
   set current(scene)
   {
     this._current = scene;
@@ -30,15 +33,13 @@ class SceneManager
 
   dispose()
   {
-    this.current.traverse((/** @type {Mesh} */ child) =>
-    {
+    this.current.traverse((/** @type {Mesh} */ child: any) => {
       if (child.geometry)
       {
         child.geometry.dispose();
         const mat = child.material;
         if ('disppose' in mat && typeof (mat.disppose) === 'function')
         {
-          // @ts-ignore
           mat.dispose();
         }
       }

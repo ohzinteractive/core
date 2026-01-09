@@ -1,6 +1,9 @@
 class CompilatorManager
 {
-  constructor(compilators)
+  compilators: any;
+  first_update: any;
+  index: any;
+  constructor(compilators: any)
   {
     this.compilators = compilators;
     this.first_update = true;

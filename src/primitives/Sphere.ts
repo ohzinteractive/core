@@ -2,11 +2,14 @@ import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three';
 
 class Sphere extends Mesh
 {
+  center: any;
+  color: any;
+  radius: any;
   /**
    * @param {number} radius
    * @param {number | string} color
    */
-  constructor(radius, color)
+  constructor(radius: any, color: any)
   {
     color = color || '#FF0000';
     radius = radius || 1;

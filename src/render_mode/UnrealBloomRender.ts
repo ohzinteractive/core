@@ -1,18 +1,25 @@
+import { AddMaterial } from '../materials/AddMaterial';
+import { UnrealBloomComposeMaterial } from '../materials/UnrealBloomComposeMaterial';
 import { OScreen } from '../OScreen';
 import { BaseRender } from '../render_mode/BaseRender';
-import { UnrealBloomComposeMaterial } from '../materials/UnrealBloomComposeMaterial';
-import { AddMaterial } from '../materials/AddMaterial';
 
 import { HalfFloatType, LinearSRGBColorSpace, NearestFilter, RGBAFormat, UnsignedByteType, WebGLRenderTarget } from 'three';
 
-import { GaussianBlurrer } from '../render_utilities/GaussianBlurrer';
-import { Graphics } from '../Graphics';
 import { CameraManager } from '../CameraManager';
+import { Graphics } from '../Graphics';
+import { GaussianBlurrer } from '../render_utilities/GaussianBlurrer';
 import { SceneManager } from '../SceneManager';
 
 class UnrealBloomRender extends BaseRender
 {
-  constructor(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)
+  add_mat: any;
+  bloom_compose_mat: any;
+  blurrer: any;
+  luminosity_threshold: any;
+  main_RT: any;
+  use_hight_luminosity_pass: any;
+  use_rendering_size: any;
+  constructor(use_antialiasing: any, use_half_float: any, use_hight_luminosity_pass: any, use_rendering_size = false)
   {
     super();
 
@@ -68,43 +75,43 @@ class UnrealBloomRender extends BaseRender
     Graphics.blit(this.main_RT, undefined, this.add_mat);
   }
 
-  set_bloom_strength(val)
+  set_bloom_strength(val: any)
   {
     this.bloom_compose_mat.set_bloom_strength(val);
   }
 
-  set_bloom_radius(val)
+  set_bloom_radius(val: any)
   {
     // this.bloom_compose_mat.set_bloom_radius(val);
     this.blurrer.set_radius(val);
   }
 
-  set_luminosity_threshold(value)
+  set_luminosity_threshold(value: any)
   {
     this.blurrer.set_luminosity_threshold(value);
   }
 
-  set_tint_color_0(col_string)
+  set_tint_color_0(col_string: any)
   {
     this.bloom_compose_mat.set_tint_color_0(col_string);
   }
 
-  set_tint_color_1(col_string)
+  set_tint_color_1(col_string: any)
   {
     this.bloom_compose_mat.set_tint_color_1(col_string);
   }
 
-  set_tint_color_2(col_string)
+  set_tint_color_2(col_string: any)
   {
     this.bloom_compose_mat.set_tint_color_2(col_string);
   }
 
-  set_tint_color_3(col_string)
+  set_tint_color_3(col_string: any)
   {
     this.bloom_compose_mat.set_tint_color_3(col_string);
   }
 
-  set_tint_color_4(col_string)
+  set_tint_color_4(col_string: any)
   {
     this.bloom_compose_mat.set_tint_color_4(col_string);
   }

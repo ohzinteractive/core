@@ -1,14 +1,12 @@
 import frag from '../../shaders/gpu_particles/generic_storage.frag';
 
-import { ShaderMaterial } from 'three';
-import { NoBlending } from 'three';
-import { AlwaysDepth } from 'three';
+import { AlwaysDepth, NoBlending, ShaderMaterial } from 'three';
 
 class ParticleStorageMaterial extends ShaderMaterial
 {
-  constructor()
+  constructor(vert?: any)
   {
-    const vert = `
+    vert = vert || `
       varying vec4 value;
       attribute vec4 data;
 
@@ -20,6 +18,7 @@ class ParticleStorageMaterial extends ShaderMaterial
           value = data;
       }
     `;
+
     super({
       uniforms: {
 

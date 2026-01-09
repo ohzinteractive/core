@@ -1,9 +1,9 @@
-// @ts-check
-import { Mesh, Object3D } from 'three'; // eslint-disable-line no-unused-vars
-import { Vector3 } from 'three';
+
+import { Mesh, Object3D, Vector3 } from 'three';
 
 class BaseObject extends Object3D
 {
+  ___temp_w_pos: any;
   constructor()
   {
     super();
@@ -19,7 +19,7 @@ class BaseObject extends Object3D
   /**
    * @param {Object3D | Mesh} obj
    */
-  deep_dispose(obj)
+  deep_dispose(obj: any)
   {
     if (obj !== null)
     {

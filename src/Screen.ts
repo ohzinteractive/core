@@ -1,5 +1,5 @@
-// @ts-check
-import { Vector2 } from 'three'; // eslint-disable-line
+
+import { Vector2 } from 'three';
 import { OScreen } from './OScreen';
 
 class Screen
@@ -14,7 +14,7 @@ class Screen
    * @param {number} x
    * @param {number} y
    */
-  update_position(x, y)
+  update_position(x: any, y: any)
   {
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     OScreen.update_position(x, y);
@@ -26,29 +26,20 @@ class Screen
     OScreen.update();
   }
 
-  /**
-   * @param {number} width
-   * @param {number} height
-   */
-  update_size(width, height)
+
+  update_size(width: number, height: number)
   {
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     OScreen.update_size(width, height);
   }
 
-  /**
-   * @param {Vector2} vector2
-   */
-  apply_pixel_density_v2(vector2)
+  apply_pixel_density_v2(vector2: Vector2)
   {
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     return OScreen.apply_pixel_density_v2(vector2);
   }
 
-  /**
-   * @param {number} value
-   */
-  apply_pixel_density(value)
+  apply_pixel_density(value: number)
   {
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     return OScreen.apply_pixel_density(value);

@@ -1,14 +1,11 @@
-import vert from '../shaders/copy/copy.vert';
 import frag from '../shaders/copy/copy.frag';
+import vert from '../shaders/copy/copy.vert';
 
-import { ShaderMaterial } from 'three';
-import { Vector2 } from 'three';
-import { NoBlending } from 'three';
-import { AlwaysDepth } from 'three';
+import { AlwaysDepth, NoBlending, ShaderMaterial, Vector2 } from 'three';
 
 class BlitMaterial extends ShaderMaterial
 {
-  constructor(frag_shader, vert_shader, defines)
+  constructor(frag_shader?: string, vert_shader?: string, defines?: Record<string, any>)
   {
     super({
       uniforms: {

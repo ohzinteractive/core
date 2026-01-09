@@ -1,6 +1,6 @@
-// @ts-check
-import { Vector2 } from 'three'; // eslint-disable-line no-unused-vars
-import { UIElement } from '../../components/UIElement'; // eslint-disable-line no-unused-vars
+
+import { Vector2 } from 'three';
+import { UIElement } from '../../components/UIElement';
 
 class UIElementState
 {
@@ -13,7 +13,7 @@ class UIElementState
    * @param {UIElement} ui_element
    * @param {Vector2} normalized_mouse_position
    */
-  update(ui_element, normalized_mouse_position) // eslint-disable-line no-unused-vars
+  update(ui_element: any, normalized_mouse_position: any) 
   {
 
   }
@@ -21,13 +21,13 @@ class UIElementState
   /**
    * @param {UIElement} ui_element
    */
-  on_enter(ui_element) // eslint-disable-line no-unused-vars
+  on_enter(ui_element: any) 
   {}
 
   /**
    * @param {UIElement} ui_element
    */
-  on_exit(ui_element) // eslint-disable-line no-unused-vars
+  on_exit(ui_element: any) 
   {}
 }
 

@@ -1,8 +1,8 @@
-import { BaseShaderMaterial } from './BaseShaderMaterial';
 import { Vector2 } from 'three';
+import { BaseShaderMaterial } from './BaseShaderMaterial';
 class ScreenSpaceTextureMaterial extends BaseShaderMaterial
 {
-  constructor(x, y, w, h)
+  constructor()
   {
     const vert = `
       uniform vec2 _ScreenSpacePosition;
@@ -38,12 +38,12 @@ class ScreenSpaceTextureMaterial extends BaseShaderMaterial
     });
   }
 
-  set_position(x, y)
+  set_position(x: any, y: any)
   {
     this.uniforms._ScreenSpacePosition.value.set(x, y);
   }
 
-  set_texture(tex, w, h)
+  set_texture(tex: any, w: any, h: any)
   {
     this.uniforms._MainTex.value = tex;
     this.uniforms._TextureSize.value.set(tex.image.width, tex.image.height);
@@ -58,7 +58,7 @@ class ScreenSpaceTextureMaterial extends BaseShaderMaterial
     }
   }
 
-  set_screen_size(w, h)
+  set_screen_size(w: any, h: any)
   {
     this.uniforms._ScreenSize.value.set(w, h);
   }

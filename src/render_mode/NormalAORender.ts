@@ -12,6 +12,13 @@ import { WebGLRenderTarget } from 'three';
 
 class NormalAORender extends BaseRender
 {
+  SSAO_RT: any;
+  blurrer: any;
+  debug_normals: any;
+  main_RT: any;
+  ssaa: any;
+  ssao_compose_mat: any;
+  ssao_mat: any;
   constructor(use_ssaa = false)
   {
     super();

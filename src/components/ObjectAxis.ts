@@ -1,8 +1,7 @@
-// @ts-check
+
 import { Arrow } from '../primitives/Arrow';
 
-import { Object3D } from 'three';
-import { Vector3 } from 'three';
+import { Object3D, Vector3 } from 'three';
 
 class ObjectAxis extends Object3D
 {
@@ -10,7 +9,7 @@ class ObjectAxis extends Object3D
    * @param {Object3D} obj
    * @param {number} [size]
    */
-  constructor(obj, size)
+  constructor(obj: any, size: any)
   {
     super();
     size = size || 1.5;

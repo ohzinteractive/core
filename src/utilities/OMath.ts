@@ -4,26 +4,26 @@ class OMath
   constructor()
   {}
 
-  static linear_map(value,
-    from_range_start_value,
-    from_range_end_value,
-    to_range_start_value,
-    to_range_end_value)
+  static linear_map(value: any,
+    from_range_start_value: any,
+    from_range_end_value: any,
+    to_range_start_value: any,
+    to_range_end_value: any)
   {
     return ((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (to_range_end_value - to_range_start_value) + to_range_start_value;
   }
 
-  static between(value, min, max)
+  static between(value: any, min: any, max: any)
   {
     return (value >= min && value <= max);
   }
 
-  static mod(number, divisor)
+  static mod(number: any, divisor: any)
   {
     return ((number % divisor) + divisor) % divisor;
   }
 
-  static rgb_to_hex(rgb)
+  static rgb_to_hex(rgb: any)
   {
     rgb.r = Math.round(rgb.r * 255).toString(16);
     rgb.g = Math.round(rgb.g * 255).toString(16);
@@ -45,7 +45,7 @@ class OMath
     return '#' + rgb.r + rgb.g + rgb.b;
   }
 
-  static project_points_on_plane(points, plane)
+  static project_points_on_plane(points: any, plane: any)
   {
     const projected_point = points[0].clone();
     projected_point.set(0, 0, 0);
@@ -61,7 +61,7 @@ class OMath
     return points_on_plane;
   }
 
-  static matrix4_lerp(from, to, target, t)
+  static matrix4_lerp(from: any, to: any, target: any, t: any)
   {
     for (let i = 0; i < 16; i++)
     {
@@ -69,52 +69,52 @@ class OMath
     }
   }
 
-  static equals(x1, x2)
+  static equals(x1: any, x2: any)
   {
     return Math.abs(x1 - x2) < 0.000001;
   }
 
-  static lerp(x, y, t)
+  static lerp(x: any, y: any, t: any)
   {
     return (1 - t) * x + t * y;
   }
 
-  static clamp(value, min, max)
+  static clamp(value: any, min: any, max: any)
   {
     return Math.max(min, Math.min(max, value));
   }
 
-  static euclideanModulo(n, m)
+  static euclideanModulo(n: any, m: any)
   {
     return ((n % m) + m) % m;
   }
 
-  static pingpong(x, length = 1)
+  static pingpong(x: any, length = 1)
   {
     return length - Math.abs(OMath.euclideanModulo(x, length * 2) - length);
   }
 
-  static degToRad(degrees)
+  static degToRad(degrees: any)
   {
     return degrees * (Math.PI / 180);
   }
 
-  static radToDeg(radians)
+  static radToDeg(radians: any)
   {
     return radians * (180 / Math.PI);
   }
 
-  static deg_to_rad(degrees)
+  static deg_to_rad(degrees: any)
   {
     return degrees * (Math.PI / 180);
   }
 
-  static rad_to_deg(radians)
+  static rad_to_deg(radians: any)
   {
     return radians * (180 / Math.PI);
   }
 
-  static perspective_divide(v)
+  static perspective_divide(v: any)
   {
     v.x /= v.w;
     v.y /= v.w;
@@ -122,7 +122,7 @@ class OMath
     return v;
   }
 
-  static points_average(points)
+  static points_average(points: any)
   {
     const center = points[0].clone();
     for (let i = 1; i < points.length; i++)
@@ -149,7 +149,7 @@ class OMath
     return col;
   }
 
-  static saturate(x)
+  static saturate(x: any)
   {
     return OMath.clamp(x, 0, 1);
   }

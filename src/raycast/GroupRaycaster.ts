@@ -6,7 +6,14 @@ import { Raycaster } from 'three';
 
 class GroupRaycaster
 {
-  constructor(raycastee_group, raycast_resolver, camera, input)
+  camera: any;
+  current_intersections: any;
+  current_state: any;
+  input: any;
+  raycast_resolver: any;
+  raycastee_group: any;
+  raycaster: any;
+  constructor(raycastee_group: any, raycast_resolver: any, camera: any, input: any)
   {
     this.camera = camera || CameraManager.current;
     this.raycast_resolver = raycast_resolver || new RaycastResolver();
@@ -18,7 +25,7 @@ class GroupRaycaster
     this.current_intersections = undefined;
   }
 
-  set_raycastee_group(raycastee_group)
+  set_raycastee_group(raycastee_group: any)
   {
     this.raycastee_group = raycastee_group;
   }
@@ -30,7 +37,7 @@ class GroupRaycaster
     this.current_state.update(this);
   }
 
-  set_state(new_state)
+  set_state(new_state: any)
   {
     // console.log("GroupRaycaster switch state to:" + new_state.constructor.name);
 

@@ -5,7 +5,7 @@ import frag from '../shaders/gaussian_blur/unreal_bloom_compose.frag';
 import { Color } from 'three';
 class UnrealBloomComposeMaterial extends BlitMaterial
 {
-  constructor(nMips, use_linear_color_space = false)
+  constructor(nMips: any, use_linear_color_space = false)
   {
     super(frag, undefined, {
       NUM_MIPS: nMips
@@ -36,62 +36,62 @@ class UnrealBloomComposeMaterial extends BlitMaterial
     this.uniforms.bloomTintColors = { value: bloomTintColors };
   }
 
-  set_RT_0(rt)
+  set_RT_0(rt: any)
   {
     this.uniforms.blurTexture1.value = rt;
   }
 
-  set_RT_1(rt)
+  set_RT_1(rt: any)
   {
     this.uniforms.blurTexture2.value = rt;
   }
 
-  set_RT_2(rt)
+  set_RT_2(rt: any)
   {
     this.uniforms.blurTexture3.value = rt;
   }
 
-  set_RT_3(rt)
+  set_RT_3(rt: any)
   {
     this.uniforms.blurTexture4.value = rt;
   }
 
-  set_RT_4(rt)
+  set_RT_4(rt: any)
   {
     this.uniforms.blurTexture5.value = rt;
   }
 
-  set_bloom_strength(value)
+  set_bloom_strength(value: any)
   {
     this.uniforms.bloomStrength.value = value;
   }
 
-  set_bloom_radius(value)
+  set_bloom_radius(value: any)
   {
     this.uniforms.bloomRadius.value = value;
   }
 
-  set_tint_color_0(col_string)
+  set_tint_color_0(col_string: any)
   {
     this.uniforms.bloomTintColors.value[0].set(col_string);
   }
 
-  set_tint_color_1(col_string)
+  set_tint_color_1(col_string: any)
   {
     this.uniforms.bloomTintColors.value[1].set(col_string);
   }
 
-  set_tint_color_2(col_string)
+  set_tint_color_2(col_string: any)
   {
     this.uniforms.bloomTintColors.value[2].set(col_string);
   }
 
-  set_tint_color_3(col_string)
+  set_tint_color_3(col_string: any)
   {
     this.uniforms.bloomTintColors.value[3].set(col_string);
   }
 
-  set_tint_color_4(col_string)
+  set_tint_color_4(col_string: any)
   {
     this.uniforms.bloomTintColors.value[4].set(col_string);
   }

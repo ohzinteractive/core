@@ -1,13 +1,18 @@
-// @ts-check
 class Browser
 {
+  agent: any;
+  browser_name: any;
+  has_web_xr_support: any;
+  is_vr: any;
+  version: any;
+
   async init()
   {
     this.browser_name = '';
     this.agent = window.navigator.userAgent.toLowerCase();
 
     this.has_web_xr_support = 'xr' in navigator;
-    this.is_vr = this.has_web_xr_support && await navigator.xr.isSessionSupported('immersive-vr');
+    this.is_vr = this.has_web_xr_support && (await navigator.xr.isSessionSupported('immersive-vr'));
 
     switch (true)
     {
@@ -17,11 +22,11 @@ class Browser
     case this.agent.indexOf('edg') > -1:
       this.browser_name = 'edge_chromium';
       break;
-    // @ts-ignore
+    // @ts-expect-error -- IGNORE ---
     case this.agent.indexOf('opr') > -1 && !!window.opr:
       this.browser_name = 'opera';
       break;
-    // @ts-ignore
+    // @ts-expect-error -- IGNORE ---
     case this.agent.indexOf('chrome') > -1 && !!window.chrome:
       this.browser_name = 'chrome';
       break;

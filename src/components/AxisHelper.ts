@@ -1,10 +1,5 @@
-// @ts-check
-import { Object3D } from 'three';
-import { LineBasicMaterial } from 'three';
-import { AlwaysDepth } from 'three';
-import { BufferGeometry } from 'three';
-import { Vector3 } from 'three';
-import { Line } from 'three';
+
+import { AlwaysDepth, BufferGeometry, Line, LineBasicMaterial, Object3D, Vector3 } from 'three';
 
 class AxisHelper extends Object3D
 {

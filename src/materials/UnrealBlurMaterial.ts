@@ -6,7 +6,7 @@ import { Vector2 } from 'three';
 
 class UnrealBlurMaterial extends BlitMaterial
 {
-  constructor(kernel_radius)
+  constructor(kernel_radius: any)
   {
     const defines = {
       KERNEL_RADIUS: kernel_radius,

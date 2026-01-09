@@ -1,12 +1,15 @@
 class Pool
 {
+  available: any;
+  busy: any;
+
   constructor()
   {
     this.available = [];
     this.busy = [];
   }
 
-  preload(starting_pool_size)
+  preload(starting_pool_size: any)
   {
     for (let i = 0; i < starting_pool_size; i++)
     {
@@ -45,7 +48,7 @@ class Pool
     return obj;
   }
 
-  release(obj)
+  release(obj: any)
   {
     const index = this.busy.indexOf(obj);
     if (index > -1)
@@ -66,9 +69,11 @@ class Pool
 
   // @override this one when subclassing
   // must return a new instance
-  __create()
+  __create(): any
   {
     console.error('__create not implemented');
+    
+    return null;
   }
 }
 

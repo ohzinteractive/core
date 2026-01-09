@@ -5,33 +5,33 @@ import { FileLoader } from 'three';
 
 class PointArrayLoader extends AbstractLoader
 {
-  constructor(resource_id, url, size)
+  loader: any;
+  resource_id: any;
+  url: any;
+  constructor(resource_id: any, url: any, size: any)
   {
     super(resource_id, url, size);
     this.loader = new FileLoader();
   }
 
-  on_preloaded_finished(resource_container)
+  on_preloaded_finished(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
-      this.loader.load(this.url, (text) =>
-      {
+      this.loader.load(this.url, (text: any) => {
         resource_container.set_resource(this.resource_id, this.url, this.parse_path(text));
 
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr) =>
-      {
+      (xhr: any) => {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;
       //   this.__update_downloaded_bytes(xhr.loaded, total);
       // }
       },
-      (msg) =>
-      {
+      (msg: any) => {
         this.__set_error(msg);
         this.__loading_ended();
       });
@@ -45,7 +45,7 @@ class PointArrayLoader extends AbstractLoader
     }
   }
 
-  parse_path(raw_data)
+  parse_path(raw_data: any)
   {
     const string_array = raw_data.split('\n');
 

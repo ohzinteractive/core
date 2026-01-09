@@ -1,5 +1,16 @@
-import { Vector3 } from 'three';
-import { Vector2 } from 'three';
+import { Vector2, Vector3 } from 'three';
+
+interface Face {
+  a: Vector3;
+  b: Vector3;
+  c: Vector3;
+  normal: Vector3 | undefined;
+  tangent: Vector3 | undefined;
+  uv_a: Vector2 | undefined;
+  uv_b: Vector2 | undefined;
+  uv_c: Vector2 | undefined;
+}
+
 class MeshSampler
 {
   constructor()
@@ -7,7 +18,7 @@ class MeshSampler
 
   }
 
-  sample(buffer_geometry, sample_count)
+  sample(buffer_geometry: any, sample_count: any)
   {
     const face_areas = [];
 
@@ -42,10 +53,15 @@ class MeshSampler
       v3.y = vertices.getY(index_2);
       v3.z = vertices.getZ(index_2);
 
-      const face = {
+      const face: Face = {
         a: v1,
         b: v2,
-        c: v3
+        c: v3,
+        normal: undefined,
+        tangent: undefined,
+        uv_a: undefined,
+        uv_b: undefined,
+        uv_c: undefined
       };
 
       if (normals)
@@ -121,7 +137,7 @@ class MeshSampler
     return sampled_data;
   }
 
-  sample_data_from_faces(faces)
+  sample_data_from_faces(faces: any)
   {
     const sampled_points = [];
     const sampled_normals = [];
@@ -152,7 +168,7 @@ class MeshSampler
     return { points: sampled_points, normals: sampled_normals, tangents: sampled_tangents, uvs: sampled_uvs };
   }
 
-  select_random_faces(faces, amount)
+  select_random_faces(faces: any, amount: any)
   {
     const selected_faces = [];
     for (let i = 0; i < amount; i++)
@@ -166,7 +182,7 @@ class MeshSampler
     return selected_faces;
   }
 
-  get_uniform_face_distribution(face_areas, minimum_area, faces)
+  get_uniform_face_distribution(face_areas: any, minimum_area: any, faces: any)
   {
     const extended_triangle_indices = [];
     for (let i = 0; i < face_areas.length; i++)
@@ -181,14 +197,14 @@ class MeshSampler
     return extended_triangle_indices;
   }
 
-  get_face_area(face)
+  get_face_area(face: any)
   {
     const vec1 = face.b.clone().sub(face.a);
     const vec2 = face.c.clone().sub(face.a);
     return vec1.cross(vec2).length() / 2;
   }
 
-  sample_point_in_face(w1, w2, v1, v2, v3)
+  sample_point_in_face(w1: any, w2: any, v1: any, v2: any, v3: any)
   {
     if (w1 + w2 > 1)
     {

@@ -2,6 +2,7 @@ import { LoadingState } from './LoadingState';
 
 export class HighQualityLoadingState extends LoadingState
 {
+  scene: any;
   on_enter()
   {
     super.on_enter();

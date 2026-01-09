@@ -1,12 +1,11 @@
-// @ts-check
+
 class ActionEvent
 {
-  /**
-   * @param {string} name
-   * @param {string} method
-   * @param {string} args
-   */
-  constructor(name, method, args)
+  args: any;
+  method: any;
+  name: any;
+  
+  constructor(name: string, method: string, args?: string)
   {
     this.name = name;
     this.method = method;
@@ -15,6 +14,7 @@ class ActionEvent
 
   trigger()
   {
+    // @ts-expect-error -- IGNORE ---
     ViewApi.application[this.name][this.method](...this.args.split(','));
   }
 }

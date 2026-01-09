@@ -1,11 +1,11 @@
-// @ts-check
+
 import { Text2D } from './Text2D';
 
-import { Object3D } from 'three';
-import { Vector2 } from 'three';
+import { Object3D, Vector2 } from 'three';
 
 class MultiLineText2D extends Object3D
 {
+  text_array: any;
   /**
    * @param {string[]} text_array
    * @param {string} [font]
@@ -13,7 +13,7 @@ class MultiLineText2D extends Object3D
    * @param {Vector2} [pivot]
    * @param {boolean} [is_static]
    */
-  constructor(text_array, font, color, pivot, is_static) // eslint-disable-line no-unused-vars
+  constructor(text_array: any, font: any, color: any, pivot: any, is_static: any) 
   {
     super();
 
@@ -61,7 +61,7 @@ class MultiLineText2D extends Object3D
   /**
    * @returns {string[]}
    */
-  get texts()
+  get texts(): any
   {
     return [];
   }

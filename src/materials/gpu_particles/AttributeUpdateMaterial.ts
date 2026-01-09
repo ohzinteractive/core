@@ -4,15 +4,16 @@ import frag from '../../shaders/gpu_particles/update/basic_update.frag';
 
 import { Time } from '../../Time';
 
-import { common_utils } from '../../shaders/gpu_particles/common_utils';
+import common_utils from '../../shaders/gpu_particles/common_utils.glsl';
 
-import { Vector2 } from 'three';
-import { ShaderChunk } from 'three';
+import { ShaderChunk, Vector2 } from 'three';
 
 class AttributeUpdateMaterial extends BlitMaterial
 {
-  constructor(custom_frag)
+  multiplier: any;
+  constructor(custom_frag: any)
   {
+    // @ts-expect-error -- IGNORE --
     ShaderChunk.gpu_particles_utils = common_utils;
 
     super(custom_frag || frag);
@@ -27,7 +28,7 @@ class AttributeUpdateMaterial extends BlitMaterial
     // this.precision = "lowp";
   }
 
-  set_multiplier(val)
+  set_multiplier(val: any)
   {
     console.log(val);
     this.multiplier = val;

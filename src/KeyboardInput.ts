@@ -1,10 +1,15 @@
-// @ts-check
+
 class KeyboardInput
 {
+  container: any;
+  ctrlz_fired: any;
+  ctrlz_pressed: any;
+  keys: any;
+  keys_keys: any;
   /**
    * @param {HTMLElement} container
    */
-  init(container)
+  init(container: any)
   {
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
@@ -24,7 +29,7 @@ class KeyboardInput
   /**
    * @param {KeyboardEvent} e
    */
-  on_key_down(e)
+  on_key_down(e: any)
   {
     if (e.keyCode === 90 && e.ctrlKey && !this.ctrlz_fired)
     {
@@ -41,7 +46,7 @@ class KeyboardInput
   /**
    * @param {KeyboardEvent} e
    */
-  on_key_up(e)
+  on_key_up(e: any)
   {
     this.release_key(e.code);
   }
@@ -60,7 +65,7 @@ class KeyboardInput
   /**
    * @param {string} key_name
    */
-  release_key(key_name)
+  release_key(key_name: any)
   {
     const key = this.keys[key_name];
     if (key)
@@ -85,7 +90,7 @@ class KeyboardInput
   /**
    * @param {string} key_name
    */
-  press_key(key_name)
+  press_key(key_name: any)
   {
     const key = this.keys[key_name];
     if (key)
@@ -103,7 +108,7 @@ class KeyboardInput
    * @param {string} key_name
    * @returns {boolean}
    */
-  is_key_pressed(key_name)
+  is_key_pressed(key_name: any)
   {
     const key = this.keys[key_name];
     if (key)
@@ -117,7 +122,7 @@ class KeyboardInput
    * @param {string} key_name
    * @returns {boolean}
    */
-  is_key_down(key_name)
+  is_key_down(key_name: any)
   {
     const key = this.keys[key_name];
     if (key)
@@ -131,7 +136,7 @@ class KeyboardInput
    * @param {string} key_name
    * @returns {boolean}
    */
-  is_key_released(key_name)
+  is_key_released(key_name: any)
   {
     const key = this.keys[key_name];
     if (key)
@@ -145,7 +150,7 @@ class KeyboardInput
   /**
    * @param {string} key
    */
-  register_key(key)
+  register_key(key: any)
   {
     this.keys[key] =
       {
@@ -162,7 +167,7 @@ class KeyboardInput
   /**
    * @param {string} key_name
    */
-  unregister_key(key_name)
+  unregister_key(key_name: any)
   {
     delete this.keys[key_name];
   }

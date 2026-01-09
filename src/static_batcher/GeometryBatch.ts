@@ -2,7 +2,17 @@ import { DataTexture, FloatType, Mesh, RGBAFormat, ShaderMaterial, Vector2 } fro
 
 class GeometryBatch
 {
-  constructor(geometry, batch_width)
+  batch_width: any;
+  data_textures: any;
+  geometry: any;
+  material: any;
+  object_names: any;
+  tmp_uploaded_data_count: any;
+  uniform_dirty_count: any;
+  uniforms: any;
+  write_offset: any;
+  zero_offset: any;
+  constructor(geometry: any, batch_width: any)
   {
     this.geometry = geometry;
 
@@ -22,7 +32,7 @@ class GeometryBatch
     this.tmp_uploaded_data_count = 0;
   }
 
-  init(object_names, vert_shader, frag_shader)
+  init(object_names: any, vert_shader: any, frag_shader: any)
   {
     this.material = new ShaderMaterial({
       uniforms: this.uniforms,
@@ -32,18 +42,18 @@ class GeometryBatch
     this.object_names = object_names;
   }
 
-  add_global_uniform(name, data)
+  add_global_uniform(name: any, data: any)
   {
     this.uniforms[name] = { value: data };
     this.material.needsUpdate = true;
   }
 
-  set_global_uniform(name, data)
+  set_global_uniform(name: any, data: any)
   {
     this.uniforms[name].value = data;
   }
 
-  add_object_uniform_v3(uniform_name, default_value_v3)
+  add_object_uniform_v3(uniform_name: any, default_value_v3: any)
   {
     const src_tex       = this.__create_rgb_texture(this.batch_width);
     const dst_tex       = this.__create_rgb_texture(this.batch_width);
@@ -57,7 +67,7 @@ class GeometryBatch
     }
   }
 
-  add_object_uniform_v4(uniform_name, default_value_v4)
+  add_object_uniform_v4(uniform_name: any, default_value_v4: any)
   {
     const src_tex       = this.__create_rgba_texture(this.batch_width);
     const dst_tex       = this.__create_rgba_texture(this.batch_width);
@@ -71,7 +81,7 @@ class GeometryBatch
     }
   }
 
-  add_object_uniform_v4_float(uniform_name, default_value_v4)
+  add_object_uniform_v4_float(uniform_name: any, default_value_v4: any)
   {
     const src_tex       = this.__create_rgba_float_texture(this.batch_width);
     const dst_tex       = this.__create_rgba_float_texture(this.batch_width);
@@ -85,7 +95,7 @@ class GeometryBatch
     }
   }
 
-  set_object_uniform_v3(object_name, uniform_name, vector3, use_r, use_g, use_b)
+  set_object_uniform_v3(object_name: any, uniform_name: any, vector3: any, use_r: any, use_g: any, use_b: any)
   {
     const obj_index = this.__get_object_index(object_name);
     const data_texture = this.__get_data_texture(uniform_name);
@@ -98,7 +108,7 @@ class GeometryBatch
     data_texture.dirty_count++;
   }
 
-  set_object_uniform_v4(object_name, uniform_name, vector4, use_r, use_g, use_b, use_a)
+  set_object_uniform_v4(object_name: any, uniform_name: any, vector4: any, use_r: any, use_g: any, use_b: any, use_a: any)
   {
     const obj_index = this.__get_object_index(object_name);
     const data_texture = this.__get_data_texture(uniform_name);
@@ -110,7 +120,7 @@ class GeometryBatch
     data_texture.dirty_count++;
   }
 
-  upload_texture_data(renderer, upload_budget)
+  upload_texture_data(renderer: any, upload_budget: any)
   {
     for (let i = 0; i < this.data_textures.length; i++)
     {
@@ -145,7 +155,7 @@ class GeometryBatch
     return this.uniform_dirty_count;
   }
 
-  __full_texture_data_upload(renderer, texture_data)
+  __full_texture_data_upload(renderer: any, texture_data: any)
   {
     // console.log("full texture update of"+ texture_data.name);
     texture_data.dst.needsUpdate = true;
@@ -156,7 +166,7 @@ class GeometryBatch
     );
   }
 
-  __partial_texture_data_upload(renderer, texture_data)
+  __partial_texture_data_upload(renderer: any, texture_data: any)
   {
     // console.log("partial texture update"+ texture_data.name);
     const index = texture_data.last_accessed_index;
@@ -179,7 +189,7 @@ class GeometryBatch
     return new Mesh(this.geometry, this.material);
   }
 
-  __set_pixel_rgb(data_texture, index, vector3, use_r, use_g, use_b)
+  __set_pixel_rgb(data_texture: any, index: any, vector3: any, use_r: any, use_g: any, use_b: any)
   {
     if (use_r)
     {
@@ -195,7 +205,7 @@ class GeometryBatch
     }
   }
 
-  __set_pixel_rgba(data_texture, index, vector4, use_r, use_g, use_b, use_a)
+  __set_pixel_rgba(data_texture: any, index: any, vector4: any, use_r: any, use_g: any, use_b: any, use_a: any)
   {
     if (use_r)
     {
@@ -215,7 +225,7 @@ class GeometryBatch
     }
   }
 
-  __flood_data_texture_rgb(data_texture, v3)
+  __flood_data_texture_rgb(data_texture: any, v3: any)
   {
     for (let i = 0; i < this.batch_width * this.batch_width; i++)
     {
@@ -224,7 +234,7 @@ class GeometryBatch
     }
   }
 
-  __flood_data_texture_rgba(data_texture, v4)
+  __flood_data_texture_rgba(data_texture: any, v4: any)
   {
     for (let i = 0; i < this.batch_width * this.batch_width; i++)
     {
@@ -233,25 +243,25 @@ class GeometryBatch
     }
   }
 
-  __create_rgb_texture(width)
+  __create_rgb_texture(width: any)
   {
     const data = new Uint8Array(3 * width * width);
     return new DataTexture(data, width, width, RGBAFormat);
   }
 
-  __create_rgba_texture(width)
+  __create_rgba_texture(width: any)
   {
     const data = new Uint8Array(4 * width * width);
     return new DataTexture(data, width, width, RGBAFormat);
   }
 
-  __create_rgba_float_texture(width)
+  __create_rgba_float_texture(width: any)
   {
     const data = new Float32Array(4 * width * width);
     return new DataTexture(data, width, width, RGBAFormat, FloatType);
   }
 
-  __get_data_texture(uniform_name)
+  __get_data_texture(uniform_name: any)
   {
     for (let i = 0; i < this.data_textures.length; i++)
     {
@@ -264,7 +274,7 @@ class GeometryBatch
     return undefined;
   }
 
-  __get_object_index(name)
+  __get_object_index(name: any)
   {
     for (let i = 0; i < this.object_names.length; i++)
     {
@@ -277,7 +287,7 @@ class GeometryBatch
     return undefined;
   }
 
-  __add_data_texture(uniform_name, src_texture, dst_texture, one_pixel_text)
+  __add_data_texture(uniform_name: any, src_texture: any, dst_texture: any, one_pixel_text: any)
   {
     dst_texture.needsUpdate = true;
 

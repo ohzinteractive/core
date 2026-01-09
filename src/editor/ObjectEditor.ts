@@ -5,7 +5,15 @@ import { Raycaster } from 'three';
 
 class ObjectEditor
 {
-  constructor(renderer, scene, camera, input)
+  camera: any;
+  input: any;
+  object_manipulator: any;
+  object_picker: any;
+  raycaster: any;
+  scene: any;
+  selectable_objects: any;
+  selected_object: any;
+  constructor(renderer: any, scene: any, camera: any, input: any)
   {
     this.raycaster = new Raycaster();
 
@@ -45,10 +53,9 @@ class ObjectEditor
     this.object_manipulator.update();
   }
 
-  __populate_selectable_objects(array)
+  __populate_selectable_objects(array: any)
   {
-    this.scene.traverse((child) =>
-    {
+    this.scene.traverse((child: any) => {
       if (child.selectable_material)
       {
         array.push(child);
@@ -56,7 +63,7 @@ class ObjectEditor
     });
   }
 
-  __set_object_ids(array)
+  __set_object_ids(array: any)
   {
     for (let i = 0; i < array.length; i++)
     {

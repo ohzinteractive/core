@@ -2,7 +2,13 @@ import { ViewComponentManager } from './ViewComponentManager';
 
 export class ViewComponent
 {
-  constructor({ name, container })
+  container: any;
+  hidden: any;
+  name: any;
+  constructor({
+    name,
+    container
+  }: any)
   {
     this.name = name;
     this.container = container;
@@ -35,7 +41,7 @@ export class ViewComponent
     this.hidden = true;
   }
 
-  set_opacity(current_state_data)
+  set_opacity(current_state_data: any)
   {
     this.container.style.opacity = current_state_data[`${this.name}_opacity`];
     this.toggle_hidden();

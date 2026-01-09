@@ -6,6 +6,10 @@ import { ResourceLoaderChecker } from './ResourceLoaderChecker';
 
 class AsyncAssetsLoaderWorker
 {
+  assets: any;
+  resource_batches: any;
+  resource_container: any;
+  resource_loader_checkers: any;
   run()
   {
     this.assets = {};
@@ -46,12 +50,12 @@ class AsyncAssetsLoaderWorker
     });
   }
 
-  on_assets_ready(loader_name)
+  on_assets_ready(loader_name: any)
   {
     postMessage({ type: `asset_loaded_${loader_name}`, data: this.resource_container.resources });
   }
 
-  __setup_batch(loader_name)
+  __setup_batch(loader_name: any)
   {
     // this.resource_containers[loader_name] = new ResourceContainer(loader_name);
     this.resource_batches[loader_name] = new ResourceBatch(loader_name, this.resource_container);

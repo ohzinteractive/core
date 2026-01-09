@@ -1,10 +1,11 @@
-// @ts-check
+
 import { CanvasDrawer } from './CanvasDrawer';
 
 import { Vector2 } from 'three';
 
 class MultiLineTextDrawer extends CanvasDrawer
 {
+  text_margin: any;
   constructor()
   {
     super();
@@ -17,7 +18,7 @@ class MultiLineTextDrawer extends CanvasDrawer
    * @param {HTMLCanvasElement} [canvas]
    * @param {CanvasRenderingContext2D} [ctx]
    */
-  __draw(text_array, ctxOptions, canvas, ctx)
+  __draw(text_array: any, ctxOptions: any, canvas: any, ctx: any)
   {
     ctx.font = ctxOptions.font;
     const text_size = new Vector2();

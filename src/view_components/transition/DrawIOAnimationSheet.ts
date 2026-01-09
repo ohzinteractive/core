@@ -5,7 +5,7 @@ class DrawIOAnimationSheet
 
   }
 
-  parse(xml_document)
+  parse(xml_document: any)
   {
     const doc = new DOMParser().parseFromString(xml_document, 'text/xml');
 
@@ -82,7 +82,7 @@ class DrawIOAnimationSheet
     };
   }
 
-  get_node_x_position(node)
+  get_node_x_position(node: any)
   {
     const x_pos = node.getAttribute('x');
     return x_pos === null ? 0 : parseFloat(x_pos);

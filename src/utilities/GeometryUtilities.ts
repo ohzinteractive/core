@@ -3,7 +3,7 @@ import { BufferGeometry } from 'three';
 
 class GeometryUtilities
 {
-  static convert_to_non_indexed_geometry(geometry_buffer)
+  static convert_to_non_indexed_geometry(geometry_buffer: any)
   {
     const indices = geometry_buffer.index;
     const positions = geometry_buffer.getAttribute('position');
@@ -50,7 +50,7 @@ class GeometryUtilities
     return geometry;
   }
 
-  static add_barycentric_attribute(non_indexed_geometry_buffer)
+  static add_barycentric_attribute(non_indexed_geometry_buffer: any)
   {
     const bar_coordinates = [];
     const positions = non_indexed_geometry_buffer.getAttribute('position');

@@ -3,12 +3,12 @@ class ArrayUtilities
   constructor()
   {}
 
-  static merge_from_to(source, target)
+  static merge_from_to(source: any, target: any)
   {
     target.push.apply(target, source);
   }
 
-  static expand_vec3_array(array, size)
+  static expand_vec3_array(array: any, size: any)
   {
     const items_left_count = size - array.length;
 
@@ -18,7 +18,7 @@ class ArrayUtilities
     }
   }
 
-  static remove_elem(array, elem)
+  static remove_elem(array: any, elem: any)
   {
     const index = array.indexOf(elem);
     if (index > -1)
@@ -27,7 +27,7 @@ class ArrayUtilities
     }
   }
 
-  static get_closest_point(points, target)
+  static get_closest_point(points: any, target: any)
   {
     let closest_point = points[0];
     let closest_distance = closest_point.distanceTo(target);
@@ -42,7 +42,7 @@ class ArrayUtilities
     return closest_point;
   }
 
-  static object_values_to_array(obj)
+  static object_values_to_array(obj: any)
   {
     const ids = Object.keys(obj);
     const arr = [];

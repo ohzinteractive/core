@@ -1,19 +1,23 @@
-// @ts-check
 import { CameraManager } from './CameraManager';
 import { Graphics } from './Graphics';
 
-import { Vector2 } from 'three';
-import { Scene } from 'three';
+import { Scene, Vector2 } from 'three';
 import { OrthographicCamera } from './OrthographicCamera';
-import { UIElement } from './components/UIElement'; // eslint-disable-line
+import { UIElement } from './components/UIElement';
 
 class UI
 {
-  init(input)
+  _tmp_normalized_pos: any;
+  current_clicked_element: any;
+  input: any;
+  ss_camera: any;
+  ss_scene: any;
+  ui_elements: any;
+  ws_scene: any;
+  init(input: any)
   {
     this.input = input;
-    /** @type {UIElement[]} */
-    this.ui_elements = [];
+    this.ui_elements = []
     this._tmp_normalized_pos = new Vector2();
     this.ss_scene = new Scene();
     this.ss_scene.matrixWorldAutoUpdate = false;
@@ -26,10 +30,7 @@ class UI
     this.ss_camera = new OrthographicCamera(-1, 1, 1, -1, -100, 100);
   }
 
-  /**
-   * @param {UIElement} elem
-   */
-  delete_element(elem)
+  delete_element(elem: UIElement)
   {
     const index = this.ui_elements.indexOf(elem);
     if (index > -1)
@@ -43,10 +44,7 @@ class UI
     elem.dispose();
   }
 
-  /**
-   * @param {UIElement} elem
-   */
-  add_screen_space_element(elem)
+  add_screen_space_element(elem: UIElement)
   {
     this.ui_elements.push(elem);
     this.ss_scene.add(elem);
@@ -54,10 +52,7 @@ class UI
     elem.set_screen_space_coordinate_system();
   }
 
-  /**
-   * @param {UIElement} elem
-   */
-  add_world_space_element(elem)
+  add_world_space_element(elem: UIElement)
   {
     this.ui_elements.push(elem);
     this.ws_scene.add(elem);
@@ -80,12 +75,8 @@ class UI
     }
   }
 
-  /**
-   * @param {Graphics} renderer
-   */
-  render(renderer)
+  render()
   {
-    // renderer.render_ui(this.scene);
     if (this.ss_scene.children.length > 0)
     {
       Graphics.render(this.ss_scene, this.ss_camera);

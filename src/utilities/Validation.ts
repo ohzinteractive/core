@@ -3,22 +3,22 @@ class Validation
   constructor()
   {}
 
-  static is_int(n)
+  static is_int(n: any)
   {
     return Number(n) === n && n % 1 === 0;
   }
 
-  static is_float(n)
+  static is_float(n: any)
   {
     return Number(n) === n && n % 1 !== 0;
   }
 
-  static is_number(n)
+  static is_number(n: any)
   {
     return this.is_int(n) || this.is_float(n);
   }
 
-  static is_json(str)
+  static is_json(str: any)
   {
     try
     {

@@ -1,13 +1,18 @@
-// @ts-check
-import { Vector3 } from 'three';
-import { Quaternion } from 'three';
+
+import { Quaternion, Vector3 } from 'three';
 
 class ObjectOrientedBoundingBox
 {
+  axis_to_world: any;
+  bounds: any;
+  center: any;
+  max: any;
+  min: any;
+  world_to_axis: any;
   /**
    * @param {Vector3[]} points
    */
-  constructor(points)
+  constructor(points: any)
   {
     let degrees = 0;
     const center = this.get_center(points);
@@ -110,7 +115,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3[]} points
    */
-  get_center(points)
+  get_center(points: any)
   {
     const v = new Vector3();
     for (let i = 0; i < points.length; i++)
@@ -125,7 +130,7 @@ class ObjectOrientedBoundingBox
    * @param {Vector3} min
    * @param {Vector3} max
    */
-  box_volume(min, max)
+  box_volume(min: any, max: any)
   {
     const difference = max.clone().sub(min);
     return Math.abs(difference.x * difference.y * difference.x);
@@ -139,7 +144,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3} point
    */
-  is_inside_XZ(point)
+  is_inside_XZ(point: any)
   {
     const pos = point.clone();
     pos.sub(this.center);
@@ -160,7 +165,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3} reference_point
    */
-  closest_point_on_bounds(reference_point)
+  closest_point_on_bounds(reference_point: any)
   {
     const force = new Vector3();
     for (let i = 0; i < this.bounds.length - 1; i++)
@@ -186,7 +191,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3} point
    */
-  world_to_local(point)
+  world_to_local(point: any)
   {
     const pos = point.clone().sub(this.center);
     pos.applyQuaternion(this.world_to_axis);
@@ -196,7 +201,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3} point
    */
-  local_to_world(point)
+  local_to_world(point: any)
   {
     const pos = point.clone();
     pos.applyQuaternion(this.axis_to_world);
@@ -207,7 +212,7 @@ class ObjectOrientedBoundingBox
   /**
    * @param {Vector3} direction
    */
-  local_to_world_dir(direction)
+  local_to_world_dir(direction: any)
   {
     const dir = direction.clone();
     dir.applyQuaternion(this.axis_to_world);

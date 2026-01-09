@@ -3,11 +3,11 @@ import { BaseShaderMaterial } from './BaseShaderMaterial';
 import frag from '../shaders/sdf_text/sdf_screen_text.frag';
 import vert from '../shaders/sdf_text/sdf_screen_text.vert';
 
-import { Vector2, DoubleSide, LinearFilter } from 'three';
+import { DoubleSide, LinearFilter, Vector2 } from 'three';
 
 class SDFScreenTextMaterial extends BaseShaderMaterial
 {
-  constructor(texture)
+  constructor(texture: any)
   {
     super(vert, frag, {
       _Texture: { value: texture },
@@ -15,9 +15,6 @@ class SDFScreenTextMaterial extends BaseShaderMaterial
     });
 
     this.transparent = true;
-    this.extensions = {
-      derivatives: true
-    };
     this.depthWrite = false;
     this.side = DoubleSide;
     texture.minFilter = LinearFilter;
@@ -25,7 +22,7 @@ class SDFScreenTextMaterial extends BaseShaderMaterial
     texture.generateMipMaps = false;
   }
 
-  set_atlas_size(size)
+  set_atlas_size(size: any)
   {
     this.uniforms._AtlasSize.value.copy(size);
   }

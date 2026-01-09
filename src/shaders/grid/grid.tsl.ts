@@ -15,8 +15,7 @@ export function createGridShader(color = '#4a4a4a')
   const barycentric = attribute('barycentric', 'vec3');
 
   // Edge factor function (TSL equivalent of the GLSL function)
-  const edgeFactor = (baryc) =>
-  {
+  const edgeFactor = (baryc: any) => {
     const d = fwidth(baryc);
     const a3 = smoothstep(vec3(0.0), d.mul(1.5), baryc);
     return min(min(a3.x, a3.y), a3.z);

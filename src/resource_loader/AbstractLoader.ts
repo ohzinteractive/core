@@ -1,7 +1,15 @@
 
 export class AbstractLoader
 {
-  constructor(resource_id, url, size = 1)
+  resource_id: any;
+  url: any;
+  loaded_bytes: any;
+  total_bytes: any;
+  has_finished: any;
+  has_error: any;
+  error_message: any;
+
+  constructor(resource_id: any, url: any, size = 1)
   {
     this.resource_id = resource_id;
     this.url = url;
@@ -13,7 +21,7 @@ export class AbstractLoader
     this.error_message = 'none';
   }
 
-  __update_downloaded_bytes(loaded, total)
+  __update_downloaded_bytes(loaded: any, total: any)
   {
     loaded = this.is_number(loaded) ? loaded : 1;
     total  = this.is_number(total)  ? total  : 1;
@@ -36,7 +44,7 @@ export class AbstractLoader
     this.has_finished = true;
   }
 
-  __set_error(message)
+  __set_error(message: any)
   {
     this.has_error = true;
     this.error_message = message;
@@ -47,7 +55,7 @@ export class AbstractLoader
     console.error('Error while loading ' + this.resource_id + '\n\t path: ' + this.url + '\n\t\t' + this.error_message);
   }
 
-  load(resource_container)
+  load(resource_container: any)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -72,7 +80,7 @@ export class AbstractLoader
     }
   }
 
-  async on_progress(resource_container, response)
+  async on_progress(resource_container: any, response: any)
   {
     const response_clone = response.clone();
     const reader = response.body.getReader();
@@ -109,26 +117,26 @@ export class AbstractLoader
     }
   }
 
-  on_preloaded_finished(resource_container, response)
+  on_preloaded_finished(resource_container: any, response: any)
   {
   }
 
-  __on_error(data)
+  __on_error(data: any)
   {
     console.error(data);
   }
 
-  is_int(n)
+  is_int(n: any)
   {
     return Number(n) === n && n % 1 === 0;
   }
 
-  is_float(n)
+  is_float(n: any)
   {
     return Number(n) === n && n % 1 !== 0;
   }
 
-  is_number(n)
+  is_number(n: any)
   {
     return this.is_int(n) || this.is_float(n);
   }

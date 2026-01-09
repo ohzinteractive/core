@@ -1,7 +1,5 @@
-// @ts-check
-import { Material, Mesh } from 'three'; // eslint-disable-line no-unused-vars
-import { MeshBasicMaterial } from 'three';
-import { PlaneGeometry } from 'three';
+
+import { Material, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 class HorizontalPlane extends Mesh
 {
@@ -11,7 +9,7 @@ class HorizontalPlane extends Mesh
    * @param {number | string} [color]
    * @param {Material} [material]
    */
-  constructor(width, height, color, material)
+  constructor(width: any, height: any, color: any, material: any)
   {
     width = width || 1;
     height = height || 1;

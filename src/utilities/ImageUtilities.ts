@@ -5,7 +5,7 @@ class ImageUtilities
   constructor()
   { }
 
-  static get_image_data(image)
+  static get_image_data(image: any)
   {
     const canvas = document.createElement('canvas');
     canvas.width = image.width;
@@ -17,7 +17,7 @@ class ImageUtilities
     return context.getImageData(0, 0, image.width, image.height);
   }
 
-  static get_pixel(imagedata, x, y)
+  static get_pixel(imagedata: any, x: any, y: any)
   {
     const position = (x + imagedata.width * y) * 4;
     const data = imagedata.data;

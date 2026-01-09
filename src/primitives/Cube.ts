@@ -1,7 +1,5 @@
-// @ts-check
-import { Vector3, Mesh } from 'three';
-import { BoxGeometry } from 'three';
-import { MeshBasicMaterial } from 'three';
+
+import { BoxGeometry, Mesh, MeshBasicMaterial, Vector3 } from 'three';
 
 class Cube extends Mesh
 {
@@ -10,7 +8,7 @@ class Cube extends Mesh
    * @param {Vector3} [segments]
    * @param {number | string} [color]
    */
-  constructor(size, segments, color)
+  constructor(size: any, segments: any, color: any)
   {
     size     = size || new Vector3(1, 1, 1);
     segments = segments || new Vector3(1, 1, 1);
