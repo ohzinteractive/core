@@ -9,7 +9,7 @@ class WorldImage extends Mesh
   current_scale: number;
   tmp_bb_size: Vector3;
   material: ShaderMaterial;
-
+  
   constructor(texture: Texture, pivot: Vector2)
   {
     pivot = pivot || new Vector2(0, 0);

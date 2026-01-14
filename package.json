@@ -48,11 +48,6 @@
   "dependencies": {
     "three": "0.182.0"
   },
-  "standardx": {
-    "ignore": [
-      "rollup.config.mjs"
-    ]
-  },
   "devDependencies": {
     "@types/node": "^25.0.3",
     "@types/three": "0.182.0",
