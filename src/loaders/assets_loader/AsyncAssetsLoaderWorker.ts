@@ -1,15 +1,16 @@
 // We use custom ResourceBatch, ResourceContainer and AbstractLoader to reduce build size
+import { AssetLoader } from './AssetLoader';
 import { ResourceBatch } from './ResourceBatch';
 import { ResourceContainer } from './ResourceContainer';
-import { AssetLoader } from './AssetLoader';
 import { ResourceLoaderChecker } from './ResourceLoaderChecker';
 
 class AsyncAssetsLoaderWorker
 {
-  assets: any;
-  resource_batches: any;
-  resource_container: any;
-  resource_loader_checkers: any;
+  assets: Record<string, any[]>;
+  resource_batches: Record<string, any>;
+  resource_container: ResourceContainer;
+  resource_loader_checkers: Record<string, any>;
+  
   run()
   {
     this.assets = {};
@@ -50,12 +51,12 @@ class AsyncAssetsLoaderWorker
     });
   }
 
-  on_assets_ready(loader_name: any)
+  on_assets_ready(loader_name: string)
   {
     postMessage({ type: `asset_loaded_${loader_name}`, data: this.resource_container.resources });
   }
 
-  __setup_batch(loader_name: any)
+  __setup_batch(loader_name: string)
   {
     // this.resource_containers[loader_name] = new ResourceContainer(loader_name);
     this.resource_batches[loader_name] = new ResourceBatch(loader_name, this.resource_container);

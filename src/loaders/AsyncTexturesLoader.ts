@@ -8,7 +8,7 @@ import { AsyncAbstractLoader } from './AsyncAbstractLoader';
 
 class AsyncTexturesLoader extends AsyncAbstractLoader
 {
-  constructor(scene_name: any, assets: any, worker: any)
+  constructor(scene_name: string, assets: any[], worker: Worker)
   {
     super(scene_name, assets, worker);
   }

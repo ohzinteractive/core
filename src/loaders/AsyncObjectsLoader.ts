@@ -5,12 +5,7 @@ import { AsyncAbstractLoader } from './AsyncAbstractLoader';
 
 class AsyncObjectsLoader extends AsyncAbstractLoader
 {
-  /**
-   * @param {string} scene_name
-   * @param {any[]} assets
-   * @param {Worker} worker
-   */
-  constructor(scene_name: any, assets: any, worker: any)
+  constructor(scene_name: string, assets: any[], worker: Worker)
   {
     super(scene_name, assets, worker);
   }
