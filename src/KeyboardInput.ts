@@ -1,23 +1,25 @@
 class KeyboardInput
 {
-  container: any;
-  ctrlz_fired: any;
-  ctrlz_pressed: any;
-  keys: any;
-  keys_keys: any;
-  /**
-   * @param {HTMLElement} container
-   */
-  init(container: any)
+  container: HTMLElement;
+  ctrlz_fired: boolean;
+  ctrlz_pressed: boolean;
+  keys: {
+    [key: string]: {
+      key_name: string;
+      pressed: boolean;
+      down: boolean;
+      fired: boolean;
+      released: boolean;
+    };
+  };
+  keys_keys: string[];
+
+  init(container: HTMLElement)
   {
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
 
-    /**
-     * @type {{[key:string]:{key_name: string, pressed: boolean, down: boolean, fired: boolean, released: boolean}}}
-     */
     this.keys = {};
-    /** @type {string[]} */
     this.keys_keys = [];
     this.container = container;
 
@@ -25,10 +27,7 @@ class KeyboardInput
     this.container.addEventListener('keyup', this.on_key_up.bind(this), false);
   }
 
-  /**
-   * @param {KeyboardEvent} e
-   */
-  on_key_down(e: any)
+  on_key_down(e: KeyboardEvent)
   {
     if (e.keyCode === 90 && e.ctrlKey && !this.ctrlz_fired)
     {
@@ -42,10 +41,7 @@ class KeyboardInput
     }
   }
 
-  /**
-   * @param {KeyboardEvent} e
-   */
-  on_key_up(e: any)
+  on_key_up(e: KeyboardEvent)
   {
     this.release_key(e.code);
   }
@@ -61,10 +57,7 @@ class KeyboardInput
     }
   }
 
-  /**
-   * @param {string} key_name
-   */
-  release_key(key_name: any)
+  release_key(key_name: string)
   {
     const key = this.keys[key_name];
     if (key)
@@ -86,10 +79,7 @@ class KeyboardInput
     }
   }
 
-  /**
-   * @param {string} key_name
-   */
-  press_key(key_name: any)
+  press_key(key_name: string)
   {
     const key = this.keys[key_name];
     if (key)
@@ -103,11 +93,7 @@ class KeyboardInput
     }
   }
 
-  /**
-   * @param {string} key_name
-   * @returns {boolean}
-   */
-  is_key_pressed(key_name: any)
+  is_key_pressed(key_name: string): boolean
   {
     const key = this.keys[key_name];
     if (key)
@@ -117,11 +103,7 @@ class KeyboardInput
     return false;
   }
 
-  /**
-   * @param {string} key_name
-   * @returns {boolean}
-   */
-  is_key_down(key_name: any)
+  is_key_down(key_name: string): boolean
   {
     const key = this.keys[key_name];
     if (key)
@@ -131,11 +113,7 @@ class KeyboardInput
     return false;
   }
 
-  /**
-   * @param {string} key_name
-   * @returns {boolean}
-   */
-  is_key_released(key_name: any)
+  is_key_released(key_name: string): boolean
   {
     const key = this.keys[key_name];
     if (key)
@@ -146,10 +124,7 @@ class KeyboardInput
     return false;
   }
 
-  /**
-   * @param {string} key
-   */
-  register_key(key: any)
+  register_key(key: string)
   {
     this.keys[key] =
       {
@@ -163,10 +138,7 @@ class KeyboardInput
     this.keys_keys = Object.keys(this.keys);
   }
 
-  /**
-   * @param {string} key_name
-   */
-  unregister_key(key_name: any)
+  unregister_key(key_name: string)
   {
     delete this.keys[key_name];
   }

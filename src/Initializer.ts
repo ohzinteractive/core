@@ -3,7 +3,7 @@ import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
 import { Debug } from './Debug';
 import { Graphics } from './Graphics';
-import { RenderLoop } from './index';
+import type { RenderLoop } from './index';
 import { OS } from './OS';
 import { OScreen } from './OScreen';
 import { ReflectionPlaneContext } from './ReflectionPlaneContext';
@@ -39,10 +39,7 @@ class Initializer
     Debug.init();
   }
 
-  /**
-   * @param {RenderLoop} render_loop
-   */
-  dispose(render_loop: any)
+  dispose(render_loop: RenderLoop)
   {
     Graphics.dispose();
     SceneManager.dispose();
