@@ -2,10 +2,10 @@ import { CanvasTexture, ClampToEdgeWrapping, NearestFilter, UVMapping, Vector2 }
 
 class CanvasDrawer
 {
-  __textHeight: any;
-  canvas: any;
-  ctx: any;
-  uses_dynamic_font: any;
+  __textHeight: number;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  uses_dynamic_font: boolean;
 
   constructor(uses_dynamic_font?: boolean)
   {
@@ -16,7 +16,7 @@ class CanvasDrawer
     this.ctx = this.canvas.getContext('2d');
   }
 
-  getFontHeight(fontStyle = 'Arial')
+  getFontHeight(fontStyle: string = 'Arial')
   {
     if (this.__textHeight == null || this.uses_dynamic_font)
     {
@@ -32,11 +32,7 @@ class CanvasDrawer
     return this.__textHeight;
   }
 
-  /**
-   * @param {string} text
-   * @param {string} font
-   */
-  get_text_size(text: any, font = '24px Arial')
+  get_text_size(text: string, font = '24px Arial')
   {
     const size = new Vector2();
     this.ctx.font = font;
@@ -45,11 +41,7 @@ class CanvasDrawer
     return size;
   }
 
-  /**
-   * @param {string} text
-   * @param {any} [ctxOptions]
-   */
-  draw_canvas(text: any, ctxOptions = {})
+  draw_canvas(text: string, ctxOptions = {})
   {
     // @ts-expect-error -- IGNORE --
     ctxOptions.font = ctxOptions.font || '24px Arial';
@@ -60,11 +52,7 @@ class CanvasDrawer
     return this.canvas;
   }
 
-  /**
-   * @param {string} text
-   * @param {any} [ctxOptions]
-   */
-  draw_on_texture(text: any, ctxOptions: any)
+  draw_on_texture(text: string, ctxOptions: any)
   {
     const canvas = this.draw_canvas(text, ctxOptions);
     const canvas_texture = new CanvasTexture(canvas, UVMapping,
@@ -78,26 +66,10 @@ class CanvasDrawer
     return canvas_texture;
   }
 
-  /**
-   * @param {string[] | string} text
-   * @param {any} [ctxOptions]
-   * @param {HTMLCanvasElement} [canvas]
-   * @param {CanvasRenderingContext2D} [ctx]
-   */
-  __draw(text: any, ctxOptions: any, canvas: any, ctx: any) 
+  __draw(text: string[] | string, ctxOptions: any, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) 
   {}
 
-  /**
-   * @param {CanvasRenderingContext2D} ctx
-   * @param {number} x
-   * @param {number} y
-   * @param {number} width
-   * @param {number} height
-   * @param {number | {tl:number, tr:number, br:number, bl:number}} radius
-   * @param {boolean} fill
-   * @param {boolean} stroke
-   */
-  roundRect(ctx: any, x: any, y: any, width: any, height: any, radius: any, fill: any, stroke: any)
+  roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number | {tl:number, tr:number, br:number, bl:number}, fill: boolean, stroke: boolean)
   {
     if (typeof stroke === 'undefined')
     {

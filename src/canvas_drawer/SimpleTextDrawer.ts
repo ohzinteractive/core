@@ -4,20 +4,15 @@ import { Vector2 } from 'three';
 
 class SimpleTextDrawer extends CanvasDrawer
 {
-  text_margin: any;
+  text_margin: Vector2;
+  
   constructor()
   {
     super();
     this.text_margin = new Vector2(2, 0);
   }
 
-  /**
-   * @param {string} text
-   * @param {any} [ctxOptions]
-   * @param {HTMLCanvasElement} [canvas]
-   * @param {CanvasRenderingContext2D} [ctx]
-   */
-  __draw(text: any, ctxOptions: any, canvas: any, ctx: any)
+  __draw(text: string, ctxOptions: any, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)
   {
     ctx.font = ctxOptions.font;
 

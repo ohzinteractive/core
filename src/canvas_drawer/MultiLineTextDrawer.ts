@@ -4,20 +4,15 @@ import { Vector2 } from 'three';
 
 class MultiLineTextDrawer extends CanvasDrawer
 {
-  text_margin: any;
+  text_margin: Vector2;
+  
   constructor()
   {
     super();
     this.text_margin = new Vector2(2, 0);
   }
 
-  /**
-   * @param {string[]} text_array
-   * @param {any} [ctxOptions]
-   * @param {HTMLCanvasElement} [canvas]
-   * @param {CanvasRenderingContext2D} [ctx]
-   */
-  __draw(text_array: any, ctxOptions: any, canvas: any, ctx: any)
+  __draw(text_array: string[], ctxOptions: any, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)
   {
     ctx.font = ctxOptions.font;
     const text_size = new Vector2();
