@@ -4,15 +4,9 @@ import { Object3D, Vector2 } from 'three';
 
 class MultiLineText2D extends Object3D
 {
-  text_array: any;
-  /**
-   * @param {string[]} text_array
-   * @param {string} [font]
-   * @param {string | number} [color]
-   * @param {Vector2} [pivot]
-   * @param {boolean} [is_static]
-   */
-  constructor(text_array: any, font: any, color: any, pivot: any, is_static: any) 
+  text_array: Text2D[];
+
+  constructor(text_array: string[], font?: string, color?: string | number, pivot?: Vector2, is_static?: boolean) 
   {
     super();
 
@@ -57,10 +51,7 @@ class MultiLineText2D extends Object3D
     this.update_text_positions();
   }
 
-  /**
-   * @returns {string[]}
-   */
-  get texts(): any
+  get texts(): string[]
   {
     return [];
   }

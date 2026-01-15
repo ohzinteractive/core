@@ -3,13 +3,13 @@ import { TextGlyph } from './TextGlyph';
 
 class SDFText
 {
-  __opacity: any;
-  __text: any;
+  __opacity: number;
+  __text: string;
   color: Color;
   color_is_dirty: boolean;
   glyph_is_dirty: boolean;
   glyph_layout: any;
-  glyphs: any;
+  glyphs: any[];
   matrix: Matrix4;
   matrix_is_dirty: boolean;
   pivot_point: Vector2;
@@ -17,7 +17,7 @@ class SDFText
   quaternion: Quaternion;
   scale: Vector3;
 
-  constructor(glyph_layout: any, text = '')
+  constructor(glyph_layout: any, text: string = '')
   {
     this.glyph_layout = glyph_layout;
 
@@ -120,7 +120,7 @@ class SDFText
     this.__generate_glyphs(this.text);
   }
 
-  __generate_glyphs(text: any)
+  __generate_glyphs(text: string)
   {
     let cursor = 0;
 

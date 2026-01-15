@@ -1,14 +1,11 @@
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
-import { Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from 'three';
+import type { Vector2 } from 'three';
+import { Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from 'three';
 
 class Shape2D extends Mesh
 {
-  /**
-   * @param {Vector2[]} points_2D
-   * @param {boolean} show_edges
-   */
-  constructor(points_2D: any, show_edges: any)
+  constructor(points_2D: Vector2[], show_edges: boolean)
   {
     const shape = new Shape(points_2D);
     const geometry = new ShapeGeometry(shape);
@@ -27,10 +24,7 @@ class Shape2D extends Mesh
     }
   }
 
-  /**
-   * @param {ShapeGeometry} geometry
-   */
-  invert_normals(geometry: any)
+  invert_normals(geometry: ShapeGeometry)
   {
     const indices = geometry.index.array;
     for (let i = 0; i < indices.length; i += 3)

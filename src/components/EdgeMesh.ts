@@ -5,8 +5,8 @@ import edge_line_vert from '../shaders/edges/edges.vert';
 
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-import type { BufferGeometry} from 'three';
-import { BufferAttribute, Color, EdgesGeometry, InterleavedBufferAttribute, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
+import type { BufferGeometry , InterleavedBufferAttribute} from 'three';
+import { BufferAttribute, Color, EdgesGeometry, LineBasicMaterial, LineSegments, Mesh, Object3D, PlaneGeometry, ShaderMaterial, Vector3 } from 'three';
 
 class EdgeMesh extends Object3D
 {
@@ -54,11 +54,7 @@ class EdgeMesh extends Object3D
     this.add(this.corners_mesh);
   }
 
-  /**
-   * @param {BufferGeometry} cube_geometry
-   * @returns {Vector3[]}
-   */
-  __get_edges(cube_geometry: any)
+  __get_edges(cube_geometry: BufferGeometry): Vector3[]
   {
     const edges = new EdgesGeometry(cube_geometry);
     const line = new LineSegments(edges, new LineBasicMaterial());
@@ -72,18 +68,12 @@ class EdgeMesh extends Object3D
     return points;
   }
 
-  /**
-   * @param {number} TIME
-   */
-  update(TIME: any) 
+  update(time: number): void 
   {
 
   }
 
-  /**
-   * @param {Vector3[]} points
-   */
-  __get_edges_geometry(points: any)
+  __get_edges_geometry(points: Vector3[])
   {
     const buffer_geometries = [];
     for (let i = 0; i < points.length; i += 2)
@@ -124,11 +114,7 @@ class EdgeMesh extends Object3D
     return BufferGeometryUtils.mergeGeometries(buffer_geometries);
   }
 
-  /**
-   * @param {BufferAttribute | InterleavedBufferAttribute} geometry_vertices
-   * @returns {BufferGeometry}
-   */
-  __get_corners_geometry(geometry_vertices: any)
+  __get_corners_geometry(geometry_vertices: BufferAttribute | InterleavedBufferAttribute): BufferGeometry
   {
     const circle_buffer_geometries = [];
     for (let i = 0; i < geometry_vertices.count; i++)
@@ -149,16 +135,13 @@ class EdgeMesh extends Object3D
     return BufferGeometryUtils.mergeGeometries(circle_buffer_geometries);
   }
 
-  /**
-   * @param {boolean} boolean
-   */
-  set_visible(boolean: any)
+  set_visible(boolean: boolean): void
   {
     this.edges_mesh.visible = boolean;
     this.corners_mesh.visible = boolean;
   }
 
-  dispose()
+  dispose(): void
   {
 
   }

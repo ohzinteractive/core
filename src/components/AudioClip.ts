@@ -1,19 +1,15 @@
-import { AudioListener, Audio as TAudio, PositionalAudio as TPositionalAudio } from 'three';
+import type { AudioListener} from 'three';
+import { Audio as TAudio, PositionalAudio as TPositionalAudio } from 'three';
 
 class AudioClip
 {
-  audio: any;
-  buffer: any;
-  loop: any;
-  positional: any;
-  volume: any;
-  /**
-   * @param {AudioBuffer} buffer
-   * @param {boolean} [loop]
-   * @param {number} [volume]
-   * @param {boolean} [positional]
-   */
-  constructor(buffer: any, loop = true, volume = 1, positional = false)
+  audio: TPositionalAudio | TAudio<GainNode | PannerNode> | undefined;
+  buffer: AudioBuffer;
+  loop: boolean;
+  positional: boolean;
+  volume: number;
+
+  constructor(buffer: AudioBuffer, loop = true, volume = 1, positional = false)
   {
     this.buffer = buffer;
     this.loop = loop;
@@ -23,10 +19,7 @@ class AudioClip
     this.audio = undefined;
   }
 
-  /**
-   * @param {AudioListener} audio_listener
-   */
-  init(audio_listener: any)
+  init(audio_listener: AudioListener): void
   {
     if (this.positional)
     {
@@ -46,24 +39,24 @@ class AudioClip
     this.audio.setVolume(this.loop ? 0 : this.volume);
   }
 
-  play()
+  play(): void
   {
-    this.audio.play();
+    this.audio!.play();
   }
 
-  pause()
+  pause(): void
   {
-    this.audio.pause();
+    this.audio!.pause();
   }
 
-  stop()
+  stop(): void
   {
-    this.audio.stop();
+    this.audio!.stop();
   }
 
-  get is_playing()
+  get is_playing(): boolean
   {
-    return this.audio.isPlaying;
+    return this.audio!.isPlaying;
   }
 }
 

@@ -1,24 +1,23 @@
-import { Mesh, Object3D, Vector3 } from 'three';
+import type { Mesh, Texture} from 'three';
+import { Object3D, Vector3 } from 'three';
 
 class BaseObject extends Object3D
 {
-  ___temp_w_pos: any;
+  ___temp_w_pos: Vector3;
+  
   constructor()
   {
     super();
     this.___temp_w_pos = new Vector3();
   }
 
-  get_world_pos()
+  get_world_pos(): Vector3
   {
     this.getWorldPosition(this.___temp_w_pos);
     return this.___temp_w_pos;
   }
 
-  /**
-   * @param {Object3D | Mesh} obj
-   */
-  deep_dispose(obj: any)
+  deep_dispose(obj: Object3D | Mesh): void
   {
     if (obj !== null)
     {
@@ -26,6 +25,7 @@ class BaseObject extends Object3D
       {
         this.deep_dispose(obj.children[i]);
       }
+
       if ('geometry' in obj)
       {
         obj.geometry.dispose();
@@ -34,9 +34,16 @@ class BaseObject extends Object3D
       {
         if ('map' in obj.material)
         {
-          obj.material.map.dispose();
+          const map = obj.material.map as unknown as Texture;
+
+          map.dispose();
         }
-        obj.material.dispose();
+
+        if (Array.isArray(obj.material)) {
+          obj.material.forEach(m => m.dispose());
+        } else {
+          obj.material.dispose();
+        }
       }
     }
     if (obj.parent)

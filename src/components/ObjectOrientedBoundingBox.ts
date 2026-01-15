@@ -2,16 +2,14 @@ import { Quaternion, Vector3 } from 'three';
 
 class ObjectOrientedBoundingBox
 {
-  axis_to_world: any;
-  bounds: any;
-  center: any;
-  max: any;
-  min: any;
-  world_to_axis: any;
-  /**
-   * @param {Vector3[]} points
-   */
-  constructor(points: any)
+  axis_to_world: Quaternion;
+  bounds: Vector3[];
+  center: Vector3;
+  max: Vector3;
+  min: Vector3;
+  world_to_axis: Quaternion;
+
+  constructor(points: Vector3[])
   {
     let degrees = 0;
     const center = this.get_center(points);
@@ -111,10 +109,7 @@ class ObjectOrientedBoundingBox
     //   Debug.draw_line(center.clone().add(deep_left),center.clone().add(deep_right));
   }
 
-  /**
-   * @param {Vector3[]} points
-   */
-  get_center(points: any)
+  get_center(points: Vector3[])
   {
     const v = new Vector3();
     for (let i = 0; i < points.length; i++)
@@ -125,11 +120,7 @@ class ObjectOrientedBoundingBox
     return v;
   }
 
-  /**
-   * @param {Vector3} min
-   * @param {Vector3} max
-   */
-  box_volume(min: any, max: any)
+  box_volume(min: Vector3, max: Vector3)
   {
     const difference = max.clone().sub(min);
     return Math.abs(difference.x * difference.y * difference.x);
@@ -140,10 +131,7 @@ class ObjectOrientedBoundingBox
     return this.max.clone().sub(this.min);
   }
 
-  /**
-   * @param {Vector3} point
-   */
-  is_inside_XZ(point: any)
+  is_inside_XZ(point: Vector3)
   {
     const pos = point.clone();
     pos.sub(this.center);
@@ -161,10 +149,7 @@ class ObjectOrientedBoundingBox
     }
   }
 
-  /**
-   * @param {Vector3} reference_point
-   */
-  closest_point_on_bounds(reference_point: any)
+  closest_point_on_bounds(reference_point: Vector3)
   {
     const force = new Vector3();
     for (let i = 0; i < this.bounds.length - 1; i++)
@@ -187,20 +172,14 @@ class ObjectOrientedBoundingBox
     return this.local_to_world_dir(force);
   }
 
-  /**
-   * @param {Vector3} point
-   */
-  world_to_local(point: any)
+  world_to_local(point: Vector3)
   {
     const pos = point.clone().sub(this.center);
     pos.applyQuaternion(this.world_to_axis);
     return pos;
   }
 
-  /**
-   * @param {Vector3} point
-   */
-  local_to_world(point: any)
+  local_to_world(point: Vector3)
   {
     const pos = point.clone();
     pos.applyQuaternion(this.axis_to_world);
@@ -208,10 +187,7 @@ class ObjectOrientedBoundingBox
     return pos;
   }
 
-  /**
-   * @param {Vector3} direction
-   */
-  local_to_world_dir(direction: any)
+  local_to_world_dir(direction: Vector3)
   {
     const dir = direction.clone();
     dir.applyQuaternion(this.axis_to_world);

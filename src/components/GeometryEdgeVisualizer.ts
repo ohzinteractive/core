@@ -3,7 +3,7 @@ import edge_visualizer_vert from '../shaders/edge_visualizer/edge_visualizer.ver
 
 import { GeometryUtilities } from '../utilities/GeometryUtilities';
 
-import type { BufferGeometry} from 'three';
+import type { BufferGeometry } from 'three';
 import { Color, Mesh, ShaderMaterial } from 'three';
 
 class GeometryEdgeVisualizer extends Mesh
@@ -40,7 +40,7 @@ class GeometryEdgeVisualizer extends Mesh
     this.material = material;
   }
 
-  hide_faces()
+  hide_faces(): void
   {
     this.material.uniforms._Alpha.value = 0;
   }

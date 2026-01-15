@@ -42,11 +42,11 @@ class AxisHelper extends Object3D
     this.scale.set(scale, scale, scale);
   }
 
-  update()
+  update(): void
   {
   }
 
-  dispose()
+  dispose(): void
   {
   }
 }

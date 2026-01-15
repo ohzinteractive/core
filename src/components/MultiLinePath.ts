@@ -1,18 +1,18 @@
 import { Line } from './Line';
 
-import { Object3D, Vector3 } from 'three';
+import type { Vector3 } from 'three';
+import { Object3D } from 'three';
 
 class MultiLinePath extends Object3D
 {
-  paths: any;
-  /**
-   * @param {Array<Vector3[]>} paths
-   */
-  constructor(paths: any)
+  paths: Line[];
+
+  constructor(paths: Array<Vector3>)
   {
     super();
 
     this.paths = [];
+
     for (let i = 0; i < paths.length; i++)
     {
       const line = new Line(paths[i]);

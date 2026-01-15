@@ -1,15 +1,11 @@
 import { GeometryEdgeVisualizer } from './GeometryEdgeVisualizer';
 
-import { ExtrudeGeometry, Mesh, MeshNormalMaterial, Shape, Vector2 } from 'three';
+import type { Vector2 } from 'three';
+import { ExtrudeGeometry, Mesh, MeshNormalMaterial, Shape } from 'three';
 
 class Shape3D extends Mesh
 {
-  /**
-   * @param {Vector2[]} points_2D
-   * @param {boolean} show_edges
-   * @param {number} [height]
-   */
-  constructor(points_2D: any, show_edges: any, height: any)
+  constructor(points_2D: Vector2[], show_edges: boolean, height?: number)
   {
     const shape = new Shape(points_2D);
     height = height || 1;

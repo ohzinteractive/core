@@ -4,11 +4,7 @@ import { Object3D, Vector3 } from 'three';
 
 class ObjectAxis extends Object3D
 {
-  /**
-   * @param {Object3D} obj
-   * @param {number} [size]
-   */
-  constructor(obj: any, size: any)
+  constructor(obj: Object3D, size?: number)
   {
     super();
     size = size || 1.5;
