@@ -104,7 +104,7 @@ class SDFText
     this.update_glyphs();
   }
 
-  set opacity(op)
+  set opacity(op: number)
   {
     this.__opacity = op;
     this.color_is_dirty = true;

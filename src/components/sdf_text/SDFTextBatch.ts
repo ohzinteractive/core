@@ -15,8 +15,8 @@ import {
 class SDFTextBatch extends Mesh
 {
   font_layout: any;
-  max_allocations: any;
-  text_elements: any;
+  max_allocations: number;
+  text_elements: SDFText[];
   material: SDFTextMaterial;
   geometry: InstancedBufferGeometry;
 
@@ -70,25 +70,25 @@ class SDFTextBatch extends Mesh
     this.frustumCulled = false;
   }
 
-  set_boldness(value: any)
+  set_boldness(value: number)
   {
     this.material.set_boldness(value);
   }
 
-  add_text(text_str: any)
+  add_text(text_str: string): SDFText
   {
     const elem = new SDFText(this.font_layout.glyphs, text_str);
     this.text_elements.push(elem);
     return elem;
   }
 
-  remove_text(text_elem: any)
+  remove_text(text_elem: SDFText)
   {
     ArrayUtilities.remove_elem(this.text_elements, text_elem);
     this.update(true);
   }
 
-  update(force_update: any)
+  update(force_update: boolean)
   {
     const glyph_bounds_atr = this.geometry.getAttribute('glyph_bounds');
     const plane_bounds_atr = this.geometry.getAttribute('plane_bounds');
