@@ -1,14 +1,9 @@
-import { Material, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import type { Material } from 'three';
+import { Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 class VerticalPlane extends Mesh
 {
-  /**
-   * @param {number} [width]
-   * @param {number} [height]
-   * @param {number | string} [color]
-   * @param {Material} [material]
-   */
-  constructor(width: any, height: any, color: any, material: any)
+  constructor(width?: number, height?: number, color?: number | string, material?: Material)
   {
     width = width || 1;
     height = height || 1;

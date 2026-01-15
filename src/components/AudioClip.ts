@@ -41,22 +41,22 @@ class AudioClip
 
   play(): void
   {
-    this.audio!.play();
+    this.audio.play();
   }
 
   pause(): void
   {
-    this.audio!.pause();
+    this.audio.pause();
   }
 
   stop(): void
   {
-    this.audio!.stop();
+    this.audio.stop();
   }
 
   get is_playing(): boolean
   {
-    return this.audio!.isPlaying;
+    return this.audio.isPlaying;
   }
 }
 
