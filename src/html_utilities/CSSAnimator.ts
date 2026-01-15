@@ -4,16 +4,17 @@ import { Idle } from './css_animator_states/Idle';
 
 class CSSAnimator
 {
-  css_property: any;
-  current_state: any;
-  duration: any;
-  easing_function: any;
-  element: any;
-  finished_callback: any;
-  from: any;
-  to: any;
-  value_prefix: any;
-  value_suffix: any;
+  css_property: string;
+  current_state: Idle;
+  duration: number;
+  easing_function: typeof EasingFunctions.ease_in_out_cubic;
+  element: HTMLElement;
+  finished_callback: () => void;
+  from: number;
+  to: number;
+  value_prefix: string;
+  value_suffix: string;
+
   constructor({
     element,
     css_property,
@@ -26,7 +27,17 @@ class CSSAnimator
 
     finished_callback = () =>
     {}
-  }: any)
+  }: {
+    element: HTMLElement;
+    css_property: string;
+    from?: number;
+    to?: number;
+    duration?: number;
+    value_prefix?: string;
+    value_suffix?: string;
+    easing_function?: typeof EasingFunctions.ease_in_out_cubic;
+    finished_callback?: () => void;
+  })
   {
     this.element = element;
     this.css_property = css_property;
@@ -51,9 +62,9 @@ class CSSAnimator
     this.set_current_state(new Idle());
   }
 
-  set_property_value(value: any)
+  set_property_value(value: number)
   {
-    this.element.style[this.css_property] = `${this.value_prefix}${value}${this.value_suffix}`;
+    (this.element.style as any)[this.css_property] = `${this.value_prefix}${value}${this.value_suffix}`;
   }
 
   update()
@@ -66,7 +77,7 @@ class CSSAnimator
     return this.current_state.is_animating;
   }
 
-  set_current_state(state: any)
+  set_current_state(state: Idle | Animating)
   {
     this.current_state.on_exit(this);
     this.current_state = state;

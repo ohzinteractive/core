@@ -4,8 +4,9 @@ import { Idle } from './Idle';
 import { OMath } from '../../utilities/OMath';
 class Animating
 {
-  easing_function_t: any;
-  t: any;
+  easing_function_t: number;
+  t: number;
+  
   constructor()
   {
     this.t = 0;

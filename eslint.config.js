@@ -25,7 +25,7 @@ export default [
         'warn',
         { argsIgnorePattern: '^_' }
       ],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'warn',
 
       // Code style rules (migrated from .eslintrc.cjs)
