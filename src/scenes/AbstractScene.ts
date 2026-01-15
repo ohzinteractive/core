@@ -178,6 +178,13 @@ class AbstractScene extends Scene
   {
     this.is_high_loaded = true;
   }
+
+  on_post_render()
+  {}
+
+  on_pre_render()
+  {}
+
 }
 
 export { AbstractScene };

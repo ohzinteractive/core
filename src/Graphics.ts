@@ -7,10 +7,17 @@ import { Blitter } from './render_utilities/Blitter';
 import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
 
 import type {
-  WebGLRenderer
+  Material,
+  RenderTarget,
+  Scene,
+  TypedArray
 } from 'three';
 
+import type { Renderer } from 'three/webgpu';
 import { WebGPURenderer } from 'three/webgpu';
+import type { OrthographicCamera } from './OrthographicCamera';
+import type { PerspectiveCamera } from './PerspectiveCamera';
+import type { AbstractScene } from './scenes/AbstractScene';
 
 export interface CoreAttributes {
     xr_enabled: boolean;
@@ -25,7 +32,7 @@ export interface RendererAttributes {
 }
 class Graphics
 {
-  _renderer: WebGLRenderer | WebGPURenderer;
+  _renderer: Renderer;
   blitter: Blitter;
   canvas: HTMLCanvasElement;
   core_attributes: CoreAttributes;
@@ -86,12 +93,12 @@ class Graphics
     return this._renderer.domElement;
   }
 
-  get depth_normals_RT()
+  get depth_normals_RT(): RenderTarget
   {
     return this.depth_and_normals_renderer.render_target;
   }
 
-  set_state(new_state: any)
+  set_state(new_state: BaseRender): void
   {
     // console.log('VIEWAPI - map render mode switch to: ' + new_state.constructor.name);
 
@@ -100,7 +107,7 @@ class Graphics
     this.current_render_mode.on_enter(this, this._renderer);
   }
 
-  update()
+  update(): void
   {
     if (this.generate_depth_normal_texture)
     {
@@ -117,7 +124,7 @@ class Graphics
     OScreen.update();
   }
 
-  __update_current_camera()
+  __update_current_camera(): void
   {
     if (CameraManager.current)
     {
@@ -128,7 +135,7 @@ class Graphics
     }
   }
 
-  render(scene?: any, camera?: any, RT?: any, override_mat?: any)
+  render(scene?: AbstractScene, camera?: PerspectiveCamera | OrthographicCamera, RT?: RenderTarget, override_mat?: Material): void
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -139,18 +146,18 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
-  compile(scene: any, camera: any, RT: any, override_mat: any)
+  async compile(scene: AbstractScene, camera: PerspectiveCamera, RT: RenderTarget, override_mat: Material): void
   {
     this.__apply_override_material(scene, override_mat);
 
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
-    this._renderer.compile(scene  || SceneManager.current,
-      camera || CameraManager.current);
+    
+    await this._renderer.compile(scene || SceneManager.current, camera || CameraManager.current);
 
     this.__apply_override_material(scene, undefined);
   }
 
-  async compile_async(scene: any, camera: any, RT: any, override_mat: any, target_scene: any)
+  async compile_async(scene: AbstractScene, camera: PerspectiveCamera, RT: RenderTarget, override_mat: Material, target_scene: Scene)
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -163,7 +170,7 @@ class Graphics
     return promise;
   }
 
-  render_scene(scene: any)
+  render_scene(scene: AbstractScene | { render: () => void }): void
   {
     if ('on_pre_render' in scene)
     {
@@ -185,7 +192,7 @@ class Graphics
     }
   }
 
-  __apply_override_material(scene: any, mat: any)
+  __apply_override_material(scene: AbstractScene, mat: Material): void
   {
     mat = mat === undefined ? null : mat;
     if (scene)
@@ -198,12 +205,15 @@ class Graphics
     }
   }
 
-  async readback_RT(RT: any, buffer: any)
+  async readback_RT(RT: RenderTarget, buffer: TypedArray): Promise<void>
   {
-    return this._renderer.readRenderTargetPixelsAsync(RT, 0, 0, RT.width, RT.height, buffer);
+    // TODO: Support WebGPU
+    // return this._renderer.readRenderTargetPixelsAsync(RT, 0, 0, RT.width, RT.height, buffer);
+    console.warn('Graphics.readback_RT: Not implemented for WebGPU yet.');
+    return Promise.resolve();
   }
 
-  clear(RT: any, camera: any, clear_depth: any, clear_stencil: any)
+  clear(RT: RenderTarget, camera: PerspectiveCamera, clear_depth: boolean, clear_stencil: boolean): void
   {
     this._renderer.setRenderTarget(RT === undefined ? null : RT);
 
@@ -217,7 +227,7 @@ class Graphics
       !!clear_stencil);
   }
 
-  on_resize(entries: any, dpr: any)
+  on_resize(entries: ResizeObserverEntry[], dpr: number): void
   {
     for (const entry of entries)
     {
@@ -238,12 +248,12 @@ class Graphics
     }
   }
 
-  material_pass(mat: any, dst: any)
+  material_pass(mat: Material, dst: RenderTarget): void
   {
     this.blitter.material_pass(mat, dst);
   }
 
-  blit(src_RT: any, dst_RT: any, mat?: any)
+  blit(src_RT: RenderTarget, dst_RT: RenderTarget, mat?: Material): void
   {
     if (mat)
     {
@@ -255,12 +265,12 @@ class Graphics
     }
   }
 
-  blit_clear_with_material(dst_RT: any, mat: any)
+  blit_clear_with_material(dst_RT: RenderTarget, mat: Material): void
   {
     this.blitter.blit_clear_with_material(dst_RT, mat);
   }
 
-  take_screenshot(blob_callback: any, width = OScreen.width, height = OScreen.height)
+  take_screenshot(blob_callback: BlobCallback, width: number = OScreen.width, height: number = OScreen.height): void
   {
     // const ctx = this;
 
@@ -320,7 +330,7 @@ class Graphics
     CameraManager.current.updateMatrixWorld(true);
   }
 
-  download_screenshot(blob: any)
+  download_screenshot(blob: Blob): void
   {
     const link = document.createElement('a');
     link.download = 'Snapshot.png';
@@ -338,7 +348,7 @@ class Graphics
     };
   }
 
-  dispose()
+  dispose(): void
   {
     this._renderer.dispose();
     this.current_render_mode.dispose();
