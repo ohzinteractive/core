@@ -3,13 +3,11 @@ import { ActionInterpolator } from './ActionInterpolator';
 
 class VectorInterpolator extends ActionInterpolator
 {
-  /**
-   * @param {string} attribute_name
-   * @param {Vector3} [from]
-   * @param {Vector3} [to]
-   * @param {import('../utilities/EasingFunctions').EasingFunctionType | function} [easing_function]
-   */
-  constructor(attribute_name: any, from = new Vector3(), to = new Vector3(1, 1, 1), easing_function = 'linear')
+  attribute_name: string;
+  from: Vector3;
+  to: Vector3;
+
+  constructor(attribute_name: string, from = new Vector3(), to = new Vector3(1, 1, 1), easing_function = 'linear')
   {
     super(easing_function);
 
@@ -18,11 +16,7 @@ class VectorInterpolator extends ActionInterpolator
     this.to = to;
   }
 
-  /**
-   * @param {any} context
-   * @param {number} t
-   */
-  update(context: any, t: any)
+  update(context: any, t: number)
   {
     const tmp = this.from.clone();
     tmp.lerp(this.to, this.easing_function(t));

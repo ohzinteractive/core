@@ -5,7 +5,7 @@ class NumberInterpolator extends ActionInterpolator
 {
   initial: boolean;
 
-  constructor(attribute_name: any, from: number = 0, to: number = 1, initial: boolean = false, easing_function: string = 'linear')
+  constructor(attribute_name: string, from: number = 0, to: number = 1, initial: boolean = false, easing_function: string = 'linear')
   {
     super(easing_function);
 
@@ -15,19 +15,12 @@ class NumberInterpolator extends ActionInterpolator
     this.initial = initial;
   }
 
-  /**
-   * @param {any} context
-   * @param {number} t
-   */
-  update(context: any, t: any)
+  update(context: any, t: number)
   {
     context[this.attribute_name] = OMath.lerp(this.from, this.to, this.easing_function(t));
   }
 
-  /**
-   * @param {number} t
-   */
-  evaluate(t: any)
+  evaluate(t: number)
   {
     return OMath.lerp(this.from, this.to, this.easing_function(t));
   }

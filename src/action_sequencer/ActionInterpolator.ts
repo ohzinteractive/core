@@ -1,12 +1,12 @@
-import { Vector3 } from 'three';
+import type { Vector3 } from 'three';
 import { EasingFunctions } from '../utilities/EasingFunctions';
 
 class ActionInterpolator
 {
-  attribute_name: any;
-  easing_function: any;
-  from: any;
-  to: any;
+  attribute_name: string;
+  easing_function: Function;
+  from: number | Vector3;
+  to: number | Vector3;
 
   constructor(easing_function = 'linear')
   {
@@ -23,17 +23,11 @@ class ActionInterpolator
     }
 
     this.attribute_name = '';
-    /** @type {number | Vector3} */
     this.from = 0;
-    /** @type {number | Vector3} */
     this.to = 1;
   }
 
-  /**
-   * @param {any} context
-   * @param {number} t
-   */
-  update(context: any, t: any) 
+  update(context: any, t: number) 
   {
   }
 }

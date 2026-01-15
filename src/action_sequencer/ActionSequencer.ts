@@ -1,22 +1,20 @@
 import { OMath } from '../utilities/OMath';
-import { ActionEvent } from './ActionEvent';
-import { ActionInterpolator } from './ActionInterpolator';
+import type { ActionEvent } from './ActionEvent';
+import type { ActionInterpolator } from './ActionInterpolator';
 
 class ActionSequencer
 {
-  action_events: any;
-  channels: any;
+  action_events: { action: ActionEvent; trigger_time: number; }[];
+  channels: { [key: string]: any[]; };
   context: any;
-  duration: any;
-  elapsed_time: any;
+  duration: number;
+  elapsed_time: number;
   initial_context: any;
-  playback_speed: any;
-  playing: any;
-  previous_elapsed_time: any;
-  tmp_t: any;
-  /**
-   * @param {any} [context]
-   */
+  playback_speed: number;
+  playing: boolean;
+  previous_elapsed_time: number;
+  tmp_t: number;
+
   constructor(context = {})
   {
     this.previous_elapsed_time = -0.00001;
@@ -32,7 +30,6 @@ class ActionSequencer
 
     this.tmp_t = 0;
 
-    /** @type {{[key:string]:any[]}} */
     this.channels = {};
 
     const channel_names = Object.keys(context);
@@ -66,10 +63,7 @@ class ActionSequencer
     this.elapsed_time = duration;
   }
 
-  /**
-   * @param {number} delta_time
-   */
-  update(delta_time: any)
+  update(delta_time: number)
   {
     if (this.playing)
     {
@@ -79,20 +73,14 @@ class ActionSequencer
     }
   }
 
-  /**
-   * @param {number} time
-   */
-  set_progress(time: any)
+  set_progress(time: number)
   {
     this.previous_elapsed_time = this.elapsed_time;
     this.elapsed_time = OMath.clamp(time, 0, this.duration);
     this.__play_clips(this.elapsed_time, this.elapsed_time);
   }
 
-  /**
-   * @param {number} t
-   */
-  set_normalized_progress(t: any)
+  set_normalized_progress(t: number)
   {
     this.previous_elapsed_time = this.elapsed_time;
     this.elapsed_time = OMath.clamp(t, 0, 1) * this.duration;
@@ -109,11 +97,7 @@ class ActionSequencer
     return this.elapsed_time > this.get_duration();
   }
 
-  /**
-   * @param {number} trigger_time
-   * @param {ActionEvent} action
-   */
-  add_action_event(trigger_time: any, action: any)
+  add_action_event(trigger_time: number, action: ActionEvent)
   {
     this.action_events.push({
       trigger_time: trigger_time,
@@ -123,13 +107,7 @@ class ActionSequencer
     this.duration = Math.max(this.duration, trigger_time);
   }
 
-  /**
-   * @param {number} from
-   * @param {number} to
-   * @param {ActionInterpolator} interpolator
-   * @param {boolean} [use_dynamic_from_value]
-   */
-  add_action_interpolator(from: any, to: any, interpolator: any, use_dynamic_from_value = false)
+  add_action_interpolator(from: number, to: number, interpolator: ActionInterpolator, use_dynamic_from_value = false)
   {
     if (use_dynamic_from_value)
     {
@@ -160,10 +138,7 @@ class ActionSequencer
     this.channels[interpolator.attribute_name].push(keyframe);
   }
 
-  /**
-   * @param {string} name
-   */
-  get_current_target_value(name: any)
+  get_current_target_value(name: string)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
 
@@ -175,20 +150,14 @@ class ActionSequencer
     return keyframe.interpolator.evaluate(1);
   }
 
-  /**
-   * @param {string} name
-   */
-  get_current_starting_value(name: any)
+  get_current_starting_value(name: string)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
 
     return keyframe.interpolator.evaluate(0);
   }
 
-  /**
-   * @param {string} name
-   */
-  get_current_progress(name: any)
+  get_current_progress(name: string)
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
     const t = this.__linear_map_01(this.elapsed_time, keyframe.from, keyframe.to);
@@ -201,11 +170,7 @@ class ActionSequencer
     return this.duration;
   }
 
-  /**
-   * @param {number} from
-   * @param {number} to
-   */
-  __play_clips(from: any, to: any) 
+  __play_clips(from: number, to: number) 
   {
     if (this.elapsed_time > this.previous_elapsed_time)
     {
@@ -222,11 +187,7 @@ class ActionSequencer
     }
   }
 
-  /**
-   * @param {number} from
-   * @param {number} to
-   */
-  __play_events(from: any, to: any)
+  __play_events(from: number, to: number)
   {
     for (let i = 0; i < this.action_events.length; i++)
     {
@@ -239,29 +200,19 @@ class ActionSequencer
     }
   }
 
-  /**
-   * @param {any} keyframe
-   * @param {number} time
-   */
-  evaluate_keyframe(keyframe: any, time: any)
+  evaluate_keyframe(keyframe: any, time: number)
   {
     this.tmp_t = this.__linear_map_01(time, keyframe.from, keyframe.to);
 
     return keyframe.interpolator.evaluate(OMath.clamp(this.tmp_t, 0, 1));
   }
 
-  /**
-   * @param {string} channel_name
-   */
-  get_keyframes(channel_name: any)
+  get_keyframes(channel_name: string)
   {
     return this.channels[channel_name];
   }
 
-  /**
-   * @param {string} channel_name
-   */
-  is_channel_redefined(channel_name: any)
+  is_channel_redefined(channel_name: string)
   {
     for (let i = 0; i < this.channels[channel_name].length; i++)
     {
@@ -276,24 +227,14 @@ class ActionSequencer
     return true;
   }
 
-  /**
-   * @param {number} value
-   * @param {number} from_range_start_value
-   * @param {number} from_range_end_value
-   * @returns {number}
-   */
-  __linear_map_01(value: any,
-    from_range_start_value: any,
-    from_range_end_value: any)
+  __linear_map_01(value: number,
+    from_range_start_value: number,
+    from_range_end_value: number): number
   {
     return OMath.saturate(((value - from_range_start_value) / (from_range_end_value - from_range_start_value)) * (1 - 0) + 0);
   }
 
-  /**
-   * @param {string} channel_name
-   * @param {number} time
-   */
-  __get_current_keyframe(channel_name: any, time: any)
+  __get_current_keyframe(channel_name: string, time: number)
   {
     let current = undefined;
 
@@ -343,21 +284,13 @@ class ActionSequencer
     }
   }
 
-  /**
-   * @param {string} name
-   * @param {number} value
-   */
-  set_initial_value_on_channel(name: any, value: any)
+  set_initial_value_on_channel(name: string, value: number)
   {
     const keyframes = this.get_keyframes(name);
     keyframes[0].interpolator.from = value;
   }
 
-  /**
-   * @param {string} name
-   * @param {number} value
-   */
-  set_final_value_on_channel(name: any, value: any)
+  set_final_value_on_channel(name: string, value: number)
   {
     const keyframes = this.get_keyframes(name);
     keyframes[keyframes.length - 1].interpolator.to = value;

@@ -1,8 +1,8 @@
 class ActionEvent
 {
-  args: any;
-  method: any;
-  name: any;
+  args: string;
+  method: string;
+  name: string;
   
   constructor(name: string, method: string, args?: string)
   {
