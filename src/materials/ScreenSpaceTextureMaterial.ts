@@ -1,3 +1,4 @@
+import type { Texture } from 'three';
 import { Vector2 } from 'three';
 import { BaseShaderMaterial } from './BaseShaderMaterial';
 class ScreenSpaceTextureMaterial extends BaseShaderMaterial
@@ -38,29 +39,29 @@ class ScreenSpaceTextureMaterial extends BaseShaderMaterial
     });
   }
 
-  set_position(x: any, y: any)
+  set_position(x: number, y: number)
   {
-    this.uniforms._ScreenSpacePosition.value.set(x, y);
+    (this.uniforms._ScreenSpacePosition.value as Vector2).set(x, y);
   }
 
-  set_texture(tex: any, w: any, h: any)
+  set_texture(tex: Texture, w: number, h: number)
   {
     this.uniforms._MainTex.value = tex;
-    this.uniforms._TextureSize.value.set(tex.image.width, tex.image.height);
+    (this.uniforms._TextureSize.value as Vector2).set((tex.image as ImageBitmap).width, (tex.image as ImageBitmap).height);
 
     if (w !== undefined)
     {
-      this.uniforms._TextureSize.value.x = w;
+      (this.uniforms._TextureSize.value as Vector2).x = w;
     }
     if (h !== undefined)
     {
-      this.uniforms._TextureSize.value.y = h;
+      (this.uniforms._TextureSize.value as Vector2).y = h;
     }
   }
 
-  set_screen_size(w: any, h: any)
+  set_screen_size(w: number, h: number)
   {
-    this.uniforms._ScreenSize.value.set(w, h);
+    (this.uniforms._ScreenSize.value as Vector2).set(w, h);
   }
 }
 

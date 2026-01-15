@@ -1,5 +1,6 @@
 import { BlitMaterial } from './BlitMaterial';
 
+import type { Texture } from 'three';
 import frag from '../shaders/add/add.frag';
 
 class AddMaterial extends BlitMaterial
@@ -11,7 +12,7 @@ class AddMaterial extends BlitMaterial
     this.uniforms._SecondTex = { value: undefined };
   }
 
-  set_add_texture(tex: any)
+  set_add_texture(tex: Texture)
   {
     this.uniforms._SecondTex.value = tex;
   }

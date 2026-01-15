@@ -5,12 +5,12 @@ import { Color, ShaderMaterial } from 'three';
 
 class BaseShaderMaterial extends ShaderMaterial
 {
-  constructor(vert: any, frag: any, uniforms: any)
+  constructor(vert: string, frag: string, uniforms?: { [uniform: string]: { value: any } })
   {
     super({
       vertexShader: vert   || basic_vert,
       fragmentShader: frag || basic_frag,
-      uniforms: uniforms   || {
+      uniforms: uniforms ?? {
         _Color: { value: new Color('#FF0000') }
       }
     });

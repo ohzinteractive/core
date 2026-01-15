@@ -3,7 +3,7 @@ import { BlitMaterial } from './BlitMaterial';
 
 class FXAAMaterial extends BlitMaterial
 {
-  constructor(upsample: any)
+  constructor()
   {
     super(frag);
   }

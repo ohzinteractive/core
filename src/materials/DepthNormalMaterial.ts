@@ -16,14 +16,14 @@ class DepthNormalMaterial extends ShaderMaterial
     });
   }
   
-  set far_plane(value)
+  set far_plane(value: number)
   {
     this.uniforms._FarPlane.value = value;
   }
   
-  get far_plane()
+  get far_plane(): number
   {
-    return this.uniforms._FarPlane.value;
+    return this.uniforms._FarPlane.value as number;
   }
 }
 

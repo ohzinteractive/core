@@ -3,12 +3,13 @@ import { BaseShaderMaterial } from './BaseShaderMaterial';
 import frag from '../shaders/sdf_text/sdf_text.frag';
 import vert from '../shaders/sdf_text/sdf_text.vert';
 
+import type { Texture } from 'three';
 import { DoubleSide, LinearFilter, Vector2 } from 'three';
 import { OMath } from '../utilities/OMath';
 
 class SDFTextMaterial extends BaseShaderMaterial
 {
-  constructor(texture: any)
+  constructor(texture: Texture)
   {
     super(vert, frag, {
       _Texture: { value: texture },
@@ -21,15 +22,15 @@ class SDFTextMaterial extends BaseShaderMaterial
     this.side = DoubleSide;
     texture.minFilter = LinearFilter;
     texture.magFilter = LinearFilter;
-    texture.generateMipMaps = false;
+    texture.generateMipmaps = false;
   }
 
-  set_atlas_size(size: any)
+  set_atlas_size(size: Vector2)
   {
-    this.uniforms._AtlasSize.value.copy(size);
+    (this.uniforms._AtlasSize.value as Vector2).copy(size);
   }
 
-  set_boldness(value: any)
+  set_boldness(value: number)
   {
     this.uniforms._Boldness.value = OMath.lerp(0.5, 0.2, value);
   }

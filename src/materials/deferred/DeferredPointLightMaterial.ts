@@ -3,6 +3,7 @@ import vert from '../../shaders/deferred/point_light.vert';
 
 import { BaseShaderMaterial } from '../../materials/BaseShaderMaterial';
 
+import type { WebGLRenderTarget } from 'three';
 import { AdditiveBlending, BackSide, Matrix4 } from 'three';
 
 class DeferredPointLightMaterial extends BaseShaderMaterial
@@ -21,17 +22,17 @@ class DeferredPointLightMaterial extends BaseShaderMaterial
     this.side = BackSide;
   }
 
-  set_inverse_proj_matrix(mat4: any)
+  set_inverse_proj_matrix(mat4: Matrix4)
   {
     this.uniforms._InverseProjMatrix.value.copy(mat4);
   }
 
-  set_normal_depth_rt(rt: any)
+  set_normal_depth_rt(rt: WebGLRenderTarget)
   {
     this.uniforms._NormalDepthTex.value = rt.texture;
   }
 
-  set_albedo_rt(rt: any)
+  set_albedo_rt(rt: WebGLRenderTarget)
   {
     this.uniforms._AlbedoTex.value = rt.texture;
   }

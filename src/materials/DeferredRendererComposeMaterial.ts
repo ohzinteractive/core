@@ -3,6 +3,7 @@ import { BlitMaterial } from '../materials/BlitMaterial';
 import vert from '../shaders/deferred/blit_copy.vert';
 import frag from '../shaders/deferred/deferred_compose.frag';
 
+import type { Texture, WebGLRenderTarget } from 'three';
 import { Matrix4 } from 'three';
 
 class DeferredRendererComposeMaterial extends BlitMaterial
@@ -16,19 +17,19 @@ class DeferredRendererComposeMaterial extends BlitMaterial
     this.uniforms._InverseProjMatrix = { value: new Matrix4() };
   }
 
-  set_normal_depth_rt(rt: any)
+  set_normal_depth_rt(rt: WebGLRenderTarget)
   {
     this.uniforms._NormalDepthRT.value = rt.texture;
   }
 
-  set_albedo_rt(tex: any)
+  set_albedo_rt(tex: Texture)
   {
     this.uniforms._AlbedoRT.value = tex;
   }
 
-  set_proj_matrix(mat4: any)
+  set_proj_matrix(mat4: Matrix4)
   {
-    this.uniforms._InverseProjMatrix.value.getInverse(mat4);
+    this.uniforms._InverseProjMatrix.value = mat4.clone().invert();
   }
 }
 

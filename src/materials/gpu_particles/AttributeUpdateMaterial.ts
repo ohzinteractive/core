@@ -1,17 +1,14 @@
-import { BlitMaterial } from '../../materials/BlitMaterial';
-
-import frag from '../../shaders/gpu_particles/update/basic_update.frag';
-
-import { Time } from '../../Time';
-
-import common_utils from '../../shaders/gpu_particles/common_utils.glsl';
-
 import { ShaderChunk, Vector2 } from 'three';
+import { BlitMaterial } from '../../materials/BlitMaterial';
+import common_utils from '../../shaders/gpu_particles/common_utils.glsl';
+import frag from '../../shaders/gpu_particles/update/basic_update.frag';
+import { Time } from '../../Time';
 
 class AttributeUpdateMaterial extends BlitMaterial
 {
-  multiplier: any;
-  constructor(custom_frag: any)
+  multiplier: number;
+
+  constructor(custom_frag?: string)
   {
     // @ts-expect-error -- IGNORE --
     ShaderChunk.gpu_particles_utils = common_utils;
@@ -23,12 +20,12 @@ class AttributeUpdateMaterial extends BlitMaterial
 
   update()
   {
-    this.uniforms._Time.value.x = Time.delta_time;
-    this.uniforms._Time.value.y += Time.delta_time;
+    (this.uniforms._Time.value as Vector2).x = Time.delta_time;
+    (this.uniforms._Time.value as Vector2).y += Time.delta_time;
     // this.precision = "lowp";
   }
 
-  set_multiplier(val: any)
+  set_multiplier(val: number)
   {
     console.log(val);
     this.multiplier = val;

@@ -4,7 +4,7 @@ import { AlwaysDepth, NoBlending, ShaderMaterial } from 'three';
 
 class ParticleStorageMaterial extends ShaderMaterial
 {
-  constructor(vert?: any)
+  constructor(vert?: string)
   {
     vert = vert || `
       varying vec4 value;

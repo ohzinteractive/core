@@ -9,14 +9,14 @@ class AlphaFilterMaterial extends BlitMaterial
     super(frag);
   }
 
-  set offset(value)
+  set offset(value: number)
   {
     this.uniforms._Offset.value = value;
   }
   
-  get offset()
+  get offset(): number
   {
-    return this.uniforms._Offset.value;
+    return this.uniforms._Offset.value as number;
   }
 }
 

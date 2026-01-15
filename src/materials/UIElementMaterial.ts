@@ -9,7 +9,7 @@ import { OScreen } from '../OScreen';
 
 class UIElementMaterial extends BaseShaderMaterial
 {
-  constructor(intensity = 1)
+  constructor()
   {
     super(vert, frag, {
       _MainTex: { value: undefined },
