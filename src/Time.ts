@@ -1,19 +1,19 @@
 class Time
 {
-  __delta_buffer: any;
-  __delta_time: any;
-  __elapsed_time: any;
-  __frame_interpolation_t: any;
-  __previous_elapsed_time: any;
-  __smooth_delta_time: any;
-  fixed_delta_time: any;
+  __delta_buffer: number[];
+  __delta_time: number;
+  __elapsed_time: number;
+  __frame_interpolation_t: number;
+  __previous_elapsed_time: number;
+  __smooth_delta_time: number;
+  fixed_delta_time: number;
   
   constructor()
   {
     this.__delta_buffer = [0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016, 0.016];
   }
 
-  init()
+  init(): void
   {
     this.__previous_elapsed_time = -1;
     this.__delta_time = 0;
@@ -58,12 +58,12 @@ class Time
     return this.smooth_delta_time;
   }
 
-  __set_frame_interpolation(value: number)
+  __set_frame_interpolation(value: number): void
   {
     this.__frame_interpolation_t = value;
   }
 
-  __update(elapsed_time: number)
+  __update(elapsed_time: number): void
   {
     if (this.__previous_elapsed_time < 0)
     {
@@ -80,7 +80,7 @@ class Time
     this.__previous_elapsed_time = elapsed_time;
   }
 
-  __calculate_smooth_delta_time()
+  __calculate_smooth_delta_time(): void
   {
     this.__smooth_delta_time = 0;
 

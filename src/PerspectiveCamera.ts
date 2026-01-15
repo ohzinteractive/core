@@ -2,15 +2,15 @@ import { Color, PerspectiveCamera as TPerspectiveCamera } from 'three';
 
 class PerspectiveCamera extends TPerspectiveCamera
 {
-  clear_alpha: any;
-  clear_color: any;
+  clear_alpha: number;
+  clear_color: Color;
   /**
    * @param {number} fov
    * @param {number} aspect
    * @param {number} near
    * @param {number} far
    */
-  constructor(fov: any, aspect: any, near: any, far: any)
+  constructor(fov: number, aspect: number, near: number, far: number)
   {
     super(fov, aspect, near, far);
 
@@ -22,7 +22,7 @@ class PerspectiveCamera extends TPerspectiveCamera
    * @param {PerspectiveCamera} camera
    * @returns {this}
    */
-  copy(camera: any)
+  copy(camera: PerspectiveCamera): this
   {
     super.copy(camera);
     this.clear_color.copy(camera.clear_color);

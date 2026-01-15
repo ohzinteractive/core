@@ -1,8 +1,8 @@
 class Capabilities
 {
-  fp_textures_available: any;
-  max_anisotropy: any;
-  vertex_texture_sampler_available: any;
+  fp_textures_available: boolean;
+  max_anisotropy: number;
+  vertex_texture_sampler_available: boolean;
   init()
   {
     this.max_anisotropy = 0;

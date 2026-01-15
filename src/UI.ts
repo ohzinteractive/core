@@ -7,14 +7,15 @@ import type { UIElement } from './components/UIElement';
 
 class UI
 {
-  _tmp_normalized_pos: any;
-  current_clicked_element: any;
+  _tmp_normalized_pos: Vector2;
+  current_clicked_element: UIElement | undefined;
   input: any;
-  ss_camera: any;
-  ss_scene: any;
-  ui_elements: any;
-  ws_scene: any;
-  init(input: any)
+  ss_camera: OrthographicCamera;
+  ss_scene: Scene;
+  ui_elements: UIElement[];
+  ws_scene: Scene;
+  
+  init(input: any): void
   {
     this.input = input;
     this.ui_elements = []
@@ -30,7 +31,7 @@ class UI
     this.ss_camera = new OrthographicCamera(-1, 1, 1, -1, -100, 100);
   }
 
-  delete_element(elem: UIElement)
+  delete_element(elem: UIElement): void
   {
     const index = this.ui_elements.indexOf(elem);
     if (index > -1)
@@ -44,7 +45,7 @@ class UI
     elem.dispose();
   }
 
-  add_screen_space_element(elem: UIElement)
+  add_screen_space_element(elem: UIElement): void
   {
     this.ui_elements.push(elem);
     this.ss_scene.add(elem);
@@ -52,7 +53,7 @@ class UI
     elem.set_screen_space_coordinate_system();
   }
 
-  add_world_space_element(elem: UIElement)
+  add_world_space_element(elem: UIElement): void
   {
     this.ui_elements.push(elem);
     this.ws_scene.add(elem);

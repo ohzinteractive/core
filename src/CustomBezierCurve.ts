@@ -2,13 +2,13 @@ import { Vector3 } from 'three';
 
 class CustomBezierCurve
 {
-  original_points: any;
-  tmp_points: any;
+  original_points: Vector3[];
+  tmp_points: Vector3[];
   
   /**
    * @param {Vector3[]} points
    */
-  constructor(points: any)
+  constructor(points: Vector3[])
   {
     this.original_points = [];
     this.tmp_points = [];
@@ -23,7 +23,7 @@ class CustomBezierCurve
    * @param {number} point_amount
    * @returns {Vector3[]}
    */
-  build(point_amount: any)
+  build(point_amount: number): Vector3[]
   {
     const curve = [];
     for (let i = 0; i < point_amount; i++)
@@ -37,7 +37,7 @@ class CustomBezierCurve
    * @param {number} t
    * @returns {Vector3}
    */
-  get_point_at(t: any)
+  get_point_at(t: number): Vector3
   {
     for (let i = 0; i < this.original_points.length; i++)
     {

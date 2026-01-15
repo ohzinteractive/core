@@ -1,29 +1,19 @@
-import { Object3D, Texture, } from 'three';
+import { Object3D, Texture } from 'three';
 
-/**
- * @typedef {Object3D | Texture} Resource
- */
 
 class ResourceContainer
 {
-  resources: any;
-  resources_by_url: any;
+  resources: Record<string, Object3D | Texture>;
+  resources_by_url: Record<string, any>;
 
   init()
   {
-    /** @type {Record<string, Resource>} */
     this.resources = {};
 
-    /** @type {Record<string, any>} */
     this.resources_by_url = {};
   }
 
-  /**
-   * @param {string} name
-   * @param {string} url
-   * @param {Resource} resource
-   */
-  set_resource(name: string, url: string, resource: ResourceContainer)
+  set_resource(name: string, url: string, resource: Object3D | Texture)
   {
     const urls = Object.keys(this.resources_by_url);
 
@@ -38,12 +28,12 @@ class ResourceContainer
     }
   }
 
-  get_resource(name: string)
+  get_resource(name: string): Object3D | Texture
   {
     return this.resources[name];
   }
 
-  get(name: string)
+  get(name: string): Object3D | Texture
   {
     return this.resources[name];
   }

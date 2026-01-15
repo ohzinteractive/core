@@ -9,11 +9,7 @@ class Screen
     OScreen.init();
   }
 
-  /**
-   * @param {number} x
-   * @param {number} y
-   */
-  update_position(x: any, y: any)
+  update_position(x: number, y: number)
   {
     console.warn('Screen Singleton is deprecated. Please use OScreen.');
     OScreen.update_position(x, y);

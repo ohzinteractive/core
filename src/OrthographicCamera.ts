@@ -2,8 +2,8 @@ import { Color, OrthographicCamera as TOrthographicCamera } from 'three';
 
 class OrthographicCamera extends TOrthographicCamera
 {
-  clear_alpha: any;
-  clear_color: any;
+  clear_alpha: number;
+  clear_color: Color;
   /**
    * @param {number} left
    * @param {number} right
@@ -12,7 +12,7 @@ class OrthographicCamera extends TOrthographicCamera
    * @param {number} near
    * @param {number} far
    */
-  constructor(left: any, right: any, top: any, bottom: any, near: any, far: any)
+  constructor(left: number, right: number, top: number, bottom: number, near: number, far: number)
   {
     super(left, right, top, bottom, near, far);
 
@@ -24,7 +24,7 @@ class OrthographicCamera extends TOrthographicCamera
    * @param {OrthographicCamera} camera
    * @returns {this}
    */
-  copy(camera: any)
+  copy(camera: OrthographicCamera): this
   {
     super.copy(camera);
     this.clear_color.copy(camera.clear_color);

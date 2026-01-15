@@ -2,17 +2,17 @@ import { PerspectiveCamera } from './PerspectiveCamera';
 
 class CameraManager
 {
-  _current: any;
-  _spectator: any;
+  _current: PerspectiveCamera;
+  _spectator: PerspectiveCamera;
 
-  init()
+  init(): void
   {
     this._current = undefined;
     // VR Spectator
     this._spectator = undefined;
   }
 
-  set current(camera)
+  set current(camera: PerspectiveCamera)
   {
     this._current = camera;
   }
@@ -23,7 +23,7 @@ class CameraManager
     return this._current;
   }
 
-  set spectator(camera)
+  set spectator(camera: PerspectiveCamera)
   {
     this._spectator = camera;
   }

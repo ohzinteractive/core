@@ -8,7 +8,7 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
-import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector2, Vector3, Vector4 } from 'three';
+import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Texture, Vector2, Vector3, Vector4, WebGLRenderTarget } from 'three';
 import { CameraManager } from './CameraManager';
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
@@ -21,7 +21,7 @@ class Debug
   canvas_renderer: any;
   ctx: any;
   display_texture_meshes: Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[];
-  rt_debug: any;
+  rt_debug: WebGLRenderTarget;
   scene: Scene;
   
   init()
@@ -54,7 +54,7 @@ class Debug
     return axis;
   }
 
-  set_debug_RT(RT: any)
+  set_debug_RT(RT: WebGLRenderTarget)
   {
     this.rt_debug = RT;
   }
@@ -234,7 +234,7 @@ class Debug
     }
   }
 
-  draw_texture(tex: any, w: number, h: number)
+  draw_texture(tex: Texture, w: number, h: number)
   {
     const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);

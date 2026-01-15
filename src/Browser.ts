@@ -1,12 +1,12 @@
 class Browser
 {
-  agent: any;
-  browser_name: any;
-  has_web_xr_support: any;
-  is_vr: any;
-  version: any;
+  agent: string;
+  browser_name: string;
+  has_web_xr_support: boolean;
+  is_vr: boolean;
+  version: number;
 
-  async init()
+  async init(): Promise<void>
   {
     this.browser_name = '';
     this.agent = window.navigator.userAgent.toLowerCase();
@@ -92,7 +92,7 @@ class Browser
     return this.has_webm ? 'webm' : this.has_hvec ? 'hvec.mp4' : 'mp4';
   }
 
-  get_version()
+  get_version(): number
   {
     const ua = navigator.userAgent;
     let tem = [];

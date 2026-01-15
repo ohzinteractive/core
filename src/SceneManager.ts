@@ -2,42 +2,41 @@ import { Mesh, Scene } from 'three';
 
 class SceneManager
 {
-  _current: any;
-  init()
+  _current: Scene;
+  
+  init(): void
   {
     this._current = new Scene();
     this._current.name = 'default_scene';
   }
 
-  /**
-   * @param {string} name
-   */
-  add_scene(name: any) 
+  add_scene(name: string): void 
   {
 
   }
 
   /** @type {Scene} */
-  
   get current()
   {
     return this._current;
   }
   
-  set current(scene)
+  set current(scene: Scene)
   {
     this._current = scene;
   }
 
-  dispose()
+  dispose(): void
   {
-    this.current.traverse((/** @type {Mesh} */ child: any) => {
+    this.current.traverse((child: Mesh) => {
       if (child.geometry)
       {
         child.geometry.dispose();
         const mat = child.material;
-        if ('disppose' in mat && typeof (mat.disppose) === 'function')
-        {
+        
+        if (Array.isArray(mat)) {
+          mat.forEach(m => m.dispose());
+        } else {
           mat.dispose();
         }
       }
