@@ -1,15 +1,17 @@
 import { Graphics } from '../Graphics';
 
-import { FloatType, HalfFloatType, NearestFilter, NoColorSpace, RGBAFormat, WebGLRenderTarget } from 'three';
+import type { BufferAttribute, BufferGeometry, Scene} from 'three';
+import { FloatType, HalfFloatType, Mesh, NearestFilter, NoColorSpace, RGBAFormat, WebGLRenderTarget } from 'three';
 import { Capabilities } from '../Capabilities';
 
 class ParticleAttribute
 {
   name: any;
-  read: any;
+  read: WebGLRenderTarget;
   update_material: any;
-  write: any;
-  constructor(attr_name: any, update_material: any)
+  write: WebGLRenderTarget;
+
+  constructor(attr_name: string, update_material: any)
   {
     this.read = undefined;
     this.write = undefined;
@@ -19,17 +21,17 @@ class ParticleAttribute
     this.update_material = update_material;
   }
 
-  init_from_geometry(geometry: any)
+  init_from_geometry(geometry: BufferGeometry)
   {
     // overrided by inheritance
   }
 
-  init_from_attribute(particle_attribute: any)
+  init_from_attribute(particle_attribute: ParticleAttribute)
   {
 
   }
 
-  build_RT(particle_count: any)
+  build_RT(particle_count: number)
   {
     const resolution = ParticleAttribute.calculate_resolution(particle_count);
     const options = {
@@ -45,7 +47,7 @@ class ParticleAttribute
     return new WebGLRenderTarget(resolution.width, resolution.height, options);
   }
 
-  static calculate_resolution(particle_count: any)
+  static calculate_resolution(particle_count: number)
   {
     const width = Math.min(particle_count, 512);
     const height = Math.max(1, Math.ceil(particle_count / width));
@@ -59,29 +61,44 @@ class ParticleAttribute
     this.write = tmp;
   }
 
-  update(attribute_writter_scene: any)
+  update(attribute_writter_scene: Scene)
   {
     if (this.update_material)
     {
       this.update_material.update();
-      attribute_writter_scene.children[0].material = this.update_material;
+
+      if (attribute_writter_scene.children[0] instanceof Mesh)
+      {
+        attribute_writter_scene.children[0].material = this.update_material;
+      }
+
       this.update_material.uniforms._MainTex.value = this.read.texture;
       Graphics.render(attribute_writter_scene, undefined, this.write);
-      attribute_writter_scene.children[0].material = undefined;
+
+      if (attribute_writter_scene.children[0] instanceof Mesh)
+      {
+        attribute_writter_scene.children[0].material = undefined;
+      }
 
       this.swap_RT();
     }
   }
 
-  store_geometry_attribute_in_RT(attribute: any, RT: any, storage_material: any, attribute_writter_scene: any)
+  store_geometry_attribute_in_RT(attribute: BufferAttribute, RT: WebGLRenderTarget, storage_material: any, attribute_writter_scene: Scene)
   {
-    attribute_writter_scene.children[0].geometry.setAttribute('data', attribute);
-    attribute_writter_scene.children[0].material = storage_material;
+    if (attribute_writter_scene.children[0] instanceof Mesh)
+    {
+      attribute_writter_scene.children[0].geometry.setAttribute('data', attribute);
+      attribute_writter_scene.children[0].material = storage_material;
+    }
 
     Graphics.render(attribute_writter_scene, undefined, RT);
 
-    attribute_writter_scene.children[0].geometry.deleteAttribute('data');
-    attribute_writter_scene.children[0].material = undefined;
+    if (attribute_writter_scene.children[0] instanceof Mesh)
+    {
+      attribute_writter_scene.children[0].geometry.deleteAttribute('data');
+      attribute_writter_scene.children[0].material = undefined;
+    }
   }
 
   get_texture()

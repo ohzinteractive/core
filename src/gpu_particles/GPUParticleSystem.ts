@@ -1,21 +1,14 @@
-import { Object3D } from 'three';
-import { BufferAttribute } from 'three';
-import { PlaneGeometry } from 'three';
-import { Mesh } from 'three';
-import { BufferGeometry } from 'three';
-import { Scene } from 'three';
-import { Points } from 'three';
-import { InstancedBufferGeometry } from 'three';
-import { InstancedBufferAttribute } from 'three';
+import { BufferAttribute, BufferGeometry, InstancedBufferAttribute, InstancedBufferGeometry, Mesh, Object3D, PlaneGeometry, Points, Scene } from 'three';
 import { ParticleAttribute } from './ParticleAttribute';
 
 class GPUParticleSystem extends Object3D
 {
-  attribute_writter_mesh: any;
-  attribute_writter_scene: any;
-  attributes: any;
-  mesh: any;
-  constructor(particle_count: any, material: any)
+  attribute_writter_mesh: Points;
+  attribute_writter_scene: Scene;
+  attributes: ParticleAttribute[];
+  mesh: Mesh;
+
+  constructor(particle_count: number, material: any)
   {
     super();
     this.attributes = [];
@@ -28,24 +21,31 @@ class GPUParticleSystem extends Object3D
     this.attribute_writter_scene.add(this.attribute_writter_mesh);
   }
 
-  add_texture_attribute(buffer_attribute: any)
+  add_texture_attribute(buffer_attribute: ParticleAttribute)
   {
     this.attributes.push(buffer_attribute);
   }
 
-  add_update_attribute_array(name: any, array: any, item_size: any)
+  add_update_attribute_array(name: string, array: Float32Array, item_size: number)
   {
     this.attribute_writter_mesh.geometry.setAttribute(name, new BufferAttribute(array, item_size, false));
   }
 
-  add_attribute_array(name: any, array: any, item_size: any)
+  add_attribute_array(name: string, array: Float32Array, item_size: number)
   {
     this.mesh.geometry.setAttribute(name, new InstancedBufferAttribute(array, item_size, false));
   }
 
   update()
   {
-    this.mesh.material.update();
+    const mat = this.mesh.material;
+
+    if (Array.isArray(mat)) {
+      mat.forEach(m => m.dispose());
+    } else {
+      mat.dispose();
+    }
+    
     for (let i = 0; i < this.attributes.length; i++)
     {
       this.attributes[i].update(this.attribute_writter_scene);
@@ -55,7 +55,14 @@ class GPUParticleSystem extends Object3D
   dispose()
   {
     this.mesh.geometry.dispose();
-    this.mesh.material.dispose();
+    
+    const mat = this.mesh.material;
+
+    if (Array.isArray(mat)) {
+      mat.forEach(m => m.dispose());
+    } else {
+      mat.dispose();
+    }
   }
 
   build_point_mesh(instance_count = 1, material: any)

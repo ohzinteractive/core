@@ -1,3 +1,4 @@
+import type { BufferGeometry, Scene, Vector3, WebGLRenderTarget } from 'three';
 import { BufferAttribute } from 'three';
 
 import { ParticleAttribute } from '../gpu_particles/ParticleAttribute';
@@ -5,24 +6,25 @@ import { ParticleStorageMaterial } from '../materials/gpu_particles/ParticleStor
 
 class ParticlePositionAttribute extends ParticleAttribute
 {
-  read: any;
-  write: any;
+  read: WebGLRenderTarget;
+  write: WebGLRenderTarget;
+
   constructor(update_material: any)
   {
     super('_Position', update_material);
   }
 
-  store_geometry(geometry: any, attribute_writter_scene: any)
+  store_geometry(geometry: BufferGeometry, attribute_writter_scene: Scene)
   {
     const pos_attr = geometry.getAttribute('position');
     this.read    = this.build_RT(pos_attr.count);
     this.write   = this.build_RT(pos_attr.count);
 
     const mat = new ParticleStorageMaterial();
-    this.store_geometry_attribute_in_RT(geometry.getAttribute('position'), this.read, mat, attribute_writter_scene);
+    this.store_geometry_attribute_in_RT(geometry.getAttribute('position') as BufferAttribute, this.read, mat, attribute_writter_scene);
   }
 
-  store_positions(positions: any, attribute_writter_scene: any)
+  store_positions(positions: Array<Vector3>, attribute_writter_scene: Scene)
   {
     this.read    = this.build_RT(positions.length);
     this.write   = this.build_RT(positions.length);
