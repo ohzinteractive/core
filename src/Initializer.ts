@@ -1,6 +1,7 @@
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
+import type { Input } from './components/Input';
 import { Debug } from './Debug';
 import { Graphics } from './Graphics';
 import type { RenderLoop } from './index';
@@ -20,7 +21,7 @@ class Initializer
   {
   }
 
-  init(input: any)
+  init(input: Input)
   {
     CameraManager.init();
     CameraUtilities.init(input);

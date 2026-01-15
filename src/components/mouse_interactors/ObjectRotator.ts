@@ -1,17 +1,19 @@
-import { RaycastResolver } from '../../raycast/RaycastResolver';
 import { GroupRaycaster } from '../../raycast/GroupRaycaster';
+import { RaycastResolver } from '../../raycast/RaycastResolver';
 
-import { Vector3 } from 'three';
-import { Quaternion } from 'three';
+import type { Object3D } from 'three';
+import { Quaternion, Vector3 } from 'three';
+import type { Input } from '../Input';
 
 class ObjectRotator extends RaycastResolver
 {
-  group_raycaster: any;
-  input: any;
-  is_mouse_over: any;
-  object: any;
-  rotation_active: any;
-  constructor(object: any, input: any)
+  group_raycaster: GroupRaycaster;
+  input: Input;
+  is_mouse_over: boolean;
+  object: Object3D;
+  rotation_active: boolean;
+
+  constructor(object: Object3D, input: Input)
   {
     super();
 
@@ -24,7 +26,7 @@ class ObjectRotator extends RaycastResolver
     this.group_raycaster = new GroupRaycaster([object], this, undefined, this.input);
   }
 
-  on_enter(intersected_object: any)
+  on_enter()
   {
     this.is_mouse_over = true;
   }

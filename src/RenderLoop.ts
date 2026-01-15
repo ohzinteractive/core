@@ -1,4 +1,5 @@
 import { BaseApplication } from './BaseApplication';
+import type { Input } from './components/Input';
 import { Debug } from './Debug';
 import type { Graphics } from './Graphics';
 import { Time } from './Time';
@@ -10,12 +11,12 @@ class RenderLoop
 {
   frames_passed: number;
   graphics: typeof Graphics;
-  input: any;
+  input: Input;
   is_running: boolean;
   target_application: BaseApplication;
   time_accumulator: number;
 
-  constructor(target_application: BaseApplication, graphics: typeof Graphics, input: any)
+  constructor(target_application: BaseApplication, graphics: typeof Graphics, input: Input)
   {
     target_application = target_application || new BaseApplication();
 

@@ -3,19 +3,20 @@ import { Graphics } from './Graphics';
 
 import { Scene, Vector2 } from 'three';
 import { OrthographicCamera } from './OrthographicCamera';
+import type { Input } from './components/Input';
 import type { UIElement } from './components/UIElement';
 
 class UI
 {
   _tmp_normalized_pos: Vector2;
   current_clicked_element: UIElement | undefined;
-  input: any;
+  input: Input;
   ss_camera: OrthographicCamera;
   ss_scene: Scene;
   ui_elements: UIElement[];
   ws_scene: Scene;
   
-  init(input: any): void
+  init(input: Input): void
   {
     this.input = input;
     this.ui_elements = []
