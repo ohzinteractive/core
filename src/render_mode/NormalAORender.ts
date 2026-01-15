@@ -34,7 +34,7 @@ class NormalAORender extends BaseRender
     this.SSAO_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
 
     this.blurrer = new Blurrer();
-    Graphics.generateDepthNormalTexture = true;
+    Graphics.generate_depth_normal_texture = true;
   }
 
   render()

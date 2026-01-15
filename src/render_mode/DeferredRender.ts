@@ -66,7 +66,7 @@ class DeferredRender extends BaseRender
 
   on_enter()
   {
-    Graphics.generateDepthNormalTexture = true;
+    Graphics.generate_depth_normal_texture = true;
   }
 
   render()

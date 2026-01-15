@@ -6,42 +6,43 @@ import { BaseRender } from './render_mode/BaseRender';
 import { Blitter } from './render_utilities/Blitter';
 import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
 
-import {
-  AlwaysDepth,
-  FloatType,
-  LinearSRGBColorSpace,
-  NearestFilter,
-  NoBlending,
-  RGBAFormat,
-  ShaderMaterial,
-  WebGLRenderTarget
+import type {
+  WebGLRenderer
 } from 'three';
 
 import { WebGPURenderer } from 'three/webgpu';
 
+export interface CoreAttributes {
+    xr_enabled: boolean;
+}
+export interface RendererAttributes {
+  canvas: HTMLCanvasElement,
+  alpha: boolean,
+  logarithmicDepthBuffer: boolean,
+  antialias: boolean,
+  preserveDrawingBuffer: boolean,
+  forceWebGL: boolean
+}
 class Graphics
 {
-  _renderer: any;
-  blitter: any;
-  canvas: any;
-  core_attributes: any;
-  current_render_mode: any;
-  depth_and_normals_renderer: any;
-  generateDepthNormalTexture: any;
-  no_render: any;
+  _renderer: WebGLRenderer | WebGPURenderer;
+  blitter: Blitter;
+  canvas: HTMLCanvasElement;
+  core_attributes: CoreAttributes;
+  current_render_mode: BaseRender;
+  depth_and_normals_renderer: DepthAndNormalsRenderer;
+  generate_depth_normal_texture: boolean;
+  no_render: BaseRender;
   
-  init({
-    core_attributes,
-    renderer_attributes = {},
-    dpr
-  }: any)
+  init({ core_attributes, renderer_attributes, dpr }: 
+       { core_attributes: CoreAttributes, renderer_attributes: RendererAttributes, dpr: number })
   {
     this._renderer = undefined;
     this.blitter = undefined;
     this.canvas = undefined;
     this.no_render = undefined;
     this.current_render_mode = undefined;
-    this.generateDepthNormalTexture = false;
+    this.generate_depth_normal_texture = false;
     this.depth_and_normals_renderer = undefined;
 
     this.core_attributes = {
@@ -74,9 +75,8 @@ class Graphics
 
     // Capabilities.max_anisotropy = this._renderer.capabilities.getMaxAnisotropy();
     // Capabilities.vertex_texture_sampler_available = this._renderer.capabilities.maxVertexTextures > 0;
-    // Capabilities.fp_textures_available = this.is_floating_point_texture_available();
 
-    this.generateDepthNormalTexture = false;
+    this.generate_depth_normal_texture = false;
 
     this.depth_and_normals_renderer = new DepthAndNormalsRenderer();
   }
@@ -102,7 +102,7 @@ class Graphics
 
   update()
   {
-    if (this.generateDepthNormalTexture)
+    if (this.generate_depth_normal_texture)
     {
       this.depth_and_normals_renderer.render(this);
     }
@@ -198,9 +198,9 @@ class Graphics
     }
   }
 
-  readback_RT(RT: any, buffer: any)
+  async readback_RT(RT: any, buffer: any)
   {
-    this._renderer.readRenderTargetPixels(RT, 0, 0, RT.width, RT.height, buffer);
+    return this._renderer.readRenderTargetPixelsAsync(RT, 0, 0, RT.width, RT.height, buffer);
   }
 
   clear(RT: any, camera: any, clear_depth: any, clear_stencil: any)
@@ -343,48 +343,6 @@ class Graphics
     this._renderer.dispose();
     this.current_render_mode.dispose();
     this.blitter.dispose();
-  }
-
-  is_floating_point_texture_available()
-  {
-    const RT = new WebGLRenderTarget(1, 1, {
-      minFilter: NearestFilter,
-      magFilter: NearestFilter,
-      format: RGBAFormat,
-      colorSpace: LinearSRGBColorSpace,
-      type: FloatType,
-      stencilBuffer: false,
-      depthBuffer: false
-    });
-
-    const vert = `
-      void main()
-      {
-        gl_Position = vec4(uv * 2.0 - 1.0, 1.0, 1.0);
-      }
-    `;
-    const frag = `
-      void main()
-      {
-        gl_FragColor = vec4(0.0, 4865.35, 0.0, 1.0);
-      }
-    `;
-
-    const mat = new ShaderMaterial({
-      vertexShader: vert,
-      fragmentShader: frag,
-      depthWrite: false,
-      blending: NoBlending,
-      depthTest: false,
-      depthFunc: AlwaysDepth
-    });
-
-    this.material_pass(mat, RT);
-
-    const output = new Float32Array(4);
-    this._renderer.readRenderTargetPixels(RT, 0, 0, 1, 1, output);
-
-    return Math.abs(output[1] - 4865.35) < 0.001;
   }
 }
 
