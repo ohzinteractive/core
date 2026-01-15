@@ -7,7 +7,7 @@ class MultiLinePath extends Object3D
 {
   paths: Line[];
 
-  constructor(paths: Array<Vector3>)
+  constructor(paths: Array<Vector3[]>)
   {
     super();
 

@@ -10,33 +10,31 @@ import { OnMouseEnter } from '../ui/ui_element_state/OnMouseEnter';
 import { OnMouseExit } from '../ui/ui_element_state/OnMouseExit';
 import { OnMouseHover } from '../ui/ui_element_state/OnMouseHover';
 
-import { Box2, Mesh, NearestFilter, PlaneGeometry, Texture, Vector2 } from 'three';
-import { UIElementState } from '../ui/ui_element_state/UIElementState';
+import type { Texture} from 'three';
+import { Box2, Mesh, NearestFilter, PlaneGeometry, Vector2 } from 'three';
+import type { UIElementState } from '../ui/ui_element_state/UIElementState';
 
 class UIElement extends Mesh
 {
-  _on_enter_state: any;
-  _on_exit_state: any;
-  _on_hover_state: any;
-  _on_idle_state: any;
-  cached_NDC_position: any;
-  current_state: any;
-  is_clickable: any;
-  mouse_pos_tmp: any;
+  _on_enter_state: OnMouseEnter;
+  _on_exit_state: OnMouseExit;
+  _on_hover_state: OnMouseHover;
+  _on_idle_state: OnIdle;
+  cached_NDC_position: Vector2;
+  current_state: UIElementState;
+  is_clickable: boolean;
+  mouse_pos_tmp: Vector2;
   on_enter: any;
   on_exit: any;
   on_hover: any;
-  pixel_offset: any;
-  position_strategy: any;
-  screen_pos_tmp: any;
-  size: any;
-  texture_size: any;
+  pixel_offset: Vector2;
+  position_strategy: WorldSpacePosition | ScreenSpacePosition;
+  screen_pos_tmp: Vector2;
+  size: number;
+  texture_size: Vector2;
   material: UIElementMaterial;
-  /**
-   * @param {string} [vert]
-   * @param {string} [frag]
-   */
-  constructor(vert: any, frag: any) 
+
+  constructor(vert?: string, frag?: string) 
   {
     const material = new UIElementMaterial();
     super(new PlaneGeometry(1, 1), material);
@@ -71,10 +69,7 @@ class UIElement extends Mesh
     this.pixel_offset = new Vector2();
   }
 
-  /**
-   * @param {number} value
-   */
-  set_render_order(value: any)
+  set_render_order(value: number)
   {
     this.renderOrder = value;
   }
@@ -84,19 +79,13 @@ class UIElement extends Mesh
     return this.material.uniforms._PivotPoint.value;
   }
 
-  /**
-   * @param {Vector2} offset
-   */
-  set_pixel_offset(offset: any)
+  set_pixel_offset(offset: Vector2)
   {
     this.pixel_offset.copy(offset);
     this.material.uniforms._PixelOffset.value.copy(offset);
   }
 
-  /**
-   *@param {UIElementState} new_state
-   */
-  set_state(new_state: any)
+  set_state(new_state: UIElementState)
   {
     this.current_state.on_exit(this);
     this.current_state = new_state;
@@ -138,26 +127,21 @@ class UIElement extends Mesh
     this.position_strategy = new ScreenSpacePosition();
   }
 
-  /**
-   * @param {Texture} texture
-   */
-  set_texture(texture: any)
+  set_texture(texture: Texture)
   {
     texture.minFilter = NearestFilter;
     texture.magFilter = NearestFilter;
     texture.needsUpdate = true;
 
-    this.texture_size.set(texture.image.width, texture.image.height);
+    const image = texture.image as ImageBitmap
+    this.texture_size.set(image.width, image.height);
 
     this.material.uniforms._MainTex.value = texture;
     this.get_size(this.material.uniforms._TextureSize.value);
     this.visible = true;
   }
 
-  /**
-   * @param {Vector2} normalized_mouse_pos
-   */
-  update_state(normalized_mouse_pos: any)
+  update_state(normalized_mouse_pos: Vector2)
   {
     this.material.uniforms._ScreenSize.value.set(OScreen.width, OScreen.height);
     this.get_size(this.material.uniforms._TextureSize.value);
@@ -167,10 +151,7 @@ class UIElement extends Mesh
     this.current_state.update(this, normalized_mouse_pos);
   }
 
-  /**
-   * @param {Vector2} normalized_mouse_pos
-   */
-  is_mouse_over(normalized_mouse_pos: any)
+  is_mouse_over(normalized_mouse_pos: Vector2)
   {
     this.screen_pos_tmp.copy(this.cached_NDC_position);
     this.to_screen_position(this.screen_pos_tmp);
@@ -185,10 +166,7 @@ class UIElement extends Mesh
     return rect.containsPoint(this.mouse_pos_tmp);
   }
 
-  /**
-   * @param {Vector2} projected_pos
-   */
-  to_screen_position(projected_pos: any)
+  to_screen_position(projected_pos: Vector2)
   {
     projected_pos.x = (projected_pos.x * 0.5 + 0.5) * OScreen.width  + this.pixel_offset.x;
     projected_pos.y = (projected_pos.y * 0.5 + 0.5) * OScreen.height + this.pixel_offset.y;
@@ -201,10 +179,7 @@ class UIElement extends Mesh
     return pos;
   }
 
-  /**
-   * @param {Vector2} screen_pos
-   */
-  set_screen_space_position(screen_pos: any)
+  set_screen_space_position(screen_pos: Vector2)
   {
     this.position.x = (screen_pos.x / OScreen.width) * 2 - 1;
     this.position.y = (screen_pos.y / OScreen.height) * 2 - 1;
@@ -221,10 +196,7 @@ class UIElement extends Mesh
     this.material.dispose();
   }
 
-  /**
-   * @param {Vector2} [vector2]
-   */
-  get_size(vector2?: any)
+  get_size(vector2?: Vector2)
   {
     if (vector2)
     {

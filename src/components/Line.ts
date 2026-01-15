@@ -6,11 +6,11 @@ import { BufferAttribute, BufferGeometry, Color, Mesh, ShaderMaterial } from 'th
 
 class Line extends Mesh
 {
-  _length: any;
-  accumulated_length: any;
+  _length: number;
+  accumulated_length: number;
   material: ShaderMaterial
 
-  constructor(points: Vector3)
+  constructor(points?: Vector3[])
   {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
@@ -40,10 +40,7 @@ class Line extends Mesh
     }
   }
 
-  /**
-   * @param {Vector3[]} points
-   */
-  setup(points: any)
+  setup(points: Vector3[])
   {
     const vertices = [];
     const next_position = [];
@@ -137,12 +134,7 @@ class Line extends Mesh
     return this.material.uniforms._Thickness.value;
   }
 
-  /**
-   * @param {Vector3[]} points
-   * @param {number} i
-   * @returns {Vector3}
-   */
-  __get_previous_position(points: any, i: any)
+  __get_previous_position(points: Vector3[], i: number): Vector3
   {
     if (i === 0)
     {
@@ -154,12 +146,7 @@ class Line extends Mesh
     }
   }
 
-  /**
-   * @param {Vector3[]} points
-   * @param {number} i
-   * @returns {Vector3}
-   */
-  __get_next_position(points: any, i: any)
+  __get_next_position(points: Vector3[], i: number): Vector3
   {
     if (i === points.length - 1)
     {
@@ -205,10 +192,7 @@ class Line extends Mesh
     return this.material.uniforms._Color.value;
   }
 
-  /**
-   * @param {Color} col
-   */
-  copy_color(col: any)
+  copy_color(col: Color)
   {
     this.material.uniforms._Color.value.copy(col);
   }

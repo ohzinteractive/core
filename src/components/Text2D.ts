@@ -1,14 +1,14 @@
 import { SimpleTextDrawer } from '../canvas_drawer/SimpleTextDrawer';
 import { WorldImage } from './WorldImage';
 
-import type { Vector2 } from 'three';
+import type { CanvasTexture, Vector2 } from 'three';
 import { LinearFilter, LinearMipMapLinearFilter } from 'three';
 
 class Text2D extends WorldImage
 {
-  canvas_texture: any;
-  draw_settings: any;
-  simple_text_drawer: any;
+  canvas_texture: CanvasTexture;
+  draw_settings: { font: string; font_color: string | number; };
+  simple_text_drawer: SimpleTextDrawer;
 
   constructor(text: string, font: string, color: string | number, pivot: Vector2) 
   {
