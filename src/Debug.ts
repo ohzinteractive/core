@@ -8,21 +8,21 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
-import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector3, Vector4 } from 'three';
+import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector2, Vector3, Vector4 } from 'three';
 import { CameraManager } from './CameraManager';
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
 
 class Debug
 {
-  Vector3_one: any;
-  Vector3_zero: any;
-  camera: any;
+  Vector3_one: Vector3;
+  Vector3_zero: Vector3;
+  camera: PerspectiveCamera;
   canvas_renderer: any;
   ctx: any;
-  display_texture_meshes: any;
+  display_texture_meshes: Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[];
   rt_debug: any;
-  scene: any;
+  scene: Scene;
   
   init()
   {
@@ -39,7 +39,7 @@ class Debug
     this.camera.clear_alpha = 0;
   }
 
-  draw_arrow(origin: any, dir: any, color = 0xff0000)
+  draw_arrow(origin: Vector3, dir: Vector3, color: number | string = 0xff0000)
   {
     const arrow = new Arrow(color, dir.length(), dir.clone().normalize());
     arrow.position.copy(origin);
@@ -59,7 +59,7 @@ class Debug
     this.rt_debug = RT;
   }
 
-  draw_rectangle(position_2d: any, width: any, height: any, color: any)
+  draw_rectangle(position_2d: Vector3 | Vector2, width: number, height: number, color: number | string)
   {
     width  = width || 100;
     height = height || 100;
@@ -76,7 +76,7 @@ class Debug
     }
   }
 
-  draw_line_2D(from: any, to: any, color: any)
+  draw_line_2D(from: Vector3 | Vector2, to: Vector3 | Vector2, color: number | string)
   {
     this.ctx.strokeStyle =  color || 'rgba(255, 0, 0, 1)';
     this.ctx.beginPath();
@@ -86,7 +86,7 @@ class Debug
     this.ctx.stroke();
   }
 
-  draw_line(points: any, color = 0xff0000)
+  draw_line(points: Vector3[], color: number | string = 0xff0000)
   {
     const material = new LineBasicMaterial({
       color: color
@@ -100,7 +100,7 @@ class Debug
     return line;
   }
 
-  draw_cube(pos: any, size: any, color: any)
+  draw_cube(pos: Vector3, size: number, color: number | string)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -112,7 +112,7 @@ class Debug
     return cube;
   }
 
-  draw_oriented_cube(from: any, to: any, height = 1, color = '#FF0000', depth = 0.1)
+  draw_oriented_cube(from: Vector3, to: Vector3, height: number = 1, color: number | string = '#FF0000', depth: number = 0.1)
   {
     const size = from.distanceTo(to);
     const cube = new Cube(new Vector3(depth, height, size), undefined, color);
@@ -134,7 +134,7 @@ class Debug
     return cube;
   }
 
-  draw_plane(width: any, height: any, color: any) 
+  draw_plane(width?: number, height?: number, color?: number | string) 
   {
     const geometry = new PlaneGeometry(width, height);
     const material = new ShaderMaterial({
@@ -153,7 +153,7 @@ class Debug
     return plane;
   }
 
-  draw_empty_cube(pos: any, size: any, color: any)
+  draw_empty_cube(pos: Vector3, size: number, color: number | string)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -164,7 +164,7 @@ class Debug
     return helper;
   }
 
-  draw_sphere(pos: any, size: any, color: any)
+  draw_sphere(pos: Vector3, size: number, color: number | string)
   {
     size = size || 1;
     color = color || 0xff0000;
@@ -176,7 +176,7 @@ class Debug
     return sphere;
   }
 
-  draw_point_array(input_points: any, open = false, color = 0xff0000) 
+  draw_point_array(input_points: Vector3[], open: boolean = false, color: number | string = 0xff0000) 
   {
     const catmull = new CatmullRomCurve3(input_points, open);
     catmull.updateArcLengths();
@@ -186,7 +186,7 @@ class Debug
     return line_helper;
   }
 
-  draw_sphere_helper(sphere: any, color: any)
+  draw_sphere_helper(sphere: any, color: number | string)
   {
     color = color || 0xff0000;
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
@@ -214,13 +214,13 @@ class Debug
     SceneManager.current.add(sphere1);
   }
 
-  draw_bounding_box(bb: any)
+  draw_bounding_box(bb: Box3)
   {
     const helper = new Box3Helper(bb, 0xffff00);
     SceneManager.current.add(helper);
   }
 
-  draw_curve(curve: any, options: any)
+  draw_curve(curve: Vector3[], options: { offset: number })
   {
     const offset = new Vector3(0, 0, 0);
     if (options)
@@ -234,7 +234,7 @@ class Debug
     }
   }
 
-  draw_texture(tex: any, w: any, h: any)
+  draw_texture(tex: any, w: number, h: number)
   {
     const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
     this.display_texture_meshes.push(mesh);
