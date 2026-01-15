@@ -1,5 +1,4 @@
-import { Object3D, Texture } from 'three';
-
+import type { Object3D, Texture } from 'three';
 
 class ResourceContainer
 {

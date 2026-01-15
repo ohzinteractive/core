@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from './PerspectiveCamera';
+import type { PerspectiveCamera } from './PerspectiveCamera';
 
 class CameraManager
 {

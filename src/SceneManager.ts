@@ -1,4 +1,5 @@
-import { Mesh, Scene } from 'three';
+import type { Mesh} from 'three';
+import { Scene } from 'three';
 
 class SceneManager
 {

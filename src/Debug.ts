@@ -8,7 +8,8 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
-import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Texture, Vector2, Vector3, Vector4, WebGLRenderTarget } from 'three';
+import type { Texture, Vector2, WebGLRenderTarget } from 'three';
+import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector3, Vector4 } from 'three';
 import { CameraManager } from './CameraManager';
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
