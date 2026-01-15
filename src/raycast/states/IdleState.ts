@@ -1,5 +1,7 @@
-import { OnRaycastEnter } from './OnRaycastEnter';
+import type { GroupRaycaster } from '../GroupRaycaster';
 import { BaseState } from './BaseState';
+import { OnRaycastEnter } from './OnRaycastEnter';
+
 class IdleState extends BaseState
 {
   constructor()
@@ -7,7 +9,7 @@ class IdleState extends BaseState
     super();
   }
 
-  update(context: any)
+  update(context: GroupRaycaster)
   {
     if (context.current_intersections.length > 0)
     {

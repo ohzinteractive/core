@@ -1,12 +1,14 @@
+import type { Vector3 } from 'three';
+import type { Input } from '../components/Input';
 import { PlaneRaycaster } from './PlaneRaycaster';
 import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 
 class PlaneDragResolver extends PlaneRaycastResolver
 {
-  _drag_started: any;
-  _plane_raycaster: any;
-  input: any;
-  constructor(input: any)
+  _drag_started: boolean;
+  _plane_raycaster: PlaneRaycaster;
+  input: Input;
+  constructor(input: Input)
   {
     super();
     this._drag_started = false;
@@ -40,18 +42,18 @@ class PlaneDragResolver extends PlaneRaycastResolver
   }
 
   // @virtual
-  on_drag_button_pressed()
+  on_drag_button_pressed(): boolean
   {
     return this.input.left_mouse_button_pressed;
   }
 
   // @virtual
-  on_drag_button_released()
+  on_drag_button_released(): boolean
   {
     return this.input.left_mouse_button_released;
   }
 
-  on_hover(intersection_point: any)
+  on_hover(intersection_point: Vector3)
   {
     if (this.on_drag_button_released() && this._drag_started)
     {

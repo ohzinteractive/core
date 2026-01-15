@@ -1,13 +1,15 @@
+import type { Mesh, Vector3 } from 'three';
+import type { Input } from '../components/Input';
 import { GroupRaycaster } from './GroupRaycaster';
 import { RaycastResolver } from './RaycastResolver';
 
 class SurfaceDragResolver extends RaycastResolver
 {
-  _drag_started: any;
-  _group_raycaster: any;
-  input: any;
+  _drag_started: boolean;
+  _group_raycaster: GroupRaycaster;
+  input: Input;
   
-  constructor(surface_mesh: any, input: any)
+  constructor(surface_mesh: Mesh, input: Input)
   {
     super();
     this._drag_started = false;
@@ -45,10 +47,8 @@ class SurfaceDragResolver extends RaycastResolver
     return this._drag_started;
   }
 
-  on_hover(intersected_object: any)
+  on_hover(intersected_point: Vector3)
   {
-    // Extract intersection data from the intersected object or use a different approach
-    const intersection_data = intersected_object; // Adjust this based on your data structure
     
     if (this.input.left_mouse_button_released && this._drag_started)
     {
@@ -58,12 +58,12 @@ class SurfaceDragResolver extends RaycastResolver
 
     if (this.drag_started)
     {
-      this.on_drag_move(intersection_data.point);
+      this.on_drag_move(intersected_point);
     }
 
     if (this.input.left_mouse_button_pressed)
     {
-      this.on_drag_start(intersection_data.point);
+      this.on_drag_start(intersected_point);
       this._drag_started = true;
     }
   }

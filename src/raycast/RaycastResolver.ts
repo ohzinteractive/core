@@ -1,3 +1,5 @@
+import type { Vector3 } from "three";
+
 class RaycastResolver
 {
   constructor()
@@ -5,12 +7,12 @@ class RaycastResolver
 
   }
 
-  on_enter(intersected_object: any)
+  on_enter(intersected_point: Vector3)
   {
     // console.log("on enter");
   }
 
-  on_hover(intersected_object: any)
+  on_hover(intersected_point: Vector3)
   {
     // console.log("on hover");
   }

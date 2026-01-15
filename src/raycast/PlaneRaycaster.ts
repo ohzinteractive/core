@@ -2,13 +2,15 @@ import { CameraUtilities } from '../utilities/CameraUtilities';
 import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 
 import { Raycaster, Vector3 } from 'three';
+import type { RaycastResolver } from './RaycastResolver';
 
 class PlaneRaycaster
 {
-  current_intersected_point: any;
-  raycast_resolver: any;
-  raycaster: any;
-  constructor(raycast_resolver: any)
+  current_intersected_point: Vector3;
+  raycast_resolver: RaycastResolver;
+  raycaster: Raycaster;
+
+  constructor(raycast_resolver: RaycastResolver)
   {
     this.raycast_resolver = raycast_resolver || new PlaneRaycastResolver();
 
