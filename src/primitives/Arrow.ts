@@ -4,13 +4,9 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
 
 class Arrow extends Mesh
 {
-  _dir: any;
-  /**
-   * @param {string | number} [color]
-   * @param {number} [length]
-   * @param {Vector3} [dir]
-   */
-  constructor(color: any, length: any, dir: any)
+  _dir: Vector3;
+
+  constructor(color?: string | number, length?: number, dir?: Vector3)
   {
     color = color || '#FF0000';
     length = length || 1;
