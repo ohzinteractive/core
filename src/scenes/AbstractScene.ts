@@ -184,9 +184,9 @@ class AbstractScene extends Scene
   on_pre_render()
   {}
 
-  render()
-  {
-  }
+  // render()
+  // {
+  // }
 
   on_post_render()
   {}
