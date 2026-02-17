@@ -1,6 +1,8 @@
 import { Mesh, Scene } from 'three';
 // import { AvatarSystem } from '../../components/avatar/AvatarSystem';
 
+import { Graphics } from '../Graphics';
+import { CameraManager } from '../index';
 import { HighQualityLoadingState } from './loading_states/HighQualityLoadingState';
 import { LoadingState } from './loading_states/LoadingState';
 import { RegularLoadingState } from './loading_states/RegularLoadingState';
@@ -184,9 +186,10 @@ class AbstractScene extends Scene
   on_pre_render()
   {}
 
-  // render()
-  // {
-  // }
+  render()
+  {
+    Graphics.render(this, CameraManager.current);
+  }
 
   on_post_render()
   {}
