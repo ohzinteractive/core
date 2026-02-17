@@ -10,7 +10,6 @@ import { OScreen } from './OScreen';
 import { ReflectionPlaneContext } from './ReflectionPlaneContext';
 import { ResourceContainer } from './ResourceContainer';
 import { SceneManager } from './SceneManager';
-import { GeometryBatcher } from './static_batcher/GeometryBatcher';
 import { Time } from './Time';
 import { UI } from './UI';
 import { CameraUtilities } from './utilities/CameraUtilities';
@@ -26,7 +25,6 @@ class Initializer
     CameraManager.init();
     CameraUtilities.init(input);
     Capabilities.init();
-    GeometryBatcher.init();
 
     OS.init();
     Browser.init();
