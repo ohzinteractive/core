@@ -1,10 +1,11 @@
+import typescript from '@rollup/plugin-typescript';
 import glslify from 'rollup-plugin-glslify';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 
 export default [
   {
-    input: './src/index.js',
+    input: './src/index.ts',
     output: [
       {
         file: 'build/index.mjs',
@@ -13,6 +14,13 @@ export default [
       }
     ],
     plugins: [
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: false,
+        declarationDir: undefined,
+        outDir: undefined,
+        sourceMap: true
+      }),
       glslify(),
       sourcemaps(),
       terser()
@@ -34,7 +42,7 @@ export default [
     ]
   }
 //   {
-//     input: './src/blitter_index.js',
+//     input: './src/blitter_index.ts',
 //     output: [
 //       {
 //         file: 'build_blitter/index.module.js',
