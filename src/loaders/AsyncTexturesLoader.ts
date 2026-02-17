@@ -2,7 +2,7 @@ import { AsyncTextureLoader } from '../resource_loader/AsyncTextureLoader';
 import { BasisLoader } from '../resource_loader/BasisLoader';
 import { CubemapLoader } from '../resource_loader/CubemapLoader';
 import { HDRCubeTextureLoader } from '../resource_loader/HDRCubeTextureLoader';
-import { HDRTextureLoader } from '../resource_loader/RGBETextureLoader';
+import { HDRTextureLoader } from '../resource_loader/HDRTextureLoader';
 import { ResourceContainer } from '../ResourceContainer';
 import { AsyncAbstractLoader } from './AsyncAbstractLoader';
 
