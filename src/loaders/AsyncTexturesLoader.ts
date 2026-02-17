@@ -2,7 +2,7 @@ import { AsyncTextureLoader } from '../resource_loader/AsyncTextureLoader';
 import { BasisLoader } from '../resource_loader/BasisLoader';
 import { CubemapLoader } from '../resource_loader/CubemapLoader';
 import { HDRCubeTextureLoader } from '../resource_loader/HDRCubeTextureLoader';
-import { RGBETextureLoader } from '../resource_loader/RGBETextureLoader';
+import { HDRTextureLoader } from '../resource_loader/RGBETextureLoader';
 import { ResourceContainer } from '../ResourceContainer';
 import { AsyncAbstractLoader } from './AsyncAbstractLoader';
 
@@ -45,7 +45,7 @@ class AsyncTexturesLoader extends AsyncAbstractLoader
 
         break;
       case 'hdr':
-        loaders.push(new RGBETextureLoader(
+        loaders.push(new HDRTextureLoader(
           asset_data.name,
           asset_data.url,
           asset_data.size

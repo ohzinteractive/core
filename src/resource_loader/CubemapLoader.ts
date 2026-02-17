@@ -1,3 +1,4 @@
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { CubeTextureLoader } from 'three';
@@ -5,9 +6,9 @@ import { CubeTextureLoader } from 'three';
 class CubemapLoader extends AbstractLoader
 {
   loader: CubeTextureLoader;
-  urls: any;
+  urls: string[];
 
-  constructor(resource_id: any, url: any, extension: any, size: any)
+  constructor(resource_id: string, url: string, extension: string, size: number)
   {
     super(resource_id, url, size);
     this.loader = new CubeTextureLoader();
@@ -23,7 +24,7 @@ class CubemapLoader extends AbstractLoader
     ];
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -33,7 +34,7 @@ class CubemapLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr: any) => {
+      () => {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;

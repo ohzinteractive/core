@@ -1,3 +1,4 @@
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 // import { sRGBEncoding } from 'three';
@@ -5,16 +6,17 @@ import { AbstractLoader } from './AbstractLoader';
 class BasisLoader extends AbstractLoader
 {
   loader: any;
-  resource_id: any;
-  url: any;
-  constructor(resource_id: any, url: any, loader: any, size: any)
+  resource_id: string;
+  url: string;
+  
+  constructor(resource_id: string, url: string, loader: any, size: number)
   {
     super(resource_id, url, size);
 
     this.loader = loader;
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {

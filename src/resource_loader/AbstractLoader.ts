@@ -1,14 +1,16 @@
+import type { ResourceContainer } from "../loaders/assets_loader/ResourceContainer";
+
 export class AbstractLoader
 {
-  resource_id: any;
-  url: any;
-  loaded_bytes: any;
-  total_bytes: any;
-  has_finished: any;
-  has_error: any;
-  error_message: any;
+  resource_id: string;
+  url: string;
+  loaded_bytes: number;
+  total_bytes: number;
+  has_finished: boolean;
+  has_error: boolean;
+  error_message: string;
 
-  constructor(resource_id: any, url: any, size = 1)
+  constructor(resource_id: string, url: string, size = 1)
   {
     this.resource_id = resource_id;
     this.url = url;
@@ -20,7 +22,7 @@ export class AbstractLoader
     this.error_message = 'none';
   }
 
-  __update_downloaded_bytes(loaded: any, total: any)
+  __update_downloaded_bytes(loaded: number, total: number)
   {
     loaded = this.is_number(loaded) ? loaded : 1;
     total  = this.is_number(total)  ? total  : 1;
@@ -43,7 +45,7 @@ export class AbstractLoader
     this.has_finished = true;
   }
 
-  __set_error(message: any)
+  __set_error(message: string)
   {
     this.has_error = true;
     this.error_message = message;
@@ -54,7 +56,7 @@ export class AbstractLoader
     console.error('Error while loading ' + this.resource_id + '\n\t path: ' + this.url + '\n\t\t' + this.error_message);
   }
 
-  load(resource_container: any)
+  load(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -79,7 +81,7 @@ export class AbstractLoader
     }
   }
 
-  async on_progress(resource_container: any, response: any)
+  async on_progress(resource_container: ResourceContainer, response: Response)
   {
     const response_clone = response.clone();
     const reader = response.body.getReader();
@@ -116,7 +118,7 @@ export class AbstractLoader
     }
   }
 
-  on_preloaded_finished(resource_container: any, response: any)
+  on_preloaded_finished(resource_container: ResourceContainer, response: Response)
   {
   }
 

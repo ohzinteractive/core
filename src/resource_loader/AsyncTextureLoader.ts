@@ -1,4 +1,5 @@
 import { Browser } from '../Browser';
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { NoColorSpace, SRGBColorSpace, Texture } from 'three';
@@ -10,7 +11,7 @@ export class AsyncTextureLoader extends AbstractLoader
   premultiplyAlpha: boolean;
   flipY: boolean;
 
-  constructor(resource_id: any, url: any, size: any, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
+  constructor(resource_id: string, url: string, size: number, flipY = true, premultiplyAlpha = false, colorSpaceConversion = true)
   {
     super(resource_id, url, size);
 
@@ -20,7 +21,7 @@ export class AsyncTextureLoader extends AbstractLoader
     this.flipY = flipY;
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (Browser.is_safari) // && Browser.version < 15
     {
@@ -32,7 +33,7 @@ export class AsyncTextureLoader extends AbstractLoader
     }
   }
 
-  load_with_old_method(resource_container: any)
+  load_with_old_method(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -69,7 +70,7 @@ export class AsyncTextureLoader extends AbstractLoader
     }
   }
 
-  load_with_new_method(resource_container: any)
+  load_with_new_method(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {

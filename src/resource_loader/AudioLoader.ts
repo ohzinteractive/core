@@ -1,6 +1,7 @@
 import { AudioContext } from 'three';
 
 import { AudioClip } from '../components/AudioClip';
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 class AudioLoader extends AbstractLoader
@@ -9,7 +10,7 @@ class AudioLoader extends AbstractLoader
   volume: number;
   positional: boolean;
 
-  constructor(resource_id: any, url: any, loop = true, volume = 0, size: any, positional = false)
+  constructor(resource_id: string, url: string, loop = true, volume = 0, size: number, positional = false)
   {
     super(resource_id, url, size);
     this.loop = loop;
@@ -17,7 +18,7 @@ class AudioLoader extends AbstractLoader
     this.positional = positional;
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     // if (!window.user_interaction_for_audio)
     // {
@@ -39,7 +40,7 @@ class AudioLoader extends AbstractLoader
     // }
   }
 
-  instantiate_audio(resource_container: any)
+  instantiate_audio(resource_container: ResourceContainer)
   {
     const context = AudioContext.getContext();
 

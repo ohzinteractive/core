@@ -1,3 +1,5 @@
+import type { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -6,7 +8,7 @@ class GLTFDRACOLoader extends AbstractLoader
 {
   loader: GLTFLoader;
 
-  constructor(resource_id: any, url: any, loader: any, size: any)
+  constructor(resource_id: string, url: string, loader: DRACOLoader, size: number)
   {
     super(resource_id, url, size);
     this.loader = new GLTFLoader();
@@ -14,7 +16,7 @@ class GLTFDRACOLoader extends AbstractLoader
     this.loader.setDRACOLoader(loader);
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -24,14 +26,14 @@ class GLTFDRACOLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr: any) => {
+      () => {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;
       //   this.__update_downloaded_bytes(xhr.loaded, total);
       // }
       },
-      (msg: any) => {
+      (msg: string) => {
         this.__set_error(msg + '\n\n\t If the error says something about unexpected token < in JSON then the probably the problem is related to the file not being found. Check the name and path of the resource');
         this.__loading_ended();
       });

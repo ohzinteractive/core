@@ -1,3 +1,4 @@
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { HDRCubeTextureLoader as THDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
@@ -7,7 +8,7 @@ class HDRCubeTextureLoader extends AbstractLoader
   loader: THDRCubeTextureLoader;
   urls: string[];
 
-  constructor(resource_id: any, url: any, extension: any, size: any)
+  constructor(resource_id: string, url: string, extension: string, size: number)
   {
     super(resource_id, url, size);
     this.loader = new THDRCubeTextureLoader();
@@ -23,7 +24,7 @@ class HDRCubeTextureLoader extends AbstractLoader
     ];
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -33,7 +34,7 @@ class HDRCubeTextureLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr: any) => {
+      () => {
         // if (xhr)
         // {
         //   let total = xhr.total || this.total_bytes;

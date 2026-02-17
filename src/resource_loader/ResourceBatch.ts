@@ -1,22 +1,23 @@
-import { ResourceContainer } from '../ResourceContainer';
+import type { AbstractLoader } from '../../types/index';
+import { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 
 class ResourceBatch
 {
-  resource_loaders: any[];
+  resource_loaders: AbstractLoader[];
   batch_name: string;
 
-  constructor(batch_name: any)
+  constructor(batch_name: string)
   {
     this.resource_loaders = [];
     this.batch_name = batch_name || 'unnamed batch';
   }
 
-  add_loader(loader: any)
+  add_loader(loader: AbstractLoader)
   {
     this.resource_loaders.push(loader);
   }
 
-  load(resource_container: any)
+  load(resource_container: ResourceContainer)
   {
     for (let i = 0; i < this.resource_loaders.length; i++)
     {

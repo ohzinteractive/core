@@ -1,19 +1,21 @@
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { FontLoader as TFontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
 class FontLoader extends AbstractLoader
 {
-  loader: any;
-  resource_id: any;
-  url: any;
-  constructor(resource_id: any, url: any, size: any)
+  loader: TFontLoader;
+  resource_id: string;
+  url: string;
+  
+  constructor(resource_id: string, url: string, size: number)
   {
     super(resource_id, url, size);
     this.loader = new TFontLoader();
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -23,7 +25,7 @@ class FontLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr: any) => {
+      () => {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;

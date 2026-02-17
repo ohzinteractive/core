@@ -1,15 +1,16 @@
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
 import { Texture } from 'three';
 
 class TextureLoader extends AbstractLoader
 {
-  constructor(resource_id: any, url: any, size: any)
+  constructor(resource_id: string, url: string, size: number)
   {
     super(resource_id, url, size);
   }
 
-  on_preloaded_finished(resource_container: any, response: any)
+  on_preloaded_finished(resource_container: ResourceContainer, response: Response)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
