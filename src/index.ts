@@ -118,11 +118,11 @@ import { AsyncObjectsLoader } from './loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from './loaders/AsyncTexturesLoader';
 import { ResourceBatch } from './resource_loader/ResourceBatch';
 import { ResourceContainer } from './ResourceContainer';
+import { Compilator } from './scenes/Compilator';
 import { TransitionManager } from './view_components/TransitionManager';
 
 export {
-    AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities,
-    CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
+    AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities, Compilator, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
     ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshBatcher, MeshSampler,
     ModelUtilities, NormalAORender,
@@ -131,3 +131,4 @@ export {
     ResourceContainer, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
     ViewComponentManager, ViewManager, VRRender, WorldImage
 };
+

@@ -1,9 +1,11 @@
+import type { AbstractScene } from '../AbstractScene';
 import { LoadingState } from './LoadingState';
 
 export class RegularLoadingState extends LoadingState
 {
-  on_assets_ready_called: any;
-  constructor(scene: any, compilators: any)
+  on_assets_ready_called: boolean;
+
+  constructor(scene: AbstractScene, compilators: any)
   {
     super(scene, compilators);
 

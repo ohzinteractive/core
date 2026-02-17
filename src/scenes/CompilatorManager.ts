@@ -1,9 +1,12 @@
+import type { Compilator } from "../index";
+
 class CompilatorManager
 {
-  compilators: any;
-  first_update: any;
-  index: any;
-  constructor(compilators: any)
+  compilators: Array<Compilator>;
+  first_update: boolean;
+  index: number;
+  
+  constructor(compilators: Array<Compilator>)
   {
     this.compilators = compilators;
     this.first_update = true;

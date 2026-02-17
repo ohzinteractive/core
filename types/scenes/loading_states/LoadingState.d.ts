@@ -1,3 +1,5 @@
+import type { CompilatorManager } from "../../../src/scenes/CompilatorManager";
+
 export class LoadingState {
     constructor(scene: any, { SceneCompilator, TexturesCompilator, AudiosCompilator }: {
         SceneCompilator: any;
@@ -28,4 +30,3 @@ export class LoadingState {
     is_loaded(): boolean;
     is_compiled(): boolean;
 }
-import { CompilatorManager } from "./CompilatorManager";

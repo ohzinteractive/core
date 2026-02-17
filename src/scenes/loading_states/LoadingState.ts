@@ -1,26 +1,30 @@
+import type { AbstractLoader } from '../../../types/index';
 import { AsyncAudiosLoader } from '../../loaders/AsyncAudiosLoader';
 import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
 import { ResourceContainer } from '../../ResourceContainer';
-import { CompilatorManager } from './CompilatorManager';
+import type { AbstractScene } from '../AbstractScene';
+import type { Compilator } from '../Compilator';
+import { CompilatorManager } from '../CompilatorManager';
 
 export class LoadingState
 {
-  AudiosCompilator: any;
-  SceneCompilator: any;
-  TexturesCompilator: any;
-  callback_called: any;
-  compilator_manager: any;
-  compilators: any;
-  custom_compilators: any;
+  AudiosCompilator: Compilator;
+  SceneCompilator: Compilator;
+  TexturesCompilator: Compilator;
+  callback_called: boolean;
+  compilator_manager: CompilatorManager;
+  compilators: Array<Compilator>;
+  custom_compilators: Array<Compilator>;
   custom_data: any;
   custom_loaders: any;
-  loaders: any;
-  scene: any;
+  loaders: Array<AbstractLoader>;
+  scene: AbstractScene;
   scene_objects: any;
   scene_sounds: any;
   scene_textures: any;
-  constructor(scene: any, {
+  
+  constructor(scene: AbstractScene, {
     SceneCompilator,
     TexturesCompilator,
     AudiosCompilator

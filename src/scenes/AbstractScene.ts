@@ -8,9 +8,9 @@ import { RegularLoadingState } from './loading_states/RegularLoadingState';
 class AbstractScene extends Scene
 {
   current_loading_state: any;
-  initialized: any;
-  is_high_loaded: any;
-  is_loaded: any;
+  initialized: boolean;
+  is_high_loaded: boolean;
+  is_loaded: boolean;
   loading_states: any;
   name: string;
   

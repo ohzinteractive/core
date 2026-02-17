@@ -1,8 +1,10 @@
+import type { AbstractScene } from '../AbstractScene';
 import { LoadingState } from './LoadingState';
 
 export class HighQualityLoadingState extends LoadingState
 {
-  scene: any;
+  scene: AbstractScene;
+
   on_enter()
   {
     super.on_enter();
