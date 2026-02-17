@@ -1,19 +1,20 @@
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader';
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-
-class RGBETextureLoader extends AbstractLoader
+class HDRTextureLoader extends AbstractLoader
 {
-  loader: any;
-  resource_id: any;
-  url: any;
-  constructor(resource_id: any, url: any, size: any)
+  loader: HDRLoader;
+  resource_id: string;
+  url: string;
+
+  constructor(resource_id: string, url: string, size: number)
   {
     super(resource_id, url, size);
-    this.loader = new RGBELoader();
+    this.loader = new HDRLoader();
   }
 
-  on_preloaded_finished(resource_container: any)
+  on_preloaded_finished(resource_container: ResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -23,7 +24,7 @@ class RGBETextureLoader extends AbstractLoader
         this.__update_downloaded_bytes(1, 1);
         this.__loading_ended();
       },
-      (xhr: any) => {
+      () => {
       // if (xhr)
       // {
       //   let total = xhr.total || this.total_bytes;
@@ -45,4 +46,4 @@ class RGBETextureLoader extends AbstractLoader
   }
 }
 
-export { RGBETextureLoader };
+export { HDRTextureLoader };
