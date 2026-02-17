@@ -8,9 +8,10 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
-import type { Texture, Vector2, WebGLRenderTarget } from 'three';
+import type { RenderTarget, Texture, Vector2 } from 'three';
 import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector3, Vector4 } from 'three';
 import { CameraManager } from './CameraManager';
+import type { AbstractScene, Graphics } from './index';
 import basic_color_frag from './shaders/basic_color/basic_color.frag';
 import basic_color_vert from './shaders/basic_color/basic_color.vert';
 
@@ -22,8 +23,8 @@ class Debug
   canvas_renderer: any;
   ctx: any;
   display_texture_meshes: Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[];
-  rt_debug: WebGLRenderTarget;
-  scene: Scene;
+  rt_debug: RenderTarget;
+  scene: AbstractScene;
   
   init()
   {
@@ -55,7 +56,7 @@ class Debug
     return axis;
   }
 
-  set_debug_RT(RT: WebGLRenderTarget)
+  set_debug_RT(RT: RenderTarget)
   {
     this.rt_debug = RT;
   }
@@ -245,7 +246,7 @@ class Debug
     return mesh;
   }
 
-  render(graphics: any)
+  render(graphics: typeof Graphics)
   {
     for (let i = 0; i < this.display_texture_meshes.length; i++)
     {

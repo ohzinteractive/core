@@ -1,15 +1,15 @@
 import { Graphics } from '../Graphics';
 
-import type { BufferAttribute, BufferGeometry, Scene} from 'three';
-import { FloatType, HalfFloatType, Mesh, NearestFilter, NoColorSpace, RGBAFormat, WebGLRenderTarget } from 'three';
+import type { BufferAttribute, BufferGeometry, Scene } from 'three';
+import { FloatType, HalfFloatType, Mesh, NearestFilter, NoColorSpace, RenderTarget, RGBAFormat } from 'three';
 import { Capabilities } from '../Capabilities';
 
 class ParticleAttribute
 {
   name: any;
-  read: WebGLRenderTarget;
+  read: RenderTarget;
   update_material: any;
-  write: WebGLRenderTarget;
+  write: RenderTarget;
 
   constructor(attr_name: string, update_material: any)
   {
@@ -44,7 +44,7 @@ class ParticleAttribute
       depthBuffer: false
     };
 
-    return new WebGLRenderTarget(resolution.width, resolution.height, options);
+    return new RenderTarget(resolution.width, resolution.height, options);
   }
 
   static calculate_resolution(particle_count: number)
@@ -84,7 +84,7 @@ class ParticleAttribute
     }
   }
 
-  store_geometry_attribute_in_RT(attribute: BufferAttribute, RT: WebGLRenderTarget, storage_material: any, attribute_writter_scene: Scene)
+  store_geometry_attribute_in_RT(attribute: BufferAttribute, RT: RenderTarget, storage_material: any, attribute_writter_scene: Scene)
   {
     if (attribute_writter_scene.children[0] instanceof Mesh)
     {

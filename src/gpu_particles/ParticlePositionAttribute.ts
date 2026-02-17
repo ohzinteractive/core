@@ -1,4 +1,4 @@
-import type { BufferGeometry, Scene, Vector3, WebGLRenderTarget } from 'three';
+import type { BufferGeometry, RenderTarget, Scene, Vector3 } from 'three';
 import { BufferAttribute } from 'three';
 
 import { ParticleAttribute } from '../gpu_particles/ParticleAttribute';
@@ -6,8 +6,8 @@ import { ParticleStorageMaterial } from '../materials/gpu_particles/ParticleStor
 
 class ParticlePositionAttribute extends ParticleAttribute
 {
-  read: WebGLRenderTarget;
-  write: WebGLRenderTarget;
+  read: RenderTarget;
+  write: RenderTarget;
 
   constructor(update_material: any)
   {
