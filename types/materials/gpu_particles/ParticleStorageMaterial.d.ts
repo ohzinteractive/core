@@ -1,4 +1,5 @@
-export class ParticleStorageMaterial extends ShaderMaterial {
-    constructor();
+import { ShaderMaterial } from 'three';
+declare class ParticleStorageMaterial extends ShaderMaterial {
+    constructor(vert?: string);
 }
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
+export { ParticleStorageMaterial };

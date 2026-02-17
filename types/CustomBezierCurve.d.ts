@@ -1,10 +1,11 @@
-export class CustomBezierCurve {
+import { Vector3 } from 'three';
+declare class CustomBezierCurve {
+    original_points: Vector3[];
+    tmp_points: Vector3[];
     /**
      * @param {Vector3[]} points
      */
     constructor(points: Vector3[]);
-    original_points: Vector3[];
-    tmp_points: Vector3[];
     /**
      * @param {number} point_amount
      * @returns {Vector3[]}
@@ -16,4 +17,4 @@ export class CustomBezierCurve {
      */
     get_point_at(t: number): Vector3;
 }
-import { Vector3 } from "three/src/math/Vector3";
+export { CustomBezierCurve };

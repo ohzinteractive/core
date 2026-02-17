@@ -4,7 +4,7 @@
  * @param {string} color - Hex color string for the grid lines
  * @returns {{colorNode: any, opacityNode: any}} - TSL nodes for color and opacity
  */
-export function createGridShader(color?: string): {
+export declare function createGridShader(color?: string): {
     colorNode: any;
     opacityNode: any;
 };

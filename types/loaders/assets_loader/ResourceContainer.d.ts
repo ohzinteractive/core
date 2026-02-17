@@ -1,9 +1,10 @@
-export class ResourceContainer {
-    constructor(name: any);
-    name: any;
-    resources: {};
-    resources_by_url: {};
-    set_resource(name: any, url: any, resource: any): void;
-    get_resource(name: any): any;
-    get(name: any): any;
+declare class ResourceContainer {
+    name: string;
+    resources: Record<string, any>;
+    resources_by_url: Record<string, any>;
+    constructor(name: string);
+    set_resource(name: string, url: string, resource: any): void;
+    get_resource(name: string): any;
+    get(name: string): any;
 }
+export { ResourceContainer };

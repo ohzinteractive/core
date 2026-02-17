@@ -1,13 +1,10 @@
-export { reflection_plane_context as ReflectionPlaneContext };
-declare const reflection_plane_context: ReflectionPlaneContext;
+import type { BufferGeometry } from 'three';
+import { Vector3 } from 'three';
 declare class ReflectionPlaneContext {
-    init(): void;
-    target_geometry: BufferGeometry<import("three").NormalBufferAttributes, import("three").BufferGeometryEventMap>;
+    target_geometry: BufferGeometry;
     target_position: Vector3;
-    /**
-     * @param {BufferGeometry} geometry
-     */
+    init(): void;
     set_target_geometry(geometry: BufferGeometry): void;
 }
-import { BufferGeometry } from "three/src/core/BufferGeometry";
-import { Vector3 } from "three/src/math/Vector3";
+declare const reflection_plane_context: ReflectionPlaneContext;
+export { reflection_plane_context as ReflectionPlaneContext };

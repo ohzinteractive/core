@@ -1,7 +1,9 @@
-export class SDFTextMaterial extends BaseShaderMaterial {
-    constructor(texture: any);
-    side: 2;
-    set_atlas_size(size: any): void;
-    set_boldness(value: any): void;
+import { BaseShaderMaterial } from './BaseShaderMaterial';
+import type { Texture } from 'three';
+import { Vector2 } from 'three';
+declare class SDFTextMaterial extends BaseShaderMaterial {
+    constructor(texture: Texture);
+    set_atlas_size(size: Vector2): void;
+    set_boldness(value: number): void;
 }
-import { BaseShaderMaterial } from "./BaseShaderMaterial";
+export { SDFTextMaterial };
