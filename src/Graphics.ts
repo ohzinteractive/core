@@ -146,7 +146,7 @@ class Graphics
     this.__apply_override_material(scene, undefined);
   }
 
-  async compile(scene: AbstractScene, camera: PerspectiveCamera, RT: RenderTarget, override_mat: Material): void
+  async compile(scene: AbstractScene, camera: PerspectiveCamera, RT: RenderTarget, override_mat: Material): Promise<void>
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -205,12 +205,9 @@ class Graphics
     }
   }
 
-  async readback_RT(RT: RenderTarget, buffer: TypedArray): Promise<void>
+  async readback_RT(RT: RenderTarget): Promise<TypedArray>
   {
-    // TODO: Support WebGPU
-    // return this._renderer.readRenderTargetPixelsAsync(RT, 0, 0, RT.width, RT.height, buffer);
-    console.warn('Graphics.readback_RT: Not implemented for WebGPU yet.');
-    return Promise.resolve();
+    return this._renderer.readRenderTargetPixelsAsync(RT, 0, 0, RT.width, RT.height);
   }
 
   clear(RT: RenderTarget, camera: PerspectiveCamera, clear_depth: boolean, clear_stencil: boolean): void
