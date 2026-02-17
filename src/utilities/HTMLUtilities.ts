@@ -1,6 +1,6 @@
 class HTMLUtilities
 {
-  static load_images(container: any)
+  static load_images(container: HTMLElement)
   {
     const images = container.querySelectorAll('img');
 
@@ -27,7 +27,7 @@ class HTMLUtilities
     }
   }
 
-  static load_videos(container: any)
+  static load_videos(container: HTMLElement)
   {
     const videos = container.querySelectorAll('video');
 
@@ -42,7 +42,7 @@ class HTMLUtilities
     }
   }
 
-  static load_iframes(container: any)
+  static load_iframes(container: HTMLElement)
   {
     const iframes = container.querySelectorAll('iframe');
 
@@ -57,7 +57,7 @@ class HTMLUtilities
     }
   }
 
-  static load_elements(container: any, selector: any)
+  static load_elements(container: HTMLElement, selector: string)
   {
     const elements = container.querySelectorAll(selector);
 

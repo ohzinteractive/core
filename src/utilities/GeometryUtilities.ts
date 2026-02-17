@@ -1,9 +1,8 @@
-import { BufferAttribute } from 'three';
-import { BufferGeometry } from 'three';
+import { BufferAttribute, BufferGeometry } from 'three';
 
 class GeometryUtilities
 {
-  static convert_to_non_indexed_geometry(geometry_buffer: any)
+  static convert_to_non_indexed_geometry(geometry_buffer: BufferGeometry)
   {
     const indices = geometry_buffer.index;
     const positions = geometry_buffer.getAttribute('position');
@@ -50,7 +49,7 @@ class GeometryUtilities
     return geometry;
   }
 
-  static add_barycentric_attribute(non_indexed_geometry_buffer: any)
+  static add_barycentric_attribute(non_indexed_geometry_buffer: BufferGeometry)
   {
     const bar_coordinates = [];
     const positions = non_indexed_geometry_buffer.getAttribute('position');

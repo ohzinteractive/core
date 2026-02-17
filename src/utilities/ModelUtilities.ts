@@ -1,8 +1,9 @@
 import { Mesh, Skeleton } from 'three';
+import type { AbstractScene } from '../index';
 
 class ModelUtilities
 {
-  get_mesh(scene: any, result_callback: any)
+  get_mesh(scene: AbstractScene, result_callback: any)
   {
     scene.traverse((child: any) => {
       if (child instanceof Mesh)
@@ -16,7 +17,7 @@ class ModelUtilities
     });
   }
 
-  get_geometries(scene: any)
+  get_geometries(scene: AbstractScene)
   {
     const geometries: any = [];
 
@@ -26,7 +27,7 @@ class ModelUtilities
     return geometries;
   }
 
-  assign_material(scene: any, material: any, name: any)
+  assign_material(scene: AbstractScene, material: any, name: any)
   {
     scene.traverse((child: any) => {
       if (child instanceof Mesh)

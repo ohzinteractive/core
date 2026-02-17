@@ -17,7 +17,7 @@ class StringUtilities
     return hex;
   }
 
-  static capitalize(string: any)
+  static capitalize(string: string)
   {
     const words = string.split(' ');
 
@@ -29,14 +29,14 @@ class StringUtilities
     return words.join(' ');
   }
 
-  static capitalize_first_letter(string: any)
+  static capitalize_first_letter(string: string)
   {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  static snake_to_camelcase(string: any)
+  static snake_to_camelcase(string: string)
   {
-    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group: any) => group.slice(-1).toUpperCase());
+    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group: string) => group.slice(-1).toUpperCase());
   }
 }
 

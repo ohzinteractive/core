@@ -3,110 +3,110 @@ class EasingFunctions
   constructor()
   {}
 
-  static linear(x: any)
+  static linear(x: number)
   {
     return x;
   }
 
-  static triangular(x: any)
+  static triangular(x: number)
   {
     return 1 - Math.abs((x * 2) % (1 * 2) - 1);
   }
 
-  static ease_in_sine(x: any)
+  static ease_in_sine(x: number)
   {
     return 1 - Math.cos(x * 3.1415926 / 2);
   }
 
-  static ease_out_sine(x: any)
+  static ease_out_sine(x: number)
   {
     return Math.sin(x * 3.1415926 / 2);
   }
 
-  static ease_in_out_sine(x: any)
+  static ease_in_out_sine(x: number)
   {
     return -(Math.cos(3.1415926 * x) - 1) / 2;
   }
 
-  static ease_in_cubic(x: any)
+  static ease_in_cubic(x: number)
   {
     return x * x * x;
   }
 
-  static ease_out_cubic(x: any)
+  static ease_out_cubic(x: number)
   {
     return 1 - Math.pow(1 - x, 3);
   }
 
-  static ease_in_out_cubic(x: any)
+  static ease_in_out_cubic(x: number)
   {
     return x < 0.5
       ? 4 * x * x * x
       : 1 - Math.pow(-2 * x + 2, 3) / 2;
   }
 
-  static ease_in_quad(x: any)
+  static ease_in_quad(x: number)
   {
     return x * x;
   }
 
-  static ease_out_quad(x: any)
+  static ease_out_quad(x: number)
   {
     return 1 - (1 - x) * (1 - x);
   }
 
-  static ease_in_out_quad(x: any)
+  static ease_in_out_quad(x: number)
   {
     return x < 0.5
       ? 2 * x * x
       : 1 - Math.pow(-2 * x + 2, 2) / 2;
   }
 
-  static ease_in_quart(x: any)
+  static ease_in_quart(x: number)
   {
     return x * x * x * x;
   }
 
-  static ease_out_quart(x: any)
+  static ease_out_quart(x: number)
   {
     return 1 - Math.pow(1 - x, 4);
   }
 
-  static ease_in_out_quart(x: any)
+  static ease_in_out_quart(x: number)
   {
     return x < 0.5
       ? 8 * x * x * x * x
       : 1 - Math.pow(-2 * x + 2, 4) / 2;
   }
 
-  static ease_in_quint(x: any)
+  static ease_in_quint(x: number)
   {
     return x * x * x * x * x;
   }
 
-  static ease_out_quint(x: any)
+  static ease_out_quint(x: number)
   {
     return 1 - Math.pow(1 - x, 5);
   }
 
-  static ease_in_out_quint(x: any)
+  static ease_in_out_quint(x: number)
   {
     return x < 0.5
       ? 16 * x * x * x * x * x
       : 1 - Math.pow(-2 * x + 2, 5) / 2;
   }
 
-  static ease_in_expo(x: any)
+  static ease_in_expo(x: number)
   {
     return x === 0 ? 0 : Math.pow(2, 10 * x - 10);
   }
 
-  static ease_out_expo(x: any)
+  static ease_out_expo(x: number)
   {
     return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
   }
 
-  static ease_in_out_expo(x: any)
+  static ease_in_out_expo(x: number)
   {
     return x === 0
       ? 0
@@ -117,41 +117,41 @@ class EasingFunctions
           : (2 - Math.pow(2, -20 * x + 10)) / 2;
   }
 
-  static ease_in_circ(x: any)
+  static ease_in_circ(x: number)
   {
     return 1 - Math.sqrt(1 - Math.pow(x, 2));
   }
 
-  static ease_out_circ(x: any)
+  static ease_out_circ(x: number)
   {
     return Math.sqrt(1 - Math.pow(x - 1, 2));
   }
 
-  static ease_in_out_circ(x: any)
+  static ease_in_out_circ(x: number)
   {
     return x < 0.5
       ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2
       : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
   }
 
-  static ease_in_back(x: any)
+  static ease_in_back(x: number)
   {
     return 2.7015 * x * x * x - 1.7015 * x * x;
   }
 
-  static ease_out_back(x: any)
+  static ease_out_back(x: number)
   {
     return 1 + 2.7015 * Math.pow(x - 1, 3) + 1.7015 * Math.pow(x - 1, 2);
   }
 
-  static ease_in_out_back(x: any)
+  static ease_in_out_back(x: number)
   {
     return x < 0.5
       ? (Math.pow(2 * x, 2) * ((2.5949095 + 1) * 2 * x - 2.5949095)) / 2
       : (Math.pow(2 * x - 2, 2) * ((2.5949095 + 1) * (x * 2 - 2) + 2.5949095) + 2) / 2;
   }
 
-  static ease_in_elastic(x: any)
+  static ease_in_elastic(x: number)
   {
     const c4 = (2 * Math.PI) / 3;
 
@@ -162,7 +162,7 @@ class EasingFunctions
         : -Math.pow(2, 10 * x - 10) * Math.sin((x * 10 - 10.75) * c4);
   }
 
-  static ease_out_elastic(x: any)
+  static ease_out_elastic(x: number)
   {
     return x === 0
       ? 0
@@ -171,7 +171,7 @@ class EasingFunctions
         : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * 2.0943950) + 1;
   }
 
-  static ease_in_out_elastic(x: any)
+  static ease_in_out_elastic(x: number)
   {
     return x === 0
       ? 0
@@ -182,12 +182,12 @@ class EasingFunctions
           : Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * 1.3962633) / 2 + 1;
   }
 
-  static ease_in_bounce(x: any)
+  static ease_in_bounce(x: number)
   {
     return 1 - this.ease_out_bounce(1 - x);
   }
 
-  static ease_out_bounce(x: any)
+  static ease_out_bounce(x: number)
   {
     const n1 = 7.5625;
     const d1 = 2.75;
@@ -210,14 +210,14 @@ class EasingFunctions
     }
   }
 
-  static ease_in_out_bounce(x: any)
+  static ease_in_out_bounce(x: number)
   {
     return x < 0.5
       ? (1 - this.ease_out_bounce(1 - 2 * x)) / 2
       : (1 + this.ease_out_bounce(2 * x - 1)) / 2;
   }
 
-  static heartbeat(t: any)
+  static heartbeat(t: number)
   {
     return 1.0 - Math.pow(Math.abs(Math.sin(t + 1.0)), 63.0) * Math.sign(Math.sin(t)) * Math.sin(t + 1.5 + 1.0) * 0.8;
   }

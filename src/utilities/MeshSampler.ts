@@ -1,3 +1,4 @@
+import type { BufferGeometry } from 'three';
 import { Vector2, Vector3 } from 'three';
 
 interface Face {
@@ -18,7 +19,7 @@ class MeshSampler
 
   }
 
-  sample(buffer_geometry: any, sample_count: any)
+  sample(buffer_geometry: BufferGeometry, sample_count: number)
   {
     const face_areas = [];
 
@@ -137,7 +138,7 @@ class MeshSampler
     return sampled_data;
   }
 
-  sample_data_from_faces(faces: any)
+  sample_data_from_faces(faces: Face[])
   {
     const sampled_points = [];
     const sampled_normals = [];
@@ -168,9 +169,9 @@ class MeshSampler
     return { points: sampled_points, normals: sampled_normals, tangents: sampled_tangents, uvs: sampled_uvs };
   }
 
-  select_random_faces(faces: any, amount: any)
+  select_random_faces(faces: Face[], amount: number)
   {
-    const selected_faces = [];
+    const selected_faces: Face[] = [];
     for (let i = 0; i < amount; i++)
     {
       const random = Math.floor(Math.random() * faces.length);
@@ -182,9 +183,9 @@ class MeshSampler
     return selected_faces;
   }
 
-  get_uniform_face_distribution(face_areas: any, minimum_area: any, faces: any)
+  get_uniform_face_distribution(face_areas: number[], minimum_area: number, faces: Face[])
   {
-    const extended_triangle_indices = [];
+    const extended_triangle_indices: Face[] = [];
     for (let i = 0; i < face_areas.length; i++)
     {
       face_areas[i] /= minimum_area;
@@ -197,14 +198,14 @@ class MeshSampler
     return extended_triangle_indices;
   }
 
-  get_face_area(face: any)
+  get_face_area(face: Face)
   {
     const vec1 = face.b.clone().sub(face.a);
     const vec2 = face.c.clone().sub(face.a);
     return vec1.cross(vec2).length() / 2;
   }
 
-  sample_point_in_face(w1: any, w2: any, v1: any, v2: any, v3: any)
+  sample_point_in_face(w1: number, w2: number, v1: Vector3, v2: Vector3, v3: Vector3)
   {
     if (w1 + w2 > 1)
     {

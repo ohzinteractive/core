@@ -1,4 +1,5 @@
-import { Vector3, Box3 } from 'three';
+import type { Quaternion } from 'three';
+import { Box3, Vector3 } from 'three';
 
 class OrthographicFrustumPointFitter
 {
@@ -7,7 +8,7 @@ class OrthographicFrustumPointFitter
 
   }
 
-  fit_points(points: any, camera_quaternion: any, vertical_fov: any, aspect: any)
+  fit_points(points: Vector3[], camera_quaternion: Quaternion, vertical_fov: number, aspect: number)
   {
     const inverse_camera_quat = camera_quaternion.clone().inverse();
 
@@ -35,7 +36,7 @@ class OrthographicFrustumPointFitter
     };
   }
 
-  get_distance_to_fit_rect(width: any, height: any, vertical_fov: any, aspect: any)
+  get_distance_to_fit_rect(width: number, height: number, vertical_fov: number, aspect: number)
   {
     const v_fov = (vertical_fov / 2) * Math.PI / 180;
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * aspect)) / 2;

@@ -3,13 +3,14 @@ import { OMath } from './OMath';
 
 class FrustumPointFitter
 {
-  sphere: any;
+  sphere: Sphere;
+
   constructor()
   {
     this.sphere = new Sphere();
   }
 
-  fit_points(points: any, camera_quaternion: any, vertical_fov: any, aspect: any)
+  fit_points(points: Vector3[], camera_quaternion: Quaternion, vertical_fov: number, aspect: number)
   {
     this.sphere.setFromPoints(points);
 
@@ -101,7 +102,7 @@ class FrustumPointFitter
     return closest_position;
   }
 
-  apply_center_correction_to_pos(target_pos: any, points: any, camera_quaternion: any, up_plane: any, down_plane: any, left_plane: any, right_plane: any)
+  apply_center_correction_to_pos(target_pos: Vector3, points: Vector3[], camera_quaternion: Quaternion, up_plane: Plane, down_plane: Plane, left_plane: Plane, right_plane: Plane)
   {
     const vertical_offset = this.get_vertical_correction(points, down_plane, up_plane, camera_quaternion);
     const horizontal_offset = this.get_hozirontal_correction(points, left_plane, right_plane, camera_quaternion);
@@ -110,7 +111,7 @@ class FrustumPointFitter
     target_pos.add(horizontal_offset);
   }
 
-  get_vertical_correction(points: any, down_plane: any, up_plane: any, camera_quaternion: any)
+  get_vertical_correction(points: Vector3[], down_plane: Plane, up_plane: Plane, camera_quaternion: Quaternion)
   {
     let closest_distance_to_up_plane = Infinity;
     let closest_distance_to_down_plane  = Infinity;
@@ -161,7 +162,7 @@ class FrustumPointFitter
     return up_dir.clone().multiplyScalar(-correction);
   }
 
-  get_hozirontal_correction(points: any, left_plane: any, right_plane: any, camera_quaternion: any)
+  get_hozirontal_correction(points: Vector3[], left_plane: Plane, right_plane: Plane, camera_quaternion: Quaternion)
   {
     let closest_distance_to_right_plane = Infinity;
     let closest_distance_to_left_plane  = Infinity;
@@ -213,7 +214,7 @@ class FrustumPointFitter
     return right_dir.clone().multiplyScalar(-correction);
   }
 
-  get_up_plane_normal(camera_quaternion: any, v_fov: any)
+  get_up_plane_normal(camera_quaternion: Quaternion, v_fov: number)
   {
     const up_plane_normal = new Vector3(0, -1, 0);
     up_plane_normal.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), v_fov));
@@ -221,7 +222,7 @@ class FrustumPointFitter
     return up_plane_normal;
   }
 
-  get_down_plane_normal(camera_quaternion: any, v_fov: any)
+  get_down_plane_normal(camera_quaternion: Quaternion, v_fov: number)
   {
     const down_plane_normal = new Vector3(0, 1, 0);
     down_plane_normal.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -v_fov));
@@ -229,7 +230,7 @@ class FrustumPointFitter
     return down_plane_normal;
   }
 
-  get_left_plane_normal(camera_quaternion: any, h_fov: any)
+  get_left_plane_normal(camera_quaternion: Quaternion, h_fov: number)
   {
     const left_plane_normal = new Vector3(1, 0, 0);
     left_plane_normal.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), h_fov));
@@ -237,7 +238,7 @@ class FrustumPointFitter
     return left_plane_normal;
   }
 
-  get_right_plane_normal(camera_quaternion: any, h_fov: any)
+  get_right_plane_normal(camera_quaternion: Quaternion, h_fov: number)
   {
     const right_plane_normal = new Vector3(-1, 0, 0);
     right_plane_normal.applyQuaternion(new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), -h_fov));
@@ -245,7 +246,7 @@ class FrustumPointFitter
     return right_plane_normal;
   }
 
-  get_distance_to_fit_rect(width: any, height: any, vertical_fov: any, aspect: any)
+  get_distance_to_fit_rect(width: number, height: number, vertical_fov: number, aspect: number)
   {
     const v_fov = (vertical_fov / 2) * Math.PI / 180;
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * aspect)) / 2;
