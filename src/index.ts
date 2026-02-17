@@ -35,7 +35,6 @@ import { RenderLoop } from './RenderLoop';
 import { SceneManager } from './SceneManager';
 import { Screen } from './Screen';
 import { Time } from './Time';
-import { UI } from './UI';
 import { DrawIOAnimationSheet } from './view_components/transition/DrawIOAnimationSheet';
 import { TransitionTable } from './view_components/transition/TransitionTable';
 import { ViewComponent } from './view_components/ViewComponent';
@@ -68,7 +67,6 @@ import { Validation } from './utilities/Validation';
 import { Grid } from './components/Grid';
 import { Line } from './components/Line';
 import { Text2D } from './components/Text2D';
-import { UIElement } from './components/UIElement';
 import { UpdatableMaterialMesh } from './components/UpdatableMaterialMesh';
 import { WorldImage } from './components/WorldImage';
 
@@ -127,6 +125,6 @@ export {
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
     ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
-    ResourceContainer, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UI, UIElement, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+    ResourceContainer, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
     ViewComponentManager, ViewManager, VRRender, WorldImage
 };

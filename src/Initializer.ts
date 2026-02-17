@@ -11,7 +11,6 @@ import { ReflectionPlaneContext } from './ReflectionPlaneContext';
 import { ResourceContainer } from './ResourceContainer';
 import { SceneManager } from './SceneManager';
 import { Time } from './Time';
-import { UI } from './UI';
 import { CameraUtilities } from './utilities/CameraUtilities';
 
 class Initializer
@@ -33,7 +32,6 @@ class Initializer
     SceneManager.init();
     OScreen.init();
     Time.init();
-    UI.init(input);
 
     Debug.init();
   }
