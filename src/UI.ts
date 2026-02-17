@@ -1,10 +1,11 @@
 import { CameraManager } from './CameraManager';
 import { Graphics } from './Graphics';
 
-import { Scene, Vector2 } from 'three';
+import { Vector2 } from 'three';
 import { OrthographicCamera } from './OrthographicCamera';
 import type { Input } from './components/Input';
 import type { UIElement } from './components/UIElement';
+import { AbstractScene } from './scenes/AbstractScene';
 
 class UI
 {
@@ -12,20 +13,20 @@ class UI
   current_clicked_element: UIElement | undefined;
   input: Input;
   ss_camera: OrthographicCamera;
-  ss_scene: Scene;
+  ss_scene: AbstractScene;
   ui_elements: UIElement[];
-  ws_scene: Scene;
+  ws_scene: AbstractScene;
   
   init(input: Input): void
   {
     this.input = input;
     this.ui_elements = []
     this._tmp_normalized_pos = new Vector2();
-    this.ss_scene = new Scene();
+    this.ss_scene = new AbstractScene({ name: 'UI_screen_space_scene', compilators: {} });
     this.ss_scene.matrixWorldAutoUpdate = false;
     this.ss_scene.frustumCulled = false;
 
-    this.ws_scene = new Scene();
+    this.ws_scene = new AbstractScene({ name: 'UI_world_space_scene', compilators: {} });
     this.ws_scene.matrixWorldAutoUpdate = false;
     this.ws_scene.frustumCulled = false;
 

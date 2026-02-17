@@ -1,13 +1,13 @@
-import type { Mesh} from 'three';
-import { Scene } from 'three';
+import type { Mesh } from 'three';
+import { AbstractScene } from './scenes/AbstractScene';
 
 class SceneManager
 {
-  _current: Scene;
+  _current: AbstractScene;
   
   init(): void
   {
-    this._current = new Scene();
+    this._current = new AbstractScene({ name: 'default_scene', compilators: {} });
     this._current.name = 'default_scene';
   }
 
@@ -16,13 +16,13 @@ class SceneManager
 
   }
 
-  /** @type {Scene} */
+  /** @type {AbstractScene} */
   get current()
   {
     return this._current;
   }
   
-  set current(scene: Scene)
+  set current(scene: AbstractScene)
   {
     this._current = scene;
   }

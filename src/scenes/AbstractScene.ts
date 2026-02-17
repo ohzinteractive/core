@@ -12,10 +12,12 @@ class AbstractScene extends Scene
   is_high_loaded: any;
   is_loaded: any;
   loading_states: any;
+  name: string;
+  
   constructor({
     name,
     compilators
-  }: any)
+  }: { name: string, compilators: any })
   {
     super();
 
@@ -179,10 +181,14 @@ class AbstractScene extends Scene
     this.is_high_loaded = true;
   }
 
-  on_post_render()
+  on_pre_render()
   {}
 
-  on_pre_render()
+  render()
+  {
+  }
+
+  on_post_render()
   {}
 
 }
