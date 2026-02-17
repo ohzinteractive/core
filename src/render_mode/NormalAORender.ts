@@ -8,17 +8,18 @@ import { BaseRender } from '../render_mode/BaseRender';
 import { Blurrer } from '../render_utilities/Blurrer';
 import { SceneManager } from '../SceneManager';
 
-import { WebGLRenderTarget } from 'three';
+import { RenderTarget } from 'three';
 
 class NormalAORender extends BaseRender
 {
-  SSAO_RT: any;
-  blurrer: any;
-  debug_normals: any;
-  main_RT: any;
-  ssaa: any;
-  ssao_compose_mat: any;
-  ssao_mat: any;
+  SSAO_RT: RenderTarget;
+  blurrer: Blurrer;
+  debug_normals: DisplayNormalTextureMaterial;
+  main_RT: RenderTarget;
+  ssaa: number;
+  ssao_compose_mat: SSAOComposeMaterial;
+  ssao_mat: SSAOMaterial;
+
   constructor(use_ssaa = false)
   {
     super();
@@ -29,9 +30,8 @@ class NormalAORender extends BaseRender
 
     this.ssaa = use_ssaa ? 2 : 1;
 
-    this.main_RT = new WebGLRenderTarget(OScreen.width * this.ssaa, OScreen.height * this.ssaa);
-
-    this.SSAO_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
+    this.main_RT = new RenderTarget(OScreen.width * this.ssaa, OScreen.height * this.ssaa);
+    this.SSAO_RT = new RenderTarget(OScreen.width, OScreen.height);
 
     this.blurrer = new Blurrer();
     Graphics.generate_depth_normal_texture = true;
@@ -61,8 +61,8 @@ class NormalAORender extends BaseRender
 
   __update_uniforms()
   {
-    this.ssao_mat.uniforms._InverseProjMatrix.value.getInverse(CameraManager.current.projectionMatrix);
-    this.ssao_mat.uniforms._ProjectionMatrix.value.copy(CameraManager.current.projectionMatrix);
+    this.ssao_mat.uniforms._InverseProjMatrix.value = CameraManager.current.projectionMatrix.clone().invert();
+    this.ssao_mat.uniforms._ProjectionMatrix.value = CameraManager.current.projectionMatrix.clone();
     this.ssao_mat.uniforms._FarPlane.value = CameraManager.current.far;
   }
 

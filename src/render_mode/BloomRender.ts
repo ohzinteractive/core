@@ -1,7 +1,7 @@
 import { BloomComposeMaterial } from '../materials/BloomComposeMaterial';
 import { BaseRender } from '../render_mode/BaseRender';
 
-import { WebGLRenderTarget } from 'three';
+import { RenderTarget } from 'three';
 
 import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
@@ -11,10 +11,11 @@ import { SceneManager } from '../SceneManager';
 
 class BloomRender extends BaseRender
 {
-  bloom_compose_mat: any;
-  blur_RT: any;
-  blurrer: any;
-  main_RT: any;
+  bloom_compose_mat: BloomComposeMaterial;
+  blur_RT: RenderTarget;
+  blurrer: Blurrer;
+  main_RT: RenderTarget;
+
   constructor()
   {
     super();
@@ -32,8 +33,8 @@ class BloomRender extends BaseRender
   {
     this.blurrer = new Blurrer();
     // this.blurrer = new DualFilteringBlurrer()
-    this.main_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
-    this.blur_RT = new WebGLRenderTarget(OScreen.width, OScreen.height);
+    this.main_RT = new RenderTarget(OScreen.width, OScreen.height);
+    this.blur_RT = new RenderTarget(OScreen.width, OScreen.height);
   }
 
   render()

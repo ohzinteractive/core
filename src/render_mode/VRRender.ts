@@ -42,9 +42,7 @@ class VRRender extends BaseRender
 
     if (spectator_camera && Graphics._renderer.xr.isPresenting)
     {
-      // Copy the XR Camera's position and rotation, but use your
-      // main camera's projection matrix
-      const xrCam = Graphics._renderer.xr.getCamera(CameraManager.current);
+      const xrCam = Graphics._renderer.xr.getCamera();
 
       spectator_camera.projectionMatrix.copy(CameraManager.current.projectionMatrix);
 

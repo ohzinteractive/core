@@ -2,7 +2,7 @@ import { BlitMaterial } from './BlitMaterial';
 
 import frag from '../shaders/gaussian_blur/unreal_bloom_compose.frag';
 
-import type { WebGLRenderTarget } from 'three';
+import type { Texture } from 'three';
 import { Color } from 'three';
 class UnrealBloomComposeMaterial extends BlitMaterial
 {
@@ -37,27 +37,27 @@ class UnrealBloomComposeMaterial extends BlitMaterial
     this.uniforms.bloomTintColors = { value: bloomTintColors };
   }
 
-  set_RT_0(rt: WebGLRenderTarget)
+  set_RT_0(rt: Texture)
   {
     this.uniforms.blurTexture1.value = rt;
   }
 
-  set_RT_1(rt: WebGLRenderTarget)
+  set_RT_1(rt: Texture)
   {
     this.uniforms.blurTexture2.value = rt;
   }
 
-  set_RT_2(rt: WebGLRenderTarget)
+  set_RT_2(rt: Texture)
   {
     this.uniforms.blurTexture3.value = rt;
   }
 
-  set_RT_3(rt: WebGLRenderTarget)
+  set_RT_3(rt: Texture)
   {
     this.uniforms.blurTexture4.value = rt;
   }
 
-  set_RT_4(rt: WebGLRenderTarget)
+  set_RT_4(rt: Texture)
   {
     this.uniforms.blurTexture5.value = rt;
   }

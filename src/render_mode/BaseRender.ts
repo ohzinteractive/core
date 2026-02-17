@@ -1,3 +1,5 @@
+import type { Renderer } from "three/webgpu";
+
 class BaseRender
 {
   constructor()
@@ -5,17 +7,17 @@ class BaseRender
 
   }
 
-  render(renderer?: any)
+  render(renderer?: Renderer)
   {
 
   }
 
-  on_enter(context: any, renderer: any)
+  on_enter(context: any, renderer: Renderer)
   {
 
   }
 
-  on_exit(context: any, renderer: any)
+  on_exit(context: any, renderer: Renderer)
   {
 
   }

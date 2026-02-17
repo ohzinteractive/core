@@ -6,25 +6,27 @@ import { DeferredRendererComposeMaterial } from '../materials/DeferredRendererCo
 import { DeferredPointLightMaterial } from '../materials/deferred/DeferredPointLightMaterial';
 import { BaseRender } from '../render_mode/BaseRender';
 
-import { Matrix4, Mesh, Scene, SphereGeometry, WebGLRenderTarget } from 'three';
+import { Matrix4, Mesh, RenderTarget, SphereGeometry } from 'three';
+import { AbstractScene } from '../scenes/AbstractScene';
 
 class DeferredRender extends BaseRender
 {
-  camera_inverse_proj_mat: any;
-  compose_mat: any;
-  main_rt: any;
-  scene_lights: any;
+  camera_inverse_proj_mat: Matrix4;
+  compose_mat: DeferredRendererComposeMaterial;
+  main_rt: RenderTarget;
+  scene_lights: AbstractScene;
+
   constructor()
   {
     super();
 
     this.compose_mat = new DeferredRendererComposeMaterial();
-    this.main_rt = new WebGLRenderTarget(OScreen.width, OScreen.height, {
+    this.main_rt = new RenderTarget(OScreen.width, OScreen.height, {
       // magFilter: NearestFilter,
       // minFilter: NearestFilter
     });
 
-    this.scene_lights = new Scene();
+    this.scene_lights = new AbstractScene({ name: 'lights_scene', compilators: {} });
 
     const light_intensity = 1;
     const light_brightest_component = 1;
@@ -82,17 +84,18 @@ class DeferredRender extends BaseRender
 
     // Graphics.blit(this.main_rt, undefined, this.compose_mat);
 
-    this.camera_inverse_proj_mat.getInverse(CameraManager.current.projectionMatrix);
+    this.camera_inverse_proj_mat = CameraManager.current.projectionMatrix.clone().invert()
 
     const inverse_proj = this.camera_inverse_proj_mat;
     const albedo_rt = this.main_rt;
     const depth_normals_rt = Graphics.depth_normals_RT;
-    this.scene_lights.traverse((child: any) => {
+
+    this.scene_lights.traverse((child: Mesh) => {
       if (child.material)
       {
-        child.material.set_inverse_proj_matrix(inverse_proj);
-        child.material.set_normal_depth_rt(depth_normals_rt);
-        child.material.set_albedo_rt(albedo_rt);
+        (child.material as DeferredPointLightMaterial).set_inverse_proj_matrix(inverse_proj);
+        (child.material as DeferredPointLightMaterial).set_normal_depth_rt(depth_normals_rt);
+        (child.material as DeferredPointLightMaterial).set_albedo_rt(albedo_rt);
       }
     });
     // Graphics.clear(undefined, CameraManager.current, true, true);

@@ -3,7 +3,7 @@ import { UnrealBloomComposeMaterial } from '../materials/UnrealBloomComposeMater
 import { OScreen } from '../OScreen';
 import { BaseRender } from '../render_mode/BaseRender';
 
-import { HalfFloatType, LinearSRGBColorSpace, NearestFilter, RGBAFormat, UnsignedByteType, WebGLRenderTarget } from 'three';
+import { HalfFloatType, LinearSRGBColorSpace, NearestFilter, RenderTarget, RGBAFormat, UnsignedByteType } from 'three';
 
 import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
@@ -12,14 +12,15 @@ import { SceneManager } from '../SceneManager';
 
 class UnrealBloomRender extends BaseRender
 {
-  add_mat: any;
-  bloom_compose_mat: any;
-  blurrer: any;
+  add_mat: AddMaterial;
+  bloom_compose_mat: UnrealBloomComposeMaterial;
+  blurrer: GaussianBlurrer;
   luminosity_threshold: any;
-  main_RT: any;
-  use_hight_luminosity_pass: any;
-  use_rendering_size: any;
-  constructor(use_antialiasing: any, use_half_float: any, use_hight_luminosity_pass: any, use_rendering_size = false)
+  main_RT: RenderTarget;
+  use_hight_luminosity_pass: boolean;
+  use_rendering_size: boolean;
+  
+  constructor(use_antialiasing: boolean, use_half_float: boolean, use_hight_luminosity_pass: boolean, use_rendering_size = false)
   {
     super();
 
@@ -34,7 +35,7 @@ class UnrealBloomRender extends BaseRender
       magFilter: NearestFilter
     };
     this.use_rendering_size = use_rendering_size;
-    this.main_RT = new WebGLRenderTarget(1, 1, rt_settings);
+    this.main_RT = new RenderTarget(1, 1, rt_settings);
     this.main_RT.texture.colorSpace = LinearSRGBColorSpace;
     this.main_RT.texture.minFilter = NearestFilter;
     this.main_RT.texture.magFilter = NearestFilter;
@@ -52,7 +53,7 @@ class UnrealBloomRender extends BaseRender
     this.bloom_compose_mat.set_RT_2(this.blurrer.renderTargetsVertical[2].texture);
     this.bloom_compose_mat.set_RT_3(this.blurrer.renderTargetsVertical[3].texture);
     this.bloom_compose_mat.set_RT_4(this.blurrer.renderTargetsVertical[4].texture);
-
+    
     this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0].texture);
   }
 
@@ -75,43 +76,43 @@ class UnrealBloomRender extends BaseRender
     Graphics.blit(this.main_RT, undefined, this.add_mat);
   }
 
-  set_bloom_strength(val: any)
+  set_bloom_strength(val: number)
   {
     this.bloom_compose_mat.set_bloom_strength(val);
   }
 
-  set_bloom_radius(val: any)
+  set_bloom_radius(val: number)
   {
     // this.bloom_compose_mat.set_bloom_radius(val);
     this.blurrer.set_radius(val);
   }
 
-  set_luminosity_threshold(value: any)
+  set_luminosity_threshold(value: number)
   {
     this.blurrer.set_luminosity_threshold(value);
   }
 
-  set_tint_color_0(col_string: any)
+  set_tint_color_0(col_string: string)
   {
     this.bloom_compose_mat.set_tint_color_0(col_string);
   }
 
-  set_tint_color_1(col_string: any)
+  set_tint_color_1(col_string: string)
   {
     this.bloom_compose_mat.set_tint_color_1(col_string);
   }
 
-  set_tint_color_2(col_string: any)
+  set_tint_color_2(col_string: string)
   {
     this.bloom_compose_mat.set_tint_color_2(col_string);
   }
 
-  set_tint_color_3(col_string: any)
+  set_tint_color_3(col_string: string)
   {
     this.bloom_compose_mat.set_tint_color_3(col_string);
   }
 
-  set_tint_color_4(col_string: any)
+  set_tint_color_4(col_string: string)
   {
     this.bloom_compose_mat.set_tint_color_4(col_string);
   }
