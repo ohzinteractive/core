@@ -2,13 +2,14 @@ import { ViewComponentManager } from './ViewComponentManager';
 
 export class ViewComponent
 {
-  container: any;
-  hidden: any;
-  name: any;
+  container: HTMLElement;
+  hidden: boolean;
+  name: string;
+  
   constructor({
     name,
     container
-  }: any)
+  }: { name: string; container: HTMLElement })
   {
     this.name = name;
     this.container = container;

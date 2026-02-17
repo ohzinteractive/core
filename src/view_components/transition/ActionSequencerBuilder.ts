@@ -5,8 +5,9 @@ import { DrawIOAnimationSheet } from './DrawIOAnimationSheet';
 
 class ActionSequencerBuilder
 {
-  default_state_data: any;
-  constructor(default_state_data: any)
+  default_state_data: object;
+
+  constructor(default_state_data: object)
   {
     this.default_state_data = default_state_data;
   }
@@ -53,7 +54,7 @@ class ActionSequencerBuilder
     return sequencer;
   }
 
-  state_to_tracks(state: any, longest_time: any)
+  state_to_tracks(state: any, longest_time: number)
   {
     const tracks = [];
 

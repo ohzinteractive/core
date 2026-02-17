@@ -14,7 +14,7 @@ declare class TransitionManager {
     set_transitions(transitions: any): void;
     set_state(state: any): void;
     set_default_state_data(default_state_data: any): void;
-    set_transitions_velocity(transitions_velocity: any): void;
 }
-import { TransitionTable } from "./transition/TransitionTable";
-import { ViewStateTransitionHandler } from "./transition/ViewStateTransitionHandler";
+import type { TransitionTable } from "./transition/TransitionTable";
+import type { ViewStateTransitionHandler } from "./transition/ViewStateTransitionHandler";
+

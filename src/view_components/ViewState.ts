@@ -1,8 +1,8 @@
 class ViewState
 {
-  name: any;
+  name: string;
   
-  constructor(name: any)
+  constructor(name: string)
   {
     this.name = name;
   }

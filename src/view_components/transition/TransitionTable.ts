@@ -2,8 +2,9 @@ import { ActionSequencerBuilder } from './ActionSequencerBuilder';
 
 class TransitionTable
 {
-  default_state_data: any;
-  transitions: any;
+  default_state_data: object;
+  transitions: any[];
+  
   constructor()
   {
     this.transitions = [];

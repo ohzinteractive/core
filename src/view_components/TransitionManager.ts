@@ -1,10 +1,12 @@
 import { TransitionTable } from './transition/TransitionTable';
 import { ViewStateTransitionHandler } from './transition/ViewStateTransitionHandler';
+import type { ViewState } from './ViewState';
 
 class TransitionManager
 {
-  transition_handler: any;
-  transition_table: any;
+  transition_handler: ViewStateTransitionHandler;
+  transition_table: TransitionTable;
+
   constructor()
   {
     this.transition_table = new TransitionTable();
@@ -26,7 +28,7 @@ class TransitionManager
     return this.transition_handler.current_state;
   }
 
-  go_to_state(state: any, skip = false)
+  go_to_state(state: ViewState, skip = false)
   {
     this.transition_handler.go_to_state(state, skip);
   }
@@ -56,20 +58,15 @@ class TransitionManager
     this.transition_table.set_transitions(transitions);
   }
 
-  set_state(state: any)
+  set_state(state: ViewState)
   {
     this.transition_handler.set_state(state);
   }
 
-  set_default_state_data(default_state_data: any)
+  set_default_state_data(default_state_data: object)
   {
     this.transition_table.set_default_state_data(default_state_data);
     this.transition_handler.set_default_state_data(default_state_data);
-  }
-
-  set_transitions_velocity(transitions_velocity: any)
-  {
-    this.transition_table.set_transitions_velocity(transitions_velocity);
   }
 }
 

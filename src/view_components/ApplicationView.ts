@@ -4,16 +4,17 @@ import { ViewState } from './ViewState';
 
 class ApplicationView extends ViewState
 {
-  container: any;
-  current_opacity: any;
-  name: any;
-  url: any;
+  container: HTMLElement;
+  current_opacity: number;
+  name: string;
+  url: string;
+  
   constructor({
     name,
     url,
     container,
     transition_data
-  }: any)
+  }: { name: string; url: string; container: HTMLElement; transition_data?: any })
   {
     super(name);
 

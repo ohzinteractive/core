@@ -1,9 +1,11 @@
+import type { ViewComponent } from '../index';
 import { TransitionManager } from './TransitionManager';
 
 class ViewComponentManager
 {
-  components: any;
-  enabled_components: any;
+  components: ViewComponent[];
+  enabled_components: Set<ViewComponent>;
+  
   constructor()
   {
     this.components = [];
@@ -20,19 +22,19 @@ class ViewComponentManager
     }
   }
 
-  register_component(component: any)
+  register_component(component: ViewComponent)
   {
     this.components.push(component);
   }
 
-  enable_component(component: any)
+  enable_component(component: ViewComponent)
   {
     // const component_to_enable = this.get_component_by_name(component_name);
 
     this.enabled_components.add(component);
   }
 
-  disable_component(component: any)
+  disable_component(component: ViewComponent)
   {
     // const component_to_disable = this.get_component_by_name(component_name);
 
