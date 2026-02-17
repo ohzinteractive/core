@@ -1,6 +1,7 @@
 export class AlphaFilterMaterial extends BlitMaterial {
-    constructor(use_alpha_mask: any, upsample: any);
-    set offset(arg: any);
-    get offset(): any;
+    constructor();
+    set offset(arg: number);
+    get offset(): number;
 }
 import { BlitMaterial } from "./BlitMaterial";
+

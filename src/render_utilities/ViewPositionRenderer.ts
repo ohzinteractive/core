@@ -1,23 +1,25 @@
+import type { Renderer } from 'three/webgpu';
 import { CameraManager } from '../CameraManager';
 import { OScreen } from '../OScreen';
 import { SceneManager } from '../SceneManager';
 import { ViewPositionMaterial } from '../materials/ViewPositionMaterial';
 
-import { Color, FloatType, WebGLRenderTarget } from 'three';
+import { Color, FloatType, RenderTarget } from 'three';
 
 class ViewPositionRenderer
 {
-  RT: any;
-  clear_color: any;
-  render_pos_mat: any;
+  RT: RenderTarget;
+  clear_color: Color;
+  render_pos_mat: ViewPositionMaterial;
+
   constructor()
   {
-    this.RT = new WebGLRenderTarget(OScreen.width, OScreen.height, { type: FloatType });
+    this.RT = new RenderTarget(OScreen.width, OScreen.height, { type: FloatType });
     this.clear_color = new Color(0, 0, 0);
     this.render_pos_mat = new ViewPositionMaterial();
   }
 
-  render(context: any, renderer: any)
+  render(context: any, renderer: Renderer)
   {
     if (this.RT.width !== OScreen.width || this.RT.height !== OScreen.height)
     {
@@ -37,7 +39,7 @@ class ViewPositionRenderer
       renderer.clear(true, true, false);
 
       SceneManager.current.overrideMaterial = this.render_pos_mat;
-      renderer.render(SceneManager.current, CameraManager.current, this.RT, false);
+      renderer.render(SceneManager.current, CameraManager.current); // ,this.RT, false
       SceneManager.current.overrideMaterial = undefined;
     }
   }

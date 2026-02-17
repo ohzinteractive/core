@@ -1,22 +1,23 @@
-import { MedianFilterMaterial } from '../materials/MedianFilterMaterial';
 import { Graphics } from '../Graphics';
+import { MedianFilterMaterial } from '../materials/MedianFilterMaterial';
 
-import { WebGLRenderTarget, Vector2, RGBAFormat, FloatType, NearestFilter } from 'three';
+import { FloatType, NearestFilter, RenderTarget, RGBAFormat, Vector2 } from 'three';
 
 class MedianFilter
 {
-  RT: any;
-  RT1: any;
-  median_filter_mat: any;
-  constructor(renderer: any)
+  RT: RenderTarget;
+  RT1: RenderTarget;
+  median_filter_mat: MedianFilterMaterial;
+
+  constructor()
   {
-    this.RT = new WebGLRenderTarget(1, 1, {
+    this.RT = new RenderTarget(1, 1, {
       type: FloatType,
       format: RGBAFormat,
       minFilter: NearestFilter,
       magFilter: NearestFilter
     });
-    this.RT1 = new WebGLRenderTarget(1, 1, {
+    this.RT1 = new RenderTarget(1, 1, {
       type: FloatType,
       format: RGBAFormat,
       minFilter: NearestFilter,
@@ -56,7 +57,7 @@ class MedianFilter
     {
       return new Vector2(Math.max(1, tex.image.videoWidth), Math.max(1, tex.image.videoHeight));
     }
-    if (tex.isWebGLRenderTarget)
+    if (tex.isRenderTarget)
     {
       return new Vector2(tex.width, tex.height);
     }

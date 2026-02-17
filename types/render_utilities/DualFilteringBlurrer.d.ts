@@ -1,5 +1,5 @@
 export class DualFilteringBlurrer {
-    constructor(use_alpha_mask: any);
+    constructor();
     current_width: number;
     current_height: number;
     RT0: WebGLRenderTarget<import("three").Texture>;
@@ -14,5 +14,6 @@ export class DualFilteringBlurrer {
     check_RT_resize(width: any, height: any): void;
 }
 import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
-import { DualFilteringBlurMaterial } from "../materials/DualFilteringBlurMaterial";
 import { AlphaFilterMaterial } from "../materials/AlphaFilterMaterial";
+import { DualFilteringBlurMaterial } from "../materials/DualFilteringBlurMaterial";
+

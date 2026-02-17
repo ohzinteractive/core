@@ -1,22 +1,22 @@
 import { Graphics } from '../Graphics';
 import { BoxBlurMaterial } from '../materials/BoxBlurMaterial';
 
-import { WebGLRenderTarget } from 'three';
+import { RenderTarget } from 'three';
 
 class Blurrer
 {
-  RT1: any;
-  RT2: any;
-  box_blur_mat: any;
+  RT1: RenderTarget;
+  RT2: RenderTarget;
+  box_blur_mat: BoxBlurMaterial;
   
   constructor()
   {
-    this.RT1 = new WebGLRenderTarget(1, 1);
-    this.RT2 = new WebGLRenderTarget(1, 1);
+    this.RT1 = new RenderTarget(1, 1);
+    this.RT2 = new RenderTarget(1, 1);
     this.box_blur_mat = new BoxBlurMaterial();
   }
 
-  blur(RT: any)
+  blur(RT: RenderTarget)
   {
     if (RT.width !== this.RT1.width || RT.height !== this.RT1.height)
     {

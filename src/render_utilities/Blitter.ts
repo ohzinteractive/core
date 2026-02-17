@@ -1,15 +1,17 @@
+import type { Renderer } from 'three/webgpu';
 import { BlitMaterial } from '../materials/BlitMaterial';
 
 import { Mesh, OrthographicCamera, PlaneGeometry, Scene } from 'three';
 
 class Blitter
 {
-  _blit_camera: any;
-  _blit_material: any;
-  _blit_quad: any;
-  _blit_scene: any;
-  renderer: any;
-  constructor(renderer: any)
+  _blit_camera: OrthographicCamera;
+  _blit_material: BlitMaterial;
+  _blit_quad: Mesh;
+  _blit_scene: Scene;
+  renderer: Renderer;
+
+  constructor(renderer: Renderer)
   {
     this.renderer = renderer;
     this._blit_scene = new Scene();
@@ -24,9 +26,9 @@ class Blitter
   {
     this._blit_quad.material = this._blit_material;
 
-    const src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
-    const src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
-    const src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+    const src_texture = src.isRenderTarget === true ? src.texture : src;
+    const src_width   = src.isRenderTarget === true ? src.width   : src.image.width;
+    const src_height  = src.isRenderTarget === true ? src.height  : src.image.height;
 
     this._blit_quad.material.uniforms._MainTex.value = src_texture;
     this._blit_quad.material.uniforms._Resolution.value.set(src_width, src_height);
@@ -54,9 +56,9 @@ class Blitter
 
   blit_with_material(src: any, dst: any, mat: any)
   {
-    const src_texture = src.isWebGLRenderTarget === true ? src.texture : src;
-    const src_width   = src.isWebGLRenderTarget === true ? src.width   : src.image.width;
-    const src_height  = src.isWebGLRenderTarget === true ? src.height  : src.image.height;
+    const src_texture = src.isRenderTarget === true ? src.texture : src;
+    const src_width   = src.isRenderTarget === true ? src.width   : src.image.width;
+    const src_height  = src.isRenderTarget === true ? src.height  : src.image.height;
 
     this._blit_quad.material = mat;
     this._blit_quad.material.uniforms._MainTex.value = src_texture;

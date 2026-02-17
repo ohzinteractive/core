@@ -2,7 +2,7 @@ import { BlitMaterial } from './BlitMaterial';
 
 import frag from '../shaders/dual_filter_blur/alpha_filter.frag';
 
-class AlphaFilterMaterial extends BlitMaterial
+export class AlphaFilterMaterial extends BlitMaterial
 {
   constructor()
   {
@@ -19,5 +19,3 @@ class AlphaFilterMaterial extends BlitMaterial
     return this.uniforms._Offset.value as number;
   }
 }
-
-export { AlphaFilterMaterial };

@@ -1,29 +1,29 @@
-import { WebGLRenderTarget } from 'three';
+import { RenderTarget } from 'three';
 import { Graphics } from '../Graphics';
 import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
 import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
 class DualFilteringBlurrer
 {
-  RT0: any;
-  RT1: any;
-  RT2: any;
-  RT3: any;
-  RT4: any;
-  alpha_filter_mat: any;
-  current_height: any;
-  current_width: any;
-  downscale_blur_mat: any;
-  upscale_blur_mat: any;
+  RT0: RenderTarget;
+  RT1: RenderTarget;
+  RT2: RenderTarget;
+  RT3: RenderTarget;
+  RT4: RenderTarget;
+  alpha_filter_mat: AlphaFilterMaterial;
+  current_height: number;
+  current_width: number;
+  downscale_blur_mat: DualFilteringBlurMaterial;
+  upscale_blur_mat: DualFilteringBlurMaterial;
   
-  constructor(use_alpha_mask: any)
+  constructor()
   {
     this.current_width  = 1;
     this.current_height = 1;
-    this.RT0 = new WebGLRenderTarget(1, 1);
-    this.RT1 = new WebGLRenderTarget(1, 1);
-    this.RT2 = new WebGLRenderTarget(1, 1);
-    this.RT3 = new WebGLRenderTarget(1, 1);
-    this.RT4 = new WebGLRenderTarget(1, 1);
+    this.RT0 = new RenderTarget(1, 1);
+    this.RT1 = new RenderTarget(1, 1);
+    this.RT2 = new RenderTarget(1, 1);
+    this.RT3 = new RenderTarget(1, 1);
+    this.RT4 = new RenderTarget(1, 1);
 
     this.upscale_blur_mat   = new DualFilteringBlurMaterial(true);
     this.downscale_blur_mat = new DualFilteringBlurMaterial(false);
@@ -31,7 +31,7 @@ class DualFilteringBlurrer
     this.alpha_filter_mat = new AlphaFilterMaterial();
   }
 
-  blur(RT: any)
+  blur(RT: RenderTarget)
   {
     this.check_RT_resize(RT.width, RT.height);
     Graphics.blit(RT,       this.RT1, this.alpha_filter_mat);
@@ -51,12 +51,13 @@ class DualFilteringBlurrer
     // return this.RT2;
   }
 
-  check_RT_resize(width: any, height: any)
+  check_RT_resize(width: number, height: number)
   {
     if (this.current_width !== width || this.current_height !== height)
     {
       this.current_width = width;
       this.current_height = height;
+
       this.RT0.setSize(this.current_width / 2, this.current_height / 2);
       this.RT1.setSize(this.current_width / 2, this.current_height / 2);
       this.RT2.setSize(this.current_width / 4, this.current_height / 4);
