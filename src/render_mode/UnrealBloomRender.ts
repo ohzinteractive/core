@@ -48,11 +48,11 @@ class UnrealBloomRender extends BaseRender
 
   on_enter()
   {
-    this.bloom_compose_mat.set_RT_0(this.blurrer.renderTargetsVertical[0].texture);
-    this.bloom_compose_mat.set_RT_1(this.blurrer.renderTargetsVertical[1].texture);
-    this.bloom_compose_mat.set_RT_2(this.blurrer.renderTargetsVertical[2].texture);
-    this.bloom_compose_mat.set_RT_3(this.blurrer.renderTargetsVertical[3].texture);
-    this.bloom_compose_mat.set_RT_4(this.blurrer.renderTargetsVertical[4].texture);
+    this.bloom_compose_mat.set_blur_texture_0(this.blurrer.renderTargetsVertical[0].texture);
+    this.bloom_compose_mat.set_blur_texture_1(this.blurrer.renderTargetsVertical[1].texture);
+    this.bloom_compose_mat.set_blur_texture_2(this.blurrer.renderTargetsVertical[2].texture);
+    this.bloom_compose_mat.set_blur_texture_3(this.blurrer.renderTargetsVertical[3].texture);
+    this.bloom_compose_mat.set_blur_texture_4(this.blurrer.renderTargetsVertical[4].texture);
     
     this.add_mat.set_add_texture(this.blurrer.renderTargetsHorizontal[0].texture);
   }

@@ -37,29 +37,29 @@ class UnrealBloomComposeMaterial extends BlitMaterial
     this.uniforms.bloomTintColors = { value: bloomTintColors };
   }
 
-  set_RT_0(rt: Texture)
+  set_blur_texture_0(texture: Texture)
   {
-    this.uniforms.blurTexture1.value = rt;
+    this.uniforms.blurTexture1.value = texture;
   }
 
-  set_RT_1(rt: Texture)
+  set_blur_texture_1(texture: Texture)
   {
-    this.uniforms.blurTexture2.value = rt;
+    this.uniforms.blurTexture2.value = texture;
   }
 
-  set_RT_2(rt: Texture)
+  set_blur_texture_2(texture: Texture)
   {
-    this.uniforms.blurTexture3.value = rt;
+    this.uniforms.blurTexture3.value = texture;
   }
 
-  set_RT_3(rt: Texture)
+  set_blur_texture_3(texture: Texture)
   {
-    this.uniforms.blurTexture4.value = rt;
+    this.uniforms.blurTexture4.value = texture;
   }
 
-  set_RT_4(rt: Texture)
+  set_blur_texture_4(texture: Texture)
   {
-    this.uniforms.blurTexture5.value = rt;
+    this.uniforms.blurTexture5.value = texture;
   }
 
   set_bloom_strength(value: number)
