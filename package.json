@@ -21,7 +21,7 @@
     "build": "rollup -c",
     "create-tag": "node tasks/app/create_tag.mjs",
     "fix-syntax": "npx eslint src --fix || echo 'Done.'",
-    "generate-types": "npx -p typescript tsc src/* --declaration --allowJs --emitDeclarationOnly --outDir types",
+    "generate-types": "npx -p typescript tsc",
     "upload": "yarn build && npm publish && yarn create-tag",
     "create-view": "node ./tasks/create_view/create_view.mjs",
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
