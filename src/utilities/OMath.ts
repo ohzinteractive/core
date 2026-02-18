@@ -155,13 +155,7 @@ class OMath
     return OMath.clamp(x, 0, 1);
   }
 
-  /**
-  * Generate a [UUID]{@link https://en.wikipedia.org/wiki/Universally_unique_identifier}
-  * (universally unique identifier).
-  *
-  * @return {string} The UUID.
-  */
-  static generate_uuid()
+  static generate_uuid(): string
   {
     // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/21963136#21963136
     const _lut = [

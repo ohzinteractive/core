@@ -1,8 +1,6 @@
-import type { Object3D, Texture } from 'three';
-
 class ResourceContainer
 {
-  resources: Record<string, Object3D | Texture>;
+  resources: Record<string, any>;
   resources_by_url: Record<string, any>;
 
   init()
@@ -12,7 +10,7 @@ class ResourceContainer
     this.resources_by_url = {};
   }
 
-  set_resource(name: string, url: string, resource: Object3D | Texture)
+  set_resource(name: string, url: string, resource: any)
   {
     const urls = Object.keys(this.resources_by_url);
 
@@ -27,12 +25,12 @@ class ResourceContainer
     }
   }
 
-  get_resource(name: string): Object3D | Texture
+  get_resource(name: string): any
   {
     return this.resources[name];
   }
 
-  get(name: string): Object3D | Texture
+  get(name: string): any
   {
     return this.resources[name];
   }

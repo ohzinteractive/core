@@ -5,9 +5,6 @@ class CustomBezierCurve
   original_points: Vector3[];
   tmp_points: Vector3[];
   
-  /**
-   * @param {Vector3[]} points
-   */
   constructor(points: Vector3[])
   {
     this.original_points = [];
@@ -19,10 +16,6 @@ class CustomBezierCurve
     }
   }
 
-  /**
-   * @param {number} point_amount
-   * @returns {Vector3[]}
-   */
   build(point_amount: number): Vector3[]
   {
     const curve = [];
@@ -33,10 +26,6 @@ class CustomBezierCurve
     return curve;
   }
 
-  /**
-   * @param {number} t
-   * @returns {Vector3}
-   */
   get_point_at(t: number): Vector3
   {
     for (let i = 0; i < this.original_points.length; i++)

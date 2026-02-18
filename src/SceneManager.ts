@@ -16,7 +16,6 @@ class SceneManager
 
   }
 
-  /** @type {AbstractScene} */
   get current()
   {
     return this._current;

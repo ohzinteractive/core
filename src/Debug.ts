@@ -22,7 +22,7 @@ class Debug
   camera: PerspectiveCamera;
   canvas_renderer: any;
   ctx: any;
-  display_texture_meshes: Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[];
+  display_texture_meshes: Mesh[];
   rt_debug: RenderTarget;
   scene: AbstractScene;
   
@@ -32,7 +32,6 @@ class Debug
     this.Vector3_zero = new Vector3(0, 0, 0);
     this.canvas_renderer = undefined;
 
-    /** @type { Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[] } */
     this.display_texture_meshes = [];
 
     this.ctx = undefined;

@@ -45,19 +45,19 @@ export interface Input {
 
     pointer_is_over_element(elem: any): boolean;
 
-    get pointers(): any;
-    get pointer_pos(): any;
-    get pointer_pos_delta(): any;
+    get pointers(): Vector2[];
+    get pointer_pos(): Vector2;
+    get pointer_pos_delta(): Vector2;
     get NDC(): Vector2;
     get NDC_delta(): Vector2;
-    get pointer_center(): any;
-    get pointer_center_delta(): any;
-    get pointer_center_NDC(): any;
-    get pointer_center_NDC_delta(): any;
+    get pointer_center(): Vector2;
+    get pointer_center_delta(): Vector2;
+    get pointer_center_NDC(): Vector2;
+    get pointer_center_NDC_delta(): Vector2;
 
-    get_pointer_pos(index?: number): any;
-    get_pointer_pos_delta(index?: number): any;
-    get_pointer_NDC(index?: number): any;
-    get_pointer_NDC_delta(index?: number): any;
+    get_pointer_pos(index?: number): Vector2;
+    get_pointer_pos_delta(index?: number): Vector2;
+    get_pointer_NDC(index?: number): Vector2;
+    get_pointer_NDC_delta(index?: number): Vector2;
     dispose(): void;
 }

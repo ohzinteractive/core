@@ -7,6 +7,7 @@ class OS
   is_mac: boolean;
   is_mobile: boolean;
   is_windows: boolean;
+
   operating_systems: {
     ANDROID: string;
     IOS: string;
@@ -14,6 +15,7 @@ class OS
     MAC: string;
     WINDOWS: string;
   };
+  
   init()
   {
     this.operating_systems = {

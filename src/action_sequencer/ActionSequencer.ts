@@ -22,7 +22,6 @@ class ActionSequencer
     this.playback_speed = this.__get_playback_speed();
     this.playing = true;
 
-    /** @type {{action:ActionEvent, trigger_time:number }[]} */
     this.action_events = [];
     this.context = context;
 

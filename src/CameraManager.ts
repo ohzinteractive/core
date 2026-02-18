@@ -17,7 +17,6 @@ class CameraManager
     this._current = camera;
   }
 
-  /** @type {PerspectiveCamera} */
   get current()
   {
     return this._current;
@@ -28,7 +27,6 @@ class CameraManager
     this._spectator = camera;
   }
 
-  /** @type {PerspectiveCamera} */
   get spectator()
   {
     return this._spectator;
