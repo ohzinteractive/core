@@ -1,3 +1,4 @@
+import type { Color, Matrix4, Quaternion, Vector2, Vector3 } from "three";
 export class SDFText {
     constructor(glyph_layout: any, text?: string);
     glyph_layout: any;
@@ -28,8 +29,3 @@ export class SDFText {
     update_glyphs(): void;
     __generate_glyphs(text: any): void;
 }
-import { Vector3 } from "three/src/math/Vector3";
-import { Quaternion } from "three/src/math/Quaternion";
-import { Matrix4 } from "three/src/math/Matrix4";
-import { Color } from "three/src/math/Color";
-import { Vector2 } from "three/src/math/Vector2";

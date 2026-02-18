@@ -1,3 +1,6 @@
+import type { EasingFunctions } from "../utilities/EasingFunctions";
+import type { Idle } from "./css_animator_states/Idle";
+
 export class CSSAnimator {
     constructor({ element, css_property, from, to, duration, value_prefix, value_suffix, easing_function, finished_callback }: {
         element: any;
@@ -27,5 +30,3 @@ export class CSSAnimator {
     get is_animating(): boolean;
     set_current_state(state: any): void;
 }
-import { EasingFunctions } from "../utilities/EasingFunctions";
-import { Idle } from "./css_animator_states/Idle";

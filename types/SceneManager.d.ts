@@ -1,15 +1,15 @@
-export { scene_manager as SceneManager };
-declare const scene_manager: SceneManager;
+import type { Scene } from "three";
 declare class SceneManager {
-    init(): void;
     _current: Scene;
-    /**
-     * @param {string} name
-     */
-    add_scene(name: string): void;
-    set current(arg: Scene);
-    /** @type {Scene} */
+    
     get current(): Scene;
+    set current(arg: Scene);
+    
+    init(): void;
+    add_scene(name: string): void;
     dispose(): void;
 }
-import { Scene } from "three/src/scenes/Scene";
+
+declare const scene_manager: SceneManager;
+export { scene_manager as SceneManager };
+

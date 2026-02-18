@@ -1,4 +1,4 @@
-export class Grid extends Mesh<import("three").BufferGeometry<import("three").NormalBufferAttributes>, import("three").Material | import("three").Material[], import("three").Object3DEventMap> {
+import { Mesh } from "three";
+export class Grid extends Mesh {
     constructor();
 }
-import { Mesh } from "three/src/objects/Mesh";

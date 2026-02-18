@@ -1,8 +1,7 @@
-export class WorldImage extends Mesh<import("three").BufferGeometry<import("three").NormalBufferAttributes>, import("three").Material | import("three").Material[], import("three").Object3DEventMap> {
-    /**
-     * @param {Texture} texture
-     * @param {Vector2} [pivot]
-     */
+import type { ShaderMaterial, Texture, Vector2, Vector3 } from "three";
+import { Mesh } from "three";
+
+export class WorldImage extends Mesh {
     constructor(texture: Texture, pivot?: Vector2);
     current_scale: number;
     tmp_bb_size: Vector3;
@@ -16,8 +15,3 @@ export class WorldImage extends Mesh<import("three").BufferGeometry<import("thre
     get opacity(): any;
     dispose(): void;
 }
-import { Mesh } from "three/src/objects/Mesh";
-import { Vector3 } from "three/src/math/Vector3";
-import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
-import { Texture } from "three/src/textures/Texture";
-import { Vector2 } from "three/src/math/Vector2";

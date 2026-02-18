@@ -1,8 +1,11 @@
+import type { ViewState } from "../../src/view_components/ViewState";
+
 export { view_manager as ViewManager };
 declare const view_manager: ViewManager;
 declare class ViewManager {
     views: any[];
     browser_title_suffix: string;
+    
     update(): void;
     go_to_view(view_name: any, change_url?: boolean, skip?: boolean): void;
     go_to_scene(scene_name: any, change_url?: boolean, skip?: boolean): void;
@@ -10,8 +13,8 @@ declare class ViewManager {
     has_view(view_name: any): boolean;
     set_view(view_name: any): void;
     set_browser_title_suffix(title_suffix: any): void;
-    get_current_view(): import("./ViewState").ViewState;
-    get_view_by_name(view_name: any): void;
+    get_current_view(): ViewState;
+    get_view_by_name(view_name: any): ViewState;
     get(view_name: any): any;
     get_by_url(url: any): any;
     __change_browser_url(url: any): void;

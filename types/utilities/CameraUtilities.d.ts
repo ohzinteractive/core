@@ -1,3 +1,5 @@
+import type { Matrix4, Plane, Ray, Vector3 } from "three";
+
 export { camera_utilities as CameraUtilities };
 declare const camera_utilities: CameraUtilities;
 declare class CameraUtilities {
@@ -34,7 +36,3 @@ declare class CameraUtilities {
     };
     reference_zoom: number;
 }
-import { Matrix4 } from "three/src/math/Matrix4";
-import { Plane } from "three/src/math/Plane";
-import { Ray } from "three/src/math/Ray";
-import { Vector3 } from "three/src/math/Vector3";

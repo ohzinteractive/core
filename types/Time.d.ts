@@ -1,3 +1,5 @@
+import type { Clock, Vector2 } from "three";
+
 export { time as Time };
 declare const time: Time;
 declare class Time {
@@ -18,12 +20,8 @@ declare class Time {
     get fdt(): number;
     get dt(): number;
     get sdt(): any;
-    /**
-     * @param {number} value
-     */
+
     __set_frame_interpolation(value: number): void;
     __update(): void;
     __calculate_smooth_delta_time(): void;
 }
-import { Clock } from "three/src/core/Clock";
-import { Vector2 } from "three/src/math/Vector2";

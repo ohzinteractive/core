@@ -1,3 +1,8 @@
+import { Scene } from "three";
+import type { HighQualityLoadingState } from "./loading_states/HighQualityLoadingState";
+import type { LoadingState } from "./loading_states/LoadingState";
+import type { RegularLoadingState } from "./loading_states/RegularLoadingState";
+
 export class AbstractScene extends Scene {
     constructor({ name, compilators }: {
         name: any;
@@ -26,7 +31,3 @@ export class AbstractScene extends Scene {
     on_assets_compiled(): void;
     on_high_quality_assets_ready(): void;
 }
-import { Scene } from "three/src/scenes/Scene";
-import { RegularLoadingState } from "./loading_states/RegularLoadingState";
-import { HighQualityLoadingState } from "./loading_states/HighQualityLoadingState";
-import { LoadingState } from "./loading_states/LoadingState";

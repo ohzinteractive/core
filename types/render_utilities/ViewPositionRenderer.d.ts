@@ -1,10 +1,11 @@
+import type { RenderTarget, Texture } from "three";
+import { Color } from "three";
+import { ViewPositionMaterial } from "../materials/ViewPositionMaterial";
+
 export class ViewPositionRenderer {
-    RT: WebGLRenderTarget<import("three").Texture>;
+    RT: RenderTarget<Texture>;
     clear_color: Color;
     render_pos_mat: ViewPositionMaterial;
     render(context: any, renderer: any): void;
-    get render_target(): WebGLRenderTarget<import("three").Texture>;
+    get render_target(): RenderTarget<Texture>;
 }
-import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
-import { Color } from "three/src/math/Color";
-import { ViewPositionMaterial } from "../materials/ViewPositionMaterial";

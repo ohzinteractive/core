@@ -1,7 +1,13 @@
+import type { RenderTarget, Texture } from "three";
+import type { AddMaterial } from "../materials/AddMaterial";
+import type { UnrealBloomComposeMaterial } from "../materials/UnrealBloomComposeMaterial";
+import { BaseRender } from "../render_mode/BaseRender";
+import type { GaussianBlurrer } from "../render_utilities/GaussianBlurrer";
+
 export class UnrealBloomRender extends BaseRender {
     bloom_compose_mat: UnrealBloomComposeMaterial;
-    main_RT: WebGLRenderTarget<import("three").Texture>;
-    blur_RT: WebGLRenderTarget<import("three").Texture>;
+    main_RT: RenderTarget<Texture>;
+    blur_RT: RenderTarget<Texture>;
     blurrer: GaussianBlurrer;
     add_mat: AddMaterial;
     on_enter(): void;
@@ -14,8 +20,3 @@ export class UnrealBloomRender extends BaseRender {
     set_tint_color_4(col_string: any): void;
     __check_RT_size(): void;
 }
-import { BaseRender } from "../render_mode/BaseRender";
-import { UnrealBloomComposeMaterial } from "../materials/UnrealBloomComposeMaterial";
-import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
-import { GaussianBlurrer } from "../render_utilities/GaussianBlurrer";
-import { AddMaterial } from "../materials/AddMaterial";

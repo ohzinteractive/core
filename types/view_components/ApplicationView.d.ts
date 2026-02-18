@@ -1,3 +1,4 @@
+import { ViewState } from "./ViewState";
 export class ApplicationView extends ViewState {
     constructor({ name, url, container, transition_data }: {
         name: any;
@@ -10,4 +11,3 @@ export class ApplicationView extends ViewState {
     current_opacity: number;
     set_opacity(current_state_data: any): void;
 }
-import { ViewState } from "./ViewState";

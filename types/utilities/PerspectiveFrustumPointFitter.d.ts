@@ -1,3 +1,4 @@
+import type { Sphere, Vector3 } from "three";
 export class PerspectiveFrustumPointFitter {
     sphere: Sphere;
     fit_points(points: any, camera_quaternion: any, vertical_fov: any, aspect: any): Vector3;
@@ -10,5 +11,3 @@ export class PerspectiveFrustumPointFitter {
     get_right_plane_normal(camera_quaternion: any, h_fov: any): Vector3;
     get_distance_to_fit_rect(width: any, height: any, vertical_fov: any, aspect: any): number;
 }
-import { Sphere } from "three/src/math/Sphere";
-import { Vector3 } from "three/src/math/Vector3";

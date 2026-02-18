@@ -1,3 +1,5 @@
+import { GroupRaycaster } from "../../raycast/GroupRaycaster";
+import { RaycastResolver } from "../../raycast/RaycastResolver";
 export class ObjectRotator extends RaycastResolver {
     constructor(object: any, input: any);
     input: any;
@@ -8,5 +10,3 @@ export class ObjectRotator extends RaycastResolver {
     is_active(): boolean;
     update(): void;
 }
-import { RaycastResolver } from "../../raycast/RaycastResolver";
-import { GroupRaycaster } from "../../raycast/GroupRaycaster";

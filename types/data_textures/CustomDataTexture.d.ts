@@ -1,3 +1,4 @@
+import { DataTexture } from "three";
 export class CustomDataTexture extends DataTexture {
     constructor(data: any, width: any, height: any, format: any, type: any);
     multiplier: number;
@@ -8,4 +9,3 @@ export class CustomDataTexture extends DataTexture {
     set_b(index: any, value: any): void;
     set_a(index: any, value: any): void;
 }
-import { DataTexture } from "three/src/textures/DataTexture";
