@@ -1,7 +1,9 @@
-export class SVGLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { SVGLoader as TSVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
+declare class SVGLoader extends AbstractLoader {
     loader: TSVGLoader;
-    on_preloaded_finished(resource_container: any): void;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
-import { SVGLoader as TSVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
+export { SVGLoader };

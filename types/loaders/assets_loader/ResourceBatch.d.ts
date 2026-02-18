@@ -1,8 +1,9 @@
-export class ResourceBatch {
-    constructor(batch_name: any, resource_container: any);
-    resource_loaders: any[];
-    batch_name: any;
-    resource_container: any;
+import type { ResourceContainer } from "./ResourceContainer";
+declare class ResourceBatch {
+    resource_loaders: Array<any>;
+    batch_name: string;
+    resource_container: ResourceContainer;
+    constructor(batch_name: string, resource_container: ResourceContainer);
     add_loader(loader: any): void;
     load(): void;
     get loading_finished(): boolean;
@@ -12,3 +13,4 @@ export class ResourceBatch {
     get_loaded_bytes(): number;
     get_total_bytes(): number;
 }
+export { ResourceBatch };

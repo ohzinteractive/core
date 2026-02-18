@@ -1,4 +1,5 @@
-export class BloomComposeMaterial extends BlitMaterial {
-    constructor(alpha_blending: any);
+import { BlitMaterial } from './BlitMaterial';
+declare class BloomComposeMaterial extends BlitMaterial {
+    constructor(alpha_blending?: boolean);
 }
-import { BlitMaterial } from "./BlitMaterial";
+export { BloomComposeMaterial };

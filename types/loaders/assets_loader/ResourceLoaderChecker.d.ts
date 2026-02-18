@@ -1,8 +1,9 @@
-export class ResourceLoaderChecker {
-    constructor(batch: any);
+declare class ResourceLoaderChecker {
     batch: any;
-    on_resources_loaded: any;
+    on_resources_loaded: (() => void) | undefined;
     timeout: number;
-    setup(on_resources_loaded: any, timeout?: number): void;
+    constructor(batch: any);
+    setup(on_resources_loaded: () => void, timeout?: number): void;
     check(): void;
 }
+export { ResourceLoaderChecker };

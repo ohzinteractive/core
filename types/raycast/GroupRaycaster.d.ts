@@ -1,16 +1,20 @@
-import { Intersection, Raycaster } from "three";
-import { IdleState } from "./states/IdleState";
-
-export class GroupRaycaster {
-    constructor(raycastee_group: any, raycast_resolver: any, camera: any, input: any);
-    camera: any;
-    raycast_resolver: any;
-    raycastee_group: any;
-    input: any;
-    raycaster: Raycaster;
-    current_state: IdleState;
+import type { Input } from '../components/Input';
+import { RaycastResolver } from './RaycastResolver';
+import { IdleState } from './states/IdleState';
+import type { Camera, Intersection, Object3D } from 'three';
+import { Raycaster } from 'three';
+import type { BaseState } from './states/BaseState';
+declare class GroupRaycaster {
+    camera: Camera;
     current_intersections: Intersection[];
-    set_raycastee_group(raycastee_group: any): void;
+    current_state: IdleState;
+    input: Input;
+    raycast_resolver: RaycastResolver;
+    raycastee_group: Object3D[];
+    raycaster: Raycaster;
+    constructor(raycastee_group: Object3D[], raycast_resolver: RaycastResolver, camera: Camera, input: Input);
+    set_raycastee_group(raycastee_group: Object3D[]): void;
     update(): void;
-    set_state(new_state: any): void;
+    set_state(new_state: BaseState): void;
 }
+export { GroupRaycaster };

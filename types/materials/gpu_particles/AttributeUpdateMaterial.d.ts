@@ -1,7 +1,8 @@
-export class AttributeUpdateMaterial extends BlitMaterial {
-    constructor(custom_frag: any);
+import { BlitMaterial } from '../../materials/BlitMaterial';
+declare class AttributeUpdateMaterial extends BlitMaterial {
     multiplier: number;
+    constructor(custom_frag?: string);
     update(): void;
-    set_multiplier(val: any): void;
+    set_multiplier(val: number): void;
 }
-import { BlitMaterial } from "../../materials/BlitMaterial";
+export { AttributeUpdateMaterial };

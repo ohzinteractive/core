@@ -1,3 +1,5 @@
-export class FXAAMaterial {
-    constructor(upsample: any);
+import { BlitMaterial } from './BlitMaterial';
+declare class FXAAMaterial extends BlitMaterial {
+    constructor();
 }
+export { FXAAMaterial };

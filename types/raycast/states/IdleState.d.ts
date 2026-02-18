@@ -1,3 +1,7 @@
-export class IdleState extends BaseState {
+import type { GroupRaycaster } from '../GroupRaycaster';
+import { BaseState } from './BaseState';
+declare class IdleState extends BaseState {
+    constructor();
+    update(context: GroupRaycaster): void;
 }
-import { BaseState } from "./BaseState";
+export { IdleState };

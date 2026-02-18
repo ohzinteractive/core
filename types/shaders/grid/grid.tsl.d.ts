@@ -1,3 +1,6 @@
+import MathNode from "three/src/nodes/math/MathNode.js";
+import OperatorNode from "three/src/nodes/math/OperatorNode.js";
+
 /**
  * Grid shader material using TSL (Three.js Shading Language)
  * Creates a wireframe grid effect using barycentric coordinates
@@ -5,6 +8,6 @@
  * @returns {{colorNode: any, opacityNode: any}} - TSL nodes for color and opacity
  */
 export declare function createGridShader(color?: string): {
-    colorNode: any;
-    opacityNode: any;
+    colorNode: MathNode;
+    opacityNode: OperatorNode;
 };

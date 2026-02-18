@@ -1,7 +1,9 @@
-export class ScreenSpaceTextureMaterial extends BaseShaderMaterial {
-    constructor(x: any, y: any, w: any, h: any);
-    set_position(x: any, y: any): void;
-    set_texture(tex: any, w: any, h: any): void;
-    set_screen_size(w: any, h: any): void;
+import type { Texture } from 'three';
+import { BaseShaderMaterial } from './BaseShaderMaterial';
+declare class ScreenSpaceTextureMaterial extends BaseShaderMaterial {
+    constructor();
+    set_position(x: number, y: number): void;
+    set_texture(tex: Texture, w: number, h: number): void;
+    set_screen_size(w: number, h: number): void;
 }
-import { BaseShaderMaterial } from "./BaseShaderMaterial";
+export { ScreenSpaceTextureMaterial };

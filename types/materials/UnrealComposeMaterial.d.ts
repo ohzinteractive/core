@@ -1,4 +1,5 @@
-export class UnrealComposeMaterial extends BlitMaterial {
-    constructor(nMips: any);
+import { BlitMaterial } from '../materials/BlitMaterial';
+declare class UnrealComposeMaterial extends BlitMaterial {
+    constructor(nMips: number);
 }
-import { BlitMaterial } from "../materials/BlitMaterial";
+export { UnrealComposeMaterial };

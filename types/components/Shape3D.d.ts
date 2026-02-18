@@ -1,6 +1,6 @@
-import { Mesh, Vector2 } from "three";
-
-export class Shape3D extends Mesh {
+import type { Vector2 } from 'three';
+import { Mesh } from 'three';
+declare class Shape3D extends Mesh {
     constructor(points_2D: Vector2[], show_edges: boolean, height?: number);
 }
-
+export { Shape3D };

@@ -1,4 +1,5 @@
-import { ShaderMaterial } from "three";
-export class BasicParticleMaterial extends ShaderMaterial {
+import { ShaderMaterial } from 'three';
+declare class BasicParticleMaterial extends ShaderMaterial {
     constructor();
 }
+export { BasicParticleMaterial };

@@ -1,6 +1,8 @@
-import { Object3D, Vector3 } from "three";
-import { Line } from "./Line";
-export class MultiLinePath extends Object3D {
-    constructor(paths: Array<Vector3[]>);
+import { Line } from './Line';
+import type { Vector3 } from 'three';
+import { Object3D } from 'three';
+declare class MultiLinePath extends Object3D {
     paths: Line[];
+    constructor(paths: Array<Vector3[]>);
 }
+export { MultiLinePath };

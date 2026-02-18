@@ -1,5 +1,5 @@
-import { ShaderMaterial } from "three";
-export class ViewPositionMaterial extends ShaderMaterial {
+import { ShaderMaterial } from 'three';
+declare class ViewPositionMaterial extends ShaderMaterial {
     constructor();
 }
-
+export { ViewPositionMaterial };

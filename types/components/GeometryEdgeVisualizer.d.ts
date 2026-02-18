@@ -1,9 +1,8 @@
-import { BufferGeometry, Mesh, ShaderMaterial } from "three";
-
-export class GeometryEdgeVisualizer extends Mesh {
-    constructor(geometry: BufferGeometry, line_color?: string | number);
+import type { BufferGeometry } from 'three';
+import { Mesh, ShaderMaterial } from 'three';
+declare class GeometryEdgeVisualizer extends Mesh {
     material: ShaderMaterial;
-    
+    constructor(geometry: BufferGeometry, line_color?: string | number);
     hide_faces(): void;
 }
-
+export { GeometryEdgeVisualizer };

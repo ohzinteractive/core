@@ -1,9 +1,10 @@
-export class DeferredPointLightMaterial extends BaseShaderMaterial {
+import { BaseShaderMaterial } from '../../materials/BaseShaderMaterial';
+import type { RenderTarget } from 'three';
+import { Matrix4 } from 'three';
+declare class DeferredPointLightMaterial extends BaseShaderMaterial {
     constructor(intensity?: number);
-    blending: 2;
-    side: 1;
-    set_inverse_proj_matrix(mat4: any): void;
-    set_normal_depth_rt(rt: any): void;
-    set_albedo_rt(rt: any): void;
+    set_inverse_proj_matrix(mat4: Matrix4): void;
+    set_normal_depth_rt(rt: RenderTarget): void;
+    set_albedo_rt(rt: RenderTarget): void;
 }
-import { BaseShaderMaterial } from "../../materials/BaseShaderMaterial";
+export { DeferredPointLightMaterial };
