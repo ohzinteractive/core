@@ -1,7 +1,7 @@
 import { GroupRaycaster } from '../../raycast/GroupRaycaster';
 import { RaycastResolver } from '../../raycast/RaycastResolver';
 import type { Object3D } from 'three';
-import type { Input } from '../Input';
+import type { Input } from '../../lib/Input';
 declare class ObjectRotator extends RaycastResolver {
     group_raycaster: GroupRaycaster;
     input: Input;

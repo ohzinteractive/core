@@ -1,0 +1,41 @@
+import type { Vector2 } from "./Vector2";
+export interface Input {
+    keyboard: {
+        is_key_down(key: string): boolean;
+        is_key_pressed(key: string): boolean;
+        is_key_released(key: string): boolean;
+    };
+    init(dom_element: any, sub_region_element: any): void;
+    update(): void;
+    clear(): void;
+    mouse_input_allowed(): boolean;
+    set_mouse_input_active(): void;
+    set_touch_input_active(): void;
+    get left_mouse_button_pressed(): boolean;
+    get left_mouse_button_down(): boolean;
+    get left_mouse_button_released(): boolean;
+    get right_mouse_button_pressed(): boolean;
+    get right_mouse_button_down(): boolean;
+    get right_mouse_button_released(): boolean;
+    get middle_mouse_button_pressed(): boolean;
+    get middle_mouse_button_down(): boolean;
+    get middle_mouse_button_released(): boolean;
+    get is_touchscreen(): boolean;
+    get scroll_delta(): number;
+    get zoom_delta(): number;
+    get pointer_count(): number;
+    get pointer_is_within_bounds(): boolean;
+    pointer_is_over_element(elem: any): boolean;
+    get pointer_pos_delta(): Vector2;
+    get NDC(): Vector2;
+    get NDC_delta(): Vector2;
+    get pointer_center(): Vector2;
+    get pointer_center_delta(): Vector2;
+    get pointer_center_NDC(): Vector2;
+    get pointer_center_NDC_delta(): Vector2;
+    get_pointer_pos(index?: number): Vector2;
+    get_pointer_pos_delta(index?: number): Vector2;
+    get_pointer_NDC(index?: number): Vector2;
+    get_pointer_NDC_delta(index?: number): Vector2;
+    dispose(): void;
+}

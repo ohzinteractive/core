@@ -20,7 +20,7 @@ class AbstractScene extends Scene
     regular: RegularLoadingState;
   };
   name: string;
-  camera_manager: CameraController;
+  camera_controller: CameraController;
   
   constructor({
     name,

@@ -101,7 +101,7 @@ class Debug
     return line;
   }
 
-  draw_cube(pos: Vector3, size: number, color: number | string)
+  draw_cube(pos?: Vector3, size?: number, color?: number | string)
   {
     size = size || 1;
     color = color || 0xff0000;
