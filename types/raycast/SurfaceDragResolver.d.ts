@@ -1,5 +1,5 @@
 import type { Mesh, Vector3 } from 'three';
-import type { Input } from '../components/Input';
+import { Input } from '../../src/lib/Input';
 import { GroupRaycaster } from './GroupRaycaster';
 import { RaycastResolver } from './RaycastResolver';
 declare class SurfaceDragResolver extends RaycastResolver {

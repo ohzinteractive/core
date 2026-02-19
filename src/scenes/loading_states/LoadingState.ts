@@ -1,4 +1,4 @@
-import type { AbstractLoader } from '../../../types/index';
+import type { AsyncAbstractLoader } from '../../loaders/AsyncAbstractLoader';
 import { AsyncAudiosLoader } from '../../loaders/AsyncAudiosLoader';
 import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
@@ -14,21 +14,21 @@ export class LoadingState
   TexturesCompilator: Compilator;
   callback_called: boolean;
   compilator_manager: CompilatorManager;
-  compilators: Array<Compilator>;
-  custom_compilators: Array<Compilator>;
-  custom_data: any;
-  custom_loaders: any;
-  loaders: Array<AbstractLoader>;
+  compilators: Compilator[];
+  custom_compilators: Compilator[];
+  custom_data: any[];
+  custom_loaders: any[];
+  loaders: AsyncAbstractLoader[];
   scene: AbstractScene;
-  scene_objects: any;
-  scene_sounds: any;
-  scene_textures: any;
+  scene_objects: any[];
+  scene_sounds: any[];
+  scene_textures: any[];
   
   constructor(scene: AbstractScene, {
     SceneCompilator,
     TexturesCompilator,
     AudiosCompilator
-  }: any)
+  }: { SceneCompilator: Compilator, TexturesCompilator: Compilator, AudiosCompilator: Compilator })
   {
     this.scene = scene;
 
@@ -42,7 +42,7 @@ export class LoadingState
     this.callback_called = false;
   }
 
-  set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any[] = [], custom_compilators: any[] = [], custom_data: any[] = [])
+  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders: any[] = [], custom_compilators: Compilator[] = [], custom_data: any[] = [])
   {
     this.scene_objects = scene_objects;
     this.scene_textures = scene_textures;

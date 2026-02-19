@@ -1,4 +1,4 @@
-import type { ViewComponent } from '../index';
+import type { ViewComponent } from '../view_components/ViewComponent';
 import { TransitionManager } from './TransitionManager';
 
 class ViewComponentManager

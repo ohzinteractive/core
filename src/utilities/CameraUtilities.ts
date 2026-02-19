@@ -4,8 +4,9 @@ import { OMath } from '../utilities/OMath';
 
 import type { Camera, Object3D } from 'three';
 import { Box3, Matrix4, Plane, Ray, Sphere, Vector3 } from 'three';
-import type { Vector2 } from '../../../pit/types/Vector2';
-import type { Input } from '../components/Input';
+
+import type { Input } from '../lib/Input';
+import type { Vector2 } from '../lib/Vector2';
 import type { PerspectiveCamera } from '../PerspectiveCamera';
 import { OrthographicFrustumPointFitter } from './OrthographicFrustumPointFitter';
 import { PerspectiveFrustumPointFitter } from './PerspectiveFrustumPointFitter';
@@ -90,9 +91,9 @@ class CameraUtilities
     const tmp_vec = new Vector3();
 
     this.plane.setFromNormalAndCoplanarPoint(plane_normal || this.get_forward_dir(camera), plane_position);
-    if (camera.isPerspectiveCamera)
+    if ((camera as PerspectiveCamera).isPerspectiveCamera)
     {
-      this.ray.set(camera.position, this.unproject_mouse_position(NDC, camera));
+      this.ray.set(camera.position, this.unproject_mouse_position(NDC, camera as PerspectiveCamera));
     }
     else
     {

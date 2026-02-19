@@ -7,8 +7,8 @@ class ViewStateTransitionHandler
 {
   action_sequencer: ActionSequencer;
   current_state: ViewState;
-  current_state_data: object;
-  default_state_data: object;
+  current_state_data: { [key: string]: any };
+  default_state_data: { [key: string]: any };
   last_state: ViewState;
   transition_table: TransitionTable;
   transitioning: boolean;

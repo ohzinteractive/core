@@ -28,6 +28,9 @@ class BaseApplication
 
   on_frame_end()
   {}
+
+  dispose()
+  {}
 }
 
 export { BaseApplication };

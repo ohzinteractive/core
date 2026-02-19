@@ -1,20 +1,26 @@
+import type { Object3D } from 'three';
 import { Mesh, Scene } from 'three';
 // import { AvatarSystem } from '../../components/avatar/AvatarSystem';
 
+import type { CameraController } from '../camera_controller/CameraController';
+import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
-import { CameraManager } from '../index';
 import { HighQualityLoadingState } from './loading_states/HighQualityLoadingState';
 import { LoadingState } from './loading_states/LoadingState';
 import { RegularLoadingState } from './loading_states/RegularLoadingState';
 
 class AbstractScene extends Scene
 {
-  current_loading_state: any;
+  current_loading_state: LoadingState;
   initialized: boolean;
   is_high_loaded: boolean;
   is_loaded: boolean;
-  loading_states: any;
+  loading_states: {
+    high: HighQualityLoadingState;
+    regular: RegularLoadingState;
+  };
   name: string;
+  camera_manager: CameraController;
   
   constructor({
     name,
@@ -61,7 +67,7 @@ class AbstractScene extends Scene
 
   get_objects()
   {
-    const objects: any = [];
+    const objects: Object3D[] = [];
 
     this.traverse(child =>
     {
@@ -133,17 +139,17 @@ class AbstractScene extends Scene
     this.initialized = false;
   }
 
-  set_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any)
+  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: Compilator[], custom_data?: any[])
   {
     this.loading_states.regular.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_high_assets(scene_objects: any, scene_textures: any, scene_sounds: any, custom_loaders: any, custom_compilators: any, custom_data: any)
+  set_high_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: Compilator[], custom_data?: any[])
   {
     this.loading_states.high.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_loading_state(state: any)
+  set_loading_state(state: LoadingState)
   {
     this.current_loading_state.on_exit();
     this.current_loading_state = state;

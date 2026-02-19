@@ -17,7 +17,7 @@ class ResourceBatch
     this.resource_loaders.push(loader);
   }
 
-  load(resource_container: ResourceContainer)
+  load(resource_container?: ResourceContainer)
   {
     for (let i = 0; i < this.resource_loaders.length; i++)
     {

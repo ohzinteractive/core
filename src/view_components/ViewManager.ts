@@ -80,7 +80,7 @@ class ViewManager
     this.get(view_name);
   }
 
-  get(view_name: string)
+  get(view_name: string): ApplicationView | undefined
   {
     for (let i = 0; i < this.views.length; i++)
     {

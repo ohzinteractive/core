@@ -23,7 +23,6 @@ export interface CoreAttributes {
     xr_enabled: boolean;
 }
 export interface RendererAttributes {
-  canvas: HTMLCanvasElement,
   alpha: boolean,
   logarithmicDepthBuffer: boolean,
   antialias: boolean,

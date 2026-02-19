@@ -1,6 +1,6 @@
 class KeyboardInput
 {
-  container: HTMLElement;
+  container: Element | Document;
   ctrlz_fired: boolean;
   ctrlz_pressed: boolean;
   keys: {
@@ -14,7 +14,7 @@ class KeyboardInput
   };
   keys_keys: string[];
 
-  init(container: HTMLElement)
+  init(container: Element | Document)
   {
     this.ctrlz_pressed = false;
     this.ctrlz_fired = false;
@@ -23,11 +23,11 @@ class KeyboardInput
     this.keys_keys = [];
     this.container = container;
 
-    this.container.addEventListener('keydown', this.on_key_down.bind(this), false);
-    this.container.addEventListener('keyup', this.on_key_up.bind(this), false);
+    this.container.addEventListener('keydown', this.on_key_down, false);
+    this.container.addEventListener('keyup', this.on_key_up, false);
   }
 
-  on_key_down(e: KeyboardEvent)
+  on_key_down = (e: KeyboardEvent) =>
   {
     if (e.keyCode === 90 && e.ctrlKey && !this.ctrlz_fired)
     {
@@ -41,7 +41,7 @@ class KeyboardInput
     }
   }
 
-  on_key_up(e: KeyboardEvent)
+  on_key_up = (e: KeyboardEvent) =>
   {
     this.release_key(e.code);
   }
@@ -145,8 +145,8 @@ class KeyboardInput
 
   dispose()
   {
-    this.container.removeEventListener('keydown', this.on_key_down.bind(this), false);
-    this.container.removeEventListener('keyup', this.on_key_up.bind(this), false);
+    this.container.removeEventListener('keydown', this.on_key_down, false);
+    this.container.removeEventListener('keyup', this.on_key_up, false);
   }
 }
 

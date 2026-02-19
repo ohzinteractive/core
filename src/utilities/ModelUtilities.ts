@@ -1,5 +1,5 @@
 import { Mesh, Skeleton } from 'three';
-import type { AbstractScene } from '../index';
+import type { AbstractScene } from '../scenes/AbstractScene';
 
 class ModelUtilities
 {
