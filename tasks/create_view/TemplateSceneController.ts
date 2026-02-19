@@ -1,18 +1,22 @@
+import type { ActionSequencer } from 'ohzi-core';
 import { SceneManager, ViewManager } from 'ohzi-core';
 import { Sections } from '../Sections';
+import { CommonSceneController } from '../common/CommonSceneController';
+import type { TemplateView } from './TemplateView';
 
 // import { TemplateScene } from '../../scenes/TemplateScene';
 
-export class TemplateSceneController
+export class TemplateSceneController extends CommonSceneController
 {
   constructor()
   {
+    super();
   }
 
   start()
   {
     // Use this line to reuse HomeScene
-    this.scene = ViewManager.get(Sections.HOME).scene;
+    this.scene = (ViewManager.get(Sections.HOME) as TemplateView).scene;
 
     // Use this line to use own scene
     // this.scene = new TemplateScene();
@@ -42,12 +46,12 @@ export class TemplateSceneController
     this.scene.update();
   }
 
-  update_enter_transition(global_view_data, transition_progress, action_sequencer)
+  update_enter_transition(global_view_data: { key: any }, transition_progress: number, action_sequencer: ActionSequencer)
   {
     this.scene.update();
   }
 
-  update_exit_transition(global_view_data, transition_progress, action_sequencer)
+  update_exit_transition(global_view_data: { key: any }, transition_progress: number, action_sequencer: ActionSequencer)
   {
   }
 }

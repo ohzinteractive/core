@@ -4,6 +4,7 @@ import { Sections, SectionsURLs } from '../Sections';
 import { TemplateSceneController } from './TemplateSceneController';
 import { TemplateTransitionController } from './TemplateTransitionController';
 
+import type { ActionSequencer } from 'ohzi-core';
 import template_data from '../../../data/transitions/template.json';
 
 export class TemplateView extends CommonView
@@ -72,13 +73,13 @@ export class TemplateView extends CommonView
     this.transition_controller.update();
   }
 
-  update_enter_transition(global_view_data, transition_progress, action_sequencer)
+  update_enter_transition(global_view_data: { key: any }, transition_progress: number, action_sequencer: ActionSequencer)
   {
     this.scene_controller.update_enter_transition(global_view_data, transition_progress, action_sequencer);
     this.transition_controller.update_enter_transition(global_view_data, transition_progress, action_sequencer);
   }
 
-  update_exit_transition(global_view_data, transition_progress, action_sequencer)
+  update_exit_transition(global_view_data: { key: any }, transition_progress: number, action_sequencer: ActionSequencer)
   {
     this.scene_controller.update_exit_transition(global_view_data, transition_progress, action_sequencer);
     this.transition_controller.update_exit_transition(global_view_data, transition_progress, action_sequencer);

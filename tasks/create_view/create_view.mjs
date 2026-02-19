@@ -13,9 +13,9 @@ class ViewCreator
     name = this.__sanitize_name(name);
 
     const js_folder = path.join('..', 'app', 'js', 'views', name);
-    const js_transition_path = path.join(js_folder, `${this.capitalize(name)}TransitionController.js`);
-    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.js`);
-    const js_view_path = path.join(js_folder, `${this.capitalize(name)}View.js`);
+    const js_transition_path = path.join(js_folder, `${this.capitalize(name)}TransitionController.ts`);
+    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.ts`);
+    const js_view_path = path.join(js_folder, `${this.capitalize(name)}View.ts`);
 
     const transition_data_path = path.join('..', 'app', 'data', 'transitions', `${name}.json`);
 
@@ -115,7 +115,7 @@ class ViewCreator
   __update_general_loader_file(name)
   {
     const new_import = `home.json';\nimport ${name}_data from '../../data/transitions/${name}.json';`;
-    const file_path = path.join('..', 'app', 'js', 'loaders', 'GeneralLoader.js');
+    const file_path = path.join('..', 'app', 'js', 'loaders', 'GeneralLoader.ts');
 
     const options_1 = {
       files: file_path,
@@ -138,7 +138,7 @@ class ViewCreator
   __update_mainapp_file(name)
   {
     const new_import = `HomeView';\nimport { ${this.capitalize(name)}View } from './views/${name}/${this.capitalize(name)}View';`;
-    const file_path = path.join('..', 'app', 'js', 'MainApplication.js');
+    const file_path = path.join('..', 'app', 'js', 'MainApplication.ts');
 
     const options_1 = {
       files: file_path,
@@ -162,11 +162,18 @@ class ViewCreator
       to: new_section_start
     };
 
+    const options_4 = {
+      files: file_path,
+      from: 'home_view: HomeView;',
+      to: `home_view: HomeView;\n  ${name.toLowerCase()}_view: ${this.capitalize(name)}View;`
+    };
+
     try
     {
       replace.sync(options_1);
       replace.sync(options_2);
       replace.sync(options_3);
+      replace.sync(options_4);
       console.log('\x1b[33m', `${file_path} Modified`);
     }
     catch (error)
@@ -179,7 +186,7 @@ class ViewCreator
   {
     const new_section = `'initial',\n  ${name.toUpperCase()}: '${name.toLowerCase()}',`;
     const new_section_url = `'/initial',\n  ${name.toUpperCase()}: '/${name.replace(/_/g, '-')}',`;
-    const file_path = path.join('..', 'app', 'js', 'views', 'Sections.js');
+    const file_path = path.join('..', 'app', 'js', 'views', 'Sections.ts');
 
     const options_1 = {
       files: file_path,
@@ -216,7 +223,7 @@ class ViewCreator
       else
       {
         fs.copyFileSync(
-          path.join('tasks', 'create_view', `Template${file_type}.js`),
+          path.join('tasks', 'create_view', `Template${file_type}.ts`),
           view_path
         );
 
