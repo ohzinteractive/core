@@ -1,5 +1,5 @@
 import type { Vector3 } from 'three';
-import type { Input } from '../components/Input';
+import type { Input } from '../lib/Input';
 import { PlaneRaycaster } from './PlaneRaycaster';
 import { PlaneRaycastResolver } from './PlaneRaycastResolver';
 

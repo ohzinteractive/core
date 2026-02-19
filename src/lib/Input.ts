@@ -1,28 +1,16 @@
 // This interface declare the Input component found in PIT.js
 
-import type { Vector2 } from "three";
+import type { Vector2 } from "./Vector2";
 
 export interface Input {
-    active_input_module: any;
-    dom_element: any;
-    mouse_input_module: any;
-    region: any;
-    sub_region_element: any;
-    touch_cooldown: any;
-    touch_input_module: any;
+    keyboard: {
+        is_key_down(key: string): boolean;
+        is_key_pressed(key: string): boolean;
+        is_key_released(key: string): boolean;
+    }
 
     init(dom_element: any, sub_region_element: any): void;
-    bind_events(): void;
-    unbind_events(): void;
-    on_wheel(event: any): void;
-    on_touchstart(event: any): void;
-    on_touchmove(event: any): void;
-    on_touchcancel(event: any): void;
-    on_touchend(event: any): void;
-    on_mousedown(event: any): void;
-    on_mousemove(event: any): void;
-    on_mouseup(event: any): void;
-    on_mouseleave(event: any): void;
+    update(): void;
     clear(): void;
     mouse_input_allowed(): boolean;
     set_mouse_input_active(): void;
@@ -45,8 +33,6 @@ export interface Input {
 
     pointer_is_over_element(elem: any): boolean;
 
-    get pointers(): Vector2[];
-    get pointer_pos(): Vector2;
     get pointer_pos_delta(): Vector2;
     get NDC(): Vector2;
     get NDC_delta(): Vector2;
@@ -59,5 +45,6 @@ export interface Input {
     get_pointer_pos_delta(index?: number): Vector2;
     get_pointer_NDC(index?: number): Vector2;
     get_pointer_NDC_delta(index?: number): Vector2;
+
     dispose(): void;
 }

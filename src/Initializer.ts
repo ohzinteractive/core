@@ -1,10 +1,10 @@
 import { Browser } from './Browser';
 import { CameraManager } from './CameraManager';
 import { Capabilities } from './Capabilities';
-import type { Input } from './components/Input';
 import { Debug } from './Debug';
 import { Graphics } from './Graphics';
 import type { RenderLoop } from './index';
+import type { Input } from './lib/Input';
 import { OS } from './OS';
 import { OScreen } from './OScreen';
 import { ReflectionPlaneContext } from './ReflectionPlaneContext';

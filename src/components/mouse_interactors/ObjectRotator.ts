@@ -3,7 +3,7 @@ import { RaycastResolver } from '../../raycast/RaycastResolver';
 
 import type { Object3D } from 'three';
 import { Quaternion, Vector3 } from 'three';
-import type { Input } from '../Input';
+import type { Input } from '../../lib/Input';
 
 class ObjectRotator extends RaycastResolver
 {

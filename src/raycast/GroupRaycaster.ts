@@ -1,5 +1,5 @@
 import { CameraManager } from '../CameraManager';
-import type { Input } from '../components/Input';
+import type { Input } from '../lib/Input';
 import { RaycastResolver } from './RaycastResolver';
 import { IdleState } from './states/IdleState';
 

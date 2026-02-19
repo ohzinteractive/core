@@ -1,7 +1,7 @@
 import { BaseApplication } from './BaseApplication';
-import type { Input } from './components/Input';
 import { Debug } from './Debug';
 import type { Graphics } from './Graphics';
+import type { Input } from './lib/Input';
 import { Time } from './Time';
 import { TransitionManager } from './view_components/TransitionManager';
 import { ViewComponentManager } from './view_components/ViewComponentManager';
