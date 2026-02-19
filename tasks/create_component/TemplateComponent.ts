@@ -25,9 +25,9 @@ class TemplateComponent extends ViewComponent
     super.on_exit();
   }
 
-  update(current_state_data)
+  update(current_state_data: any)
   {
-    super.update();
+    super.update(current_state_data);
   }
 }
 

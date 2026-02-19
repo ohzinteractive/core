@@ -30,7 +30,7 @@ export class ViewComponent
     this.hidden = false;
   }
 
-  update()
+  update(current_state_data: any)
   {
   }
 

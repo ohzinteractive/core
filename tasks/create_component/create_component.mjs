@@ -11,7 +11,7 @@ class ComponentCreator
   create_component(name)
   {
     const js_folder = path.join('..', 'app', 'js', 'view_components', name);
-    const js_view_path = path.join(js_folder, `${this.capitalize(name)}Component.js`);
+    const js_view_path = path.join(js_folder, `${this.capitalize(name)}Component.ts`);
 
     const pug_folder = path.join('..', 'app', 'views', 'components', name);
     const pug_path = path.join(pug_folder, `${name}.pug`);
@@ -100,7 +100,7 @@ class ComponentCreator
   __update_mainapp_file(name)
   {
     const new_import = `HomeView';\nimport { ${this.capitalize(name)}Component } from './view_components/${name}/${this.capitalize(name)}Component';`;
-    const file_path = path.join('..', 'app', 'js', 'MainApplication.js');
+    const file_path = path.join('..', 'app', 'js', 'MainApplication.ts');
 
     const options_1 = {
       files: file_path,
@@ -124,11 +124,20 @@ class ComponentCreator
       to: new_section_start
     };
 
+    const new_variable = `home_view: HomeView;\n  ${name.toLowerCase()}_component: ${this.capitalize(name)}Component;`;
+
+    const options_4 = {
+      files: file_path,
+      from: 'home_view: HomeView;',
+      to: new_variable
+    };
+
     try
     {
       replace.sync(options_1);
       replace.sync(options_2);
       replace.sync(options_3);
+      replace.sync(options_4);
       console.log('\x1b[33m', `${file_path} Modified`);
     }
     catch (error)
@@ -140,7 +149,7 @@ class ComponentCreator
   __update_components_file(name)
   {
     const new_section = `__COMPONENTS__\n  ${name.toUpperCase()}: '${name.toLowerCase()}',`;
-    const file_path = path.join('..', 'app', 'js', 'view_components', 'Components.js');
+    const file_path = path.join('..', 'app', 'js', 'view_components', 'Components.ts');
 
     const options_1 = {
       files: file_path,
@@ -170,7 +179,7 @@ class ComponentCreator
       else
       {
         fs.copyFileSync(
-          path.join('tasks', 'create_component', `Template${file_type}.js`),
+          path.join('tasks', 'create_component', `Template${file_type}.ts`),
           view_path
         );
 
