@@ -19,7 +19,7 @@ class TransitionCreator
 
   __update_transitions_file(from_view_name, to_view_name)
   {
-    const file_path = path.join('..', 'app', 'js', 'views', to_view_name.toLowerCase(), `${this.capitalize(to_view_name)}TransitionController.js`);
+    const file_path = path.join('..', 'app', 'js', 'views', to_view_name.toLowerCase(), `${this.capitalize(to_view_name)}TransitionController.ts`);
     const json_name = `${from_view_name.toLowerCase()}_to_${to_view_name.toLowerCase()}`;
 
     const view_manager_import = 'import { TransitionManager } from \'ohzi-core\';';
