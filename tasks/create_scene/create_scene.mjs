@@ -11,7 +11,7 @@ class SceneCreator
   create_scene(name)
   {
     const js_folder = path.join('..', 'app', 'js', 'scenes');
-    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}Scene.js`);
+    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}Scene.ts`);
 
     const data_folder = path.join('..', 'app', 'data', 'assets', name);
     const objects_data_path = path.join(data_folder, `${name}_objects.js`);
@@ -39,7 +39,7 @@ class SceneCreator
   // __update_scene_controller_file(name)
   // {
   //   const new_import = `HomeScene';\nimport { ${this.capitalize(name)}Scene } from '../scenes/${this.capitalize(name)}Scene';`;
-  //   const file_path = path.join('..', 'app', 'js', 'components', 'SceneController.js');
+  //   const file_path = path.join('..', 'app', 'js', 'components', 'SceneController.ts');
 
   //   const options_1 = {
   //     files: file_path,
@@ -87,7 +87,7 @@ class SceneCreator
       else
       {
         fs.copyFileSync(
-          path.join('tasks', 'create_scene', `Template${file_type}.js`),
+          path.join('tasks', 'create_scene', `Template${file_type}.ts`),
           view_path
         );
 

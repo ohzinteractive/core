@@ -1,7 +1,5 @@
-
 import { CommonScene } from './common/CommonScene';
 
-import { CameraController } from '../camera_controller/CameraController';
 import { Settings } from '../Settings';
 import { Sections } from '../views/Sections';
 
@@ -12,11 +10,16 @@ import { template_objects } from '../../data/assets/template/template_objects';
 import { template_sounds } from '../../data/assets/template/template_sounds';
 import { template_textures } from '../../data/assets/template/template_textures';
 
-import { CameraManager, Debug, Grid, OScreen, PerspectiveCamera } from 'ohzi-core';
+import { CameraController, CameraManager, Debug, Grid, OScreen, PerspectiveCamera } from 'ohzi-core';
 import { Color } from 'three';
+import { SimpleCameraState } from '../camera_controller/states/SimpleCameraState';
+import { Input } from '../components/Input';
 
 export class TemplateScene extends CommonScene
 {
+  camera: PerspectiveCamera;
+  camera_controller: CameraController;
+
   constructor()
   {
     super({
@@ -28,9 +31,10 @@ export class TemplateScene extends CommonScene
   {
     super.init();
 
-    this.camera_controller = new CameraController();
+    this.camera_controller = new CameraController(Input);
 
     this.init_camera();
+    this.setup_camera();
 
     this.set_assets(template_objects, template_textures, template_sounds);
 
@@ -76,7 +80,7 @@ export class TemplateScene extends CommonScene
 
     this.camera_controller.set_camera(this.camera);
     // this.camera_controller.set_idle();
-    this.camera_controller.set_simple_mode();
+    this.camera_controller.set_state(new SimpleCameraState(Input));
 
     this.camera_controller.min_zoom = 1;
     this.camera_controller.max_zoom = 40;

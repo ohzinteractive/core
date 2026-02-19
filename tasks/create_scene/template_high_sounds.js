@@ -1,4 +1,4 @@
-const template_high_sounds = [
+export const template_high_sounds = [
   // {
   //   name: 'background',
   //   url: '/sounds/background.mp3',
@@ -13,5 +13,3 @@ const template_high_sounds = [
   //   volume: 1
   // }
 ];
-
-export { template_high_sounds };
