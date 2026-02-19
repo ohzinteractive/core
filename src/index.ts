@@ -118,10 +118,16 @@ import { ResourceContainer } from './ResourceContainer';
 import { Compilator } from './scenes/Compilator';
 import { TransitionManager } from './view_components/TransitionManager';
 
+import { CameraController } from './camera_controller/CameraController';
+import { CameraMovementMode } from './camera_controller/movement_mode/CameraMovementMode';
+import { ImmediateMode } from './camera_controller/movement_mode/ImmediateMode';
+import { AbstractCameraState } from './camera_controller/states/common/AbstractCameraState';
+import { CommonCameraState } from './camera_controller/states/common/CommonCameraState';
+
 export {
-    AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraManager, CameraUtilities, CanvasDrawer, Capabilities, Compilator, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
+    AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CommonCameraState, Compilator, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
-    ImageUtilities, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
+    ImageUtilities, ImmediateMode, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
     ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
