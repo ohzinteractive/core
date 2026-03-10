@@ -1,7 +1,6 @@
 import { Vector2 } from 'three';
 
 import type { Input } from '../../../lib/Input';
-import type { PerspectiveCamera } from '../../../PerspectiveCamera';
 import { Time } from '../../../Time';
 import { CameraUtilities } from '../../../utilities/CameraUtilities';
 import type { CameraController } from '../../CameraController';
@@ -71,7 +70,7 @@ export class CommonCameraState extends AbstractCameraState
         tilt: camera_controller.current_tilt,
         azimuth: camera_controller.current_azimuth,
         zoom: camera_controller.reference_zoom,
-        fov: (camera_controller.camera as PerspectiveCamera).fov
+        fov: (camera_controller.camera).fov
       });
     }
   }
