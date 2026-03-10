@@ -22,7 +22,7 @@ import { AbstractCameraState } from './states/common/AbstractCameraState';
 export class CameraController
 {
   __last_reference_position: Vector3;
-  camera: Camera;
+  camera: PerspectiveCamera;
   camera_initial_pos: Vector3;
   camera_initial_rot: Quaternion;
   current_azimuth: number;
@@ -292,11 +292,11 @@ export class CameraController
       const object_aspect = obj_x / obj_y;
       if (OScreen.aspect_ratio / object_aspect > 1)
       {
-        (this.camera as PerspectiveCamera).zoom = OScreen.height / obj_y;
+        (this.camera).zoom = OScreen.height / obj_y;
       }
       else
       {
-        (this.camera as PerspectiveCamera).zoom = OScreen.width / obj_x;
+        (this.camera).zoom = OScreen.width / obj_x;
       }
 
       bb.getCenter(this.reference_position);
@@ -375,8 +375,8 @@ export class CameraController
 
   get_zoom_to_sphere(sphere: Sphere, debug: boolean)
   {
-    const v_fov = ((this.camera as PerspectiveCamera).fov / 2) * Math.PI / 180;
-    const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera as PerspectiveCamera).aspect)) / 2;
+    const v_fov = ((this.camera).fov / 2) * Math.PI / 180;
+    const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera).aspect)) / 2;
 
     // if(debug )
     // {
@@ -425,7 +425,7 @@ export class CameraController
 
   fit_points(quaternion: Quaternion, points: Vector3[], zoom_scale = 1)
   {
-    if ((this.camera as PerspectiveCamera).isPerspectiveCamera)
+    if ((this.camera).isPerspectiveCamera)
     {
       const camera_forward_dir = new Vector3(0, 0, -1).applyQuaternion(quaternion);
       const camera_backward_dir = camera_forward_dir.clone().multiplyScalar(-1);
@@ -434,7 +434,7 @@ export class CameraController
 
       const aspect_ratio = OScreen.aspect_ratio;
 
-      const camera_pos = fitter.fit_points(points, quaternion, ((this.camera as PerspectiveCamera).fov * zoom_scale), aspect_ratio);
+      const camera_pos = fitter.fit_points(points, quaternion, ((this.camera).fov * zoom_scale), aspect_ratio);
       const box = new Box3().setFromPoints(points);
       const center = new Vector3();
       box.getCenter(center);
@@ -457,7 +457,7 @@ export class CameraController
     else
     {
       const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera as PerspectiveCamera).fov * zoom_scale), OScreen.aspect_ratio);
+      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera).fov * zoom_scale), OScreen.aspect_ratio);
 
       this.reference_position.copy(result.center);
       this.reference_zoom = result.distance_to_center;
@@ -473,7 +473,7 @@ export class CameraController
 
   focus_camera_on_points(points: Vector3[], zoom_scale = 1)
   {
-    if ((this.camera as PerspectiveCamera).isPerspectiveCamera)
+    if ((this.camera).isPerspectiveCamera)
     {
       const camera_forward_dir = new Vector3(0, 0, -1).applyQuaternion(this.reference_rotation);
       const camera_backward_dir = camera_forward_dir.clone().multiplyScalar(-1);
@@ -482,7 +482,7 @@ export class CameraController
 
       const aspect_ratio = OScreen.aspect_ratio;
 
-      const camera_pos = fitter.fit_points(points, this.reference_rotation, ((this.camera as PerspectiveCamera).fov * zoom_scale), aspect_ratio);
+      const camera_pos = fitter.fit_points(points, this.reference_rotation, ((this.camera).fov * zoom_scale), aspect_ratio);
       const box = new Box3().setFromPoints(points);
       const center = new Vector3();
       box.getCenter(center);
@@ -502,7 +502,7 @@ export class CameraController
     else
     {
       const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera as PerspectiveCamera).fov * zoom_scale), OScreen.aspect_ratio);
+      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera).fov * zoom_scale), OScreen.aspect_ratio);
 
       this.reference_position.copy(result.center);
       this.reference_zoom = result.distance_to_center;
@@ -527,8 +527,8 @@ export class CameraController
   __get_zoom_to_show_rect(width: number, height: number, scale = 1)
   {
     // let v_fov = (this.camera.fov/2) * Math.PI/180;
-    const v_fov = OMath.degToRad((this.camera as PerspectiveCamera).fov / 2);
-    const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera as PerspectiveCamera).aspect)) / 2;
+    const v_fov = OMath.degToRad((this.camera).fov / 2);
+    const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera).aspect)) / 2;
 
     const distV = height / Math.tan(v_fov * scale);
     const distH = width / Math.tan(h_fov * scale);

@@ -137,7 +137,7 @@ class ActionSequencer
     this.channels[interpolator.attribute_name].push(keyframe);
   }
 
-  get_current_target_value(name: string)
+  get_current_target_value(name: string): number
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
 
@@ -149,14 +149,14 @@ class ActionSequencer
     return keyframe.interpolator.evaluate(1);
   }
 
-  get_current_starting_value(name: string)
+  get_current_starting_value(name: string): number
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
 
     return keyframe.interpolator.evaluate(0);
   }
 
-  get_current_progress(name: string)
+  get_current_progress(name: string): number
   {
     const keyframe = this.__get_current_keyframe(name, this.elapsed_time);
     const t = this.__linear_map_01(this.elapsed_time, keyframe.from, keyframe.to);
