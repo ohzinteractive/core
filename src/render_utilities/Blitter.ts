@@ -31,6 +31,7 @@ class Blitter
     const src_height  = src.isRenderTarget === true ? src.height  : src.image.height;
 
     this._blit_quad.material.uniforms._MainTex.value = src_texture;
+
     this._blit_quad.material.uniforms._Resolution.value.set(src_width, src_height);
 
     if (dst)
@@ -89,7 +90,7 @@ class Blitter
     this._blit_quad.material.dispose();
   }
 
-  __render(dst_RT: any)
+  __render(dst_RT?: any)
   {
     const RT = dst_RT === undefined ? null : dst_RT;
 

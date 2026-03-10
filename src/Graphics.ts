@@ -6,28 +6,20 @@ import { BaseRender } from './render_mode/BaseRender';
 import { Blitter } from './render_utilities/Blitter';
 import { DepthAndNormalsRenderer } from './render_utilities/DepthAndNormalsRenderer';
 
-import type {
-  Material,
-  RenderTarget,
-  Scene,
-  TypedArray
+import {
+  type Material,
+  type RenderTarget,
+  type Scene,
+  type TypedArray
 } from 'three';
 
 import type { Renderer } from 'three/webgpu';
-import { WebGPURenderer } from 'three/webgpu';
 import type { OrthographicCamera } from './OrthographicCamera';
 import type { PerspectiveCamera } from './PerspectiveCamera';
 import type { AbstractScene } from './scenes/AbstractScene';
 
 export interface CoreAttributes {
     xr_enabled: boolean;
-}
-export interface RendererAttributes {
-  alpha: boolean,
-  logarithmicDepthBuffer: boolean,
-  antialias: boolean,
-  preserveDrawingBuffer: boolean,
-  forceWebGL: boolean
 }
 class Graphics
 {
@@ -40,10 +32,10 @@ class Graphics
   generate_depth_normal_texture: boolean;
   no_render: BaseRender;
   
-  init({ core_attributes, renderer_attributes, dpr }: 
-       { core_attributes: CoreAttributes, renderer_attributes: RendererAttributes, dpr: number })
+  init({ renderer, core_attributes, dpr }: 
+       { renderer: Renderer, core_attributes: CoreAttributes,  dpr: number })
   {
-    this._renderer = undefined;
+    this._renderer = renderer;
     this.blitter = undefined;
     this.canvas = undefined;
     this.no_render = undefined;
@@ -52,12 +44,10 @@ class Graphics
     this.depth_and_normals_renderer = undefined;
 
     this.core_attributes = {
-      xr_enabled: false
+      xr_enabled: false,
     };
 
     Object.assign(this.core_attributes, core_attributes);
-
-    this._renderer = new WebGPURenderer(renderer_attributes);
 
     if (this.core_attributes.xr_enabled)
     {
@@ -244,7 +234,7 @@ class Graphics
     }
   }
 
-  material_pass(mat: Material, dst: RenderTarget): void
+  material_pass(mat: Material, dst?: RenderTarget): void
   {
     this.blitter.material_pass(mat, dst);
   }
