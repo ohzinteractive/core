@@ -59,7 +59,7 @@ class Graphics
     }
 
     OScreen.dpr = dpr;
-    this._renderer.setPixelRatio(1);
+    this._renderer.setPixelRatio(dpr);
 
     this.blitter = new Blitter(this._renderer);
 
