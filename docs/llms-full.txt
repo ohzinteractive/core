@@ -1,0 +1,620 @@
+# OHZI Core — LLM Reference
+
+## What is OHZI Core?
+
+OHZI Core is a TypeScript WebGL/WebGPU graphics library built on top of [Three.js](https://threejs.org/). It is **not meant to be used standalone** — it is part of the [OHZI Boilerplate](https://github.com/ohzinteractive/boilerplate), which provides the full project scaffolding.
+
+The library ships as an ES module (`build/index.mjs`) with TypeScript declarations (`types/index.d.ts`). It wraps and extends Three.js with a structured framework for:
+
+- Application lifecycle management
+- Rendering pipeline control (render modes, post-processing)
+- Scene and camera management
+- Asset loading and caching
+- Viewport and timing utilities
+- Input handling
+- Debug visualization
+
+All classes are exported from the top-level package. Import them directly:
+
+```ts
+import { Graphics, RenderLoop, Time, OScreen, SceneManager, CameraManager, BaseApplication } from '@ohzi/core';
+```
+
+---
+
+## Core Concepts
+
+### Singletons vs Instantiable Classes
+
+Many core systems are **singletons** — exported as a single shared instance. They must be initialized once at startup via `Initializer.init()`.
+
+Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`.
+
+Instantiable: `BaseApplication`, `PerspectiveCamera`, `OrthographicCamera`, `KeyboardInput`, `RenderLoop`, `AbstractScene` (subclasses), and all materials, loaders, components, etc.
+
+### Application Startup Sequence
+
+```ts
+// 1. Initialize all core singletons
+Initializer.init(input);
+
+// 2. Initialize the renderer (separate because it needs a DOM element and DPR)
+Graphics.init({ renderer, core_attributes, dpr: window.devicePixelRatio });
+
+// 3. Create camera and assign it
+const camera = new PerspectiveCamera(60, OScreen.aspect_ratio, 0.1, 1000);
+CameraManager.current = camera;
+
+// 4. Set a render mode
+Graphics.set_state(new NormalRender());
+
+// 5. Create and start the render loop with your application
+const app = new MyApplication();
+const loop = new RenderLoop(app, Graphics, input);
+loop.start();
+```
+
+### Teardown
+
+```ts
+Initializer.dispose(loop);
+// This calls: Graphics.dispose() → SceneManager.dispose() → loop.dispose()
+```
+
+---
+
+## RenderLoop
+
+The central frame driver. It calls lifecycle hooks on a `BaseApplication` instance every frame.
+
+```ts
+const loop = new RenderLoop(app, Graphics, input);
+loop.start();   // begins requestAnimationFrame via renderer.setAnimationLoop
+loop.stop();    // calls app.on_exit(), detaches animation loop
+loop.dispose(); // stop + reset frame counter (allows full restart)
+loop.set_state(newApp); // swap apps mid-run (calls on_exit/on_enter)
+```
+
+**Frame order each tick:**
+
+1. `Time.__update()` — update delta/elapsed
+2. `app.on_post_start()` — called once on frame 2
+3. `input.update()` — process raw events
+4. `app.before_update()`
+5. Fixed-timestep loop: `app.fixed_update()` (0–N times)
+6. `Time.__set_frame_interpolation()`
+7. `app.update()`
+8. `app.on_pre_render()`
+9. `Graphics.update()` — main scene render
+10. `app.on_post_render()`
+11. `Debug.render()` — debug overlay
+12. `app.on_frame_end()`
+13. `input.clear()` / `Debug.clear()`
+
+---
+
+## BaseApplication
+
+Extend this to implement your application logic. All methods are no-ops by default.
+
+```ts
+class MyApp extends BaseApplication
+{
+  on_enter(loop: RenderLoop)
+  {
+    // Called once when this app becomes active
+  }
+
+  update()
+  {
+    // Called every frame after fixed updates
+    // Use Time.dt for frame-rate-independent movement
+  }
+
+  fixed_update()
+  {
+    // Called at a fixed rate (default: 30 Hz)
+    // Good for physics and deterministic logic
+  }
+
+  on_pre_render()  { /* before Graphics renders */ }
+  on_post_render() { /* after Graphics renders */ }
+  on_frame_end()   { /* very end of frame */ }
+  on_exit(loop)    { /* cleanup when leaving this state */ }
+}
+```
+
+---
+
+## Graphics
+
+Singleton that wraps the Three.js WebGPU `Renderer`. Manages rendering, post-processing, resize, and screenshots.
+
+```ts
+// Render a scene manually
+Graphics.render(scene, camera, renderTarget, overrideMaterial);
+
+// Full-screen post-process blit pass
+Graphics.blit(srcRT, dstRT, material);
+Graphics.material_pass(mat, dstRT);
+
+// Switch render mode (e.g., NormalRender → UnrealBloomRender)
+Graphics.set_state(new UnrealBloomRender());
+
+// Screenshot (tiled, high-res)
+Graphics.take_screenshot((blob) => Graphics.download_screenshot(blob), 3840, 2160);
+
+// Read back GPU pixels to CPU
+const pixels = await Graphics.readback_RT(renderTarget);
+```
+
+**Key properties:**
+
+| Property | Description |
+|----------|-------------|
+| `Graphics._renderer` | The raw Three.js `Renderer` instance |
+| `Graphics.canvas` | The `HTMLCanvasElement` |
+| `Graphics.current_render_mode` | The active `BaseRender` instance |
+| `Graphics.blitter` | `Blitter` for blit passes |
+| `Graphics.depth_and_normals_renderer` | Generates depth/normal G-buffer |
+| `Graphics.generate_depth_normal_texture` | Set `true` to enable depth/normal pass each frame |
+
+---
+
+## Render Modes
+
+Render modes are classes extending `BaseRender` that control how the scene is drawn each frame. Switch between them via `Graphics.set_state()`.
+
+Available render modes:
+
+| Class | Description |
+|-------|-------------|
+| `NormalRender` | Standard clear → render pipeline |
+| `UnrealBloomRender` | Bloom post-processing |
+| `NormalAORender` | Normal + AO pass |
+| `VRRender` | WebXR stereo rendering |
+| `DebugNormalsRender` | Visualize scene normals |
+
+Custom render modes extend `BaseRender` and implement `render()`:
+
+```ts
+class MyRender extends BaseRender
+{
+  render()
+  {
+    Graphics.clear(undefined, CameraManager.current, true, true);
+    SceneManager.current.on_pre_render();
+    SceneManager.current.render();
+    // post-process: Graphics.blit(srcRT, dstRT, myMaterial)
+    SceneManager.current.on_post_render();
+  }
+}
+```
+
+---
+
+## Time
+
+Singleton for all frame-timing values. Read in `update()` or `fixed_update()`.
+
+```ts
+Time.dt            // delta_time in seconds (current frame)
+Time.sdt           // smooth_delta_time (10-frame rolling average)
+Time.elapsed_time  // total seconds since app start
+Time.frame_interpolation // 0–1 fraction between fixed steps (use for visual interpolation)
+Time.fixed_delta_time    // fixed step interval, default 1/30 s (writable)
+```
+
+---
+
+## OScreen
+
+Singleton for viewport/canvas dimensions and DPR. Updated automatically by `Graphics` on resize.
+
+```ts
+OScreen.width          // CSS logical width
+OScreen.height         // CSS logical height
+OScreen.render_width   // physical pixels (width * dpr)
+OScreen.render_height  // physical pixels (height * dpr)
+OScreen.aspect_ratio   // width / height
+OScreen.dpr            // device pixel ratio
+OScreen.pixel_size     // Vector2(1/width, 1/height) — useful in shaders
+OScreen.size_changed   // true for one frame when a resize occurred
+OScreen.portrait       // true when width < height
+```
+
+---
+
+## SceneManager
+
+Singleton holding the active Three.js scene.
+
+```ts
+SceneManager.current = myScene; // set active scene
+SceneManager.current;           // read active scene
+SceneManager.dispose();         // dispose all geometries/materials in current scene
+```
+
+The rendering pipeline (`NormalRender`, etc.) always reads `SceneManager.current` as the default scene.
+
+---
+
+## CameraManager
+
+Singleton holding the active camera.
+
+```ts
+CameraManager.current = new PerspectiveCamera(60, OScreen.aspect_ratio, 0.1, 1000);
+CameraManager.current;   // read active camera
+CameraManager.spectator; // secondary VR spectator camera
+```
+
+`Graphics.update()` syncs `CameraManager.current.aspect` to `OScreen.aspect_ratio` automatically each frame.
+
+---
+
+## PerspectiveCamera / OrthographicCamera
+
+Thin extensions of their Three.js counterparts adding `clear_color` and `clear_alpha` per camera.
+
+```ts
+const cam = new PerspectiveCamera(60, OScreen.aspect_ratio, 0.1, 1000);
+cam.clear_color = new Color('#1a1a2e');
+cam.clear_alpha = 1;
+CameraManager.current = cam;
+```
+
+---
+
+## AbstractScene
+
+Abstract base class for scenes. Extend it to define assets, setup logic, and per-frame hooks. Implements a **two-phase loading pipeline**: regular quality → high quality.
+
+```ts
+class MyScene extends AbstractScene
+{
+  constructor()
+  {
+    super({ name: 'my_scene', compilators: { SceneCompilator, TexturesCompilator, AudiosCompilator } });
+    this.set_assets(sceneObjects, sceneTextures, sceneSounds);
+    this.set_high_assets(hqObjects, hqTextures, []);
+  }
+
+  init()
+  {
+    super.init();
+    // One-time setup: add lights, meshes, etc.
+  }
+
+  on_assets_ready()
+  {
+    // Regular assets downloaded — access via ResourceContainer.get('name')
+  }
+
+  on_assets_compiled()
+  {
+    super.on_assets_compiled(); // required: triggers high-quality load
+    // Assets compiled and GPU-ready
+  }
+
+  on_high_quality_assets_ready()
+  {
+    // High-quality assets done
+  }
+
+  on_pre_render()
+  {
+    // Update uniforms, animate objects, etc.
+  }
+}
+```
+
+**Loading flow:** `scene.load()` → loaders run in a web worker → `on_assets_ready()` → compilators run (spread across frames) → `on_assets_compiled()` → high-quality load starts → `on_high_quality_assets_ready()`.
+
+**State flags:**
+
+| Property | Meaning |
+|----------|---------|
+| `scene.is_loaded` | Regular assets compiled and ready |
+| `scene.is_high_loaded` | High-quality assets loaded |
+| `scene.loading_progress` | 0–1 loading progress |
+
+---
+
+## ResourceContainer
+
+Singleton asset cache. Prevents duplicate loading of the same URL.
+
+```ts
+// Write (done automatically by loaders)
+ResourceContainer.set_resource('hero_tex', '/assets/hero.png', loadedTexture);
+
+// Read (use in on_assets_ready / on_assets_compiled)
+const tex = ResourceContainer.get('hero_tex');
+```
+
+Two different names pointing to the same URL resolve to the same object instance.
+
+---
+
+## Asset Loaders
+
+### Batch async loaders (used by AbstractScene)
+
+`AsyncObjectsLoader`, `AsyncTexturesLoader`, `AsyncAudiosLoader` — load arrays of asset descriptors in a shared web worker.
+
+### Individual loaders
+
+All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
+
+| Loader | Asset type |
+|--------|-----------|
+| `GLTFLoader` | `.gltf` / `.glb` |
+| `GLTFDRACOLoader` | DRACO-compressed GLTF |
+| `TextureLoader` | Images |
+| `AsyncTextureLoader` | Images (async, via ImageBitmap) |
+| `HDRTextureLoader` | `.hdr` equirectangular |
+| `HDRCubeTextureLoader` | HDR cubemaps |
+| `CubemapLoader` | Regular cubemaps |
+| `BasisLoader` | `.basis` compressed textures |
+| `AudioLoader` | Audio files |
+| `FontLoader` | Three.js JSON fonts |
+| `OBJLoader` | `.obj` meshes |
+| `DAELoader` | Collada `.dae` |
+| `VideoLoader` | Video textures |
+| `FileLoader` | Raw file fetch |
+| `TextLoader` | Text files |
+| `JSONLoader` | JSON files |
+| `PointArrayLoader` | Point array data |
+
+---
+
+## Materials
+
+### BaseShaderMaterial
+
+Base class for all custom shader materials. Extends Three.js `ShaderMaterial`.
+
+```ts
+class MyMaterial extends BaseShaderMaterial
+{
+  constructor()
+  {
+    super(vertGLSL, fragGLSL, {
+      _Color:   { value: new Color('#ffffff') },
+      _Texture: { value: null },
+      _Time:    { value: 0 }
+    });
+  }
+
+  update()
+  {
+    this.uniforms._Time.value = Time.elapsed_time;
+  }
+}
+```
+
+### Built-in materials
+
+`AddMaterial`, `BlitMaterial`, `UnrealBloomComposeMaterial`, `DualFilteringBlurMaterial` — ready-to-use post-processing materials.
+
+---
+
+## Render Utilities
+
+```ts
+// Dual-filter blur (efficient, large radius)
+const blurrer = new DualFilteringBlurrer();
+blurrer.blur(srcRT, dstRT, iterations);
+
+// Gaussian blur
+const gaussian = new GaussianBlurrer();
+gaussian.blur(srcRT, dstRT, radius);
+
+// Median filter
+const median = new MedianFilter();
+median.apply(srcRT, dstRT);
+
+// Depth + normals G-buffer
+Graphics.generate_depth_normal_texture = true;
+// Access via: Graphics.depth_normals_RT
+```
+
+---
+
+## Components
+
+Ready-to-use Three.js `Object3D` subclasses:
+
+| Class | Description |
+|-------|-------------|
+| `Grid` | Infinite ground grid |
+| `Line` | Line through 3D points |
+| `Text2D` | Screen-space 2D text |
+| `WorldImage` | Billboard image in world space |
+| `SDFTextBatch` | GPU-batched SDF text rendering |
+| `UpdatableMaterialMesh` | Mesh with a per-frame material update hook |
+
+---
+
+## Primitives
+
+```ts
+new Cube(size)
+new Sphere(radius, segments)
+new Arrow(origin, direction, color)
+new HorizontalPlane(width, height)
+new VerticalPlane(width, height)
+```
+
+---
+
+## KeyboardInput
+
+Not a singleton — instantiate as needed.
+
+```ts
+const kb = new KeyboardInput();
+kb.init(document);
+kb.register_key('Space');
+kb.register_key('KeyW');
+
+// In update():
+if (kb.is_key_pressed('Space'))   { /* triggered once on press */ }
+if (kb.is_key_down('KeyW'))       { /* true while held */ }
+if (kb.is_key_released('Space'))  { /* triggered once on release */ }
+
+kb.dispose(); // remove listeners
+```
+
+---
+
+## Debug
+
+Singleton for development-time overlays. All 3D objects added to a separate debug scene rendered after the main scene. Cleared automatically at frame end.
+
+```ts
+// 3D debug shapes (drawn in debug scene)
+Debug.draw_arrow(origin, direction, color);
+Debug.draw_line([p1, p2, p3], color);
+Debug.draw_cube(position, size, color);
+Debug.draw_sphere(position, radius, color);
+Debug.draw_axis();
+Debug.draw_texture(renderTarget.texture, width, height);
+
+// 2D overlay (requires Debug.ctx set to a CanvasRenderingContext2D)
+Debug.draw_rectangle(pos2d, width, height, color);
+Debug.draw_line_2D(from, to, color);
+```
+
+---
+
+## RenderLayers
+
+Named constants for Three.js layer indices:
+
+```ts
+RenderLayers.opaque       // 0 — default opaque geometry
+RenderLayers.transparent  // 1 — transparent geometry
+RenderLayers.outline      // 2 — outline-effect objects
+RenderLayers.selectable   // 3 — raycasting-selectable objects
+
+mesh.layers.set(RenderLayers.transparent);
+camera.layers.enable(RenderLayers.opaque);
+```
+
+---
+
+## OS / Browser / Capabilities
+
+Singletons for platform detection. All flags set once at `Initializer.init()`.
+
+```ts
+OS.is_mobile   // true on phones/tablets
+OS.is_ios      // true on iPhone/iPad
+OS.is_android  // true on Android
+OS.is_mac      // true on macOS
+OS.is_windows  // true on Windows
+
+Browser.is_chrome
+Browser.is_firefox
+Browser.is_safari
+
+Capabilities.supports_webgpu
+// etc.
+```
+
+---
+
+## ActionSequencer
+
+Event sequencing with interpolators — useful for scripted animations and transitions.
+
+```ts
+const seq = new ActionSequencer();
+seq.add(new ActionEvent(() => { /* instant action */ }));
+seq.add(new NumberInterpolator(fromVal, toVal, duration, (v) => { obj.position.x = v; }));
+seq.add(new VectorInterpolator(fromVec, toVec, duration, (v) => { obj.position.copy(v); }));
+seq.play();
+```
+
+---
+
+## View / UI System
+
+`ViewManager`, `ViewComponentManager`, and `ApplicationView` provide a UI layer abstraction above Three.js, with transition animations driven by `TransitionManager`. These are wired into the `RenderLoop` automatically and updated each frame.
+
+---
+
+## GPU Particles
+
+```ts
+const system = new GPUParticleSystem(count);
+system.add_attribute(new ParticlePositionAttribute(...));
+system.add_attribute(new ParticleAttribute('velocity', ...));
+scene.add(system.mesh);
+// Update in on_pre_render via custom compute shaders
+```
+
+---
+
+## Full Minimal Example
+
+```ts
+import {
+  Initializer, Graphics, RenderLoop, BaseApplication,
+  PerspectiveCamera, CameraManager, OScreen, SceneManager,
+  NormalRender, Time, AbstractScene
+} from '@ohzi/core';
+import { WebGPURenderer, AmbientLight, Mesh, BoxGeometry, MeshStandardMaterial } from 'three';
+
+// --- Scene ---
+class MyScene extends AbstractScene
+{
+  constructor()
+  {
+    super({ name: 'main', compilators: { SceneCompilator, TexturesCompilator, AudiosCompilator } });
+  }
+
+  init()
+  {
+    super.init();
+    const mesh = new Mesh(new BoxGeometry(), new MeshStandardMaterial({ color: 0x4488ff }));
+    this.add(mesh);
+    this.add(new AmbientLight(0xffffff, 1));
+  }
+
+  on_pre_render()
+  {
+    this.children[0].rotation.y += Time.dt;
+  }
+}
+
+// --- Application ---
+class App extends BaseApplication
+{
+  on_enter()
+  {
+    const scene = new MyScene();
+    scene.init();
+    SceneManager.current = scene;
+
+    const cam = new PerspectiveCamera(60, OScreen.aspect_ratio, 0.1, 1000);
+    cam.position.set(0, 1, 3);
+    CameraManager.current = cam;
+
+    Graphics.set_state(new NormalRender());
+  }
+}
+
+// --- Bootstrap ---
+const renderer = new WebGPURenderer({ antialias: true });
+document.body.appendChild(renderer.domElement);
+
+Initializer.init(input);
+Graphics.init({ renderer, core_attributes: {}, dpr: window.devicePixelRatio });
+
+const app = new App();
+const loop = new RenderLoop(app, Graphics, input);
+loop.start();
+```

@@ -1,0 +1,295 @@
+# OHZI Core — Instructions for Large Language Models
+
+> OHZI Core (`ohzi-core` on npm) is a TypeScript graphics library built on top of Three.js.
+> It provides a structured application lifecycle, scene management, asset loading,
+> shader materials, post-processing, and rendering pipelines for WebGL/WebGPU projects.
+> It is not standalone — it is designed to be used within the OHZI Boilerplate project.
+
+## Project Identity
+
+- **Name:** ohzi-core
+- **Author:** OHZI Interactive Studio
+- **License:** MIT
+- **Language:** TypeScript (ES Modules)
+- **Runtime dependency:** Three.js (0.183.0)
+- **Renderer target:** Three.js WebGPU renderer
+- **Repository:** https://github.com/ohzinteractive/core
+- **Companion project:** https://github.com/ohzinteractive/boilerplate
+
+## What This Library Does
+
+OHZI Core gives you:
+
+1. **A frame loop with lifecycle hooks** — Extend `BaseApplication` and override methods like `update()`, `on_pre_render()`, `fixed_update()`, etc. The `RenderLoop` class drives everything.
+2. **A managed rendering pipeline** — `Graphics` wraps the Three.js renderer. Swap between render modes (Normal, Unreal Bloom, Normal+AO, Deferred, VR, Debug Normals) at runtime.
+3. **Scene management with progressive loading** — `AbstractScene` provides a two-phase asset loading pipeline (regular + high-quality) with compilators that spread GPU upload work across frames.
+4. **30+ custom shader materials** — SSAO, bloom, Gaussian blur, dual-filter blur, FXAA, deferred rendering, SDF text, depth/normal passes, and more.
+5. **Asset loading** — 17 individual loaders (GLTF, DRACO, textures, HDR, cubemaps, audio, fonts, video, OBJ, DAE, etc.) plus async batch loaders. `ResourceContainer` deduplicates by URL.
+6. **Post-processing utilities** — Gaussian blur, dual-filtering blur, median filter, depth/normals renderer, blitter, material passes.
+7. **GPU particle system** — Simulation and rendering via data textures and custom shaders.
+8. **Camera controller** — Pluggable movement modes and states for interactive camera control.
+9. **View/UI layer** — `ViewManager`, `ViewComponent`, and `TransitionManager` for application state and animated transitions.
+10. **Utilities** — Math helpers (`OMath`), easing functions, geometry utilities, camera fitting, mesh sampling, raycasting, SDF text rendering, canvas drawing, CSS animation, and more.
+
+## Architecture Overview
+
+### Core Singletons
+
+These are instantiated once at module level and exported by name. They are initialized by `Initializer.init()`:
+
+| Singleton | Purpose |
+|---|---|
+| `Graphics` | Wraps Three.js renderer; manages render modes, blitting, screenshots |
+| `Time` | `delta_time`, `smooth_delta_time`, `elapsed_time`, fixed timestep (1/30) |
+| `OScreen` | Viewport dimensions (logical and physical), DPR, aspect ratio, resize detection |
+| `SceneManager` | Holds and disposes the active `AbstractScene` |
+| `CameraManager` | Global access to the active camera (and VR spectator camera) |
+| `Debug` | Debug visualization layer (3D shapes, textures, 2D overlays) |
+| `ResourceContainer` | Asset cache keyed by name and URL |
+| `OS` | Platform detection (mobile, iOS, Android, Mac, Windows, Linux) |
+| `Browser` | Browser detection |
+| `Capabilities` | GPU/feature capability detection |
+
+### Frame Lifecycle
+
+`RenderLoop` calls these hooks each frame in order:
+
+```
+Time.__update()
+on_post_start()        ← second frame only
+input.update()
+before_update()
+fixed_update()         ← runs in a loop at fixed 1/30s timestep
+update()
+ViewManager.update()
+on_pre_render()
+Graphics.update()      ← renders the scene via the active render mode
+on_post_render()
+Debug.render()
+on_frame_end()
+```
+
+Users implement these by extending `BaseApplication`:
+
+```typescript
+import { BaseApplication, RenderLoop, Graphics, Initializer } from 'ohzi-core';
+
+class MyApp extends BaseApplication {
+  on_enter(loop: RenderLoop) { /* setup */ }
+  update()                   { /* per-frame logic */ }
+  on_pre_render()            { /* before render */ }
+  on_post_render()           { /* after render */ }
+  fixed_update()             { /* physics at 1/30 */ }
+  on_exit(loop: RenderLoop)  { /* cleanup */ }
+}
+```
+
+### Initialization Sequence
+
+```typescript
+import { Initializer, Graphics, RenderLoop } from 'ohzi-core';
+
+// 1. Initialize core singletons
+Initializer.init(input);
+
+// 2. Initialize graphics (requires a renderer instance)
+Graphics.init({ renderer, core_attributes: { xr_enabled: false }, dpr });
+
+// 3. Create and start the render loop
+const app = new MyApp();
+const loop = new RenderLoop(app, Graphics, input);
+loop.start();
+```
+
+### Rendering Pipeline
+
+`Graphics` supports multiple render modes via `Graphics.set_state()`:
+
+| Render Mode | Description |
+|---|---|
+| `NormalRender` | Standard forward rendering |
+| `UnrealBloomRender` | Forward rendering with Unreal-style bloom post-processing |
+| `NormalAORender` | Forward rendering with SSAO |
+| `BloomRender` | Basic bloom rendering |
+| `DeferredRender` | Deferred rendering pipeline |
+| `VRRender` | WebXR stereo rendering |
+| `DebugNormalsRender` | Visualizes surface normals |
+
+All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`.
+
+### Scene & Asset Loading
+
+`AbstractScene` extends Three.js `Scene` with a two-phase loading pipeline:
+
+```
+load() → init() → RegularLoadingState → on_assets_ready() → compilators → on_assets_compiled()
+                 → HighQualityLoadingState → on_high_quality_assets_ready()
+```
+
+Individual asset loaders (all in `src/resource_loader/`):
+
+| Loader | Formats |
+|---|---|
+| `GLTFLoader` | .gltf, .glb |
+| `GLTFDRACOLoader` | DRACO-compressed GLTF |
+| `TextureLoader` | .png, .jpg, .webp, etc. |
+| `HDRTextureLoader` | .hdr |
+| `HDRCubeTextureLoader` | HDR cubemaps |
+| `CubemapLoader` | Standard cubemaps |
+| `BasisLoader` | Basis Universal textures |
+| `AudioLoader` | Audio files |
+| `VideoLoader` | Video files |
+| `FontLoader` | Font files |
+| `OBJLoader` | .obj |
+| `DAELoader` | .dae (Collada) |
+| `JSONLoader` | JSON data |
+| `FileLoader` | Raw files |
+| `TextLoader` | Text files |
+| `PointArrayLoader` | Point cloud data |
+
+Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`) handle groups of assets. `ResourceContainer` caches by URL to prevent duplicate loads.
+
+### Shader Materials
+
+25+ custom `ShaderMaterial` subclasses, all extending `BaseShaderMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`.
+
+Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `FXAAMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `SDFScreenTextMaterial`, `DeferredRendererComposeMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
+
+### Post-Processing Utilities
+
+| Utility | Purpose |
+|---|---|
+| `GaussianBlurrer` | Multi-pass Gaussian blur on render targets |
+| `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality) |
+| `MedianFilter` | Median filter pass |
+| `Blurrer` | Generic blur interface |
+| `DepthAndNormalsRenderer` | Generates depth/normal textures for SSAO and effects |
+| `Blitter` | Copies render targets with optional material passes |
+
+### Components
+
+Renderable components in `src/components/`:
+
+| Component | Purpose |
+|---|---|
+| `Grid` | Debug grid |
+| `Line` | Line rendering |
+| `Text2D` | Screen-space text |
+| `SDFTextBatch` | SDF-based text rendering (resolution-independent) |
+| `WorldImage` | Image plane in world space |
+| `UpdatableMaterialMesh` | Mesh with dynamically-updated material |
+| `Shape2D`, `Shape3D` | Shape primitives |
+| `MultiLinePath` | Multi-segment line paths |
+
+### View & Transition System
+
+| Class | Purpose |
+|---|---|
+| `ViewManager` | Manages application views/screens |
+| `ViewComponent` | Base class for UI view components |
+| `ViewComponentManager` | Manages view component lifecycle |
+| `ApplicationView` | Base class for application views |
+| `TransitionManager` | Manages animated transitions between states |
+| `TransitionTable` | Defines valid transitions |
+| `ActionSequencer` | Event sequencing with time-based interpolators |
+
+### Primitives
+
+Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `VerticalPlane`.
+
+### Utilities
+
+| Utility | Purpose |
+|---|---|
+| `OMath` | Extended math functions (lerp, clamp, map, etc.) |
+| `EasingFunctions` | Standard easing curves for animation |
+| `CameraUtilities` | Camera positioning, fitting, projection helpers |
+| `FrustumPointFitter` | Fits points within camera frustum |
+| `GeometryUtilities` | Geometry manipulation helpers |
+| `MeshSampler` | Random point sampling on mesh surfaces |
+| `ModelUtilities` | GLTF model processing helpers |
+| `ArrayUtilities` | Array manipulation helpers |
+| `StringUtilities` | String helpers |
+| `TimeUtilities` | Time formatting helpers |
+| `ImageUtilities` | Image processing helpers |
+| `HTMLUtilities` | DOM manipulation helpers |
+| `ObjectUtilities` | Object/map helpers |
+| `Validation` | Input validation |
+
+### GPU Particles
+
+`GPUParticleSystem` provides GPU-accelerated particle simulation and rendering using data textures and custom shaders. Configured via `ParticleAttribute` and `ParticlePositionAttribute`.
+
+### Camera Controller
+
+`CameraController` provides interactive camera control with pluggable movement modes (`CameraMovementMode`, `ImmediateMode`) and state machines (`AbstractCameraState`, `CommonCameraState`).
+
+## Source Directory Structure
+
+```
+src/
+  index.ts                    Main entry point (re-exports everything)
+  BaseApplication.ts          Base class users extend
+  RenderLoop.ts               Frame loop driver
+  Graphics.ts                 Renderer wrapper (singleton)
+  Time.ts                     Timing system (singleton)
+  OScreen.ts                  Screen metrics (singleton)
+  SceneManager.ts             Scene management (singleton)
+  CameraManager.ts            Camera access (singleton)
+  Initializer.ts              Bootstrap/teardown (singleton)
+  Debug.ts                    Debug visualization (singleton)
+  ResourceContainer.ts        Asset cache (singleton)
+  OS.ts                       Platform detection (singleton)
+  Browser.ts                  Browser detection
+  Capabilities.ts             GPU capabilities
+  KeyboardInput.ts            Keyboard state tracking
+  PerspectiveCamera.ts        Extended Three.js PerspectiveCamera
+  OrthographicCamera.ts       Extended Three.js OrthographicCamera
+  Screen.ts                   Screen utilities
+  action_sequencer/           Event sequencing and interpolators
+  camera_controller/          Camera controller with movement modes
+  canvas_drawer/              Canvas 2D drawing utilities
+  components/                 Renderable components (Grid, Text2D, SDF, etc.)
+  data_textures/              Data texture utilities
+  gpu_particles/              GPU particle system
+  html_utilities/             CSS animation helpers
+  lib/                        Internal library code
+  loaders/                    Async batch loaders
+  materials/                  25+ custom ShaderMaterials
+  primitives/                 Geometric primitives
+  raycast/                    Ray intersection utilities
+  render_mode/                Rendering strategies
+  render_utilities/           Post-processing (blur, depth, blit)
+  resource_loader/            17 individual asset loaders
+  scenes/                     AbstractScene and loading states
+  shaders/                    GLSL shader files (26 feature folders)
+  utilities/                  Math, easing, geometry, camera helpers
+  view_components/            View/UI layer with transitions
+```
+
+## Build System
+
+- **Bundler:** Rollup
+- **Output:** `build/index.mjs` (ES module with sourcemaps, minified with terser)
+- **Types:** `types/index.d.ts` (generated separately via `yarn generate-types`)
+- **GLSL:** Inlined via `rollup-plugin-glslify`
+- **Externals:** `three` and its sub-modules are not bundled
+
+## Commands
+
+```bash
+yarn start            # Development watch mode
+yarn build            # Production build
+yarn generate-types   # Generate TypeScript declarations
+yarn fix-syntax       # Lint and auto-fix with ESLint
+yarn upload           # Build, publish to npm, and create git tag
+```
+
+## Key Design Patterns
+
+1. **Singletons everywhere** — Core services are instantiated at module level and exported. Access them directly: `Time.delta_time`, `Graphics.render()`, `OScreen.width`, etc.
+2. **Lifecycle hooks** — Extend `BaseApplication` and override only the hooks you need. The framework calls them in the correct order.
+3. **Render mode swapping** — Change the entire rendering pipeline at runtime via `Graphics.set_state(new UnrealBloomRender())`.
+4. **Two-phase asset loading** — Regular assets load first (with compilators spreading GPU work across frames), then high-quality assets load in the background.
+5. **Fixed timestep** — Physics and deterministic logic runs in `fixed_update()` at 1/30s, with `frame_interpolation` available for smooth visual interpolation.
+6. **State machine application** — `RenderLoop.set_state()` swaps the active `BaseApplication` instance FSM-style, calling `on_exit`/`on_enter`.
