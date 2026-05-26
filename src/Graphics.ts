@@ -228,7 +228,7 @@ class Graphics
 
       this._renderer.setViewport(0, 0, OScreen.render_width, OScreen.render_height);
 
-      this._renderer.setSize(window.innerWidth, window.innerHeight);
+      this._renderer.setSize(OScreen.width, OScreen.height);
 
       this.__update_current_camera();
     }
