@@ -11,7 +11,7 @@
 - **Author:** OHZI Interactive Studio
 - **License:** MIT
 - **Language:** TypeScript (ES Modules)
-- **Runtime dependency:** Three.js (0.183.0)
+- **Runtime dependency:** Three.js (0.182.0)
 - **Renderer target:** Three.js WebGPU renderer
 - **Repository:** https://github.com/ohzinteractive/core
 - **Companion project:** https://github.com/ohzinteractive/boilerplate
