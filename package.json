@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "13.2.0",
+  "version": "13.2.1",
   "description": "OHZI Interactive Core Library",
   "type": "module",
   "source": "src/index.ts",
@@ -46,7 +46,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "three": "0.183.0"
+    "three": "0.182.0"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.3.0",
