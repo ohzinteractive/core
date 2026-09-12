@@ -1,6 +1,11 @@
 {
   // Change this to match your project
   "include": ["**/*"],
+  // Keeps the test harness out of declaration generation. Note that
+  // generate-types is independently broken at v13.3.0: it emits types/src
+  // and types/tasks rather than the flat types/ layout package.json
+  // publishes, and it fails on @types/three resolution. Unrelated to this.
+  "exclude": ["node_modules", "tests", "vitest.config.ts"],
   "compilerOptions": {
     // Tells TypeScript to read JS files, as
     // normally they are ignored as source files
