@@ -17,7 +17,17 @@ import { CameraManager } from './CameraManager';
 import { CanvasDrawer } from './canvas_drawer/CanvasDrawer';
 import { SimpleTextDrawer } from './canvas_drawer/SimpleTextDrawer';
 import { Capabilities } from './Capabilities';
+import { CameraBridge } from './dev_bridge/CameraBridge';
+import { CaptureService } from './dev_bridge/CaptureService';
+import { ConsoleBuffer } from './dev_bridge/ConsoleBuffer';
+import { InputSynthesizer } from './dev_bridge/InputSynthesizer';
+import { PerformanceProbe } from './dev_bridge/PerformanceProbe';
+import { RenderModeRegistry } from './dev_bridge/RenderModeRegistry';
+import { SceneEditor } from './dev_bridge/SceneEditor';
+import { SceneInspector } from './dev_bridge/SceneInspector';
+import { ViewNavigator } from './dev_bridge/ViewNavigator';
 import { Debug } from './Debug';
+import { DevBridge } from './dev_bridge/DevBridge';
 import { Graphics } from './Graphics';
 import { CSSAnimator } from './html_utilities/CSSAnimator';
 import { Initializer } from './Initializer';
@@ -125,12 +135,12 @@ import { AbstractCameraState } from './camera_controller/states/common/AbstractC
 import { CommonCameraState } from './camera_controller/states/common/CommonCameraState';
 
 export {
-    AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CommonCameraState, Compilator, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
+    AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, Blurrer, Browser, BufferGeometryUtils, CameraBridge, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CaptureService, CommonCameraState, Compilator, ConsoleBuffer, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DevBridge, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
-    ImageUtilities, ImmediateMode, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
+    ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
-    ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
-    ResourceContainer, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
-    ViewComponentManager, ViewManager, VRRender, WorldImage
+    ParticlePositionAttribute, PerformanceProbe, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, RenderModeRegistry, ResourceBatch,
+    ResourceContainer, SceneEditor, SceneInspector, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+    ViewComponentManager, ViewManager, ViewNavigator, VRRender, WorldImage
 };
