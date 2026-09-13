@@ -1,6 +1,6 @@
 {
   "name": "ohzi-core",
-  "version": "13.3.0",
+  "version": "14.0.0",
   "description": "OHZI Interactive Core Library",
   "type": "module",
   "source": "src/index.ts",
