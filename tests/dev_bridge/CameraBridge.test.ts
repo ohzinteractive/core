@@ -28,14 +28,19 @@ function make_controller()
     min_zoom: 1,
     max_zoom: 40,
     reference_position: { x: 0, y: 0, z: 0 },
-    quaternions: [] as unknown[],
+    rotations: [] as unknown[],
     focused: [] as unknown[],
     get_current_tilt() { return this.current_tilt; },
     get_current_orientation() { return this.current_orientation; },
     get_current_azimuth() { return this.current_azimuth; },
     set_normalized_zoom(zoom: number) { this.normalized_zoom = Math.min(1, Math.max(0, zoom)); },
-    build_rotation(tilt: number, orientation: number) { return { tilt, orientation }; },
-    set_quaternion(q: unknown) { this.quaternions.push(q); },
+    set_rotation(tilt?: number, orientation?: number, azimuth?: number)
+    {
+      this.rotations.push({ tilt, orientation, azimuth });
+      this.current_tilt = tilt ?? this.current_tilt;
+      this.current_orientation = orientation ?? this.current_orientation;
+      this.current_azimuth = azimuth ?? this.current_azimuth;
+    },
     focus_on_bounding_box(box: unknown, scale?: number) { this.focused.push({ box, scale }); }
   };
 }
@@ -94,7 +99,7 @@ describe('CameraBridge set orbital', () =>
 
     expect(controller.current_tilt).toBe(70);
     expect(controller.current_orientation).toBe(27);
-    expect(controller.quaternions).toEqual([{ tilt: 70, orientation: 27 }]);
+    expect(controller.rotations).toEqual([{ tilt: 70, orientation: 27, azimuth: undefined }]);
     expect(state.controller?.tilt).toBe(70);
   });
 

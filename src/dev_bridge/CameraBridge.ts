@@ -15,8 +15,7 @@ export interface OrbitalController
   get_current_orientation(): number;
   get_current_azimuth(): number;
   set_normalized_zoom(zoom: number): void;
-  build_rotation(tilt: number, orientation: number): unknown;
-  set_quaternion(quaternion: unknown): void;
+  set_rotation(tilt?: number, orientation?: number, azimuth?: number): void;
   focus_on_bounding_box(box: unknown, scale?: number): void;
 }
 
@@ -145,10 +144,9 @@ class CameraBridge
     return state;
   }
 
-  // CameraController.set_rotation reads `tilt || this.current_tilt`, so a value
-  // of 0 is silently discarded and no angle can ever be set back to zero. The
-  // fields are assigned directly and the quaternion rebuilt, which is exactly
-  // what set_rotation does minus that falsy check.
+  // Angles go through set_rotation, which is nullish-checked, so an omitted
+  // value keeps the current angle and an explicit 0 is applied. It also records
+  // old_orientation, which assigning the fields directly would skip.
   private apply_orbit(controller: OrbitalController, changes: CameraChanges, changed: string[]): void
   {
     const tilt = this.number(changes.tilt);
@@ -159,23 +157,24 @@ class CameraBridge
     {
       if (tilt !== null)
       {
-        controller.current_tilt = tilt;
         changed.push('tilt');
       }
 
       if (orientation !== null)
       {
-        controller.current_orientation = orientation;
         changed.push('orientation');
       }
 
       if (azimuth !== null)
       {
-        controller.current_azimuth = azimuth;
         changed.push('azimuth');
       }
 
-      controller.set_quaternion(controller.build_rotation(controller.current_tilt, controller.current_orientation));
+      controller.set_rotation(
+        tilt === null ? undefined : tilt,
+        orientation === null ? undefined : orientation,
+        azimuth === null ? undefined : azimuth
+      );
     }
 
     const zoom = this.number(changes.zoom);

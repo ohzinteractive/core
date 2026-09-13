@@ -185,13 +185,15 @@ export class CameraController
     return this.normalized_zoom < 0.2;
   }
 
-  set_rotation(tilt: number, orientation: number, azimuth = 0)
+  // Arguments are nullish-checked, not falsy-checked: a falsy check discards a
+  // value of 0, which made it impossible to return any angle to zero.
+  set_rotation(tilt?: number, orientation?: number, azimuth?: number)
   {
     this.old_orientation = this.current_orientation;
 
-    this.current_tilt = tilt || this.current_tilt;
-    this.current_orientation = orientation || this.current_orientation;
-    this.current_azimuth = azimuth || this.current_azimuth;
+    this.current_tilt = tilt ?? this.current_tilt;
+    this.current_orientation = orientation ?? this.current_orientation;
+    this.current_azimuth = azimuth ?? this.current_azimuth;
 
     this.set_quaternion(this.build_rotation(this.current_tilt, this.current_orientation)); //, this.current_azimuth
   }
