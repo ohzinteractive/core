@@ -26,7 +26,12 @@ const ANCHORS: Array<[string, string, string]> = [
   ['create-view', 'app/js/MainApplication.ts', "HomeView';"],
   ['create-view', 'app/js/MainApplication.ts', 'home_view: HomeView;'],
   ['create-view', 'app/js/MainApplication.ts', 'HomeView();'],
-  ['create-view', 'app/js/MainApplication.ts', 'home_view.start();']
+  ['create-view', 'app/js/MainApplication.ts', 'home_view.start();'],
+  ['create-component', 'app/css/application.scss', '__COMPONENTS__'],
+  ['create-component', 'index.pug', '__COMPONENTS__'],
+  ['create-component', 'app/js/MainApplication.ts', '__COMPONENTS__'],
+  ['create-component', 'app/js/view_components/Components.ts', '__COMPONENTS__'],
+  ['create-transition', 'app/js/views/home/HomeTransitionController.ts', '// __CUSTOM_TRANSITIONS__']
 ];
 
 describe.skipIf(!has_app)('scaffolder anchors still exist in the application', () =>

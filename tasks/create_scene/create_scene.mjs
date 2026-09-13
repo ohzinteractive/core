@@ -1,192 +1,77 @@
-import fs from 'fs';
 import path from 'path';
-import replace from 'replace-in-file';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
 
-class SceneCreator
+const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
+
+const ASSET_KINDS = ['objects', 'sounds', 'textures'];
+
+/**
+ * Builds the plan for a new scene.
+ * A scene is files only: it registers nothing, so there are no patches to
+ * apply and nothing to wire into the application.
+ */
+function plan_scene(raw_name, { root, dry_run = false })
 {
-  constructor()
+  const name = sanitize_name(raw_name);
+
+  if (name.length === 0)
   {
+    throw new Error('A scene name is required, for example: yarn create-scene Gallery');
   }
 
-  create_scene(name)
+  const pascal = capitalize(name);
+  const scaffolder = new Scaffolder({ root, dry_run });
+
+  scaffolder.create(
+    `app/js/scenes/${pascal}Scene.ts`,
+    render_template(path.join(TEMPLATES, 'TemplateScene.ts'), [
+      [/Template/g, pascal],
+      [/TEMPLATE/g, name.toUpperCase()],
+      [/template/g, name.replace(/_/g, '-')]
+    ])
+  );
+
+  for (const kind of ASSET_KINDS)
   {
-    const js_folder = path.join('..', 'app', 'js', 'scenes');
-    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}Scene.ts`);
+    scaffolder.create(
+      `app/data/assets/${name}/${name}_${kind}.js`,
+      render_template(path.join(TEMPLATES, `template_${kind}.js`), [[/template/g, name]])
+    );
 
-    const data_folder = path.join('..', 'app', 'data', 'assets', name);
-    const objects_data_path = path.join(data_folder, `${name}_objects.js`);
-    const sounds_data_path = path.join(data_folder, `${name}_sounds.js`);
-    const textures_data_path = path.join(data_folder, `${name}_textures.js`);
-
-    const data_high_folder = path.join('..', 'app', 'data', 'assets', name, 'high');
-    const high_objects_data_path = path.join(data_high_folder, `${name}_high_objects.js`);
-    const high_sounds_data_path = path.join(data_high_folder, `${name}_high_sounds.js`);
-    const high_textures_data_path = path.join(data_high_folder, `${name}_high_textures.js`);
-
-    this.__copy_template_js(js_folder, js_scene_path, name, 'Scene');
-
-    this.__copy_template_data(data_folder, 'template_objects', objects_data_path, name);
-    this.__copy_template_data(data_folder, 'template_sounds', sounds_data_path, name);
-    this.__copy_template_data(data_folder, 'template_textures', textures_data_path, name);
-
-    this.__copy_template_data(data_high_folder, 'template_high_objects', high_objects_data_path, name);
-    this.__copy_template_data(data_high_folder, 'template_high_sounds', high_sounds_data_path, name);
-    this.__copy_template_data(data_high_folder, 'template_high_textures', high_textures_data_path, name);
-
-    // this.__update_scene_controller_file(name);
+    scaffolder.create(
+      `app/data/assets/${name}/high/${name}_high_${kind}.js`,
+      render_template(path.join(TEMPLATES, `template_high_${kind}.js`), [[/template/g, name]])
+    );
   }
 
-  // __update_scene_controller_file(name)
-  // {
-  //   const new_import = `HomeScene';\nimport { ${this.capitalize(name)}Scene } from '../scenes/${this.capitalize(name)}Scene';`;
-  //   const file_path = path.join('..', 'app', 'js', 'components', 'SceneController.ts');
+  return scaffolder;
+}
 
-  //   const options_1 = {
-  //     files: file_path,
-  //     from: 'HomeScene\';',
-  //     to: new_import
-  //   };
+function main(argv)
+{
+  const args = argv.slice(2);
+  const dry_run = args.includes('--dry-run');
+  const raw_name = args.find((entry) => !entry.startsWith('--'));
+  const root = path.resolve(process.cwd(), '..');
 
-  //   const new_section = `HomeScene();\n    this.${name.toLowerCase()}_scene = new ${this.capitalize(name)}Scene();`;
-
-  //   const options_2 = {
-  //     files: file_path,
-  //     from: 'HomeScene();',
-  //     to: new_section
-  //   };
-
-  //   const new_section_start = `this.scenes = [\n      this.${name.toLowerCase()}_scene,`;
-
-  //   const options_3 = {
-  //     files: file_path,
-  //     from: 'this.scenes = [',
-  //     to: new_section_start
-  //   };
-
-  //   try
-  //   {
-  //     replace.sync(options_1);
-  //     replace.sync(options_2);
-  //     replace.sync(options_3);
-  //     console.log('\x1b[33m', `${file_path} Modified`);
-  //   }
-  //   catch (error)
-  //   {
-  //     console.error('Error occurred:', error);
-  //   }
-  // }
-
-  __copy_template_js(js_folder, view_path, name, file_type)
+  try
   {
-    fs.mkdir(js_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_scene', `Template${file_type}.ts`),
-          view_path
-        );
+    const report = plan_scene(raw_name, { root, dry_run }).run();
 
-        this.__replace_js_words(view_path, name);
-      }
-    });
+    return print_report(report, `create-scene ${sanitize_name(raw_name)}`);
   }
-
-  __copy_template_data(js_folder, template_name, data_path, name)
+  catch (error)
   {
-    fs.mkdir(js_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_scene', `${template_name}.js`),
-          data_path
-        );
+    console.error(`\x1b[31m${error.message}\x1b[0m`);
 
-        this.__replace_data_words(data_path, name);
-      }
-    });
-  }
-
-  __replace_data_words(path, name)
-  {
-    const options = {
-      files: path,
-      from: /template/g,
-      to: name
-    };
-
-    try
-    {
-      replace.sync(options);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __replace_js_words(path, name)
-  {
-    const options_1 = {
-      files: path,
-      from: /Template/g,
-      to: this.capitalize(name)
-    };
-
-    const options_2 = {
-      files: path,
-      from: /TEMPLATE/g,
-      to: name.toUpperCase()
-    };
-
-    const options_3 = {
-      files: path,
-      from: /template/g,
-      to: name.replace(/_/g, '-')
-    };
-
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      replace.sync(options_3);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  capitalize(string)
-  {
-    let aux_string = this.snake_to_camelcase(string);
-    aux_string = this.capitalize_first_letter(aux_string);
-
-    return aux_string;
-  }
-
-  capitalize_first_letter(string)
-  {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  snake_to_camelcase(string)
-  {
-    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
+    return 1;
   }
 }
 
-new SceneCreator().create_scene(process.argv.slice(2)[0]);
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href)
+{
+  process.exit(main(process.argv));
+}
+
+export { main, plan_scene };

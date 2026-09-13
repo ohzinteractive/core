@@ -134,6 +134,88 @@ describe('Scaffolder patch', () =>
   });
 });
 
+describe('Scaffolder ensure', () =>
+{
+  it('applies when the anchor is there', () =>
+  {
+    write('f.ts', '// import { X } from "y";');
+
+    const report = new Scaffolder({ root })
+      .ensure('f.ts', '// import { X } from "y";', 'import { X } from "y";', 'uncomment X')
+      .run();
+
+    expect(report.applied).toBe(true);
+    expect(read('f.ts')).toBe('import { X } from "y";');
+    expect(report.skipped).toHaveLength(0);
+  });
+
+  it('reports a skip rather than failing when the work is already done', () =>
+  {
+    write('f.ts', 'import { X } from "y";');
+
+    const report = new Scaffolder({ root })
+      .ensure('f.ts', '// import { X } from "y";', 'import { X } from "y";', 'uncomment X')
+      .run();
+
+    expect(report.errors).toHaveLength(0);
+    expect(report.applied).toBe(true);
+    expect(report.patched).toHaveLength(0);
+    expect(report.skipped[0].label).toBe('uncomment X');
+  });
+
+  it('does not rescue a required patch', () =>
+  {
+    write('f.ts', 'unrelated');
+
+    const report = new Scaffolder({ root })
+      .patch('f.ts', 'missing anchor', 'x', 'required step')
+      .run();
+
+    expect(report.applied).toBe(false);
+  });
+
+  it('still fails when the end state is genuinely absent', () =>
+  {
+    // Neither the commented nor the uncommented import is present, so skipping
+    // would leave code referencing something that was never imported.
+    write('f.ts', 'nothing relevant here');
+
+    const report = new Scaffolder({ root })
+      .ensure('f.ts', '// import { X } from "y";', 'import { X } from "y";', 'uncomment X')
+      .run();
+
+    expect(report.applied).toBe(false);
+    expect(report.errors[0]).toContain('anchor not found');
+  });
+});
+
+describe('Scaffolder dependent steps', () =>
+{
+  it('lets a patch use an anchor an earlier patch created', () =>
+  {
+    write('f.ts', 'ANCHOR\n');
+
+    const report = new Scaffolder({ root })
+      .patch('f.ts', 'ANCHOR', 'ANCHOR\nconst made = new Thing();', 'create it')
+      .patch('f.ts', 'new Thing();', 'new Thing();\nmade.start();', 'use it')
+      .run();
+
+    expect(report.applied).toBe(true);
+    expect(read('f.ts')).toContain('made.start();');
+  });
+
+  it('lets a patch target a file created in the same run', () =>
+  {
+    const report = new Scaffolder({ root })
+      .create('made.ts', 'MARKER\n')
+      .patch('made.ts', 'MARKER', 'MARKER\nextra', 'extend the new file')
+      .run();
+
+    expect(report.applied).toBe(true);
+    expect(read('made.ts')).toBe('MARKER\nextra\n');
+  });
+});
+
 describe('Scaffolder atomicity and reporting', () =>
 {
   it('writes nothing at all when any single step is invalid', () =>

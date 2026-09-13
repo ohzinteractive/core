@@ -35,7 +35,23 @@ class Scaffolder
    */
   patch(relative_path, from, to, label)
   {
-    this.patches.push({ relative_path, from, to, label: label ?? relative_path });
+    this.patches.push({ relative_path, from, to, label: label ?? relative_path, required: true });
+
+    return this;
+  }
+
+  /**
+   * Queue a replacement that only has to end in the right state.
+   *
+   * Used where a step may legitimately already be done, such as uncommenting an
+   * import that an earlier run of a different feature already uncommented. It
+   * tolerates "already applied" and reports it, but a genuinely absent end
+   * state is still an error: skipping it would leave code referencing something
+   * that was never imported.
+   */
+  ensure(relative_path, from, to, label)
+  {
+    this.patches.push({ relative_path, from, to, label: label ?? relative_path, required: false });
 
     return this;
   }
@@ -45,79 +61,190 @@ class Scaffolder
     return path.resolve(this.root, relative_path);
   }
 
-  validate()
+  /**
+   * Decides what a queued patch would do against the current file contents.
+   *
+   * The order of the two checks matters and depends on the shape of the patch.
+   * An append keeps the anchor inside the replacement, so `from` is still
+   * present after a successful run and only the presence of `to` can tell you
+   * it is done. An uncomment does the reverse: the replacement is a substring
+   * of the anchor, so `to` looks present even before the patch runs. Comparing
+   * the two strings tells us which case we are in without the caller having to
+   * say.
+   */
+  classify(entry)
   {
+    const target = this.absolute(entry.relative_path);
+
+    if (!fs.existsSync(target))
+    {
+      return 'no_file';
+    }
+
+    const current = fs.readFileSync(target, 'utf8');
+    const has_from = current.includes(entry.from);
+    const has_to = current.includes(entry.to);
+    const appends = entry.to.includes(entry.from);
+
+    if (appends)
+    {
+      if (has_to)
+      {
+        return 'applied';
+      }
+
+      return has_from ? 'apply' : 'missing_anchor';
+    }
+
+    if (has_from)
+    {
+      return 'apply';
+    }
+
+    return has_to ? 'applied' : 'missing_anchor';
+  }
+
+  /**
+   * Works out what each queued step would do, running them against an in-memory
+   * copy so a step can depend on an earlier one. create-component relies on
+   * this: it patches an anchor that an earlier patch in the same run creates.
+   *
+   * Nothing is written during simulation, so a plan that fails anywhere leaves
+   * the project untouched.
+   */
+  simulate()
+  {
+    const files = new Map();
     const errors = [];
+    const created = [];
+    const patched = [];
+    const skipped = [];
 
     for (const entry of this.creates)
     {
-      if (fs.existsSync(this.absolute(entry.relative_path)))
+      if (fs.existsSync(this.absolute(entry.relative_path)) || files.has(entry.relative_path))
       {
         errors.push(`already exists: ${entry.relative_path}`);
+        continue;
       }
+
+      files.set(entry.relative_path, entry.contents);
+      created.push(entry.relative_path);
     }
 
     for (const entry of this.patches)
     {
-      const target = this.absolute(entry.relative_path);
+      const target = { file: entry.relative_path, label: entry.label };
+      let current = files.get(entry.relative_path);
 
-      if (!fs.existsSync(target))
+      if (current === undefined)
       {
-        errors.push(`cannot patch a missing file: ${entry.relative_path}`);
+        const absolute = this.absolute(entry.relative_path);
+
+        if (!fs.existsSync(absolute))
+        {
+          errors.push(`cannot patch a missing file: ${entry.relative_path}`);
+          continue;
+        }
+
+        current = fs.readFileSync(absolute, 'utf8');
+      }
+
+      const verdict = this.classify(entry, current);
+
+      if (verdict === 'apply')
+      {
+        files.set(entry.relative_path, current.replace(entry.from, entry.to));
+        patched.push(target);
         continue;
       }
 
-      const current = fs.readFileSync(target, 'utf8');
-
-      if (current.includes(entry.to))
+      if (verdict === 'applied')
       {
-        errors.push(`already applied, refusing to duplicate: ${entry.label}`);
+        if (entry.required)
+        {
+          errors.push(`already applied, refusing to duplicate: ${entry.label}`);
+        }
+        else
+        {
+          skipped.push({ ...target, reason: 'already in place' });
+        }
+
         continue;
       }
 
-      if (!current.includes(entry.from))
-      {
-        errors.push(`anchor not found in ${entry.relative_path}, so this would silently do nothing: ${entry.label}`);
-      }
+      // A missing anchor fails whether the step was required or merely ensured:
+      // an ensured step still has to end up present.
+      errors.push(`anchor not found in ${entry.relative_path}, so this would silently do nothing: ${entry.label}`);
     }
 
-    return errors;
+    return { files, errors, created, patched, skipped };
+  }
+
+  /**
+   * Decides what a queued patch would do against the given contents.
+   *
+   * The order of the two checks depends on the shape of the patch. An append
+   * keeps the anchor inside its replacement, so the anchor is still present
+   * afterwards and only the presence of the replacement proves it ran. An
+   * uncomment is the reverse: the replacement is a substring of the anchor, so
+   * it looks present before the patch runs. Comparing the two strings tells us
+   * which case we are in without the caller having to say.
+   */
+  classify(entry, current)
+  {
+    const has_from = current.includes(entry.from);
+    const has_to = current.includes(entry.to);
+    const appends = entry.to.includes(entry.from);
+
+    if (appends)
+    {
+      if (has_to)
+      {
+        return 'applied';
+      }
+
+      return has_from ? 'apply' : 'missing_anchor';
+    }
+
+    if (has_from)
+    {
+      return 'apply';
+    }
+
+    return has_to ? 'applied' : 'missing_anchor';
+  }
+
+  validate()
+  {
+    return this.simulate().errors;
   }
 
   run()
   {
-    const errors = this.validate();
+    const outcome = this.simulate();
 
     const report = {
       dry_run: this.dry_run,
-      errors,
-      created: this.creates.map((entry) => entry.relative_path),
-      patched: this.patches.map((entry) => ({ file: entry.relative_path, label: entry.label }))
+      errors: outcome.errors,
+      created: outcome.created,
+      patched: outcome.patched,
+      skipped: outcome.skipped
     };
 
-    if (errors.length > 0 || this.dry_run)
+    if (outcome.errors.length > 0 || this.dry_run)
     {
       report.applied = false;
 
       return report;
     }
 
-    for (const entry of this.creates)
+    for (const [relative, contents] of outcome.files)
     {
-      const target = this.absolute(entry.relative_path);
+      const target = this.absolute(relative);
 
       fs.mkdirSync(path.dirname(target), { recursive: true });
-      fs.writeFileSync(target, entry.contents, 'utf8');
-    }
-
-    for (const entry of this.patches)
-    {
-      const target = this.absolute(entry.relative_path);
-      const current = fs.readFileSync(target, 'utf8');
-
-      // String.replace swaps the first occurrence only, matching the behaviour
-      // the previous replace-in-file calls relied on.
-      fs.writeFileSync(target, current.replace(entry.from, entry.to), 'utf8');
+      fs.writeFileSync(target, contents, 'utf8');
     }
 
     report.applied = true;
@@ -185,6 +312,11 @@ function print_report(report, label)
   for (const entry of report.patched)
   {
     console.log(`\x1b[33m${report.dry_run ? 'would patch' : 'patched'}\x1b[0m ${entry.file} (${entry.label})`);
+  }
+
+  for (const entry of report.skipped ?? [])
+  {
+    console.log(`\x1b[90mskipped\x1b[0m ${entry.file} (${entry.label}: ${entry.reason})`);
   }
 
   if (report.dry_run)

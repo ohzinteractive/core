@@ -1,150 +1,100 @@
 import fs from 'fs';
 import path from 'path';
-import replace from 'replace-in-file';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
 
-class TransitionCreator
+const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Builds the plan for a custom transition between two existing views.
+ *
+ * The two import patches uncomment lines rather than appending to them, so a
+ * second transition into the same view finds them already uncommented. Those
+ * are queued as optional and reported as skipped rather than failing the run.
+ */
+function plan_transition(raw_from, raw_to, { root, dry_run = false })
 {
-  constructor()
+  const from = sanitize_name(raw_from);
+  const to = sanitize_name(raw_to);
+
+  if (from.length === 0 || to.length === 0)
   {
+    throw new Error('Two view names are required, for example: yarn create-transition home gallery');
   }
 
-  create_view(from_view_name, to_view_name)
+  if (from === to)
   {
-    const json_name = `${from_view_name}_to_${to_view_name}`;
-    const transition_data_path = path.join('..', 'app', 'data', 'custom_transitions', `${json_name}.json`);
-
-    this.__copy_template_data(transition_data_path);
-    this.__update_transitions_file(from_view_name, to_view_name);
+    throw new Error('A transition needs two different views.');
   }
 
-  __update_transitions_file(from_view_name, to_view_name)
+  const controller = `app/js/views/${to}/${capitalize(to)}TransitionController.ts`;
+
+  if (!fs.existsSync(path.resolve(root, controller)))
   {
-    const file_path = path.join('..', 'app', 'js', 'views', to_view_name.toLowerCase(), `${this.capitalize(to_view_name)}TransitionController.ts`);
-    const json_name = `${from_view_name.toLowerCase()}_to_${to_view_name.toLowerCase()}`;
-
-    const view_manager_import = 'import { TransitionManager } from \'ohzi-core\';';
-
-    const options_1 = {
-      files: file_path,
-      from: '// import { TransitionManager } from \'ohzi-core\';',
-      to: view_manager_import
-    };
-
-    const sections_import = 'import { Sections } from \'../Sections\';';
-
-    const options_2 = {
-      files: file_path,
-      from: '// import { Sections } from \'../Sections\';',
-      to: sections_import
-    };
-
-    const new_import = `TransitionController';\nimport ${json_name} from '../../../data/custom_transitions/${json_name}.json';`;
-
-    const options_3 = {
-      files: file_path,
-      from: 'TransitionController\';',
-      to: new_import
-    };
-
-    const new_data = `// __CUSTOM_TRANSITIONS__
-    TransitionManager.add_transitions([
-      {
-        from: Sections.${from_view_name.toUpperCase()},
-        to: Sections.${to_view_name.toUpperCase()},
-        data: ${json_name}
-      }
-    ]);`;
-
-    const options_4 = {
-      files: file_path,
-      from: '// __CUSTOM_TRANSITIONS__',
-      to: new_data
-    };
-
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      replace.sync(options_3);
-      replace.sync(options_4);
-
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
+    throw new Error(`No view named '${to}'. Expected ${controller}. Create the view first with: yarn create-view ${to}`);
   }
 
-  __copy_template_data(data_path)
-  {
-    fs.copyFileSync(
-      path.join('tasks', 'create_transition', 'template.json'),
-      data_path
+  const json_name = `${from}_to_${to}`;
+  const scaffolder = new Scaffolder({ root, dry_run });
+
+  scaffolder.create(
+    `app/data/custom_transitions/${json_name}.json`,
+    render_template(path.join(TEMPLATES, 'template.json'), [[/template/g, json_name]])
+  );
+
+  scaffolder
+    .ensure(
+      controller,
+      "// import { TransitionManager } from 'ohzi-core';",
+      "import { TransitionManager } from 'ohzi-core';",
+      'uncomment TransitionManager import'
+    )
+    .ensure(
+      controller,
+      "// import { Sections } from '../Sections';",
+      "import { Sections } from '../Sections';",
+      'uncomment Sections import'
+    )
+    .patch(
+      controller,
+      "TransitionController';",
+      `TransitionController';\nimport ${json_name} from '../../../data/custom_transitions/${json_name}.json';`,
+      'transition data import'
+    )
+    .patch(
+      controller,
+      '// __CUSTOM_TRANSITIONS__',
+      `// __CUSTOM_TRANSITIONS__\n    TransitionManager.add_transitions([\n      {\n        from: Sections.${from.toUpperCase()},\n        to: Sections.${to.toUpperCase()},\n        data: ${json_name}\n      }\n    ]);`,
+      `${from} to ${to} registration`
     );
 
-    console.log('\x1b[32m', `${data_path} Created`);
+  return scaffolder;
+}
 
-    // this.__replace_data_words(data_path, name);
-  }
+function main(argv)
+{
+  const args = argv.slice(2);
+  const dry_run = args.includes('--dry-run');
+  const names = args.filter((entry) => !entry.startsWith('--'));
+  const root = path.resolve(process.cwd(), '..');
 
-  __copy_template_scss(scss_folder, scss_path, name)
+  try
   {
-    fs.mkdir(scss_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_view', '_template.scss'),
-          scss_path
-        );
+    const report = plan_transition(names[0], names[1], { root, dry_run }).run();
 
-        this.__replace_scss_words(scss_path, name);
-      }
-    });
+    return print_report(report, `create-transition ${names[0]} to ${names[1]}`);
   }
-
-  // __replace_data_words(path, name)
-  // {
-  //   const options = {
-  //     files: path,
-  //     from: 'template',
-  //     to: name
-  //   };
-
-  //   try
-  //   {
-  //     replace.sync(options);
-
-  //     console.log('\x1b[32m', `${path} Created`);
-  //   }
-  //   catch (error)
-  //   {
-  //     console.error('Error occurred:', error);
-  //   }
-  // }
-
-  capitalize(string)
+  catch (error)
   {
-    let aux_string = this.snake_to_camelcase(string);
-    aux_string = this.capitalize_first_letter(aux_string);
+    console.error(`\x1b[31m${error.message}\x1b[0m`);
 
-    return aux_string;
-  }
-
-  capitalize_first_letter(string)
-  {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  snake_to_camelcase(string)
-  {
-    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
+    return 1;
   }
 }
 
-new TransitionCreator().create_view(process.argv.slice(2)[0], process.argv.slice(2)[1]);
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href)
+{
+  process.exit(main(process.argv));
+}
+
+export { main, plan_transition };
