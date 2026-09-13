@@ -1,419 +1,153 @@
-import fs from 'fs';
 import path from 'path';
-import replace from 'replace-in-file';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
 
-class ViewCreator
+const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Builds the complete plan for a new view without touching disk.
+ *
+ * Note there is deliberately no GeneralLoader patch. The old script tried to
+ * add a transition-data import there, but that import was removed from
+ * GeneralLoader during the js-to-ts refactor and every view now imports its own
+ * transition json directly, as TemplateView does. The patch had been silently
+ * doing nothing ever since.
+ * Exported so it can be tested, and so `--dry-run` and the real run share one
+ * definition of what creating a view means.
+ */
+function plan_view(raw_name, { root, dry_run = false })
 {
-  constructor()
+  const name = sanitize_name(raw_name);
+
+  if (name.length === 0)
   {
+    throw new Error('A view name is required, for example: yarn create-view Gallery');
   }
 
-  create_view(name)
+  const pascal = capitalize(name);
+  const upper = name.toUpperCase();
+  const dashed = name.replace(/_/g, '-');
+
+  // Order matters: the broad /template/ replacement must run last, after the
+  // more specific placeholders have been consumed.
+  const code = [
+    [/Template/g, pascal],
+    [/TEMPLATE/g, upper],
+    [/template_data/g, `${name}_data`],
+    [/template\.json/g, `${name}.json`],
+    [/template/g, dashed]
+  ];
+
+  const scaffolder = new Scaffolder({ root, dry_run });
+
+  for (const kind of ['View', 'SceneController', 'TransitionController'])
   {
-    name = this.__sanitize_name(name);
-
-    const js_folder = path.join('..', 'app', 'js', 'views', name);
-    const js_transition_path = path.join(js_folder, `${this.capitalize(name)}TransitionController.ts`);
-    const js_scene_path = path.join(js_folder, `${this.capitalize(name)}SceneController.ts`);
-    const js_view_path = path.join(js_folder, `${this.capitalize(name)}View.ts`);
-
-    const transition_data_path = path.join('..', 'app', 'data', 'transitions', `${name}.json`);
-
-    const pug_folder = path.join('..', 'app', 'views', name);
-    const pug_path = path.join(pug_folder, `${name}.pug`);
-
-    const scss_folder = path.join('..', 'app', 'css', name);
-    const scss_path = path.join(scss_folder, `_${name}.scss`);
-
-    this.__copy_template_js(js_folder, js_transition_path, name, 'TransitionController');
-    this.__copy_template_js(js_folder, js_scene_path, name, 'SceneController');
-    this.__copy_template_js(js_folder, js_view_path, name, 'View');
-
-    this.__copy_template_data(transition_data_path, name);
-    this.__copy_template_pug(pug_folder, pug_path, name);
-    this.__copy_template_scss(scss_folder, scss_path, name);
-
-    this.__update_default_data_file(name);
-    this.__update_index_pug_file(name);
-    this.__update_application_scss_file(name);
-    this.__update_general_loader_file(name);
-    this.__update_sections_file(name);
-    this.__update_mainapp_file(name);
+    scaffolder.create(
+      `app/js/views/${name}/${pascal}${kind}.ts`,
+      render_template(path.join(TEMPLATES, `Template${kind}.ts`), code)
+    );
   }
 
-  __sanitize_name(name)
-  {
-    return name.trim().toLowerCase().replace(/-/g, '_').replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
-  }
+  scaffolder.create(
+    `app/data/transitions/${name}.json`,
+    render_template(path.join(TEMPLATES, 'template.json'), [[/template/g, name]])
+  );
 
-  __update_default_data_file(name)
-  {
-    const new_data = `loader_opacity: 0,\n  ${name}_opacity: 0,`;
-    const file_path = path.join('..', 'app', 'data', 'default_state_data.js');
+  scaffolder.create(
+    `app/views/${name}/${name}.pug`,
+    render_template(path.join(TEMPLATES, 'template.pug'), [[/template/g, dashed]])
+  );
 
-    const options = {
-      files: file_path,
-      from: 'loader_opacity: 0,',
-      to: new_data
-    };
+  scaffolder.create(
+    `app/css/${name}/_${name}.scss`,
+    render_template(path.join(TEMPLATES, '_template.scss'), [[/template/g, dashed]])
+  );
 
-    try
-    {
-      replace.sync(options);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __update_application_scss_file(name)
-  {
-    const new_data = `__SECTIONS__\n@import '${name}/${name}';`;
-    const file_path = path.join('..', 'app', 'css', 'application.scss');
-
-    const options = {
-      files: file_path,
-      from: '__SECTIONS__',
-      to: new_data
-    };
-
-    try
-    {
-      replace.sync(options);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __update_index_pug_file(name)
-  {
-    const new_data = `__SECTIONS__\n      include app/views/${name}/${name}`;
-    const file_path = path.join('..', 'index.pug');
-
-    const options = {
-      files: file_path,
-      from: '__SECTIONS__',
-      to: new_data
-    };
-
-    try
-    {
-      replace.sync(options);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __update_general_loader_file(name)
-  {
-    const new_import = `home.json';\nimport ${name}_data from '../../data/transitions/${name}.json';`;
-    const file_path = path.join('..', 'app', 'js', 'loaders', 'GeneralLoader.ts');
-
-    const options_1 = {
-      files: file_path,
-      from: 'home.json\';',
-      to: new_import
-    };
-
-    try
-    {
-      replace.sync(options_1);
-
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __update_mainapp_file(name)
-  {
-    const new_import = `HomeView';\nimport { ${this.capitalize(name)}View } from './views/${name}/${this.capitalize(name)}View';`;
-    const file_path = path.join('..', 'app', 'js', 'MainApplication.ts');
-
-    const options_1 = {
-      files: file_path,
-      from: 'HomeView\';',
-      to: new_import
-    };
-
-    const new_section = `HomeView();\n    this.${name.toLowerCase()}_view = new ${this.capitalize(name)}View();`;
-
-    const options_2 = {
-      files: file_path,
-      from: 'HomeView();',
-      to: new_section
-    };
-
-    const new_section_start = `home_view.start();\n    this.${name.toLowerCase()}_view.start();`;
-
-    const options_3 = {
-      files: file_path,
-      from: 'home_view.start();',
-      to: new_section_start
-    };
-
-    const options_4 = {
-      files: file_path,
-      from: 'home_view: HomeView;',
-      to: `home_view: HomeView;\n  ${name.toLowerCase()}_view: ${this.capitalize(name)}View;`
-    };
-
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      replace.sync(options_3);
-      replace.sync(options_4);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __update_sections_file(name)
-  {
-    const new_section = `'initial',\n  ${name.toUpperCase()}: '${name.toLowerCase()}',`;
-    const new_section_url = `'/initial',\n  ${name.toUpperCase()}: '/${name.replace(/_/g, '-')}',`;
-    const file_path = path.join('..', 'app', 'js', 'views', 'Sections.ts');
-
-    const options_1 = {
-      files: file_path,
-      from: '\'initial\',',
-      to: new_section
-    };
-
-    const options_2 = {
-      files: file_path,
-      from: '\'/initial\',',
-      to: new_section_url
-    };
-
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      console.log('\x1b[33m', `${file_path} Modified`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __copy_template_js(js_folder, view_path, name, file_type)
-  {
-    fs.mkdir(js_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_view', `Template${file_type}.ts`),
-          view_path
-        );
-
-        this.__replace_js_words(view_path, name);
-      }
-    });
-  }
-
-  __copy_template_data(data_path, name)
-  {
-    fs.copyFileSync(
-      path.join('tasks', 'create_view', 'template.json'),
-      data_path
+  scaffolder
+    .patch(
+      'app/data/default_state_data.js',
+      'loader_opacity: 0,',
+      `loader_opacity: 0,\n  ${name}_opacity: 0,`,
+      `${name}_opacity transition state`
+    )
+    .patch(
+      'app/css/application.scss',
+      '__SECTIONS__',
+      `__SECTIONS__\n@import '${name}/${name}';`,
+      'scss import'
+    )
+    .patch(
+      'index.pug',
+      '__SECTIONS__',
+      `__SECTIONS__\n      include app/views/${name}/${name}`,
+      'pug include'
+    )
+    .patch(
+      'app/js/views/Sections.ts',
+      "'initial',",
+      `'initial',\n  ${upper}: '${name}',`,
+      'section name'
+    )
+    .patch(
+      'app/js/views/Sections.ts',
+      "'/initial',",
+      `'/initial',\n  ${upper}: '/${dashed}',`,
+      'section url'
+    )
+    .patch(
+      'app/js/MainApplication.ts',
+      "HomeView';",
+      `HomeView';\nimport { ${pascal}View } from './views/${name}/${pascal}View';`,
+      'view import'
+    )
+    .patch(
+      'app/js/MainApplication.ts',
+      'home_view: HomeView;',
+      `home_view: HomeView;\n  ${name}_view: ${pascal}View;`,
+      'view field'
+    )
+    .patch(
+      'app/js/MainApplication.ts',
+      'HomeView();',
+      `HomeView();\n    this.${name}_view = new ${pascal}View();`,
+      'view instantiation'
+    )
+    .patch(
+      'app/js/MainApplication.ts',
+      'home_view.start();',
+      `home_view.start();\n    this.${name}_view.start();`,
+      'view start'
     );
 
-    this.__replace_data_words(data_path, name);
-  }
+  return scaffolder;
+}
 
-  __copy_template_scss(scss_folder, scss_path, name)
+function main(argv)
+{
+  const args = argv.slice(2);
+  const dry_run = args.includes('--dry-run');
+  const raw_name = args.find((entry) => !entry.startsWith('--'));
+
+  // Invoked from core/, while the application lives one level up.
+  const root = path.resolve(process.cwd(), '..');
+
+  try
   {
-    fs.mkdir(scss_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_view', '_template.scss'),
-          scss_path
-        );
+    const report = plan_view(raw_name, { root, dry_run }).run();
 
-        this.__replace_scss_words(scss_path, name);
-      }
-    });
+    return print_report(report, `create-view ${sanitize_name(raw_name)}`);
   }
-
-  __copy_template_pug(pug_folder, pug_path, name)
+  catch (error)
   {
-    fs.mkdir(pug_folder, { recursive: true }, (err) =>
-    {
-      if (err)
-      {
-        console.error(err);
-      }
-      else
-      {
-        fs.copyFileSync(
-          path.join('tasks', 'create_view', 'template.pug'),
-          pug_path
-        );
+    console.error(`\x1b[31m${error.message}\x1b[0m`);
 
-        this.__replace_pug_words(pug_path, name);
-      }
-    });
-  }
-
-  __replace_data_words(path, name)
-  {
-    const options = {
-      files: path,
-      from: 'template',
-      to: name
-    };
-
-    try
-    {
-      replace.sync(options);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __replace_js_words(path, name)
-  {
-    const options_1 = {
-      files: path,
-      from: /Template/g,
-      to: this.capitalize(name)
-    };
-
-    const options_2 = {
-      files: path,
-      from: /TEMPLATE/g,
-      to: name.toUpperCase()
-    };
-
-    const options_3 = {
-      files: path,
-      from: /template_data/g,
-      to: `${name}_data`
-    };
-
-    const options_4 = {
-      files: path,
-      from: /template.json/g,
-      to: `${name}.json`
-    };
-
-    const options_5 = {
-      files: path,
-      from: /template/g,
-      to: name.replace(/_/g, '-')
-    };
-
-    const options_6 = {
-      files: path,
-      from: /template_opacity/g,
-      to: `${name}_opacity`
-    };
-
-    try
-    {
-      replace.sync(options_1);
-      replace.sync(options_2);
-      replace.sync(options_3);
-      replace.sync(options_4);
-      replace.sync(options_5);
-      replace.sync(options_6);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __replace_scss_words(path, name)
-  {
-    const options = {
-      files: path,
-      from: 'template',
-      to: `${name.replace(/_/g, '-')}`
-    };
-
-    try
-    {
-      replace.sync(options);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  __replace_pug_words(path, name)
-  {
-    const options = {
-      files: path,
-      from: 'template',
-      to: `${name.replace(/_/g, '-')}`
-    };
-
-    try
-    {
-      replace.sync(options);
-
-      console.log('\x1b[32m', `${path} Created`);
-    }
-    catch (error)
-    {
-      console.error('Error occurred:', error);
-    }
-  }
-
-  capitalize(string)
-  {
-    let aux_string = this.snake_to_camelcase(string);
-    aux_string = this.capitalize_first_letter(aux_string);
-
-    return aux_string;
-  }
-
-  capitalize_first_letter(string)
-  {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  snake_to_camelcase(string)
-  {
-    return string.toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
+    return 1;
   }
 }
 
-new ViewCreator().create_view(process.argv.slice(2)[0]);
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href)
+{
+  process.exit(main(process.argv));
+}
+
+export { main, plan_view };
