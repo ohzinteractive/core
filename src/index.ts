@@ -20,8 +20,11 @@ import { Capabilities } from './Capabilities';
 import { CameraBridge } from './dev_bridge/CameraBridge';
 import { CaptureService } from './dev_bridge/CaptureService';
 import { ConsoleBuffer } from './dev_bridge/ConsoleBuffer';
+import { PerformanceProbe } from './dev_bridge/PerformanceProbe';
+import { RenderModeRegistry } from './dev_bridge/RenderModeRegistry';
 import { SceneEditor } from './dev_bridge/SceneEditor';
 import { SceneInspector } from './dev_bridge/SceneInspector';
+import { ViewNavigator } from './dev_bridge/ViewNavigator';
 import { Debug } from './Debug';
 import { DevBridge } from './dev_bridge/DevBridge';
 import { Graphics } from './Graphics';
@@ -136,7 +139,7 @@ export {
     ImageUtilities, ImmediateMode, Initializer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
-    ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
+    ParticlePositionAttribute, PerformanceProbe, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, RenderModeRegistry, ResourceBatch,
     ResourceContainer, SceneEditor, SceneInspector, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
-    ViewComponentManager, ViewManager, VRRender, WorldImage
+    ViewComponentManager, ViewManager, ViewNavigator, VRRender, WorldImage
 };
