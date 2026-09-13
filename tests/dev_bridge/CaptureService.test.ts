@@ -122,6 +122,17 @@ describe('CaptureService hires mode', () =>
     expect(recorded.height).toBe(8192);
   });
 
+  it('ignores a non-numeric size arriving off the wire and falls back', async () =>
+  {
+    const recorded: Recorded = { called: 0 };
+    const service = new CaptureService(fake_graphics(png_blob(), recorded), () => true);
+
+    await service.capture({ mode: 'hires', width: '2560', height: null });
+
+    expect(recorded.width).toBe(1280);
+    expect(recorded.height).toBe(720);
+  });
+
   it('rejects with no_camera because take_screenshot dereferences CameraManager.current', async () =>
   {
     const recorded: Recorded = { called: 0 };

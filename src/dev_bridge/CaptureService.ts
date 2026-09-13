@@ -14,11 +14,13 @@ export interface CaptureGraphics
   take_screenshot(callback: (blob: Blob | null) => void, width?: number, height?: number): void;
 }
 
+// Values arrive straight off the dev-bridge wire, so they are untrusted and
+// every field is validated before use.
 export interface CaptureOptions
 {
-  mode?: string;
-  width?: number;
-  height?: number;
+  mode?: unknown;
+  width?: unknown;
+  height?: unknown;
 }
 
 export interface CaptureResult
@@ -74,12 +76,22 @@ class CaptureService
     }
 
     const canvas = this.graphics.canvas;
-    const width = this.clamp(options.width === undefined ? canvas.width : options.width);
-    const height = this.clamp(options.height === undefined ? canvas.height : options.height);
+    const width = this.dimension(options.width, canvas.width);
+    const height = this.dimension(options.height, canvas.height);
 
     const blob = await this.request_blob((callback) => this.graphics.take_screenshot(callback, width, height));
 
     return this.build_result('hires', width, height, blob);
+  }
+
+  private dimension(value: unknown, fallback: number): number
+  {
+    if (typeof value === 'number')
+    {
+      return this.clamp(value);
+    }
+
+    return this.clamp(fallback);
   }
 
   // take_screenshot renders ceil(w/1024) * ceil(h/1024) tiles, so an unbounded
