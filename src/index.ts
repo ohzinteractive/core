@@ -19,6 +19,8 @@ import { SimpleTextDrawer } from './canvas_drawer/SimpleTextDrawer';
 import { Capabilities } from './Capabilities';
 import { CaptureService } from './dev_bridge/CaptureService';
 import { ConsoleBuffer } from './dev_bridge/ConsoleBuffer';
+import { SceneEditor } from './dev_bridge/SceneEditor';
+import { SceneInspector } from './dev_bridge/SceneInspector';
 import { Debug } from './Debug';
 import { DevBridge } from './dev_bridge/DevBridge';
 import { Graphics } from './Graphics';
@@ -134,6 +136,6 @@ export {
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
     ParticlePositionAttribute, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, ResourceBatch,
-    ResourceContainer, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
+    ResourceContainer, SceneEditor, SceneInspector, SceneManager, Screen, SDFTextBatch, SimpleTextDrawer, Sphere, StringUtilities, Text2D, TextLoader, TextureLoader, Time, TimeUtilities, TransitionManager, TransitionTable, UnrealBloomComposeMaterial, UnrealBloomRender, UpdatableMaterialMesh, Validation, VectorInterpolator, VerticalPlane, VideoLoader, ViewComponent,
     ViewComponentManager, ViewManager, VRRender, WorldImage
 };
