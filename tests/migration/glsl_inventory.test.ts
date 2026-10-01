@@ -13,13 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 0, task 4: unreachable components
-  'shaders/edges/corners.frag',
-  'shaders/edges/corners.vert',
-  'shaders/edges/edges.frag',
-  'shaders/edges/edges.vert',
-  'shaders/edge_visualizer/edge_visualizer.frag',
-  'shaders/edge_visualizer/edge_visualizer.vert',
   // Session 2: WorldImage
   'shaders/basic_texture/basic_texture.frag',
   'shaders/basic_texture/basic_texture.vert',
@@ -49,9 +42,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 0, task 4: unreachable components
-  'components/EdgeMesh.ts',
-  'components/GeometryEdgeVisualizer.ts',
   // Session 1: Debug overlay
   'Debug.ts',
   'materials/ScreenSpaceTextureMaterial.ts',

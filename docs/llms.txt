@@ -180,8 +180,6 @@ Renderable components in `src/components/`:
 | `SDFTextBatch` | SDF-based text rendering (resolution-independent) |
 | `WorldImage` | Image plane in world space |
 | `UpdatableMaterialMesh` | Mesh with dynamically-updated material |
-| `Shape2D`, `Shape3D` | Shape primitives |
-| `MultiLinePath` | Multi-segment line paths |
 
 ### View & Transition System
 
