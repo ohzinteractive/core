@@ -1,4 +1,4 @@
-import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader';
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 
