@@ -408,6 +408,28 @@ describe('DebugDrawer', () =>
       expect(Debug.scene.children).toEqual([]);
     });
 
+    it('is bad_request for a text of characters outside the Basic Multilingual Plane, which SDFText reads as UTF-16 units', async() =>
+    {
+      // The font has the emoji, but SDFText looks glyphs up by UTF-16 unit, so it draws
+      // nothing for it and would throw on an empty glyph list.
+      const emoji = { unicode: 0x1f600, advance: 1, planeBounds: { left: 0, bottom: 0, right: 1, top: 1 }, atlasBounds: { left: 0, bottom: 0, right: 8, top: 8 } };
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader({ ...SDF_LAYOUT, glyphs: [...SDF_LAYOUT.glyphs, emoji] }).load });
+
+      const error = await rejected(draw({ shape: 'sdf_text', text: '\u{1F600}' }));
+
+      expect(error.code).toBe('bad_request');
+      expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('draws a text whose only drawable character follows one outside the Basic Multilingual Plane', async() =>
+    {
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader().load });
+
+      await draw({ shape: 'sdf_text', text: 'x\u{1F600}A' });
+
+      expect((Debug.scene.children[0] as SDFTextBatch).geometry.instanceCount).toBe(1);
+    });
+
     it('is bad_request for a layout it cannot draw', async() =>
     {
       const top_origin = { ...SDF_LAYOUT, atlas: { ...SDF_LAYOUT.atlas, yOrigin: 'top' } };

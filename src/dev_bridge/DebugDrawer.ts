@@ -151,7 +151,10 @@ class DebugDrawer
     const font = await this.font(font_url);
     const layout = this.sdf_layout(font.layout, font_url);
 
-    if (![...text].some((character) => layout.glyphs.some((glyph) => glyph.unicode === character.codePointAt(0) && glyph.planeBounds !== undefined)))
+    // SDFText looks glyphs up by UTF-16 unit (charCodeAt), so this check does too.
+    const drawable = Array.from({ length: text.length }, (_, i) => text.charCodeAt(i));
+
+    if (!drawable.some((unit) => layout.glyphs.some((glyph) => glyph.unicode === unit && glyph.planeBounds !== undefined)))
     {
       throw this.error('bad_request', `The font at ${font_url} has none of the characters of the text.`);
     }
