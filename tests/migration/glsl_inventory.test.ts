@@ -42,8 +42,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 1: Debug overlay
-  'materials/ScreenSpaceTextureMaterial.ts',
   // Session 2: WorldImage
   'components/WorldImage.ts',
   // Session 3: Line
