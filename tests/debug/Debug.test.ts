@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { type Mesh, type SphereGeometry, Sphere as MathSphere, Vector3 } from 'three';
+import { Box3, Box3Helper, type Mesh, type SphereGeometry, Sphere as MathSphere, Vector3 } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 
 import { Debug } from '../../src/Debug';
@@ -60,6 +60,43 @@ describe('Debug', () =>
       expect(sphere.position).toEqual(new Vector3(1, 2, 3));
       expect(sphere.geometry.parameters.radius).toBe(5);
       expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('returns the mesh it adds', () =>
+    {
+      const sphere = Debug.draw_math_sphere(new MathSphere(new Vector3(), 1));
+
+      expect(SceneManager.current.children).toEqual([sphere]);
+    });
+
+    it('honors a color argument and stays see-through', () =>
+    {
+      const sphere = Debug.draw_math_sphere(new MathSphere(new Vector3(), 1), 0x0000ff);
+
+      expect(see_through_material_of(sphere).color.getHex()).toBe(0x0000ff);
+    });
+  });
+
+  describe('draw_bounding_box', () =>
+  {
+    const box = new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1));
+
+    it('adds a yellow Box3Helper to the current scene and returns it', () =>
+    {
+      const helper = Debug.draw_bounding_box(box);
+
+      expect(helper).toBeInstanceOf(Box3Helper);
+      expect(helper.box).toBe(box);
+      expect(helper.material.color.getHex()).toBe(0xffff00);
+      expect(SceneManager.current.children).toEqual([helper]);
+      expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('honors a color argument', () =>
+    {
+      const helper = Debug.draw_bounding_box(box, 0x00ffff);
+
+      expect(helper.material.color.getHex()).toBe(0x00ffff);
     });
   });
 });

@@ -195,19 +195,21 @@ class Debug
     return sphere_mesh;
   }
 
-  draw_math_sphere(sphere: any)
+  draw_math_sphere(sphere: any, color: number | string = 0xff0000)
   {
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
-    const material = see_through_material(0xff0000);
+    const material = see_through_material(color);
     const sphere1 = new Mesh(geometry, material);
     sphere1.position.copy(sphere.center);
     SceneManager.current.add(sphere1);
+    return sphere1;
   }
 
-  draw_bounding_box(bb: Box3)
+  draw_bounding_box(bb: Box3, color: number | string = 0xffff00)
   {
-    const helper = new Box3Helper(bb, 0xffff00);
+    const helper = new Box3Helper(bb, color);
     SceneManager.current.add(helper);
+    return helper;
   }
 
   draw_curve(curve: Vector3[], options: { offset: number })

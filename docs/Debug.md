@@ -55,8 +55,8 @@ These methods add objects to `SceneManager.current` instead of the debug scene:
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `draw_sphere_helper` | `(sphere, color)` | A solid sphere at `sphere.center` with `sphere.radius`. |
-| `draw_math_sphere` | `(sphere)` | A red sphere at `sphere.center` with `sphere.radius`, at 20% opacity and without depth writes. |
-| `draw_bounding_box` | `(bb)` | A `Box3Helper` for the given `Box3`. |
+| `draw_math_sphere` | `(sphere, color = 0xff0000)` | A sphere at `sphere.center` with `sphere.radius`, at 20% opacity and without depth writes. Returns the `Mesh`. |
+| `draw_bounding_box` | `(bb, color = 0xffff00)` | A `Box3Helper` for the given `Box3`. Returns the helper. |
 
 ### 2D Drawing (requires `ctx`)
 
