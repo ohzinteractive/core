@@ -153,7 +153,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 ### Shader Materials
 
-Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`) and `LineMaterial` (behind `Line`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
+Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`) and `SDFTextMaterial` (behind `SDFTextBatch`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
 
 Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
 
@@ -177,7 +177,7 @@ Renderable components in `src/components/`:
 | `Grid` | Debug grid |
 | `Line` | Thick polyline drawn as a ribbon that faces the camera (`thickness`, `color`). `setup(points)` rebuilds it with any number of points; a new point count replaces `geometry`. Runs on `WebGPURenderer` |
 | `Text2D` | Text drawn on a canvas and shown as a `WorldImage`, in its CSS fill color. Setting `text` redraws it |
-| `SDFTextBatch` | SDF-based text rendering (resolution-independent) |
+| `SDFTextBatch` | Multi channel SDF text, every text it holds in one instanced draw (`add_text`, `remove_text`, `set_boldness`; call `update()` every frame). Atlas bounds count from the bottom (`yOrigin: bottom`). Runs on `WebGPURenderer` |
 | `WorldImage` | Image plane in world space, optionally screen aligned (`screen_aligned`, sized by `size`), with `opacity`. Runs on `WebGPURenderer` |
 | `UpdatableMaterialMesh` | Mesh with dynamically-updated material |
 
