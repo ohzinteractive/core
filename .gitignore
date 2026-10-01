@@ -35,3 +35,7 @@ bower_components/
 # Parcel output folder.
 build/
 build_blitter/
+
+# Vitest browser failure screenshots.
+__screenshots__/
+.vitest-attachments/

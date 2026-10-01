@@ -28,7 +28,9 @@
     "create-view": "node ./tasks/create_view/create_view.mjs",
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
     "create-component": "node ./tasks/create_component/create_component.mjs",
-    "create-transition": "node ./tasks/create_transition/create_transition.mjs"
+    "create-transition": "node ./tasks/create_transition/create_transition.mjs",
+    "test-unit": "vitest run --project unit",
+    "test-browser": "vitest run --project browser"
   },
   "repository": {
     "type": "git",
@@ -56,8 +58,10 @@
     "@types/three": "0.183.0",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@typescript-eslint/parser": "^8.18.2",
+    "@vitest/browser-playwright": "4.1.11",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
+    "playwright": "^1.63.0",
     "rollup": "^2.44.0",
     "rollup-plugin-glslify": "^1.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
