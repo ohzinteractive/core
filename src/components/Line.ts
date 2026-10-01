@@ -1,14 +1,13 @@
-import line_fs from '../shaders/basic_line/basic_line.frag';
-import line_vs from '../shaders/basic_line/basic_line.vert';
+import { LineMaterial } from '../materials/LineMaterial';
 
-import type { Vector3 } from 'three';
-import { BufferAttribute, BufferGeometry, Color, Mesh, ShaderMaterial } from 'three';
+import type { Color, ColorRepresentation, Vector3 } from 'three';
+import { BufferAttribute, BufferGeometry, Mesh } from 'three';
 
 class Line extends Mesh
 {
   _length: number;
   accumulated_length: number;
-  material: ShaderMaterial
+  material: LineMaterial;
 
   constructor(points?: Vector3[])
   {
@@ -19,18 +18,7 @@ class Line extends Mesh
     geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
     geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
 
-    const material = new ShaderMaterial({
-      uniforms: {
-        _Thickness: { value: 0.2 },
-        _Length: { value: 0 },
-        _ElapsedTime: { value: 0 },
-        _Color: { value: new Color('#FF0000') }
-      },
-      vertexShader: line_vs,
-      fragmentShader: line_fs,
-      transparent: true,
-      depthWrite: false
-    });
+    const material = new LineMaterial();
 
     super(geometry, material);
     this.material = material;
@@ -182,12 +170,12 @@ class Line extends Mesh
     }
   }
 
-  set color(col)
+  set color(col: ColorRepresentation)
   {
     this.material.uniforms._Color.value.set(col);
   }
 
-  get color()
+  get color(): Color
   {
     return this.material.uniforms._Color.value;
   }
