@@ -175,6 +175,8 @@ Available render modes:
 | `VRRender` | WebXR stereo rendering |
 | `DebugNormalsRender` | Visualize scene normals |
 
+`BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
+
 Custom render modes extend `BaseRender` and implement `render()`:
 
 ```ts
@@ -373,7 +375,7 @@ All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
 
 ### BaseShaderMaterial
 
-Base class for all custom shader materials. Extends Three.js `ShaderMaterial`.
+Base class for the GLSL shader materials. Extends Three.js `ShaderMaterial`, so it only runs on the legacy `WebGLRenderer`; `WebGPURenderer` rejects `ShaderMaterial` on both backends. For `WebGPURenderer`, write the material in TSL instead: full screen passes extend `BlitNodeMaterial` (see `SSAOMaterial` or `BoxBlurMaterial`).
 
 ```ts
 class MyMaterial extends BaseShaderMaterial

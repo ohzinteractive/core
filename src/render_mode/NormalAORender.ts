@@ -1,6 +1,5 @@
 import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
-import { DisplayNormalTextureMaterial } from '../materials/DisplayNormalTextureMaterial';
 import { SSAOComposeMaterial } from '../materials/SSAOComposeMaterial';
 import { SSAOMaterial } from '../materials/SSAOMaterial';
 import { OScreen } from '../OScreen';
@@ -14,7 +13,6 @@ class NormalAORender extends BaseRender
 {
   SSAO_RT: RenderTarget;
   blurrer: Blurrer;
-  debug_normals: DisplayNormalTextureMaterial;
   main_RT: RenderTarget;
   ssaa: number;
   ssao_compose_mat: SSAOComposeMaterial;
@@ -26,7 +24,6 @@ class NormalAORender extends BaseRender
 
     this.ssao_mat = new SSAOMaterial();
     this.ssao_compose_mat = new SSAOComposeMaterial();
-    this.debug_normals = new DisplayNormalTextureMaterial();
 
     this.ssaa = use_ssaa ? 2 : 1;
 
@@ -34,6 +31,10 @@ class NormalAORender extends BaseRender
     this.SSAO_RT = new RenderTarget(OScreen.width, OScreen.height);
 
     this.blurrer = new Blurrer();
+  }
+
+  on_enter()
+  {
     Graphics.generate_depth_normal_texture = true;
   }
 
@@ -44,26 +45,13 @@ class NormalAORender extends BaseRender
     Graphics.clear(this.main_RT, CameraManager.current, true, false);
     Graphics.render(SceneManager.current, CameraManager.current, this.main_RT);
 
-    this.__update_uniforms();
-
+    this.ssao_mat.set_projection_matrix(CameraManager.current.projectionMatrix);
     Graphics.blit(Graphics.depth_normals_RT, this.SSAO_RT, this.ssao_mat);
 
-    // // BLUR
     this.blurrer.blur(this.SSAO_RT);
-    Graphics.blit(this.SSAO_RT, undefined);
 
-    // // COMPOSE
     this.ssao_compose_mat.uniforms._AO.value = this.SSAO_RT.texture;
     Graphics.blit(this.main_RT, undefined, this.ssao_compose_mat);
-
-    // Graphics.blit(this.SSAO_RT, undefined);
-  }
-
-  __update_uniforms()
-  {
-    this.ssao_mat.uniforms._InverseProjMatrix.value = CameraManager.current.projectionMatrix.clone().invert();
-    this.ssao_mat.uniforms._ProjectionMatrix.value = CameraManager.current.projectionMatrix.clone();
-    this.ssao_mat.uniforms._FarPlane.value = CameraManager.current.far;
   }
 
   __check_RT_size()

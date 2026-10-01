@@ -18,6 +18,7 @@ class BlitNodeMaterial extends NodeMaterial
 {
   uniforms: { [uniform: string]: { value: any } };
   uv_by_texture = new Map<TextureNode, Node<'vec2'>>();
+  top_left_origin_by_texture = new Map<TextureNode, Node<'bool'>>();
 
   constructor()
   {
@@ -47,13 +48,26 @@ class BlitNodeMaterial extends NodeMaterial
 
     if (texture_uv === undefined)
     {
-      const top_left_origin = uniform(false).onObjectUpdate(() => has_top_left_origin(texture_node.value as TextureKind));
-
-      texture_uv = top_left_origin.select(uv().flipY(), uv());
+      texture_uv = this.texture_uv_at(texture_node, uv());
       this.uv_by_texture.set(texture_node, texture_uv);
     }
 
     return texture_uv;
+  }
+
+  // Same mapping for any point of the quad, given in its bottom left UV space,
+  // where the matching clip space position is quad_uv * 2 - 1.
+  texture_uv_at(texture_node: TextureNode, quad_uv: Node<'vec2'>)
+  {
+    let top_left_origin = this.top_left_origin_by_texture.get(texture_node);
+
+    if (top_left_origin === undefined)
+    {
+      top_left_origin = uniform(false).onObjectUpdate(() => has_top_left_origin(texture_node.value as TextureKind));
+      this.top_left_origin_by_texture.set(texture_node, top_left_origin);
+    }
+
+    return top_left_origin.select(quad_uv.flipY(), quad_uv);
   }
 
   sample(texture_node: TextureNode, offset?: Node<'vec2'>)
