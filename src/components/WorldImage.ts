@@ -1,31 +1,18 @@
-import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
-import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
+import { WorldImageMaterial } from '../materials/WorldImageMaterial';
 
 import type { Texture } from 'three';
-import { DoubleSide, Mesh, PlaneGeometry, ShaderMaterial, Vector2, Vector3 } from 'three';
+import { Mesh, PlaneGeometry, Vector2, Vector3 } from 'three';
 
 class WorldImage extends Mesh
 {
   current_scale: number;
   tmp_bb_size: Vector3;
-  material: ShaderMaterial;
+  material: WorldImageMaterial;
   
   constructor(texture: Texture, pivot: Vector2)
   {
     pivot = pivot || new Vector2(0, 0);
-    const material = new ShaderMaterial({
-      uniforms: {
-        _MainTex: { value: texture },
-        _ScreenAligned: { value: 0 },
-        _Scale: { value: 1 },
-        _Opacity: { value: 1 }
-      },
-      vertexShader: basic_texture_vert,
-      fragmentShader: basic_texture_frag,
-      transparent: true,
-      depthWrite: false,
-      side: DoubleSide
-    });
+    const material = new WorldImageMaterial(texture);
     const geometry = new PlaneGeometry(1, 1, 1);
     geometry.translate(-pivot.x / 2, -pivot.y / 2, 0);
     // @ts-expect-error -- threejs issue
@@ -60,7 +47,7 @@ class WorldImage extends Mesh
   set size(value)
   {
     this.scale.copy(value);
-    this.material.uniforms._Scale.value = value;
+    this.material.uniforms._Scale.value.copy(value);
   }
 
   set screen_aligned(boolean)

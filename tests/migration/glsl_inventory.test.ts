@@ -13,9 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 2: WorldImage
-  'shaders/basic_texture/basic_texture.frag',
-  'shaders/basic_texture/basic_texture.vert',
   // Session 3: Line
   'shaders/basic_line/basic_line.frag',
   'shaders/basic_line/basic_line.vert',
@@ -42,8 +39,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 2: WorldImage
-  'components/WorldImage.ts',
   // Session 3: Line
   'components/Line.ts',
   // Session 4: SDF text
