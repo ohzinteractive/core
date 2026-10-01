@@ -1,40 +1,49 @@
-import { BlitMaterial } from './BlitMaterial';
+import { BlitNodeMaterial } from './BlitNodeMaterial';
 
-import frag from '../shaders/gaussian_blur/unreal_bloom_compose.frag';
+import { Color, Texture } from 'three';
+import { mix, texture, uniform, vec4 } from 'three/tsl';
+import type { Node } from 'three/webgpu';
 
-import type { Texture } from 'three';
-import { Color } from 'three';
-class UnrealBloomComposeMaterial extends BlitMaterial
+const BLOOM_FACTORS = [1.0, 0.8, 0.6, 0.4, 0.2];
+
+// Sums the blurred mips of GaussianBlurrer, each weighted by its bloom factor and tint.
+// Uniforms are named after the original GLSL shader (blurTexture1..N, bloomStrength...).
+// use_linear_color_space is kept for API compatibility: node materials sample and write
+// linear values on every target, so it no longer changes the shader.
+class UnrealBloomComposeMaterial extends BlitNodeMaterial
 {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(nMips: number, use_linear_color_space = false)
   {
-    super(frag, undefined, {
-      NUM_MIPS: nMips
-    });
-    this.uniforms._MainTex        = { value: undefined };
-    this.uniforms._BlurredTex     = { value: undefined };
-    this.uniforms._BloomStrength  = { value: 1 };
+    super();
 
-    this.uniforms.blurTexture1  = { value: null };
-    this.uniforms.blurTexture2  = { value: null };
-    this.uniforms.blurTexture3  = { value: null };
-    this.uniforms.blurTexture4  = { value: null };
-    this.uniforms.blurTexture5  = { value: null };
+    const bloom_strength = uniform(1);
+    const bloom_radius = uniform(1);
+    const tint_colors: Color[] = [];
 
-    this.uniforms.bloomStrength = { value: 1.0 };
-    this.uniforms.bloomFactors  = { value: [1.0, 0.8, 0.6, 0.4, 0.2] };
-    this.uniforms.bloomRadius   = { value: 1.0 };
+    this.uniforms.bloomStrength = bloom_strength;
+    this.uniforms.bloomRadius = bloom_radius;
 
-    this.defines.USE_LINEAR_COLOR_SPACE = use_linear_color_space;
-    const bloomTintColors = [
-      new Color('#FFFFFF'),
-      new Color('#FFFFFF'),
-      new Color('#FFFFFF'),
-      new Color('#FFFFFF'),
-      new Color('#FFFFFF')
-    ];
+    let bloom: Node<'vec4'> = vec4(0);
 
-    this.uniforms.bloomTintColors = { value: bloomTintColors };
+    for (let i = 0; i < nMips; i++)
+    {
+      const blur_tex = texture(new Texture());
+      const tint_color = new Color('#FFFFFF');
+      const factor = BLOOM_FACTORS[i] ?? BLOOM_FACTORS[BLOOM_FACTORS.length - 1];
+      const lerped_factor = mix(factor, 1.2 - factor, bloom_radius);
+
+      this.uniforms[`blurTexture${i + 1}`] = blur_tex;
+      tint_colors.push(tint_color);
+
+      bloom = bloom.add(this.sample(blur_tex).mul(vec4(uniform(tint_color), 1)).mul(lerped_factor));
+    }
+
+    // The tint uniforms hold these same Color instances, so editing them in place
+    // updates the shader.
+    this.uniforms.bloomTintColors = { value: tint_colors };
+
+    this.fragmentNode = bloom.mul(bloom_strength);
   }
 
   set_blur_texture_0(texture: Texture)

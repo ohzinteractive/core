@@ -18,7 +18,8 @@ export const BACKENDS = [
 
 export type Backend = typeof BACKENDS[number];
 export type Probe = { x: number, y: number };
-export type Pixels = { luminance: (probe: Probe) => number };
+export type Rgb = { r: number, g: number, b: number };
+export type Pixels = { luminance: (probe: Probe) => number, rgb: (probe: Probe) => Rgb };
 
 export type Harness = {
   renderer: WebGPURenderer,
@@ -78,11 +79,18 @@ function read_canvas(canvas: HTMLCanvasElement): Pixels
 
   const data = context.getImageData(0, 0, SIZE, SIZE).data;
 
+  const rgb = ({ x, y }: Probe): Rgb =>
+  {
+    const i = (y * SIZE + x) * 4;
+    return { r: data[i], g: data[i + 1], b: data[i + 2] };
+  };
+
   return {
-    luminance: ({ x, y }) =>
+    rgb,
+    luminance: (probe) =>
     {
-      const i = (y * SIZE + x) * 4;
-      return (data[i] + data[i + 1] + data[i + 2]) / 3;
+      const { r, g, b } = rgb(probe);
+      return (r + g + b) / 3;
     }
   };
 }
