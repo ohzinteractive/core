@@ -27,7 +27,8 @@ class UnrealBloomRender extends BaseRender
     this.add_mat = new AddMaterial(use_half_float);
 
     const rt_settings = {
-      samples: use_antialiasing ? 8 : 1,
+      // WebGPU only supports 1 or 4 samples. Higher counts render nothing on both backends.
+      samples: use_antialiasing ? 4 : 1,
       type: use_half_float ? HalfFloatType : UnsignedByteType,
       format: RGBAFormat,
       colorSpace: LinearSRGBColorSpace,
