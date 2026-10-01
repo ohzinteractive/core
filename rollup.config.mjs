@@ -27,7 +27,7 @@ export default [
     ],
     external: [
       'three/nodes',
-      'tree/tsl',
+      'three/tsl',
       'three/webgpu',
       'three',
       'pit-js',
