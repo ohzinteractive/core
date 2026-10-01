@@ -85,4 +85,23 @@ describe('WorldImage', () =>
 
     expect(disposals).toBe(1);
   });
+
+  it('update_texture adopts a swapped in texture without freeing it', () =>
+  {
+    const image = new WorldImage(texture_of_size(4, 2), new Vector2());
+    const other = texture_of_size(2, 4);
+    let disposals = 0;
+    other.addEventListener('dispose', () => disposals++);
+
+    image.material.uniforms._MainTex.value = other;
+    image.update_texture();
+
+    expect(disposals).toBe(0);
+    expect(image.size.x).toBeCloseTo(0.5);
+
+    other.image = { data: new Uint8Array(8 * 2 * 4), width: 8, height: 2 };
+    image.update_texture();
+
+    expect(disposals).toBe(1);
+  });
 });
