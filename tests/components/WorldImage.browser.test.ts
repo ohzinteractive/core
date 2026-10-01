@@ -63,6 +63,27 @@ function white_texture(): DataTexture
   return texture;
 }
 
+// Separate runs of lit pixels along a canvas row, so each vertical stroke of the text
+// it crosses counts once.
+function lit_runs(pixels: Pixels, y: number): number
+{
+  let runs = 0;
+  let lit = false;
+
+  for (let x = 0; x < SIZE; x++)
+  {
+    const is_lit = pixels.luminance({ x, y }) > 64;
+
+    if (is_lit && !lit)
+    {
+      runs++;
+    }
+    lit = is_lit;
+  }
+
+  return runs;
+}
+
 for (const backend of BACKENDS)
 {
   describe(`WorldImage on WebGPURenderer (${backend.name} backend)`, () =>
@@ -167,6 +188,21 @@ for (const backend of BACKENDS)
 
       // Inside the 48 pixel tall quad (rows 8 to 56), above the top of the H.
       expect_color(render_frame(0xffffff).rgb({ x: SIZE / 2, y: 12 }), WHITE);
+    });
+
+    it('shows every letter of Text2D after the text grows', () =>
+    {
+      const text = new Text2D('H', 'bold 48px Arial', '#ffffff', new Vector2());
+      text.size = new Vector3(20, 20, 20);
+      scene.add(text);
+
+      // Row 27 crosses the stems above the crossbar: two per H.
+      expect(lit_runs(render_frame(0x000000), 27)).toBe(2);
+
+      text.text = 'HHHH';
+
+      expect(lit_runs(render_frame(0x000000), 27)).toBe(8);
+      expect(harness.reported_errors).toEqual([]);
     });
   });
 }

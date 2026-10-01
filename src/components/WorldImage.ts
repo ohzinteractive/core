@@ -6,6 +6,7 @@ import { Mesh, PlaneGeometry, Vector2, Vector3 } from 'three';
 class WorldImage extends Mesh
 {
   current_scale: number;
+  texture_size: Vector2;
   tmp_bb_size: Vector3;
   material: WorldImageMaterial;
   
@@ -20,6 +21,8 @@ class WorldImage extends Mesh
     geometry.scale(current_scale, 1, 1);
     super(geometry, material);
     this.current_scale = current_scale;
+    // @ts-expect-error -- threejs issue
+    this.texture_size = new Vector2(texture.image.width, texture.image.height);
     this.geometry.computeBoundingBox();
 
     this.tmp_bb_size = new Vector3();
@@ -29,8 +32,17 @@ class WorldImage extends Mesh
 
   update_texture()
   {
-    this.material.uniforms._MainTex.value.needsUpdate = true;
-    const img = this.material.uniforms._MainTex.value.image;
+    const texture = this.material.uniforms._MainTex.value;
+    const img = texture.image as { width: number, height: number };
+
+    // WebGPURenderer allocates the GPU texture at the image size once and later only
+    // uploads into it, so an image that changed size needs a new one.
+    if (img.width !== this.texture_size.x || img.height !== this.texture_size.y)
+    {
+      texture.dispose();
+      this.texture_size.set(img.width, img.height);
+    }
+    texture.needsUpdate = true;
 
     this.geometry.scale(1 / this.current_scale, 1, 1);
     this.current_scale = img.width / img.height;

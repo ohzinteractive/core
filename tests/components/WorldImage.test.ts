@@ -68,4 +68,21 @@ describe('WorldImage', () =>
     expect(image.size.x).toBeCloseTo(0.5);
     expect(image.size.y).toBeCloseTo(1);
   });
+
+  it('update_texture frees the GPU texture only when the image changed size', () =>
+  {
+    const texture = texture_of_size(4, 2);
+    const image = new WorldImage(texture, new Vector2());
+    let disposals = 0;
+    texture.addEventListener('dispose', () => disposals++);
+
+    image.update_texture();
+
+    expect(disposals).toBe(0);
+
+    texture.image = { data: new Uint8Array(8 * 2 * 4), width: 8, height: 2 };
+    image.update_texture();
+
+    expect(disposals).toBe(1);
+  });
 });
