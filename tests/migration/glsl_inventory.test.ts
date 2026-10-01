@@ -13,9 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 4: SDF text
-  'shaders/sdf_text/sdf_text.frag',
-  'shaders/sdf_text/sdf_text.vert',
   // Session 5: DualFilteringBlurrer
   'shaders/dual_filter_blur/alpha_filter.frag',
   'shaders/dual_filter_blur/downsample.frag',
@@ -36,8 +33,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 4: SDF text
-  'materials/SDFTextMaterial.ts',
   // Session 5: DualFilteringBlurrer
   'materials/AlphaFilterMaterial.ts',
   'materials/DualFilteringBlurMaterial.ts',
