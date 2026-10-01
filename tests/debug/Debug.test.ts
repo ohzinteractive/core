@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { Box3, Box3Helper, type Mesh, type SphereGeometry, Sphere as MathSphere, Vector3 } from 'three';
+import { Box3, Box3Helper, type Mesh, type MeshBasicMaterial, type SphereGeometry, Sphere as MathSphere, Vector3 } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 
 import { Debug } from '../../src/Debug';
@@ -45,6 +45,27 @@ describe('Debug', () =>
       const plane = Debug.draw_plane(4, 2);
 
       expect(see_through_material_of(plane).color.getHex()).toBe(0x00ff00);
+    });
+  });
+
+  describe('draw_cube and draw_sphere colors', () =>
+  {
+    it('honors black', () =>
+    {
+      const cube = Debug.draw_cube(undefined, 1, 0);
+      const sphere = Debug.draw_sphere(new Vector3(), 1, 0);
+
+      expect((cube.material as MeshBasicMaterial).color.getHex()).toBe(0x000000);
+      expect((sphere.material as MeshBasicMaterial).color.getHex()).toBe(0x000000);
+    });
+
+    it('is red when no color is given', () =>
+    {
+      const cube = Debug.draw_cube();
+      const sphere = Debug.draw_sphere(new Vector3(), 1, undefined);
+
+      expect((cube.material as MeshBasicMaterial).color.getHex()).toBe(0xff0000);
+      expect((sphere.material as MeshBasicMaterial).color.getHex()).toBe(0xff0000);
     });
   });
 

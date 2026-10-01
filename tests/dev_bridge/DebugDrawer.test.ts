@@ -66,6 +66,14 @@ describe('DebugDrawer', () =>
       expect(color_of(cube)).toBe(0x0000ff);
     });
 
+    it('draws a black cube and sphere when the color is 0', () =>
+    {
+      draw({ shape: 'cube', color: 0 });
+      draw({ shape: 'sphere', color: 0 });
+
+      expect(Debug.scene.children.map((child) => color_of(child as Mesh))).toEqual([0x000000, 0x000000]);
+    });
+
     it('draws a sphere whose size is its radius', () =>
     {
       const result = draw({ shape: 'sphere', position: [1, 2, 3], size: 5, color: 0x00ff00 });

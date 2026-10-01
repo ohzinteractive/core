@@ -109,7 +109,7 @@ class Debug
   draw_cube(pos?: Vector3, size?: number, color?: number | string)
   {
     size = size || 1;
-    color = color || 0xff0000;
+    color = color ?? 0xff0000;
     pos = pos || new Vector3();
 
     const cube = new Cube(new Vector3(size, size, size), undefined, color);
@@ -165,7 +165,7 @@ class Debug
   draw_sphere(pos: Vector3, size: number, color: number | string)
   {
     size = size || 1;
-    color = color || 0xff0000;
+    color = color ?? 0xff0000;
     pos = pos || new Vector3();
 
     const sphere = new Sphere(size, color);
