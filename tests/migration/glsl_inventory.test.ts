@@ -13,16 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 0, task 2: orphan files with no importer
-  'shaders/grid/grid.frag',
-  'shaders/grid/grid.vert',
-  'shaders/transparent_mix/copy.frag',
-  'shaders/transparent_mix/transparent_mix.frag',
-  'shaders/transparent_mix/transparent_mix.vert',
-  'shaders/ui/ss_texture.frag',
-  'shaders/ui/ss_texture.vert',
-  'shaders/ui/ws_texture.vert',
-  'shaders/gpu_particles/store/store_position.vert',
   // Session 0, task 3: unreachable materials
   'shaders/anti_aliasing/fxaa.frag',
   'shaders/sdf_text/sdf_screen_text.frag',
