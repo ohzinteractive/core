@@ -45,6 +45,10 @@ interface DebugClearResult
 
 const SHAPES = ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box', 'label'];
 
+// At 48px a glyph is about 27 pixels wide, so 200 keeps the label canvas below the
+// 8192 pixel texture limit WebGPU guarantees.
+const MAX_LABEL_LENGTH = 200;
+
 // Only helpers drawn through this class are tracked, so debug_clear never touches the
 // helpers the app draws for itself into Debug.scene.
 class DebugDrawer
@@ -180,9 +184,9 @@ class DebugDrawer
 
   private text(value: unknown): string
   {
-    if (typeof value !== 'string' || value.length === 0)
+    if (typeof value !== 'string' || value.length === 0 || value.length > MAX_LABEL_LENGTH)
     {
-      throw this.error('bad_request', 'label needs a non-empty text.');
+      throw this.error('bad_request', `label needs a text of 1 to ${MAX_LABEL_LENGTH} characters.`);
     }
 
     return value;

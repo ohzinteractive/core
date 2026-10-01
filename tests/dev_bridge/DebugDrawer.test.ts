@@ -234,7 +234,7 @@ describe('DebugDrawer', () =>
 
     it('rejects a label without a non-empty text', () =>
     {
-      for (const text of [undefined, '', 42])
+      for (const text of [undefined, '', 42, 'x'.repeat(201)])
       {
         const error = caught(() => draw({ shape: 'label', text }));
 
