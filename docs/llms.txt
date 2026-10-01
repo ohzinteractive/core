@@ -153,7 +153,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 25+ custom `ShaderMaterial` subclasses, all extending `BaseShaderMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`.
 
-Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `FXAAMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `SDFScreenTextMaterial`, `DeferredRendererComposeMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
+Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `FXAAMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `SDFScreenTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
 
 ### Post-Processing Utilities
 
