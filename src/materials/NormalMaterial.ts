@@ -1,18 +1,15 @@
-import frag from '../shaders/normal/normal.frag';
-import vert from '../shaders/normal/normal.vert';
+import { SRGBColorSpace } from 'three';
+import { colorSpaceToWorking, directionToColor, normalWorldGeometry, vec4 } from 'three/tsl';
+import { NodeMaterial } from 'three/webgpu';
 
-import { ShaderMaterial } from 'three';
-
-class NormalMaterial extends ShaderMaterial
+// Colors each surface with its world space normal packed as normal * 0.5 + 0.5.
+class NormalMaterial extends NodeMaterial
 {
   constructor()
   {
-    super({
-      uniforms: {
-      },
-      vertexShader: vert,
-      fragmentShader: frag
-    });
+    super();
+
+    this.colorNode = vec4(colorSpaceToWorking(vec4(directionToColor(normalWorldGeometry), 1), SRGBColorSpace));
   }
 }
 
