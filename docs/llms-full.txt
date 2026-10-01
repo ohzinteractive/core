@@ -171,7 +171,7 @@ Available render modes:
 |-------|-------------|
 | `NormalRender` | Standard clear → render pipeline |
 | `UnrealBloomRender` | Bloom post-processing |
-| `NormalAORender` | Normal + AO pass |
+| `NormalAORender` | Normal + AO pass. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
 | `VRRender` | WebXR stereo rendering |
 | `DebugNormalsRender` | Visualize scene normals |
 

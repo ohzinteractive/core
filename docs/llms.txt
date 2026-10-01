@@ -109,7 +109,7 @@ loop.start();
 |---|---|
 | `NormalRender` | Standard forward rendering |
 | `UnrealBloomRender` | Forward rendering with Unreal-style bloom post-processing |
-| `NormalAORender` | Forward rendering with SSAO |
+| `NormalAORender` | Forward rendering with SSAO. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
 | `BloomRender` | Basic bloom rendering |
 | `DeferredRender` | Deferred rendering pipeline |
 | `VRRender` | WebXR stereo rendering |

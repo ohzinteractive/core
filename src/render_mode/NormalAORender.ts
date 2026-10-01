@@ -18,11 +18,13 @@ class NormalAORender extends BaseRender
   ssao_compose_mat: SSAOComposeMaterial;
   ssao_mat: SSAOMaterial;
 
-  constructor(use_ssaa = false)
+  // Turning use_exact_depth off swaps the SSAO pass's banding free depth reads for one
+  // filtered fetch per sample, which roughly halves the pass's cost. See SSAOMaterial.
+  constructor(use_ssaa = false, use_exact_depth = true)
   {
     super();
 
-    this.ssao_mat = new SSAOMaterial();
+    this.ssao_mat = new SSAOMaterial(use_exact_depth);
     this.ssao_compose_mat = new SSAOComposeMaterial();
 
     this.ssaa = use_ssaa ? 2 : 1;
