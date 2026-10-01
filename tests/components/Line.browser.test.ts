@@ -262,5 +262,26 @@ for (const backend of BACKENDS)
       expect(lit_rows(render_frame(), 32)).toEqual(ROWS_AT_Y0);
       expect(harness.reported_errors).toEqual([]);
     });
+
+    it('keeps growing when setup adds points to a drawn line more than once', () =>
+    {
+      // Points 10 units apart from world x = -20, so each count covers its own columns.
+      const points_up_to = (count: number) => Array.from({ length: count }, (_, i) => new Vector3(-20 + i * 10, 0, 0));
+      const line = new Line(points_up_to(2));
+      line.thickness = 6;
+      line.color = 0xffffff;
+      scene.add(line);
+
+      expect(lit_columns(render_frame(), 32)).toEqual(Array.from({ length: 10 }, (_, i) => 12 + i));
+
+      line.setup(points_up_to(3));
+
+      expect(lit_columns(render_frame(), 32)).toEqual(Array.from({ length: 20 }, (_, i) => 12 + i));
+
+      line.setup(points_up_to(5));
+
+      expect(lit_columns(render_frame(), 32)).toEqual(Array.from({ length: 40 }, (_, i) => 12 + i));
+      expect(harness.reported_errors).toEqual([]);
+    });
   });
 }

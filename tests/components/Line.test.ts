@@ -88,21 +88,25 @@ describe('Line', () =>
     expect(line.geometry.index.count).toBe(6);
   });
 
-  it('setup frees the GPU buffers only when the point count changes', () =>
+  it('setup moves to a new geometry, and frees the old one, only when the point count changes', () =>
   {
     const line = new Line(bent_points());
+    const first = line.geometry;
     let disposals = 0;
-    line.geometry.addEventListener('dispose', () => disposals++);
+    first.addEventListener('dispose', () => disposals++);
 
     line.setup(bent_points().map(point => point.multiplyScalar(2)));
 
+    expect(line.geometry).toBe(first);
     expect(disposals).toBe(0);
 
     line.setup([...bent_points(), new Vector3(0, 4, 0)]);
 
+    expect(line.geometry).not.toBe(first);
     expect(disposals).toBe(1);
     expect(line.geometry.getAttribute('position').count).toBe(8);
     expect(line.geometry.index.count).toBe(18);
+    expect(Object.keys(line.geometry.attributes).sort()).toEqual(['coverage', 'next_position', 'orientation', 'position', 'previous_position']);
   });
 
   it('keeps the same index while the point count stays', () =>

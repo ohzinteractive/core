@@ -175,7 +175,7 @@ Renderable components in `src/components/`:
 | Component | Purpose |
 |---|---|
 | `Grid` | Debug grid |
-| `Line` | Thick polyline drawn as a ribbon that faces the camera (`thickness`, `color`). `setup(points)` rebuilds it with any number of points. Runs on `WebGPURenderer` |
+| `Line` | Thick polyline drawn as a ribbon that faces the camera (`thickness`, `color`). `setup(points)` rebuilds it with any number of points; a new point count replaces `geometry`. Runs on `WebGPURenderer` |
 | `Text2D` | Text drawn on a canvas and shown as a `WorldImage`, in its CSS fill color. Setting `text` redraws it |
 | `SDFTextBatch` | SDF-based text rendering (resolution-independent) |
 | `WorldImage` | Image plane in world space, optionally screen aligned (`screen_aligned`, sized by `size`), with `opacity`. Runs on `WebGPURenderer` |

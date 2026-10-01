@@ -3,6 +3,19 @@ import { LineMaterial } from '../materials/LineMaterial';
 import type { Color, ColorRepresentation, Vector3 } from 'three';
 import { BufferAttribute, BufferGeometry, Mesh } from 'three';
 
+// An empty geometry with every attribute LineMaterial reads.
+function create_line_geometry(): BufferGeometry
+{
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
+  geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
+
+  return geometry;
+}
+
 class Line extends Mesh
 {
   _length: number;
@@ -11,13 +24,7 @@ class Line extends Mesh
 
   constructor(points?: Vector3[])
   {
-    const geometry = new BufferGeometry();
-    geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
-    geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
-
+    const geometry = create_line_geometry();
     const material = new LineMaterial();
 
     super(geometry, material);
@@ -95,13 +102,16 @@ class Line extends Mesh
     }
 
     // WebGPURenderer sizes each GPU buffer at its first upload and later only writes
-    // into it, so a new point count needs new buffers. Disposing the geometry frees
-    // them, and the next render allocates them at the new size. The index depends only
-    // on the point count, so it is kept otherwise.
+    // into it, and it frees a geometry's buffers on its first dispose() only. So a new
+    // point count moves the line to a new geometry, which the next render uploads at
+    // the new size, and frees the old one. The index depends only on the point count,
+    // so it is kept otherwise.
     if (vertexList.length / 3 !== this.geometry.getAttribute('position').count)
     {
-      this.geometry.dispose();
+      const previous_geometry = this.geometry;
+      this.geometry = create_line_geometry();
       this.geometry.setIndex(indices);
+      previous_geometry.dispose();
     }
     (this.geometry.getAttribute('position') as BufferAttribute).copy(new BufferAttribute(vertexList, 3));
     (this.geometry.getAttribute('next_position') as BufferAttribute).copy(new BufferAttribute(nextPositionList, 3));
