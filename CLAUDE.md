@@ -24,7 +24,14 @@ yarn create-component
 yarn create-transition
 ```
 
-There are no test scripts in this project.
+Tests (Vitest, two projects):
+```bash
+yarn test           # Everything
+yarn test-unit      # Node tests: tests/**/*.test.ts
+yarn test-browser   # Real GPU tests in headless Chromium: tests/**/*.browser.test.ts
+```
+
+Browser tests need Chromium once: `npx playwright install chromium`. Render mode tests run against `WebGPURenderer` twice, with the WebGPU backend and with `forceWebGL: true`, and assert the backend so a silent WebGL fallback cannot pass as WebGPU.
 
 ## Architecture
 
@@ -42,7 +49,7 @@ The frame loop is driven by **`RenderLoop`**, which calls lifecycle hooks in ord
 
 ### Materials & Shaders
 
-`src/materials/` contains ~30 custom `THREE.ShaderMaterial` subclasses. All custom materials extend **`BaseShaderMaterial`**. GLSL shader files live in `src/shaders/` organized by feature (bloom, gaussian_blur, ssao, deferred, sdf_text, etc.) and are imported via the `rollup-plugin-glslify` plugin.
+`src/materials/` contains ~30 custom `THREE.ShaderMaterial` subclasses, most extending **`BaseShaderMaterial`** or **`BlitMaterial`**. These GLSL materials only work on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both of its backends. Materials ported to TSL extend **`BlitNodeMaterial`** (a `NodeMaterial`) and keep the `uniforms.<name>.value` contract, so `Blitter` drives both kinds the same way. So far that covers `BlitNodeMaterial` (Blitter's default copy), `BoxBlurMaterial` and `BloomComposeMaterial`, which makes `BloomRender` WebGPU ready. GLSL shader files live in `src/shaders/` organized by feature (bloom, gaussian_blur, ssao, deferred, sdf_text, etc.) and are imported via the `rollup-plugin-glslify` plugin.
 
 ### Asset Loading
 

@@ -1,12 +1,12 @@
 import type { Renderer } from 'three/webgpu';
-import { BlitMaterial } from '../materials/BlitMaterial';
+import { BlitNodeMaterial } from '../materials/BlitNodeMaterial';
 
 import { Mesh, OrthographicCamera, PlaneGeometry, Scene } from 'three';
 
 class Blitter
 {
   _blit_camera: OrthographicCamera;
-  _blit_material: BlitMaterial;
+  _blit_material: BlitNodeMaterial;
   _blit_quad: Mesh;
   _blit_scene: Scene;
   renderer: Renderer;
@@ -15,7 +15,7 @@ class Blitter
   {
     this.renderer = renderer;
     this._blit_scene = new Scene();
-    this._blit_material = new BlitMaterial();
+    this._blit_material = new BlitNodeMaterial();
     this._blit_quad = new Mesh(
       new PlaneGeometry(1, 1), this._blit_material);
     this._blit_scene.add(this._blit_quad);
