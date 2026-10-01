@@ -37,6 +37,23 @@ function expect_color(actual: Rgb, expected: Rgb)
   expect(Math.abs(actual.b - expected.b), `blue ${actual.b} vs ${expected.b}`).toBeLessThanOrEqual(TOLERANCE);
 }
 
+// The brightest pixel of a canvas row between columns from and to, a stand-in for a
+// fully covered glyph pixel.
+function brightest_in_row(pixels: Pixels, y: number, from = 0, to = SIZE): Rgb
+{
+  let brightest = BLACK;
+
+  for (let x = from; x < to; x++)
+  {
+    if (pixels.luminance({ x, y }) > (brightest.r + brightest.g + brightest.b) / 3)
+    {
+      brightest = pixels.rgb({ x, y });
+    }
+  }
+
+  return brightest;
+}
+
 // An 8x8 texture with a white top left quarter and MID_COLOR elsewhere, tagged sRGB like
 // a loaded image, so it must show its authored bytes. DataTexture rows start at the
 // bottom (flipY is false), so the top left quarter is the last rows' first columns.
@@ -134,6 +151,7 @@ for (const backend of BACKENDS)
       Debug.draw_bounding_box(new Box3(new Vector3(-4, -4, -4), new Vector3(4, 4, 4)));
       Debug.draw_curve([origin, new Vector3(0, 10, 0)], { offset: 1 });
       Debug.draw_texture(marker_data_texture(), 16, 16);
+      Debug.draw_label('debug', origin, 4);
 
       render_frame(0xffffff);
 
@@ -203,6 +221,27 @@ for (const backend of BACKENDS)
       CameraManager.current.updateMatrixWorld(true);
 
       expect_color(render_frame(0x000000).rgb(MARKER), WHITE);
+    });
+
+    it('draws a label that faces the camera, in its color', () =>
+    {
+      const label = Debug.draw_label('H', new Vector3(), 48, 0x4080c0);
+
+      expect(label.screen_aligned).toBe(true);
+      expect(Debug.scene.children).toContain(label);
+      expect_color(brightest_in_row(render_frame(0x000000), SIZE / 2), MID_COLOR);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('draws a white label by default, centered on its position', () =>
+    {
+      // About 17 pixels wide around x = 16, so canvas columns 40 to 56.
+      Debug.draw_label('H', new Vector3(16, 0, 0), 24);
+
+      const pixels = render_frame(0x000000);
+
+      expect_color(brightest_in_row(pixels, SIZE / 2, SIZE / 2, SIZE), WHITE);
+      expect_color(brightest_in_row(pixels, SIZE / 2, 0, SIZE / 2), BLACK);
     });
   });
 }

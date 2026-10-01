@@ -47,6 +47,7 @@ All 3D draw methods add objects to `Debug.scene` and return the created object.
 | `draw_point_array` | `(points, open?, color?)` | A smooth Catmull-Rom curve through the given points (200 samples). |
 | `draw_curve` | `(curve, options?)` | Line segments connecting consecutive points, with an optional Y offset. |
 | `draw_texture` | `(tex, w, h)` | Shows a texture on a screen space quad, `w` x `h` pixels (by default the texture's own size), with its bottom left corner at the bottom left of the screen. Move it with `mesh.material.set_position(x, y)`, in pixels from the bottom left. Render targets and regular textures both show upright, in the colors they have on screen: sRGB textures keep their authored colors, render targets show what was rendered into them, and `NoColorSpace` data textures are treated as linear. The quad draws over everything, is never frustum culled, and its screen size is updated each frame in `render()`. |
+| `draw_label` | `(text, pos?, size?, color?)` | A `Text2D` that always faces the camera, centered on `pos` (default the origin), `size` world units tall (default 1), in `color` (any three.js color, default white). It is depth tested, so geometry in front of it hides it. Returns the label. |
 
 ### 3D Drawing (added to main scene)
 
