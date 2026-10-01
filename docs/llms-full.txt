@@ -473,7 +473,7 @@ kb.dispose(); // remove listeners
 
 ## Debug
 
-Singleton for development-time overlays. All 3D objects added to a separate debug scene rendered after the main scene. Cleared automatically at frame end.
+Singleton for development-time overlays. All 3D objects added to a separate debug scene rendered after the main scene. Helpers stay until removed: `clear()` only clears the 2D canvas, not the 3D helpers.
 
 ```ts
 // 3D debug shapes (drawn in debug scene)
