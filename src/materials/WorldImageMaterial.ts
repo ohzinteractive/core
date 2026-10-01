@@ -39,6 +39,8 @@ class WorldImageMaterial extends NodeMaterial
     this.transparent = true;
     this.depthWrite = false;
     this.side = DoubleSide;
+    // Node materials take scene fog by default. The GLSL material ignored it.
+    this.fog = false;
   }
 }
 

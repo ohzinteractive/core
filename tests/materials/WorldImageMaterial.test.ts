@@ -37,4 +37,11 @@ describe('WorldImageMaterial', () =>
     expect(material.depthTest).toBe(true);
     expect(material.side).toBe(DoubleSide);
   });
+
+  it('ignores scene fog, like the GLSL material', () =>
+  {
+    const material = new WorldImageMaterial(new DataTexture(new Uint8Array(4), 1, 1));
+
+    expect(material.fog).toBe(false);
+  });
 });

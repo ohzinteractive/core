@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { DataTexture, SRGBColorSpace, Vector2, Vector3 } from 'three';
+import { DataTexture, FogExp2, SRGBColorSpace, Vector2, Vector3 } from 'three';
 
 import { CameraManager } from '../../src/CameraManager';
 import { Text2D } from '../../src/components/Text2D';
@@ -172,6 +172,17 @@ for (const backend of BACKENDS)
       const pixels = render_frame(0x000000);
 
       expect_color(pixels.rgb(CANVAS_CENTER), HALF_WHITE);
+    });
+
+    it('ignores scene fog, like the GLSL material', () =>
+    {
+      // At 10 units from the camera, this fog would tint the image about 63% red.
+      scene.fog = new FogExp2(0xff0000, 0.1);
+      const image = new WorldImage(white_texture(), new Vector2());
+      image.scale.setScalar(32);
+      scene.add(image);
+
+      expect_color(render_frame(0x000000).rgb(CANVAS_CENTER), WHITE);
     });
 
     it('faces the camera at full width when screen aligned, however the mesh is rotated', () =>
