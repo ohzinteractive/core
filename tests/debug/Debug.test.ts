@@ -69,6 +69,27 @@ describe('Debug', () =>
     });
   });
 
+  describe('draw_empty_cube and draw_sphere_helper colors', () =>
+  {
+    it('honors black', () =>
+    {
+      const cube = Debug.draw_empty_cube(new Vector3(), 1, 0);
+      const sphere = Debug.draw_sphere_helper(new MathSphere(new Vector3(), 1), 0);
+
+      expect((cube.material as MeshBasicMaterial).color.getHex()).toBe(0x000000);
+      expect((sphere.material as MeshBasicMaterial).color.getHex()).toBe(0x000000);
+    });
+
+    it('is red when no color is given', () =>
+    {
+      const cube = Debug.draw_empty_cube(new Vector3(), 1, undefined as unknown as number);
+      const sphere = Debug.draw_sphere_helper(new MathSphere(new Vector3(), 1), undefined as unknown as number);
+
+      expect((cube.material as MeshBasicMaterial).color.getHex()).toBe(0xff0000);
+      expect((sphere.material as MeshBasicMaterial).color.getHex()).toBe(0xff0000);
+    });
+  });
+
   describe('draw_math_sphere', () =>
   {
     it('adds a see-through red sphere to the current scene, not the debug scene', () =>

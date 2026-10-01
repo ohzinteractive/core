@@ -154,7 +154,7 @@ class Debug
   draw_empty_cube(pos: Vector3, size: number, color: number | string)
   {
     size = size || 1;
-    color = color || 0xff0000;
+    color = color ?? 0xff0000;
 
     const box = new Box3().setFromCenterAndSize(new Vector3(), new Vector3(size, size, size));
     const helper = new Box3Helper(box, color);
@@ -186,7 +186,7 @@ class Debug
 
   draw_sphere_helper(sphere: any, color: number | string)
   {
-    color = color || 0xff0000;
+    color = color ?? 0xff0000;
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
     const material = new MeshBasicMaterial({ color: color });
     const sphere_mesh = new Mesh(geometry, material);
