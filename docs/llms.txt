@@ -155,7 +155,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial` and `AddMaterial`.
 
-Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `FXAAMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `SDFScreenTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
+Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
 
 ### Post-Processing Utilities
 

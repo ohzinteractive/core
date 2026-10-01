@@ -13,14 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 0, task 3: unreachable materials
-  'shaders/anti_aliasing/fxaa.frag',
-  'shaders/sdf_text/sdf_screen_text.frag',
-  'shaders/sdf_text/sdf_screen_text.vert',
-  'shaders/unreal_blur/unreal_blur.frag',
-  'shaders/unreal_blur/unreal_compose.frag',
-  'shaders/write_view_position/write_view_position.frag',
-  'shaders/write_view_position/write_view_position.vert',
   // Session 0, task 4: unreachable components
   'shaders/edges/corners.frag',
   'shaders/edges/corners.vert',
@@ -57,12 +49,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 0, task 3: unreachable materials
-  'materials/FXAAMaterial.ts',
-  'materials/SDFScreenTextMaterial.ts',
-  'materials/UnrealBlurMaterial.ts',
-  'materials/UnrealComposeMaterial.ts',
-  'materials/ViewPositionMaterial.ts',
   // Session 0, task 4: unreachable components
   'components/EdgeMesh.ts',
   'components/GeometryEdgeVisualizer.ts',
