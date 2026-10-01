@@ -1,36 +1,31 @@
-import line_fs from '../shaders/basic_line/basic_line.frag';
-import line_vs from '../shaders/basic_line/basic_line.vert';
+import { LineMaterial } from '../materials/LineMaterial';
 
-import type { Vector3 } from 'three';
-import { BufferAttribute, BufferGeometry, Color, Mesh, ShaderMaterial } from 'three';
+import type { Color, ColorRepresentation, Vector3 } from 'three';
+import { BufferAttribute, BufferGeometry, Mesh } from 'three';
+
+// An empty geometry with every attribute LineMaterial reads.
+function create_line_geometry(): BufferGeometry
+{
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
+  geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
+  geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
+
+  return geometry;
+}
 
 class Line extends Mesh
 {
   _length: number;
   accumulated_length: number;
-  material: ShaderMaterial
+  material: LineMaterial;
 
   constructor(points?: Vector3[])
   {
-    const geometry = new BufferGeometry();
-    geometry.setAttribute('position',           new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('next_position',      new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('previous_position',  new BufferAttribute(new Float32Array([]), 3));
-    geometry.setAttribute('orientation',        new BufferAttribute(new Float32Array([]), 1));
-    geometry.setAttribute('coverage',           new BufferAttribute(new Float32Array([]), 1));
-
-    const material = new ShaderMaterial({
-      uniforms: {
-        _Thickness: { value: 0.2 },
-        _Length: { value: 0 },
-        _ElapsedTime: { value: 0 },
-        _Color: { value: new Color('#FF0000') }
-      },
-      vertexShader: line_vs,
-      fragmentShader: line_fs,
-      transparent: true,
-      depthWrite: false
-    });
+    const geometry = create_line_geometry();
+    const material = new LineMaterial();
 
     super(geometry, material);
     this.material = material;
@@ -106,7 +101,18 @@ class Line extends Mesh
       indices.push(index + 1);
     }
 
-    this.geometry.setIndex(indices);
+    // WebGPURenderer sizes each GPU buffer at its first upload and later only writes
+    // into it, and it frees a geometry's buffers on its first dispose() only. So a new
+    // point count moves the line to a new geometry, which the next render uploads at
+    // the new size, and frees the old one. The index depends only on the point count,
+    // so it is kept otherwise.
+    if (vertexList.length / 3 !== this.geometry.getAttribute('position').count)
+    {
+      const previous_geometry = this.geometry;
+      this.geometry = create_line_geometry();
+      this.geometry.setIndex(indices);
+      previous_geometry.dispose();
+    }
     (this.geometry.getAttribute('position') as BufferAttribute).copy(new BufferAttribute(vertexList, 3));
     (this.geometry.getAttribute('next_position') as BufferAttribute).copy(new BufferAttribute(nextPositionList, 3));
     (this.geometry.getAttribute('previous_position') as BufferAttribute).copy(new BufferAttribute(previousPositionList, 3));
@@ -182,12 +188,12 @@ class Line extends Mesh
     }
   }
 
-  set color(col)
+  set color(col: ColorRepresentation)
   {
     this.material.uniforms._Color.value.set(col);
   }
 
-  get color()
+  get color(): Color
   {
     return this.material.uniforms._Color.value;
   }
