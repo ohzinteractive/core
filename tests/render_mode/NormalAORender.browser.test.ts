@@ -68,6 +68,68 @@ function scene_with_box(color: number): AbstractScene
   return scene;
 }
 
+// A floor rising away from the camera and filling the view, so depth changes quickly
+// across the screen and the packed depth buffer steps its high byte many times over
+// it. Its vanishing line stays above the view: right below one, depth grows so fast
+// per pixel that the packing's own precision nears the bias.
+function rising_floor(): AbstractScene
+{
+  const scene = new AbstractScene({ name: 'normal_ao_floor_test', compilators: {} });
+  const floor = new Mesh(new PlaneGeometry(200, 200), new MeshBasicNodeMaterial({ color: 0xffffff }));
+
+  floor.rotation.x = -Math.PI / 2 + 0.6;
+  floor.position.y = -2;
+  scene.add(floor);
+
+  return scene;
+}
+
+// Reruns the occlusion pass alone, without the blur, and returns its strongest value
+// on pixels at least `margin` pixels away from the background, where all it can
+// measure is what the surface did to itself.
+async function raw_occlusion_inside_surfaces(render_mode: NormalAORender, margin: number): Promise<{ max: number, at: string[] }>
+{
+  render_mode.ssao_mat.set_projection_matrix(CameraManager.current.projectionMatrix);
+  Graphics.blit(Graphics.depth_normals_RT, render_mode.SSAO_RT, render_mode.ssao_mat);
+
+  const occlusion = await Graphics.readback_RT(render_mode.SSAO_RT) as Uint8Array;
+  const depth_normals = await Graphics.readback_RT(Graphics.depth_normals_RT) as Uint8Array;
+  const is_background = (x: number, y: number) =>
+  {
+    const i = (y * SIZE + x) * 4;
+    return depth_normals[i] === 0 && depth_normals[i + 1] === 0;
+  };
+
+  let max = 0;
+  const at: string[] = [];
+
+  for (let y = margin; y < SIZE - margin; y++)
+  {
+    for (let x = margin; x < SIZE - margin; x++)
+    {
+      let near_background = false;
+
+      for (let dy = -margin; dy <= margin && !near_background; dy++)
+      {
+        for (let dx = -margin; dx <= margin && !near_background; dx++)
+        {
+          near_background = is_background(x + dx, y + dy);
+        }
+      }
+
+      const value = occlusion[(y * SIZE + x) * 4];
+
+      if (!near_background && value > 0)
+      {
+        max = Math.max(max, value);
+        at.push(`(${x}, ${y}) = ${value}`);
+      }
+    }
+  }
+
+  return { max, at };
+}
+
 for (const backend of BACKENDS)
 {
   describe(`NormalAORender on WebGPURenderer (${backend.name} backend)`, () =>
@@ -136,6 +198,27 @@ for (const backend of BACKENDS)
 
       expect(pixels.luminance(OPEN_WALL)).toBeGreaterThan(245);
       expect(pixels.luminance(BOX_FRONT)).toBeGreaterThan(245);
+    });
+
+    it('does not band a flat surface seen at an angle', async() =>
+    {
+      // Interpolating packed depth with the texture filter loses precision wherever its
+      // high byte steps, which self occluded flat surfaces in lines. A far plane of 500
+      // makes that error several times the bias, while the packing itself still
+      // resolves depth well under it.
+      const camera = new PerspectiveCamera(60, 1, 0.1, 500);
+      camera.position.z = CAMERA_DISTANCE;
+      CameraManager.current = camera;
+      SceneManager.current = rising_floor();
+
+      const render_mode = enter();
+      render_mode.ssao_mat.uniforms._Radius.value = 0.3;
+      render_frames();
+
+      // The margin skips the screen border, where samples fall outside the depth buffer.
+      const { max, at } = await raw_occlusion_inside_surfaces(render_mode, 3);
+
+      expect(max, `occluded pixels in readback order: ${at.slice(0, 16).join(', ')}`).toBe(0);
     });
 
     it('darkens the wall beside the box, in the right orientation', () =>
