@@ -87,4 +87,31 @@ describe('Line', () =>
     expect(line.geometry.getAttribute('position').count).toBe(4);
     expect(line.geometry.index.count).toBe(6);
   });
+
+  it('setup frees the GPU buffers only when the point count changes', () =>
+  {
+    const line = new Line(bent_points());
+    let disposals = 0;
+    line.geometry.addEventListener('dispose', () => disposals++);
+
+    line.setup(bent_points().map(point => point.multiplyScalar(2)));
+
+    expect(disposals).toBe(0);
+
+    line.setup([...bent_points(), new Vector3(0, 4, 0)]);
+
+    expect(disposals).toBe(1);
+    expect(line.geometry.getAttribute('position').count).toBe(8);
+    expect(line.geometry.index.count).toBe(18);
+  });
+
+  it('keeps the same index while the point count stays', () =>
+  {
+    const line = new Line(bent_points());
+    const index = line.geometry.index;
+
+    line.setup(bent_points().map(point => point.multiplyScalar(2)));
+
+    expect(line.geometry.index).toBe(index);
+  });
 });

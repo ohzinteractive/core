@@ -94,7 +94,15 @@ class Line extends Mesh
       indices.push(index + 1);
     }
 
-    this.geometry.setIndex(indices);
+    // WebGPURenderer sizes each GPU buffer at its first upload and later only writes
+    // into it, so a new point count needs new buffers. Disposing the geometry frees
+    // them, and the next render allocates them at the new size. The index depends only
+    // on the point count, so it is kept otherwise.
+    if (vertexList.length / 3 !== this.geometry.getAttribute('position').count)
+    {
+      this.geometry.dispose();
+      this.geometry.setIndex(indices);
+    }
     (this.geometry.getAttribute('position') as BufferAttribute).copy(new BufferAttribute(vertexList, 3));
     (this.geometry.getAttribute('next_position') as BufferAttribute).copy(new BufferAttribute(nextPositionList, 3));
     (this.geometry.getAttribute('previous_position') as BufferAttribute).copy(new BufferAttribute(previousPositionList, 3));

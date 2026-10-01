@@ -229,5 +229,38 @@ for (const backend of BACKENDS)
       expect_color(render_frame().rgb({ x: 32, y: 31 }), MID_COLOR);
       expect(harness.reported_errors).toEqual([]);
     });
+
+    it('shows every segment after setup changes the point count of a drawn line', () =>
+    {
+      const line = new Line([new Vector3(-20, 0, 0), new Vector3(0, 0, 0)]);
+      line.thickness = 6;
+      line.color = 0xffffff;
+      scene.add(line);
+
+      expect(lit_rows(render_frame(), 48)).toEqual([]);
+
+      line.setup([new Vector3(-20, 0, 0), new Vector3(0, 0, 0), new Vector3(20, 0, 0)]);
+
+      expect(lit_rows(render_frame(), 48)).toEqual(ROWS_AT_Y0);
+
+      line.setup([new Vector3(-20, 0, 0), new Vector3(0, 0, 0)]);
+
+      expect(lit_rows(render_frame(), 48)).toEqual([]);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('draws a line that was rendered empty and set up later', () =>
+    {
+      const line = new Line();
+      line.thickness = 6;
+      line.color = 0xffffff;
+      scene.add(line);
+      render_frame();
+
+      line.setup([new Vector3(-20, 0, 0), new Vector3(20, 0, 0)]);
+
+      expect(lit_rows(render_frame(), 32)).toEqual(ROWS_AT_Y0);
+      expect(harness.reported_errors).toEqual([]);
+    });
   });
 }
