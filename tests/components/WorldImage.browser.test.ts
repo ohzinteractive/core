@@ -84,6 +84,22 @@ function lit_runs(pixels: Pixels, y: number): number
   return runs;
 }
 
+// The brightest pixel of a canvas row, a stand-in for a fully covered glyph pixel.
+function brightest_in_row(pixels: Pixels, y: number): Rgb
+{
+  let brightest = BLACK;
+
+  for (let x = 0; x < SIZE; x++)
+  {
+    if (pixels.luminance({ x, y }) > (brightest.r + brightest.g + brightest.b) / 3)
+    {
+      brightest = pixels.rgb({ x, y });
+    }
+  }
+
+  return brightest;
+}
+
 for (const backend of BACKENDS)
 {
   describe(`WorldImage on WebGPURenderer (${backend.name} backend)`, () =>
@@ -203,6 +219,15 @@ for (const backend of BACKENDS)
 
       expect(lit_runs(render_frame(0x000000), 27)).toBe(8);
       expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('renders Text2D in its fill color', () =>
+    {
+      const text = new Text2D('H', 'bold 48px Arial', '#4080c0', new Vector2());
+      text.size = new Vector3(48, 48, 48);
+      scene.add(text);
+
+      expect_color(brightest_in_row(render_frame(0x000000), SIZE / 2), MID_COLOR);
     });
   });
 }
