@@ -2,7 +2,7 @@ import { BlitNodeMaterial } from '../materials/BlitNodeMaterial';
 import { decode_float_rg, decode_normal } from './deferred/depth_normal_encoding';
 
 import { DataTexture, Matrix4, RGBAFormat, RepeatWrapping, Vector3 } from 'three';
-import { abs, cross, dot, float, Fn, Loop, normalize, smoothstep, step, texture, uniform, uniformArray, uv, vec3, vec4 } from 'three/tsl';
+import { abs, clamp, cross, dot, float, floor, Fn, ivec2, Loop, mix, normalize, smoothstep, step, texture, uniform, uniformArray, uv, vec2, vec3, vec4 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { OMath } from '../utilities/OMath';
@@ -44,11 +44,35 @@ class SSAOMaterial extends BlitNodeMaterial
     const depth_normal_tex = this.uniforms._MainTex as TextureNode;
     const resolution = this.uniforms._Resolution as unknown as Node<'vec2'>;
 
+    // Bilinear depth, decoded per texel before interpolating. The texture filter returns
+    // 8 bit channels with only a few extra bits, which the RG packing scales by 255
+    // wherever the high byte steps, enough to self occlude flat surfaces in lines.
+    const depth_at = (texture_uv: Node<'vec2'>) =>
+    {
+      const texel_pos = texture_uv.mul(resolution).sub(0.5);
+      const corner = floor(texel_pos);
+      const weight = texel_pos.sub(corner);
+      const last_texel = resolution.sub(1);
+
+      const texel_depth = (x: number, y: number) =>
+      {
+        const texel = clamp(corner.add(vec2(x, y)), vec2(0), last_texel);
+
+        return decode_float_rg(depth_normal_tex.load(ivec2(texel.x, texel.y)).xy);
+      };
+
+      return mix(
+        mix(texel_depth(0, 0), texel_depth(1, 0), weight.x),
+        mix(texel_depth(0, 1), texel_depth(1, 1), weight.x),
+        weight.y
+      );
+    };
+
     // Scales the far plane point under quad_uv by the stored depth over the far plane.
     const view_position_at = (quad_uv: Node<'vec2'>) =>
     {
       const far_plane_point = inverse_proj.mul(vec4(quad_uv.mul(2).sub(1), 1, 1));
-      const depth = decode_float_rg(depth_normal_tex.sample(this.texture_uv_at(depth_normal_tex, quad_uv)).xy);
+      const depth = depth_at(this.texture_uv_at(depth_normal_tex, quad_uv));
 
       return far_plane_point.xyz.div(far_plane_point.w).mul(depth);
     };
