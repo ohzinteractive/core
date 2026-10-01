@@ -152,9 +152,9 @@ for (const backend of BACKENDS)
       harness.dispose();
     });
 
-    function enter(use_ssaa = false): NormalAORender
+    function enter(use_ssaa = false, use_exact_depth = true): NormalAORender
     {
-      const render_mode = new NormalAORender(use_ssaa);
+      const render_mode = new NormalAORender(use_ssaa, use_exact_depth);
       render_mode.ssao_mat.uniforms._Radius.value = TEST_RADIUS;
       Graphics.set_state(render_mode);
 
@@ -167,6 +167,25 @@ for (const backend of BACKENDS)
       Graphics.update();
 
       return harness.read_canvas();
+    }
+
+    // Interpolating packed depth with the texture filter loses precision wherever its
+    // high byte steps, which self occludes flat surfaces in lines. A far plane of 500
+    // makes that error several times the bias, while the packing itself still
+    // resolves depth well under it.
+    async function occlusion_on_rising_floor(use_exact_depth: boolean)
+    {
+      const camera = new PerspectiveCamera(60, 1, 0.1, 500);
+      camera.position.z = CAMERA_DISTANCE;
+      CameraManager.current = camera;
+      SceneManager.current = rising_floor();
+
+      const render_mode = enter(false, use_exact_depth);
+      render_mode.ssao_mat.uniforms._Radius.value = 0.3;
+      render_frames();
+
+      // The margin skips the screen border, where samples fall outside the depth buffer.
+      return raw_occlusion_inside_surfaces(render_mode, 3);
     }
 
     it(`runs on the ${backend.name} backend`, () =>
@@ -200,25 +219,30 @@ for (const backend of BACKENDS)
       expect(pixels.luminance(BOX_FRONT)).toBeGreaterThan(245);
     });
 
-    it('does not band a flat surface seen at an angle', async() =>
+    it('reads depth exactly by default, so a flat surface seen at an angle does not band', async() =>
     {
-      // Interpolating packed depth with the texture filter loses precision wherever its
-      // high byte steps, which self occluded flat surfaces in lines. A far plane of 500
-      // makes that error several times the bias, while the packing itself still
-      // resolves depth well under it.
-      const camera = new PerspectiveCamera(60, 1, 0.1, 500);
-      camera.position.z = CAMERA_DISTANCE;
-      CameraManager.current = camera;
-      SceneManager.current = rising_floor();
+      const { max, at } = await occlusion_on_rising_floor(true);
 
-      const render_mode = enter();
-      render_mode.ssao_mat.uniforms._Radius.value = 0.3;
-      render_frames();
-
-      // The margin skips the screen border, where samples fall outside the depth buffer.
-      const { max, at } = await raw_occlusion_inside_surfaces(render_mode, 3);
-
+      expect(new NormalAORender().ssao_mat.use_exact_depth).toBe(true);
       expect(max, `occluded pixels in readback order: ${at.slice(0, 16).join(', ')}`).toBe(0);
+    });
+
+    it('trades exact depth reads for one filtered fetch when use_exact_depth is off, which bands', async() =>
+    {
+      const { max } = await occlusion_on_rising_floor(false);
+
+      expect(max).toBeGreaterThan(0);
+    });
+
+    it('still renders and shades creases with filtered depth reads', () =>
+    {
+      const render_mode = enter(false, false);
+      const pixels = render_frames();
+
+      expect(render_mode.ssao_mat.use_exact_depth).toBe(false);
+      expect(harness.reported_errors).toEqual([]);
+      expect(darkest(pixels, AROUND_BOX).luminance).toBeLessThan(pixels.luminance(OPEN_WALL) - MIN_DARKENING);
+      expect(darkest(pixels, MIRRORED_REGION).luminance).toBeGreaterThan(250);
     });
 
     it('darkens the wall beside the box, in the right orientation', () =>

@@ -15,15 +15,19 @@ type TextureNode = ReturnType<typeof texture>;
 // Screen space ambient occlusion over the DepthAndNormalsRenderer target (_MainTex).
 // Each pixel tests a hemisphere of samples around its normal against the depth
 // buffer and writes the occluded fraction to every channel.
+// use_exact_depth picks how samples read depth between texels: exact (default) or
+// one filtered fetch, which costs about half as much but bands flat surfaces.
 class SSAOMaterial extends BlitNodeMaterial
 {
   sample_kernel: Vector3[];
+  use_exact_depth: boolean;
 
-  constructor()
+  constructor(use_exact_depth = true)
   {
     super();
 
     this.sample_kernel = this.__get_sample_kernel();
+    this.use_exact_depth = use_exact_depth;
 
     const inverse_proj = uniform(new Matrix4());
     const projection = uniform(new Matrix4());
@@ -47,7 +51,7 @@ class SSAOMaterial extends BlitNodeMaterial
     // Bilinear depth, decoded per texel before interpolating. The texture filter returns
     // 8 bit channels with only a few extra bits, which the RG packing scales by 255
     // wherever the high byte steps, enough to self occlude flat surfaces in lines.
-    const depth_at = (texture_uv: Node<'vec2'>) =>
+    const exact_depth_at = (texture_uv: Node<'vec2'>) =>
     {
       const texel_pos = texture_uv.mul(resolution).sub(0.5);
       const corner = floor(texel_pos);
@@ -67,6 +71,10 @@ class SSAOMaterial extends BlitNodeMaterial
         weight.y
       );
     };
+
+    const filtered_depth_at = (texture_uv: Node<'vec2'>) => decode_float_rg(depth_normal_tex.sample(texture_uv).xy);
+
+    const depth_at = use_exact_depth ? exact_depth_at : filtered_depth_at;
 
     // Scales the far plane point under quad_uv by the stored depth over the far plane.
     const view_position_at = (quad_uv: Node<'vec2'>) =>

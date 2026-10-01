@@ -21,6 +21,16 @@ describe('SSAOMaterial', () =>
     expect(material.fragmentNode).toBeTruthy();
   });
 
+  it('reads depth exactly unless told to use one filtered fetch per sample', () =>
+  {
+    const exact = new SSAOMaterial();
+    const filtered = new SSAOMaterial(false);
+
+    expect(exact.use_exact_depth).toBe(true);
+    expect(filtered.use_exact_depth).toBe(false);
+    expect(filtered.fragmentNode).toBeTruthy();
+  });
+
   it('starts with the bias and radius of the GLSL version', () =>
   {
     const material = new SSAOMaterial();
