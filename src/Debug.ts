@@ -227,6 +227,8 @@ class Debug
   draw_texture(tex: Texture, w: number, h: number)
   {
     const mesh = new Mesh(new PlaneGeometry(1, 1), new ScreenSpaceTextureMaterial());
+    // Placed in screen space by its material, so the camera frustum says nothing about it.
+    mesh.frustumCulled = false;
     this.display_texture_meshes.push(mesh);
     this.scene.add(mesh);
 

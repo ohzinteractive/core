@@ -195,5 +195,14 @@ for (const backend of BACKENDS)
       expect_color(pixels.rgb(MOVED_MARKER), WHITE);
       expect_color(pixels.rgb(MARKER), BLACK);
     });
+
+    it('stays on screen when the camera looks away from the world origin', () =>
+    {
+      Debug.draw_texture(marker_data_texture(), 32, 32);
+      CameraManager.current.position.x = 1000;
+      CameraManager.current.updateMatrixWorld(true);
+
+      expect_color(render_frame(0x000000).rgb(MARKER), WHITE);
+    });
   });
 }
