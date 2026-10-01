@@ -2,7 +2,7 @@ import { SimpleTextDrawer } from '../canvas_drawer/SimpleTextDrawer';
 import { WorldImage } from './WorldImage';
 
 import type { CanvasTexture, Vector2 } from 'three';
-import { LinearFilter, LinearMipMapLinearFilter } from 'three';
+import { LinearFilter, LinearMipMapLinearFilter, SRGBColorSpace } from 'three';
 
 class Text2D extends WorldImage
 {
@@ -22,6 +22,8 @@ class Text2D extends WorldImage
 
     canvas_texture.minFilter = LinearMipMapLinearFilter;
     canvas_texture.minFilter = LinearFilter;
+    // Canvas colors are CSS colors, so sRGB. Tagged, they render as the given color.
+    canvas_texture.colorSpace = SRGBColorSpace;
     canvas_texture.needsUpdate = true;
     super(canvas_texture, pivot);
 

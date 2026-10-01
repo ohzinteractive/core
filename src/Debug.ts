@@ -1,4 +1,5 @@
 import { AxisHelper } from './components/AxisHelper';
+import { Text2D } from './components/Text2D';
 
 import { ScreenSpaceTextureMaterial } from './materials/ScreenSpaceTextureMaterial';
 import { OScreen } from './OScreen';
@@ -8,8 +9,8 @@ import { Cube } from './primitives/Cube';
 import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
-import type { RenderTarget, Texture, Vector2 } from 'three';
-import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, SphereGeometry, Vector3 } from 'three';
+import type { RenderTarget, Texture } from 'three';
+import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Color, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, SphereGeometry, Vector2, Vector3 } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { CameraManager } from './CameraManager';
 import type { AbstractScene, Graphics } from './index';
@@ -236,6 +237,17 @@ class Debug
 
     mesh.material.set_texture(tex, w, h);
     return mesh;
+  }
+
+  // Text that always faces the camera, size world units tall, centered on pos.
+  draw_label(text: string, pos?: Vector3, size: number = 1, color: number | string = 0xffffff)
+  {
+    const label = new Text2D(text, 'bold 48px Arial', new Color(color).getStyle(), new Vector2());
+    label.size = new Vector3(size, size, size);
+    label.screen_aligned = true;
+    label.position.copy(pos || new Vector3());
+    this.scene.add(label);
+    return label;
   }
 
   render(graphics: typeof Graphics)

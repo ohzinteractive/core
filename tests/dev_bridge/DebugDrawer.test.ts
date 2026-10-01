@@ -202,7 +202,7 @@ describe('DebugDrawer', () =>
 
       expect(unknown.code).toBe('bad_request');
 
-      for (const shape of ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box'])
+      for (const shape of ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box', 'label'])
       {
         expect(unknown.message).toContain(shape);
       }
@@ -230,6 +230,19 @@ describe('DebugDrawer', () =>
     {
       expect(caught(() => draw({ shape: 'cube', color: { r: 1 } })).code).toBe('bad_request');
       expect(caught(() => draw({ shape: 'cube', color: true })).code).toBe('bad_request');
+    });
+
+    it('rejects a label without a non-empty text', () =>
+    {
+      for (const text of [undefined, '', 42, 'x'.repeat(201)])
+      {
+        const error = caught(() => draw({ shape: 'label', text }));
+
+        expect(error.code).toBe('bad_request');
+        expect(error.message).toContain('text');
+      }
+
+      expect(Debug.scene.children).toEqual([]);
     });
 
     it('draws nothing when a request is rejected', () =>

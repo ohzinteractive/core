@@ -1,3 +1,5 @@
+import { WorldImage } from '../components/WorldImage';
+
 import type { Material, Mesh, Object3D } from 'three';
 import { Box3, Sphere, Vector3 } from 'three';
 
@@ -10,6 +12,7 @@ interface DebugLike
   draw_plane(width?: number, height?: number, color?: Color): Object3D;
   draw_math_sphere(sphere: Sphere, color?: Color): Object3D;
   draw_bounding_box(bb: Box3, color?: Color): Object3D;
+  draw_label(text: string, pos?: Vector3, size?: number, color?: Color): Object3D;
 }
 
 interface DebugDrawRequest
@@ -19,6 +22,7 @@ interface DebugDrawRequest
   size?: unknown;
   color?: unknown;
   object?: unknown;
+  text?: unknown;
 }
 
 interface DebugDrawResult
@@ -39,7 +43,11 @@ interface DebugClearResult
   helpers: number;
 }
 
-const SHAPES = ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box'];
+const SHAPES = ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box', 'label'];
+
+// At 48px a glyph is about 27 pixels wide, so 200 keeps the label canvas below the
+// 8192 pixel texture limit WebGPU guarantees.
+const MAX_LABEL_LENGTH = 200;
 
 // Only helpers drawn through this class are tracked, so debug_clear never touches the
 // helpers the app draws for itself into Debug.scene.
@@ -59,14 +67,14 @@ class DebugDrawer
     const position = this.position(request.position);
     const size = this.size(request.size);
     const color = this.color(request.color);
-    const helper = this.build(debug, root, shape, request.object, position, size, color);
+    const helper = this.build(debug, root, shape, request, position, size, color);
 
     this.helpers.set(helper.uuid, helper);
 
     return { id: helper.uuid, shape, helpers: this.helpers.size };
   }
 
-  private build(debug: DebugLike, root: Object3D, shape: string, target: unknown, position: Vector3, size: number, color: Color | undefined): Object3D
+  private build(debug: DebugLike, root: Object3D, shape: string, request: DebugDrawRequest, position: Vector3, size: number, color: Color | undefined): Object3D
   {
     switch (shape)
     {
@@ -88,8 +96,12 @@ class DebugDrawer
       case 'math_sphere':
         return debug.draw_math_sphere(new Sphere(position, size), color);
 
+      case 'label':
+        // Size is the text height.
+        return debug.draw_label(this.text(request.text), position, size, color);
+
       default:
-        return debug.draw_bounding_box(this.bounds(root, target), color);
+        return debug.draw_bounding_box(this.bounds(root, request.object), color);
     }
   }
 
@@ -130,6 +142,12 @@ class DebugDrawer
 
       const materials: Material[] = Array.isArray(mesh.material) ? mesh.material : mesh.material ? [mesh.material] : [];
       materials.forEach((material) => material.dispose());
+
+      // A label owns its canvas texture.
+      if (node instanceof WorldImage)
+      {
+        node.material.uniforms._MainTex.value.dispose();
+      }
     });
   }
 
@@ -162,6 +180,16 @@ class DebugDrawer
     }
 
     return box;
+  }
+
+  private text(value: unknown): string
+  {
+    if (typeof value !== 'string' || value.length === 0 || value.length > MAX_LABEL_LENGTH)
+    {
+      throw this.error('bad_request', `label needs a text of 1 to ${MAX_LABEL_LENGTH} characters.`);
+    }
+
+    return value;
   }
 
   private position(value: unknown): Vector3

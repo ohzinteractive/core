@@ -1,31 +1,20 @@
-import basic_texture_frag from '../shaders/basic_texture/basic_texture.frag';
-import basic_texture_vert from '../shaders/basic_texture/basic_texture.vert';
+import { WorldImageMaterial } from '../materials/WorldImageMaterial';
 
 import type { Texture } from 'three';
-import { DoubleSide, Mesh, PlaneGeometry, ShaderMaterial, Vector2, Vector3 } from 'three';
+import { Mesh, PlaneGeometry, Vector2, Vector3 } from 'three';
 
 class WorldImage extends Mesh
 {
   current_scale: number;
+  sized_texture: Texture;
+  texture_size: Vector2;
   tmp_bb_size: Vector3;
-  material: ShaderMaterial;
+  material: WorldImageMaterial;
   
   constructor(texture: Texture, pivot: Vector2)
   {
     pivot = pivot || new Vector2(0, 0);
-    const material = new ShaderMaterial({
-      uniforms: {
-        _MainTex: { value: texture },
-        _ScreenAligned: { value: 0 },
-        _Scale: { value: 1 },
-        _Opacity: { value: 1 }
-      },
-      vertexShader: basic_texture_vert,
-      fragmentShader: basic_texture_frag,
-      transparent: true,
-      depthWrite: false,
-      side: DoubleSide
-    });
+    const material = new WorldImageMaterial(texture);
     const geometry = new PlaneGeometry(1, 1, 1);
     geometry.translate(-pivot.x / 2, -pivot.y / 2, 0);
     // @ts-expect-error -- threejs issue
@@ -33,6 +22,9 @@ class WorldImage extends Mesh
     geometry.scale(current_scale, 1, 1);
     super(geometry, material);
     this.current_scale = current_scale;
+    this.sized_texture = texture;
+    // @ts-expect-error -- threejs issue
+    this.texture_size = new Vector2(texture.image.width, texture.image.height);
     this.geometry.computeBoundingBox();
 
     this.tmp_bb_size = new Vector3();
@@ -42,8 +34,21 @@ class WorldImage extends Mesh
 
   update_texture()
   {
-    this.material.uniforms._MainTex.value.needsUpdate = true;
-    const img = this.material.uniforms._MainTex.value.image;
+    const texture = this.material.uniforms._MainTex.value;
+    const img = texture.image as { width: number, height: number };
+
+    // WebGPURenderer allocates the GPU texture at the image size once and later only
+    // uploads into it, so an image that changed size needs a new one. A texture swapped
+    // into _MainTex may be shared, so it is only measured, never freed.
+    const resized = img.width !== this.texture_size.x || img.height !== this.texture_size.y;
+
+    if (texture === this.sized_texture && resized)
+    {
+      texture.dispose();
+    }
+    this.sized_texture = texture;
+    this.texture_size.set(img.width, img.height);
+    texture.needsUpdate = true;
 
     this.geometry.scale(1 / this.current_scale, 1, 1);
     this.current_scale = img.width / img.height;
@@ -60,7 +65,7 @@ class WorldImage extends Mesh
   set size(value)
   {
     this.scale.copy(value);
-    this.material.uniforms._Scale.value = value;
+    this.material.uniforms._Scale.value.copy(value);
   }
 
   set screen_aligned(boolean)
