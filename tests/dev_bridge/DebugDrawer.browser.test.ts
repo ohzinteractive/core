@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { BoxGeometry, Mesh } from 'three';
+import { BoxGeometry, DataTexture, Mesh } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 
 import { CameraManager } from '../../src/CameraManager';
@@ -18,6 +18,20 @@ const RED = { r: 255, g: 0, b: 0 };
 const BLACK = { r: 0, g: 0, b: 0 };
 const MID_COLOR = { r: 64, g: 128, b: 192 };  // #4080c0
 const TOLERANCE = 4;
+
+// A font whose 'A' fills its em box from a 1x1 atlas that is inside everywhere, so a
+// text of size 16 at the origin covers the 16x16 pixels around the canvas center.
+function solid_font_loader()
+{
+  const atlas = new DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+  atlas.needsUpdate = true;
+  const layout = {
+    atlas: { width: 1, height: 1, yOrigin: 'bottom' },
+    glyphs: [{ unicode: 65, advance: 1, planeBounds: { left: 0, bottom: 0, right: 1, top: 1 }, atlasBounds: { left: 0, bottom: 0, right: 1, top: 1 } }]
+  };
+
+  return () => Promise.resolve({ layout, atlas });
+}
 
 function expect_color(actual: Rgb, expected: Rgb)
 {
@@ -129,6 +143,22 @@ for (const backend of BACKENDS)
 
       expect(disposed).toBe(true);
       expect(Debug.scene.children).toEqual([]);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('draws sdf_text in its color over the scene, and removes it once cleared', async() =>
+    {
+      drawer = new DebugDrawer({ sdf_font: '/fonts/solid.json', load_sdf_font: solid_font_loader() });
+
+      const { id } = await drawer.draw(Debug, SceneManager.current, { shape: 'sdf_text', text: 'A', size: 16, color: '#4080c0' });
+      const pixels = render_frame(0x000000);
+
+      expect_color(pixels.rgb(CANVAS_CENTER), MID_COLOR);
+      expect_color(pixels.rgb({ x: 20, y: SIZE / 2 }), BLACK);
+
+      drawer.clear({ id });
+
+      expect_color(render_frame(0x000000).rgb(CANVAS_CENTER), BLACK);
       expect(harness.reported_errors).toEqual([]);
     });
   });

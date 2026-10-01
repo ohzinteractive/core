@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { Box3, BoxGeometry, Mesh, MeshBasicMaterial, type PlaneGeometry, type SphereGeometry, Vector3 } from 'three';
+import { Box3, BoxGeometry, DataTexture, Mesh, MeshBasicMaterial, type PlaneGeometry, type SphereGeometry, Vector3 } from 'three';
+
+import { SDFTextBatch } from '../../src/components/sdf_text/SDFTextBatch';
 
 import { Debug } from '../../src/Debug';
 import { DebugDrawer } from '../../src/dev_bridge/DebugDrawer';
@@ -20,6 +22,45 @@ function caught(action: () => unknown): { code?: string, message: string }
   }
 
   throw new Error('Expected the call to throw.');
+}
+
+async function rejected(promise: unknown): Promise<{ code?: string, message: string }>
+{
+  try
+  {
+    await promise;
+  }
+  catch (error)
+  {
+    return error as { code?: string, message: string };
+  }
+
+  throw new Error('Expected the promise to reject.');
+}
+
+// An msdf-atlas-gen layout with a space and an 'A' that fills its em box.
+const SDF_LAYOUT = {
+  atlas: { width: 16, height: 8, yOrigin: 'bottom' },
+  glyphs: [
+    { unicode: 32, advance: 0.25 },
+    { unicode: 65, advance: 1, planeBounds: { left: 0, bottom: 0, right: 1, top: 1 }, atlasBounds: { left: 0, bottom: 0, right: 8, top: 8 } }
+  ]
+};
+
+// A font loader that records the URLs it is asked for and serves layout with a 1x1 atlas.
+function font_loader(layout: unknown = SDF_LAYOUT)
+{
+  const calls: string[][] = [];
+  const atlas = new DataTexture(new Uint8Array(4), 1, 1);
+
+  const load = (layout_url: string, atlas_url: string) =>
+  {
+    calls.push([layout_url, atlas_url]);
+
+    return Promise.resolve({ layout, atlas });
+  };
+
+  return { calls, atlas, load };
 }
 
 function color_of(mesh: Mesh): number
@@ -202,7 +243,7 @@ describe('DebugDrawer', () =>
 
       expect(unknown.code).toBe('bad_request');
 
-      for (const shape of ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box', 'label'])
+      for (const shape of ['cube', 'sphere', 'plane', 'math_sphere', 'bounding_box', 'label', 'sdf_text'])
       {
         expect(unknown.message).toContain(shape);
       }
@@ -249,6 +290,173 @@ describe('DebugDrawer', () =>
     {
       caught(() => draw({ shape: 'cube', size: -1 }));
 
+      expect(Debug.scene.children).toEqual([]);
+    });
+  });
+
+  describe('sdf_text', () =>
+  {
+    it('draws white SDF text centered at the position into the debug scene, with the default font', async() =>
+    {
+      const loader = font_loader();
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: loader.load });
+
+      const result = await draw({ shape: 'sdf_text', text: 'A A', position: [1, 2, 3], size: 2 });
+      const batch = Debug.scene.children[0] as SDFTextBatch;
+      const text = batch.text_elements[0];
+
+      expect(batch).toBeInstanceOf(SDFTextBatch);
+      expect(result).toEqual({ id: batch.uuid, shape: 'sdf_text', helpers: 1 });
+      expect(loader.calls).toEqual([['/fonts/sdf/default.json', '/fonts/sdf/default.png']]);
+      expect(batch.material.uniforms._Texture.value).toBe(loader.atlas);
+      expect(text.text).toBe('A A');
+      expect(text.position).toEqual(new Vector3(1, 2, 3));
+      expect(text.scale).toEqual(new Vector3(2, 2, 2));
+      expect(text.color.getHex()).toBe(0xffffff);
+      // Uploaded already: the batch has one instance per drawable glyph.
+      expect(batch.geometry.instanceCount).toBe(2);
+      expect(SceneManager.current.children).toEqual([]);
+    });
+
+    it('uses the font of the request, with its atlas next to it, and the color', async() =>
+    {
+      const loader = font_loader();
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: loader.load });
+
+      await draw({ shape: 'sdf_text', text: 'A', font: 'https://cdn.example.com/fonts/roboto.json', color: '#0000ff' });
+      const batch = Debug.scene.children[0] as SDFTextBatch;
+
+      expect(loader.calls).toEqual([['https://cdn.example.com/fonts/roboto.json', 'https://cdn.example.com/fonts/roboto.png']]);
+      expect(batch.text_elements[0].color.getHex()).toBe(0x0000ff);
+    });
+
+    it('loads each font once', async() =>
+    {
+      const loader = font_loader();
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: loader.load });
+
+      await draw({ shape: 'sdf_text', text: 'A' });
+      const result = await draw({ shape: 'sdf_text', text: 'AA' });
+
+      expect(loader.calls).toHaveLength(1);
+      expect(result.helpers).toBe(2);
+    });
+
+    it('is not_found when the font fails to load, and tries it again next time', async() =>
+    {
+      const loader = font_loader();
+      let failures = 1;
+      const load = (layout_url: string, atlas_url: string) => (failures-- > 0 ? Promise.reject(new Error('HTTP 404')) : loader.load(layout_url, atlas_url));
+      drawer = new DebugDrawer({ load_sdf_font: load });
+
+      const error = await rejected(draw({ shape: 'sdf_text', text: 'A', font: '/fonts/missing.json' }));
+
+      expect(error.code).toBe('not_found');
+      expect(error.message).toContain('/fonts/missing.json');
+      expect(error.message).toContain('HTTP 404');
+      expect(Debug.scene.children).toEqual([]);
+
+      await draw({ shape: 'sdf_text', text: 'A', font: '/fonts/missing.json' });
+
+      expect(Debug.scene.children).toHaveLength(1);
+    });
+
+    it('is bad_request without a font when no default font is configured', () =>
+    {
+      drawer = new DebugDrawer({ load_sdf_font: font_loader().load });
+
+      const error = caught(() => draw({ shape: 'sdf_text', text: 'A' }));
+
+      expect(error.code).toBe('bad_request');
+      expect(error.message).toContain('font');
+    });
+
+    it('is bad_request for a font that is not the URL of a .json layout', () =>
+    {
+      drawer = new DebugDrawer({ load_sdf_font: font_loader().load });
+
+      for (const font of ['/fonts/roboto.png', '', 42])
+      {
+        const error = caught(() => draw({ shape: 'sdf_text', text: 'A', font }));
+
+        expect(error.code).toBe('bad_request');
+        expect(error.message).toContain('.json');
+      }
+    });
+
+    it('rejects sdf_text without a non-empty text', () =>
+    {
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader().load });
+
+      for (const text of [undefined, '', 42, 'x'.repeat(201)])
+      {
+        const error = caught(() => draw({ shape: 'sdf_text', text }));
+
+        expect(error.code).toBe('bad_request');
+        expect(error.message).toContain('text');
+      }
+    });
+
+    it('is bad_request when the font has none of the characters', async() =>
+    {
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader().load });
+
+      const error = await rejected(draw({ shape: 'sdf_text', text: '€ ' }));
+
+      expect(error.code).toBe('bad_request');
+      expect(error.message).toContain('characters');
+      expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('is bad_request for a text of characters outside the Basic Multilingual Plane, which SDFText reads as UTF-16 units', async() =>
+    {
+      // The font has the emoji, but SDFText looks glyphs up by UTF-16 unit, so it draws
+      // nothing for it and would throw on an empty glyph list.
+      const emoji = { unicode: 0x1f600, advance: 1, planeBounds: { left: 0, bottom: 0, right: 1, top: 1 }, atlasBounds: { left: 0, bottom: 0, right: 8, top: 8 } };
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader({ ...SDF_LAYOUT, glyphs: [...SDF_LAYOUT.glyphs, emoji] }).load });
+
+      const error = await rejected(draw({ shape: 'sdf_text', text: '\u{1F600}' }));
+
+      expect(error.code).toBe('bad_request');
+      expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('draws a text whose only drawable character follows one outside the Basic Multilingual Plane', async() =>
+    {
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader().load });
+
+      await draw({ shape: 'sdf_text', text: 'x\u{1F600}A' });
+
+      expect((Debug.scene.children[0] as SDFTextBatch).geometry.instanceCount).toBe(1);
+    });
+
+    it('is bad_request for a layout it cannot draw', async() =>
+    {
+      const top_origin = { ...SDF_LAYOUT, atlas: { ...SDF_LAYOUT.atlas, yOrigin: 'top' } };
+
+      for (const layout of [{ glyphs: [] }, top_origin])
+      {
+        drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: font_loader(layout).load });
+
+        expect((await rejected(draw({ shape: 'sdf_text', text: 'A' }))).code).toBe('bad_request');
+      }
+
+      expect(Debug.scene.children).toEqual([]);
+    });
+
+    it('clear removes the text and disposes its geometry and material, but keeps the shared atlas', async() =>
+    {
+      const loader = font_loader();
+      drawer = new DebugDrawer({ sdf_font: '/fonts/sdf/default.json', load_sdf_font: loader.load });
+      const result = await draw({ shape: 'sdf_text', text: 'A' });
+      const batch = Debug.scene.children[0] as SDFTextBatch;
+      const disposed: string[] = [];
+      batch.geometry.addEventListener('dispose', () => disposed.push('geometry'));
+      batch.material.addEventListener('dispose', () => disposed.push('material'));
+      loader.atlas.addEventListener('dispose', () => disposed.push('atlas'));
+
+      expect(drawer.clear({ id: result.id })).toEqual({ removed: 1, helpers: 0 });
+      expect(disposed).toEqual(['geometry', 'material']);
       expect(Debug.scene.children).toEqual([]);
     });
   });
