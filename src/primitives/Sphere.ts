@@ -9,7 +9,7 @@ class Sphere extends Mesh
 
   constructor(radius: number, color: number | string)
   {
-    color = color || '#FF0000';
+    color = color ?? '#FF0000';
     radius = radius || 1;
     const geometry = new SphereGeometry(radius, 64, 64);
     const material = new MeshBasicMaterial({ color: color });

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 // GLSL still waiting for its TSL port, as paths relative to src/, grouped by the
-// migration session that removes it (docs/superpowers/plans/2026-10-01-glsl-to-tsl-roadmap.md).
+// migration session that removes it.
 // A session deletes its block first, so this test fails until its GLSL is gone.
 // New GLSL fails it too. In TSL modules, say "GLSL material" in comments, not the
 // three class name, or the module gets flagged.
@@ -42,9 +42,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 1: Debug overlay
-  'Debug.ts',
-  'materials/ScreenSpaceTextureMaterial.ts',
   // Session 2: WorldImage
   'components/WorldImage.ts',
   // Session 3: Line

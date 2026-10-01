@@ -1,42 +1,30 @@
 import type { Texture } from 'three';
 import { Vector2 } from 'three';
-import { BaseShaderMaterial } from './BaseShaderMaterial';
-class ScreenSpaceTextureMaterial extends BaseShaderMaterial
+import { uniform, uv, vec4 } from 'three/tsl';
+import { BlitNodeMaterial } from './BlitNodeMaterial';
+
+// Draws _MainTex on a screen space rectangle, _TextureSize pixels wide and tall, whose
+// bottom left corner sits _ScreenSpacePosition pixels from the bottom left corner of a
+// _ScreenSize pixels screen. The texture is sampled through BlitNodeMaterial, so render
+// targets and regular textures both show upright on every backend.
+class ScreenSpaceTextureMaterial extends BlitNodeMaterial
 {
   constructor()
   {
-    const vert = `
-      uniform vec2 _ScreenSpacePosition;
-      uniform vec2 _ScreenSize;
-      uniform vec2 _TextureSize;
-      varying vec2 vUv;
-      void main()
-      {
-        vec2 pos = uv * vec2(_TextureSize.x / _ScreenSize.x, _TextureSize.y / _ScreenSize.y);
-        pos += vec2(_ScreenSpacePosition.x / _ScreenSize.x, _ScreenSpacePosition.y / _ScreenSize.y);
+    super();
 
-        pos.x = pos.x * 2.0 - 1.0;
-        pos.y = pos.y * 2.0 - 1.0;
+    const screen_space_position = uniform(new Vector2());
+    const screen_size = uniform(new Vector2());
+    const texture_size = uniform(new Vector2());
 
-        gl_Position = vec4(pos, 0.0, 1.0);
-        vUv = uv;
-      }
-    `;
-    const frag = `
-      uniform sampler2D _MainTex;
-      varying vec2 vUv;
+    this.uniforms._ScreenSpacePosition = screen_space_position;
+    this.uniforms._ScreenSize = screen_size;
+    this.uniforms._TextureSize = texture_size;
 
-      void main()
-      {
-        gl_FragColor = texture2D(_MainTex, vUv);
-      }
-    `;
-    super(vert, frag, {
-      _MainTex: { value: undefined },
-      _ScreenSpacePosition: { value: new Vector2() },
-      _ScreenSize: { value: new Vector2() },
-      _TextureSize: { value: new Vector2() }
-    });
+    // Drawn on a 1x1 PlaneGeometry, whose UV is the bottom left based point of the rectangle.
+    const screen_uv = uv().mul(texture_size).add(screen_space_position).div(screen_size);
+
+    this.vertexNode = vec4(screen_uv.mul(2).sub(1), 0, 1);
   }
 
   set_position(x: number, y: number)
