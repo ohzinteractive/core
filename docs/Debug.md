@@ -41,12 +41,12 @@ All 3D draw methods add objects to `Debug.scene` and return the created object.
 | `draw_line` | `(points, color?)` | A line through the given `Vector3[]` points. |
 | `draw_cube` | `(pos?, size?, color?)` | A solid cube at `pos` with uniform `size`. |
 | `draw_oriented_cube` | `(from, to, height?, color?, depth?)` | A cube oriented along the `from→to` direction. |
-| `draw_plane` | `(width?, height?, color?)` | A transparent plane with custom shader. Rendered behind everything (`renderOrder = -10000`). |
+| `draw_plane` | `(width?, height?, color?)` | A plane in `color` (default green) at 20% opacity that writes no depth, so it tints what is behind it and never hides what is drawn after it. `renderOrder = -10000` sorts it first among transparent objects. |
 | `draw_empty_cube` | `(pos, size, color)` | A wireframe `Box3Helper`. Note: not added to the debug scene automatically. |
 | `draw_sphere` | `(pos, size, color)` | A solid sphere. |
 | `draw_point_array` | `(points, open?, color?)` | A smooth Catmull-Rom curve through the given points (200 samples). |
 | `draw_curve` | `(curve, options?)` | Line segments connecting consecutive points, with an optional Y offset. |
-| `draw_texture` | `(tex, w, h)` | Displays a texture on a screen-space quad. The quad's screen size is updated each frame in `render()`. |
+| `draw_texture` | `(tex, w, h)` | Shows a texture on a screen space quad, `w` x `h` pixels (by default the texture's own size), with its bottom left corner at the bottom left of the screen. Move it with `mesh.material.set_position(x, y)`, in pixels from the bottom left. Render targets and regular textures both show upright, in the colors they have on screen: sRGB textures keep their authored colors, render targets show what was rendered into them, and `NoColorSpace` data textures are treated as linear. The quad draws over everything, is never frustum culled, and its screen size is updated each frame in `render()`. |
 
 ### 3D Drawing (added to main scene)
 
@@ -55,7 +55,7 @@ These methods add objects to `SceneManager.current` instead of the debug scene:
 | Method | Signature | Description |
 |--------|-----------|-------------|
 | `draw_sphere_helper` | `(sphere, color)` | A solid sphere at `sphere.center` with `sphere.radius`. |
-| `draw_math_sphere` | `(sphere)` | A transparent sphere at `sphere.center` with `sphere.radius`. |
+| `draw_math_sphere` | `(sphere)` | A red sphere at `sphere.center` with `sphere.radius`, at 20% opacity and without depth writes. |
 | `draw_bounding_box` | `(bb)` | A `Box3Helper` for the given `Box3`. |
 
 ### 2D Drawing (requires `ctx`)
