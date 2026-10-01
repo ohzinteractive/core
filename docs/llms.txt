@@ -117,6 +117,8 @@ loop.start();
 
 All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`.
 
+`BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
+
 ### Scene & Asset Loading
 
 `AbstractScene` extends Three.js `Scene` with a two-phase loading pipeline:
@@ -151,7 +153,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 ### Shader Materials
 
-25+ custom `ShaderMaterial` subclasses, all extending `BaseShaderMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`.
+Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial` and `AddMaterial`.
 
 Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `FXAAMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `SDFScreenTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
 
