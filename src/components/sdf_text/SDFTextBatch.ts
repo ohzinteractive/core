@@ -5,12 +5,16 @@ import { SDFText } from './SDFText';
 import {
   DynamicDrawUsage,
   Float32BufferAttribute,
-  InstancedBufferAttribute,
   InstancedBufferGeometry,
+  InstancedInterleavedBuffer,
+  InterleavedBufferAttribute,
   Mesh,
   PlaneGeometry,
   Vector2
 } from 'three';
+
+// The per glyph attributes, four floats each, in the order they sit in an instance.
+const GLYPH_ATTRIBUTES = ['transformsCol0', 'transformsCol1', 'transformsCol2', 'transformsCol3', 'glyph_bounds', 'plane_bounds', 'color'];
 
 class SDFTextBatch extends Mesh
 {
@@ -33,32 +37,16 @@ class SDFTextBatch extends Mesh
     instanced_geometry.setAttribute('uv',        new Float32BufferAttribute(geometry.getAttribute('uv').array, 2));
     instanced_geometry.index = geometry.index;
 
-    const transformsCol0 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    const transformsCol1 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    const transformsCol2 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    const transformsCol3 = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
+    // One interleaved buffer holds every per glyph attribute. WebGPU allows 8 vertex
+    // buffers per pipeline, and one buffer per attribute would take 9 with position
+    // and uv.
+    const glyphs = new InstancedInterleavedBuffer(new Float32Array(max_allocations * GLYPH_ATTRIBUTES.length * 4), GLYPH_ATTRIBUTES.length * 4);
+    glyphs.setUsage(DynamicDrawUsage);
 
-    const glyph_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-    const plane_bounds = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-
-    const color = new InstancedBufferAttribute(new Float32Array(max_allocations * 4), 4, false);
-
-    transformsCol0.usage  = DynamicDrawUsage;
-    transformsCol1.usage  = DynamicDrawUsage;
-    transformsCol2.usage  = DynamicDrawUsage;
-    transformsCol3.usage  = DynamicDrawUsage;
-    glyph_bounds.usage    = DynamicDrawUsage;
-    plane_bounds.usage    = DynamicDrawUsage;
-    color.usage           = DynamicDrawUsage;
-
-    instanced_geometry.setAttribute('transformsCol0', transformsCol0);
-    instanced_geometry.setAttribute('transformsCol1', transformsCol1);
-    instanced_geometry.setAttribute('transformsCol2', transformsCol2);
-    instanced_geometry.setAttribute('transformsCol3', transformsCol3);
-
-    instanced_geometry.setAttribute('glyph_bounds', glyph_bounds);
-    instanced_geometry.setAttribute('plane_bounds', plane_bounds);
-    instanced_geometry.setAttribute('color',        color);
+    GLYPH_ATTRIBUTES.forEach((name, i) =>
+    {
+      instanced_geometry.setAttribute(name, new InterleavedBufferAttribute(glyphs, 4, i * 4));
+    });
 
     super(instanced_geometry, new SDFTextMaterial(atlas_texture));
 
