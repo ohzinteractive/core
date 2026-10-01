@@ -9,11 +9,16 @@ import { Sphere } from './primitives/Sphere';
 import { SceneManager } from './SceneManager';
 
 import type { RenderTarget, Texture, Vector2 } from 'three';
-import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, ShaderMaterial, SphereGeometry, Vector3, Vector4 } from 'three';
+import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, SphereGeometry, Vector3 } from 'three';
+import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { CameraManager } from './CameraManager';
 import type { AbstractScene, Graphics } from './index';
-import basic_color_frag from './shaders/basic_color/basic_color.frag';
-import basic_color_vert from './shaders/basic_color/basic_color.vert';
+
+// 20% opaque, and never hides what is drawn after it.
+function see_through_material(color: number | string): MeshBasicNodeMaterial
+{
+  return new MeshBasicNodeMaterial({ color, opacity: 0.2, transparent: true, depthWrite: false });
+}
 
 class Debug
 {
@@ -135,18 +140,10 @@ class Debug
     return cube;
   }
 
-  draw_plane(width?: number, height?: number, color?: number | string) 
+  draw_plane(width?: number, height?: number, color: number | string = 0x00ff00)
   {
     const geometry = new PlaneGeometry(width, height);
-    const material = new ShaderMaterial({
-      uniforms: {
-        _Color: { value: new Vector4(0, 1, 0, 0.2) }
-      },
-      vertexShader: basic_color_vert,
-      fragmentShader: basic_color_frag,
-      transparent: true,
-      depthWrite: false
-    });
+    const material = see_through_material(color);
 
     const plane = new Mesh(geometry, material);
     plane.renderOrder = -10000;
@@ -201,15 +198,7 @@ class Debug
   draw_math_sphere(sphere: any)
   {
     const geometry = new SphereGeometry(sphere.radius, 32, 32);
-    const material = new ShaderMaterial({
-      uniforms: {
-        _Color: { value: new Vector4(1, 0, 0, 0.2) }
-      },
-      vertexShader: basic_color_vert,
-      fragmentShader: basic_color_frag,
-      transparent: true
-    });
-    // var material = new MeshBasicMaterial( {color: 0xff0000, transparent = true} );
+    const material = see_through_material(0xff0000);
     const sphere1 = new Mesh(geometry, material);
     sphere1.position.copy(sphere.center);
     SceneManager.current.add(sphere1);
