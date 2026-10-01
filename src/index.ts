@@ -21,6 +21,7 @@ import { Capabilities } from './Capabilities';
 import { CameraBridge } from './dev_bridge/CameraBridge';
 import { CaptureService } from './dev_bridge/CaptureService';
 import { ConsoleBuffer } from './dev_bridge/ConsoleBuffer';
+import { DebugDrawer } from './dev_bridge/DebugDrawer';
 import { InputSynthesizer } from './dev_bridge/InputSynthesizer';
 import { PerformanceProbe } from './dev_bridge/PerformanceProbe';
 import { RenderModeRegistry } from './dev_bridge/RenderModeRegistry';
@@ -138,7 +139,7 @@ import { AbstractCameraState } from './camera_controller/states/common/AbstractC
 import { CommonCameraState } from './camera_controller/states/common/CommonCameraState';
 
 export {
-    AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, BlitNodeMaterial, BloomRender, Blurrer, Browser, BufferGeometryUtils, CameraBridge, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CaptureService, CommonCameraState, Compilator, ConsoleBuffer, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugNormalsRender, DeferredRender, DevBridge, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
+    AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, BlitNodeMaterial, BloomRender, Blurrer, Browser, BufferGeometryUtils, CameraBridge, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CaptureService, CommonCameraState, Compilator, ConsoleBuffer, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugDrawer, DebugNormalsRender, DeferredRender, DevBridge, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
     ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
     ModelUtilities, NormalAORender,
