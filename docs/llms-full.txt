@@ -544,18 +544,6 @@ seq.play();
 
 ---
 
-## GPU Particles
-
-```ts
-const system = new GPUParticleSystem(count);
-system.add_attribute(new ParticlePositionAttribute(...));
-system.add_attribute(new ParticleAttribute('velocity', ...));
-scene.add(system.mesh);
-// Update in on_pre_render via custom compute shaders
-```
-
----
-
 ## Full Minimal Example
 
 ```ts

@@ -13,12 +13,6 @@ import { describe, expect, it } from 'vitest';
 const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 
 const GLSL_FILES = [
-  // Session 7: GPU particles
-  'shaders/gpu_particles/common_utils.glsl',
-  'shaders/gpu_particles/generic_storage.frag',
-  'shaders/gpu_particles/update/basic_update.frag',
-  'shaders/gpu_particles/visualize/visualize.frag',
-  'shaders/gpu_particles/visualize/visualize.vert',
   // Session 8: GLSL base classes
   'shaders/basic_color/basic_color.frag',
   'shaders/basic_color/basic_color.vert',
@@ -27,11 +21,6 @@ const GLSL_FILES = [
 ];
 
 const GLSL_BACKED_MODULES = [
-  // Session 7: GPU particles
-  'materials/gpu_particles/AttributeUpdateMaterial.ts',
-  'materials/gpu_particles/BasicParticleMaterial.ts',
-  'materials/gpu_particles/ParticleStorageMaterial.ts',
-  'materials/gpu_particles/PositionStorageMaterial.ts',
   // Session 8: GLSL base classes
   'materials/BaseShaderMaterial.ts',
   'materials/BlitMaterial.ts'

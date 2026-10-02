@@ -17,7 +17,7 @@ This library is a complement of [three.js](https://github.com/mrdoob/three.js) a
 - **`SceneManager`** — Holds and switches between Three.js scenes, handling geometry and material cleanup on disposal.
 - **`CameraManager`** — Provides global access to the current rendering camera and an optional VR spectator camera.
 
-The library also includes a collection of ready-to-use materials, loaders, primitives, canvas drawing utilities, GPU particle helpers, and more.
+The library also includes a collection of ready-to-use materials, loaders, primitives, canvas drawing utilities, and more.
 
 ## License
 

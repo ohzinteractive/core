@@ -26,10 +26,9 @@ OHZI Core gives you:
 4. **30+ custom shader materials** — SSAO, bloom, Gaussian blur, dual-filter blur, FXAA, deferred rendering, SDF text, depth/normal passes, and more.
 5. **Asset loading** — 17 individual loaders (GLTF, DRACO, textures, HDR, cubemaps, audio, fonts, video, OBJ, DAE, etc.) plus async batch loaders. `ResourceContainer` deduplicates by URL.
 6. **Post-processing utilities** — Gaussian blur, dual-filtering blur, depth/normals renderer, blitter, material passes.
-7. **GPU particle system** — Simulation and rendering via data textures and custom shaders.
-8. **Camera controller** — Pluggable movement modes and states for interactive camera control.
-9. **View/UI layer** — `ViewManager`, `ViewComponent`, and `TransitionManager` for application state and animated transitions.
-10. **Utilities** — Math helpers (`OMath`), easing functions, geometry utilities, camera fitting, mesh sampling, raycasting, SDF text rendering, canvas drawing, CSS animation, and more.
+7. **Camera controller** — Pluggable movement modes and states for interactive camera control.
+8. **View/UI layer** — `ViewManager`, `ViewComponent`, and `TransitionManager` for application state and animated transitions.
+9. **Utilities** — Math helpers (`OMath`), easing functions, geometry utilities, camera fitting, mesh sampling, raycasting, SDF text rendering, canvas drawing, CSS animation, and more.
 
 ## Architecture Overview
 
@@ -215,10 +214,6 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 | `ObjectUtilities` | Object/map helpers |
 | `Validation` | Input validation |
 
-### GPU Particles
-
-`GPUParticleSystem` provides GPU-accelerated particle simulation and rendering using data textures and custom shaders. Configured via `ParticleAttribute` and `ParticlePositionAttribute`.
-
 ### Camera Controller
 
 `CameraController` provides interactive camera control with pluggable movement modes (`CameraMovementMode`, `ImmediateMode`) and state machines (`AbstractCameraState`, `CommonCameraState`).
@@ -250,7 +245,6 @@ src/
   canvas_drawer/              Canvas 2D drawing utilities
   components/                 Renderable components (Grid, Text2D, SDF, etc.)
   data_textures/              Data texture utilities
-  gpu_particles/              GPU particle system
   html_utilities/             CSS animation helpers
   lib/                        Internal library code
   loaders/                    Async batch loaders
