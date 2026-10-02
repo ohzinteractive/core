@@ -1,5 +1,4 @@
 import type { RenderTarget, Texture } from "three";
-import type { DisplayNormalTextureMaterial } from "../materials/DisplayNormalTextureMaterial";
 import type { SSAOComposeMaterial } from "../materials/SSAOComposeMaterial";
 import type { SSAOMaterial } from "../materials/SSAOMaterial";
 import { BaseRender } from "../render_mode/BaseRender";
@@ -8,7 +7,6 @@ export class NormalAORender extends BaseRender {
     constructor(use_ssaa?: boolean);
     ssao_mat: SSAOMaterial;
     ssao_compose_mat: SSAOComposeMaterial;
-    debug_normals: DisplayNormalTextureMaterial;
     ssaa: number;
     main_RT: RenderTarget<Texture>;
     SSAO_RT: RenderTarget<Texture>;

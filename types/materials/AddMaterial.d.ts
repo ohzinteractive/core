@@ -1,5 +1,5 @@
-export class AddMaterial extends BlitMaterial {
+export class AddMaterial extends BlitNodeMaterial {
     constructor(nMips: any);
     set_add_texture(tex: any): void;
 }
-import { BlitMaterial } from "./BlitMaterial";
+import { BlitNodeMaterial } from "./BlitNodeMaterial";

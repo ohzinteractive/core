@@ -1,11 +1,11 @@
 import type { Mesh, OrthographicCamera, Scene } from "three";
-import type { BlitMaterial } from "../materials/BlitMaterial";
+import type { BlitNodeMaterial } from "../materials/BlitNodeMaterial";
 
 export class Blitter {
     constructor(renderer: any);
     renderer: any;
     _blit_scene: Scene;
-    _blit_material: BlitMaterial;
+    _blit_material: BlitNodeMaterial;
     _blit_quad: Mesh;
     _blit_camera: OrthographicCamera;
 

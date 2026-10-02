@@ -1,4 +1,4 @@
-export class DualFilteringBlurMaterial extends BlitMaterial {
+export class DualFilteringBlurMaterial extends BlitNodeMaterial {
     constructor(upsample: any);
 }
-import { BlitMaterial } from "./BlitMaterial";
+import { BlitNodeMaterial } from "./BlitNodeMaterial";

@@ -1,4 +1,4 @@
-export class ClearDepthNormalMaterial extends BlitMaterial {
+export class ClearDepthNormalMaterial extends BlitNodeMaterial {
     constructor(clear_depth: any, clear_normal: any);
 }
-import { BlitMaterial } from "../materials/BlitMaterial";
+import { BlitNodeMaterial } from "../materials/BlitNodeMaterial";

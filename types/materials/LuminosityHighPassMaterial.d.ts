@@ -1,4 +1,4 @@
-export class LuminosityHighPassMaterial extends BlitMaterial {
+export class LuminosityHighPassMaterial extends BlitNodeMaterial {
     constructor(kernel_radius: any);
 }
-import { BlitMaterial } from "./BlitMaterial";
+import { BlitNodeMaterial } from "./BlitNodeMaterial";
