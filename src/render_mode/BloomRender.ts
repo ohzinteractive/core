@@ -7,18 +7,24 @@ import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
 import { OScreen } from '../OScreen';
 import { Blurrer } from '../render_utilities/Blurrer';
+import { DualFilteringBlurrer } from '../render_utilities/DualFilteringBlurrer';
 import { SceneManager } from '../SceneManager';
 
 class BloomRender extends BaseRender
 {
   bloom_compose_mat: BloomComposeMaterial;
   blur_RT: RenderTarget;
-  blurrer: Blurrer;
+  blurrer: Blurrer | DualFilteringBlurrer;
   main_RT: RenderTarget;
+  use_dual_filtering: boolean;
 
-  constructor()
+  // use_dual_filtering swaps the box blur for the dual filtering (Kawase) blur, which
+  // spreads the glow much wider.
+  constructor(use_dual_filtering = false)
   {
     super();
+
+    this.use_dual_filtering = use_dual_filtering;
 
     this.bloom_compose_mat = new BloomComposeMaterial();
     // @ts-expect-error -- DEBUG --
@@ -31,8 +37,7 @@ class BloomRender extends BaseRender
 
   on_enter()
   {
-    this.blurrer = new Blurrer();
-    // this.blurrer = new DualFilteringBlurrer()
+    this.blurrer = this.use_dual_filtering ? new DualFilteringBlurrer() : new Blurrer();
     this.main_RT = new RenderTarget(OScreen.width, OScreen.height);
     this.blur_RT = new RenderTarget(OScreen.width, OScreen.height);
   }
