@@ -62,6 +62,17 @@ class DualFilteringBlurrer
     }
   }
 
+  dispose()
+  {
+    this.RT0.dispose();
+    this.RT1.dispose();
+    this.RT2.dispose();
+    this.RT3.dispose();
+    this.RT4.dispose();
+    this.upscale_blur_mat.dispose();
+    this.downscale_blur_mat.dispose();
+  }
+
   // Whole pixels, and at least one: GPU textures have no fractional or zero sizes.
   resize(target: RenderTarget, divisor: number)
   {

@@ -104,6 +104,39 @@ for (const backend of BACKENDS)
       expect(harness.reported_errors).toEqual([]);
     });
 
+    // The dev bridge builds a new render mode on every switch, so leaving one must free
+    // the targets and materials it built on entry, or GPU memory grows with each switch.
+    for (const use_dual_filtering of [false, true])
+    {
+      it(`frees its GPU textures when left (${use_dual_filtering ? 'dual filtering' : 'box'} blur)`, () =>
+      {
+        render_with(new NormalRender());
+        const textures_before = harness.renderer.info.memory.textures;
+
+        for (let i = 0; i < 3; i++)
+        {
+          render_with(new BloomRender(use_dual_filtering));
+          render_with(new NormalRender());
+        }
+
+        expect(harness.renderer.info.memory.textures).toBe(textures_before);
+        expect(harness.reported_errors).toEqual([]);
+      });
+    }
+
+    it('renders again when entered after leaving', () =>
+    {
+      const bloom = new BloomRender(true);
+
+      render_with(bloom);
+      render_with(new NormalRender());
+      const pixels = render_with(bloom);
+
+      expect(pixels.luminance(QUAD_CENTER)).toBeGreaterThan(200);
+      expect(pixels.luminance(HORIZONTAL_GLOW_PROBE)).toBeGreaterThan(20);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
     // The dual filtering blur goes down to a sixteenth of the screen, so its glow still
     // reaches 32px away, where the box blur leaves black. At that distance the glow is the
     // same below the quad as beside it, so the image is upright: flipped, the quad itself

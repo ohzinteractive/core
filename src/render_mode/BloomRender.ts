@@ -42,6 +42,15 @@ class BloomRender extends BaseRender
     this.blur_RT = new RenderTarget(OScreen.width, OScreen.height);
   }
 
+  // Frees what on_enter built. Render modes are often built once per switch and then
+  // dropped, so anything kept past on_exit stays on the GPU.
+  on_exit()
+  {
+    this.blurrer.dispose();
+    this.main_RT.dispose();
+    this.blur_RT.dispose();
+  }
+
   render()
   {
     this.__check_RT_size();
