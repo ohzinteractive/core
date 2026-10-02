@@ -19,6 +19,17 @@ This library is a complement of [three.js](https://github.com/mrdoob/three.js) a
 
 The library also includes a collection of ready-to-use materials, loaders, primitives, canvas drawing utilities, and more.
 
+## Upgrading to 15.0.0
+
+Core is TSL only. It runs on `WebGPURenderer`, either WebGPU or WebGL2 with `forceWebGL: true`, and every GLSL material is gone.
+
+- `BlitMaterial` → `BlitNodeMaterial`. It keeps the `_MainTex`, `_Resolution` and `_TargetResolution` uniforms under `material.uniforms.<name>.value`, and `Blitter` uses it by default.
+- `BaseShaderMaterial` → `NodeMaterial` from `three/webgpu`.
+- GLSL strings → TSL (`three/tsl`). Core no longer builds `.vert`, `.frag` or `.glsl` imports.
+- `MedianFilter` and the GPU particle system (`GPUParticleSystem`, `ParticleAttribute`, `ParticlePositionAttribute`) are removed with no replacement.
+- `Capabilities.fp_textures_available` is removed.
+- Unexported classes are deleted from `src/`, so deep imports of them fail: `FXAAMaterial`, `UnrealBlurMaterial`, `UnrealComposeMaterial`, `ViewPositionMaterial`, `ViewPositionRenderer`, `SDFScreenTextMaterial`, `EdgeMesh`, `GeometryEdgeVisualizer`, `Shape2D`, `Shape3D`, `MultiLinePath`, `MultiLineText2D`, `AlphaFilterMaterial`.
+
 ## License
 
 MIT

@@ -373,32 +373,32 @@ All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
 
 ## Materials
 
-### BaseShaderMaterial
+### Writing a material
 
-Base class for the GLSL shader materials. Extends Three.js `ShaderMaterial`, so it only runs on the legacy `WebGLRenderer`; `WebGPURenderer` rejects `ShaderMaterial` on both backends. For `WebGPURenderer`, write the material in TSL instead: full screen passes extend `BlitNodeMaterial` (see `SSAOMaterial` or `BoxBlurMaterial`).
+Core materials are TSL node materials for `WebGPURenderer`. Full screen passes extend `BlitNodeMaterial`: `Blitter` sets `_MainTex`, `_Resolution` and `_TargetResolution`, and `sample_main_tex()` / `sample()` sample render targets and regular textures upright on both backends. Other materials extend `NodeMaterial` from `three/webgpu`. Keep uniforms under `this.uniforms.<name>` so callers can set `.value`.
 
 ```ts
-class MyMaterial extends BaseShaderMaterial
+import { Texture } from 'three';
+import { texture } from 'three/tsl';
+import { BlitNodeMaterial } from 'ohzi-core';
+
+class AddTextureMaterial extends BlitNodeMaterial
 {
   constructor()
   {
-    super(vertGLSL, fragGLSL, {
-      _Color:   { value: new Color('#ffffff') },
-      _Texture: { value: null },
-      _Time:    { value: 0 }
-    });
-  }
+    super();
 
-  update()
-  {
-    this.uniforms._Time.value = Time.elapsed_time;
+    const second_tex = texture(new Texture());
+    this.uniforms._SecondTex = second_tex;
+
+    this.fragmentNode = this.sample_main_tex().add(this.sample(second_tex));
   }
 }
 ```
 
 ### Built-in materials
 
-`AddMaterial`, `BlitMaterial`, `UnrealBloomComposeMaterial`, `DualFilteringBlurMaterial` — ready-to-use post-processing materials.
+`AddMaterial`, `BlitNodeMaterial`, `UnrealBloomComposeMaterial`, `DualFilteringBlurMaterial` — ready-to-use post-processing materials.
 
 ---
 
