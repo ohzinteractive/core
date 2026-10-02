@@ -30,6 +30,13 @@ function read(path: string): string
   return readFileSync(join(SRC, path), 'utf8');
 }
 
+const ROOT = fileURLToPath(new URL('../../', import.meta.url));
+
+function read_root(path: string): string
+{
+  return readFileSync(join(ROOT, path), 'utf8');
+}
+
 describe('no GLSL', () =>
 {
   it('has no GLSL file in src', () =>
@@ -44,6 +51,22 @@ describe('no GLSL', () =>
     const found = source_paths()
       .filter(path => path.endsWith('.ts') && !path.endsWith('.d.ts'))
       .filter(path => GLSL_MARKERS.some(marker => marker.test(read(path))));
+
+    expect(found).toEqual([]);
+  });
+
+  it('has no GLSL step in the build or the tests', () =>
+  {
+    expect(read_root('package.json')).not.toMatch(/glslify/);
+    expect(read_root('rollup.config.mjs')).not.toMatch(/glslify/);
+    expect(read_root('vitest.config.ts')).not.toMatch(/glsl/i);
+  });
+
+  it('declares no shader file modules', () =>
+  {
+    const found = source_paths()
+      .filter(path => path.endsWith('.d.ts'))
+      .filter(path => /declare module '\*\.(vert|frag|glsl)'/.test(read(path)));
 
     expect(found).toEqual([]);
   });
