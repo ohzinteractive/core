@@ -54,7 +54,7 @@ class DualFilteringBlurrer
       this.current_width = width;
       this.current_height = height;
 
-      this.resize(this.RT0, 2);
+      // this.resize(this.RT0, 2);
       this.resize(this.RT1, 2);
       this.resize(this.RT2, 4);
       this.resize(this.RT3, 8);

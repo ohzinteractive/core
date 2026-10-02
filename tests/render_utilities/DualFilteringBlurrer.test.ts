@@ -23,13 +23,14 @@ describe('DualFilteringBlurrer', () =>
     expect(blurrer).not.toHaveProperty('alpha_filter_mat');
   });
 
+  // RT0 is unused, so it is never sized.
   it('sizes its targets to a half, a quarter, an eighth and a sixteenth of the input', () =>
   {
     const blurrer = new DualFilteringBlurrer();
 
     blurrer.check_RT_resize(256, 128);
 
-    expect(target_sizes(blurrer)).toEqual(['128x64', '128x64', '64x32', '32x16', '16x8']);
+    expect(target_sizes(blurrer)).toEqual(['1x1', '128x64', '64x32', '32x16', '16x8']);
   });
 
   it('rounds the target sizes down to whole pixels, and never below one', () =>
@@ -38,6 +39,6 @@ describe('DualFilteringBlurrer', () =>
 
     blurrer.check_RT_resize(100, 8);
 
-    expect(target_sizes(blurrer)).toEqual(['50x4', '50x4', '25x2', '12x1', '6x1']);
+    expect(target_sizes(blurrer)).toEqual(['1x1', '50x4', '25x2', '12x1', '6x1']);
   });
 });
