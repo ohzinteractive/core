@@ -4,6 +4,7 @@ import { DataTexture, RenderTarget } from 'three';
 
 import { Graphics } from '../../src/Graphics';
 import { DualFilteringBlurMaterial } from '../../src/materials/DualFilteringBlurMaterial';
+import { DualFilteringBlurrer } from '../../src/render_utilities/DualFilteringBlurrer';
 import { BACKENDS, create_harness, type Harness, SIZE } from '../helpers/webgpu_harness';
 
 const TOP_PROBE = { x: 32, y: 8 };
@@ -145,5 +146,91 @@ for (const backend of BACKENDS)
         expect(harness.reported_errors).toEqual([]);
       });
     }
+  });
+
+  describe(`DualFilteringBlurrer on WebGPURenderer (${backend.name} backend)`, () =>
+  {
+    let harness: Harness;
+
+    beforeEach(async() =>
+    {
+      harness = await create_harness(backend);
+    });
+
+    afterEach(() =>
+    {
+      harness.dispose();
+    });
+
+    it('keeps a flat color exactly', async() =>
+    {
+      const render_target = to_render_target(gray_texture(() => 128));
+
+      new DualFilteringBlurrer().blur(render_target);
+
+      expect(new Set((await read_red(harness, render_target)).flat())).toEqual(new Set([128]));
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    // An 8x8 white square in the middle. The blur goes down to a sixteenth of the input,
+    // so the square spreads over the whole target, and fades to 0 only in the corners.
+    it('spreads a bright square smoothly over the whole target', async() =>
+    {
+      const render_target = to_render_target(gray_texture((x, y) => (Math.abs(x - 31.5) < 4 && Math.abs(y - 31.5) < 4 ? 255 : 0)));
+
+      new DualFilteringBlurrer().blur(render_target);
+      const rows = await read_red(harness, render_target);
+
+      expect(rows[31]).toEqual([
+        2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10,
+        10, 10, 10, 9, 9, 9, 9, 9, 8, 8, 8, 8, 7, 7, 7, 7, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2
+      ]);
+      expect(rows.map(values => values[31])).toEqual(rows[31]);
+      expect([rows[0][0], rows[0][63], rows[63][0], rows[63][63]]).toEqual([0, 0, 0, 0]);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('writes the blur back into the render target it was given, upright', () =>
+    {
+      const render_target = to_render_target(gray_texture(top_white(SIZE)));
+      const blurrer = new DualFilteringBlurrer();
+
+      expect(blurrer.blur(render_target)).toBeUndefined();
+      Graphics.blit(render_target, undefined);
+      const pixels = harness.read_canvas();
+
+      // The edge at y = 32 is now a ramp, still bright on top and dark at the bottom.
+      expect(pixels.luminance(TOP_PROBE)).toBeGreaterThan(240);
+      expect(pixels.luminance({ x: 32, y: 40 })).toBeGreaterThan(100);
+      expect(pixels.luminance({ x: 32, y: 40 })).toBeLessThan(180);
+      expect(pixels.luminance(BOTTOM_PROBE)).toBeLessThan(60);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    it('follows its input to a new size', () =>
+    {
+      const column = () =>
+      {
+        const pixels = harness.read_canvas();
+        return Array.from({ length: 16 }, (_, i) => pixels.luminance({ x: 32, y: i * 4 }));
+      };
+
+      const fresh_target = to_render_target(gray_texture(top_white(128), 128), 128);
+      new DualFilteringBlurrer().blur(fresh_target);
+      Graphics.blit(fresh_target, undefined);
+      const expected = column();
+
+      const blurrer = new DualFilteringBlurrer();
+      blurrer.blur(to_render_target(gray_texture(() => 0)));
+      const resized_target = to_render_target(gray_texture(top_white(128), 128), 128);
+      blurrer.blur(resized_target);
+      Graphics.blit(resized_target, undefined);
+
+      expect([blurrer.RT1.width, blurrer.RT2.width, blurrer.RT3.width, blurrer.RT4.width]).toEqual([64, 32, 16, 8]);
+      expect(column()).toEqual(expected);
+      expect(expected[2]).toBeGreaterThan(250);
+      expect(expected[14]).toBeLessThan(5);
+      expect(harness.reported_errors).toEqual([]);
+    });
   });
 }

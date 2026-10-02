@@ -1,6 +1,5 @@
 import { RenderTarget } from 'three';
 import { Graphics } from '../Graphics';
-import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
 import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
 class DualFilteringBlurrer
 {
@@ -9,7 +8,6 @@ class DualFilteringBlurrer
   RT2: RenderTarget;
   RT3: RenderTarget;
   RT4: RenderTarget;
-  alpha_filter_mat: AlphaFilterMaterial;
   current_height: number;
   current_width: number;
   downscale_blur_mat: DualFilteringBlurMaterial;
@@ -27,14 +25,12 @@ class DualFilteringBlurrer
 
     this.upscale_blur_mat   = new DualFilteringBlurMaterial(true);
     this.downscale_blur_mat = new DualFilteringBlurMaterial(false);
-
-    this.alpha_filter_mat = new AlphaFilterMaterial();
   }
 
   blur(RT: RenderTarget)
   {
     this.check_RT_resize(RT.width, RT.height);
-    Graphics.blit(RT,       this.RT1, this.alpha_filter_mat);
+    Graphics.blit(RT,       this.RT1);
 
     // Graphics.blit(this.RT0, this.RT1, this.downscale_blur_mat);
     Graphics.blit(this.RT1, this.RT2, this.downscale_blur_mat);
