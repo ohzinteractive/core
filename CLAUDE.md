@@ -63,7 +63,7 @@ Rollup (`rollup.config.mjs`) bundles TypeScript to a single ES module (`build/in
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/materials/` | Shader materials, deferred rendering, GPU particles materials |
+| `src/materials/` | Shader materials, deferred rendering |
 | `src/resource_loader/` | Individual asset loaders |
 | `src/loaders/` | Async batch loaders |
 | `src/components/` | Renderable components (Grid, Text2D, WorldImage, SDF text) |
@@ -73,7 +73,6 @@ Rollup (`rollup.config.mjs`) bundles TypeScript to a single ES module (`build/in
 | `src/view_components/` | UI layer abstraction with ViewManager and transitions |
 | `src/raycast/` | Ray intersection utilities |
 | `src/utilities/` | Math, easing, geometry, camera, image helpers |
-| `src/gpu_particles/` | GPU-accelerated particle system |
 | `src/action_sequencer/` | Event sequencing with interpolators |
 | `src/shaders/` | GLSL shader files, organized by feature |
 | `docs/` | Markdown documentation for core classes |
