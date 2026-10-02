@@ -14,12 +14,16 @@ function is_file(path: string): boolean
   return existsSync(path) && statSync(path).isFile();
 }
 
+function declaration_paths(): string[]
+{
+  return (readdirSync(TYPES, { recursive: true }) as string[]).filter(path => path.endsWith('.d.ts')).sort();
+}
+
 function unresolved_imports(): string[]
 {
   const unresolved: string[] = [];
-  const files = (readdirSync(TYPES, { recursive: true }) as string[]).filter(path => path.endsWith('.d.ts'));
 
-  for (const file of files)
+  for (const file of declaration_paths())
   {
     const source = readFileSync(join(TYPES, file), 'utf8');
 
@@ -51,5 +55,13 @@ describe('published types', () =>
 
     expect(index).toMatch(/\bBlitNodeMaterial\b/);
     expect(index).not.toMatch(/\b(BlitMaterial|BaseShaderMaterial)\b/);
+  });
+
+  it('declares no GLSL material', () =>
+  {
+    const found = declaration_paths()
+      .filter(path => /\b(Raw)?ShaderMaterial\b/.test(readFileSync(join(TYPES, path), 'utf8')));
+
+    expect(found).toEqual([]);
   });
 });

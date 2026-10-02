@@ -1,11 +1,12 @@
-import type { ShaderMaterial, Texture, Vector2, Vector3 } from "three";
+import type { Texture, Vector2, Vector3 } from "three";
+import type { NodeMaterial } from "three/webgpu";
 import { Mesh } from "three";
 
 export class WorldImage extends Mesh {
     constructor(texture: Texture, pivot?: Vector2);
     current_scale: number;
     tmp_bb_size: Vector3;
-    material: ShaderMaterial;
+    material: NodeMaterial;
     update_texture(): void;
     set size(arg: Vector3);
     get size(): Vector3;

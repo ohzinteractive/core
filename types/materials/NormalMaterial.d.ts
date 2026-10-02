@@ -1,5 +1,5 @@
-import { ShaderMaterial } from 'three';
-declare class NormalMaterial extends ShaderMaterial {
+import { NodeMaterial } from 'three/webgpu';
+declare class NormalMaterial extends NodeMaterial {
     constructor();
 }
 export { NormalMaterial };
