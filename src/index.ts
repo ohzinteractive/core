@@ -94,7 +94,6 @@ import { VectorInterpolator } from './action_sequencer/VectorInterpolator';
 
 import { DualFilteringBlurrer } from './render_utilities/DualFilteringBlurrer';
 import { GaussianBlurrer } from './render_utilities/GaussianBlurrer';
-import { MedianFilter } from './render_utilities/MedianFilter';
 
 import { Blurrer } from './render_utilities/Blurrer';
 
@@ -141,7 +140,7 @@ import { CommonCameraState } from './camera_controller/states/common/CommonCamer
 export {
     AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BaseShaderMaterial, BasisLoader, BlitMaterial, BlitNodeMaterial, BloomRender, Blurrer, Browser, BufferGeometryUtils, CameraBridge, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CaptureService, CommonCameraState, Compilator, ConsoleBuffer, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugDrawer, DebugNormalsRender, DeferredRender, DevBridge, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, GPUParticleSystem, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
-    ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MedianFilter, MeshSampler,
+    ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MeshSampler,
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen, ParticleAttribute,
     ParticlePositionAttribute, PerformanceProbe, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, RenderModeRegistry, ResourceBatch,
