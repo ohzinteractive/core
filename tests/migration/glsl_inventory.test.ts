@@ -15,8 +15,6 @@ const SRC = fileURLToPath(new URL('../../src/', import.meta.url));
 const GLSL_FILES = [
   // Session 5: DualFilteringBlurrer
   'shaders/dual_filter_blur/alpha_filter.frag',
-  'shaders/dual_filter_blur/downsample.frag',
-  'shaders/dual_filter_blur/upsample.frag',
   // Session 6: MedianFilter
   'shaders/median_filter/median_filter.frag',
   // Session 7: GPU particles
@@ -35,7 +33,6 @@ const GLSL_FILES = [
 const GLSL_BACKED_MODULES = [
   // Session 5: DualFilteringBlurrer
   'materials/AlphaFilterMaterial.ts',
-  'materials/DualFilteringBlurMaterial.ts',
   // Session 6: MedianFilter
   'materials/MedianFilterMaterial.ts',
   // Session 7: GPU particles
