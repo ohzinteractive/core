@@ -152,9 +152,9 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 ### Shader Materials
 
-Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`), `SDFTextMaterial` (behind `SDFTextBatch`) and `DualFilteringBlurMaterial` (behind `DualFilteringBlurrer`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
+Every custom material is TSL and runs on `WebGPURenderer` with both the WebGPU and WebGL2 backends. There is no GLSL in core. Materials extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`), `SDFTextMaterial` (behind `SDFTextBatch`) and `DualFilteringBlurMaterial` (behind `DualFilteringBlurrer`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
 
-Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`.
+Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitNodeMaterial`, `AddMaterial`.
 
 ### Post-Processing Utilities
 
@@ -248,14 +248,14 @@ src/
   html_utilities/             CSS animation helpers
   lib/                        Internal library code
   loaders/                    Async batch loaders
-  materials/                  25+ custom ShaderMaterials
+  materials/                  TSL node materials
   primitives/                 Geometric primitives
   raycast/                    Ray intersection utilities
   render_mode/                Rendering strategies
   render_utilities/           Post-processing (blur, depth, blit)
   resource_loader/            17 individual asset loaders
   scenes/                     AbstractScene and loading states
-  shaders/                    GLSL shader files (26 feature folders)
+  shaders/                    Shared TSL shader nodes (grid)
   utilities/                  Math, easing, geometry, camera helpers
   view_components/            View/UI layer with transitions
 ```
@@ -264,8 +264,7 @@ src/
 
 - **Bundler:** Rollup
 - **Output:** `build/index.mjs` (ES module with sourcemaps, minified with terser)
-- **Types:** `types/index.d.ts` (generated separately via `yarn generate-types`)
-- **GLSL:** Inlined via `rollup-plugin-glslify`
+- **Types:** `types/index.d.ts` (maintained by hand)
 - **Externals:** `three` and its sub-modules are not bundled
 
 ## Commands

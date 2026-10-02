@@ -1,5 +1,4 @@
 import typescript from '@rollup/plugin-typescript';
-import glslify from 'rollup-plugin-glslify';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 
@@ -21,7 +20,6 @@ export default [
         outDir: undefined,
         sourceMap: true
       }),
-      glslify(),
       sourcemaps(),
       terser()
     ],
@@ -51,7 +49,6 @@ export default [
 //       }
 //     ],
 //     plugins: [
-//       glslify(),
 //       sourcemaps(),
 //       terser()
 //     ]

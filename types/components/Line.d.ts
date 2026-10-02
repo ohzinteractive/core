@@ -1,8 +1,9 @@
-import type { Color, ShaderMaterial, Vector3 } from "three";
+import type { Color, Vector3 } from "three";
+import type { NodeMaterial } from "three/webgpu";
 import { Mesh } from "three";
 export class Line extends Mesh {
     constructor(points?: Vector3[]);
-    material: ShaderMaterial;
+    material: NodeMaterial;
     _length: number;
     accumulated_length: number;
     set thickness(arg: any);

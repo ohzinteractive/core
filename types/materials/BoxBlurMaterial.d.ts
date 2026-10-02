@@ -1,4 +1,4 @@
-export class BoxBlurMaterial extends BlitMaterial {
+export class BoxBlurMaterial extends BlitNodeMaterial {
     constructor();
 }
-import { BlitMaterial } from "../materials/BlitMaterial";
+import { BlitNodeMaterial } from "../materials/BlitNodeMaterial";

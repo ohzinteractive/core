@@ -1,4 +1,4 @@
-export class SSAOComposeMaterial extends BlitMaterial {
+export class SSAOComposeMaterial extends BlitNodeMaterial {
     constructor();
 }
-import { BlitMaterial } from "../materials/BlitMaterial";
+import { BlitNodeMaterial } from "../materials/BlitNodeMaterial";
