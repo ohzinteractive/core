@@ -413,10 +413,6 @@ blurrer.blur(render_target);
 const gaussian = new GaussianBlurrer();
 gaussian.blur(srcRT, dstRT, radius);
 
-// Median filter
-const median = new MedianFilter();
-median.apply(srcRT, dstRT);
-
 // Depth + normals G-buffer
 Graphics.generate_depth_normal_texture = true;
 // Access via: Graphics.depth_normals_RT

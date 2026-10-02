@@ -25,7 +25,7 @@ OHZI Core gives you:
 3. **Scene management with progressive loading** — `AbstractScene` provides a two-phase asset loading pipeline (regular + high-quality) with compilators that spread GPU upload work across frames.
 4. **30+ custom shader materials** — SSAO, bloom, Gaussian blur, dual-filter blur, FXAA, deferred rendering, SDF text, depth/normal passes, and more.
 5. **Asset loading** — 17 individual loaders (GLTF, DRACO, textures, HDR, cubemaps, audio, fonts, video, OBJ, DAE, etc.) plus async batch loaders. `ResourceContainer` deduplicates by URL.
-6. **Post-processing utilities** — Gaussian blur, dual-filtering blur, median filter, depth/normals renderer, blitter, material passes.
+6. **Post-processing utilities** — Gaussian blur, dual-filtering blur, depth/normals renderer, blitter, material passes.
 7. **GPU particle system** — Simulation and rendering via data textures and custom shaders.
 8. **Camera controller** — Pluggable movement modes and states for interactive camera control.
 9. **View/UI layer** — `ViewManager`, `ViewComponent`, and `TransitionManager` for application state and animated transitions.
@@ -155,7 +155,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`), `SDFTextMaterial` (behind `SDFTextBatch`) and `DualFilteringBlurMaterial` (behind `DualFilteringBlurrer`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
 
-Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
+Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`.
 
 ### Post-Processing Utilities
 
@@ -163,7 +163,6 @@ Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `D
 |---|---|
 | `GaussianBlurrer` | Multi-pass Gaussian blur on render targets |
 | `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality). `blur(render_target)` blurs in place, down to a sixteenth of the input and back. Its taps rely on linear filtering, which render targets have by default. Runs on `WebGPURenderer` |
-| `MedianFilter` | Median filter pass |
 | `Blurrer` | Generic blur interface |
 | `DepthAndNormalsRenderer` | Generates depth/normal textures for SSAO and effects |
 | `Blitter` | Copies render targets with optional material passes |
