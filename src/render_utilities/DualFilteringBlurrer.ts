@@ -54,12 +54,21 @@ class DualFilteringBlurrer
       this.current_width = width;
       this.current_height = height;
 
-      this.RT0.setSize(this.current_width / 2, this.current_height / 2);
-      this.RT1.setSize(this.current_width / 2, this.current_height / 2);
-      this.RT2.setSize(this.current_width / 4, this.current_height / 4);
-      this.RT3.setSize(this.current_width / 8, this.current_height / 8);
-      this.RT4.setSize(this.current_width / 16, this.current_height / 16);
+      this.resize(this.RT0, 2);
+      this.resize(this.RT1, 2);
+      this.resize(this.RT2, 4);
+      this.resize(this.RT3, 8);
+      this.resize(this.RT4, 16);
     }
+  }
+
+  // Whole pixels, and at least one: GPU textures have no fractional or zero sizes.
+  resize(target: RenderTarget, divisor: number)
+  {
+    target.setSize(
+      Math.max(1, Math.floor(this.current_width / divisor)),
+      Math.max(1, Math.floor(this.current_height / divisor))
+    );
   }
 }
 

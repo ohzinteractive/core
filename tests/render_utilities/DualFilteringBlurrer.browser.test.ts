@@ -207,6 +207,21 @@ for (const backend of BACKENDS)
       expect(harness.reported_errors).toEqual([]);
     });
 
+    // The targets bottom out at one pixel, so the blur averages the whole input.
+    // Linear 0.5 shows as 188 on the sRGB canvas.
+    it('blurs an input smaller than 16 pixels', () =>
+    {
+      const render_target = to_render_target(gray_texture(top_white(8), 8), 8);
+
+      new DualFilteringBlurrer().blur(render_target);
+      Graphics.blit(render_target, undefined);
+      const pixels = harness.read_canvas();
+
+      expect(pixels.luminance(TOP_PROBE)).toBe(188);
+      expect(pixels.luminance(BOTTOM_PROBE)).toBe(188);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
     it('follows its input to a new size', () =>
     {
       const column = () =>
