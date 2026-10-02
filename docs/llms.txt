@@ -110,7 +110,7 @@ loop.start();
 | `NormalRender` | Standard forward rendering |
 | `UnrealBloomRender` | Forward rendering with Unreal-style bloom post-processing |
 | `NormalAORender` | Forward rendering with SSAO. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
-| `BloomRender` | Basic bloom rendering |
+| `BloomRender` | Basic bloom rendering. `new BloomRender(true)` blurs with `DualFilteringBlurrer` instead of the box blur, for a much wider glow |
 | `DeferredRender` | Deferred rendering pipeline |
 | `VRRender` | WebXR stereo rendering |
 | `DebugNormalsRender` | Visualizes surface normals |
@@ -153,7 +153,7 @@ Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`)
 
 ### Shader Materials
 
-Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`) and `SDFTextMaterial` (behind `SDFTextBatch`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
+Most custom materials are GLSL `ShaderMaterial` subclasses extending `BaseShaderMaterial` or `BlitMaterial`. GLSL files are organized in `src/shaders/` by feature and inlined at build time via `rollup-plugin-glslify`. They only run on the legacy `WebGLRenderer`: `WebGPURenderer` rejects `ShaderMaterial` on both backends. Materials ported to TSL extend `BlitNodeMaterial` (a `NodeMaterial`) or `NodeMaterial` and keep the `uniforms.<name>.value` contract; these include `SSAOMaterial`, `SSAOComposeMaterial`, `BoxBlurMaterial`, `GaussianBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `AddMaterial`, `ScreenSpaceTextureMaterial` (behind `Debug.draw_texture`), `WorldImageMaterial` (behind `WorldImage` and `Text2D`), `LineMaterial` (behind `Line`), `SDFTextMaterial` (behind `SDFTextBatch`) and `DualFilteringBlurMaterial` (behind `DualFilteringBlurrer`). `Debug.draw_plane` and `draw_math_sphere` use `MeshBasicNodeMaterial`, so every `Debug` helper runs on `WebGPURenderer`.
 
 Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `DualFilteringBlurMaterial`, `LuminosityHighPassMaterial`, `UnrealBloomComposeMaterial`, `DepthNormalMaterial`, `SDFTextMaterial`, `BlitMaterial`, `AddMaterial`, `MedianFilterMaterial`.
 
@@ -162,7 +162,7 @@ Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `D
 | Utility | Purpose |
 |---|---|
 | `GaussianBlurrer` | Multi-pass Gaussian blur on render targets |
-| `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality) |
+| `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality). `blur(render_target)` blurs in place, down to a sixteenth of the input and back. Its taps rely on linear filtering, which render targets have by default. Runs on `WebGPURenderer` |
 | `MedianFilter` | Median filter pass |
 | `Blurrer` | Generic blur interface |
 | `DepthAndNormalsRenderer` | Generates depth/normal textures for SSAO and effects |

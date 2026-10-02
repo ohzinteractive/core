@@ -30,6 +30,13 @@ class Blurrer
     Graphics.blit(this.RT1, RT, this.box_blur_mat);
     // return this.RT2;
   }
+
+  dispose()
+  {
+    this.RT1.dispose();
+    this.RT2.dispose();
+    this.box_blur_mat.dispose();
+  }
 }
 
 export { Blurrer };

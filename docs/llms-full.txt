@@ -405,9 +405,9 @@ class MyMaterial extends BaseShaderMaterial
 ## Render Utilities
 
 ```ts
-// Dual-filter blur (efficient, large radius)
+// Dual-filter blur (efficient, large radius), in place
 const blurrer = new DualFilteringBlurrer();
-blurrer.blur(srcRT, dstRT, iterations);
+blurrer.blur(render_target);
 
 // Gaussian blur
 const gaussian = new GaussianBlurrer();

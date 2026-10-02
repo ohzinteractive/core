@@ -1,6 +1,5 @@
 import { RenderTarget } from 'three';
 import { Graphics } from '../Graphics';
-import { AlphaFilterMaterial } from '../materials/AlphaFilterMaterial';
 import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
 class DualFilteringBlurrer
 {
@@ -9,7 +8,6 @@ class DualFilteringBlurrer
   RT2: RenderTarget;
   RT3: RenderTarget;
   RT4: RenderTarget;
-  alpha_filter_mat: AlphaFilterMaterial;
   current_height: number;
   current_width: number;
   downscale_blur_mat: DualFilteringBlurMaterial;
@@ -27,14 +25,12 @@ class DualFilteringBlurrer
 
     this.upscale_blur_mat   = new DualFilteringBlurMaterial(true);
     this.downscale_blur_mat = new DualFilteringBlurMaterial(false);
-
-    this.alpha_filter_mat = new AlphaFilterMaterial();
   }
 
   blur(RT: RenderTarget)
   {
     this.check_RT_resize(RT.width, RT.height);
-    Graphics.blit(RT,       this.RT1, this.alpha_filter_mat);
+    Graphics.blit(RT,       this.RT1);
 
     // Graphics.blit(this.RT0, this.RT1, this.downscale_blur_mat);
     Graphics.blit(this.RT1, this.RT2, this.downscale_blur_mat);
@@ -58,12 +54,32 @@ class DualFilteringBlurrer
       this.current_width = width;
       this.current_height = height;
 
-      this.RT0.setSize(this.current_width / 2, this.current_height / 2);
-      this.RT1.setSize(this.current_width / 2, this.current_height / 2);
-      this.RT2.setSize(this.current_width / 4, this.current_height / 4);
-      this.RT3.setSize(this.current_width / 8, this.current_height / 8);
-      this.RT4.setSize(this.current_width / 16, this.current_height / 16);
+      // this.resize(this.RT0, 2);
+      this.resize(this.RT1, 2);
+      this.resize(this.RT2, 4);
+      this.resize(this.RT3, 8);
+      this.resize(this.RT4, 16);
     }
+  }
+
+  dispose()
+  {
+    this.RT0.dispose();
+    this.RT1.dispose();
+    this.RT2.dispose();
+    this.RT3.dispose();
+    this.RT4.dispose();
+    this.upscale_blur_mat.dispose();
+    this.downscale_blur_mat.dispose();
+  }
+
+  // Whole pixels, and at least one: GPU textures have no fractional or zero sizes.
+  resize(target: RenderTarget, divisor: number)
+  {
+    target.setSize(
+      Math.max(1, Math.floor(this.current_width / divisor)),
+      Math.max(1, Math.floor(this.current_height / divisor))
+    );
   }
 }
 

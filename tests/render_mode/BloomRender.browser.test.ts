@@ -8,6 +8,8 @@ import { SceneManager } from '../../src/SceneManager';
 import { BaseRender } from '../../src/render_mode/BaseRender';
 import { BloomRender } from '../../src/render_mode/BloomRender';
 import { NormalRender } from '../../src/render_mode/NormalRender';
+import { Blurrer } from '../../src/render_utilities/Blurrer';
+import { DualFilteringBlurrer } from '../../src/render_utilities/DualFilteringBlurrer';
 import { AbstractScene } from '../../src/scenes/AbstractScene';
 import { BACKENDS, create_harness, type Harness, type Pixels, SIZE } from '../helpers/webgpu_harness';
 
@@ -87,6 +89,71 @@ for (const backend of BACKENDS)
       const bloomed = render_with(new BloomRender());
       expect(bloomed.luminance(HORIZONTAL_GLOW_PROBE)).toBeGreaterThan(20);
       expect(bloomed.luminance(VERTICAL_GLOW_PROBE)).toBeGreaterThan(20);
+    });
+
+    it('blurs with the box Blurrer by default and with the DualFilteringBlurrer when asked', () =>
+    {
+      const box = new BloomRender();
+      const dual = new BloomRender(true);
+
+      render_with(box);
+      render_with(dual);
+
+      expect(box.blurrer).toBeInstanceOf(Blurrer);
+      expect(dual.blurrer).toBeInstanceOf(DualFilteringBlurrer);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    // The dev bridge builds a new render mode on every switch, so leaving one must free
+    // the targets and materials it built on entry, or GPU memory grows with each switch.
+    for (const use_dual_filtering of [false, true])
+    {
+      it(`frees its GPU textures when left (${use_dual_filtering ? 'dual filtering' : 'box'} blur)`, () =>
+      {
+        render_with(new NormalRender());
+        const textures_before = harness.renderer.info.memory.textures;
+
+        for (let i = 0; i < 3; i++)
+        {
+          render_with(new BloomRender(use_dual_filtering));
+          render_with(new NormalRender());
+        }
+
+        expect(harness.renderer.info.memory.textures).toBe(textures_before);
+        expect(harness.reported_errors).toEqual([]);
+      });
+    }
+
+    it('renders again when entered after leaving', () =>
+    {
+      const bloom = new BloomRender(true);
+
+      render_with(bloom);
+      render_with(new NormalRender());
+      const pixels = render_with(bloom);
+
+      expect(pixels.luminance(QUAD_CENTER)).toBeGreaterThan(200);
+      expect(pixels.luminance(HORIZONTAL_GLOW_PROBE)).toBeGreaterThan(20);
+      expect(harness.reported_errors).toEqual([]);
+    });
+
+    // The dual filtering blur goes down to a sixteenth of the screen, so its glow still
+    // reaches 32px away, where the box blur leaves black. At that distance the glow is the
+    // same below the quad as beside it, so the image is upright: flipped, the quad itself
+    // would land on the mirrored probe.
+    it('glows much wider with the DualFilteringBlurrer, upright', () =>
+    {
+      const pixels = render_with(new BloomRender(true));
+      const beside_probe = { x: 48, y: 16 };
+
+      expect(pixels.luminance(QUAD_CENTER)).toBeGreaterThan(200);
+      expect(pixels.luminance(HORIZONTAL_GLOW_PROBE)).toBeGreaterThan(20);
+      expect(pixels.luminance(VERTICAL_GLOW_PROBE)).toBeGreaterThan(20);
+      expect(pixels.luminance(MIRRORED_PROBE)).toBeGreaterThan(5);
+      expect(pixels.luminance(MIRRORED_PROBE)).toBeLessThan(50);
+      expect(pixels.luminance(MIRRORED_PROBE)).toBe(pixels.luminance(beside_probe));
+      expect(pixels.luminance(FAR_PROBE)).toBeLessThan(5);
+      expect(harness.reported_errors).toEqual([]);
     });
   });
 }
