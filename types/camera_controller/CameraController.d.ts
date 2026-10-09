@@ -92,6 +92,6 @@ export declare class CameraController {
         distance: number;
     };
     __get_orthographic_distance(half_depth: number): number;
-    __get_orthographic_zoom(width: number, height: number): number;
+    __get_orthographic_zoom(width: number, height: number, scale?: number): number;
     __set_orthographic_zoom(zoom: number): void;
 }

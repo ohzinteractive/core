@@ -1,9 +1,8 @@
 import { CameraManager } from '../CameraManager';
 import { OScreen } from '../OScreen';
-import { OMath } from '../utilities/OMath';
 
-import type { Camera, Object3D, OrthographicCamera, PerspectiveCamera as ThreePerspectiveCamera, Quaternion } from 'three';
-import { Box3, Matrix4, Plane, Ray, Sphere, Vector3 } from 'three';
+import type { Camera, Object3D, OrthographicCamera, PerspectiveCamera as ThreePerspectiveCamera } from 'three';
+import { Box3, Matrix4, Plane, Ray, Vector3 } from 'three';
 
 import type { Input } from '../lib/Input';
 import type { Vector2 } from '../lib/Vector2';
@@ -16,9 +15,6 @@ class CameraUtilities
   input: Input;
   plane: Plane;
   ray: Ray;
-  reference_position: Vector3;
-  reference_rotation: Quaternion;
-  reference_zoom: number;
   tmp_mat: Matrix4;
   tmp_size: Vector3;
   tmp_unproj: Vector3;
@@ -97,8 +93,13 @@ class CameraUtilities
     }
     else
     {
+      // The same frustum OrthographicCamera.updateProjectionMatrix() builds.
       const orthographic_camera = camera as OrthographicCamera;
-      const pos = new Vector3(NDC.x * orthographic_camera.right, NDC.y * orthographic_camera.top, 0);
+      const center_x = (orthographic_camera.right + orthographic_camera.left) / 2;
+      const center_y = (orthographic_camera.top + orthographic_camera.bottom) / 2;
+      const half_width = (orthographic_camera.right - orthographic_camera.left) / (2 * orthographic_camera.zoom);
+      const half_height = (orthographic_camera.top - orthographic_camera.bottom) / (2 * orthographic_camera.zoom);
+      const pos = new Vector3(center_x + NDC.x * half_width, center_y + NDC.y * half_height, 0);
       pos.applyQuaternion(camera.quaternion);
       pos.add(camera.position);
       const dir = new Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
@@ -109,50 +110,34 @@ class CameraUtilities
     return tmp_vec;
   }
 
+  // Fits the points as the current camera sees them, flattened onto its view
+  // plane. zoom_scale scales the area to fit.
   fit_points_on_camera(points: Array<Vector3>, zoom_scale = 1)
   {
-    const points_sphere = new Sphere().setFromPoints(points);
-    const world_space_center = points_sphere.center;
-    const camera_forward = this.get_forward_dir(CameraManager.current).clone();
-
-    const plane = new Plane().setFromNormalAndCoplanarPoint(camera_forward, world_space_center);
-
-    const points_on_plane = OMath.project_points_on_plane(points, plane);
-
-    const projected_points_center = new Vector3();
-    let box =  new Box3().setFromPoints(points_on_plane);
-    box.getCenter(projected_points_center);
-
-    const up = new Vector3(0, 1, 0).applyQuaternion(CameraManager.current.quaternion);
-    const right = up.clone().cross(camera_forward).normalize();
-    const mat = new Matrix4().set(right.x, up.x, camera_forward.x, world_space_center.x,
-      right.y, up.y, camera_forward.y, world_space_center.y,
-      right.z, up.z, camera_forward.z, world_space_center.z,
-      0,    0,                0,        1);
-
-    const inverse_mat = mat.invert();
-    for (let i = 0; i < points_on_plane.length; i++)
-    {
-      points_on_plane[i].applyMatrix4(inverse_mat);
-    }
-
-    const size = new Vector3();
-    box =  new Box3().setFromPoints(points_on_plane);
-    box.getSize(size);
-    size.multiplyScalar(zoom_scale);
-    const projected_center = new Vector3();
-    box.getCenter(projected_center);
+    const bounds = new OrthographicFrustumPointFitter().get_view_bounds(points, CameraManager.current.quaternion);
+    const size = bounds.size.clone().multiplyScalar(zoom_scale);
 
     return {
-      position: projected_points_center,
+      position: bounds.center,
       zoom: this.get_zoom_to_fit_rect(size.x / 2, size.y / 2)
     };
   }
 
+  // Fits a half width and half height on the current camera. For a
+  // perspective camera this is a distance; for an orthographic camera it is
+  // the camera zoom.
   get_zoom_to_fit_rect(width: number, height: number)
   {
-    const v_fov = (CameraManager.current.fov / 2) * Math.PI / 180;
-    const h_fov = (2 * Math.atan(Math.tan(v_fov) * CameraManager.current.aspect)) / 2;
+    const camera = CameraManager.current as Camera as ThreePerspectiveCamera | OrthographicCamera;
+
+    if ((camera as OrthographicCamera).isOrthographicCamera)
+    {
+      return new OrthographicFrustumPointFitter().get_zoom_to_fit_size(camera as OrthographicCamera, width * 2, height * 2);
+    }
+
+    const perspective_camera = camera as ThreePerspectiveCamera;
+    const v_fov = (perspective_camera.fov / 2) * Math.PI / 180;
+    const h_fov = (2 * Math.atan(Math.tan(v_fov) * perspective_camera.aspect)) / 2;
 
     const distV = height / Math.tan(v_fov);
     const distH = width / Math.tan(h_fov);
@@ -160,31 +145,18 @@ class CameraUtilities
     return Math.max(Math.abs(distH), Math.abs(distV));
   }
 
+  // For a perspective camera this is a distance; for an orthographic camera it
+  // is the camera zoom.
   get_zoom_to_fit_box(bb: Box3, camera: Camera)
   {
-    if ((camera as OrthographicCamera).isOrthographicCamera)
-    {
-      bb.getSize(this.tmp_size);
+    camera = camera || CameraManager.current;
 
-      const obj_x = this.tmp_size.x;
-      const obj_y = this.tmp_size.y;
-      const object_aspect = obj_x / obj_y;
-      if (OScreen.aspect_ratio / object_aspect > 1)
-      {
-        return OScreen.height / obj_y;
-      }
-      else
-      {
-        return OScreen.width / obj_x;
-      }
-    }
-    else
+    if (bb.isEmpty())
     {
-      // return this.fit_points_on_camera([bb.min, bb.max], 1).zoom;
-      const size = new Vector3();
-      bb.getSize(size);
-      return this.get_zoom_to_fit_rect(size.x, size.y);
+      return (camera as OrthographicCamera).isOrthographicCamera ? (camera as OrthographicCamera).zoom : 0;
     }
+
+    return this.fit_bounding_box_points(camera, bb).zoom;
   }
 
   get_html_screen_pos(object: Object3D, camera: Camera)
@@ -254,9 +226,7 @@ class CameraUtilities
 
       const fitter = new PerspectiveFrustumPointFitter();
 
-      const aspect_ratio = OScreen.aspect_ratio;
-
-      const camera_pos = fitter.fit_points(points, camera.quaternion, perspective_camera.fov * zoom_scale, aspect_ratio);
+      const camera_pos = fitter.fit_points(points, camera.quaternion, perspective_camera.fov * zoom_scale, perspective_camera.aspect);
       const box = new Box3().setFromPoints(points);
       const center = new Vector3();
       box.getCenter(center);
@@ -278,17 +248,20 @@ class CameraUtilities
     }
     else
     {
+      // An orthographic camera frames through its zoom. It keeps its distance
+      // to the points when that fits their depth between the near and far planes.
+      const orthographic_camera = camera as OrthographicCamera;
       const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, perspective_camera.fov * zoom_scale, OScreen.aspect_ratio);
+      const bounds = fitter.get_view_bounds(points, camera.quaternion);
+      const camera_backward_dir = new Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
 
-      this.reference_position.copy(result.center);
-      this.reference_zoom = result.distance_to_center;
+      const current_distance = camera.position.clone().sub(bounds.center).dot(camera_backward_dir);
+      const distance = fitter.get_distance_to_fit_depth(orthographic_camera, bounds.size.z / 2, current_distance);
 
-      const forward = new Vector3(0, 0, 1).applyQuaternion(camera.quaternion);
       return {
-        zoom: result.distance_to_center,
-        reference_position: result.center,
-        camera_position: forward.multiplyScalar(result.distance_to_center)
+        zoom: fitter.get_zoom_to_fit_size(orthographic_camera, bounds.size.x, bounds.size.y, zoom_scale),
+        reference_position: bounds.center,
+        camera_position: bounds.center.clone().addScaledVector(camera_backward_dir, distance)
       };
     }
   }
