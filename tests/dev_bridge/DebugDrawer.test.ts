@@ -77,8 +77,7 @@ describe('DebugDrawer', () =>
   beforeEach(() =>
   {
     OScreen.init();
-    SceneManager.init();
-    SceneManager.current = new AbstractScene({ name: 'drawer_test', compilators: {} });
+    SceneManager.init(new AbstractScene({ name: 'drawer_test', compilators: {} }));
     Debug.init();
     drawer = new DebugDrawer();
   });

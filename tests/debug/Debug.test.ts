@@ -6,6 +6,7 @@ import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { Debug } from '../../src/Debug';
 import { OScreen } from '../../src/OScreen';
 import { SceneManager } from '../../src/SceneManager';
+import { AbstractScene } from '../../src/scenes/AbstractScene';
 
 function see_through_material_of(mesh: Mesh): MeshBasicNodeMaterial
 {
@@ -25,7 +26,7 @@ describe('Debug', () =>
   beforeEach(() =>
   {
     OScreen.init();
-    SceneManager.init();
+    SceneManager.init(new AbstractScene({ name: 'default_scene', compilators: {} }));
     Debug.init();
   });
 

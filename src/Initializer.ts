@@ -10,6 +10,7 @@ import { OScreen } from './OScreen';
 import { ReflectionPlaneContext } from './ReflectionPlaneContext';
 import { ResourceContainer } from './ResourceContainer';
 import { SceneManager } from './SceneManager';
+import { AbstractScene } from './scenes/AbstractScene';
 import { Time } from './Time';
 import { CameraUtilities } from './utilities/CameraUtilities';
 
@@ -29,7 +30,7 @@ class Initializer
     Browser.init();
     ReflectionPlaneContext.init();
     ResourceContainer.init();
-    SceneManager.init();
+    SceneManager.init(new AbstractScene({ name: 'default_scene', compilators: {} }));
     OScreen.init();
     Time.init();
 

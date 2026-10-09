@@ -5,7 +5,7 @@ declare class SceneManager {
     get current(): Scene;
     set current(arg: Scene);
     
-    init(): void;
+    init(default_scene: Scene): void;
     add_scene(name: string): void;
     dispose(): void;
 }

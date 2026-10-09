@@ -1,14 +1,13 @@
 import type { Mesh } from 'three';
-import { AbstractScene } from './scenes/AbstractScene';
+import type { AbstractScene } from './scenes/AbstractScene';
 
 class SceneManager
 {
   _current: AbstractScene;
-  
-  init(): void
+
+  init(default_scene: AbstractScene): void
   {
-    this._current = new AbstractScene({ name: 'default_scene', compilators: {} });
-    this._current.name = 'default_scene';
+    this._current = default_scene;
   }
 
   add_scene(name: string): void 
