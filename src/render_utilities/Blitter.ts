@@ -7,7 +7,7 @@ class Blitter
 {
   _blit_camera: OrthographicCamera;
   _blit_material: BlitNodeMaterial;
-  _blit_quad: Mesh;
+  _blit_quad: Mesh<PlaneGeometry, BlitNodeMaterial>;
   _blit_scene: Scene;
   renderer: Renderer;
 

@@ -50,7 +50,7 @@ export class ViewComponent
 
   toggle_hidden()
   {
-    if (this.container.style.opacity > 0.001)
+    if (Number(this.container.style.opacity) > 0.001)
     {
       if (this.hidden)
       {

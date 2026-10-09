@@ -124,7 +124,7 @@ class Graphics
     }
   }
 
-  render(scene?: AbstractScene, camera?: PerspectiveCamera | OrthographicCamera, RT?: RenderTarget, override_mat?: Material): void
+  render(scene?: Scene, camera?: PerspectiveCamera | OrthographicCamera, RT?: RenderTarget, override_mat?: Material): void
   {
     this.__apply_override_material(scene, override_mat);
 
@@ -181,7 +181,7 @@ class Graphics
     }
   }
 
-  __apply_override_material(scene: AbstractScene, mat: Material): void
+  __apply_override_material(scene: Scene, mat: Material): void
   {
     mat = mat === undefined ? null : mat;
     if (scene)

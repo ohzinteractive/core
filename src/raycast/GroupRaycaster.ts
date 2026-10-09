@@ -3,7 +3,7 @@ import type { Input } from '../lib/Input';
 import { RaycastResolver } from './RaycastResolver';
 import { IdleState } from './states/IdleState';
 
-import type { Camera, Intersection, Object3D } from 'three';
+import type { Camera, Intersection, Object3D, Vector2 } from 'three';
 import { Raycaster } from 'three';
 import type { BaseState } from './states/BaseState';
 
@@ -36,7 +36,7 @@ class GroupRaycaster
 
   update()
   {
-    this.raycaster.setFromCamera(this.input.NDC, this.camera);
+    this.raycaster.setFromCamera(this.input.NDC as Vector2, this.camera);
     this.current_intersections = this.raycaster.intersectObjects(this.raycastee_group);
     this.current_state.update(this);
   }

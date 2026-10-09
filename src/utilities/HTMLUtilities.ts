@@ -59,7 +59,8 @@ class HTMLUtilities
 
   static load_elements(container: HTMLElement, selector: string)
   {
-    const elements = container.querySelectorAll(selector);
+    // Any element with a src attribute (img, video, source, iframe...).
+    const elements = container.querySelectorAll<HTMLElement & { src: string }>(selector);
 
     for (let i = 0; i < elements.length; i++)
     {

@@ -1,6 +1,13 @@
 import type { BufferGeometry } from 'three';
 import { Vector2, Vector3 } from 'three';
 
+// What sample_point_in_face needs from a point, which Vector2 (UVs) and Vector3 both provide.
+interface Sampleable<T> {
+  add(v: T): T;
+  clone(): T;
+  multiplyScalar(scalar: number): T;
+}
+
 interface Face {
   a: Vector3;
   b: Vector3;
@@ -205,7 +212,7 @@ class MeshSampler
     return vec1.cross(vec2).length() / 2;
   }
 
-  sample_point_in_face(w1: number, w2: number, v1: Vector3, v2: Vector3, v3: Vector3)
+  sample_point_in_face<T extends Sampleable<T>>(w1: number, w2: number, v1: T, v2: T, v3: T): T
   {
     if (w1 + w2 > 1)
     {
