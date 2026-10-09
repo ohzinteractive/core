@@ -10,7 +10,7 @@ class OrthographicFrustumPointFitter
 
   fit_points(points: Vector3[], camera_quaternion: Quaternion, vertical_fov: number, aspect: number)
   {
-    const inverse_camera_quat = camera_quaternion.clone().inverse();
+    const inverse_camera_quat = camera_quaternion.clone().invert();
 
     const inverted_points = [];
 

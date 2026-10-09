@@ -75,7 +75,7 @@ class ApplicationView extends ViewState
     {
       this.current_opacity = opacity;
 
-      this.container.style.opacity = this.current_opacity;
+      this.container.style.opacity = String(this.current_opacity);
     }
   }
 }

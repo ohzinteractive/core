@@ -48,6 +48,7 @@ class AxisHelper extends Object3D
 
   dispose(): void
   {
+    super.dispose();
   }
 }
 

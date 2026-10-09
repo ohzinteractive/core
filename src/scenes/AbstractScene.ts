@@ -5,7 +5,9 @@ import { Mesh, Scene } from 'three';
 import type { CameraController } from '../camera_controller/CameraController';
 import { CameraManager } from '../CameraManager';
 import { Graphics } from '../Graphics';
+import type { CompilatorConstructor } from './Compilator';
 import { HighQualityLoadingState } from './loading_states/HighQualityLoadingState';
+import type { LoadingCompilators } from './loading_states/LoadingState';
 import { LoadingState } from './loading_states/LoadingState';
 import { RegularLoadingState } from './loading_states/RegularLoadingState';
 
@@ -25,7 +27,7 @@ class AbstractScene extends Scene
   constructor({
     name,
     compilators
-  }: { name: string, compilators: any })
+  }: { name: string, compilators: LoadingCompilators })
   {
     super();
 
@@ -137,14 +139,16 @@ class AbstractScene extends Scene
     // AvatarSystem.component_container.component_instancer.data_texture.data = new Float32Array(4);
 
     this.initialized = false;
+
+    super.dispose();
   }
 
-  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: Compilator[], custom_data?: any[])
+  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: CompilatorConstructor[], custom_data?: any[])
   {
     this.loading_states.regular.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }
 
-  set_high_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: Compilator[], custom_data?: any[])
+  set_high_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: CompilatorConstructor[], custom_data?: any[])
   {
     this.loading_states.high.set_assets(scene_objects, scene_textures, scene_sounds, custom_loaders, custom_compilators, custom_data);
   }

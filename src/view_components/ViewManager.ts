@@ -1,6 +1,12 @@
 import type { ApplicationView } from './ApplicationView';
 import { TransitionManager } from './TransitionManager';
 
+// The app registers a view named 'transition' that loads the next view in between.
+interface TransitionView extends ApplicationView
+{
+  set_next_view(view: ApplicationView, reload?: boolean): void;
+}
+
 class ViewManager
 {
   browser_title_suffix: string;
@@ -34,7 +40,7 @@ class ViewManager
   go_to_scene(scene_name: string, change_url = false, skip = false)
   {
     const next_view = this.get(scene_name);
-    const transition_view = this.get('transition');
+    const transition_view = this.get('transition') as TransitionView;
 
     transition_view.set_next_view(next_view);
     this.go_to_view(transition_view.name, change_url, skip);

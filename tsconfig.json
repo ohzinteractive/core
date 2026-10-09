@@ -1,11 +1,13 @@
 {
   // Change this to match your project
   "include": ["**/*"],
-  // Keeps the test harness out of declaration generation. Note that
+  // Keeps the test harness and the scaffolding templates (tasks/, which import
+  // app-side paths that do not exist in core) out of the type check and
+  // declaration generation. Note that
   // generate-types is independently broken at v13.3.0: it emits types/src
   // and types/tasks rather than the flat types/ layout package.json
   // publishes, and it fails on @types/three resolution. Unrelated to this.
-  "exclude": ["node_modules", "tests", "vitest.config.ts"],
+  "exclude": ["node_modules", "tests", "tasks", "vitest.config.ts"],
   "compilerOptions": {
     // Tells TypeScript to read JS files, as
     // normally they are ignored as source files
@@ -24,7 +26,7 @@
     "outDir": "types",
     "noImplicitAny": true,
     "module": "esnext",
-    "types": ["three", "@webgpu/types"],
+    "types": ["three"],
     "paths": {
       "three/webgpu": ["../node_modules/@types/three/build/three.webgpu.d.ts"],
       "three/tsl": ["../node_modules/@types/three/build/three.tsl.d.ts"],

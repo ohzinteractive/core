@@ -1,7 +1,11 @@
 import type { Texture } from 'three';
 import { DoubleSide, Vector3 } from 'three';
 import { cameraProjectionMatrix, mix, modelViewMatrix, positionGeometry, texture, uniform, vec4 } from 'three/tsl';
+import type { Node } from 'three/webgpu';
 import { NodeMaterial } from 'three/webgpu';
+
+// TSL lets any matrix node expose its columns through .element(), the typings only do it for arrays.
+type MatrixNode = Node<'mat4'> & { element: (column: number) => Node<'vec4'> };
 
 // Draws _MainTex on a WorldImage plane, with its alpha scaled by _Opacity. When
 // _ScreenAligned is 1, the plane drops its rotation and faces the camera, scaled by
@@ -30,7 +34,7 @@ class WorldImageMaterial extends NodeMaterial
     // diag(_Scale) and only its translation is kept. Both positions are linear in the
     // matrix, so blending them equals blending the matrices.
     const world_aligned = modelViewMatrix.mul(vec4(positionGeometry, 1)).xyz;
-    const camera_aligned = modelViewMatrix.element(3).xyz.add(positionGeometry.mul(scale));
+    const camera_aligned = (modelViewMatrix as MatrixNode).element(3).xyz.add(positionGeometry.mul(scale));
 
     this.vertexNode = cameraProjectionMatrix.mul(vec4(mix(world_aligned, camera_aligned, screen_aligned), 1));
 

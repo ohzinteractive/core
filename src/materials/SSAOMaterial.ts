@@ -3,14 +3,12 @@ import { decode_float_rg, decode_normal } from './deferred/depth_normal_encoding
 
 import { DataTexture, Matrix4, RGBAFormat, RepeatWrapping, Vector3 } from 'three';
 import { abs, clamp, cross, dot, float, floor, Fn, ivec2, Loop, mix, normalize, smoothstep, step, texture, uniform, uniformArray, uv, vec2, vec3, vec4 } from 'three/tsl';
-import type { Node } from 'three/webgpu';
+import type { Node, TextureNode } from 'three/webgpu';
 
 import { OMath } from '../utilities/OMath';
 
 const KERNEL_SIZE = 64;
 const NOISE_SIZE = 4;
-
-type TextureNode = ReturnType<typeof texture>;
 
 // Screen space ambient occlusion over the DepthAndNormalsRenderer target (_MainTex).
 // Each pixel tests a hemisphere of samples around its normal against the depth
@@ -33,7 +31,7 @@ class SSAOMaterial extends BlitNodeMaterial
     const projection = uniform(new Matrix4());
     const bias = uniform(0.0125);
     const radius = uniform(0.3);
-    const kernel = uniformArray(this.sample_kernel, 'vec3');
+    const kernel = uniformArray<'vec3'>(this.sample_kernel, 'vec3');
     const random_rotation = texture(this.__get_rotation_texture());
 
     Object.assign(this.uniforms, {
@@ -62,7 +60,7 @@ class SSAOMaterial extends BlitNodeMaterial
       {
         const texel = clamp(corner.add(vec2(x, y)), vec2(0), last_texel);
 
-        return decode_float_rg(depth_normal_tex.load(ivec2(texel.x, texel.y)).xy);
+        return decode_float_rg(depth_normal_tex.load(ivec2(texel)).xy);
       };
 
       return mix(

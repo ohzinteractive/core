@@ -3,6 +3,8 @@ import { ActionInterpolator } from './ActionInterpolator';
 
 class NumberInterpolator extends ActionInterpolator
 {
+  declare from: number;
+  declare to: number;
   initial: boolean;
 
   constructor(attribute_name: string, from: number = 0, to: number = 1, initial: boolean = false, easing_function: string = 'linear')

@@ -2,7 +2,7 @@ import { CameraManager } from '../CameraManager';
 import { OScreen } from '../OScreen';
 import { OMath } from '../utilities/OMath';
 
-import type { Camera, Object3D } from 'three';
+import type { Camera, Object3D, OrthographicCamera, PerspectiveCamera as ThreePerspectiveCamera, Quaternion } from 'three';
 import { Box3, Matrix4, Plane, Ray, Sphere, Vector3 } from 'three';
 
 import type { Input } from '../lib/Input';
@@ -17,7 +17,7 @@ class CameraUtilities
   plane: Plane;
   ray: Ray;
   reference_position: Vector3;
-  reference_rotation: Vector3;
+  reference_rotation: Quaternion;
   reference_zoom: number;
   tmp_mat: Matrix4;
   tmp_size: Vector3;
@@ -97,7 +97,8 @@ class CameraUtilities
     }
     else
     {
-      const pos = new Vector3(NDC.x * camera.right, NDC.y * camera.top, 0);
+      const orthographic_camera = camera as OrthographicCamera;
+      const pos = new Vector3(NDC.x * orthographic_camera.right, NDC.y * orthographic_camera.top, 0);
       pos.applyQuaternion(camera.quaternion);
       pos.add(camera.position);
       const dir = new Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
@@ -161,7 +162,7 @@ class CameraUtilities
 
   get_zoom_to_fit_box(bb: Box3, camera: Camera)
   {
-    if (camera.isOrthographicCamera)
+    if ((camera as OrthographicCamera).isOrthographicCamera)
     {
       bb.getSize(this.tmp_size);
 
@@ -214,12 +215,14 @@ class CameraUtilities
 
   update_projection(camera: Camera)
   {
-    camera.left   = -OScreen.width / 2;
-    camera.right  = OScreen.width / 2;
-    camera.top    = OScreen.height / 2;
-    camera.bottom = -OScreen.height / 2;
-    camera.aspect = OScreen.aspect_ratio;
-    camera.updateProjectionMatrix(true);
+    const orthographic_camera = camera as OrthographicCamera & { aspect: number };
+
+    orthographic_camera.left   = -OScreen.width / 2;
+    orthographic_camera.right  = OScreen.width / 2;
+    orthographic_camera.top    = OScreen.height / 2;
+    orthographic_camera.bottom = -OScreen.height / 2;
+    orthographic_camera.aspect = OScreen.aspect_ratio;
+    orthographic_camera.updateProjectionMatrix();
   }
 
   fit_bounding_box_points(camera: Camera, bb: Box3, scale = 1)
@@ -242,7 +245,9 @@ class CameraUtilities
 
   fit_points(camera: Camera, points: Array<Vector3>, zoom_scale = 1)
   {
-    if (camera.isPerspectiveCamera)
+    const perspective_camera = camera as ThreePerspectiveCamera;
+
+    if (perspective_camera.isPerspectiveCamera)
     {
       const camera_forward_dir = new Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
       const camera_backward_dir = camera_forward_dir.clone().multiplyScalar(-1);
@@ -251,7 +256,7 @@ class CameraUtilities
 
       const aspect_ratio = OScreen.aspect_ratio;
 
-      const camera_pos = fitter.fit_points(points, camera.quaternion, camera.fov * zoom_scale, aspect_ratio);
+      const camera_pos = fitter.fit_points(points, camera.quaternion, perspective_camera.fov * zoom_scale, aspect_ratio);
       const box = new Box3().setFromPoints(points);
       const center = new Vector3();
       box.getCenter(center);
@@ -274,7 +279,7 @@ class CameraUtilities
     else
     {
       const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, camera.fov * zoom_scale, OScreen.aspect_ratio);
+      const result = fitter.fit_points(points, this.reference_rotation, perspective_camera.fov * zoom_scale, OScreen.aspect_ratio);
 
       this.reference_position.copy(result.center);
       this.reference_zoom = result.distance_to_center;

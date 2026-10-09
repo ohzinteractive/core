@@ -1,4 +1,4 @@
-import { AudioContext } from 'three';
+import { AudioContext as ThreeAudioContext } from 'three';
 
 import { AudioClip } from '../components/AudioClip';
 import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
@@ -42,7 +42,9 @@ class AudioLoader extends AbstractLoader
 
   instantiate_audio(resource_container: ResourceContainer)
   {
-    const context = AudioContext.getContext();
+    // three's typings declare getContext() as returning its own AudioContext helper class,
+    // but it returns the native Web Audio context.
+    const context = ThreeAudioContext.getContext() as unknown as AudioContext;
 
     const buffer = context.createBuffer(2, 22050, 44100);
 
@@ -52,7 +54,7 @@ class AudioLoader extends AbstractLoader
       {
         response.arrayBuffer().then((array_buffer) =>
         {
-          context.decodeAudioData(array_buffer, (audio_buffer) =>
+          void context.decodeAudioData(array_buffer, (audio_buffer) =>
           {
             resource_container.set_resource(
               this.resource_id,

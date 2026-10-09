@@ -118,4 +118,15 @@ describe('SDFTextBatch', () =>
 
     expect(batch.geometry.instanceCount).toBe(0);
   });
+
+  it('dispose fires its own dispose event, which WebGPURenderer listens to', () =>
+  {
+    const batch = create_batch();
+    let disposals = 0;
+    batch.addEventListener('dispose', () => disposals++);
+
+    batch.dispose();
+
+    expect(disposals).toBe(1);
+  });
 });

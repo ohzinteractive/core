@@ -4,18 +4,26 @@ import { AsyncObjectsLoader } from '../../loaders/AsyncObjectsLoader';
 import { AsyncTexturesLoader } from '../../loaders/AsyncTexturesLoader';
 import { ResourceContainer } from '../../ResourceContainer';
 import type { AbstractScene } from '../AbstractScene';
-import type { Compilator } from '../Compilator';
+import type { Compilator, CompilatorConstructor } from '../Compilator';
 import { CompilatorManager } from '../CompilatorManager';
+
+// Empty for scenes that never load assets, like the default and the deferred lights scenes.
+export interface LoadingCompilators
+{
+  AudiosCompilator?: CompilatorConstructor;
+  SceneCompilator?: CompilatorConstructor;
+  TexturesCompilator?: CompilatorConstructor;
+}
 
 export class LoadingState
 {
-  AudiosCompilator: Compilator;
-  SceneCompilator: Compilator;
-  TexturesCompilator: Compilator;
+  AudiosCompilator: CompilatorConstructor;
+  SceneCompilator: CompilatorConstructor;
+  TexturesCompilator: CompilatorConstructor;
   callback_called: boolean;
   compilator_manager: CompilatorManager;
   compilators: Compilator[];
-  custom_compilators: Compilator[];
+  custom_compilators: CompilatorConstructor[];
   custom_data: any[];
   custom_loaders: any[];
   loaders: AsyncAbstractLoader[];
@@ -28,7 +36,7 @@ export class LoadingState
     SceneCompilator,
     TexturesCompilator,
     AudiosCompilator
-  }: { SceneCompilator: Compilator, TexturesCompilator: Compilator, AudiosCompilator: Compilator })
+  }: LoadingCompilators)
   {
     this.scene = scene;
 
@@ -42,7 +50,7 @@ export class LoadingState
     this.callback_called = false;
   }
 
-  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders: any[] = [], custom_compilators: Compilator[] = [], custom_data: any[] = [])
+  set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders: any[] = [], custom_compilators: CompilatorConstructor[] = [], custom_data: any[] = [])
   {
     this.scene_objects = scene_objects;
     this.scene_textures = scene_textures;

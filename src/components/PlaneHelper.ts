@@ -27,7 +27,7 @@ class PlaneHelper extends Object3D
 
   dispose()
   {
-
+    super.dispose();
   }
 }
 

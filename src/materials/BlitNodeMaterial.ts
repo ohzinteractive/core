@@ -1,8 +1,7 @@
 import { NoBlending, Texture, Vector2 } from 'three';
 import { positionGeometry, texture, uniform, uv, vec4 } from 'three/tsl';
-import { type Node, NodeMaterial } from 'three/webgpu';
+import { type Node, NodeMaterial, type TextureNode } from 'three/webgpu';
 
-type TextureNode = ReturnType<typeof texture>;
 type TextureKind = Texture & { isRenderTargetTexture?: boolean, isFramebufferTexture?: boolean, isDepthTexture?: boolean };
 
 // Same textures three's TextureNode treats as top left origin on both backends.

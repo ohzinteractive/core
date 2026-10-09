@@ -94,6 +94,8 @@ class WorldImage extends Mesh
     this.parent.remove(this);
     this.material.uniforms._MainTex.value.dispose();
     this.material.dispose();
+
+    super.dispose();
   }
 }
 

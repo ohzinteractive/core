@@ -42,7 +42,10 @@ class VRRender extends BaseRender
 
     if (spectator_camera && Graphics._renderer.xr.isPresenting)
     {
-      const xrCam = Graphics._renderer.xr.getCamera();
+      // XRManager types isPresenting as readonly, but it is a plain field that three's
+      // own examples flip to render the spectator view without WebXR.
+      const xr = Graphics._renderer.xr as typeof Graphics._renderer.xr & { isPresenting: boolean };
+      const xrCam = xr.getCamera();
 
       spectator_camera.projectionMatrix.copy(CameraManager.current.projectionMatrix);
 
@@ -53,7 +56,7 @@ class VRRender extends BaseRender
       const currentRenderTarget = Graphics._renderer.getRenderTarget();
 
       // turn off the WebXR rendering
-      Graphics._renderer.xr.isPresenting = false;
+      xr.isPresenting = false;
 
       // render to the canvas on our main display
       Graphics._renderer.setRenderTarget(null);
@@ -61,7 +64,7 @@ class VRRender extends BaseRender
 
       // reset back to enable WebXR
       Graphics._renderer.setRenderTarget(currentRenderTarget);
-      Graphics._renderer.xr.isPresenting = true;
+      xr.isPresenting = true;
     }
   }
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { DataTexture, Vector2, Vector3 } from 'three';
+import { DataTexture, Group, Vector2, Vector3 } from 'three';
 
 import { WorldImage } from '../../src/components/WorldImage';
 import { WorldImageMaterial } from '../../src/materials/WorldImageMaterial';
@@ -101,6 +101,18 @@ describe('WorldImage', () =>
 
     other.image = { data: new Uint8Array(8 * 2 * 4), width: 8, height: 2 };
     image.update_texture();
+
+    expect(disposals).toBe(1);
+  });
+
+  it('dispose fires its own dispose event, which WebGPURenderer listens to', () =>
+  {
+    const image = new WorldImage(texture_of_size(4, 2), new Vector2());
+    new Group().add(image);
+    let disposals = 0;
+    image.addEventListener('dispose', () => disposals++);
+
+    image.dispose();
 
     expect(disposals).toBe(1);
   });

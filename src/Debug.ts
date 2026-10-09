@@ -13,7 +13,7 @@ import type { RenderTarget, Texture } from 'three';
 import { Box3, Box3Helper, BufferGeometry, CatmullRomCurve3, Color, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, PlaneGeometry, Scene, SphereGeometry, Vector2, Vector3 } from 'three';
 import { MeshBasicNodeMaterial } from 'three/webgpu';
 import { CameraManager } from './CameraManager';
-import type { AbstractScene, Graphics } from './index';
+import type { Graphics } from './index';
 
 // 20% opaque, and never hides what is drawn after it.
 function see_through_material(color: number | string): MeshBasicNodeMaterial
@@ -28,9 +28,9 @@ class Debug
   camera: PerspectiveCamera;
   canvas_renderer: any;
   ctx: any;
-  display_texture_meshes: Mesh[];
+  display_texture_meshes: Mesh<PlaneGeometry, ScreenSpaceTextureMaterial>[];
   rt_debug: RenderTarget;
-  scene: AbstractScene;
+  scene: Scene;
   
   init()
   {
