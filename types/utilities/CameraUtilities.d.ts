@@ -34,5 +34,4 @@ declare class CameraUtilities {
         reference_position: Vector3;
         camera_position: Vector3;
     };
-    reference_zoom: number;
 }

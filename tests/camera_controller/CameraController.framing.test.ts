@@ -263,7 +263,7 @@ describe('CameraController framing, orthographic camera', () =>
   {
     const camera_controller = orthographic_controller();
 
-    camera_controller.focus_camera_on_points([new Vector3(1, 2, 3)]);
+    camera_controller.focus_camera_on_points([new Vector3(1, 2, 3)], 3);
 
     expect((camera_controller.camera as OrthographicCamera).zoom).toBe(1);
     expect(camera_controller.reference_position.toArray()).toEqual([1, 2, 3]);

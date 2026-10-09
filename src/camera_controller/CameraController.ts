@@ -531,7 +531,7 @@ export class CameraController
   {
     if (this.__is_orthographic())
     {
-      return this.__get_orthographic_zoom(width * 2, height * 2) * scale;
+      return this.__get_orthographic_zoom(width * 2, height * 2, scale);
     }
 
     // let v_fov = (this.camera.fov/2) * Math.PI/180;
@@ -551,48 +551,24 @@ export class CameraController
   __fit_orthographic(quaternion: Quaternion, points: Vector3[], zoom_scale: number)
   {
     const bounds = new OrthographicFrustumPointFitter().get_view_bounds(points, quaternion);
-    const size = bounds.size;
-
-    // Points lined up along an axis leave rounding noise, not 0, across it.
-    const epsilon = 1e-9 * Math.max(size.x, size.y, size.z);
-    const width = size.x > epsilon ? size.x : 0;
-    const height = size.y > epsilon ? size.y : 0;
 
     return {
-      zoom: this.__get_orthographic_zoom(width, height) * zoom_scale,
+      zoom: this.__get_orthographic_zoom(bounds.size.x, bounds.size.y, zoom_scale),
       center: bounds.center,
-      distance: this.__get_orthographic_distance(size.z / 2)
+      distance: this.__get_orthographic_distance(bounds.size.z / 2)
     };
   }
 
-  // An orthographic camera frames through its zoom, so the distance only has to
-  // keep a depth of +-half_depth around the center between the near and far
-  // planes. The current distance is kept when it does. ImmediateMode still
+  // The current distance is kept when it fits the depth. ImmediateMode still
   // clamps it to max_zoom, which must cover half the depth plus near.
   __get_orthographic_distance(half_depth: number)
   {
-    const closest = half_depth + this.camera.near;
-    const farthest = this.camera.far - half_depth;
-
-    let distance = Math.max(this.reference_zoom, closest);
-    if (distance > farthest)
-    {
-      distance = Math.max(closest, farthest);
-    }
-    return distance;
+    return new OrthographicFrustumPointFitter().get_distance_to_fit_depth(this.camera as OrthographicCamera, half_depth, this.reference_zoom);
   }
 
-  // The camera zoom that shows a width x height area, from the camera frustum.
-  // A degenerate area keeps the current zoom.
-  __get_orthographic_zoom(width: number, height: number)
+  __get_orthographic_zoom(width: number, height: number, scale = 1)
   {
-    const camera = this.camera as OrthographicCamera;
-    const zoom = Math.min(
-      Math.abs((camera.right - camera.left) / width),
-      Math.abs((camera.top - camera.bottom) / height)
-    );
-
-    return Number.isFinite(zoom) ? zoom : camera.zoom;
+    return new OrthographicFrustumPointFitter().get_zoom_to_fit_size(this.camera as OrthographicCamera, width, height, scale);
   }
 
   __set_orthographic_zoom(zoom: number)
