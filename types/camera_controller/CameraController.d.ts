@@ -85,4 +85,13 @@ export declare class CameraController {
     get_current_orientation(): number;
     get_current_azimuth(): number;
     __get_zoom_to_show_rect(width: number, height: number, scale?: number): number;
+    __is_orthographic(): boolean;
+    __fit_orthographic(quaternion: Quaternion, points: Vector3[], zoom_scale: number): {
+        zoom: number;
+        center: Vector3;
+        distance: number;
+    };
+    __get_orthographic_distance(half_depth: number): number;
+    __get_orthographic_zoom(width: number, height: number): number;
+    __set_orthographic_zoom(zoom: number): void;
 }
