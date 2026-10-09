@@ -220,8 +220,11 @@ export class CameraController
     const xΘ = Math.atan2(q.x, q.w)  * 2;
     const yΘ = Math.atan2(q.y, q.w)  * 2;
 
-    this.current_orientation = OMath.radToDeg(yΘ) % 360;
-    this.current_tilt        = OMath.radToDeg(xΘ) * -1;
+    // Both angles come out up to 360 degrees off: past an orientation of 180,
+    // and for -q, which is the same rotation. Orientation is kept in [0, 360),
+    // like build_rotation, and tilt in (-180, 180].
+    this.current_orientation = OMath.euclideanModulo(OMath.radToDeg(yΘ), 360);
+    this.current_tilt        = 180 - OMath.euclideanModulo(180 + OMath.radToDeg(xΘ), 360);
 
     this.reference_rotation.copy(q);
   }
@@ -283,42 +286,21 @@ export class CameraController
 
   focus_on_bounding_box(bb: Box3, scale = 1)
   {
-    if ((this.camera as OrthographicCamera).isOrthographicCamera)
-    {
-      bb.getSize(this.tmp_size);
+    const dir = new Vector3();
+    dir.copy(bb.max).sub(bb.min);
 
-      const obj_x = this.tmp_size.x;
-      const obj_y = this.tmp_size.y;
-      const object_aspect = obj_x / obj_y;
-      if (OScreen.aspect_ratio / object_aspect > 1)
-      {
-        this.camera.zoom = OScreen.height / obj_y;
-      }
-      else
-      {
-        this.camera.zoom = OScreen.width / obj_x;
-      }
+    const p1 = bb.min.clone();
 
-      bb.getCenter(this.reference_position);
-    }
-    else
-    {
-      const dir = new Vector3();
-      dir.copy(bb.max).sub(bb.min);
+    const p2 = p1.clone().add(new Vector3(dir.x, 0, 0));
+    const p3 = p1.clone().add(new Vector3(0, dir.y, 0));
+    const p4 = p1.clone().add(new Vector3(0, 0, dir.z));
 
-      const p1 = bb.min.clone();
+    const p5 = p1.clone().add(new Vector3(dir.x, 0, dir.z));
+    const p6 = p1.clone().add(new Vector3(0, dir.y, dir.z));
+    const p7 = bb.max.clone();
+    const p8 = p1.clone().add(new Vector3(dir.x, dir.y, 0));
 
-      const p2 = p1.clone().add(new Vector3(dir.x, 0, 0));
-      const p3 = p1.clone().add(new Vector3(0, dir.y, 0));
-      const p4 = p1.clone().add(new Vector3(0, 0, dir.z));
-
-      const p5 = p1.clone().add(new Vector3(dir.x, 0, dir.z));
-      const p6 = p1.clone().add(new Vector3(0, dir.y, dir.z));
-      const p7 = bb.max.clone();
-      const p8 = p1.clone().add(new Vector3(dir.x, dir.y, 0));
-
-      this.focus_camera_on_points([p1, p2, p3, p4, p5, p6, p7, p8], scale);
-    }
+    this.focus_camera_on_points([p1, p2, p3, p4, p5, p6, p7, p8], scale);
   }
 
   // get_zoom_to_focus_on_bounding_box(bb, tilt, orientation)
@@ -345,6 +327,11 @@ export class CameraController
 
   get_zoom_to_focus_on_points(points: Vector3[], scale: number)
   {
+    if (this.__is_orthographic())
+    {
+      return this.__fit_orthographic(this.reference_rotation, points, scale).zoom;
+    }
+
     const old_zoom = this.reference_zoom;
     const old_pos = new Vector3().copy(this.reference_position);
     this.focus_camera_on_points(points, scale);
@@ -356,6 +343,11 @@ export class CameraController
 
   get_target_pos_to_focus_on_points(points: Vector3[], scale: number)
   {
+    if (this.__is_orthographic())
+    {
+      return this.__fit_orthographic(this.reference_rotation, points, scale).center;
+    }
+
     const old_zoom = this.reference_zoom;
     const old_pos = new Vector3().copy(this.reference_position);
     this.focus_camera_on_points(points, scale);
@@ -369,12 +361,27 @@ export class CameraController
 
   focus_camera_on_sphere(sphere: Sphere, debug: boolean)
   {
-    this.reference_zoom = this.get_zoom_to_sphere(sphere, debug);
+    if (this.__is_orthographic())
+    {
+      this.__set_orthographic_zoom(this.get_zoom_to_sphere(sphere, debug));
+      this.reference_zoom = this.__get_orthographic_distance(sphere.radius);
+    }
+    else
+    {
+      this.reference_zoom = this.get_zoom_to_sphere(sphere, debug);
+    }
     this.reference_position.copy(sphere.center);
   }
 
+  // For a perspective camera this is a distance; for an orthographic camera it
+  // is the camera zoom.
   get_zoom_to_sphere(sphere: Sphere, debug: boolean)
   {
+    if (this.__is_orthographic())
+    {
+      return this.__get_orthographic_zoom(sphere.radius * 2, sphere.radius * 2);
+    }
+
     const v_fov = ((this.camera as PerspectiveCamera).fov / 2) * Math.PI / 180;
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera as PerspectiveCamera).aspect)) / 2;
 
@@ -456,17 +463,13 @@ export class CameraController
     }
     else
     {
-      const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera as PerspectiveCamera).fov * zoom_scale), OScreen.aspect_ratio);
+      const result = this.__fit_orthographic(quaternion, points, zoom_scale);
+      const camera_backward_dir = new Vector3(0, 0, 1).applyQuaternion(quaternion);
 
-      this.reference_position.copy(result.center);
-      this.reference_zoom = result.distance_to_center;
-
-      const forward = new Vector3(0, 0, 1).applyQuaternion(quaternion);
       return {
-        zoom: result.distance_to_center,
+        zoom: result.zoom,
         reference_position: result.center,
-        camera_position: forward.multiplyScalar(result.distance_to_center)
+        camera_position: result.center.clone().add(camera_backward_dir.multiplyScalar(result.distance))
       };
     }
   }
@@ -501,11 +504,11 @@ export class CameraController
     }
     else
     {
-      const fitter = new OrthographicFrustumPointFitter();
-      const result = fitter.fit_points(points, this.reference_rotation, ((this.camera as PerspectiveCamera).fov * zoom_scale), OScreen.aspect_ratio);
+      const result = this.__fit_orthographic(this.reference_rotation, points, zoom_scale);
 
+      this.__set_orthographic_zoom(result.zoom);
+      this.reference_zoom = result.distance;
       this.reference_position.copy(result.center);
-      this.reference_zoom = result.distance_to_center;
     }
   }
 
@@ -526,6 +529,11 @@ export class CameraController
 
   __get_zoom_to_show_rect(width: number, height: number, scale = 1)
   {
+    if (this.__is_orthographic())
+    {
+      return this.__get_orthographic_zoom(width * 2, height * 2) * scale;
+    }
+
     // let v_fov = (this.camera.fov/2) * Math.PI/180;
     const v_fov = OMath.degToRad((this.camera as PerspectiveCamera).fov / 2);
     const h_fov = (2 * Math.atan(Math.tan(v_fov) * (this.camera as PerspectiveCamera).aspect)) / 2;
@@ -533,5 +541,64 @@ export class CameraController
     const distV = height / Math.tan(v_fov * scale);
     const distH = width / Math.tan(h_fov * scale);
     return Math.max(Math.abs(distH), Math.abs(distV));
+  }
+
+  __is_orthographic()
+  {
+    return (this.camera as OrthographicCamera).isOrthographicCamera === true;
+  }
+
+  __fit_orthographic(quaternion: Quaternion, points: Vector3[], zoom_scale: number)
+  {
+    const bounds = new OrthographicFrustumPointFitter().get_view_bounds(points, quaternion);
+    const size = bounds.size;
+
+    // Points lined up along an axis leave rounding noise, not 0, across it.
+    const epsilon = 1e-9 * Math.max(size.x, size.y, size.z);
+    const width = size.x > epsilon ? size.x : 0;
+    const height = size.y > epsilon ? size.y : 0;
+
+    return {
+      zoom: this.__get_orthographic_zoom(width, height) * zoom_scale,
+      center: bounds.center,
+      distance: this.__get_orthographic_distance(size.z / 2)
+    };
+  }
+
+  // An orthographic camera frames through its zoom, so the distance only has to
+  // keep a depth of +-half_depth around the center between the near and far
+  // planes. The current distance is kept when it does. ImmediateMode still
+  // clamps it to max_zoom, which must cover half the depth plus near.
+  __get_orthographic_distance(half_depth: number)
+  {
+    const closest = half_depth + this.camera.near;
+    const farthest = this.camera.far - half_depth;
+
+    let distance = Math.max(this.reference_zoom, closest);
+    if (distance > farthest)
+    {
+      distance = Math.max(closest, farthest);
+    }
+    return distance;
+  }
+
+  // The camera zoom that shows a width x height area, from the camera frustum.
+  // A degenerate area keeps the current zoom.
+  __get_orthographic_zoom(width: number, height: number)
+  {
+    const camera = this.camera as OrthographicCamera;
+    const zoom = Math.min(
+      Math.abs((camera.right - camera.left) / width),
+      Math.abs((camera.top - camera.bottom) / height)
+    );
+
+    return Number.isFinite(zoom) ? zoom : camera.zoom;
+  }
+
+  __set_orthographic_zoom(zoom: number)
+  {
+    const camera = this.camera as OrthographicCamera;
+    camera.zoom = zoom;
+    camera.updateProjectionMatrix();
   }
 }
