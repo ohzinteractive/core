@@ -118,4 +118,15 @@ describe('Line', () =>
 
     expect(line.geometry.index).toBe(index);
   });
+
+  it('dispose fires its own dispose event, which WebGPURenderer listens to', () =>
+  {
+    const line = new Line(bent_points());
+    let disposals = 0;
+    line.addEventListener('dispose', () => disposals++);
+
+    line.dispose();
+
+    expect(disposals).toBe(1);
+  });
 });

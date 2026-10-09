@@ -183,6 +183,8 @@ class SDFTextBatch extends Mesh
   {
     this.geometry.dispose();
     this.material.dispose();
+
+    super.dispose();
   }
 }
 

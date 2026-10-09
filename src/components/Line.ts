@@ -186,6 +186,8 @@ class Line extends Mesh
     {
       this.parent.remove(this);
     }
+
+    super.dispose();
   }
 
   set color(col: ColorRepresentation)

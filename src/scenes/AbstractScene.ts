@@ -137,6 +137,8 @@ class AbstractScene extends Scene
     // AvatarSystem.component_container.component_instancer.data_texture.data = new Float32Array(4);
 
     this.initialized = false;
+
+    super.dispose();
   }
 
   set_assets(scene_objects: any[], scene_textures: any[], scene_sounds: any[], custom_loaders?: any[], custom_compilators?: Compilator[], custom_data?: any[])
