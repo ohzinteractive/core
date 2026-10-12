@@ -149,3 +149,5 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
 }
 
 export { plan_import_model };
+
+export { plan_commit_object } from './commit_object.mjs';
