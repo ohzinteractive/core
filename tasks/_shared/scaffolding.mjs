@@ -20,10 +20,14 @@ class Scaffolder
     this.patches = [];
   }
 
-  /** Queue a new file. Its parent directories are created on apply. */
-  create(relative_path, contents)
+  /**
+   * Queue a file. Its parent directories are created on apply. contents may be a
+   * string or a Buffer. An existing file is refused unless overwrite is set,
+   * which is how a re-import replaces a model the artist exported again.
+   */
+  create(relative_path, contents, { overwrite = false } = {})
   {
-    this.creates.push({ relative_path, contents });
+    this.creates.push({ relative_path, contents, overwrite });
 
     return this;
   }
@@ -117,19 +121,22 @@ class Scaffolder
     const files = new Map();
     const errors = [];
     const created = [];
+    const overwritten = [];
     const patched = [];
     const skipped = [];
 
     for (const entry of this.creates)
     {
-      if (fs.existsSync(this.absolute(entry.relative_path)) || files.has(entry.relative_path))
+      const exists = fs.existsSync(this.absolute(entry.relative_path));
+
+      if (files.has(entry.relative_path) || (exists && !entry.overwrite))
       {
         errors.push(`already exists: ${entry.relative_path}`);
         continue;
       }
 
       files.set(entry.relative_path, entry.contents);
-      created.push(entry.relative_path);
+      (exists ? overwritten : created).push(entry.relative_path);
     }
 
     for (const entry of this.patches)
@@ -178,7 +185,7 @@ class Scaffolder
       errors.push(`anchor not found in ${entry.relative_path}, so this would silently do nothing: ${entry.label}`);
     }
 
-    return { files, errors, created, patched, skipped };
+    return { files, errors, created, overwritten, patched, skipped };
   }
 
   /**
@@ -228,6 +235,7 @@ class Scaffolder
       dry_run: this.dry_run,
       errors: outcome.errors,
       created: outcome.created,
+      overwritten: outcome.overwritten,
       patched: outcome.patched,
       skipped: outcome.skipped
     };
@@ -307,6 +315,11 @@ function print_report(report, label)
   for (const file of report.created)
   {
     console.log(`\x1b[32m${verb}\x1b[0m ${file}`);
+  }
+
+  for (const file of report.overwritten ?? [])
+  {
+    console.log(`\x1b[33m${report.dry_run ? 'would overwrite' : 'overwrote'}\x1b[0m ${file}`);
   }
 
   for (const entry of report.patched)
