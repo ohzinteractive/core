@@ -21,6 +21,7 @@ import { CaptureService } from './dev_bridge/CaptureService';
 import { ConsoleBuffer } from './dev_bridge/ConsoleBuffer';
 import { DebugDrawer } from './dev_bridge/DebugDrawer';
 import { InputSynthesizer } from './dev_bridge/InputSynthesizer';
+import { ModelLoader } from './dev_bridge/ModelLoader';
 import { PerformanceProbe } from './dev_bridge/PerformanceProbe';
 import { RenderModeRegistry } from './dev_bridge/RenderModeRegistry';
 import { SceneEditor } from './dev_bridge/SceneEditor';
@@ -134,7 +135,7 @@ import { CommonCameraState } from './camera_controller/states/common/CommonCamer
 export {
     AbstractCameraState, AbstractLoader, AbstractScene, ActionEvent, ActionInterpolator, ActionSequencer, ActionSequencerBuilder, AddMaterial, ApplicationView, ArrayUtilities, Arrow, AsyncAbstractLoader, AsyncAudiosLoader, AsyncObjectsLoader, AsyncTextureLoader, AsyncTexturesLoader, AudioLoader, BaseApplication, BaseRender, BasisLoader, BlitNodeMaterial, BloomRender, Blurrer, Browser, BufferGeometryUtils, CameraBridge, CameraController, CameraManager, CameraMovementMode, CameraUtilities, CanvasDrawer, Capabilities, CaptureService, CommonCameraState, Compilator, ConsoleBuffer, CSSAnimator, Cube, CubemapLoader, DAELoader, Debug, DebugDrawer, DebugNormalsRender, DeferredRender, DevBridge, DrawIOAnimationSheet, DualFilteringBlurMaterial, DualFilteringBlurrer, EasingFunctions, FileLoader,
     FontLoader, FrustumPointFitter, GaussianBlurrer, GeometryUtilities, GLTFDRACOLoader, GLTFLoader, Graphics, Grid, HDRCubeTextureLoader, HDRTextureLoader, HighQualityLoadingState, HorizontalPlane, HTMLUtilities,
-    ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MeshSampler,
+    ImageUtilities, ImmediateMode, Initializer, InputSynthesizer, JSONLoader, KeyboardInput, Line, LoadingState, MeshSampler, ModelLoader,
     ModelUtilities, NormalAORender,
     NormalRender, NumberInterpolator, ObjectUtilities, OBJLoader, OMath, OrthographicCamera, OrthographicFrustumPointFitter, OS, OScreen,
     PerformanceProbe, PerspectiveCamera, PerspectiveFrustumPointFitter, PointArrayLoader, RegularLoadingState, RenderLoop, RenderModeRegistry, ResourceBatch,
