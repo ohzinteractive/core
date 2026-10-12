@@ -70,7 +70,7 @@ class ModelLoader
     }
     catch (error)
     {
-      throw this.error('load_failed', `Could not load ${url}: ${error instanceof Error ? error.message : String(error)}`);
+      throw this.load_error(url, error);
     }
 
     if (gltf === null || typeof gltf !== 'object' || gltf.scene === undefined || gltf.scene === null)
@@ -89,6 +89,15 @@ class ModelLoader
     }
 
     gltf.scene.name = name;
+
+    // A replaced model keeps the placement the artist gave its predecessor.
+    if (previous !== undefined)
+    {
+      gltf.scene.position.copy(previous.position);
+      gltf.scene.quaternion.copy(previous.quaternion);
+      gltf.scene.scale.copy(previous.scale);
+    }
+
     scene.add(gltf.scene);
 
     return this.summarize(name, gltf.scene);
@@ -145,6 +154,26 @@ class ModelLoader
         material.dispose();
       }
     });
+  }
+
+  private load_error(url: string, cause: unknown): Error
+  {
+    const message = cause instanceof Error ? cause.message : String(cause);
+    const code = (cause as { code?: unknown } | null)?.code;
+
+    if (typeof code === 'string')
+    {
+      return this.error(code, message);
+    }
+
+    // Vite answers a file it has not noticed yet with index.html, which the
+    // GLTFLoader then fails to parse as JSON.
+    if (/unexpected token '<'|<!doctype/i.test(message))
+    {
+      return this.error('not_ready', `Could not load ${url}: the dev server is not serving the file yet. Try again in a moment.`);
+    }
+
+    return this.error('load_failed', `Could not load ${url}: ${message}`);
   }
 
   private error(code: string, message: string): Error

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BoxGeometry, Group, Mesh, MeshBasicMaterial, Scene } from 'three';
+import { BoxGeometry, Group, Mesh, MeshBasicMaterial, Scene, Vector3 } from 'three';
 import { ModelLoader } from '../../src/dev_bridge/ModelLoader';
 
 function box_model()
@@ -74,6 +74,48 @@ describe('ModelLoader', () =>
     const { loader, scene } = harness(new Error('HTTP 404'));
 
     await expect(loader.load(scene, { name: 'chair', url: '/models/chair.glb' })).rejects.toMatchObject({ code: 'load_failed', message: expect.stringContaining('/models/chair.glb: HTTP 404') });
+  });
+
+  it('keeps the code of an error that already carries one', async() =>
+  {
+    const error = Object.assign(new Error('This model is Draco-compressed, but the app has no Draco decoder.'), { code: 'no_draco_decoder' });
+    const { loader, scene } = harness(error);
+
+    await expect(loader.load(scene, { name: 'chair', url: '/models/chair.glb' })).rejects.toMatchObject({
+      code: 'no_draco_decoder',
+      message: expect.stringContaining('no Draco decoder')
+    });
+  });
+
+  it('reports not_ready when the dev server answers with its index.html', async() =>
+  {
+    for (const message of ['Unexpected token \'<\', "<!doctype html>..." is not valid JSON', 'bad <!DOCTYPE html> response'])
+    {
+      const { loader, scene } = harness(new Error(message));
+
+      await expect(loader.load(scene, { name: 'chair', url: '/models/chair.glb' })).rejects.toMatchObject({
+        code: 'not_ready',
+        message: expect.stringContaining('not serving')
+      });
+    }
+  });
+
+  it('keeps the position, rotation and scale of the model it replaces', async() =>
+  {
+    const gltf = box_model();
+    const { loader, scene } = harness(gltf);
+    const previous = new Group();
+    previous.name = 'chair';
+    previous.position.set(1, 2, 3);
+    previous.quaternion.setFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 2);
+    previous.scale.set(2, 3, 4);
+    scene.add(previous);
+
+    await loader.load(scene, { name: 'chair', url: '/models/chair.glb' });
+
+    expect(gltf.scene.position.toArray()).toEqual([1, 2, 3]);
+    expect(gltf.scene.quaternion.toArray()).toEqual(previous.quaternion.toArray());
+    expect(gltf.scene.scale.toArray()).toEqual([2, 3, 4]);
   });
 
   it('reports load_failed for a result without a scene', async() =>
