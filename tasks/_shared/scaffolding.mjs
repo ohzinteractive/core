@@ -161,7 +161,8 @@ class Scaffolder
 
       if (verdict === 'apply')
       {
-        files.set(entry.relative_path, current.replace(entry.from, entry.to));
+        // A function replacement, so $&, $`, $' and $$ in the content stay literal.
+        files.set(entry.relative_path, current.replace(entry.from, () => entry.to));
         patched.push(target);
         continue;
       }
