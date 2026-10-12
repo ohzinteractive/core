@@ -27,15 +27,15 @@ function parse_entries(text)
   for (const match of visible.matchAll(/\{[^{}]*\}/g))
   {
     const body = match[0];
-    const name = /name:\s*['"]([^'"]+)['"]/.exec(body);
+    const name = /\bname:\s*['"]([^'"]+)['"]/.exec(body);
 
     if (name === null)
     {
       continue;
     }
 
-    const url = /url:\s*['"]([^'"]+)['"]/.exec(body);
-    const size = /size:\s*(\d+)/.exec(body);
+    const url = /\burl:\s*['"]([^'"]+)['"]/.exec(body);
+    const size = /\bsize:\s*(\d+)/.exec(body);
 
     entries.push({
       name: name[1],
@@ -46,6 +46,45 @@ function parse_entries(text)
   }
 
   return entries;
+}
+
+// Splits a line into its code and a trailing // comment (with the whitespace
+// before it), skipping any // inside a string such as a URL.
+function split_comment(line)
+{
+  let quote = null;
+
+  for (let index = 0; index < line.length; index++)
+  {
+    const char = line[index];
+
+    if (quote !== null)
+    {
+      if (char === '\\')
+      {
+        index++;
+      }
+      else if (char === quote)
+      {
+        quote = null;
+      }
+
+      continue;
+    }
+
+    if (char === '\'' || char === '"' || char === '`')
+    {
+      quote = char;
+    }
+    else if (char === '/' && line[index + 1] === '/')
+    {
+      const code = line.slice(0, index).trimEnd();
+
+      return { code, comment: line.slice(code.length) };
+    }
+  }
+
+  return { code: line.trimEnd(), comment: '' };
 }
 
 function format_entry({ name, url, size, draco })
@@ -84,9 +123,12 @@ function append_entry(text, entry)
       continue;
     }
 
-    if (trimmed.endsWith('}'))
+    // The comma goes before a trailing comment, never inside it.
+    const { code, comment } = split_comment(lines[index]);
+
+    if (code.endsWith('}'))
     {
-      lines[index] = lines[index].replace(/\}\s*$/, '},');
+      lines[index] = `${code},${comment}`;
     }
 
     break;
@@ -99,14 +141,14 @@ function append_entry(text, entry)
 
 function with_size(entry_text, size)
 {
-  return entry_text.replace(/size:\s*\d+/, `size: ${size}`);
+  return entry_text.replace(/\bsize:\s*\d+/, `size: ${size}`);
 }
 
 function with_draco(entry_text, draco)
 {
-  if (/draco:\s*(true|false)/.test(entry_text))
+  if (/\bdraco:\s*(true|false)/.test(entry_text))
   {
-    return entry_text.replace(/draco:\s*(true|false)/, () => `draco: ${draco}`);
+    return entry_text.replace(/\bdraco:\s*(true|false)/, () => `draco: ${draco}`);
   }
 
   // An absent key already means false.
@@ -118,9 +160,23 @@ function with_draco(entry_text, draco)
   const body = entry_text.slice(0, -1);
   const last_property = body.trimEnd();
   const closing = body.slice(last_property.length).includes('\n') ? body.slice(last_property.length) : '\n  ';
-  const separator = last_property.endsWith(',') ? '' : ',';
+  const lines = last_property.split('\n');
+  let index = lines.length - 1;
 
-  return `${last_property}${separator}\n    draco: true${closing}}`;
+  // The comma belongs on the last line that has code, and before its comment.
+  while (index > 0 && split_comment(lines[index]).code.trim() === '')
+  {
+    index--;
+  }
+
+  const { code, comment } = split_comment(lines[index]);
+
+  if (!code.endsWith(','))
+  {
+    lines[index] = `${code},${comment}`;
+  }
+
+  return `${lines.join('\n')}\n    draco: true${closing}}`;
 }
 
 export { TIERS, append_entry, manifest_path, model_url, parse_entries, with_draco, with_size };

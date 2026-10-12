@@ -109,9 +109,51 @@ describe('append_entry', () =>
     expect(evaluate(text)).toEqual([CHAIR]);
   });
 
+  it('puts the comma before a trailing comment on the last entry', () =>
+  {
+    const text = append_entry(ONE_ENTRY_NO_COMMA.replace('  }\n];', '  } // the table\n];'), CHAIR);
+
+    expect(text).toContain('  }, // the table\n');
+    expect(evaluate(text)).toHaveLength(2);
+  });
+
+  it('leaves a last entry that already has its comma and a comment alone', () =>
+  {
+    const text = append_entry(ONE_ENTRY_NO_COMMA.replace('  }\n];', '  }, // the table\n];'), CHAIR);
+
+    expect(text).toContain('  }, // the table\n');
+    expect(text).not.toContain('},,');
+    expect(evaluate(text)).toHaveLength(2);
+  });
+
   it('refuses a file with no array to append to', () =>
   {
     expect(() => append_entry('export const home_objects = {};\n', CHAIR)).toThrowError(/no closing/);
+  });
+});
+
+describe('property names', () =>
+{
+  it('does not read file_name, texture_url, max_size or old_draco as the real keys', () =>
+  {
+    const text = `export const a = [\n  {\n    file_name: 'x',\n    texture_url: '/textures/x.png',\n    max_size: 1,\n    old_draco: true,\n    name: 'chair',\n    url: '/models/chair.glb',\n    size: 42,\n    draco: false\n  }\n];\n`;
+    const [entry] = parse_entries(text);
+
+    expect(entry.name).toBe('chair');
+    expect(entry.url).toBe('/models/chair.glb');
+    expect(entry.size).toBe(42);
+    expect(with_size(entry.text, 7)).toContain('max_size: 1');
+    expect(with_size(entry.text, 7)).toContain('    size: 7,');
+    expect(with_draco(entry.text, true)).toContain('old_draco: true');
+    expect(with_draco(entry.text, true)).toContain('    draco: true\n');
+    expect(with_draco(entry.text, true)).not.toContain('draco: false');
+  });
+
+  it('does not take a name that only ends in name: for the entry name', () =>
+  {
+    const [entry] = parse_entries(`export const a = [\n  { file_name: 'x', name: 'chair', url: '/models/chair.glb' }\n];\n`);
+
+    expect(entry.name).toBe('chair');
   });
 });
 
@@ -143,6 +185,28 @@ describe('with_draco', () =>
     expect(updated).toBe(`{\n    name: 'table',\n    url: '/models/table.glb',\n    size: 10,\n    draco: true\n  }`);
     expect(evaluate(text.replace(entry.text, updated))).toEqual([
       { name: 'table', url: '/models/table.glb', size: 10, draco: true }
+    ]);
+  });
+
+  it('puts the comma before a trailing comment on the last property', () =>
+  {
+    const text = `export const home_objects = [\n  {\n    name: 'table',\n    url: '/models/table.glb',\n    size: 10 // bytes\n  }\n];\n`;
+    const [entry] = parse_entries(text);
+    const updated = with_draco(entry.text, true);
+
+    expect(updated).toContain('size: 10, // bytes\n    draco: true');
+    expect(evaluate(text.replace(entry.text, updated))).toEqual([
+      { name: 'table', url: '/models/table.glb', size: 10, draco: true }
+    ]);
+  });
+
+  it('keeps a // inside a string value when it looks for the comment', () =>
+  {
+    const text = `export const home_objects = [\n  {\n    name: 'table',\n    url: 'http://cdn/table.glb' // remote\n  }\n];\n`;
+    const [entry] = parse_entries(text);
+
+    expect(evaluate(text.replace(entry.text, with_draco(entry.text, true)))).toEqual([
+      { name: 'table', url: 'http://cdn/table.glb', draco: true }
     ]);
   });
 
