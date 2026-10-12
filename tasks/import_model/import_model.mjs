@@ -201,18 +201,67 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
 }
 
 const VALUE_FLAGS = ['--scene', '--name', '--tier'];
+const SWITCH_FLAGS = ['--replace', '--dry-run'];
 const USAGE = 'usage: yarn import-model <file.glb> [--scene home] [--name chair] [--tier regular|high] [--replace] [--dry-run]';
+
+/**
+ * Reads `--flag value` and `--flag=value`. Returns the first problem as a
+ * message instead when a flag is unknown or a value flag has no value, so a
+ * typo such as --dryrun cannot silently turn into a real import.
+ */
+function parse_args(args)
+{
+  const options = {};
+  const positional = [];
+
+  for (let index = 0; index < args.length; index++)
+  {
+    const arg = args[index];
+
+    if (!arg.startsWith('--'))
+    {
+      positional.push(arg);
+      continue;
+    }
+
+    const equals = arg.indexOf('=');
+    const flag = equals === -1 ? arg : arg.slice(0, equals);
+
+    if (SWITCH_FLAGS.includes(flag) && equals === -1)
+    {
+      options[flag] = true;
+    }
+    else if (VALUE_FLAGS.includes(flag))
+    {
+      const value = equals === -1 ? args[++index] : arg.slice(equals + 1);
+
+      if (value === undefined || value === '' || value.startsWith('--'))
+      {
+        return { problem: `${flag} needs a value.` };
+      }
+
+      options[flag] = value;
+    }
+    else
+    {
+      return { problem: `unknown option ${arg}.` };
+    }
+  }
+
+  return { options, source: positional[0] };
+}
 
 function main(argv, { cwd = process.cwd(), env = process.env } = {})
 {
-  const args = argv.slice(2);
-  const option = (flag) =>
-  {
-    const index = args.indexOf(flag);
+  const { options, source, problem } = parse_args(argv.slice(2));
 
-    return index === -1 ? undefined : args[index + 1];
-  };
-  const source = args.find((arg, index) => !arg.startsWith('--') && !VALUE_FLAGS.includes(args[index - 1]));
+  if (problem !== undefined)
+  {
+    console.error(`\x1b[31m${problem}\x1b[0m`);
+    console.error(USAGE);
+
+    return 1;
+  }
 
   if (source === undefined)
   {
@@ -230,11 +279,11 @@ function main(argv, { cwd = process.cwd(), env = process.env } = {})
   {
     const { scaffolder, model, unchanged } = plan_import_model({
       source: path.resolve(base, source),
-      scene: option('--scene'),
-      name: option('--name'),
-      tier: option('--tier'),
-      replace: args.includes('--replace')
-    }, { root, dry_run: args.includes('--dry-run') });
+      scene: options['--scene'],
+      name: options['--name'],
+      tier: options['--tier'],
+      replace: options['--replace'] === true
+    }, { root, dry_run: options['--dry-run'] === true });
 
     if (unchanged)
     {

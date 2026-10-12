@@ -45,6 +45,30 @@ describe('import-model CLI', () =>
     expect(read(root, 'app/data/assets/home/high/home_high_objects.js')).toContain(`name: 'stool'`);
   });
 
+  it('accepts the --flag=value form', () =>
+  {
+    const code = main(['node', 'import_model.mjs', 'downloads/chair.glb', '--scene=home', '--name=stool', '--tier=high'], { cwd: core_dir(), env: { INIT_CWD: root } });
+
+    expect(code).toBe(0);
+    expect(read(root, 'app/data/assets/home/high/home_high_objects.js')).toContain(`name: 'stool'`);
+    expect(exists(root, 'public/models/high/stool.glb')).toBe(true);
+  });
+
+  it('exits 1 with the usage line on an unknown flag and writes nothing', () =>
+  {
+    const code = main(['node', 'import_model.mjs', 'downloads/chair.glb', '--dryrun'], { cwd: core_dir(), env: { INIT_CWD: root } });
+
+    expect(code).toBe(1);
+    expect(exists(root, 'public/models/chair.glb')).toBe(false);
+    expect(vi.mocked(console.error).mock.calls.flat().join('\n')).toMatch(/--dryrun[\s\S]*usage: yarn import-model/);
+  });
+
+  it('exits 1 on a value flag without a value', () =>
+  {
+    expect(main(['node', 'import_model.mjs', 'downloads/chair.glb', '--scene'], { cwd: core_dir(), env: { INIT_CWD: root } })).toBe(1);
+    expect(exists(root, 'public/models/chair.glb')).toBe(false);
+  });
+
   it('dry run writes nothing', () =>
   {
     main(['node', 'import_model.mjs', 'downloads/chair.glb', '--dry-run'], { cwd: core_dir(), env: { INIT_CWD: root } });
