@@ -5,7 +5,7 @@ import os from 'os';
 import path from 'path';
 // @ts-expect-error plain .mjs scaffolder script
 import { plan_import_model } from '../../tasks/import_model/import_model.mjs';
-import { exists, make_project, read, write } from '../helpers/fixture_project';
+import { EMPTY_OBJECTS, exists, make_project, read, write } from '../helpers/fixture_project';
 import { make_glb } from '../helpers/glb';
 
 let root: string;
@@ -152,7 +152,35 @@ describe('plan_import_model', () =>
   {
     write(root, 'app/data/assets/home/home_objects.js', `export const home_objects = [\n  {\n    name: 'stool',\n    url: '/models/chair.glb',\n    size: 1,\n    draco: false\n  }\n];\n`);
 
-    expect(() => run({ source: glb_file('chair.glb'), replace: true })).toThrowError(/already belongs to the manifest entry "stool"/);
+    expect(() => run({ source: glb_file('chair.glb'), replace: true })).toThrowError(/\/models\/chair\.glb already belongs to "stool" in scene "home"\. Pass a different name\./);
+  });
+
+  it('refuses a URL that an entry of another scene owns, replace or not', () =>
+  {
+    write(root, 'app/data/assets/about/about_objects.js', `export const about_objects = [\n  {\n    name: 'chair',\n    url: '/models/chair.glb',\n    size: 1,\n    draco: false\n  }\n];\n`);
+    write(root, 'app/data/assets/about/high/about_high_objects.js', EMPTY_OBJECTS('about_high_objects'));
+    write(root, 'public/models/chair.glb', 'stray');
+
+    const message = '/models/chair.glb already belongs to "chair" in scene "about". Pass a different name.';
+
+    expect(() => run({ source: glb_file('chair.glb') })).toThrowError(message);
+    expect(() => run({ source: glb_file('chair.glb'), replace: true })).toThrowError(message);
+  });
+
+  it('refuses a URL owned in the high manifest of another scene, even when that scene has no regular manifest', () =>
+  {
+    write(root, 'app/data/assets/about/high/about_high_objects.js', `export const about_high_objects = [\n  {\n    name: 'tree',\n    url: '/models/high/tree.glb',\n    size: 1,\n    draco: false\n  }\n];\n`);
+
+    expect(() => run({ source: glb_file('tree.glb'), tier: 'high', replace: true })).toThrowError(/already belongs to "tree" in scene "about"/);
+  });
+
+  it('refuses a model named like its scene', () =>
+  {
+    write(root, 'app/data/assets/gallery/gallery_objects.js', EMPTY_OBJECTS('gallery_objects'));
+    write(root, 'app/data/assets/gallery/high/gallery_high_objects.js', EMPTY_OBJECTS('gallery_high_objects'));
+
+    expect(() => run({ source: glb_file('gallery.glb'), scene: 'gallery' })).toThrowError(/"gallery" cannot be both the scene and the model name/);
+    expect(exists(root, 'public/models/gallery.glb')).toBe(false);
   });
 
   it('refuses an entry of the same name that points elsewhere', () =>

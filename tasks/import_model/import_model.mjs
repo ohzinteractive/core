@@ -59,6 +59,48 @@ function read_manifests(root, scene)
 }
 
 /**
+ * Every manifest entry of every scene, so a URL is owned by one entry across
+ * the whole project. A scene's manifests may be absent: only the ones on disk
+ * are read.
+ */
+function read_all_entries(root)
+{
+  const assets = path.resolve(root, 'app/data/assets');
+
+  if (!fs.existsSync(assets))
+  {
+    return [];
+  }
+
+  const entries = [];
+
+  for (const dirent of fs.readdirSync(assets, { withFileTypes: true }))
+  {
+    if (!dirent.isDirectory())
+    {
+      continue;
+    }
+
+    for (const tier of TIERS)
+    {
+      const absolute = path.resolve(root, manifest_path(dirent.name, tier));
+
+      if (!fs.existsSync(absolute))
+      {
+        continue;
+      }
+
+      for (const entry of parse_entries(fs.readFileSync(absolute, 'utf8')))
+      {
+        entries.push({ ...entry, scene: dirent.name });
+      }
+    }
+  }
+
+  return entries;
+}
+
+/**
  * Plans copying a GLB into public/models and listing it in a scene's object
  * manifest. Validation failures throw before anything is queued; run() on the
  * returned scaffolder writes, or reports, the rest.
@@ -73,6 +115,12 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
   const { source_path, bytes, header } = read_source(source);
   const scene_name = validate_scene_name(scene);
   const model_name = validate_object_name(name ?? path.basename(source_path).slice(0, -'.glb'.length));
+
+  if (model_name === scene_name)
+  {
+    throw new Error(`"${model_name}" cannot be both the scene and the model name: the scene root is already called ${model_name}, so the live tools would address the scene. Pass a different name.`);
+  }
+
   const manifests = read_manifests(root, scene_name);
   const other_tier = tier === 'high' ? 'regular' : 'high';
 
@@ -82,11 +130,14 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
   }
 
   const url = model_url(model_name, tier);
-  const owner = [...manifests.regular.entries, ...manifests.high.entries].find((entry) => entry.url === url && entry.name !== model_name);
+
+  // A URL names one file, so one entry owns it project-wide. Replace only
+  // overwrites that entry's own file, never a file another entry points at.
+  const owner = read_all_entries(root).find((candidate) => candidate.url === url && (candidate.scene !== scene_name || candidate.name !== model_name));
 
   if (owner !== undefined)
   {
-    throw new Error(`${url} already belongs to the manifest entry "${owner.name}". Pass a different name.`);
+    throw new Error(`${url} already belongs to "${owner.name}" in scene "${owner.scene}". Pass a different name.`);
   }
 
   const manifest = manifests[tier];
