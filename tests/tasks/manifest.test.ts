@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 // @ts-expect-error plain .mjs scaffolder script
-import { append_entry, manifest_path, model_url, parse_entries, with_size } from '../../tasks/import_model/manifest.mjs';
+import { append_entry, manifest_path, model_url, parse_entries, with_draco, with_size } from '../../tasks/import_model/manifest.mjs';
 
 const COMMENTED = `export const home_objects = [
   // {
@@ -122,5 +122,34 @@ describe('with_size', () =>
     const [entry] = parse_entries(ONE_ENTRY_NO_COMMA);
 
     expect(with_size(entry.text, 99)).toBe(entry.text.replace('size: 10', 'size: 99'));
+  });
+});
+
+describe('with_draco', () =>
+{
+  it('rewrites an existing draco flag', () =>
+  {
+    const [entry] = parse_entries(ONE_ENTRY_NO_COMMA);
+
+    expect(with_draco(entry.text, true)).toBe(entry.text.replace('draco: false', 'draco: true'));
+  });
+
+  it('inserts draco: true as the last property when the key is absent', () =>
+  {
+    const text = `export const home_objects = [\n  {\n    name: 'table',\n    url: '/models/table.glb',\n    size: 10\n  }\n];\n`;
+    const [entry] = parse_entries(text);
+    const updated = with_draco(entry.text, true);
+
+    expect(updated).toBe(`{\n    name: 'table',\n    url: '/models/table.glb',\n    size: 10,\n    draco: true\n  }`);
+    expect(evaluate(text.replace(entry.text, updated))).toEqual([
+      { name: 'table', url: '/models/table.glb', size: 10, draco: true }
+    ]);
+  });
+
+  it('leaves the entry alone when the key is absent and draco is false', () =>
+  {
+    const [entry] = parse_entries(`export const a = [\n  { name: 'x', url: '/models/x.glb' }\n];\n`);
+
+    expect(with_draco(entry.text, false)).toBe(entry.text);
   });
 });

@@ -102,4 +102,25 @@ function with_size(entry_text, size)
   return entry_text.replace(/size:\s*\d+/, `size: ${size}`);
 }
 
-export { TIERS, append_entry, manifest_path, model_url, parse_entries, with_size };
+function with_draco(entry_text, draco)
+{
+  if (/draco:\s*(true|false)/.test(entry_text))
+  {
+    return entry_text.replace(/draco:\s*(true|false)/, () => `draco: ${draco}`);
+  }
+
+  // An absent key already means false.
+  if (!draco)
+  {
+    return entry_text;
+  }
+
+  const body = entry_text.slice(0, -1);
+  const last_property = body.trimEnd();
+  const closing = body.slice(last_property.length).includes('\n') ? body.slice(last_property.length) : '\n  ';
+  const separator = last_property.endsWith(',') ? '' : ',';
+
+  return `${last_property}${separator}\n    draco: true${closing}}`;
+}
+
+export { TIERS, append_entry, manifest_path, model_url, parse_entries, with_draco, with_size };

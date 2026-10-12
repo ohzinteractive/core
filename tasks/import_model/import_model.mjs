@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { Scaffolder } from '../_shared/scaffolding.mjs';
 import { assert_supported, read_glb_header } from './glb_header.mjs';
-import { TIERS, append_entry, manifest_path, model_url, parse_entries, with_size } from './manifest.mjs';
+import { TIERS, append_entry, manifest_path, model_url, parse_entries, with_draco, with_size } from './manifest.mjs';
 import { validate_object_name, validate_scene_name } from './object_names.mjs';
 
 function read_source(source)
@@ -122,9 +122,11 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
 
     scaffolder.create(file, bytes, { overwrite: true });
 
-    if (entry.size !== null)
+    const updated = with_draco(entry.size === null ? entry.text : with_size(entry.text, bytes.length), header.draco);
+
+    if (updated !== entry.text)
     {
-      scaffolder.ensure(manifest.relative, entry.text, with_size(entry.text, bytes.length), `size of ${model_name}`);
+      scaffolder.ensure(manifest.relative, entry.text, updated, `manifest entry for ${model_name}`);
     }
 
     return { scaffolder, model, unchanged: false };

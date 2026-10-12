@@ -119,6 +119,20 @@ describe('plan_import_model', () =>
     expect(manifest.match(/name: 'chair'/g)).toHaveLength(1);
   });
 
+  it('keeps the manifest draco flag in sync when replace changes it', () =>
+  {
+    run({ source: glb_file('chair.glb') });
+    const draco = glb_file('chair_draco.glb', { asset: { version: '2.0' }, extensionsUsed: ['KHR_draco_mesh_compression'] });
+
+    const { model } = run({ source: draco, name: 'chair', replace: true });
+    const manifest = read(root, 'app/data/assets/home/home_objects.js');
+
+    expect(model.draco).toBe(true);
+    expect(manifest).toMatch(/name: 'chair',[^}]*draco: true/);
+    expect(manifest).not.toMatch(/name: 'chair',[^}]*draco: false/);
+    expect(manifest.match(/name: 'chair'/g)).toHaveLength(1);
+  });
+
   it('refuses a GLB on disk that the manifest does not list, unless replace', () =>
   {
     write(root, 'public/models/chair.glb', 'stray');
