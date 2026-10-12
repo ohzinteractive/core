@@ -9,6 +9,7 @@
 *.vi
 *~
 *.sass-cache
+.atl
 
 # OS or Editor folders
 .DS_Store

@@ -26,10 +26,9 @@
     "outDir": "types",
     "noImplicitAny": true,
     "module": "esnext",
-    "types": ["three"],
-    "paths": {
-      "three/webgpu": ["../node_modules/@types/three/build/three.webgpu.d.ts"],
-      "three/tsl": ["../node_modules/@types/three/build/three.tsl.d.ts"],
-    }
+    // Resolves package.json "exports", so three/webgpu and three/tsl find
+    // their @types/three declarations without path mappings.
+    "moduleResolution": "bundler",
+    "types": ["three"]
   }
 }

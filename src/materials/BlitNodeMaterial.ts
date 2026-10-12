@@ -62,7 +62,7 @@ class BlitNodeMaterial extends NodeMaterial
 
     if (top_left_origin === undefined)
     {
-      top_left_origin = uniform(false).onObjectUpdate(() => has_top_left_origin(texture_node.value as TextureKind));
+      top_left_origin = uniform(false).onObjectUpdate(() => has_top_left_origin(texture_node.value));
       this.top_left_origin_by_texture.set(texture_node, top_left_origin);
     }
 

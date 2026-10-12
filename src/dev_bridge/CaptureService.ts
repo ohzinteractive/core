@@ -64,7 +64,7 @@ class CaptureService
   constructor(
     graphics: CaptureGraphics,
     has_camera: () => boolean,
-    create_canvas: () => ScratchCanvas = () => document.createElement('canvas') as unknown as ScratchCanvas
+    create_canvas: () => ScratchCanvas = () => document.createElement('canvas')
   )
   {
     this.graphics = graphics;

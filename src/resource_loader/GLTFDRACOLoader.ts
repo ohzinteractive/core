@@ -1,4 +1,4 @@
-import type { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import type { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
 import { AbstractLoader } from './AbstractLoader';
 

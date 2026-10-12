@@ -1,3 +1,6 @@
+import type { Texture } from "three";
+import { BlitNodeMaterial } from "./BlitNodeMaterial";
+
 export class UnrealBloomComposeMaterial extends BlitNodeMaterial {
     constructor(nMips: any);
     set_blur_texture_0(texture: Texture): void;
@@ -13,5 +16,4 @@ export class UnrealBloomComposeMaterial extends BlitNodeMaterial {
     set_tint_color_3(col_string: any): void;
     set_tint_color_4(col_string: any): void;
 }
-import { BlitNodeMaterial } from "./BlitNodeMaterial";
 

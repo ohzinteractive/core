@@ -44,7 +44,7 @@ class AudioLoader extends AbstractLoader
   {
     // three's typings declare getContext() as returning its own AudioContext helper class,
     // but it returns the native Web Audio context.
-    const context = ThreeAudioContext.getContext() as unknown as AudioContext;
+    const context = ThreeAudioContext.getContext() as AudioContext;
 
     const buffer = context.createBuffer(2, 22050, 44100);
 
