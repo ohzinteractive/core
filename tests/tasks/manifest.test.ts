@@ -1,0 +1,126 @@
+import { describe, expect, it } from 'vitest';
+// @ts-expect-error plain .mjs scaffolder script
+import { append_entry, manifest_path, model_url, parse_entries, with_size } from '../../tasks/import_model/manifest.mjs';
+
+const COMMENTED = `export const home_objects = [
+  // {
+  //   name: 'cube',
+  //   url: '/models/cube.glb',
+  //   size: 12192,
+  //   draco: false
+  // }
+];
+`;
+
+const ONE_ENTRY_NO_COMMA = `export const home_objects = [
+  {
+    name: 'table',
+    url: '/models/table.glb',
+    size: 10,
+    draco: false
+  }
+];
+`;
+
+const CHAIR = { name: 'chair', url: '/models/chair.glb', size: 42, draco: true };
+
+const CHAIR_TEXT = `  {
+    name: 'chair',
+    url: '/models/chair.glb',
+    size: 42,
+    draco: true
+  }`;
+
+// The appended manifest must still be a valid array literal.
+function evaluate(text: string): unknown[]
+{
+  const body = text.replace(/^export const \w+ = /, 'return ');
+
+  return new Function(body)() as unknown[];
+}
+
+describe('paths', () =>
+{
+  it('builds manifest paths and URLs per tier', () =>
+  {
+    expect(manifest_path('home', 'regular')).toBe('app/data/assets/home/home_objects.js');
+    expect(manifest_path('home', 'high')).toBe('app/data/assets/home/high/home_high_objects.js');
+    expect(model_url('chair', 'regular')).toBe('/models/chair.glb');
+    expect(model_url('chair', 'high')).toBe('/models/high/chair.glb');
+  });
+});
+
+describe('parse_entries', () =>
+{
+  it('ignores commented entries', () =>
+  {
+    expect(parse_entries(COMMENTED)).toEqual([]);
+  });
+
+  it('reads name, url, size and the exact entry text', () =>
+  {
+    const [entry] = parse_entries(ONE_ENTRY_NO_COMMA);
+
+    expect(entry.name).toBe('table');
+    expect(entry.url).toBe('/models/table.glb');
+    expect(entry.size).toBe(10);
+    expect(ONE_ENTRY_NO_COMMA).toContain(entry.text);
+    expect(entry.text.startsWith('{')).toBe(true);
+  });
+
+  it('reports a missing size as null', () =>
+  {
+    const [entry] = parse_entries(`export const a = [\n  { name: 'x', url: '/models/x.glb' }\n];\n`);
+
+    expect(entry.size).toBeNull();
+  });
+});
+
+describe('append_entry', () =>
+{
+  it('appends after only commented entries', () =>
+  {
+    const text = append_entry(COMMENTED, CHAIR);
+
+    expect(text).toContain(`  // }\n${CHAIR_TEXT}\n];`);
+    expect(evaluate(text)).toEqual([CHAIR]);
+  });
+
+  it('adds the missing comma after the last real entry', () =>
+  {
+    const text = append_entry(ONE_ENTRY_NO_COMMA, CHAIR);
+
+    expect(text).toContain(`    draco: false\n  },\n${CHAIR_TEXT}\n];`);
+    expect(evaluate(text)).toHaveLength(2);
+  });
+
+  it('keeps an existing trailing comma', () =>
+  {
+    const text = append_entry(ONE_ENTRY_NO_COMMA.replace('  }\n];', '  },\n];'), CHAIR);
+
+    expect(text).not.toContain('},,');
+    expect(evaluate(text)).toHaveLength(2);
+  });
+
+  it('expands an empty one-line array', () =>
+  {
+    const text = append_entry('export const home_objects = [];\n', CHAIR);
+
+    expect(evaluate(text)).toEqual([CHAIR]);
+  });
+
+  it('refuses a file with no array to append to', () =>
+  {
+    expect(() => append_entry('export const home_objects = {};\n', CHAIR)).toThrowError(/no closing/);
+  });
+});
+
+describe('with_size', () =>
+{
+  it('rewrites only the size', () =>
+  {
+    const [entry] = parse_entries(ONE_ENTRY_NO_COMMA);
+
+    expect(with_size(entry.text, 99)).toBe(entry.text.replace('size: 10', 'size: 99'));
+  });
+});
