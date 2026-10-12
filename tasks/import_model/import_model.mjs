@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
-import { Scaffolder } from '../_shared/scaffolding.mjs';
+import { pathToFileURL } from 'url';
+import { Scaffolder, print_report } from '../_shared/scaffolding.mjs';
 import { assert_supported, read_glb_header } from './glb_header.mjs';
 import { TIERS, append_entry, manifest_path, model_url, parse_entries, with_draco, with_size } from './manifest.mjs';
 import { validate_object_name, validate_scene_name } from './object_names.mjs';
@@ -148,6 +149,64 @@ function plan_import_model({ source, scene = 'home', name, tier = 'regular', rep
   return { scaffolder, model, unchanged: false };
 }
 
-export { plan_import_model };
+const VALUE_FLAGS = ['--scene', '--name', '--tier'];
+const USAGE = 'usage: yarn import-model <file.glb> [--scene home] [--name chair] [--tier regular|high] [--replace] [--dry-run]';
+
+function main(argv, { cwd = process.cwd(), env = process.env } = {})
+{
+  const args = argv.slice(2);
+  const option = (flag) =>
+  {
+    const index = args.indexOf(flag);
+
+    return index === -1 ? undefined : args[index + 1];
+  };
+  const source = args.find((arg, index) => !arg.startsWith('--') && !VALUE_FLAGS.includes(args[index - 1]));
+
+  if (source === undefined)
+  {
+    console.error(USAGE);
+
+    return 1;
+  }
+
+  // yarn runs this from core/, but the user typed the path relative to where
+  // they ran yarn, which yarn records in INIT_CWD.
+  const base = env.INIT_CWD ?? cwd;
+  const root = path.resolve(cwd, '..');
+
+  try
+  {
+    const { scaffolder, model, unchanged } = plan_import_model({
+      source: path.resolve(base, source),
+      scene: option('--scene'),
+      name: option('--name'),
+      tier: option('--tier'),
+      replace: args.includes('--replace')
+    }, { root, dry_run: args.includes('--dry-run') });
+
+    if (unchanged)
+    {
+      console.log(`${model.name} is already imported with identical bytes. Nothing to do.`);
+
+      return 0;
+    }
+
+    return print_report(scaffolder.run(), `import-model ${model.name}`);
+  }
+  catch (error)
+  {
+    console.error(`\x1b[31m${error.message}\x1b[0m`);
+
+    return 1;
+  }
+}
+
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href)
+{
+  process.exit(main(process.argv));
+}
+
+export { main, plan_import_model };
 
 export { plan_commit_object } from './commit_object.mjs';
