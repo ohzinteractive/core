@@ -4,6 +4,8 @@ import os from 'os';
 import path from 'path';
 // @ts-expect-error plain .mjs scaffolder script
 import { plan_scene } from '../../tasks/create_scene/create_scene.mjs';
+// @ts-expect-error plain .mjs scaffolder script
+import { plan_commit_object } from '../../tasks/import_model/import_model.mjs';
 
 let root: string;
 
@@ -65,5 +67,31 @@ describe('create_scene', () =>
   it('rejects an empty name', () =>
   {
     expect(() => plan_scene('', { root })).toThrowError(/name is required/);
+  });
+
+  it('puts the four object markers in the new scene', () =>
+  {
+    plan_scene('gallery', { root }).run();
+
+    const scene = read('app/js/scenes/GalleryScene.ts');
+
+    for (const marker of ['// __OBJECT_IMPORTS__', '// __OBJECT_FIELDS__', '// __OBJECTS__', '// __HIGH_OBJECTS__'])
+    {
+      expect(scene, marker).toContain(marker);
+    }
+  });
+
+  it('lets commit_object wire a model into a freshly created scene', () =>
+  {
+    plan_scene('gallery', { root }).run();
+    fs.writeFileSync(path.join(root, 'app/data/assets/gallery/gallery_objects.js'), `export const gallery_objects = [\n  {\n    name: 'chair',\n    url: '/models/chair.glb',\n    size: 1,\n    draco: false\n  }\n];\n`);
+
+    const report = plan_commit_object(
+      { name: 'chair', scene: 'gallery', transform: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1] } },
+      { root }
+    ).run();
+
+    expect(report.errors).toEqual([]);
+    expect(read('app/js/scenes/GalleryScene.ts')).toContain('this.chair = new Chair();');
   });
 });

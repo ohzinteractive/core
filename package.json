@@ -27,6 +27,7 @@
     "upload": "yarn build && npm publish && yarn create-tag",
     "create-view": "node ./tasks/create_view/create_view.mjs",
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
+    "import-model": "node ./tasks/import_model/import_model.mjs",
     "create-component": "node ./tasks/create_component/create_component.mjs",
     "create-transition": "node ./tasks/create_transition/create_transition.mjs",
     "test-unit": "vitest run --project unit",

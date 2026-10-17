@@ -4,6 +4,7 @@ declare class ResourceContainer {
     
     init(): void;
     set_resource(name: string, url: string, resource: any): void;
+    replace_resource(name: string, url: string, resource: any): void;
     get_resource(name: string): any;
     get(name: string): any;
 }

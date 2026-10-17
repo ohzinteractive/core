@@ -14,11 +14,13 @@ import { CameraController, CameraManager, Debug, Grid, OScreen, PerspectiveCamer
 import { Color } from 'three';
 import { SimpleCameraState } from '../camera_controller/states/SimpleCameraState';
 import { Input } from '../components/Input';
+// __OBJECT_IMPORTS__
 
 export class TemplateScene extends CommonScene
 {
   camera: PerspectiveCamera;
   camera_controller: CameraController;
+  // __OBJECT_FIELDS__
 
   constructor()
   {
@@ -57,11 +59,15 @@ export class TemplateScene extends CommonScene
     this.set_high_assets(template_high_objects, template_high_textures, template_high_sounds);
 
     super.on_assets_ready();
+
+    // __OBJECTS__
   }
 
   on_high_quality_assets_ready()
   {
     super.on_high_quality_assets_ready();
+
+    // __HIGH_OBJECTS__
   }
 
   init_camera()

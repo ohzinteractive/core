@@ -25,6 +25,14 @@ class ResourceContainer
     }
   }
 
+  // set_resource keeps the first resource stored for a url. A model loaded
+  // again from the same url after its file changed needs to win instead.
+  replace_resource(name: string, url: string, resource: any)
+  {
+    this.resources[name] = resource;
+    this.resources_by_url[url] = resource;
+  }
+
   get_resource(name: string): any
   {
     return this.resources[name];

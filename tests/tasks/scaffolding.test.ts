@@ -92,6 +92,17 @@ describe('Scaffolder patch', () =>
     expect(read('f.ts')).toBe('replaced\nanchor\n');
   });
 
+  it('inserts replacement text literally, whatever $ patterns it holds', () =>
+  {
+    write('f.ts', 'before\nanchor\nafter\n');
+
+    const to = "anchor\nprice: '$&' '$`' \"$'\" $$ $1";
+    const report = new Scaffolder({ root }).patch('f.ts', 'anchor', to).run();
+
+    expect(report.applied).toBe(true);
+    expect(read('f.ts')).toBe(`before\n${to}\nafter\n`);
+  });
+
   it('refuses a second run rather than duplicating the insertion', () =>
   {
     write('f.ts', "import { HomeView } from './HomeView';\n");
