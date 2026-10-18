@@ -272,6 +272,28 @@ function sanitize_name(name)
     .replace(/[^a-z0-9_]/g, '');
 }
 
+/**
+ * Sanitizes a scaffold name and refuses one that cannot work. The name becomes
+ * class names and identifiers, so it has to start with a letter: `2fa` would
+ * otherwise produce `class 2faView`, which does not compile.
+ */
+function require_name(raw_name, kind, example)
+{
+  const name = sanitize_name(raw_name);
+
+  if (name.length === 0)
+  {
+    throw new Error(`A ${kind} name is required, for example: ${example}`);
+  }
+
+  if (!/^[a-z]/.test(name))
+  {
+    throw new Error(`A ${kind} name must start with a letter: ${name}`);
+  }
+
+  return name;
+}
+
 function snake_to_camelcase(value)
 {
   return String(value).toLowerCase().replace(/[-_][a-z0-9]/g, (group) => group.slice(-1).toUpperCase());
@@ -341,4 +363,4 @@ function print_report(report, label)
   return 0;
 }
 
-export { Scaffolder, capitalize, print_report, render_template, sanitize_name, snake_to_camelcase };
+export { Scaffolder, capitalize, print_report, render_template, require_name, sanitize_name, snake_to_camelcase };

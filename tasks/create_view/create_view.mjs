@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
+import { Scaffolder, capitalize, print_report, render_template, require_name, sanitize_name } from '../_shared/scaffolding.mjs';
 
 const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,12 +17,7 @@ const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
  */
 function plan_view(raw_name, { root, dry_run = false })
 {
-  const name = sanitize_name(raw_name);
-
-  if (name.length === 0)
-  {
-    throw new Error('A view name is required, for example: yarn create-view Gallery');
-  }
+  const name = require_name(raw_name, 'view', 'yarn create-view Gallery');
 
   const pascal = capitalize(name);
   const upper = name.toUpperCase();

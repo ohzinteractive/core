@@ -41,6 +41,18 @@ describe('create_scene', () =>
     expect(scene).not.toContain('Template');
   });
 
+  it('imports the manifests of a multi-word scene by their snake_case names and paths', () =>
+  {
+    plan_scene('night_city', { root }).run();
+
+    const scene = read('app/js/scenes/NightCityScene.ts');
+
+    expect(scene).toContain("import { night_city_objects } from '../../data/assets/night_city/night_city_objects';");
+    expect(scene).toContain("import { night_city_high_objects } from '../../data/assets/night_city/high/night_city_high_objects';");
+    expect(scene).toContain('this.set_assets(night_city_objects, night_city_textures, night_city_sounds);');
+    expect(scene).not.toContain('night-city');
+  });
+
   it('registers nothing, because a scene has no wiring', () =>
   {
     expect(plan_scene('gallery', { root }).run().patched).toHaveLength(0);

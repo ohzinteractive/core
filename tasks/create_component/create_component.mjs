@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
+import { Scaffolder, capitalize, print_report, render_template, require_name, sanitize_name } from '../_shared/scaffolding.mjs';
 
 const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,12 +14,7 @@ const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
  */
 function plan_component(raw_name, { root, dry_run = false })
 {
-  const name = sanitize_name(raw_name);
-
-  if (name.length === 0)
-  {
-    throw new Error('A component name is required, for example: yarn create-component Header');
-  }
+  const name = require_name(raw_name, 'component', 'yarn create-component Header');
 
   const pascal = capitalize(name);
   const dashed = name.replace(/_/g, '-');
