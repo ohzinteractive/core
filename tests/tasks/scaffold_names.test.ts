@@ -5,6 +5,8 @@ import path from 'path';
 // @ts-expect-error plain .mjs scaffolder script
 import { plan_component } from '../../tasks/create_component/create_component.mjs';
 // @ts-expect-error plain .mjs scaffolder script
+import { plan_modal } from '../../tasks/create_modal/create_modal.mjs';
+// @ts-expect-error plain .mjs scaffolder script
 import { plan_scene } from '../../tasks/create_scene/create_scene.mjs';
 // @ts-expect-error plain .mjs scaffolder script
 import { plan_view } from '../../tasks/create_view/create_view.mjs';
@@ -19,7 +21,8 @@ afterEach(() => { fs.rmSync(root, { recursive: true, force: true }); });
 describe.each([
   ['view', plan_view],
   ['scene', plan_scene],
-  ['component', plan_component]
+  ['component', plan_component],
+  ['modal', plan_modal]
 ])('create_%s names', (kind, plan) =>
 {
   it('refuses a name that starts with a digit', () =>

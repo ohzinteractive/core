@@ -21,8 +21,11 @@ Code generation helpers:
 yarn create-view
 yarn create-scene
 yarn create-component
+yarn create-modal
 yarn create-transition
 ```
+
+Run from `core/`, they write into the boilerplate one level up. Each builds a plan with the `Scaffolder` in `tasks/_shared/scaffolding.mjs`, validates all of it, and only then writes, so a taken name or a missing anchor changes nothing; `--dry-run` prints the plan. Each script also exports its planner (`plan_view`, `plan_scene`, `plan_component`, `plan_modal`, `plan_transition`, `plan_import_model`, `plan_commit_object`); the ohzi-mcp server loads all but `plan_transition` from the project's core checkout to expose them as tools. `tests/tasks/anchors.test.ts` fails when an anchor they patch disappears from the app.
 
 Tests (Vitest, two projects):
 ```bash
