@@ -33,6 +33,73 @@ export interface NodeDetail
   changed?: string[];
 }
 
+// Arrives off the dev-bridge wire, so every value is validated. Colors are sRGB
+// hex strings, '#ff8800' or 'ff8800'.
+export interface MaterialChanges
+{
+  color?: unknown;
+  roughness?: unknown;
+  metalness?: unknown;
+  emissive?: unknown;
+  emissive_intensity?: unknown;
+  opacity?: unknown;
+  transparent?: unknown;
+  wireframe?: unknown;
+}
+
+export interface MaterialDetail
+{
+  uuid: string;
+  name: string;
+  type: string;
+  // Meshes in the scene that render with this material. More than one means an
+  // edit shows up on all of them.
+  users: number;
+  color?: string;
+  roughness?: number;
+  metalness?: number;
+  emissive?: string;
+  emissive_intensity?: number;
+  opacity: number;
+  transparent: boolean;
+  wireframe?: boolean;
+}
+
+export interface MaterialEditResult
+{
+  target: string;
+  meshes: number;
+  materials: MaterialDetail[];
+  changed: string[];
+  notes: string[];
+}
+
+interface EditableColor
+{
+  setHex(hex: number): unknown;
+  getHexString(): string;
+}
+
+type EditableMaterial = Record<string, unknown> & { uuid?: unknown; name?: unknown; type?: unknown; needsUpdate?: boolean };
+
+type MaterialField = keyof MaterialChanges;
+
+// Wire field, the Three.js property it maps to, and the TSL node input that
+// replaces that property when set.
+const MATERIAL_FIELDS: Array<{ field: MaterialField; property: string; kind: 'color' | 'unit' | 'non_negative' | 'boolean'; node?: string }> = [
+  { field: 'color', property: 'color', kind: 'color', node: 'colorNode' },
+  { field: 'roughness', property: 'roughness', kind: 'unit', node: 'roughnessNode' },
+  { field: 'metalness', property: 'metalness', kind: 'unit', node: 'metalnessNode' },
+  { field: 'emissive', property: 'emissive', kind: 'color', node: 'emissiveNode' },
+  { field: 'emissive_intensity', property: 'emissiveIntensity', kind: 'non_negative' },
+  { field: 'opacity', property: 'opacity', kind: 'unit', node: 'opacityNode' },
+  // After opacity, so an explicit transparent wins over the one opacity implies.
+  { field: 'transparent', property: 'transparent', kind: 'boolean' },
+  { field: 'wireframe', property: 'wireframe', kind: 'boolean' }
+];
+
+const HEX_COLOR = /^#?([0-9a-f]{6})$/i;
+
 // Finds and mutates individual scene nodes. Mutation returns the resulting
 // state rather than an acknowledgement, so the caller never has to guess
 // whether a change took.
@@ -75,6 +142,70 @@ class SceneEditor
     detail.changed = changed;
 
     return detail;
+  }
+
+  // Edits the materials of one object in place. An object without a material of
+  // its own, such as an imported model's root, has every material under it
+  // edited instead; an object with one keeps its children untouched. Each material is edited once even when several meshes share
+  // it, and those meshes all change with it.
+  set_material(root: InspectableObject, selector: NodeSelector, changes: MaterialChanges): MaterialEditResult
+  {
+    const found = this.require(root, selector);
+    const meshes = typeof found.node.material === 'object' && found.node.material !== null
+      ? [found.node]
+      : this.material_users(found.node, []);
+    const materials = this.unique_materials(meshes);
+
+    if (materials.length === 0)
+    {
+      throw this.error('not_found', `'${this.label(found.node)}' has no material, and neither does anything under it.`);
+    }
+
+    const changed: string[] = [];
+    const notes: string[] = [];
+
+    for (const spec of MATERIAL_FIELDS)
+    {
+      const value = this.material_value(spec.kind, changes[spec.field]);
+
+      if (value === undefined)
+      {
+        continue;
+      }
+
+      let applied = false;
+
+      for (const material of materials)
+      {
+        if (!this.apply_material_value(material, spec.property, spec.kind, value))
+        {
+          notes.push(`${spec.field}: ${this.text(material.type, 'Material')} has no ${spec.field}, skipped.`);
+          continue;
+        }
+
+        applied = true;
+
+        if (spec.node !== undefined && material[spec.node] !== null && material[spec.node] !== undefined)
+        {
+          notes.push(`${spec.field}: ${this.text(material.type, 'Material')} has ${spec.node} set, which replaces ${spec.field}, so the change may not show.`);
+        }
+      }
+
+      if (applied)
+      {
+        changed.push(spec.field);
+      }
+    }
+
+    const all_meshes = this.material_users(root, []);
+
+    return {
+      target: this.label(found.node),
+      meshes: meshes.length,
+      materials: materials.map((material) => this.describe_material(material, all_meshes)),
+      changed,
+      notes: [...new Set(notes)]
+    };
   }
 
   private require(root: InspectableObject, selector: NodeSelector): { node: InspectableObject; parent: InspectableObject | null }
@@ -254,6 +385,179 @@ class SceneEditor
     const count = (position as { count?: unknown }).count;
 
     return typeof count === 'number' ? count : null;
+  }
+
+  // Collects every node under (and including) node that renders with a
+  // material into users.
+  private material_users(node: InspectableObject, users: InspectableObject[]): InspectableObject[]
+  {
+    if (typeof node.material === 'object' && node.material !== null)
+    {
+      users.push(node);
+    }
+
+    const children = Array.isArray(node.children) ? node.children : [];
+
+    for (const child of children)
+    {
+      this.material_users(child, users);
+    }
+
+    return users;
+  }
+
+  private unique_materials(nodes: InspectableObject[]): EditableMaterial[]
+  {
+    const materials = new Set<EditableMaterial>();
+
+    for (const node of nodes)
+    {
+      for (const material of this.materials_of(node))
+      {
+        materials.add(material);
+      }
+    }
+
+    return [...materials];
+  }
+
+  private materials_of(node: InspectableObject): EditableMaterial[]
+  {
+    const list = Array.isArray(node.material) ? node.material as unknown[] : [node.material];
+
+    return list.filter((material): material is EditableMaterial => typeof material === 'object' && material !== null);
+  }
+
+  // Returns undefined for anything invalid, so a bad payload is skipped rather
+  // than coerced.
+  private material_value(kind: 'color' | 'unit' | 'non_negative' | 'boolean', value: unknown): number | boolean | undefined
+  {
+    if (kind === 'boolean')
+    {
+      return typeof value === 'boolean' ? value : undefined;
+    }
+
+    if (kind === 'color')
+    {
+      const match = typeof value === 'string' ? HEX_COLOR.exec(value) : null;
+
+      return match === null ? undefined : parseInt(match[1], 16);
+    }
+
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0)
+    {
+      return undefined;
+    }
+
+    return kind === 'unit' && value > 1 ? undefined : value;
+  }
+
+  private apply_material_value(material: EditableMaterial, property: string, kind: 'color' | 'unit' | 'non_negative' | 'boolean', value: number | boolean): boolean
+  {
+    const current = material[property];
+
+    if (kind === 'color')
+    {
+      if (!this.is_color(current))
+      {
+        return false;
+      }
+
+      // setHex reads sRGB and stores it in the working color space, the same as
+      // passing the hex to the material's constructor.
+      current.setHex(value as number);
+
+      return true;
+    }
+
+    if (typeof current !== typeof value)
+    {
+      return false;
+    }
+
+    material[property] = value;
+
+    // Transparency and wireframe are part of the compiled pipeline, so the
+    // material has to be rebuilt for them to show. Below 1, opacity only shows
+    // on a transparent material.
+    if ((property === 'wireframe' || property === 'transparent') && current !== value)
+    {
+      material.needsUpdate = true;
+    }
+
+    if (property === 'opacity' && (value as number) < 1 && material.transparent !== true)
+    {
+      material.transparent = true;
+      material.needsUpdate = true;
+    }
+
+    return true;
+  }
+
+  private describe_material(material: EditableMaterial, scene_meshes: InspectableObject[]): MaterialDetail
+  {
+    const detail: MaterialDetail = {
+      uuid: this.text(material.uuid, '(no uuid)'),
+      name: this.text(material.name, ''),
+      type: this.text(material.type, 'Material'),
+      users: scene_meshes.filter((mesh) => this.materials_of(mesh).includes(material)).length,
+      opacity: this.round(material.opacity, 1),
+      transparent: material.transparent === true
+    };
+
+    if (this.is_color(material.color))
+    {
+      detail.color = `#${material.color.getHexString()}`;
+    }
+
+    if (typeof material.roughness === 'number')
+    {
+      detail.roughness = this.round(material.roughness, 0);
+    }
+
+    if (typeof material.metalness === 'number')
+    {
+      detail.metalness = this.round(material.metalness, 0);
+    }
+
+    if (this.is_color(material.emissive))
+    {
+      detail.emissive = `#${material.emissive.getHexString()}`;
+    }
+
+    if (typeof material.emissiveIntensity === 'number')
+    {
+      detail.emissive_intensity = this.round(material.emissiveIntensity, 0);
+    }
+
+    if (typeof material.wireframe === 'boolean')
+    {
+      detail.wireframe = material.wireframe;
+    }
+
+    return detail;
+  }
+
+  private is_color(value: unknown): value is EditableColor
+  {
+    return typeof value === 'object' && value !== null
+      && typeof (value as { setHex?: unknown }).setHex === 'function'
+      && typeof (value as { getHexString?: unknown }).getHexString === 'function';
+  }
+
+  private label(node: InspectableObject): string
+  {
+    if (typeof node.name === 'string' && node.name.length > 0)
+    {
+      return node.name;
+    }
+
+    return this.text(node.uuid, '(unnamed)');
+  }
+
+  private text(value: unknown, fallback: string): string
+  {
+    return typeof value === 'string' ? value : fallback;
   }
 
   private vector(source: InspectableVector | undefined, fallback: number): number[]
