@@ -74,8 +74,21 @@ describe('create_modal', () =>
     expect(state).toContain('class PrivacyPolicyModalState extends ModalState');
     expect(state).toContain('export { PrivacyPolicyModalState };');
     expect(state).not.toMatch(/template/i);
-    expect(read('app/views/components/modal/states/privacy_policy.pug')).toContain("+modal({ classes: 'privacy-policy' })");
-    expect(read('app/css/components/modal/privacy_policy/_privacy_policy.scss')).toContain('.privacy-policy');
+    expect(read('app/views/components/modal/states/privacy_policy.pug')).toContain("+modal({ classes: 'privacy-policy-modal' })");
+    expect(read('app/css/components/modal/privacy_policy/_privacy_policy.scss')).toContain('.privacy-policy-modal');
+  });
+
+  it('keeps the modal class apart from the class of a view with the same name', () =>
+  {
+    plan_modal('privacy_policy', { root }).run();
+
+    const pug = read('app/views/components/modal/states/privacy_policy.pug');
+    const scss = read('app/css/components/modal/privacy_policy/_privacy_policy.scss');
+
+    // A view named privacy_policy owns `.privacy-policy`: sharing it would hand the
+    // modal the view's styles, such as a pointer-events: none that kills its buttons.
+    expect(pug).not.toMatch(/classes: 'privacy-policy'/);
+    expect(scss).not.toMatch(/^\.privacy-policy \{/m);
   });
 
   it('wires the state into the modal component, its template and the styles', () =>
@@ -85,7 +98,7 @@ describe('create_modal', () =>
     const component = read('app/js/view_components/modal/ModalComponent.ts');
 
     expect(component).toContain("import { PrivacyPolicyModalState } from './states/PrivacyPolicyModalState';");
-    expect(component).toContain("      privacy_policy: new PrivacyPolicyModalState('privacy-policy'),");
+    expect(component).toContain("      privacy_policy: new PrivacyPolicyModalState('privacy-policy-modal'),");
     expect(read('app/views/components/modal/modal.pug')).toContain('    //- __MODAL_STATES__\n    include states/privacy_policy');
     expect(read('app/css/application.scss')).toContain("@import 'components/modal/privacy_policy/privacy_policy';");
   });
@@ -122,8 +135,8 @@ describe('create_modal', () =>
 
     const component = read('app/js/view_components/modal/ModalComponent.ts');
 
-    expect(component).toContain("privacy_policy: new PrivacyPolicyModalState('privacy-policy'),");
-    expect(component).toContain("cookies: new CookiesModalState('cookies'),");
+    expect(component).toContain("privacy_policy: new PrivacyPolicyModalState('privacy-policy-modal'),");
+    expect(component).toContain("cookies: new CookiesModalState('cookies-modal'),");
   });
 
   it('allows a modal whose name prefixes an existing one', () =>

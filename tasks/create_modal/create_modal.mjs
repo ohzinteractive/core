@@ -18,7 +18,8 @@ function plan_modal(raw_name, { root, dry_run = false })
   const name = require_name(raw_name, 'modal', 'yarn create-modal privacy_policy');
 
   const pascal = capitalize(name);
-  const dashed = name.replace(/_/g, '-');
+  // Suffixed so a view of the same name, which owns `.<name>`, cannot style the modal
+  const modal_class = `${name.replace(/_/g, '-')}-modal`;
 
   const scaffolder = new Scaffolder({ root, dry_run });
 
@@ -29,12 +30,12 @@ function plan_modal(raw_name, { root, dry_run = false })
 
   scaffolder.create(
     `app/views/components/modal/states/${name}.pug`,
-    render_template(path.join(TEMPLATES, 'template.pug'), [[/template/g, dashed]])
+    render_template(path.join(TEMPLATES, 'template.pug'), [[/template/g, modal_class]])
   );
 
   scaffolder.create(
     `app/css/components/modal/${name}/_${name}.scss`,
-    render_template(path.join(TEMPLATES, '_template.scss'), [[/template/g, dashed]])
+    render_template(path.join(TEMPLATES, '_template.scss'), [[/template/g, modal_class]])
   );
 
   scaffolder
@@ -47,7 +48,7 @@ function plan_modal(raw_name, { root, dry_run = false })
     .patch(
       'app/js/view_components/modal/ModalComponent.ts',
       '__MODAL_STATES__',
-      `__MODAL_STATES__\n      ${name}: new ${pascal}ModalState('${dashed}'),`,
+      `__MODAL_STATES__\n      ${name}: new ${pascal}ModalState('${modal_class}'),`,
       'modal state entry'
     )
     // Anchored on the line break so the include ends at the name: unterminated,
