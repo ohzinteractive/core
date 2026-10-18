@@ -29,6 +29,7 @@
     "create-scene": "node ./tasks/create_scene/create_scene.mjs",
     "import-model": "node ./tasks/import_model/import_model.mjs",
     "create-component": "node ./tasks/create_component/create_component.mjs",
+    "create-modal": "node ./tasks/create_modal/create_modal.mjs",
     "create-transition": "node ./tasks/create_transition/create_transition.mjs",
     "test-unit": "vitest run --project unit",
     "test-browser": "vitest run --project browser"

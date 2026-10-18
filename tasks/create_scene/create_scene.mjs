@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { Scaffolder, capitalize, print_report, render_template, sanitize_name } from '../_shared/scaffolding.mjs';
+import { Scaffolder, capitalize, print_report, render_template, require_name, sanitize_name } from '../_shared/scaffolding.mjs';
 
 const TEMPLATES = path.dirname(fileURLToPath(import.meta.url));
 
@@ -13,22 +13,20 @@ const ASSET_KINDS = ['objects', 'sounds', 'textures'];
  */
 function plan_scene(raw_name, { root, dry_run = false })
 {
-  const name = sanitize_name(raw_name);
-
-  if (name.length === 0)
-  {
-    throw new Error('A scene name is required, for example: yarn create-scene Gallery');
-  }
+  const name = require_name(raw_name, 'scene', 'yarn create-scene Gallery');
 
   const pascal = capitalize(name);
   const scaffolder = new Scaffolder({ root, dry_run });
 
+  // Every lowercase placeholder in the scene is a manifest identifier or an
+  // asset path, both snake_case, so it takes the name as is. Dashing it, as the
+  // view templates do for CSS classes, broke any multi-word scene.
   scaffolder.create(
     `app/js/scenes/${pascal}Scene.ts`,
     render_template(path.join(TEMPLATES, 'TemplateScene.ts'), [
       [/Template/g, pascal],
       [/TEMPLATE/g, name.toUpperCase()],
-      [/template/g, name.replace(/_/g, '-')]
+      [/template/g, name]
     ])
   );
 

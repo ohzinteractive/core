@@ -31,6 +31,10 @@ const ANCHORS: Array<[string, string, string]> = [
   ['create-component', 'index.pug', '__COMPONENTS__'],
   ['create-component', 'app/js/MainApplication.ts', '__COMPONENTS__'],
   ['create-component', 'app/js/view_components/Components.ts', '__COMPONENTS__'],
+  ['create-modal', 'app/js/view_components/modal/ModalComponent.ts', '__MODAL_STATES_IMPORTS__'],
+  ['create-modal', 'app/js/view_components/modal/ModalComponent.ts', '__MODAL_STATES__'],
+  ['create-modal', 'app/views/components/modal/modal.pug', '__MODAL_STATES__'],
+  ['create-modal', 'app/css/application.scss', '__MODAL_STATES__'],
   ['create-transition', 'app/js/views/home/HomeTransitionController.ts', '// __CUSTOM_TRANSITIONS__']
 ];
 
