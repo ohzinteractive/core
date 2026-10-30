@@ -1,5 +1,7 @@
-import type { Vector4 } from "three";
-export class ImageUtilities {
-    static get_image_data(image: any): ImageData;
-    static get_pixel(imagedata: any, x: any, y: any): Vector4;
+import { Vector4 } from 'three';
+declare class ImageUtilities {
+    constructor();
+    static get_image_data(image: ImageBitmap): ImageData;
+    static get_pixel(imagedata: ImageData, x: number, y: number): Vector4;
 }
+export { ImageUtilities };

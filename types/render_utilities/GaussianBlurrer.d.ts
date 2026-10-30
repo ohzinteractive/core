@@ -1,29 +1,29 @@
-import type { RenderTarget, Texture } from "three";
-import type { LuminosityHighPassMaterial } from "../materials/LuminosityHighPassMaterial";
-
-export class GaussianBlurrer {
-    constructor(nMips?: number);
-    current_width: number;
+import { GaussianBlurMaterial } from '../materials/GaussianBlurMaterial';
+import { LuminosityHighPassMaterial } from '../materials/LuminosityHighPassMaterial';
+import type { RenderTargetOptions } from 'three';
+import { RenderTarget } from 'three';
+declare class GaussianBlurrer {
     current_height: number;
-    separableBlurMaterials: any[];
-    renderTargetsHorizontal: any[];
-    renderTargetsVertical: any[];
-    nMips: number;
+    current_width: number;
     kernelSizeArray: number[];
-    rt_pars: {
-        minFilter: 1006;
-        magFilter: 1006;
-        format: 1023;
-    };
-    renderTargetBright: RenderTarget<Texture>;
     luminosity_high_pass_mat: LuminosityHighPassMaterial;
-    
-    blur(RT: any, use_luminosity_high_pass: any): void;
-    get_blurred_texture(): any;
-    get_blurred_RT(): any;
+    nMips: number;
+    renderTargetBright: RenderTarget;
+    renderTargetsHorizontal: Array<RenderTarget>;
+    renderTargetsVertical: Array<RenderTarget>;
+    rt_pars: RenderTargetOptions;
+    separableBlurMaterials: Array<GaussianBlurMaterial>;
+    use_half_float: boolean;
+    constructor(use_half_float?: boolean);
+    blur(RT: RenderTarget, use_luminosity_high_pass: boolean): void;
+    get_blurred_texture(): import("three").Texture<unknown, import("three").TextureEventMap>;
+    get_blurred_RT(): RenderTarget<import("three").Texture<unknown, import("three").TextureEventMap>, import("three").RenderTargetEventMap>;
     init_RT(): void;
-    resize_RT(texture_width: any, texture_height: any): void;
-    init_materials(texture_width: any, texture_height: any): void;
+    resize_RT(texture_width: number, texture_height: number): void;
+    init_materials(): void;
+    set_radius(value: number): void;
+    set_luminosity_threshold(value: number): void;
     dispose_materials(): void;
     dispose_RT(): void;
 }
+export { GaussianBlurrer };

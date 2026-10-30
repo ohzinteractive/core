@@ -1,7 +1,11 @@
-export class OBJLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { OBJLoader as TOBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+declare class OBJLoader extends AbstractLoader {
     loader: TOBJLoader;
-    on_preloaded_finished(resource_container: any): void;
+    resource_id: string;
+    url: string;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
-import { OBJLoader as TOBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+export { OBJLoader };

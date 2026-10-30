@@ -1,8 +1,10 @@
-export class HDRCubeTextureLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, extension: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { HDRCubeTextureLoader as THDRCubeTextureLoader } from 'three/examples/jsm/loaders/HDRCubeTextureLoader.js';
+declare class HDRCubeTextureLoader extends AbstractLoader {
     loader: THDRCubeTextureLoader;
     urls: string[];
-    on_preloaded_finished(resource_container: any): void;
+    constructor(resource_id: string, url: string, extension: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
-import { HDRCubeTextureLoader as THDRCubeTextureLoader } from "three/examples/jsm/loaders/HDRCubeTextureLoader.js";
+export { HDRCubeTextureLoader };

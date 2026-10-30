@@ -3,3 +3,4 @@ export declare class Compilator {
     start(): void;
     update(): void;
 }
+export type CompilatorConstructor = new (...args: any[]) => Compilator;

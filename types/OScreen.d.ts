@@ -1,26 +1,23 @@
-import type { Vector2 } from "three";
-
-export { oscreen as OScreen };
-declare const oscreen: OScreen;
+import { Vector2 } from 'three';
 declare class OScreen {
-    init(): void;
-    width: number;
-    height: number;
-    position: Vector2;
-    render_width: number;
-    render_height: number;
-    width_height: Vector2;
     dpr: number;
+    height: number;
     pixel_size: Vector2;
+    position: Vector2;
+    render_height: number;
+    render_width: number;
     size_changed: boolean;
-
-    get aspect_ratio(): number;
-    get portrait(): boolean;
-
+    width: number;
+    width_height: Vector2;
+    init(): void;
     update_position(x: number, y: number): void;
     update(): void;
     update_size(width: number, height: number): void;
     apply_pixel_density_v2(vector2: Vector2): Vector2;
     apply_pixel_density(value: number): number;
     get_pixel_size(): Vector2;
+    get aspect_ratio(): number;
+    get portrait(): boolean;
 }
+declare const oscreen: OScreen;
+export { oscreen as OScreen };

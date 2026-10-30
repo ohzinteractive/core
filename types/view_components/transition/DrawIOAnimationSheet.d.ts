@@ -1,5 +1,6 @@
-export class DrawIOAnimationSheet {
-    parse(xml_document: any): {
+declare class DrawIOAnimationSheet {
+    constructor();
+    parse(xml_document: string): {
         animation_tracks: {
             attribute_name: string;
             from_time: number;
@@ -13,5 +14,6 @@ export class DrawIOAnimationSheet {
             at_time: number;
         }[];
     };
-    get_node_x_position(node: any): number;
+    get_node_x_position(node: Element): number;
 }
+export { DrawIOAnimationSheet };

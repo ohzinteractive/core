@@ -264,7 +264,7 @@ src/
 
 - **Bundler:** Rollup
 - **Output:** `build/index.mjs` (ES module with sourcemaps, minified with terser)
-- **Types:** `types/index.d.ts` (maintained by hand)
+- **Types:** `types/index.d.ts` (generated from `src/` by `yarn generate-types`)
 - **Externals:** `three` and its sub-modules are not bundled
 
 ## Commands

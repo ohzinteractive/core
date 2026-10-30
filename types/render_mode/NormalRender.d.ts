@@ -1,3 +1,6 @@
-export class NormalRender extends BaseRender {
+import { BaseRender } from '../render_mode/BaseRender';
+declare class NormalRender extends BaseRender {
+    constructor();
+    render(): void;
 }
-import { BaseRender } from "../render_mode/BaseRender";
+export { NormalRender };

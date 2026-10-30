@@ -1,17 +1,18 @@
-import type { RenderTarget, Texture } from "three";
-import type { SSAOComposeMaterial } from "../materials/SSAOComposeMaterial";
-import type { SSAOMaterial } from "../materials/SSAOMaterial";
-import { BaseRender } from "../render_mode/BaseRender";
-import type { Blurrer } from "../render_utilities/Blurrer";
-export class NormalAORender extends BaseRender {
-    constructor(use_ssaa?: boolean);
-    ssao_mat: SSAOMaterial;
-    ssao_compose_mat: SSAOComposeMaterial;
-    ssaa: number;
-    main_RT: RenderTarget<Texture>;
-    SSAO_RT: RenderTarget<Texture>;
+import { SSAOComposeMaterial } from '../materials/SSAOComposeMaterial';
+import { SSAOMaterial } from '../materials/SSAOMaterial';
+import { BaseRender } from '../render_mode/BaseRender';
+import { Blurrer } from '../render_utilities/Blurrer';
+import { RenderTarget } from 'three';
+declare class NormalAORender extends BaseRender {
+    SSAO_RT: RenderTarget;
     blurrer: Blurrer;
-    
-    __update_uniforms(): void;
+    main_RT: RenderTarget;
+    ssaa: number;
+    ssao_compose_mat: SSAOComposeMaterial;
+    ssao_mat: SSAOMaterial;
+    constructor(use_ssaa?: boolean, use_exact_depth?: boolean);
+    on_enter(): void;
+    render(): void;
     __check_RT_size(): void;
 }
+export { NormalAORender };

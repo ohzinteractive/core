@@ -1,3 +1,5 @@
-export class TimeUtilities {
-    time_str_to_ms(time_str: any): number;
+declare class TimeUtilities {
+    constructor();
+    time_str_to_ms(time_str: string): number;
 }
+export { TimeUtilities };

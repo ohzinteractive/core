@@ -1,4 +1,7 @@
-export class TextureLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+declare class TextureLoader extends AbstractLoader {
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer, response: Response): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
+export { TextureLoader };

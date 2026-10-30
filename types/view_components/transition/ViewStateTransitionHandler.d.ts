@@ -1,19 +1,26 @@
-export class ViewStateTransitionHandler {
-    constructor(transition_table: any);
-    last_state: ViewState;
+import type { ActionSequencer } from '../../action_sequencer/ActionSequencer';
+import { ViewState } from '../ViewState';
+import type { TransitionTable } from './TransitionTable';
+declare class ViewStateTransitionHandler {
+    action_sequencer: ActionSequencer;
     current_state: ViewState;
-    default_state_data: {};
-    current_state_data: {};
-    transition_table: any;
+    current_state_data: {
+        [key: string]: any;
+    };
+    default_state_data: {
+        [key: string]: any;
+    };
+    last_state: ViewState;
+    transition_table: TransitionTable;
     transitioning: boolean;
-    go_to_state(state: any, skip?: boolean): void;
-    action_sequencer: any;
+    constructor(transition_table: TransitionTable);
+    go_to_state(state: ViewState, skip?: boolean): void;
     update(): void;
     before_update(): void;
     fixed_update(): void;
-    set_state(state: any): void;
-    set_default_state_data(default_state_data: any): void;
+    set_state(state: ViewState): void;
+    set_default_state_data(default_state_data: object): void;
     __update_transitions(): void;
     __exit_last_state(): void;
 }
-import { ViewState } from "../ViewState";
+export { ViewStateTransitionHandler };

@@ -1,4 +1,4 @@
-import type { Compilator } from "./Compilator";
+import type { Compilator } from "../index";
 declare class CompilatorManager {
     compilators: Array<Compilator>;
     first_update: boolean;

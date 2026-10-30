@@ -1,8 +1,11 @@
-export class HDRTextureLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+declare class HDRTextureLoader extends AbstractLoader {
     loader: HDRLoader;
-    on_preloaded_finished(resource_container: any): void;
+    resource_id: string;
+    url: string;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { HDRLoader } from "three/examples/jsm/loaders/HDRLoader.js";
-import { AbstractLoader } from "./AbstractLoader";
-
+export { HDRTextureLoader };

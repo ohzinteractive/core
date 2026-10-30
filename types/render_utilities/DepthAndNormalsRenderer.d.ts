@@ -1,12 +1,12 @@
-import type { RenderTarget, Texture } from "three";
-import type { ClearDepthNormalMaterial } from "../materials/ClearDepthNormalMaterial";
-import type { DepthNormalMaterial } from "../materials/DepthNormalMaterial";
-
-export class DepthAndNormalsRenderer {
-    RT: RenderTarget<Texture>;
-    clear_depth_normal_mat: ClearDepthNormalMaterial;
-    depth_normal_material: DepthNormalMaterial;
-    render(graphics: any): void;
+import { RenderTarget } from 'three';
+import type { Graphics } from '../Graphics';
+declare class DepthAndNormalsRenderer {
+    RT: RenderTarget;
+    clear_depth_normal_mat: any;
+    depth_normal_material: any;
+    constructor();
+    render(graphics: typeof Graphics): void;
     __resize_RT_if_necessary(): void;
-    get render_target(): RenderTarget<Texture>;
+    get render_target(): RenderTarget<import("three").Texture<unknown, import("three").TextureEventMap>, import("three").RenderTargetEventMap>;
 }
+export { DepthAndNormalsRenderer };

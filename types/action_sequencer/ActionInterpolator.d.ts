@@ -1,12 +1,10 @@
-import type { Vector3 } from "three";
-import type { EasingFunctionType } from "../utilities/EasingFunctions";
-
-export class ActionInterpolator {
-    constructor(easing_function?: EasingFunctionType);
-    easing_function: Function;
+import type { Vector3 } from 'three';
+declare class ActionInterpolator {
     attribute_name: string;
+    easing_function: Function;
     from: number | Vector3;
     to: number | Vector3;
-
+    constructor(easing_function?: string);
     update(context: any, t: number): void;
 }
+export { ActionInterpolator };
