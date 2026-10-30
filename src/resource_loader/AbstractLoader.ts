@@ -1,5 +1,9 @@
 import type { ResourceContainer } from "../loaders/assets_loader/ResourceContainer";
 
+// Loaders only touch these two members, so they take both the ResourceContainer
+// singleton and the per batch containers of the assets worker.
+export type LoaderResourceContainer = Pick<ResourceContainer, 'resources_by_url' | 'set_resource'>;
+
 export class AbstractLoader
 {
   resource_id: string;
@@ -56,7 +60,7 @@ export class AbstractLoader
     console.error('Error while loading ' + this.resource_id + '\n\t path: ' + this.url + '\n\t\t' + this.error_message);
   }
 
-  load(resource_container: ResourceContainer)
+  load(resource_container: LoaderResourceContainer)
   {
     if (resource_container.resources_by_url[this.url] === undefined)
     {
@@ -81,7 +85,7 @@ export class AbstractLoader
     }
   }
 
-  async on_progress(resource_container: ResourceContainer, response: Response)
+  async on_progress(resource_container: LoaderResourceContainer, response: Response)
   {
     const response_clone = response.clone();
     const reader = response.body.getReader();
@@ -118,7 +122,7 @@ export class AbstractLoader
     }
   }
 
-  on_preloaded_finished(resource_container: ResourceContainer, response: Response)
+  on_preloaded_finished(resource_container: LoaderResourceContainer, response: Response)
   {
   }
 

@@ -1,7 +1,7 @@
-export { capabilities as Capabilities };
-declare const capabilities: Capabilities;
 declare class Capabilities {
-    init(): void;
     max_anisotropy: number;
     vertex_texture_sampler_available: boolean;
+    init(): void;
 }
+declare const capabilities: Capabilities;
+export { capabilities as Capabilities };

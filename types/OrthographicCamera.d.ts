@@ -1,10 +1,8 @@
-import type { Color } from "three";
-import { OrthographicCamera as TOrthographicCamera } from "three";
-
-export class OrthographicCamera extends TOrthographicCamera {
-    constructor(left: number, right: number, top: number, bottom: number, near: number, far: number);
-    clear_color: Color;
+import { Color, OrthographicCamera as TOrthographicCamera } from 'three';
+declare class OrthographicCamera extends TOrthographicCamera {
     clear_alpha: number;
-
+    clear_color: Color;
+    constructor(left: number, right: number, top: number, bottom: number, near: number, far: number);
     copy(camera: OrthographicCamera): this;
 }
+export { OrthographicCamera };

@@ -1,5 +1,5 @@
-import type { RenderLoop } from "./RenderLoop";
-export class BaseApplication {
+import type { RenderLoop } from './RenderLoop';
+declare class BaseApplication {
     on_post_start(): void;
     on_enter(loop?: RenderLoop): void;
     on_exit(loop?: RenderLoop): void;
@@ -9,4 +9,6 @@ export class BaseApplication {
     on_post_render(): void;
     on_pre_render(): void;
     on_frame_end(): void;
+    dispose(): void;
 }
+export { BaseApplication };

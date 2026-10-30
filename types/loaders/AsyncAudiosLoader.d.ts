@@ -1,6 +1,7 @@
-export class AsyncAudiosLoader extends AsyncAbstractLoader {
-    constructor(scene_name: any, assets: any, worker: any);
+import { AudioLoader } from '../resource_loader/AudioLoader';
+import { AsyncAbstractLoader } from './AsyncAbstractLoader';
+declare class AsyncAudiosLoader extends AsyncAbstractLoader {
+    constructor(scene_name: string, assets: any[], worker: Worker);
     __setup_loaders(): AudioLoader[];
 }
-import { AsyncAbstractLoader } from "./AsyncAbstractLoader";
-import { AudioLoader } from "../resource_loader/AudioLoader";
+export { AsyncAudiosLoader };

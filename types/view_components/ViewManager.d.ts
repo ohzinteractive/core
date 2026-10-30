@@ -1,25 +1,24 @@
-import type { ViewState } from "../../src/view_components/ViewState";
-
-export { view_manager as ViewManager };
-declare const view_manager: ViewManager;
+import type { ApplicationView } from './ApplicationView';
 declare class ViewManager {
-    views: any[];
     browser_title_suffix: string;
-    
+    views: ApplicationView[];
+    constructor();
     update(): void;
-    go_to_view(view_name: any, change_url?: boolean, skip?: boolean): void;
-    go_to_scene(scene_name: any, change_url?: boolean, skip?: boolean): void;
-    register_view(view: any): void;
-    has_view(view_name: any): boolean;
-    set_view(view_name: any): void;
-    set_browser_title_suffix(title_suffix: any): void;
-    get_current_view(): ViewState;
-    get_view_by_name(view_name: any): ViewState;
-    get(view_name: any): any;
-    get_by_url(url: any): any;
-    __change_browser_url(url: any): void;
-    __change_browser_title(name: any): void;
+    go_to_view(view_name: string, change_url?: boolean, skip?: boolean): void;
+    go_to_scene(scene_name: string, change_url?: boolean, skip?: boolean): void;
+    register_view(view: ApplicationView): void;
+    has_view(view_name: string): boolean;
+    set_view(view_name: string): void;
+    set_browser_title_suffix(title_suffix: string): void;
+    get_current_view(): import("./ViewState").ViewState;
+    get_view_by_name(view_name: string): void;
+    get(view_name: string): ApplicationView | undefined;
+    get_by_url(url: string): ApplicationView;
+    __change_browser_url(url: string): void;
+    __change_browser_title(name: string): void;
     __set_views_opacities(): void;
-    __capitalize(string: any): any;
-    __snake_to_whitespace(string: any): any;
+    __capitalize(string: string): string;
+    __snake_to_whitespace(string: string): string;
 }
+declare const view_manager: ViewManager;
+export { view_manager as ViewManager };

@@ -4,14 +4,37 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
-// types/ is written by hand and npm publishes it as the package typings, so a
-// class deleted from src must not leave an import behind in it.
+// types/ is generated from src by `yarn generate-types` and npm publishes it as
+// the package typings, so these tests catch a types/ that was not regenerated
+// after src changed.
 
 const TYPES = fileURLToPath(new URL('../../types/', import.meta.url));
+const SRC_INDEX = fileURLToPath(new URL('../../src/index.ts', import.meta.url));
 
 function is_file(path: string): boolean
 {
   return existsSync(path) && statSync(path).isFile();
+}
+
+function exported_names(path: string): string[]
+{
+  const source = readFileSync(path, 'utf8');
+  const names: string[] = [];
+
+  for (const match of source.matchAll(/export\s*\{([^}]*)\}/g))
+  {
+    for (const entry of match[1].split(','))
+    {
+      const name = entry.trim().split(/\s+as\s+/).pop();
+
+      if (name)
+      {
+        names.push(name);
+      }
+    }
+  }
+
+  return names.sort();
 }
 
 function declaration_paths(): string[]
@@ -47,6 +70,11 @@ describe('published types', () =>
   it('resolves every relative import', () =>
   {
     expect(unresolved_imports()).toEqual([]);
+  });
+
+  it('exports every name src/index.ts exports', () =>
+  {
+    expect(exported_names(join(TYPES, 'index.d.ts'))).toEqual(exported_names(SRC_INDEX));
   });
 
   it('exports BlitNodeMaterial in place of the GLSL base materials', () =>

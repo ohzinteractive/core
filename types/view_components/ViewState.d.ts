@@ -1,6 +1,6 @@
-export class ViewState {
-    constructor(name: any);
-    name: any;
+declare class ViewState {
+    name: string;
+    constructor(name: string);
     start(): void;
     before_enter(): void;
     on_enter(): void;
@@ -12,3 +12,4 @@ export class ViewState {
     update_enter_transition(global_view_data: any, transition_progress: any, action_sequencer: any): void;
     update_exit_transition(global_view_data: any, transition_progress: any, action_sequencer: any): void;
 }
+export { ViewState };

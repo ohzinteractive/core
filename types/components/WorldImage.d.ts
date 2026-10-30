@@ -1,18 +1,20 @@
-import type { Texture, Vector2, Vector3 } from "three";
-import type { NodeMaterial } from "three/webgpu";
-import { Mesh } from "three";
-
-export class WorldImage extends Mesh {
-    constructor(texture: Texture, pivot?: Vector2);
+import { WorldImageMaterial } from '../materials/WorldImageMaterial';
+import type { Texture } from 'three';
+import { Mesh, Vector2, Vector3 } from 'three';
+declare class WorldImage extends Mesh {
     current_scale: number;
+    sized_texture: Texture;
+    texture_size: Vector2;
     tmp_bb_size: Vector3;
-    material: NodeMaterial;
+    material: WorldImageMaterial;
+    constructor(texture: Texture, pivot: Vector2);
     update_texture(): void;
-    set size(arg: Vector3);
     get size(): Vector3;
-    set screen_aligned(arg: boolean);
+    set size(value: Vector3);
+    set screen_aligned(boolean: boolean);
     get screen_aligned(): boolean;
-    set opacity(arg: any);
-    get opacity(): any;
+    set opacity(opacity: number);
+    get opacity(): number;
     dispose(): void;
 }
+export { WorldImage };

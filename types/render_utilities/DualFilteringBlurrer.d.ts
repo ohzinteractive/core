@@ -1,16 +1,19 @@
-import type { RenderTarget, Texture } from "three";
-import type { DualFilteringBlurMaterial } from "../materials/DualFilteringBlurMaterial";
-export class DualFilteringBlurrer {
-    constructor();
-    current_width: number;
+import { RenderTarget } from 'three';
+import { DualFilteringBlurMaterial } from '../materials/DualFilteringBlurMaterial';
+declare class DualFilteringBlurrer {
+    RT0: RenderTarget;
+    RT1: RenderTarget;
+    RT2: RenderTarget;
+    RT3: RenderTarget;
+    RT4: RenderTarget;
     current_height: number;
-    RT0: RenderTarget<Texture>;
-    RT1: RenderTarget<Texture>;
-    RT2: RenderTarget<Texture>;
-    RT3: RenderTarget<Texture>;
-    RT4: RenderTarget<Texture>;
-    upscale_blur_mat: DualFilteringBlurMaterial;
+    current_width: number;
     downscale_blur_mat: DualFilteringBlurMaterial;
-    blur(RT: any): void;
-    check_RT_resize(width: any, height: any): void;
+    upscale_blur_mat: DualFilteringBlurMaterial;
+    constructor();
+    blur(RT: RenderTarget): void;
+    check_RT_resize(width: number, height: number): void;
+    dispose(): void;
+    resize(target: RenderTarget, divisor: number): void;
 }
+export { DualFilteringBlurrer };

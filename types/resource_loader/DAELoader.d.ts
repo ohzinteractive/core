@@ -1,7 +1,9 @@
-export class DAELoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
+declare class DAELoader extends AbstractLoader {
     loader: ColladaLoader;
-    on_preloaded_finished(resource_container: any): void;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
-import { ColladaLoader } from "three/examples/jsm/loaders/ColladaLoader.js";
+export { DAELoader };

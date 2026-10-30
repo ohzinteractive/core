@@ -1,4 +1,5 @@
-import { Mesh } from "three";
-export class Grid extends Mesh {
+import { Mesh } from 'three';
+declare class Grid extends Mesh {
     constructor();
 }
+export { Grid };

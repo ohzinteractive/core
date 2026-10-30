@@ -1,11 +1,12 @@
-export class AsyncTextureLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any, flipY?: boolean, premultiplyAlpha?: boolean, colorSpaceConversion?: boolean);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+export declare class AsyncTextureLoader extends AbstractLoader {
     original_url: string;
     colorSpaceConversion: boolean;
     premultiplyAlpha: boolean;
     flipY: boolean;
-    on_preloaded_finished(resource_container: any): void;
-    load_with_old_method(resource_container: any): void;
-    load_with_new_method(resource_container: any): void;
+    constructor(resource_id: string, url: string, size: number, flipY?: boolean, premultiplyAlpha?: boolean, colorSpaceConversion?: boolean);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
+    load_with_old_method(resource_container: ResourceContainer): void;
+    load_with_new_method(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";

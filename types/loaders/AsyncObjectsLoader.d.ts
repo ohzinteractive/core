@@ -1,6 +1,8 @@
-export class AsyncObjectsLoader extends AsyncAbstractLoader {
+import { GLTFDRACOLoader } from '../resource_loader/GLTFDRACOLoader';
+import { GLTFLoader } from '../resource_loader/GLTFLoader';
+import { AsyncAbstractLoader } from './AsyncAbstractLoader';
+declare class AsyncObjectsLoader extends AsyncAbstractLoader {
+    constructor(scene_name: string, assets: any[], worker: Worker);
     __setup_loaders(): (GLTFDRACOLoader | GLTFLoader)[];
 }
-import { AsyncAbstractLoader } from "./AsyncAbstractLoader";
-import { GLTFDRACOLoader } from "../resource_loader/GLTFDRACOLoader";
-import { GLTFLoader } from "../resource_loader/GLTFLoader";
+export { AsyncObjectsLoader };

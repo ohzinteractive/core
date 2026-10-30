@@ -1,4 +1,4 @@
-import type { Camera, Points } from 'three';
+import type { OrthographicCamera, PerspectiveCamera, Points } from 'three';
 import { PlaneHelper, Quaternion, Vector3 } from 'three';
 import { Plane } from 'three';
 import { Box3 } from 'three';
@@ -9,7 +9,7 @@ import type { CameraMovementMode } from './movement_mode/CameraMovementMode';
 import { AbstractCameraState } from './states/common/AbstractCameraState';
 export declare class CameraController {
     __last_reference_position: Vector3;
-    camera: Camera;
+    camera: PerspectiveCamera | OrthographicCamera;
     camera_initial_pos: Vector3;
     camera_initial_rot: Quaternion;
     current_azimuth: number;
@@ -47,7 +47,7 @@ export declare class CameraController {
     constructor(input: Input);
     enable(): void;
     disable(): void;
-    set_camera(camera: Camera): void;
+    set_camera(camera: PerspectiveCamera | OrthographicCamera): void;
     set_state(state: AbstractCameraState): void;
     set_mode(mode: CameraMovementMode): void;
     set_normalized_zoom(zoom: number): void;
@@ -55,7 +55,7 @@ export declare class CameraController {
     update(): void;
     set_idle(): void;
     camera_is_zoomed_out(): boolean;
-    set_rotation(tilt: number, orientation: number, azimuth?: number): void;
+    set_rotation(tilt?: number, orientation?: number, azimuth?: number): void;
     set_rotation_delta(tilt: number, orientation: number, azimuth?: number): void;
     lerp_tilt(from_tilt: number, to_tilt: number, t: number): void;
     set_quaternion(q: Quaternion): void;

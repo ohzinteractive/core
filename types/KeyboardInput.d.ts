@@ -1,7 +1,7 @@
-export class KeyboardInput {
-    init(container: HTMLElement): void;
-    ctrlz_pressed: boolean;
+declare class KeyboardInput {
+    container: Element | Document;
     ctrlz_fired: boolean;
+    ctrlz_pressed: boolean;
     keys: {
         [key: string]: {
             key_name: string;
@@ -12,10 +12,9 @@ export class KeyboardInput {
         };
     };
     keys_keys: string[];
-    container: HTMLElement;
-
-    on_key_down(e: KeyboardEvent): void;
-    on_key_up(e: KeyboardEvent): void;
+    init(container: Element | Document): void;
+    on_key_down: (e: KeyboardEvent) => void;
+    on_key_up: (e: KeyboardEvent) => void;
     clear(): void;
     release_key(key_name: string): void;
     release_keys(): void;
@@ -27,3 +26,4 @@ export class KeyboardInput {
     unregister_key(key_name: string): void;
     dispose(): void;
 }
+export { KeyboardInput };

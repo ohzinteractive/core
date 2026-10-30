@@ -1,9 +1,8 @@
-import type { Vector2 } from "three";
-import { CanvasDrawer } from "./CanvasDrawer";
-
-export class SimpleTextDrawer extends CanvasDrawer {
-    constructor();
+import { CanvasDrawer } from './CanvasDrawer';
+import { Vector2 } from 'three';
+declare class SimpleTextDrawer extends CanvasDrawer {
     text_margin: Vector2;
-    
-    __draw(text: string, ctxOptions?: any, canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D): void;
+    constructor();
+    __draw(text: string, ctxOptions: any, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void;
 }
+export { SimpleTextDrawer };

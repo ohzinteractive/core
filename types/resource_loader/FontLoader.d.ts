@@ -1,7 +1,11 @@
-export class FontLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { FontLoader as TFontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+declare class FontLoader extends AbstractLoader {
     loader: TFontLoader;
-    on_preloaded_finished(resource_container: any): void;
+    resource_id: string;
+    url: string;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
-import { FontLoader as TFontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+export { FontLoader };

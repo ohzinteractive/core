@@ -1,8 +1,10 @@
-import type { CubeTextureLoader } from "three";
-import { AbstractLoader } from "./AbstractLoader";
-export class CubemapLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, extension: any, size: any);
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+import { CubeTextureLoader } from 'three';
+declare class CubemapLoader extends AbstractLoader {
     loader: CubeTextureLoader;
     urls: string[];
-    on_preloaded_finished(resource_container: any): void;
+    constructor(resource_id: string, url: string, extension: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
+export { CubemapLoader };

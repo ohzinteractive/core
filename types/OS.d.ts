@@ -1,7 +1,11 @@
-export { os as OS };
-declare const os: OS;
 declare class OS {
-    init(): void;
+    is_android: boolean;
+    is_ios: boolean;
+    is_ipad: boolean;
+    is_linux: boolean;
+    is_mac: boolean;
+    is_mobile: boolean;
+    is_windows: boolean;
     operating_systems: {
         ANDROID: string;
         IOS: string;
@@ -9,12 +13,8 @@ declare class OS {
         MAC: string;
         WINDOWS: string;
     };
-    is_mobile: boolean;
-    is_ipad: boolean;
-    is_ios: boolean;
-    is_android: boolean;
-    is_linux: boolean;
-    is_mac: boolean;
-    is_windows: boolean;
+    init(): void;
     get_os(): string;
 }
+declare const os: OS;
+export { os as OS };

@@ -1,6 +1,8 @@
-export class Validation {
-    static is_int(n: any): boolean;
-    static is_float(n: any): boolean;
-    static is_number(n: any): boolean;
-    static is_json(str: any): boolean;
+declare class Validation {
+    constructor();
+    static is_int(n: number): boolean;
+    static is_float(n: number): boolean;
+    static is_number(n: number): boolean;
+    static is_json(str: string): boolean;
 }
+export { Validation };

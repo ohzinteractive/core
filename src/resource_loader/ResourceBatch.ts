@@ -1,5 +1,5 @@
-import type { AbstractLoader } from '../../types/index';
-import { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import type { AbstractLoader, LoaderResourceContainer } from './AbstractLoader';
+import { ResourceContainer } from '../ResourceContainer';
 
 class ResourceBatch
 {
@@ -17,7 +17,7 @@ class ResourceBatch
     this.resource_loaders.push(loader);
   }
 
-  load(resource_container?: ResourceContainer)
+  load(resource_container?: LoaderResourceContainer)
   {
     for (let i = 0; i < this.resource_loaders.length; i++)
     {

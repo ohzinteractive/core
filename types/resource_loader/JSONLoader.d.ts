@@ -1,5 +1,9 @@
-export class JSONLoader extends AbstractLoader {
-    constructor(resource_id: any, url: any, size: any);
-    on_preloaded_finished(resource_container: any): void;
+import type { ResourceContainer } from '../loaders/assets_loader/ResourceContainer';
+import { AbstractLoader } from './AbstractLoader';
+declare class JSONLoader extends AbstractLoader {
+    resource_id: string;
+    url: string;
+    constructor(resource_id: string, url: string, size: number);
+    on_preloaded_finished(resource_container: ResourceContainer): void;
 }
-import { AbstractLoader } from "./AbstractLoader";
+export { JSONLoader };

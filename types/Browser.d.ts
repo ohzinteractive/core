@@ -1,12 +1,10 @@
-export { browser as Browser };
-declare const browser: Browser;
 declare class Browser {
-    init(): Promise<void>;
-    browser_name: string;
     agent: string;
+    browser_name: string;
     has_web_xr_support: boolean;
     is_vr: boolean;
     version: number;
+    init(): Promise<void>;
     get name(): string;
     get is_safari(): boolean;
     get is_chrome(): boolean;
@@ -18,3 +16,5 @@ declare class Browser {
     get preferred_video_extension(): "webm" | "hvec.mp4" | "mp4";
     get_version(): number;
 }
+declare const browser: Browser;
+export { browser as Browser };
