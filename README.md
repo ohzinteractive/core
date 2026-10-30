@@ -19,6 +19,25 @@ This library is a complement of [three.js](https://github.com/mrdoob/three.js) a
 
 The library also includes a collection of ready-to-use materials, loaders, primitives, canvas drawing utilities, and more.
 
+## Documentation
+
+- [AbstractScene](docs/AbstractScene.md) — Three.js `Scene` with two-phase asset loading, render hooks, and disposal.
+- [CameraManager](docs/CameraManager.md) — Holds the active cameras used by the rendering pipeline.
+- [Debug](docs/Debug.md) — Debug drawing layer for the 3D scene and a 2D canvas overlay.
+- [Graphics](docs/Graphics.md) — Renderer wrapper: render modes, blitting, depth/normals, resize, and screenshots.
+- [Initializer](docs/Initializer.md) — Bootstraps the core singletons at startup and tears them down.
+- [KeyboardInput](docs/KeyboardInput.md) — Per-key pressed, down, and released state.
+- [OrthographicCamera](docs/OrthographicCamera.md) — Three.js `OrthographicCamera` with per-camera clear color and alpha.
+- [OS](docs/OS.md) — Operating system and device type detection.
+- [OScreen](docs/OScreen.md) — Canvas size, position, DPR, and coordinate conversions.
+- [PerspectiveCamera](docs/PerspectiveCamera.md) — Three.js `PerspectiveCamera` with per-camera clear color and alpha.
+- [RenderLayers](docs/RenderLayers.md) — Named layer indices for selective rendering passes.
+- [RenderLoop](docs/RenderLoop.md) — The main frame loop and its lifecycle.
+- [RenderModes](docs/RenderModes.md) — `BaseRender` and the built-in render modes: normal, bloom, SSAO, deferred, VR, and debug normals.
+- [ResourceContainer](docs/ResourceContainer.md) — Asset registry with URL deduplication.
+- [SceneManager](docs/SceneManager.md) — The active scene and scene disposal.
+- [Time](docs/Time.md) — Delta, elapsed, smoothed, and fixed-step timing.
+
 
 ## License
 

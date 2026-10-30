@@ -163,17 +163,32 @@ const pixels = await Graphics.readback_RT(renderTarget);
 
 ## Render Modes
 
-Render modes are classes extending `BaseRender` that control how the scene is drawn each frame. Switch between them via `Graphics.set_state()`.
+Render modes are classes extending `BaseRender` that control how the scene is drawn each frame. Switch between them via `Graphics.set_state()`, which calls `on_exit(Graphics, renderer)` on the old mode and `on_enter(Graphics, renderer)` on the new one. Until then `Graphics.current_render_mode` is `Graphics.no_render`, a plain `BaseRender` that draws nothing.
+
+`BaseRender` hooks (all empty in the base class):
+
+| Method | Called by |
+|--------|-----------|
+| `render()` | `Graphics.update()` each frame when `CameraManager.current` is set, and `Graphics.take_screenshot()` once per tile |
+| `on_enter(context, renderer)` / `on_exit(context, renderer)` | `Graphics.set_state()`. `context` is `Graphics` |
+| `dispose()` | `Graphics.dispose()`, on the active mode only. No built-in mode overrides it |
+| `resize()` | Nothing in core. Modes resize their render targets at the start of `render()` to match `OScreen` |
 
 Available render modes:
 
 | Class | Description |
 |-------|-------------|
-| `NormalRender` | Standard clear → render pipeline |
-| `UnrealBloomRender` | Bloom post-processing |
-| `NormalAORender` | Normal + AO pass. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
-| `VRRender` | WebXR stereo rendering |
-| `DebugNormalsRender` | Visualize scene normals |
+| `NormalRender` | Standard clear → render pipeline. Calls the scene's `on_pre_render()`, `render()` and `on_post_render()` |
+| `BloomRender` | Box blur bloom. `new BloomRender(use_dual_filtering = false)`: `true` blurs with `DualFilteringBlurrer` for a much wider glow. Builds its targets in `on_enter()` and frees them in `on_exit()` |
+| `UnrealBloomRender` | Unreal-style bloom: five Gaussian mips summed with per-mip tints, added over the scene. `new UnrealBloomRender(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)`: the first three are required. Tune with `set_bloom_strength()`, `set_bloom_radius()`, `set_luminosity_threshold()` (only with the high pass) and `set_tint_color_0()`…`set_tint_color_4()` |
+| `NormalAORender` | Normal + AO pass. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: `use_ssaa` renders the scene at 2×; turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
+| `DeferredRender` | Deferred point lights over `Graphics.depth_normals_RT`. The constructor fills `scene_lights` with a 2×2 grid of demo lights; edit it to place your own |
+| `VRRender` | For WebXR (`core_attributes.xr_enabled: true`). Three's XR manager renders the stereo views; the mode does not clear, and `render_spectator_camera()` mirrors the headset view to the canvas when `CameraManager.spectator` is set |
+| `DebugNormalsRender` | Visualize world-space normals with a `NormalMaterial` override |
+
+Only `NormalRender` and `VRRender` run the scene's render hooks. The other modes call `Graphics.render(SceneManager.current, ...)` directly, so `on_pre_render()` and `on_post_render()` overrides do not run under them.
+
+`NormalAORender` and `DeferredRender` set `Graphics.generate_depth_normal_texture = true` in `on_enter()` and never reset it. Set it back to `false` when switching to a mode that does not need the depth and normals pass.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 

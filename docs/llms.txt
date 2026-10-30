@@ -102,19 +102,19 @@ loop.start();
 
 ### Rendering Pipeline
 
-`Graphics` supports multiple render modes via `Graphics.set_state()`:
+`Graphics` supports multiple render modes via `Graphics.set_state()`, which calls `on_exit()` on the old mode and `on_enter()` on the new one:
 
 | Render Mode | Description |
 |---|---|
 | `NormalRender` | Standard forward rendering |
-| `UnrealBloomRender` | Forward rendering with Unreal-style bloom post-processing |
+| `UnrealBloomRender` | Forward rendering with Unreal-style bloom: five Gaussian blur mips, an optional luminosity high pass, and per-mip tints. `new UnrealBloomRender(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)`: the first three are required |
 | `NormalAORender` | Forward rendering with SSAO. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
 | `BloomRender` | Basic bloom rendering. `new BloomRender(true)` blurs with `DualFilteringBlurrer` instead of the box blur, for a much wider glow |
-| `DeferredRender` | Deferred rendering pipeline |
-| `VRRender` | WebXR stereo rendering |
-| `DebugNormalsRender` | Visualizes surface normals |
+| `DeferredRender` | Deferred point lights over the depth and normals buffer. Starts with a 2×2 grid of demo lights in `scene_lights` |
+| `VRRender` | For WebXR (`xr_enabled`). Three's XR manager renders the stereo views; the mode mirrors the headset view to the canvas through `CameraManager.spectator` |
+| `DebugNormalsRender` | Visualizes world-space surface normals |
 
-All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`.
+All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`. Only `NormalRender` and `VRRender` call the scene's `on_pre_render()`, `render()` and `on_post_render()` hooks; the others render `SceneManager.current` directly. `NormalAORender` and `DeferredRender` turn on `Graphics.generate_depth_normal_texture` and never turn it off.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 
