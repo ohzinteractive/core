@@ -415,18 +415,33 @@ class AddTextureMaterial extends BlitNodeMaterial
 
 `AddMaterial`, `BlitNodeMaterial`, `UnrealBloomComposeMaterial`, `DualFilteringBlurMaterial` — ready-to-use post-processing materials.
 
+| Material | Description |
+|----------|-------------|
+| `BlitNodeMaterial` | Base of every full screen pass. Outputs `_MainTex` unchanged; depth test, depth write and blending are off. `sample_main_tex(offset?)`, `sample(texture_node, offset?)`, `uv_for()` and `texture_uv_at()` flip render targets so both kinds of texture come out upright |
+| `AddMaterial` | `_MainTex + _SecondTex`, alpha included. `set_add_texture(tex)`, then `Graphics.blit(src, dst, add_mat)`. `new AddMaterial(use_half_float = false)`: the flag is ignored |
+| `UnrealBloomComposeMaterial` | `new UnrealBloomComposeMaterial(nMips, use_linear_color_space = false)` (the flag is ignored). Sums `blurTexture1..N`, each times its tint and `mix(f, 1.2 - f, bloomRadius)` with `f = [1.0, 0.8, 0.6, 0.4, 0.2]`, times `bloomStrength`. Reads no `_MainTex`, so run it with `Graphics.material_pass()`. `set_blur_texture_0()`…`_4()`, `set_tint_color_0()`…`_4()`, `set_bloom_strength()`, `set_bloom_radius()` (both default `1`); the numbered setters assume five mips |
+| `DualFilteringBlurMaterial` | `new DualFilteringBlurMaterial(upsample)`: one dual filtering pass, 5 taps down or 8 taps up, offsets in half source texels from `_Resolution`, so drive it with `Graphics.blit()` |
+
 ---
 
 ## Render Utilities
 
+None of the blurrers is a singleton. `Blurrer` and `DualFilteringBlurrer` blur in place and have `dispose()`. `GaussianBlurrer` writes its five mips (each at half the previous size, kernel radii `[3, 5, 7, 9, 11]`) to `renderTargetsVertical`, tunes with `set_radius()` and `set_luminosity_threshold()` (default `0.23`), and frees with `dispose_RT()` and `dispose_materials()`. `Blurrer` and `DualFilteringBlurrer` use 8-bit `RenderTarget` defaults for their internal targets.
+
 ```ts
+// 9 tap separable blur at the input's size, in place
+const box = new Blurrer();
+box.blur(render_target);
+
 // Dual-filter blur (efficient, large radius), in place
 const blurrer = new DualFilteringBlurrer();
 blurrer.blur(render_target);
 
-// Gaussian blur
+// Gaussian blur: five mips, optional luminosity high pass, RT left unchanged
 const gaussian = new GaussianBlurrer();
-gaussian.blur(srcRT, dstRT, radius);
+gaussian.set_radius(1.5);
+gaussian.blur(render_target, true);
+const widest_mip = gaussian.renderTargetsVertical[4].texture;
 
 // Depth + normals G-buffer
 Graphics.generate_depth_normal_texture = true;

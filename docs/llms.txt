@@ -160,11 +160,13 @@ Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `D
 
 | Utility | Purpose |
 |---|---|
-| `GaussianBlurrer` | Multi-pass Gaussian blur on render targets |
+| `GaussianBlurrer` | Multi-pass Gaussian blur on render targets. `blur(RT, use_luminosity_high_pass)` leaves `RT` unchanged and writes five mips, each at half the previous size, to `renderTargetsVertical`. Behind `UnrealBloomRender` |
 | `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality). `blur(render_target)` blurs in place, down to a sixteenth of the input and back. Its taps rely on linear filtering, which render targets have by default. Runs on `WebGPURenderer` |
-| `Blurrer` | Generic blur interface |
+| `Blurrer` | 9 tap separable blur at the input's size. `blur(render_target)` blurs in place |
 | `DepthAndNormalsRenderer` | Generates depth/normal textures for SSAO and effects |
 | `Blitter` | Copies render targets with optional material passes |
+
+Post-processing materials: `BlitNodeMaterial` (base of every full screen pass; `Graphics.blit()` sets its `_MainTex`, `_Resolution` and `_TargetResolution`), `AddMaterial` (`_MainTex + _SecondTex`), `UnrealBloomComposeMaterial` (sums tinted blur mips; run with `Graphics.material_pass()`) and `DualFilteringBlurMaterial`.
 
 ### Components
 
