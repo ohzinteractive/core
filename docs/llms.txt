@@ -197,7 +197,10 @@ Renderable components in `src/components/`:
 | `ApplicationView` | Base class for application views; registers itself and its enter transition data, sets its opacity from `<name>_opacity` |
 | `TransitionManager` | Manages animated transitions between states; owns the state data (`current_state_data`, `set_default_state_data`) |
 | `TransitionTable` | Holds each view's transition data and builds the `ActionSequencer` for a transition (exact `from`/`to` entry first, else the one with only `to`) |
-| `ActionSequencer` | Event sequencing with time-based interpolators |
+| `ActionSequencer` | Timeline over a context object: one channel of keyframes per key (`add_action_interpolator`), plus `ActionEvent`s at set times; `update(dt)` writes the values |
+| `NumberInterpolator` / `VectorInterpolator` | Keyframe interpolators extending `ActionInterpolator`, eased by an `EasingFunctions` name. Only `NumberInterpolator` has the `evaluate()` the sequencer calls |
+| `ActionEvent` | Calls `window.ViewApi.application[name][method](...args.split(','))` when the sequencer passes its time |
+| `ActionSequencerBuilder` / `DrawIOAnimationSheet` | Build an `ActionSequencer` from transition data (adding tracks that return untouched keys to their defaults) or from a draw.io timeline |
 
 ### Primitives
 

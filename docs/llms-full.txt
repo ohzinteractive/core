@@ -603,6 +603,16 @@ if (seq.is_finished()) { /* done */ }
 
 Also: `play()`, `stop()`, `reset()`, `skip()`, `get_progress()` (0–1), `set_progress(seconds)`, `set_normalized_progress(t)`. `VectorInterpolator` has no `evaluate()`, so the sequencer can't play it.
 
+- `add_action_interpolator(from, to, interpolator, true)` starts the keyframe from the previous keyframe's end value (or the key's initial value). Add a channel's keyframes in time order.
+- `update()` writes values at the previous frame's time, so they trail by one frame; call `update()` once more after `is_finished()` to land on the final values. `skip()` jumps to the end without firing the events it passes.
+- Per channel queries on the current keyframe: `get_current_starting_value(name)`, `get_current_target_value(name)`, `get_current_progress(name)` (eased), `is_channel_redefined(name)` (no default return track). `set_initial_value_on_channel()` / `set_final_value_on_channel()` override the first start and last end values.
+- Easing names are `EasingFunctions` methods (`'linear'`, `'ease_in_out_cubic'`, ...). An unknown name throws when played.
+- `ActionEvent` args are a comma separated string and every argument arrives as a string. `trigger()` throws without `args`.
+
+`new ActionSequencerBuilder(default_state_data).from_animation_sheet(data, context)` is how `TransitionTable` builds transitions: one `NumberInterpolator` per track starting from the current value, one `ActionEvent` per trigger, plus tracks returning untouched default keys to their defaults. It pushes those tracks into `data.animation_tracks`. `from_draw_io(xml, context)` reads a draw.io timeline through `DrawIOAnimationSheet.parse(xml)` (100 px = 1 s; rectangles labelled `key=value--easing` are tracks, rhombi labelled `name.method` are triggers, without args).
+
+See `docs/ActionSequencer.md` for the full API.
+
 ---
 
 ## View / UI System
