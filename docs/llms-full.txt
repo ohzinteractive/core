@@ -26,9 +26,9 @@ import { Graphics, RenderLoop, Time, OScreen, SceneManager, CameraManager, BaseA
 
 ### Singletons vs Instantiable Classes
 
-Many core systems are **singletons** — exported as a single shared instance, created when the module loads. `Initializer.init()` initializes most of them once at startup. `Graphics` needs its own `Graphics.init()` (see below), and `TransitionManager`, `ViewManager` and `ViewComponentManager` need no init.
+Many core systems are **singletons** — exported as a single shared instance, created when the module loads. `Initializer.init()` initializes most of them once at startup. `Graphics` needs its own `Graphics.init()` (see below), and `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler` and `ModelUtilities` need no init.
 
-Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`.
+Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler`, `ModelUtilities`.
 
 Instantiable: `BaseApplication`, `PerspectiveCamera`, `OrthographicCamera`, `KeyboardInput`, `RenderLoop`, `AbstractScene` (subclasses), and all materials, loaders, components, etc.
 
@@ -701,6 +701,38 @@ Times are in seconds (scaled by the `?transitions_velocity=` URL parameter). Def
 UI outside the views (modals, overlays): `new ViewComponent({ name, container })` registers with `ViewComponentManager`. When `<name>_opacity` rises above 0.001 it calls `on_enter()` (removes `hidden`), and when it drops back it calls `on_exit()` (adds `hidden`). In between, `ViewComponentManager` calls `update(state_data)` every frame. `ViewComponentManager.get(name)` finds one; `get_component_by_name()` is deprecated and returns nothing.
 
 See `docs/Views.md` for the full API.
+
+---
+
+## Utilities
+
+Static helpers, except `MeshSampler` and `ModelUtilities` (singleton instances) and `TimeUtilities` / `CSSAnimator` (instantiate them).
+
+```ts
+OMath.lerp(a, b, t);
+OMath.linear_map(value, 0, 1, -1, 1);   // not clamped
+OMath.pingpong(t);                       // 0 → 1 → 0 as t grows
+EasingFunctions.ease_in_out_cubic(t);    // method names double as easing strings in transition data
+
+ModelUtilities.get_object(gltf.scene, 'Body');                    // last match by name
+ModelUtilities.assign_material(gltf.scene, material, undefined);  // undefined name = every mesh
+const copy = ModelUtilities.clone_animated_gltf(gltf);            // { animations, scene } with its own skeletons
+
+const { points, normals, uvs } = MeshSampler.sample(mesh.geometry, 500);
+
+HTMLUtilities.load_images(container);    // data-src → src for <img> and <object>
+
+const fade = new CSSAnimator({ element, css_property: 'opacity', duration: 0.5 });
+fade.animate();
+fade.update();                           // every frame; advances by Time.delta_time
+```
+
+- `MeshSampler.sample` needs an indexed geometry, and it never returns if a triangle has zero area.
+- `ModelUtilities.get_mesh` and `get_geometries` replace each mesh's geometry with a clone.
+- `CSSAnimator` finishes when the clamped eased value reaches 0.9999, not when `duration` runs out: overshooting curves (`ease_out_back`, `ease_out_elastic`) end early, and `ease_in_circ`, `ease_in_bounce` and `triangular` can never finish.
+- `Validation.is_number(Infinity)` is `true`, and numeric strings are not numbers.
+
+See `docs/Utilities.md` for the full API.
 
 ---
 

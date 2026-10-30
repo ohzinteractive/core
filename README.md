@@ -41,6 +41,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 - [ResourceContainer](docs/ResourceContainer.md) — Asset registry with URL deduplication.
 - [SceneManager](docs/SceneManager.md) — The active scene and scene disposal.
 - [Time](docs/Time.md) — Delta, elapsed, smoothed, and fixed-step timing.
+- [Utilities](docs/Utilities.md) — Math, easing curves, mesh sampling, model, array, object, string and validation helpers, DOM lazy loading, and `CSSAnimator`.
 - [Views](docs/Views.md) — `ApplicationView`, `ViewManager`, `ViewComponent`, and the state data transitions between views.
 
 

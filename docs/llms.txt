@@ -210,20 +210,23 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 
 | Utility | Purpose |
 |---|---|
-| `OMath` | Extended math functions (lerp, clamp, map, etc.) |
-| `EasingFunctions` | Standard easing curves for animation |
+| `OMath` | Extended math functions (lerp, clamp, `linear_map`, pingpong, angles, centroid, `matrix4_lerp`, random color, UUID) |
+| `EasingFunctions` | Standard easing curves for animation. Their names are the easing strings in transition data |
 | `CameraUtilities` | Camera positioning, fitting, projection helpers |
 | `FrustumPointFitter` | Fits points within camera frustum |
-| `GeometryUtilities` | Geometry manipulation helpers |
-| `MeshSampler` | Random point sampling on mesh surfaces |
-| `ModelUtilities` | GLTF model processing helpers |
-| `ArrayUtilities` | Array manipulation helpers |
-| `StringUtilities` | String helpers |
-| `TimeUtilities` | Time formatting helpers |
-| `ImageUtilities` | Image processing helpers |
-| `HTMLUtilities` | DOM manipulation helpers |
-| `ObjectUtilities` | Object/map helpers |
-| `Validation` | Input validation |
+| `GeometryUtilities` | Non-indexed copy of a geometry with a `barycentric` attribute (used by `Grid`) |
+| `MeshSampler` | Random point sampling on mesh surfaces, area weighted, with normals, tangents and UVs. Indexed geometry only |
+| `ModelUtilities` | GLTF model processing helpers: find objects, assign materials, shadow flags, clone a skinned GLTF |
+| `ArrayUtilities` | Array manipulation helpers (in place) |
+| `StringUtilities` | String helpers (capitalize, snake to camelCase, random color) |
+| `TimeUtilities` | Parses `'hh:mm:ss'` time strings into milliseconds (`time_str_to_ms`, an instance method) |
+| `ImageUtilities` | Reads an image's pixels on the CPU (`get_image_data`, `get_pixel`) |
+| `HTMLUtilities` | Lazy loading: copies `data-src` into `src` inside a container |
+| `ObjectUtilities` | Object helpers (`merge_deep`, `xml_to_json`) |
+| `Validation` | Number and JSON checks (`is_int`, `is_float`, `is_number`, `is_json`) |
+| `CSSAnimator` | Tweens one CSS property with an easing; call `update()` every frame. Ends when the eased value reaches 1, so some easings end early or never |
+
+`MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities` and `CSSAnimator` are instantiated, and the rest only have static methods.
 
 ### Camera Controller
 
