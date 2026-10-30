@@ -34,7 +34,7 @@ OHZI Core gives you:
 
 ### Core Singletons
 
-These are instantiated once at module level and exported by name. They are initialized by `Initializer.init()`:
+These are instantiated once at module level and exported by name. `Initializer.init()` initializes all of them except `Graphics`, which needs its own `Graphics.init()`:
 
 | Singleton | Purpose |
 |---|---|
@@ -58,9 +58,12 @@ Time.__update()
 on_post_start()        ← second frame only
 input.update()
 before_update()
-fixed_update()         ← runs in a loop at fixed 1/30s timestep
+TransitionManager.before_update()
+fixed_update()         ← runs in a loop at fixed 1/30s timestep, each step followed by TransitionManager.fixed_update()
 update()
+TransitionManager.update()
 ViewManager.update()
+ViewComponentManager.update()
 on_pre_render()
 Graphics.update()      ← renders the scene via the active render mode
 on_post_render()
@@ -188,12 +191,12 @@ Renderable components in `src/components/`:
 
 | Class | Purpose |
 |---|---|
-| `ViewManager` | Manages application views/screens |
-| `ViewComponent` | Base class for UI view components |
-| `ViewComponentManager` | Manages view component lifecycle |
-| `ApplicationView` | Base class for application views |
-| `TransitionManager` | Manages animated transitions between states |
-| `TransitionTable` | Defines valid transitions |
+| `ViewManager` | Manages application views/screens: `go_to_view(name, change_url?, skip?)`, `get`, `get_by_url`; keeps the URL and title in sync |
+| `ViewComponent` | Base class for UI view components, shown and hidden by its `<name>_opacity` state key |
+| `ViewComponentManager` | Manages view component lifecycle; updates the visible components each frame |
+| `ApplicationView` | Base class for application views; registers itself and its enter transition data, sets its opacity from `<name>_opacity` |
+| `TransitionManager` | Manages animated transitions between states; owns the state data (`current_state_data`, `set_default_state_data`) |
+| `TransitionTable` | Holds each view's transition data and builds the `ActionSequencer` for a transition (exact `from`/`to` entry first, else the one with only `to`) |
 | `ActionSequencer` | Event sequencing with time-based interpolators |
 
 ### Primitives

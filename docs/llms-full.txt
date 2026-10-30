@@ -26,7 +26,7 @@ import { Graphics, RenderLoop, Time, OScreen, SceneManager, CameraManager, BaseA
 
 ### Singletons vs Instantiable Classes
 
-Many core systems are **singletons** — exported as a single shared instance. They must be initialized once at startup via `Initializer.init()`.
+Many core systems are **singletons** — exported as a single shared instance, created when the module loads. `Initializer.init()` initializes most of them once at startup. `Graphics` needs its own `Graphics.init()` (see below), and `TransitionManager`, `ViewManager` and `ViewComponentManager` need no init.
 
 Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`.
 
@@ -583,19 +583,78 @@ Capabilities.supports_webgpu
 
 Event sequencing with interpolators — useful for scripted animations and transitions.
 
+An `ActionSequencer` animates the keys of a context object. It makes one channel per key, and every key needs at least one interpolator. Times are in seconds.
+
 ```ts
-const seq = new ActionSequencer();
-seq.add(new ActionEvent(() => { /* instant action */ }));
-seq.add(new NumberInterpolator(fromVal, toVal, duration, (v) => { obj.position.x = v; }));
-seq.add(new VectorInterpolator(fromVec, toVec, duration, (v) => { obj.position.copy(v); }));
-seq.play();
+const state = { fade: 0, height: 0 };
+const seq = new ActionSequencer(state);
+
+// add_action_interpolator(from_time, to_time, interpolator)
+seq.add_action_interpolator(0, 1, new NumberInterpolator('fade', 0, 1, false, 'ease_in_out_cubic'));
+seq.add_action_interpolator(0.5, 2, new NumberInterpolator('height', 0, 2));
+
+// Calls window.ViewApi.application.home_view.play_intro('fast') at 1s
+seq.add_action_event(1, new ActionEvent('home_view', 'play_intro', 'fast'));
+
+// Each frame
+seq.update(Time.delta_time); // writes state.fade and state.height
+if (seq.is_finished()) { /* done */ }
 ```
+
+Also: `play()`, `stop()`, `reset()`, `skip()`, `get_progress()` (0–1), `set_progress(seconds)`, `set_normalized_progress(t)`. `VectorInterpolator` has no `evaluate()`, so the sequencer can't play it.
 
 ---
 
 ## View / UI System
 
 `ViewManager`, `ViewComponentManager`, and `ApplicationView` provide a UI layer abstraction above Three.js, with transition animations driven by `TransitionManager`. These are wired into the `RenderLoop` automatically and updated each frame.
+
+`ViewManager`, `ViewComponentManager` and `TransitionManager` are created when the module loads; `Initializer` does not touch them. `TransitionTable` lives in `TransitionManager.transition_table`.
+
+### State data
+
+`TransitionManager.current_state_data` is a flat object of numbers. Every frame, each view and view component copies its `<name>_opacity` key into its container's `style.opacity`. Set the defaults once at startup with `TransitionManager.set_default_state_data({ home_opacity: 0, ... })`. Every key a transition animates, or that you write, must be in them, or the next transition throws.
+
+### ApplicationView
+
+Extend it per page: `super({ name, url, container, transition_data? })`. The constructor registers the view with `ViewManager` and adds `{ to: name, data: transition_data }` to the transition table. Hooks:
+
+- `before_enter()` / `before_exit()`: the transition starts. `on_enter()` / `on_exit()`: it ends (`on_exit()` also runs when another `go_to_view` interrupts it). The base class toggles the `before_enter`, `before_exit` and `hidden` classes on `container`, so call `super`.
+- `update_enter_transition(state_data, progress, action_sequencer)` / `update_exit_transition(...)`: every frame of the transition, `progress` 0–1.
+- `update()`: every frame while current and not transitioning. `before_update()` / `fixed_update()` run even during transitions.
+- `start()`: never called by core; the app calls it.
+
+### Navigation
+
+```ts
+ViewManager.go_to_view('about');              // change_url = true: pushState(url), title "ABOUT | <suffix>"
+ViewManager.go_to_view('home', false, true);  // no URL change, skip the animation
+ViewManager.go_to_scene('about');             // through the view named 'transition' (needs set_next_view(view))
+ViewManager.set_view('home');                 // make current, no transition, no hooks
+```
+
+Also: `get(name)`, `get_by_url(url)`, `has_view(name)`, `get_current_view()`, `set_browser_title_suffix(suffix)`. `get()` returns `undefined` for an unknown name, and `go_to_view()` then throws. `get_view_by_name()` is deprecated and returns nothing.
+
+### Transition data
+
+`TransitionTable.get(from, to, context)` uses the entry matching both names, else the one with that `to` and no `from`, and builds an `ActionSequencer` over the state data. Add pair specific entries with `TransitionManager.add_transitions([{ from: 'home', to: 'about', data }])`; `set_transitions()` replaces the table, including the entries the views registered.
+
+```json
+{
+  "animation_tracks": [
+    { "attribute_name": "home_opacity", "from_time": 0, "to_time": 1, "to_value": 1, "easing_function": "ease_in_out_cubic" }
+  ],
+  "triggers": [{ "at_time": 0.5, "name": "home_view", "method": "play_intro", "args": "fast" }]
+}
+```
+
+Times are in seconds (scaled by the `?transitions_velocity=` URL parameter). Default keys the data does not animate return to their default value over `min(longest track, 1)` seconds, so entering a view fades the other `*_opacity` keys out on their own. Triggers call `window.ViewApi.application[name][method](...args.split(','))`, and `args` is required.
+
+### ViewComponent
+
+UI outside the views (modals, overlays): `new ViewComponent({ name, container })` registers with `ViewComponentManager`. When `<name>_opacity` rises above 0.001 it calls `on_enter()` (removes `hidden`), and when it drops back it calls `on_exit()` (adds `hidden`). In between, `ViewComponentManager` calls `update(state_data)` every frame. `ViewComponentManager.get(name)` finds one; `get_component_by_name()` is deprecated and returns nothing.
+
+See `docs/Views.md` for the full API.
 
 ---
 
