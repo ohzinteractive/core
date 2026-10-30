@@ -22,6 +22,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 ## Documentation
 
 - [AbstractScene](docs/AbstractScene.md) — Three.js `Scene` with two-phase asset loading, render hooks, and disposal.
+- [AssetLoading](docs/AssetLoading.md) — `AbstractLoader`, the 17 resource loaders, `ResourceBatch`, and the worker based async loaders.
 - [CameraManager](docs/CameraManager.md) — Holds the active cameras used by the rendering pipeline.
 - [Debug](docs/Debug.md) — Debug drawing layer for the 3D scene and a 2D canvas overlay.
 - [Graphics](docs/Graphics.md) — Renderer wrapper: render modes, blitting, depth/normals, resize, and screenshots.

@@ -326,7 +326,7 @@ class MyScene extends AbstractScene
 }
 ```
 
-**Loading flow:** `scene.load()` → loaders run in a web worker → `on_assets_ready()` → compilators run (spread across frames) → `on_assets_compiled()` → high-quality load starts → `on_high_quality_assets_ready()`.
+**Loading flow:** `scene.load()` → a shared web worker downloads the assets and the main thread decodes them → `on_assets_ready()` → compilators run (spread across frames) → `on_assets_compiled()` → high-quality load starts → `on_high_quality_assets_ready()`.
 
 **State flags:**
 
@@ -340,7 +340,7 @@ class MyScene extends AbstractScene
 
 ## ResourceContainer
 
-Singleton asset cache. Prevents duplicate loading of the same URL.
+Singleton asset cache. A resource stored for a URL is reused by later loads of that URL, but two loads of one URL that start before either finishes both download.
 
 ```ts
 // Write (done automatically by loaders)
@@ -358,11 +358,36 @@ Two different names pointing to the same URL resolve to the same object instance
 
 ### Batch async loaders (used by AbstractScene)
 
-`AsyncObjectsLoader`, `AsyncTexturesLoader`, `AsyncAudiosLoader` — load arrays of asset descriptors in a shared web worker.
+`AsyncObjectsLoader`, `AsyncTexturesLoader`, `AsyncAudiosLoader` — load arrays of asset descriptors. A shared web worker downloads them.
+
+They extend `AsyncAbstractLoader(name, assets, worker)`. The worker comes from `AsyncAbstractLoader.create_worker()` and is stored as `ResourceContainer.set_resource('assets_worker', ...)`; `LoadingState` passes the scene name as `name`. The worker only downloads each asset into a blob URL. The main thread then decodes it with the resource loaders that `__setup_loaders()` returns. `load()` loads every loader that shares a `name`; poll `is_loaded()` and `get_progress()`.
+
+| Class | Descriptor fields (plus `name`, `url`, `size`) | Creates |
+|-------|-----------------------------------------------|---------|
+| `AsyncObjectsLoader` | `draco` | `GLTFDRACOLoader` (with `ResourceContainer.get('draco_loader')`) or `GLTFLoader` |
+| `AsyncTexturesLoader` | `kind`: `'regular'`, `'basis'`, `'hdr'`, `'cubemap'`, `'cubemap_hdr'`; `flipY`, `premultiplyAlpha`, `colorSpaceConversion`, `extension` | The matching texture loader. Other kinds are skipped |
+| `AsyncAudiosLoader` | `loop`, `volume` (defaults to 0), `positional` | `AudioLoader` |
+
+The worker doesn't report download progress, and a failed download means `is_loaded()` never returns `true`. `TextureLoader` and `VideoLoader` need the fetch response, so they can't be used inside an async loader.
+
+### ResourceBatch
+
+Runs loaders on the main thread, for example in the preloader:
+
+```ts
+const batch = new ResourceBatch('general_loader');
+batch.add_loader(new JSONLoader('config', '/data/config.json', 2000));
+batch.load(); // defaults to the ResourceContainer singleton
+
+// Poll each frame
+if (batch.loading_finished && !batch.has_errors) { const config = ResourceContainer.get('config'); }
+```
+
+Also: `get_progress()` (0–1), `get_loaded_bytes()`, `get_total_bytes()`, `print_errors()`.
 
 ### Individual loaders
 
-All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
+All extend `AbstractLoader`. Construct one with `(resource_id, url, ..., size)`, call `load(resource_container)` (it returns nothing), then poll `has_finished` / `has_error`:
 
 | Loader | Asset type |
 |--------|-----------|
@@ -373,16 +398,16 @@ All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
 | `HDRTextureLoader` | `.hdr` equirectangular |
 | `HDRCubeTextureLoader` | HDR cubemaps |
 | `CubemapLoader` | Regular cubemaps |
-| `BasisLoader` | `.basis` compressed textures |
+| `BasisLoader` | Compressed textures through the loader passed in (the boilerplate passes a `KTX2Loader`) |
 | `AudioLoader` | Audio files |
 | `FontLoader` | Three.js JSON fonts |
 | `OBJLoader` | `.obj` meshes |
 | `DAELoader` | Collada `.dae` |
-| `VideoLoader` | Video textures |
+| `VideoLoader` | Object URL (`string`) for the video blob, not a texture |
 | `FileLoader` | Raw file fetch |
 | `TextLoader` | Text files |
 | `JSONLoader` | JSON files |
-| `PointArrayLoader` | Point array data |
+| `PointArrayLoader` | Newline separated x, y, z values → `Vector3[]` |
 
 ---
 

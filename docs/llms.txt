@@ -134,21 +134,24 @@ Individual asset loaders (all in `src/resource_loader/`):
 | `GLTFLoader` | .gltf, .glb |
 | `GLTFDRACOLoader` | DRACO-compressed GLTF |
 | `TextureLoader` | .png, .jpg, .webp, etc. |
+| `AsyncTextureLoader` | Images through `createImageBitmap` (`Image` on Safari) |
 | `HDRTextureLoader` | .hdr |
 | `HDRCubeTextureLoader` | HDR cubemaps |
 | `CubemapLoader` | Standard cubemaps |
 | `BasisLoader` | Basis Universal textures |
 | `AudioLoader` | Audio files |
 | `VideoLoader` | Video files |
-| `FontLoader` | Font files |
+| `FontLoader` | three.js typeface JSON fonts |
 | `OBJLoader` | .obj |
 | `DAELoader` | .dae (Collada) |
 | `JSONLoader` | JSON data |
 | `FileLoader` | Raw files |
 | `TextLoader` | Text files |
-| `PointArrayLoader` | Point cloud data |
+| `PointArrayLoader` | Newline separated x, y, z values → `Vector3[]` |
 
-Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`) handle groups of assets. `ResourceContainer` caches by URL to prevent duplicate loads.
+Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`) handle groups of assets. `ResourceContainer` reuses a resource already stored for the same URL, but two loads of one URL that start before either finishes both download.
+
+Each loader is built with `(resource_id, url, ..., size)` and `load(resource_container)` returns nothing: poll `has_finished` / `has_error`. `ResourceBatch` runs a group of loaders on the main thread (`add_loader`, `load`, `loading_finished`, `get_progress`). The async loaders extend `AsyncAbstractLoader`: a shared worker (`AsyncAbstractLoader.create_worker()`, stored as `ResourceContainer` `'assets_worker'`) downloads each asset into a blob URL, and the main thread decodes it.
 
 ### Shader Materials
 
@@ -255,7 +258,7 @@ src/
   raycast/                    Ray intersection utilities
   render_mode/                Rendering strategies
   render_utilities/           Post-processing (blur, depth, blit)
-  resource_loader/            17 individual asset loaders
+  resource_loader/            17 exported asset loaders (DDSLoader, SVGLoader unexported)
   scenes/                     AbstractScene and loading states
   shaders/                    Shared TSL shader nodes (grid)
   utilities/                  Math, easing, geometry, camera helpers
