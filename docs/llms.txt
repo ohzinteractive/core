@@ -227,7 +227,13 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 
 ### Camera Controller
 
-`CameraController` provides interactive camera control with pluggable movement modes (`CameraMovementMode`, `ImmediateMode`) and state machines (`AbstractCameraState`, `CommonCameraState`).
+`CameraController` is an orbital rig: a target (`reference_position`), a rotation from tilt and orientation in degrees, and a distance (`reference_zoom`). Each `update()` (called by the scene, not automatically) runs the current state (`AbstractCameraState` idle, or a `CommonCameraState` subclass that reads WASD, wheel and mouse drags), then the movement mode (`CameraMovementMode`; the default `ImmediateMode` places the camera on the same frame). It also frames points, boxes and spheres for perspective and orthographic cameras.
+
+| Class | Purpose |
+|-------|---------|
+| `CameraController` | Rotation, translation, zoom and framing; swaps states (`set_state`) and modes (`set_mode`) |
+| `CameraMovementMode` / `ImmediateMode` | Turns the reference values into the camera transform |
+| `AbstractCameraState` / `CommonCameraState` | Reacts to input each frame and edits the reference values |
 
 ## Source Directory Structure
 

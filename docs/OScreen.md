@@ -91,7 +91,7 @@ Each frame:
 OScreen is read throughout the codebase to:
 
 - **Size render targets** — render modes (Bloom, Deferred, SSAO, etc.) create and resize `RenderTarget` objects to match `OScreen.width` / `OScreen.height`.
-- **Configure cameras** — `CameraManager`, `CameraController`, and `CameraUtilities` read `aspect_ratio` to set projection matrices.
+- **Configure cameras** — `Graphics` copies `aspect_ratio` into `CameraManager.current.aspect` and updates its projection matrix, and `CameraUtilities.update_projection()` sizes an orthographic camera from `width` / `height`. `CameraController` reads `aspect_ratio` to frame points with a perspective camera.
 - **Convert coordinates** — `CameraUtilities` uses `width` and `height` to project world positions to screen positions.
 - **Set renderer viewport** — `Graphics` uses `render_width` / `render_height` ("physical pixels") to configure the viewport and canvas buffer size.
 - **Screenshot tiling** — `Graphics.take_screenshot()` temporarily overrides `OScreen` dimensions to render high-resolution captures in tiles, then restores the original size.

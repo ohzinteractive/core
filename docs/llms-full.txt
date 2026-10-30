@@ -283,6 +283,42 @@ CameraManager.current = cam;
 
 ---
 
+## CameraController
+
+Not a singleton — one per scene, usually in `AbstractScene.camera_controller`. An orbital rig around `reference_position`, at `reference_rotation` (from tilt and orientation in degrees: positive tilt looks down, orientation turns counterclockwise about +Y) and `reference_zoom` (a distance, clamped to `[min_zoom, max_zoom]`).
+
+```ts
+class OrbitState extends CommonCameraState
+{
+  update(cc: CameraController)
+  {
+    super.update(cc);            // tracks W/A/S/D, Z/C
+    this.__move_camera(cc);      // keys + right drag pan
+    this.__zoom_camera(cc);      // wheel
+    this.__rotate_camera(cc);    // left drag, with inertia
+  }
+}
+
+const cc = new CameraController(Input);
+cc.set_camera(camera);
+cc.set_state(new OrbitState(Input));
+cc.set_rotation(30, 45);         // tilt, orientation; call before the first update()
+cc.focus_on_bounding_box(box, 0.8);
+
+// Each frame (not called automatically):
+cc.update();                     // state.update → mode.update → update_normalized_zoom
+```
+
+- The default mode is `ImmediateMode`: it copies `reference_rotation` to the camera and places it `reference_zoom` behind `reference_position`. `set_camera()` does not sync `reference_rotation` from the camera.
+- Rotation: `set_rotation(tilt?, orientation?, azimuth?)`, `set_rotation_delta()`, `set_quaternion()`, `lerp_tilt()`, `lerp_orientation()`, `lerp_rotation()`, `lerp_quaternion()`. Azimuth is stored but never applied; `lerp_azimuth()` is empty.
+- Framing: `focus_camera_on_points()`, `focus_on_bounding_box()`, `focus_camera_on_sphere()`; `fit_points()`, `get_zoom_to_focus_on_points()` and `get_target_pos_to_focus_on_points()` compute without applying. Orthographic cameras frame through `camera.zoom`. A scale above 1 frames tighter.
+- `normalized_zoom` is recomputed from the camera distance on every `update()` (1 at `min_zoom`, 0 at `max_zoom`), so `set_normalized_zoom()` does not last.
+- `enable()` / `disable()` only set `input_enabled`; `CommonCameraState` ignores it.
+
+See `docs/CameraController.md` for the full API.
+
+---
+
 ## AbstractScene
 
 Abstract base class for scenes. Extend it to define assets, setup logic, and per-frame hooks. Implements a **two-phase loading pipeline**: regular quality → high quality.
