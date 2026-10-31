@@ -549,12 +549,43 @@ Ready-to-use Three.js `Object3D` subclasses:
 
 | Class | Description |
 |-------|-------------|
-| `Grid` | Infinite ground grid |
+| `Grid` | 100 × 100 unit ground grid on XZ, a line every unit |
 | `Line` | Line through 3D points |
-| `Text2D` | Screen-space 2D text |
-| `WorldImage` | Billboard image in world space |
+| `Text2D` | Canvas text on a `WorldImage` plane in world space |
+| `WorldImage` | Image plane in world space; faces the camera when `screen_aligned` (off by default) |
 | `SDFTextBatch` | GPU-batched SDF text rendering |
 | `UpdatableMaterialMesh` | Mesh with a per-frame material update hook |
+
+```ts
+// Thick polyline (needs 2+ points); a new point count replaces line.geometry
+const line = new Line([new Vector3(0, 0, 0), new Vector3(1, 1, 0)]);
+line.thickness = 0.05;                   // world units, default 0.2
+line.color = '#00ffcc';
+
+// Image plane, 1 unit tall; pivot -1..1, (0, 0) is the center
+const image = new WorldImage(texture, new Vector2(0, -1));
+image.screen_aligned = true;             // faces the camera, still sized in world units
+image.size = new Vector3(2, 2, 2);       // sets the scale; the getter returns world width/height
+image.update_texture();                  // after the texture's image changes
+
+// Canvas text: color is a CSS string, the plane is 1 unit tall at any font size
+const label = new Text2D('Hello', 'bold 48px Arial', '#ffffff', new Vector2());
+label.text = 'Bye';                      // redraws; the getter returns 'not implemented'
+
+// MSDF text: one instanced draw per batch, up to 2000 glyphs
+const batch = new SDFTextBatch(font_layout, atlas_texture); // msdf-atlas-gen JSON, yOrigin: bottom
+const text = batch.add_text('OHZI');     // SDFText; needs at least one drawable glyph
+text.set_position(new Vector3(0, 2, 0)); // the batch's own transform is ignored
+text.set_size(0.5);                      // 1 em = 1 world unit at size 1
+batch.update();                          // every frame, or after any change
+```
+
+- `Line`, `WorldImage`, `Text2D` and `SDFTextBatch` render transparent with `depthWrite` off and ignore scene fog.
+- `WorldImage.dispose()` also disposes its texture and throws when the image has no parent.
+- Assign `SDFText` transforms through its setters; changing `position`, `quaternion` or `scale` directly does not mark it dirty. Its pivot moves the text by half its size per unit, the opposite sign of the `WorldImage` pivot.
+- `UpdatableMaterialMesh` calls `material.update()` in `onBeforeRender` when the material has one; material arrays are skipped.
+
+See `docs/Components.md` for the full API.
 
 ---
 
