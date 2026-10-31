@@ -27,6 +27,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 - [CameraController](docs/CameraController.md) — Orbital camera rig: tilt and orientation, framing, pluggable movement modes and input states.
 - [CameraFitting](docs/CameraFitting.md) — `CameraUtilities` and the frustum point fitters: framing points and boxes, plane picking, and world to screen positions.
 - [CameraManager](docs/CameraManager.md) — Holds the active cameras used by the rendering pipeline.
+- [CanvasDrawer](docs/CanvasDrawer.md) — Offscreen canvas text drawing: the `CanvasDrawer` base class and `SimpleTextDrawer`, as a canvas or a `CanvasTexture`.
 - [Components](docs/Components.md) — Ready-made meshes: `Grid`, `Line`, `WorldImage`, `Text2D`, batched SDF text, and `UpdatableMaterialMesh`.
 - [Debug](docs/Debug.md) — Debug drawing layer for the 3D scene and a 2D canvas overlay.
 - [Graphics](docs/Graphics.md) — Renderer wrapper: render modes, blitting, depth/normals, resize, and screenshots.

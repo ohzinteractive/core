@@ -589,6 +589,32 @@ See `docs/Components.md` for the full API.
 
 ---
 
+## CanvasDrawer
+
+Not singletons — instantiate as needed. `CanvasDrawer` owns an offscreen canvas and leaves the drawing to `__draw()`; `SimpleTextDrawer` draws one line of text on a canvas sized to fit it.
+
+```ts
+const drawer = new SimpleTextDrawer();
+const options = { font: 'bold 48px Arial', font_color: '#ffffff' }; // textAlign defaults to 'center'
+
+const texture = drawer.draw_on_texture('Score: 0', options); // new CanvasTexture over drawer.canvas
+texture.colorSpace = SRGBColorSpace;                         // render the CSS color as given
+texture.needsUpdate = true;
+
+drawer.draw_canvas('Score: 10', options);                    // redraws the same canvas
+texture.needsUpdate = true;
+```
+
+- Every call draws into the same `canvas`, so textures from earlier `draw_on_texture()` calls show the new content after their next upload.
+- `draw_canvas()` writes the `font` (`'24px Arial'`) and `font_color` (`'#000000'`) defaults into the options object you pass.
+- `draw_on_texture()` uses nearest filtering, clamp to edge and no mipmaps, and sets no color space.
+- The font height is measured once and cached unless `uses_dynamic_font` is `true`; `SimpleTextDrawer` takes no constructor arguments, so set the property after construction.
+- `font_color` must be a CSS color string: a number is not a valid canvas color and the text stays black. A `textAlign` other than `'center'` draws at `x = 0`, so `'right'` and `'end'` end up off the canvas.
+
+See `docs/CanvasDrawer.md` for the full API.
+
+---
+
 ## Primitives
 
 ```ts

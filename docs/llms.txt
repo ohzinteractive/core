@@ -228,8 +228,10 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 | `ObjectUtilities` | Object helpers (`merge_deep`, `xml_to_json`) |
 | `Validation` | Number and JSON checks (`is_int`, `is_float`, `is_number`, `is_json`) |
 | `CSSAnimator` | Tweens one CSS property with an easing; call `update()` every frame. Ends when the eased value reaches 1, so some easings end early or never |
+| `CanvasDrawer` | Base class for drawing text into an offscreen canvas (`draw_canvas`, or `draw_on_texture` for a new `CanvasTexture`); subclasses override `__draw` |
+| `SimpleTextDrawer` | One line of text on a transparent canvas sized to fit it (`font`, `font_color`, `textAlign` options). Used by `Text2D` |
 
-`CameraUtilities`, `MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities`, `CSSAnimator` and the three frustum point fitters are instantiated, and the rest only have static methods.
+`CameraUtilities`, `MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities`, `CSSAnimator`, the canvas drawers and the three frustum point fitters are instantiated, and the rest only have static methods. See `docs/CanvasDrawer.md` for the canvas drawers.
 
 ### Camera Controller
 
