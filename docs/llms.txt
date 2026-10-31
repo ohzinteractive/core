@@ -212,8 +212,9 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 |---|---|
 | `OMath` | Extended math functions (lerp, clamp, `linear_map`, pingpong, angles, centroid, `matrix4_lerp`, random color, UUID) |
 | `EasingFunctions` | Standard easing curves for animation. Their names are the easing strings in transition data |
-| `CameraUtilities` | Camera positioning, fitting, projection helpers |
-| `FrustumPointFitter` | Fits points within camera frustum |
+| `CameraUtilities` | Singleton instance. Frames points or a box for the camera's current rotation (`fit_points`, `fit_bounding_box_points`; `zoom` is a distance for perspective and `camera.zoom` for orthographic; it changes nothing), picks the point under the mouse on a plane, and projects world positions to canvas pixels |
+| `PerspectiveFrustumPointFitter` / `OrthographicFrustumPointFitter` | Instantiated. The framing math: the closest camera position that sees every point, and view bounds, zoom and near/far depth fitting for orthographic cameras |
+| `FrustumPointFitter` | Instantiated. An older, unused copy of `PerspectiveFrustumPointFitter` that logs to the console on every fit |
 | `GeometryUtilities` | Non-indexed copy of a geometry with a `barycentric` attribute (used by `Grid`) |
 | `MeshSampler` | Random point sampling on mesh surfaces, area weighted, with normals, tangents and UVs. Indexed geometry only |
 | `ModelUtilities` | GLTF model processing helpers: find objects, assign materials, shadow flags, clone a skinned GLTF |
@@ -226,7 +227,7 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 | `Validation` | Number and JSON checks (`is_int`, `is_float`, `is_number`, `is_json`) |
 | `CSSAnimator` | Tweens one CSS property with an easing; call `update()` every frame. Ends when the eased value reaches 1, so some easings end early or never |
 
-`MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities` and `CSSAnimator` are instantiated, and the rest only have static methods.
+`CameraUtilities`, `MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities`, `CSSAnimator` and the three frustum point fitters are instantiated, and the rest only have static methods.
 
 ### Camera Controller
 

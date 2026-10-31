@@ -28,7 +28,7 @@ import { Graphics, RenderLoop, Time, OScreen, SceneManager, CameraManager, BaseA
 
 Many core systems are **singletons** — exported as a single shared instance, created when the module loads. `Initializer.init()` initializes most of them once at startup. `Graphics` needs its own `Graphics.init()` (see below), and `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler` and `ModelUtilities` need no init.
 
-Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler`, `ModelUtilities`.
+Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `CameraUtilities`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler`, `ModelUtilities`.
 
 Instantiable: `BaseApplication`, `PerspectiveCamera`, `OrthographicCamera`, `KeyboardInput`, `RenderLoop`, `AbstractScene` (subclasses), and all materials, loaders, components, etc.
 
@@ -316,6 +316,38 @@ cc.update();                     // state.update → mode.update → update_norm
 - `enable()` / `disable()` only set `input_enabled`; `CommonCameraState` ignores it.
 
 See `docs/CameraController.md` for the full API.
+
+---
+
+## CameraFitting
+
+`CameraUtilities` is a singleton instance, initialized by `Initializer.init(input)`. `PerspectiveFrustumPointFitter` and `OrthographicFrustumPointFitter` are instantiated; `CameraUtilities` and `CameraController` use them for framing.
+
+```ts
+// Frame a box for the camera's current rotation; nothing is applied
+const fit = CameraUtilities.fit_bounding_box_points(camera, box, 0.9);   // below 1 leaves a margin
+camera.position.copy(fit.camera_position);
+if (camera.isOrthographicCamera)
+{
+  camera.zoom = fit.zoom;                // orthographic cameras frame through zoom
+  camera.updateProjectionMatrix();
+}
+
+// The point under the mouse (input.NDC) on the ground plane
+const point = CameraUtilities.get_plane_intersection(new Vector3(), new Vector3(0, 1, 0));
+
+// World position → canvas pixels, origin top left
+const pos = CameraUtilities.get_html_screen_pos(object, camera);
+```
+
+- `fit_points(camera, points, zoom_scale)` returns `{ zoom, reference_position, camera_position }`. `zoom` is a distance for perspective and `camera.zoom` for orthographic. A `zoom_scale` above 1 frames tighter.
+- `fit_points_on_camera(points, zoom_scale)` uses `CameraManager.current` and returns `{ position, zoom }`. Its `zoom_scale` scales the area to fit, so above 1 leaves a margin, the opposite of `fit_points`.
+- The perspective fit uses `camera.aspect`, not `OScreen.aspect_ratio`. The orthographic fit keeps the camera's distance when the points' depth fits between the near and far planes.
+- `get_plane_intersection` returns `(0, 0, 0)` when the ray misses the plane. `unproject_mouse_position` works with perspective cameras only.
+- `update_projection(camera)` sizes an orthographic camera to `OScreen` pixels.
+- `FrustumPointFitter` is an unused copy of `PerspectiveFrustumPointFitter` that logs to the console on every fit.
+
+See `docs/CameraFitting.md` for the full API.
 
 ---
 
