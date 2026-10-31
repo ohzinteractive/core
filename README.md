@@ -24,6 +24,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 - [AbstractScene](docs/AbstractScene.md) — Three.js `Scene` with two-phase asset loading, render hooks, and disposal.
 - [ActionSequencer](docs/ActionSequencer.md) — Timeline that eases context keys and fires events, its interpolators, and the builders that make one from transition data or draw.io.
 - [AssetLoading](docs/AssetLoading.md) — `AbstractLoader`, the 17 resource loaders, `ResourceBatch`, and the worker based async loaders.
+- [Browser](docs/Browser.md) — Browser, version, video format and WebXR VR detection, plus the unfilled `Capabilities` singleton.
 - [CameraController](docs/CameraController.md) — Orbital camera rig: tilt and orientation, framing, pluggable movement modes and input states.
 - [CameraFitting](docs/CameraFitting.md) — `CameraUtilities` and the frustum point fitters: framing points and boxes, plane picking, and world to screen positions.
 - [CameraManager](docs/CameraManager.md) — Holds the active cameras used by the rendering pipeline.

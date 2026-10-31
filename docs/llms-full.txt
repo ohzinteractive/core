@@ -693,7 +693,7 @@ camera.layers.enable(RenderLayers.opaque);
 
 ## OS / Browser / Capabilities
 
-Singletons for platform detection. All flags set once at `Initializer.init()`.
+Singletons for platform detection, initialized by `Initializer.init()`. `OS` sets its flags right away; `Browser` sets most of its values a little later (see below).
 
 ```ts
 OS.is_mobile   // true on phones/tablets
@@ -705,10 +705,17 @@ OS.is_windows  // true on Windows
 Browser.is_chrome
 Browser.is_firefox
 Browser.is_safari
+Browser.is_edge_chromium
+Browser.name                      // 'chrome' | 'firefox' | 'safari' | 'edge_chromium' | 'edge_ie' | 'opera' | 'iexplorer' | 'other'
+Browser.version                   // major version (Safari can be fractional, e.g. 17.4)
+Browser.is_vr                     // WebXR supports 'immersive-vr'
+Browser.preferred_video_extension // 'webm' | 'hvec.mp4' | 'mp4'
 
-Capabilities.supports_webgpu
-// etc.
+Capabilities.max_anisotropy                   // always 0 (never filled)
+Capabilities.vertex_texture_sampler_available // always false (never filled)
 ```
+
+`Browser.init()` is async: `name`, `version` and `is_vr` are set after the WebXR `isSessionSupported()` check resolves, and `Initializer.init()` does not await it. Every iOS browser detects as `safari`. `Capabilities` only has `max_anisotropy` (always `0`) and `vertex_texture_sampler_available` (always `false`); the `Graphics.init()` lines that would fill them are commented out. See docs/Browser.md.
 
 ---
 

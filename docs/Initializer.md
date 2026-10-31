@@ -18,7 +18,7 @@ Initializes every core singleton in the required order. Called once at applicati
 |-------|-----------|---------|
 | 1 | `CameraManager` | Resets camera references. |
 | 2 | `CameraUtilities` | Initializes camera helper functions (receives the `Input` instance). |
-| 3 | `Capabilities` | Detects GPU/browser capabilities. |
+| 3 | `Capabilities` | Resets its GPU limit fields to defaults. Nothing fills them yet. |
 | 4 | `OS` | Detects operating system and device type. |
 | 5 | `Browser` | Detects browser type. |
 | 6 | `ReflectionPlaneContext` | Initializes reflection plane state. |

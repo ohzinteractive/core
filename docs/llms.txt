@@ -46,8 +46,8 @@ These are instantiated once at module level and exported by name. `Initializer.i
 | `Debug` | Debug visualization layer (3D shapes, textures, 2D overlays) |
 | `ResourceContainer` | Asset cache keyed by name and URL |
 | `OS` | Platform detection (mobile, iOS, Android, Mac, Windows, Linux) |
-| `Browser` | Browser detection |
-| `Capabilities` | GPU/feature capability detection |
+| `Browser` | Browser name, major version, WebM/HEVC support, preferred video extension, WebXR VR support |
+| `Capabilities` | Placeholder for GPU limits (`max_anisotropy`, `vertex_texture_sampler_available`); nothing fills it yet |
 
 ### Frame Lifecycle
 
@@ -259,8 +259,8 @@ src/
   Debug.ts                    Debug visualization (singleton)
   ResourceContainer.ts        Asset cache (singleton)
   OS.ts                       Platform detection (singleton)
-  Browser.ts                  Browser detection
-  Capabilities.ts             GPU capabilities
+  Browser.ts                  Browser detection (singleton)
+  Capabilities.ts             GPU limits placeholder (singleton)
   KeyboardInput.ts            Keyboard state tracking
   PerspectiveCamera.ts        Extended Three.js PerspectiveCamera
   OrthographicCamera.ts       Extended Three.js OrthographicCamera
