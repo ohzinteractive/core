@@ -206,7 +206,7 @@ See `docs/Components.md` for the full API.
 
 ### Primitives
 
-Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `VerticalPlane`.
+Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `VerticalPlane`. Each is a `Mesh` with an unlit, red by default `MeshBasicMaterial`; `Debug.draw_arrow`, `draw_cube` and `draw_sphere` build them.
 
 ### Utilities
 

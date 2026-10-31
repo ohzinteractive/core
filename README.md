@@ -37,6 +37,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 - [OScreen](docs/OScreen.md) — Canvas size, position, DPR, and coordinate conversions.
 - [PerspectiveCamera](docs/PerspectiveCamera.md) — Three.js `PerspectiveCamera` with per-camera clear color and alpha.
 - [PostProcessing](docs/PostProcessing.md) — Full screen passes: `BlitNodeMaterial`, the box, dual filtering and Gaussian blurrers, and the bloom compose materials.
+- [Primitives](docs/Primitives.md) — Unlit placeholder meshes: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, and `VerticalPlane`.
 - [RenderLayers](docs/RenderLayers.md) — Named layer indices for selective rendering passes.
 - [RenderLoop](docs/RenderLoop.md) — The main frame loop and its lifecycle.
 - [RenderModes](docs/RenderModes.md) — `BaseRender` and the built-in render modes: normal, bloom, SSAO, deferred, VR, and debug normals.

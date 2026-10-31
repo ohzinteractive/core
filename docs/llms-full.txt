@@ -592,12 +592,20 @@ See `docs/Components.md` for the full API.
 ## Primitives
 
 ```ts
-new Cube(size)
-new Sphere(radius, segments)
-new Arrow(origin, direction, color)
-new HorizontalPlane(width, height)
-new VerticalPlane(width, height)
+new Cube(size?, segments?, color?)                       // size and segments are Vector3
+new Sphere(radius?, color?)                              // always 64 x 64 segments
+new Arrow(color?, length?, dir?)                         // starts at its position
+new HorizontalPlane(width?, height?, color?, material?)
+new VerticalPlane(width?, height?, color?, material?)
 ```
+
+- Every primitive is a `Mesh` with an unlit `MeshBasicMaterial`, red by default, and adds no methods or `dispose()`.
+- `Arrow` starts at its origin and points along +Z, or along `dir` (normalized). Its `length` property reads and writes `scale.z`, a factor on the constructor length.
+- `Arrow`, `HorizontalPlane` and `VerticalPlane` default the color with `||`, so a numeric `0` becomes red; `Cube` and `Sphere` use `??`.
+- `HorizontalPlane` lies on XZ facing +Y, `VerticalPlane` on XY facing +Z. Both take an optional `material` that replaces the default one.
+- `Sphere.center` is its `position`, so a `Sphere` can be passed to `CameraController.focus_camera_on_sphere()`. Its `radius` and `color` fields do not update the mesh.
+
+See `docs/Primitives.md` for the full API.
 
 ---
 
