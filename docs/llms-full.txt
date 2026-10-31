@@ -840,6 +840,35 @@ See `docs/Utilities.md` for the full API.
 
 ---
 
+## DevBridge
+
+Dev only, not singletons — instantiate as needed. `DevBridge` keeps a WebSocket open to the ohzi-mcp server and runs each command through a registered handler. The other classes are what the handlers call: `SceneInspector`, `SceneEditor`, `CameraBridge`, `CaptureService`, `ConsoleBuffer`, `PerformanceProbe`, `InputSynthesizer`, `ViewNavigator`, `RenderModeRegistry`, `DebugDrawer` and `ModelLoader`. They take the singletons they read as arguments.
+
+```ts
+const bridge = new DevBridge();
+const inspector = new SceneInspector();
+const capture = new CaptureService(Graphics, () => CameraManager.current !== undefined);
+
+bridge.register('inspect_scene', 'immediate', (args) => inspector.inspect(SceneManager.current, args));
+bridge.register('capture_viewport', 'frame_end', (args) => capture.capture(args));
+bridge.init({ port: 7317, app_info: () => app_info() });  // ws://127.0.0.1:7317
+
+// In the application:
+on_frame_end() { bridge.on_frame_end(); }                  // runs the queued frame_end commands
+```
+
+- Register anything that changes what renders as `frame_end`; reads and input gestures, which wait on real time, can be `immediate`.
+- A handler's thrown error reaches the server with its `code` (`handler_failed` when it has none); an unknown command replies `unknown_command`. A closed socket retries every 2 s until `dispose()`.
+- `PROTOCOL_VERSION` in `dev_bridge/protocol.ts` must match `mcp/src/protocol.ts`, or the server refuses the connection.
+- `CameraBridge` moves the `CameraController` (tilt, orientation, azimuth in degrees, normalized `zoom`, `target`) when there is one, and refuses a raw `position` then (`controller_owns_camera`).
+- `CaptureService` fast captures read the live canvas, which needs `preserveDrawingBuffer: true`, and cap the long edge at 1280 px (`max_size: 0` turns it off). Hires captures re-render through `Graphics.take_screenshot` up to 8192 px and need a camera.
+- `RenderModeRegistry.create()` only builds the mode; pass it to `Graphics.set_state()`.
+- `DebugDrawer.clear()` removes only the helpers it drew. `ModelLoader.load()` replaces a same-named direct child of the scene and keeps its transform.
+
+See `docs/DevBridge.md` for the full API.
+
+---
+
 ## Full Minimal Example
 
 ```ts

@@ -243,6 +243,22 @@ Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `Verti
 | `CameraMovementMode` / `ImmediateMode` | Turns the reference values into the camera transform |
 | `AbstractCameraState` / `CommonCameraState` | Reacts to input each frame and edits the reference values |
 
+### Dev Bridge
+
+Dev only. `DevBridge` connects to the ohzi-mcp server over `ws://127.0.0.1:<port>`, retrying every 2 s, and runs each command through a handler registered with `register(cmd, 'immediate' | 'frame_end', handler)`. `frame_end` commands wait for `bridge.on_frame_end()`, called from the application's `on_frame_end()`. The other classes are instantiated helpers the handlers call; they take the singletons as arguments and throw errors with a `code`. See `docs/DevBridge.md`.
+
+| Class | Purpose |
+|-------|---------|
+| `DevBridge` | WebSocket connection, handshake, command registry and timing |
+| `SceneInspector` / `SceneEditor` | Bounded scene graph tree; read or set one node's transform and visibility |
+| `CameraBridge` | Read, set and frame the camera, through its `CameraController` when it has one |
+| `CaptureService` | Canvas PNG as base64: fast (capped at 1280 px) or hires via `Graphics.take_screenshot` |
+| `ConsoleBuffer` / `PerformanceProbe` | Last 200 console lines and uncaught errors; FPS, frame time and renderer counters |
+| `InputSynthesizer` | Mouse, wheel and key gestures dispatched as real DOM events |
+| `ViewNavigator` / `RenderModeRegistry` | List and enter views; list and create render modes from per-mode factories |
+| `DebugDrawer` | `Debug` helpers (shapes, labels, SDF text) that `clear()` removes |
+| `ModelLoader` | Loads a GLB into the scene, replacing a same-named one in place |
+
 ## Source Directory Structure
 
 ```
@@ -270,6 +286,7 @@ src/
   canvas_drawer/              Canvas 2D drawing utilities
   components/                 Renderable components (Grid, Text2D, SDF, etc.)
   data_textures/              Data texture utilities
+  dev_bridge/                 Dev-only ohzi-mcp bridge and its command services
   html_utilities/             CSS animation helpers
   lib/                        Internal library code
   loaders/                    Async batch loaders

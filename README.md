@@ -31,6 +31,7 @@ The library also includes a collection of ready-to-use materials, loaders, primi
 - [CanvasDrawer](docs/CanvasDrawer.md) — Offscreen canvas text drawing: the `CanvasDrawer` base class and `SimpleTextDrawer`, as a canvas or a `CanvasTexture`.
 - [Components](docs/Components.md) — Ready-made meshes: `Grid`, `Line`, `WorldImage`, `Text2D`, batched SDF text, and `UpdatableMaterialMesh`.
 - [Debug](docs/Debug.md) — Debug drawing layer for the 3D scene and a 2D canvas overlay.
+- [DevBridge](docs/DevBridge.md) — Dev-only WebSocket bridge to the ohzi-mcp server, and the services behind its commands: scene, camera, capture, console, input, views, render modes, debug helpers and model previews.
 - [Graphics](docs/Graphics.md) — Renderer wrapper: render modes, blitting, depth/normals, resize, and screenshots.
 - [Initializer](docs/Initializer.md) — Bootstraps the core singletons at startup and tears them down.
 - [KeyboardInput](docs/KeyboardInput.md) — Per-key pressed, down, and released state.
