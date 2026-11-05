@@ -26,9 +26,9 @@ import { Graphics, RenderLoop, Time, OScreen, SceneManager, CameraManager, BaseA
 
 ### Singletons vs Instantiable Classes
 
-Many core systems are **singletons** — exported as a single shared instance. They must be initialized once at startup via `Initializer.init()`.
+Many core systems are **singletons** — exported as a single shared instance, created when the module loads. `Initializer.init()` initializes most of them once at startup. `Graphics` needs its own `Graphics.init()` (see below), and `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler` and `ModelUtilities` need no init.
 
-Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`.
+Singletons: `Graphics`, `Time`, `OScreen`, `SceneManager`, `CameraManager`, `CameraUtilities`, `ResourceContainer`, `Debug`, `OS`, `Browser`, `Capabilities`, `TransitionManager`, `ViewManager`, `ViewComponentManager`, `MeshSampler`, `ModelUtilities`.
 
 Instantiable: `BaseApplication`, `PerspectiveCamera`, `OrthographicCamera`, `KeyboardInput`, `RenderLoop`, `AbstractScene` (subclasses), and all materials, loaders, components, etc.
 
@@ -163,17 +163,32 @@ const pixels = await Graphics.readback_RT(renderTarget);
 
 ## Render Modes
 
-Render modes are classes extending `BaseRender` that control how the scene is drawn each frame. Switch between them via `Graphics.set_state()`.
+Render modes are classes extending `BaseRender` that control how the scene is drawn each frame. Switch between them via `Graphics.set_state()`, which calls `on_exit(Graphics, renderer)` on the old mode and `on_enter(Graphics, renderer)` on the new one. Until then `Graphics.current_render_mode` is `Graphics.no_render`, a plain `BaseRender` that draws nothing.
+
+`BaseRender` hooks (all empty in the base class):
+
+| Method | Called by |
+|--------|-----------|
+| `render()` | `Graphics.update()` each frame when `CameraManager.current` is set, and `Graphics.take_screenshot()` once per tile |
+| `on_enter(context, renderer)` / `on_exit(context, renderer)` | `Graphics.set_state()`. `context` is `Graphics` |
+| `dispose()` | `Graphics.dispose()`, on the active mode only. No built-in mode overrides it |
+| `resize()` | Nothing in core. Modes resize their render targets at the start of `render()` to match `OScreen` |
 
 Available render modes:
 
 | Class | Description |
 |-------|-------------|
-| `NormalRender` | Standard clear → render pipeline |
-| `UnrealBloomRender` | Bloom post-processing |
-| `NormalAORender` | Normal + AO pass. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
-| `VRRender` | WebXR stereo rendering |
-| `DebugNormalsRender` | Visualize scene normals |
+| `NormalRender` | Standard clear → render pipeline. Calls the scene's `on_pre_render()`, `render()` and `on_post_render()` |
+| `BloomRender` | Box blur bloom. `new BloomRender(use_dual_filtering = false)`: `true` blurs with `DualFilteringBlurrer` for a much wider glow. Builds its targets in `on_enter()` and frees them in `on_exit()` |
+| `UnrealBloomRender` | Unreal-style bloom: five Gaussian mips summed with per-mip tints, added over the scene. `new UnrealBloomRender(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)`: the first three are required. Tune with `set_bloom_strength()`, `set_bloom_radius()`, `set_luminosity_threshold()` (only with the high pass) and `set_tint_color_0()`…`set_tint_color_4()` |
+| `NormalAORender` | Normal + AO pass. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: `use_ssaa` renders the scene at 2×; turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
+| `DeferredRender` | Deferred point lights over `Graphics.depth_normals_RT`. The constructor fills `scene_lights` with a 2×2 grid of demo lights; edit it to place your own |
+| `VRRender` | For WebXR (`core_attributes.xr_enabled: true`). Three's XR manager renders the stereo views; the mode does not clear, and `render_spectator_camera()` mirrors the headset view to the canvas when `CameraManager.spectator` is set |
+| `DebugNormalsRender` | Visualize world-space normals with a `NormalMaterial` override |
+
+Only `NormalRender` and `VRRender` run the scene's render hooks. The other modes call `Graphics.render(SceneManager.current, ...)` directly, so `on_pre_render()` and `on_post_render()` overrides do not run under them.
+
+`NormalAORender` and `DeferredRender` set `Graphics.generate_depth_normal_texture = true` in `on_enter()` and never reset it. Set it back to `false` when switching to a mode that does not need the depth and normals pass.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 
@@ -268,6 +283,74 @@ CameraManager.current = cam;
 
 ---
 
+## CameraController
+
+Not a singleton — one per scene, usually in `AbstractScene.camera_controller`. An orbital rig around `reference_position`, at `reference_rotation` (from tilt and orientation in degrees: positive tilt looks down, orientation turns counterclockwise about +Y) and `reference_zoom` (a distance, clamped to `[min_zoom, max_zoom]`).
+
+```ts
+class OrbitState extends CommonCameraState
+{
+  update(cc: CameraController)
+  {
+    super.update(cc);            // tracks W/A/S/D, Z/C
+    this.__move_camera(cc);      // keys + right drag pan
+    this.__zoom_camera(cc);      // wheel
+    this.__rotate_camera(cc);    // left drag, with inertia
+  }
+}
+
+const cc = new CameraController(Input);
+cc.set_camera(camera);
+cc.set_state(new OrbitState(Input));
+cc.set_rotation(30, 45);         // tilt, orientation; call before the first update()
+cc.focus_on_bounding_box(box, 0.8);
+
+// Each frame (not called automatically):
+cc.update();                     // state.update → mode.update → update_normalized_zoom
+```
+
+- The default mode is `ImmediateMode`: it copies `reference_rotation` to the camera and places it `reference_zoom` behind `reference_position`. `set_camera()` does not sync `reference_rotation` from the camera.
+- Rotation: `set_rotation(tilt?, orientation?, azimuth?)`, `set_rotation_delta()`, `set_quaternion()`, `lerp_tilt()`, `lerp_orientation()`, `lerp_rotation()`, `lerp_quaternion()`. Azimuth is stored but never applied; `lerp_azimuth()` is empty.
+- Framing: `focus_camera_on_points()`, `focus_on_bounding_box()`, `focus_camera_on_sphere()`; `fit_points()`, `get_zoom_to_focus_on_points()` and `get_target_pos_to_focus_on_points()` compute without applying. Orthographic cameras frame through `camera.zoom`. A scale above 1 frames tighter.
+- `normalized_zoom` is recomputed from the camera distance on every `update()` (1 at `min_zoom`, 0 at `max_zoom`), so `set_normalized_zoom()` does not last.
+- `enable()` / `disable()` only set `input_enabled`; `CommonCameraState` ignores it.
+
+See `docs/CameraController.md` for the full API.
+
+---
+
+## CameraFitting
+
+`CameraUtilities` is a singleton instance, initialized by `Initializer.init(input)`. `PerspectiveFrustumPointFitter` and `OrthographicFrustumPointFitter` are instantiated; `CameraUtilities` and `CameraController` use them for framing.
+
+```ts
+// Frame a box for the camera's current rotation; nothing is applied
+const fit = CameraUtilities.fit_bounding_box_points(camera, box, 0.9);   // below 1 leaves a margin
+camera.position.copy(fit.camera_position);
+if (camera.isOrthographicCamera)
+{
+  camera.zoom = fit.zoom;                // orthographic cameras frame through zoom
+  camera.updateProjectionMatrix();
+}
+
+// The point under the mouse (input.NDC) on the ground plane
+const point = CameraUtilities.get_plane_intersection(new Vector3(), new Vector3(0, 1, 0));
+
+// World position → canvas pixels, origin top left
+const pos = CameraUtilities.get_html_screen_pos(object, camera);
+```
+
+- `fit_points(camera, points, zoom_scale)` returns `{ zoom, reference_position, camera_position }`. `zoom` is a distance for perspective and `camera.zoom` for orthographic. A `zoom_scale` above 1 frames tighter.
+- `fit_points_on_camera(points, zoom_scale)` uses `CameraManager.current` and returns `{ position, zoom }`. Its `zoom_scale` scales the area to fit, so above 1 leaves a margin, the opposite of `fit_points`.
+- The perspective fit uses `camera.aspect`, not `OScreen.aspect_ratio`. The orthographic fit keeps the camera's distance when the points' depth fits between the near and far planes.
+- `get_plane_intersection` returns `(0, 0, 0)` when the ray misses the plane. `unproject_mouse_position` works with perspective cameras only.
+- `update_projection(camera)` sizes an orthographic camera to `OScreen` pixels.
+- `FrustumPointFitter` is an unused copy of `PerspectiveFrustumPointFitter` that logs to the console on every fit.
+
+See `docs/CameraFitting.md` for the full API.
+
+---
+
 ## AbstractScene
 
 Abstract base class for scenes. Extend it to define assets, setup logic, and per-frame hooks. Implements a **two-phase loading pipeline**: regular quality → high quality.
@@ -311,7 +394,7 @@ class MyScene extends AbstractScene
 }
 ```
 
-**Loading flow:** `scene.load()` → loaders run in a web worker → `on_assets_ready()` → compilators run (spread across frames) → `on_assets_compiled()` → high-quality load starts → `on_high_quality_assets_ready()`.
+**Loading flow:** `scene.load()` → a shared web worker downloads the assets and the main thread decodes them → `on_assets_ready()` → compilators run (spread across frames) → `on_assets_compiled()` → high-quality load starts → `on_high_quality_assets_ready()`.
 
 **State flags:**
 
@@ -325,7 +408,7 @@ class MyScene extends AbstractScene
 
 ## ResourceContainer
 
-Singleton asset cache. Prevents duplicate loading of the same URL.
+Singleton asset cache. A resource stored for a URL is reused by later loads of that URL, but two loads of one URL that start before either finishes both download.
 
 ```ts
 // Write (done automatically by loaders)
@@ -343,11 +426,36 @@ Two different names pointing to the same URL resolve to the same object instance
 
 ### Batch async loaders (used by AbstractScene)
 
-`AsyncObjectsLoader`, `AsyncTexturesLoader`, `AsyncAudiosLoader` — load arrays of asset descriptors in a shared web worker.
+`AsyncObjectsLoader`, `AsyncTexturesLoader`, `AsyncAudiosLoader` — load arrays of asset descriptors. A shared web worker downloads them.
+
+They extend `AsyncAbstractLoader(name, assets, worker)`. The worker comes from `AsyncAbstractLoader.create_worker()` and is stored as `ResourceContainer.set_resource('assets_worker', ...)`; `LoadingState` passes the scene name as `name`. The worker only downloads each asset into a blob URL. The main thread then decodes it with the resource loaders that `__setup_loaders()` returns. `load()` loads every loader that shares a `name`; poll `is_loaded()` and `get_progress()`.
+
+| Class | Descriptor fields (plus `name`, `url`, `size`) | Creates |
+|-------|-----------------------------------------------|---------|
+| `AsyncObjectsLoader` | `draco` | `GLTFDRACOLoader` (with `ResourceContainer.get('draco_loader')`) or `GLTFLoader` |
+| `AsyncTexturesLoader` | `kind`: `'regular'`, `'basis'`, `'hdr'`, `'cubemap'`, `'cubemap_hdr'`; `flipY`, `premultiplyAlpha`, `colorSpaceConversion`, `extension` | The matching texture loader. Other kinds are skipped |
+| `AsyncAudiosLoader` | `loop`, `volume` (defaults to 0), `positional` | `AudioLoader` |
+
+The worker doesn't report download progress, and a failed download means `is_loaded()` never returns `true`. `TextureLoader` and `VideoLoader` need the fetch response, so they can't be used inside an async loader.
+
+### ResourceBatch
+
+Runs loaders on the main thread, for example in the preloader:
+
+```ts
+const batch = new ResourceBatch('general_loader');
+batch.add_loader(new JSONLoader('config', '/data/config.json', 2000));
+batch.load(); // defaults to the ResourceContainer singleton
+
+// Poll each frame
+if (batch.loading_finished && !batch.has_errors) { const config = ResourceContainer.get('config'); }
+```
+
+Also: `get_progress()` (0–1), `get_loaded_bytes()`, `get_total_bytes()`, `print_errors()`.
 
 ### Individual loaders
 
-All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
+All extend `AbstractLoader`. Construct one with `(resource_id, url, ..., size)`, call `load(resource_container)` (it returns nothing), then poll `has_finished` / `has_error`:
 
 | Loader | Asset type |
 |--------|-----------|
@@ -358,16 +466,16 @@ All extend `AbstractLoader` with a `load(name, url)` → `Promise` pattern:
 | `HDRTextureLoader` | `.hdr` equirectangular |
 | `HDRCubeTextureLoader` | HDR cubemaps |
 | `CubemapLoader` | Regular cubemaps |
-| `BasisLoader` | `.basis` compressed textures |
+| `BasisLoader` | Compressed textures through the loader passed in (the boilerplate passes a `KTX2Loader`) |
 | `AudioLoader` | Audio files |
 | `FontLoader` | Three.js JSON fonts |
 | `OBJLoader` | `.obj` meshes |
 | `DAELoader` | Collada `.dae` |
-| `VideoLoader` | Video textures |
+| `VideoLoader` | Object URL (`string`) for the video blob, not a texture |
 | `FileLoader` | Raw file fetch |
 | `TextLoader` | Text files |
 | `JSONLoader` | JSON files |
-| `PointArrayLoader` | Point array data |
+| `PointArrayLoader` | Newline separated x, y, z values → `Vector3[]` |
 
 ---
 
@@ -400,18 +508,33 @@ class AddTextureMaterial extends BlitNodeMaterial
 
 `AddMaterial`, `BlitNodeMaterial`, `UnrealBloomComposeMaterial`, `DualFilteringBlurMaterial` — ready-to-use post-processing materials.
 
+| Material | Description |
+|----------|-------------|
+| `BlitNodeMaterial` | Base of every full screen pass. Outputs `_MainTex` unchanged; depth test, depth write and blending are off. `sample_main_tex(offset?)`, `sample(texture_node, offset?)`, `uv_for()` and `texture_uv_at()` flip render targets so both kinds of texture come out upright |
+| `AddMaterial` | `_MainTex + _SecondTex`, alpha included. `set_add_texture(tex)`, then `Graphics.blit(src, dst, add_mat)`. `new AddMaterial(use_half_float = false)`: the flag is ignored |
+| `UnrealBloomComposeMaterial` | `new UnrealBloomComposeMaterial(nMips, use_linear_color_space = false)` (the flag is ignored). Sums `blurTexture1..N`, each times its tint and `mix(f, 1.2 - f, bloomRadius)` with `f = [1.0, 0.8, 0.6, 0.4, 0.2]`, times `bloomStrength`. Reads no `_MainTex`, so run it with `Graphics.material_pass()`. `set_blur_texture_0()`…`_4()`, `set_tint_color_0()`…`_4()`, `set_bloom_strength()`, `set_bloom_radius()` (both default `1`); the numbered setters assume five mips |
+| `DualFilteringBlurMaterial` | `new DualFilteringBlurMaterial(upsample)`: one dual filtering pass, 5 taps down or 8 taps up, offsets in half source texels from `_Resolution`, so drive it with `Graphics.blit()` |
+
 ---
 
 ## Render Utilities
 
+None of the blurrers is a singleton. `Blurrer` and `DualFilteringBlurrer` blur in place and have `dispose()`. `GaussianBlurrer` writes its five mips (each at half the previous size, kernel radii `[3, 5, 7, 9, 11]`) to `renderTargetsVertical`, tunes with `set_radius()` and `set_luminosity_threshold()` (default `0.23`), and frees with `dispose_RT()` and `dispose_materials()`. `Blurrer` and `DualFilteringBlurrer` use 8-bit `RenderTarget` defaults for their internal targets.
+
 ```ts
+// 9 tap separable blur at the input's size, in place
+const box = new Blurrer();
+box.blur(render_target);
+
 // Dual-filter blur (efficient, large radius), in place
 const blurrer = new DualFilteringBlurrer();
 blurrer.blur(render_target);
 
-// Gaussian blur
+// Gaussian blur: five mips, optional luminosity high pass, RT left unchanged
 const gaussian = new GaussianBlurrer();
-gaussian.blur(srcRT, dstRT, radius);
+gaussian.set_radius(1.5);
+gaussian.blur(render_target, true);
+const widest_mip = gaussian.renderTargetsVertical[4].texture;
 
 // Depth + normals G-buffer
 Graphics.generate_depth_normal_texture = true;
@@ -426,24 +549,89 @@ Ready-to-use Three.js `Object3D` subclasses:
 
 | Class | Description |
 |-------|-------------|
-| `Grid` | Infinite ground grid |
+| `Grid` | 100 × 100 unit ground grid on XZ, a line every unit |
 | `Line` | Line through 3D points |
-| `Text2D` | Screen-space 2D text |
-| `WorldImage` | Billboard image in world space |
+| `Text2D` | Canvas text on a `WorldImage` plane in world space |
+| `WorldImage` | Image plane in world space; faces the camera when `screen_aligned` (off by default) |
 | `SDFTextBatch` | GPU-batched SDF text rendering |
 | `UpdatableMaterialMesh` | Mesh with a per-frame material update hook |
+
+```ts
+// Thick polyline (needs 2+ points); a new point count replaces line.geometry
+const line = new Line([new Vector3(0, 0, 0), new Vector3(1, 1, 0)]);
+line.thickness = 0.05;                   // world units, default 0.2
+line.color = '#00ffcc';
+
+// Image plane, 1 unit tall; pivot -1..1, (0, 0) is the center
+const image = new WorldImage(texture, new Vector2(0, -1));
+image.screen_aligned = true;             // faces the camera, still sized in world units
+image.size = new Vector3(2, 2, 2);       // sets the scale; the getter returns world width/height
+image.update_texture();                  // after the texture's image changes
+
+// Canvas text: color is a CSS string, the plane is 1 unit tall at any font size
+const label = new Text2D('Hello', 'bold 48px Arial', '#ffffff', new Vector2());
+label.text = 'Bye';                      // redraws; the getter returns 'not implemented'
+
+// MSDF text: one instanced draw per batch, up to 2000 glyphs
+const batch = new SDFTextBatch(font_layout, atlas_texture); // msdf-atlas-gen JSON, yOrigin: bottom
+const text = batch.add_text('OHZI');     // SDFText; needs at least one drawable glyph
+text.set_position(new Vector3(0, 2, 0)); // the batch's own transform is ignored
+text.set_size(0.5);                      // 1 em = 1 world unit at size 1
+batch.update();                          // every frame, or after any change
+```
+
+- `Line`, `WorldImage`, `Text2D` and `SDFTextBatch` render transparent with `depthWrite` off and ignore scene fog.
+- `WorldImage.dispose()` also disposes its texture and throws when the image has no parent.
+- Assign `SDFText` transforms through its setters; changing `position`, `quaternion` or `scale` directly does not mark it dirty. Its pivot moves the text by half its size per unit, the opposite sign of the `WorldImage` pivot.
+- `UpdatableMaterialMesh` calls `material.update()` in `onBeforeRender` when the material has one; material arrays are skipped.
+
+See `docs/Components.md` for the full API.
+
+---
+
+## CanvasDrawer
+
+Not singletons — instantiate as needed. `CanvasDrawer` owns an offscreen canvas and leaves the drawing to `__draw()`; `SimpleTextDrawer` draws one line of text on a canvas sized to fit it.
+
+```ts
+const drawer = new SimpleTextDrawer();
+const options = { font: 'bold 48px Arial', font_color: '#ffffff' }; // textAlign defaults to 'center'
+
+const texture = drawer.draw_on_texture('Score: 0', options); // new CanvasTexture over drawer.canvas
+texture.colorSpace = SRGBColorSpace;                         // render the CSS color as given
+texture.needsUpdate = true;
+
+drawer.draw_canvas('Score: 10', options);                    // redraws the same canvas
+texture.needsUpdate = true;
+```
+
+- Every call draws into the same `canvas`, so textures from earlier `draw_on_texture()` calls show the new content after their next upload.
+- `draw_canvas()` writes the `font` (`'24px Arial'`) and `font_color` (`'#000000'`) defaults into the options object you pass.
+- `draw_on_texture()` uses nearest filtering, clamp to edge and no mipmaps, and sets no color space.
+- The font height is measured once and cached unless `uses_dynamic_font` is `true`; `SimpleTextDrawer` takes no constructor arguments, so set the property after construction.
+- `font_color` must be a CSS color string: a number is not a valid canvas color and the text stays black. A `textAlign` other than `'center'` draws at `x = 0`, so `'right'` and `'end'` end up off the canvas.
+
+See `docs/CanvasDrawer.md` for the full API.
 
 ---
 
 ## Primitives
 
 ```ts
-new Cube(size)
-new Sphere(radius, segments)
-new Arrow(origin, direction, color)
-new HorizontalPlane(width, height)
-new VerticalPlane(width, height)
+new Cube(size?, segments?, color?)                       // size and segments are Vector3
+new Sphere(radius?, color?)                              // always 64 x 64 segments
+new Arrow(color?, length?, dir?)                         // starts at its position
+new HorizontalPlane(width?, height?, color?, material?)
+new VerticalPlane(width?, height?, color?, material?)
 ```
+
+- Every primitive is a `Mesh` with an unlit `MeshBasicMaterial`, red by default, and adds no methods or `dispose()`.
+- `Arrow` starts at its origin and points along +Z, or along `dir` (normalized). Its `length` property reads and writes `scale.z`, a factor on the constructor length.
+- `Arrow`, `HorizontalPlane` and `VerticalPlane` default the color with `||`, so a numeric `0` becomes red; `Cube` and `Sphere` use `??`.
+- `HorizontalPlane` lies on XZ facing +Y, `VerticalPlane` on XY facing +Z. Both take an optional `material` that replaces the default one.
+- `Sphere.center` is its `position`, so a `Sphere` can be passed to `CameraController.focus_camera_on_sphere()`. Its `radius` and `color` fields do not update the mesh.
+
+See `docs/Primitives.md` for the full API.
 
 ---
 
@@ -505,7 +693,7 @@ camera.layers.enable(RenderLayers.opaque);
 
 ## OS / Browser / Capabilities
 
-Singletons for platform detection. All flags set once at `Initializer.init()`.
+Singletons for platform detection, initialized by `Initializer.init()`. `OS` sets its flags right away; `Browser` sets most of its values a little later (see below).
 
 ```ts
 OS.is_mobile   // true on phones/tablets
@@ -517,10 +705,17 @@ OS.is_windows  // true on Windows
 Browser.is_chrome
 Browser.is_firefox
 Browser.is_safari
+Browser.is_edge_chromium
+Browser.name                      // 'chrome' | 'firefox' | 'safari' | 'edge_chromium' | 'edge_ie' | 'opera' | 'iexplorer' | 'other'
+Browser.version                   // major version (Safari can be fractional, e.g. 17.4)
+Browser.is_vr                     // WebXR supports 'immersive-vr'
+Browser.preferred_video_extension // 'webm' | 'hvec.mp4' | 'mp4'
 
-Capabilities.supports_webgpu
-// etc.
+Capabilities.max_anisotropy                   // always 0 (never filled)
+Capabilities.vertex_texture_sampler_available // always false (never filled)
 ```
+
+`Browser.init()` is async: `name`, `version` and `is_vr` are set after the WebXR `isSessionSupported()` check resolves, and `Initializer.init()` does not await it. Every iOS browser detects as `safari`. `Capabilities` only has `max_anisotropy` (always `0`) and `vertex_texture_sampler_available` (always `false`); the `Graphics.init()` lines that would fill them are commented out. See docs/Browser.md.
 
 ---
 
@@ -528,19 +723,149 @@ Capabilities.supports_webgpu
 
 Event sequencing with interpolators — useful for scripted animations and transitions.
 
+An `ActionSequencer` animates the keys of a context object. It makes one channel per key, and every key needs at least one interpolator. Times are in seconds.
+
 ```ts
-const seq = new ActionSequencer();
-seq.add(new ActionEvent(() => { /* instant action */ }));
-seq.add(new NumberInterpolator(fromVal, toVal, duration, (v) => { obj.position.x = v; }));
-seq.add(new VectorInterpolator(fromVec, toVec, duration, (v) => { obj.position.copy(v); }));
-seq.play();
+const state = { fade: 0, height: 0 };
+const seq = new ActionSequencer(state);
+
+// add_action_interpolator(from_time, to_time, interpolator)
+seq.add_action_interpolator(0, 1, new NumberInterpolator('fade', 0, 1, false, 'ease_in_out_cubic'));
+seq.add_action_interpolator(0.5, 2, new NumberInterpolator('height', 0, 2));
+
+// Calls window.ViewApi.application.home_view.play_intro('fast') at 1s
+seq.add_action_event(1, new ActionEvent('home_view', 'play_intro', 'fast'));
+
+// Each frame
+seq.update(Time.delta_time); // writes state.fade and state.height
+if (seq.is_finished()) { /* done */ }
 ```
+
+Also: `play()`, `stop()`, `reset()`, `skip()`, `get_progress()` (0–1), `set_progress(seconds)`, `set_normalized_progress(t)`. `VectorInterpolator` has no `evaluate()`, so the sequencer can't play it.
+
+- `add_action_interpolator(from, to, interpolator, true)` starts the keyframe from the previous keyframe's end value (or the key's initial value). Add a channel's keyframes in time order.
+- `update()` writes values at the previous frame's time, so they trail by one frame; call `update()` once more after `is_finished()` to land on the final values. `skip()` jumps to the end without firing the events it passes.
+- Per channel queries on the current keyframe: `get_current_starting_value(name)`, `get_current_target_value(name)`, `get_current_progress(name)` (eased), `is_channel_redefined(name)` (no default return track). `set_initial_value_on_channel()` / `set_final_value_on_channel()` override the first start and last end values.
+- Easing names are `EasingFunctions` methods (`'linear'`, `'ease_in_out_cubic'`, ...). An unknown name throws when played.
+- `ActionEvent` args are a comma separated string and every argument arrives as a string. `trigger()` throws without `args`.
+
+`new ActionSequencerBuilder(default_state_data).from_animation_sheet(data, context)` is how `TransitionTable` builds transitions: one `NumberInterpolator` per track starting from the current value, one `ActionEvent` per trigger, plus tracks returning untouched default keys to their defaults. It pushes those tracks into `data.animation_tracks`. `from_draw_io(xml, context)` reads a draw.io timeline through `DrawIOAnimationSheet.parse(xml)` (100 px = 1 s; rectangles labelled `key=value--easing` are tracks, rhombi labelled `name.method` are triggers, without args).
+
+See `docs/ActionSequencer.md` for the full API.
 
 ---
 
 ## View / UI System
 
 `ViewManager`, `ViewComponentManager`, and `ApplicationView` provide a UI layer abstraction above Three.js, with transition animations driven by `TransitionManager`. These are wired into the `RenderLoop` automatically and updated each frame.
+
+`ViewManager`, `ViewComponentManager` and `TransitionManager` are created when the module loads; `Initializer` does not touch them. `TransitionTable` lives in `TransitionManager.transition_table`.
+
+### State data
+
+`TransitionManager.current_state_data` is a flat object of numbers. Every frame, each view and view component copies its `<name>_opacity` key into its container's `style.opacity`. Set the defaults once at startup with `TransitionManager.set_default_state_data({ home_opacity: 0, ... })`. Every key a transition animates, or that you write, must be in them, or the next transition throws.
+
+### ApplicationView
+
+Extend it per page: `super({ name, url, container, transition_data? })`. The constructor registers the view with `ViewManager` and adds `{ to: name, data: transition_data }` to the transition table. Hooks:
+
+- `before_enter()` / `before_exit()`: the transition starts. `on_enter()` / `on_exit()`: it ends (`on_exit()` also runs when another `go_to_view` interrupts it). The base class toggles the `before_enter`, `before_exit` and `hidden` classes on `container`, so call `super`.
+- `update_enter_transition(state_data, progress, action_sequencer)` / `update_exit_transition(...)`: every frame of the transition, `progress` 0–1.
+- `update()`: every frame while current and not transitioning. `before_update()` / `fixed_update()` run even during transitions.
+- `start()`: never called by core; the app calls it.
+
+### Navigation
+
+```ts
+ViewManager.go_to_view('about');              // change_url = true: pushState(url), title "ABOUT | <suffix>"
+ViewManager.go_to_view('home', false, true);  // no URL change, skip the animation
+ViewManager.go_to_scene('about');             // through the view named 'transition' (needs set_next_view(view))
+ViewManager.set_view('home');                 // make current, no transition, no hooks
+```
+
+Also: `get(name)`, `get_by_url(url)`, `has_view(name)`, `get_current_view()`, `set_browser_title_suffix(suffix)`. `get()` returns `undefined` for an unknown name, and `go_to_view()` then throws. `get_view_by_name()` is deprecated and returns nothing.
+
+### Transition data
+
+`TransitionTable.get(from, to, context)` uses the entry matching both names, else the one with that `to` and no `from`, and builds an `ActionSequencer` over the state data. Add pair specific entries with `TransitionManager.add_transitions([{ from: 'home', to: 'about', data }])`; `set_transitions()` replaces the table, including the entries the views registered.
+
+```json
+{
+  "animation_tracks": [
+    { "attribute_name": "home_opacity", "from_time": 0, "to_time": 1, "to_value": 1, "easing_function": "ease_in_out_cubic" }
+  ],
+  "triggers": [{ "at_time": 0.5, "name": "home_view", "method": "play_intro", "args": "fast" }]
+}
+```
+
+Times are in seconds (scaled by the `?transitions_velocity=` URL parameter). Default keys the data does not animate return to their default value over `min(longest track, 1)` seconds, so entering a view fades the other `*_opacity` keys out on their own. Triggers call `window.ViewApi.application[name][method](...args.split(','))`, and `args` is required.
+
+### ViewComponent
+
+UI outside the views (modals, overlays): `new ViewComponent({ name, container })` registers with `ViewComponentManager`. When `<name>_opacity` rises above 0.001 it calls `on_enter()` (removes `hidden`), and when it drops back it calls `on_exit()` (adds `hidden`). In between, `ViewComponentManager` calls `update(state_data)` every frame. `ViewComponentManager.get(name)` finds one; `get_component_by_name()` is deprecated and returns nothing.
+
+See `docs/Views.md` for the full API.
+
+---
+
+## Utilities
+
+Static helpers, except `MeshSampler` and `ModelUtilities` (singleton instances) and `TimeUtilities` / `CSSAnimator` (instantiate them).
+
+```ts
+OMath.lerp(a, b, t);
+OMath.linear_map(value, 0, 1, -1, 1);   // not clamped
+OMath.pingpong(t);                       // 0 → 1 → 0 as t grows
+EasingFunctions.ease_in_out_cubic(t);    // method names double as easing strings in transition data
+
+ModelUtilities.get_object(gltf.scene, 'Body');                    // last match by name
+ModelUtilities.assign_material(gltf.scene, material, undefined);  // undefined name = every mesh
+const copy = ModelUtilities.clone_animated_gltf(gltf);            // { animations, scene } with its own skeletons
+
+const { points, normals, uvs } = MeshSampler.sample(mesh.geometry, 500);
+
+HTMLUtilities.load_images(container);    // data-src → src for <img> and <object>
+
+const fade = new CSSAnimator({ element, css_property: 'opacity', duration: 0.5 });
+fade.animate();
+fade.update();                           // every frame; advances by Time.delta_time
+```
+
+- `MeshSampler.sample` needs an indexed geometry, and it never returns if a triangle has zero area.
+- `ModelUtilities.get_mesh` and `get_geometries` replace each mesh's geometry with a clone.
+- `CSSAnimator` finishes when the clamped eased value reaches 0.9999, not when `duration` runs out: overshooting curves (`ease_out_back`, `ease_out_elastic`) end early, and `ease_in_circ`, `ease_in_bounce` and `triangular` can never finish.
+- `Validation.is_number(Infinity)` is `true`, and numeric strings are not numbers.
+
+See `docs/Utilities.md` for the full API.
+
+---
+
+## DevBridge
+
+Dev only, not singletons — instantiate as needed. `DevBridge` keeps a WebSocket open to the ohzi-mcp server and runs each command through a registered handler. The other classes are what the handlers call: `SceneInspector`, `SceneEditor`, `CameraBridge`, `CaptureService`, `ConsoleBuffer`, `PerformanceProbe`, `InputSynthesizer`, `ViewNavigator`, `RenderModeRegistry`, `DebugDrawer` and `ModelLoader`. They take the singletons they read as arguments.
+
+```ts
+const bridge = new DevBridge();
+const inspector = new SceneInspector();
+const capture = new CaptureService(Graphics, () => CameraManager.current !== undefined);
+
+bridge.register('inspect_scene', 'immediate', (args) => inspector.inspect(SceneManager.current, args));
+bridge.register('capture_viewport', 'frame_end', (args) => capture.capture(args));
+bridge.init({ port: 7317, app_info: () => app_info() });  // ws://127.0.0.1:7317
+
+// In the application:
+on_frame_end() { bridge.on_frame_end(); }                  // runs the queued frame_end commands
+```
+
+- Register anything that changes what renders as `frame_end`; reads and input gestures, which wait on real time, can be `immediate`.
+- A handler's thrown error reaches the server with its `code` (`handler_failed` when it has none); an unknown command replies `unknown_command`. A closed socket retries every 2 s until `dispose()`.
+- `PROTOCOL_VERSION` in `dev_bridge/protocol.ts` must match `mcp/src/protocol.ts`, or the server refuses the connection.
+- `CameraBridge` moves the `CameraController` (tilt, orientation, azimuth in degrees, normalized `zoom`, `target`) when there is one, and refuses a raw `position` then (`controller_owns_camera`).
+- `CaptureService` fast captures read the live canvas, which needs `preserveDrawingBuffer: true`, and cap the long edge at 1280 px (`max_size: 0` turns it off). Hires captures re-render through `Graphics.take_screenshot` up to 8192 px and need a camera.
+- `RenderModeRegistry.create()` only builds the mode; pass it to `Graphics.set_state()`.
+- `DebugDrawer.clear()` removes only the helpers it drew. `ModelLoader.load()` replaces a same-named direct child of the scene and keeps its transform.
+
+See `docs/DevBridge.md` for the full API.
 
 ---
 

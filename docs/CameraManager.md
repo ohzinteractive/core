@@ -12,7 +12,7 @@ import { CameraManager } from './CameraManager';
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `current` | `PerspectiveCamera` | The main camera used for rendering. Read by `Graphics`, render modes, `CameraUtilities`, `CameraController`, and debug rendering. Initially `undefined`. |
+| `current` | `PerspectiveCamera` | The main camera used for rendering. Read by `Graphics`, render modes, `CameraUtilities`, and debug rendering. Initially `undefined`. |
 | `spectator` | `PerspectiveCamera` | A secondary camera intended for VR spectator views. Initially `undefined`. |
 
 Both properties are readable and writable via getters/setters.

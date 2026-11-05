@@ -34,7 +34,7 @@ OHZI Core gives you:
 
 ### Core Singletons
 
-These are instantiated once at module level and exported by name. They are initialized by `Initializer.init()`:
+These are instantiated once at module level and exported by name. `Initializer.init()` initializes all of them except `Graphics`, which needs its own `Graphics.init()`:
 
 | Singleton | Purpose |
 |---|---|
@@ -46,8 +46,8 @@ These are instantiated once at module level and exported by name. They are initi
 | `Debug` | Debug visualization layer (3D shapes, textures, 2D overlays) |
 | `ResourceContainer` | Asset cache keyed by name and URL |
 | `OS` | Platform detection (mobile, iOS, Android, Mac, Windows, Linux) |
-| `Browser` | Browser detection |
-| `Capabilities` | GPU/feature capability detection |
+| `Browser` | Browser name, major version, WebM/HEVC support, preferred video extension, WebXR VR support |
+| `Capabilities` | Placeholder for GPU limits (`max_anisotropy`, `vertex_texture_sampler_available`); nothing fills it yet |
 
 ### Frame Lifecycle
 
@@ -58,9 +58,12 @@ Time.__update()
 on_post_start()        ← second frame only
 input.update()
 before_update()
-fixed_update()         ← runs in a loop at fixed 1/30s timestep
+TransitionManager.before_update()
+fixed_update()         ← runs in a loop at fixed 1/30s timestep, each step followed by TransitionManager.fixed_update()
 update()
+TransitionManager.update()
 ViewManager.update()
+ViewComponentManager.update()
 on_pre_render()
 Graphics.update()      ← renders the scene via the active render mode
 on_post_render()
@@ -102,19 +105,19 @@ loop.start();
 
 ### Rendering Pipeline
 
-`Graphics` supports multiple render modes via `Graphics.set_state()`:
+`Graphics` supports multiple render modes via `Graphics.set_state()`, which calls `on_exit()` on the old mode and `on_enter()` on the new one:
 
 | Render Mode | Description |
 |---|---|
 | `NormalRender` | Standard forward rendering |
-| `UnrealBloomRender` | Forward rendering with Unreal-style bloom post-processing |
+| `UnrealBloomRender` | Forward rendering with Unreal-style bloom: five Gaussian blur mips, an optional luminosity high pass, and per-mip tints. `new UnrealBloomRender(use_antialiasing, use_half_float, use_hight_luminosity_pass, use_rendering_size = false)`: the first three are required |
 | `NormalAORender` | Forward rendering with SSAO. `new NormalAORender(use_ssaa = false, use_exact_depth = true)`: turning `use_exact_depth` off roughly halves the SSAO pass cost but bands flat surfaces |
 | `BloomRender` | Basic bloom rendering. `new BloomRender(true)` blurs with `DualFilteringBlurrer` instead of the box blur, for a much wider glow |
-| `DeferredRender` | Deferred rendering pipeline |
-| `VRRender` | WebXR stereo rendering |
-| `DebugNormalsRender` | Visualizes surface normals |
+| `DeferredRender` | Deferred point lights over the depth and normals buffer. Starts with a 2×2 grid of demo lights in `scene_lights` |
+| `VRRender` | For WebXR (`xr_enabled`). Three's XR manager renders the stereo views; the mode mirrors the headset view to the canvas through `CameraManager.spectator` |
+| `DebugNormalsRender` | Visualizes world-space surface normals |
 
-All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`.
+All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`. Only `NormalRender` and `VRRender` call the scene's `on_pre_render()`, `render()` and `on_post_render()` hooks; the others render `SceneManager.current` directly. `NormalAORender` and `DeferredRender` turn on `Graphics.generate_depth_normal_texture` and never turn it off.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 
@@ -134,21 +137,24 @@ Individual asset loaders (all in `src/resource_loader/`):
 | `GLTFLoader` | .gltf, .glb |
 | `GLTFDRACOLoader` | DRACO-compressed GLTF |
 | `TextureLoader` | .png, .jpg, .webp, etc. |
+| `AsyncTextureLoader` | Images through `createImageBitmap` (`Image` on Safari) |
 | `HDRTextureLoader` | .hdr |
 | `HDRCubeTextureLoader` | HDR cubemaps |
 | `CubemapLoader` | Standard cubemaps |
 | `BasisLoader` | Basis Universal textures |
 | `AudioLoader` | Audio files |
 | `VideoLoader` | Video files |
-| `FontLoader` | Font files |
+| `FontLoader` | three.js typeface JSON fonts |
 | `OBJLoader` | .obj |
 | `DAELoader` | .dae (Collada) |
 | `JSONLoader` | JSON data |
 | `FileLoader` | Raw files |
 | `TextLoader` | Text files |
-| `PointArrayLoader` | Point cloud data |
+| `PointArrayLoader` | Newline separated x, y, z values → `Vector3[]` |
 
-Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`) handle groups of assets. `ResourceContainer` caches by URL to prevent duplicate loads.
+Batch loaders (`AsyncTexturesLoader`, `AsyncObjectsLoader`, `AsyncAudiosLoader`) handle groups of assets. `ResourceContainer` reuses a resource already stored for the same URL, but two loads of one URL that start before either finishes both download.
+
+Each loader is built with `(resource_id, url, ..., size)` and `load(resource_container)` returns nothing: poll `has_finished` / `has_error`. `ResourceBatch` runs a group of loaders on the main thread (`add_loader`, `load`, `loading_finished`, `get_progress`). The async loaders extend `AsyncAbstractLoader`: a shared worker (`AsyncAbstractLoader.create_worker()`, stored as `ResourceContainer` `'assets_worker'`) downloads each asset into a blob URL, and the main thread decodes it.
 
 ### Shader Materials
 
@@ -160,11 +166,13 @@ Key materials: `SSAOMaterial`, `SSAOComposeMaterial`, `GaussianBlurMaterial`, `D
 
 | Utility | Purpose |
 |---|---|
-| `GaussianBlurrer` | Multi-pass Gaussian blur on render targets |
+| `GaussianBlurrer` | Multi-pass Gaussian blur on render targets. `blur(RT, use_luminosity_high_pass)` leaves `RT` unchanged and writes five mips, each at half the previous size, to `renderTargetsVertical`. Behind `UnrealBloomRender` |
 | `DualFilteringBlurrer` | Kawase dual-filter blur (faster, lower quality). `blur(render_target)` blurs in place, down to a sixteenth of the input and back. Its taps rely on linear filtering, which render targets have by default. Runs on `WebGPURenderer` |
-| `Blurrer` | Generic blur interface |
+| `Blurrer` | 9 tap separable blur at the input's size. `blur(render_target)` blurs in place |
 | `DepthAndNormalsRenderer` | Generates depth/normal textures for SSAO and effects |
 | `Blitter` | Copies render targets with optional material passes |
+
+Post-processing materials: `BlitNodeMaterial` (base of every full screen pass; `Graphics.blit()` sets its `_MainTex`, `_Resolution` and `_TargetResolution`), `AddMaterial` (`_MainTex + _SecondTex`), `UnrealBloomComposeMaterial` (sums tinted blur mips; run with `Graphics.material_pass()`) and `DualFilteringBlurMaterial`.
 
 ### Components
 
@@ -172,51 +180,84 @@ Renderable components in `src/components/`:
 
 | Component | Purpose |
 |---|---|
-| `Grid` | Debug grid |
-| `Line` | Thick polyline drawn as a ribbon that faces the camera (`thickness`, `color`). `setup(points)` rebuilds it with any number of points; a new point count replaces `geometry`. Runs on `WebGPURenderer` |
-| `Text2D` | Text drawn on a canvas and shown as a `WorldImage`, in its CSS fill color. Setting `text` redraws it |
-| `SDFTextBatch` | Multi channel SDF text, every text it holds in one instanced draw (`add_text`, `remove_text`, `set_boldness`; call `update()` every frame). Atlas bounds count from the bottom (`yOrigin: bottom`). Runs on `WebGPURenderer` |
-| `WorldImage` | Image plane in world space, optionally screen aligned (`screen_aligned`, sized by `size`), with `opacity`. Runs on `WebGPURenderer` |
-| `UpdatableMaterialMesh` | Mesh with dynamically-updated material |
+| `Grid` | Debug grid: a 100 × 100 unit plane on XZ with a line every unit |
+| `Line` | Thick polyline drawn as a ribbon that faces the camera (`thickness`, `color`). `setup(points)` rebuilds it with 2 or more points; a new point count replaces `geometry`. Runs on `WebGPURenderer` |
+| `Text2D` | Text drawn on a canvas and shown as a `WorldImage`, in its CSS fill color. Setting `text` redraws it; the plane is 1 unit tall at any font size |
+| `SDFTextBatch` | Multi channel SDF text, every text it holds in one instanced draw (`add_text`, `remove_text`, `set_boldness`; call `update()` every frame). Atlas bounds count from the bottom (`yOrigin: bottom`). The batch transform is ignored; place each text with its `set_position`/`set_size`/`set_rotation`. Runs on `WebGPURenderer` |
+| `WorldImage` | Image plane in world space, 1 unit tall and as wide as the image aspect, optionally screen aligned (`screen_aligned`, sized by `size`), with `opacity`. Call `update_texture()` after the image changes. Runs on `WebGPURenderer` |
+| `UpdatableMaterialMesh` | Mesh with dynamically-updated material: calls `material.update()` before each draw, if the material has one |
+
+See `docs/Components.md` for the full API.
 
 ### View & Transition System
 
 | Class | Purpose |
 |---|---|
-| `ViewManager` | Manages application views/screens |
-| `ViewComponent` | Base class for UI view components |
-| `ViewComponentManager` | Manages view component lifecycle |
-| `ApplicationView` | Base class for application views |
-| `TransitionManager` | Manages animated transitions between states |
-| `TransitionTable` | Defines valid transitions |
-| `ActionSequencer` | Event sequencing with time-based interpolators |
+| `ViewManager` | Manages application views/screens: `go_to_view(name, change_url?, skip?)`, `get`, `get_by_url`; keeps the URL and title in sync |
+| `ViewComponent` | Base class for UI view components, shown and hidden by its `<name>_opacity` state key |
+| `ViewComponentManager` | Manages view component lifecycle; updates the visible components each frame |
+| `ApplicationView` | Base class for application views; registers itself and its enter transition data, sets its opacity from `<name>_opacity` |
+| `TransitionManager` | Manages animated transitions between states; owns the state data (`current_state_data`, `set_default_state_data`) |
+| `TransitionTable` | Holds each view's transition data and builds the `ActionSequencer` for a transition (exact `from`/`to` entry first, else the one with only `to`) |
+| `ActionSequencer` | Timeline over a context object: one channel of keyframes per key (`add_action_interpolator`), plus `ActionEvent`s at set times; `update(dt)` writes the values |
+| `NumberInterpolator` / `VectorInterpolator` | Keyframe interpolators extending `ActionInterpolator`, eased by an `EasingFunctions` name. Only `NumberInterpolator` has the `evaluate()` the sequencer calls |
+| `ActionEvent` | Calls `window.ViewApi.application[name][method](...args.split(','))` when the sequencer passes its time |
+| `ActionSequencerBuilder` / `DrawIOAnimationSheet` | Build an `ActionSequencer` from transition data (adding tracks that return untouched keys to their defaults) or from a draw.io timeline |
 
 ### Primitives
 
-Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `VerticalPlane`.
+Ready-to-use 3D primitives: `Arrow`, `Cube`, `Sphere`, `HorizontalPlane`, `VerticalPlane`. Each is a `Mesh` with an unlit, red by default `MeshBasicMaterial`; `Debug.draw_arrow`, `draw_cube` and `draw_sphere` build them.
 
 ### Utilities
 
 | Utility | Purpose |
 |---|---|
-| `OMath` | Extended math functions (lerp, clamp, map, etc.) |
-| `EasingFunctions` | Standard easing curves for animation |
-| `CameraUtilities` | Camera positioning, fitting, projection helpers |
-| `FrustumPointFitter` | Fits points within camera frustum |
-| `GeometryUtilities` | Geometry manipulation helpers |
-| `MeshSampler` | Random point sampling on mesh surfaces |
-| `ModelUtilities` | GLTF model processing helpers |
-| `ArrayUtilities` | Array manipulation helpers |
-| `StringUtilities` | String helpers |
-| `TimeUtilities` | Time formatting helpers |
-| `ImageUtilities` | Image processing helpers |
-| `HTMLUtilities` | DOM manipulation helpers |
-| `ObjectUtilities` | Object/map helpers |
-| `Validation` | Input validation |
+| `OMath` | Extended math functions (lerp, clamp, `linear_map`, pingpong, angles, centroid, `matrix4_lerp`, random color, UUID) |
+| `EasingFunctions` | Standard easing curves for animation. Their names are the easing strings in transition data |
+| `CameraUtilities` | Singleton instance. Frames points or a box for the camera's current rotation (`fit_points`, `fit_bounding_box_points`; `zoom` is a distance for perspective and `camera.zoom` for orthographic; it changes nothing), picks the point under the mouse on a plane, and projects world positions to canvas pixels |
+| `PerspectiveFrustumPointFitter` / `OrthographicFrustumPointFitter` | Instantiated. The framing math: the closest camera position that sees every point, and view bounds, zoom and near/far depth fitting for orthographic cameras |
+| `FrustumPointFitter` | Instantiated. An older, unused copy of `PerspectiveFrustumPointFitter` that logs to the console on every fit |
+| `GeometryUtilities` | Non-indexed copy of a geometry with a `barycentric` attribute (used by `Grid`) |
+| `MeshSampler` | Random point sampling on mesh surfaces, area weighted, with normals, tangents and UVs. Indexed geometry only |
+| `ModelUtilities` | GLTF model processing helpers: find objects, assign materials, shadow flags, clone a skinned GLTF |
+| `ArrayUtilities` | Array manipulation helpers (in place) |
+| `StringUtilities` | String helpers (capitalize, snake to camelCase, random color) |
+| `TimeUtilities` | Parses `'hh:mm:ss'` time strings into milliseconds (`time_str_to_ms`, an instance method) |
+| `ImageUtilities` | Reads an image's pixels on the CPU (`get_image_data`, `get_pixel`) |
+| `HTMLUtilities` | Lazy loading: copies `data-src` into `src` inside a container |
+| `ObjectUtilities` | Object helpers (`merge_deep`, `xml_to_json`) |
+| `Validation` | Number and JSON checks (`is_int`, `is_float`, `is_number`, `is_json`) |
+| `CSSAnimator` | Tweens one CSS property with an easing; call `update()` every frame. Ends when the eased value reaches 1, so some easings end early or never |
+| `CanvasDrawer` | Base class for drawing text into an offscreen canvas (`draw_canvas`, or `draw_on_texture` for a new `CanvasTexture`); subclasses override `__draw` |
+| `SimpleTextDrawer` | One line of text on a transparent canvas sized to fit it (`font`, `font_color`, `textAlign` options). Used by `Text2D` |
+
+`CameraUtilities`, `MeshSampler` and `ModelUtilities` are singleton instances, `TimeUtilities`, `CSSAnimator`, the canvas drawers and the three frustum point fitters are instantiated, and the rest only have static methods. See `docs/CanvasDrawer.md` for the canvas drawers.
 
 ### Camera Controller
 
-`CameraController` provides interactive camera control with pluggable movement modes (`CameraMovementMode`, `ImmediateMode`) and state machines (`AbstractCameraState`, `CommonCameraState`).
+`CameraController` is an orbital rig: a target (`reference_position`), a rotation from tilt and orientation in degrees, and a distance (`reference_zoom`). Each `update()` (called by the scene, not automatically) runs the current state (`AbstractCameraState` idle, or a `CommonCameraState` subclass that reads WASD, wheel and mouse drags), then the movement mode (`CameraMovementMode`; the default `ImmediateMode` places the camera on the same frame). It also frames points, boxes and spheres for perspective and orthographic cameras.
+
+| Class | Purpose |
+|-------|---------|
+| `CameraController` | Rotation, translation, zoom and framing; swaps states (`set_state`) and modes (`set_mode`) |
+| `CameraMovementMode` / `ImmediateMode` | Turns the reference values into the camera transform |
+| `AbstractCameraState` / `CommonCameraState` | Reacts to input each frame and edits the reference values |
+
+### Dev Bridge
+
+Dev only. `DevBridge` connects to the ohzi-mcp server over `ws://127.0.0.1:<port>`, retrying every 2 s, and runs each command through a handler registered with `register(cmd, 'immediate' | 'frame_end', handler)`. `frame_end` commands wait for `bridge.on_frame_end()`, called from the application's `on_frame_end()`. The other classes are instantiated helpers the handlers call; they take the singletons as arguments and throw errors with a `code`. See `docs/DevBridge.md`.
+
+| Class | Purpose |
+|-------|---------|
+| `DevBridge` | WebSocket connection, handshake, command registry and timing |
+| `SceneInspector` / `SceneEditor` | Bounded scene graph tree; read or set one node's transform and visibility |
+| `CameraBridge` | Read, set and frame the camera, through its `CameraController` when it has one |
+| `CaptureService` | Canvas PNG as base64: fast (capped at 1280 px) or hires via `Graphics.take_screenshot` |
+| `ConsoleBuffer` / `PerformanceProbe` | Last 200 console lines and uncaught errors; FPS, frame time and renderer counters |
+| `InputSynthesizer` | Mouse, wheel and key gestures dispatched as real DOM events |
+| `ViewNavigator` / `RenderModeRegistry` | List and enter views; list and create render modes from per-mode factories |
+| `DebugDrawer` | `Debug` helpers (shapes, labels, SDF text) that `clear()` removes |
+| `ModelLoader` | Loads a GLB into the scene, replacing a same-named one in place |
 
 ## Source Directory Structure
 
@@ -234,8 +275,8 @@ src/
   Debug.ts                    Debug visualization (singleton)
   ResourceContainer.ts        Asset cache (singleton)
   OS.ts                       Platform detection (singleton)
-  Browser.ts                  Browser detection
-  Capabilities.ts             GPU capabilities
+  Browser.ts                  Browser detection (singleton)
+  Capabilities.ts             GPU limits placeholder (singleton)
   KeyboardInput.ts            Keyboard state tracking
   PerspectiveCamera.ts        Extended Three.js PerspectiveCamera
   OrthographicCamera.ts       Extended Three.js OrthographicCamera
@@ -245,6 +286,7 @@ src/
   canvas_drawer/              Canvas 2D drawing utilities
   components/                 Renderable components (Grid, Text2D, SDF, etc.)
   data_textures/              Data texture utilities
+  dev_bridge/                 Dev-only ohzi-mcp bridge and its command services
   html_utilities/             CSS animation helpers
   lib/                        Internal library code
   loaders/                    Async batch loaders
@@ -253,7 +295,7 @@ src/
   raycast/                    Ray intersection utilities
   render_mode/                Rendering strategies
   render_utilities/           Post-processing (blur, depth, blit)
-  resource_loader/            17 individual asset loaders
+  resource_loader/            17 exported asset loaders (DDSLoader, SVGLoader unexported)
   scenes/                     AbstractScene and loading states
   shaders/                    Shared TSL shader nodes (grid)
   utilities/                  Math, easing, geometry, camera helpers
