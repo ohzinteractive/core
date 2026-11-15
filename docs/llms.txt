@@ -117,7 +117,7 @@ loop.start();
 | `VRRender` | For WebXR (`xr_enabled`). Three's XR manager renders the stereo views; the mode mirrors the headset view to the canvas through `CameraManager.spectator` |
 | `DebugNormalsRender` | Visualizes world-space surface normals |
 
-All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`. Only `NormalRender` and `VRRender` call the scene's `on_pre_render()`, `render()` and `on_post_render()` hooks; the others render `SceneManager.current` directly. `NormalAORender` and `DeferredRender` turn on `Graphics.generate_depth_normal_texture` and never turn it off.
+All render modes extend `BaseRender` and implement a `render()` method called by `Graphics.update()`. Only `NormalRender` and `VRRender` call the scene's `on_pre_render()`, `render()` and `on_post_render()` hooks; the others render `SceneManager.current` directly. `NormalAORender` and `DeferredRender` turn on `Graphics.generate_depth_normal_texture` in `on_enter()` and turn it off in `on_exit()`. An application that turned the flag on by itself has to turn it on again after leaving them.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 

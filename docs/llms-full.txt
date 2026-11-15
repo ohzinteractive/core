@@ -188,7 +188,7 @@ Available render modes:
 
 Only `NormalRender` and `VRRender` run the scene's render hooks. The other modes call `Graphics.render(SceneManager.current, ...)` directly, so `on_pre_render()` and `on_post_render()` overrides do not run under them.
 
-`NormalAORender` and `DeferredRender` set `Graphics.generate_depth_normal_texture = true` in `on_enter()` and never reset it. Set it back to `false` when switching to a mode that does not need the depth and normals pass.
+`NormalAORender` and `DeferredRender` set `Graphics.generate_depth_normal_texture = true` in `on_enter()` and back to `false` in `on_exit()`, so the pass stops when the mode is left. An application that turned the flag on by itself has to turn it on again after leaving them.
 
 `BloomRender`, `UnrealBloomRender`, `NormalAORender`, `DeferredRender` and `DebugNormalsRender` use TSL materials and run on `WebGPURenderer` with both its WebGPU and WebGL2 backends.
 
@@ -231,8 +231,8 @@ Singleton for viewport/canvas dimensions and DPR. Updated automatically by `Grap
 ```ts
 OScreen.width          // CSS logical width
 OScreen.height         // CSS logical height
-OScreen.render_width   // physical pixels (width * dpr)
-OScreen.render_height  // physical pixels (height * dpr)
+OScreen.render_width   // floor(width * dpr), same as canvas.width
+OScreen.render_height  // floor(height * dpr), same as canvas.height
 OScreen.aspect_ratio   // width / height
 OScreen.dpr            // device pixel ratio
 OScreen.pixel_size     // Vector2(1/width, 1/height) — useful in shaders

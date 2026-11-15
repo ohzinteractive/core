@@ -17,7 +17,7 @@ import { Graphics } from './Graphics';
 | `current_render_mode` | `BaseRender` | The active render mode (controls how the scene is drawn). Defaults to `no_render`. |
 | `blitter` | `Blitter` | Utility for full-screen blit passes and post-processing. |
 | `depth_and_normals_renderer` | `DepthAndNormalsRenderer` | Generates depth/normal textures when enabled. |
-| `generate_depth_normal_texture` | `boolean` | When `true`, depth/normal textures are regenerated each frame. Default: `false`. |
+| `generate_depth_normal_texture` | `boolean` | When `true`, depth/normal textures are regenerated each frame. Default: `false`. `NormalAORender` and `DeferredRender` turn it on in `on_enter()` and off in `on_exit()`. |
 | `core_attributes` | `CoreAttributes` | Configuration flags (e.g., `xr_enabled`). |
 | `no_render` | `BaseRender` | A no-op render mode used as the default. |
 
@@ -81,7 +81,7 @@ Render modes (e.g., `NormalRender`, `BloomRender`, `DeferredRender`) implement t
 Called by a `ResizeObserver`. For each entry:
 
 1. Updates `OScreen` with the new DPR, position, and size.
-2. Resizes the canvas buffer to match `OScreen.render_width/render_height`.
+2. Applies the DPR to the renderer with `setPixelRatio(dpr)`, so the canvas buffer is resized by `setSize` to `floor(width * dpr)` by `floor(height * dpr)`, which is `OScreen.render_width/render_height`.
 3. Updates the renderer viewport and size.
 4. Recalculates the current camera's projection.
 
