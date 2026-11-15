@@ -47,6 +47,11 @@ class DeferredRender extends BaseRender
     Graphics.generate_depth_normal_texture = true;
   }
 
+  on_exit()
+  {
+    Graphics.generate_depth_normal_texture = false;
+  }
+
   render()
   {
     this.__check_RT_size();

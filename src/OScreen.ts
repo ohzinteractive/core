@@ -47,8 +47,8 @@ class OScreen
     this.width_height.x = width;
     this.width_height.y = height;
 
-    this.render_width = width * this.dpr;
-    this.render_height = height * this.dpr;
+    this.render_width = Math.floor(width * this.dpr);
+    this.render_height = Math.floor(height * this.dpr);
 
     this.size_changed = true;
   }

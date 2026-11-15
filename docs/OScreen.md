@@ -16,8 +16,8 @@ import { OScreen } from './OScreen';
 |----------|------|-------------|
 | `width` | `number` | Logical width of the canvas in CSS pixels. |
 | `height` | `number` | Logical height of the canvas in CSS pixels. |
-| `render_width` | `number` | Physical rendering width (`width * dpr`). |
-| `render_height` | `number` | Physical rendering height (`height * dpr`). |
+| `render_width` | `number` | Physical rendering width (`floor(width * dpr)`). |
+| `render_height` | `number` | Physical rendering height (`floor(height * dpr)`). |
 | `dpr` | `number` | Device pixel ratio. Set externally by `Graphics` during initialization and on resize. |
 | `position` | `Vector2` | Canvas position on the page (set via `update_position`). |
 | `pixel_size` | `Vector2` | Size of a single pixel in normalized coordinates (`1/width`, `1/height`). Useful in shaders for texel-stepping. |

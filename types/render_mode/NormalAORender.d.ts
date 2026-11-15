@@ -12,6 +12,7 @@ declare class NormalAORender extends BaseRender {
     ssao_mat: SSAOMaterial;
     constructor(use_ssaa?: boolean, use_exact_depth?: boolean);
     on_enter(): void;
+    on_exit(): void;
     render(): void;
     __check_RT_size(): void;
 }

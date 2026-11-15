@@ -168,8 +168,9 @@ Forward rendering with screen-space ambient occlusion. `on_enter()` sets `Graphi
 | Method | Description |
 |--------|-------------|
 | `on_enter()` | Turns on `Graphics.generate_depth_normal_texture`. |
+| `on_exit()` | Turns off `Graphics.generate_depth_normal_texture`. |
 
-There's no `on_exit()`, so the depth and normals pass keeps running every frame after you switch to another mode. Set `Graphics.generate_depth_normal_texture = false` yourself if the next mode doesn't need it.
+`Graphics.set_state` calls `on_exit()` before the next mode's `on_enter()`, so a mode that needs the depth and normals pass (`DeferredRender`, another `NormalAORender`) turns it back on, and any other mode runs without it. An application that turned the flag on by itself has to turn it on again after leaving this mode.
 
 ---
 
@@ -193,7 +194,8 @@ No parameters. It fills `scene_lights` with a fixed 2×2 grid of unit-intensity 
 
 | Method | Description |
 |--------|-------------|
-| `on_enter()` | Turns on `Graphics.generate_depth_normal_texture`. Like `NormalAORender`, the mode never turns it off. |
+| `on_enter()` | Turns on `Graphics.generate_depth_normal_texture`. |
+| `on_exit()` | Turns off `Graphics.generate_depth_normal_texture`, as `NormalAORender` does. An application that turned the flag on by itself has to turn it on again after leaving this mode. |
 
 ---
 

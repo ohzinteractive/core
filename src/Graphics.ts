@@ -218,13 +218,10 @@ class Graphics
     for (const entry of entries)
     {
       OScreen.dpr = dpr;
-      // this._renderer.setPixelRatio(dpr);
+      this._renderer.setPixelRatio(dpr);
 
       OScreen.update_position(entry.contentRect.x, entry.contentRect.y);
       OScreen.update_size(entry.contentRect.width, entry.contentRect.height);
-
-      this.canvas.width  = OScreen.render_width;
-      this.canvas.height = OScreen.render_height;
 
       this._renderer.setViewport(0, 0, OScreen.render_width, OScreen.render_height);
 
