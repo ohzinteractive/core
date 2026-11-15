@@ -7,6 +7,7 @@ declare class DeferredRender extends BaseRender {
     scene_lights: AbstractScene;
     constructor();
     on_enter(): void;
+    on_exit(): void;
     render(): void;
     __check_RT_size(): void;
 }
