@@ -21,9 +21,25 @@ export class AsyncTextureLoader extends AbstractLoader
     this.flipY = flipY;
   }
 
+  // Safari before 17 mishandles createImageBitmap options, so it decodes through an
+  // HTMLImageElement (three.js' GLTFLoader uses the same threshold). Safari 17+ must
+  // take the ImageBitmap path: its WebGPU copyExternalImageToTexture silently uploads
+  // garbage for HTMLImageElement sources. Safari before 17 has no WebGPU, so there the
+  // renderer always runs the WebGL2 backend, which uploads HTMLImageElements fine.
+  static uses_image_element(browser: { is_safari: boolean, version: number }, has_image_bitmap = typeof createImageBitmap === 'function'): boolean
+  {
+    if (!has_image_bitmap)
+    {
+      return true;
+    }
+
+    // An unreadable Safari version (NaN) also falls back to the safe path.
+    return browser.is_safari && !(browser.version >= 17);
+  }
+
   on_preloaded_finished(resource_container: ResourceContainer)
   {
-    if (Browser.is_safari) // && Browser.version < 15
+    if (AsyncTextureLoader.uses_image_element(Browser))
     {
       this.load_with_old_method(resource_container);
     }
@@ -92,6 +108,9 @@ export class AsyncTextureLoader extends AbstractLoader
       {
         const texture = new Texture(imageBitmap);
         texture.flipY = this.flipY;
+        // imageOrientation: 'flipY' already flipped the pixels. WebGPURenderer honors
+        // flipY for ImageBitmaps too, so consumers check this flag to avoid a second flip.
+        texture.userData.pre_flipped = this.flipY;
         texture.premultiplyAlpha = this.premultiplyAlpha;
         texture.colorSpace = this.colorSpaceConversion ? SRGBColorSpace : NoColorSpace;
         texture.needsUpdate = true;
