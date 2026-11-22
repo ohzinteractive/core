@@ -6,6 +6,10 @@ export declare class AsyncTextureLoader extends AbstractLoader {
     premultiplyAlpha: boolean;
     flipY: boolean;
     constructor(resource_id: string, url: string, size: number, flipY?: boolean, premultiplyAlpha?: boolean, colorSpaceConversion?: boolean);
+    static uses_image_element(browser: {
+        is_safari: boolean;
+        version: number;
+    }, has_image_bitmap?: boolean): boolean;
     on_preloaded_finished(resource_container: ResourceContainer): void;
     load_with_old_method(resource_container: ResourceContainer): void;
     load_with_new_method(resource_container: ResourceContainer): void;
